@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useConversationPresentation } from "../conversation/ConversationPresentation";
 import { prepareReviewEntrance } from "./use-review-entrance";
 import { useMediaCorners } from "./use-media-corners";
@@ -34,7 +35,7 @@ export function AttachmentImage({
   onOpenReview,
   onOpenLink,
   keepMounted,
-  label = "Open image attachment",
+  label,
 }: {
   label?: string;
   attachment: Attachment;
@@ -51,6 +52,9 @@ export function AttachmentImage({
   /** Pins the owning row in a virtualized list; returns the release. */
   keepMounted?: (() => () => void) | undefined;
 }) {
+  const { t } = useLingui();
+  // Default is resolved in the body: the translated fallback needs `t`.
+  const openLabel = label ?? t`Open image attachment`;
   const active = useConversationPresentation();
   const corners = useMediaCorners();
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -127,7 +131,7 @@ export function AttachmentImage({
         style={style}
         role="status"
       >
-        <span>Image unavailable</span>
+        <span>{t`Image unavailable`}</span>
       </span>
     );
   return (
@@ -139,7 +143,7 @@ export function AttachmentImage({
         href={source ?? attachment.url}
         target="_blank"
         rel="noreferrer"
-        aria-label={label}
+        aria-label={openLabel}
         data-media-preview=""
         data-image-ready={decodedDimensions ? true : undefined}
         onClick={(event) => {
@@ -183,13 +187,13 @@ export function AttachmentImage({
         viewerOpen &&
         createPortal(
           <MediaViewer
-            title="Image attachment"
+            title={t`Image attachment`}
             close={() => setViewerOpen(false)}
           >
             <img
               className={styles.mediaViewerImage}
               src={source}
-              alt="Attachment preview"
+              alt={t`Attachment preview`}
             />
           </MediaViewer>,
           document.body,

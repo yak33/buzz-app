@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../../shared/design-system/ui/Button";
 import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { RelaySession } from "../relay/session";
@@ -34,6 +36,7 @@ export function ReactionTool({
   select?: (emoji: string) => boolean;
   showDelivery?: boolean;
 }) {
+  const { t } = useLingui();
   const tools = useSyncExternalStore(
     registry.subscribe,
     registry.snapshot,
@@ -45,7 +48,7 @@ export function ReactionTool({
     <span className="contents" data-reaction-tool="">
       <ContributionBoundary
         key={contributionKey(tool)}
-        fallback={<span role="status">Reactions unavailable</span>}
+        fallback={<span role="status">{t`Reactions unavailable`}</span>}
       >
         <OwnedReactionTool
           key={messageViewKey(props.session, props.scope, props.messageId)}
@@ -77,6 +80,7 @@ function OwnedReactionTool({
   select?: (emoji: string) => boolean;
   showDelivery?: boolean;
 }) {
+  const { i18n } = useLingui();
   const [error, setError] = useState<string>();
   const alive = useRef(false);
   const unavailable = useRef(disabled);
@@ -112,7 +116,7 @@ function OwnedReactionTool({
             setError(
               reason instanceof Error
                 ? reason.message
-                : "Could not add reaction. Try again.",
+                : i18n._(msg`Could not add reaction. Try again.`),
             );
             return false;
           }
@@ -150,19 +154,20 @@ export function ReactionDelivery({
       ["failed", "unknown"].includes(item.delivery) &&
       session.messages.reactionTarget(item.event) === messageId,
   );
+  const { t } = useLingui();
   if (!operation) return null;
   return (
     <span role="status">
       {operation.delivery === "failed"
-        ? "Couldn’t update reaction."
-        : "Reaction delivery not confirmed."}{" "}
+        ? t`Couldn’t update reaction.`
+        : t`Reaction delivery not confirmed.`}{" "}
       <Button
         size="sm"
         variant="ghost"
         type="button"
         onClick={() => outbox?.retry(operation.event.id)}
       >
-        Retry reaction
+        {t`Retry reaction`}
       </Button>
     </span>
   );

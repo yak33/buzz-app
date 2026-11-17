@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useEffectEvent, useState } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
@@ -12,8 +14,9 @@ import { useNativeDownload } from "./use-native-download";
 import { isNativeMediaSource } from "./attachment-source";
 
 const FAILURE_DURATION = 6000;
-const SAVED = "Saved to Downloads";
-const FAILED = "Couldn’t download. Try again.";
+// Message descriptors: callers translate at the render/notify site.
+const SAVED = msg`Saved to Downloads`;
+const FAILED = msg`Couldn’t download. Try again.`;
 
 export function MediaDownloadAction({
   source,
@@ -59,6 +62,7 @@ function NativeMediaDownload({
   savedDuration: number;
   onFeedbackVisible?: ((visible: boolean) => void) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const { state, download } = useNativeDownload(source, name, savedDuration);
   // The failure notice expires like the copy error; the retry icon remains.
   const [failureExpired, setFailureExpired] = useState(false);
@@ -81,10 +85,10 @@ function NativeMediaDownload({
         size="sm"
         type="button"
         aria-label={
-          state === "failed" ? `Retry download ${kind}` : `Download ${kind}`
+          state === "failed" ? t`Retry download ${kind}` : t`Download ${kind}`
         }
         title={
-          state === "failed" ? `Retry download ${kind}` : `Download ${kind}`
+          state === "failed" ? t`Retry download ${kind}` : t`Download ${kind}`
         }
         loading={state === "pending"}
         onClick={() => {
@@ -108,15 +112,15 @@ function NativeMediaDownload({
         className={feedbackVisible ? undefined : "sr-only"}
       >
         {state === "pending"
-          ? "Downloading…"
+          ? t`Downloading…`
           : state === "saved"
             ? compact
-              ? "Downloaded"
-              : SAVED
+              ? t`Downloaded`
+              : i18n._(SAVED)
             : failureShown
               ? compact
-                ? "Download failed"
-                : FAILED
+                ? t`Download failed`
+                : i18n._(FAILED)
               : ""}
       </span>
     </>
@@ -125,11 +129,12 @@ function NativeMediaDownload({
 
 /** Results of the native media menu's Download, which has no control to show them. */
 export function MediaMenuDownloadNotice() {
+  const { i18n } = useLingui();
   const notify = useToastNotification();
   // The host sends the saved file's name, or null if the download failed.
   const show = useEffectEvent((name: string | null) => {
-    if (name === null) notify(FAILED, "error");
-    else notify(SAVED, "success");
+    if (name === null) notify(i18n._(FAILED), "error");
+    else notify(i18n._(SAVED), "success");
   });
   useEffect(() => {
     if (!isTauri()) return;

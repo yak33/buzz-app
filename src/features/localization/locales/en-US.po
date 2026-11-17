@@ -7,10 +7,29 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-US\n"
 
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid " · Thread"
+msgstr " · Thread"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid " and "
 msgstr " and "
+
+#. placeholder {0}: uploads.others
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid " and {0} more"
+msgstr " and {0} more"
+
+#. placeholder {0}: humans.length - 2
+#: src/features/messages/TypingIndicator.tsx
+msgid " and {0} others"
+msgstr " and {0} others"
+
+#. placeholder {0}: scopeLabel(pubkey, root)
+#: src/features/messages/TypingIndicator.tsx
+msgid " in {0}"
+msgstr " in {0}"
 
 #: src/features/identity/JoinCommunity.tsx
 msgid " Join an existing one or create your own."
@@ -20,9 +39,39 @@ msgstr " Join an existing one or create your own."
 msgid " Kept agents keep their names, types and keys; their settings on this device are erased."
 msgstr " Kept agents keep their names, types and keys; their settings on this device are erased."
 
+#. placeholder {0}: to.map((who) => who.name).join(", ")
+#: src/features/messages/MessageRow.tsx
+msgid " to {0}"
+msgstr " to {0}"
+
 #: src/features/identity/KeyImport.tsx
 msgid " unless you chose to manage it yourself"
 msgstr " unless you chose to manage it yourself"
+
+#. placeholder {0}: defaultEffort.label
+#: src/features/messages/ComposerModels.tsx
+msgid " with its default effort ({0})"
+msgstr " with its default effort ({0})"
+
+#: src/features/messages/ComposerModels.tsx
+msgid " with the provider's default effort"
+msgstr " with the provider's default effort"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid ", {verified}"
+msgstr ", {verified}"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid ", Agent"
+msgstr ", Agent"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid ", thread"
+msgstr ", thread"
+
+#: src/features/messages/MessageRow.tsx
+msgid "; may be out of date"
+msgstr "; may be out of date"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -33,14 +82,120 @@ msgstr "."
 msgid ". Block can use that copy to restore your identity, including anywhere else you use it."
 msgstr ". Block can use that copy to restore your identity, including anywhere else you use it."
 
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid ". Join to keep it in your sidebar and appear as a viewer."
+msgstr ". Join to keep it in your sidebar and appear as a viewer."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "· Thread"
+msgstr "· Thread"
+
+#. placeholder {0}: shortened(query.trim())
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "“{0}” is not a valid recipient"
+msgstr "“{0}” is not a valid recipient"
+
+#: src/features/messages/ReplySummary.tsx
+msgid "({unreadCount} new)"
+msgstr "({unreadCount} new)"
+
 #: src/features/identity/KeyImport.tsx
 msgid "(the key on your other device)."
 msgstr "(the key on your other device)."
+
+#. placeholder {0}: marker.label
+#. placeholder {1}: marker.author
+#. placeholder {2}: marker.text
+#: src/features/messages/VideoPlayer.tsx
+msgid "{0} · {1}: {2}"
+msgstr "{0} · {1}: {2}"
+
+#. placeholder {0}: runs.label
+#: src/features/messages/ComposerModels.tsx
+msgid "{0} · No thinking options"
+msgstr "{0} · No thinking options"
+
+#. placeholder {0}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "{0} {listKind}"
+msgstr "{0} {listKind}"
+
+#. placeholder {0}: threadAgents.length
+#: src/features/messages/MessageRow.tsx
+msgid "{0} agents are waiting"
+msgstr "{0} agents are waiting"
+
+#. placeholder {0}: threadAgents.length
+#: src/features/messages/MessageRow.tsx
+msgid "{0} agents are working"
+msgstr "{0} agents are working"
 
 #. placeholder {0}: recovery.manifest.name
 #: src/app/PluginUpdates.tsx
 msgid "{0} cannot start"
 msgstr "{0} cannot start"
+
+#. placeholder {0}: subtype.toUpperCase()
+#: src/features/messages/FileAttachment.tsx
+msgid "{0} file"
+msgstr "{0} file"
+
+#. placeholder {0}: resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)
+#: src/features/messages/MessageRow.tsx
+msgid "{0} is waiting"
+msgstr "{0} is waiting"
+
+#. placeholder {0}: resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)
+#: src/features/messages/MessageRow.tsx
+msgid "{0} is working"
+msgstr "{0} is working"
+
+#. placeholder {0}: channel.members
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "{0} members"
+msgstr "{0} members"
+
+#. placeholder {0}: formatMediaTime(currentTime)
+#. placeholder {1}: formatMediaTime(duration)
+#: src/features/messages/AudioAttachment.tsx
+msgid "{0} of {1}"
+msgstr "{0} of {1}"
+
+#. placeholder {0}: authorIds.length
+#: src/features/messages/MessageReactions.tsx
+msgid "{0} people"
+msgstr "{0} people"
+
+#. placeholder {0}: activity.replies
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{0} replies"
+msgstr "{0} replies"
+
+#. placeholder {0}: uploads.phase
+#. placeholder {1}: uploads.destination.name
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "{0} to {1}"
+msgstr "{0} to {1}"
+
+#. placeholder {0}: threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")
+#: src/features/messages/MessageRow.tsx
+msgid "{0} waiting"
+msgstr "{0} waiting"
+
+#. placeholder {0}: threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")
+#: src/features/messages/MessageRow.tsx
+msgid "{0} working"
+msgstr "{0} working"
+
+#. placeholder {0}: resolveName(owner.id, owner.profile.name)
+#: src/features/messages/MessageRow.tsx
+msgid "{0}’s agent"
+msgstr "{0}’s agent"
+
+#. placeholder {0}: activity.replies
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{0}+ replies"
+msgstr "{0}+ replies"
 
 #: src/features/communities/ProfileFields.tsx
 msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
@@ -54,13 +209,37 @@ msgstr "{account} is linked to a different key than the one on this computer, an
 msgid "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
 msgstr "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
 
+#: src/features/conversation/MessageLink.tsx
+msgid "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
+msgstr "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
+
 #: src/app/AppearanceSettings.tsx
 msgid "{colorLabel} accent color"
 msgstr "{colorLabel} accent color"
 
+#: src/features/messages/ReplySummary.tsx
+msgid "{count} {replyWord}"
+msgstr "{count} {replyWord}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{count} messages after yours, {from}"
+msgstr "{count} messages after yours, {from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{count} replies after yours, {from}"
+msgstr "{count} replies after yours, {from}"
+
+#: src/shared/datetime.ts
+msgid "{dayLabel} at {time}"
+msgstr "{dayLabel} at {time}"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel} (preview only)"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "{headingTitle} conversations"
+msgstr "{headingTitle} conversations"
 
 #: src/features/identity/ProfileStep.tsx
 msgid "{host} no longer admits this key. Ask a community administrator to restore your access."
@@ -78,21 +257,128 @@ msgstr "{label} date"
 msgid "{label} time"
 msgstr "{label} time"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "{label}: session controls unavailable. Check the agent's connection and the app running it."
+msgstr "{label}: session controls unavailable. Check the agent's connection and the app running it."
+
+#. placeholder {0}: picked.join(", ")
+#: src/features/messages/ComposerModels.tsx
+msgid "{label}. {target}: {0}"
+msgstr "{label}. {target}: {0}"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "{maxRecipients} people selected"
+msgstr "{maxRecipients} people selected"
+
+#: src/features/messages/MessageRow.tsx
+msgid "{name} avatar"
+msgstr "{name} avatar"
+
 #: src/app/NotificationSettings.tsx
 msgid "{name} rec."
 msgstr "{name} rec."
+
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "{name} transcript"
+msgstr "{name} transcript"
 
 #: src/app/shell/ProfileButton.tsx
 msgid "{name}, edit profile"
 msgstr "{name}, edit profile"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "{name}'s session"
+msgstr "{name}'s session"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "{reason} {fallback}. Your saved choice is retained until you reset it."
+msgstr "{reason} {fallback}. Your saved choice is retained until you reset it."
+
+#: src/features/messages/MessageRow.tsx
+msgid "{remainingWorkingNames} waiting"
+msgstr "{remainingWorkingNames} waiting"
+
+#: src/features/messages/MessageRow.tsx
+msgid "{remainingWorkingNames} working"
+msgstr "{remainingWorkingNames} working"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{shown} after you"
+msgstr "{shown} after you"
+
+#: src/features/messages/ActivityGroupPreview.tsx
+msgid "{speaker}: still working — {preview}"
+msgstr "{speaker}: still working — {preview}"
+
+#: src/features/messages/ActivityGroupPreview.tsx
+msgid "{toggleVerb} activity history: {summaryLabel}"
+msgstr "{toggleVerb} activity history: {summaryLabel}"
+
+#. placeholder {0}: item.file.name
+#: src/features/messages/ComposerAttachments.tsx
+msgid "{transferState} {0}"
+msgstr "{transferState} {0}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{typingNames}{otherTypers} are typing"
+msgstr "{typingNames}{otherTypers} are typing"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{typingNames}{otherTypers} is typing"
+msgstr "{typingNames}{otherTypers} is typing"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "{unreadCount} new in available replies"
+msgstr "{unreadCount} new in available replies"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "{verb} {displayName}"
+msgstr "{verb} {displayName}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{workingNames} are working"
+msgstr "{workingNames} are working"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{workingNames} is working"
+msgstr "{workingNames} is working"
+
 #: src/app/NotificationSettings.tsx
 msgid "@Mentions"
 msgstr "@Mentions"
 
+#. placeholder {0}: roots.length - 2
+#: src/features/messages/TypingIndicator.tsx
+msgid "+{0} more"
+msgstr "+{0} more"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "1 hour"
 msgstr "1 hour"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "1 member"
+msgstr "1 member"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1 message after yours, {from}"
+msgstr "1 message after yours, {from}"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "1 person selected"
+msgstr "1 person selected"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1 reply"
+msgstr "1 reply"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1 reply after yours, {from}"
+msgstr "1 reply after yours, {from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1+ replies"
+msgstr "1+ replies"
 
 #: src/app/AppearanceSettings.tsx
 msgid "12-hour"
@@ -110,6 +396,14 @@ msgstr "8 hours"
 msgid "A different account is saved on this computer"
 msgstr "A different account is saved on this computer"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "A file couldn’t upload. Retry or remove it, then send again."
+msgstr "A file couldn’t upload. Retry or remove it, then send again."
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "A selected agent is no longer available. Remove it or refresh its details and try again."
+msgstr "A selected agent is no longer available. Remove it or refresh its details and try again."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "A selected recipient is archived or being deleted. Remove it before sending."
 msgstr "A selected recipient is archived or being deleted. Remove it before sending."
@@ -126,6 +420,11 @@ msgstr "Accent color"
 msgid "Accent color wasn’t saved"
 msgstr "Accent color wasn’t saved"
 
+#. placeholder {0}: channel.name
+#: src/features/channel-navigation/RegionChannelGroup.tsx
+msgid "Actions for {0}"
+msgstr "Actions for {0}"
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Actions for {name}"
 msgstr "Actions for {name}"
@@ -133,6 +432,33 @@ msgstr "Actions for {name}"
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
 msgstr "Activity"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Activity filters and Recent sorting may be out of date."
+msgstr "Activity filters and Recent sorting may be out of date."
+
+#. placeholder {0}: author.name
+#: src/features/messages/MessageRow.tsx
+msgid "activity history: {0}: Couldn’t finish"
+msgstr "activity history: {0}: Couldn’t finish"
+
+#. placeholder {0}: agents.length
+#: src/features/messages/TypingIndicator.tsx
+msgid "Activity: {0} agents working"
+msgstr "Activity: {0} agents working"
+
+#. placeholder {0}: name(firstAgent)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Activity: {0} working"
+msgstr "Activity: {0} working"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Add another person…"
+msgstr "Add another person…"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Add anything that helps moderators..."
+msgstr "Add anything that helps moderators..."
 
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
@@ -142,6 +468,15 @@ msgstr "Add link"
 msgid "Add these saved communities to your list and account. This may restore communities you previously removed."
 msgstr "Add these saved communities to your list and account. This may restore communities you previously removed."
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Additional context (optional)"
+msgstr "Additional context (optional)"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "Agent"
+msgstr "Agent"
+
 #: src/app/settings-sections.ts
 msgid "Agent setup"
 msgstr "Agent setup"
@@ -149,6 +484,14 @@ msgstr "Agent setup"
 #: src/app/shell/BestieNavigation.tsx
 msgid "Agents"
 msgstr "Agents"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Agents could not be loaded."
+msgstr "Agents could not be loaded."
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Agents working now"
+msgstr "Agents working now"
 
 #: src/app/shell/PageSearch.tsx
 msgid "All"
@@ -225,13 +568,34 @@ msgid "Apps dock"
 msgstr "Apps dock"
 
 #: src/bundled/channels/SoloHeading.tsx
+#: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Archived"
 msgstr "Archived"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Archived {placeWord}"
+msgstr "Archived {placeWord}"
 
 #. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Archives after {0} without activity."
 msgstr "Archives after {0} without activity."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least {count} messages after yours, {from}"
+msgstr "At least {count} messages after yours, {from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least {count} replies after yours, {from}"
+msgstr "At least {count} replies after yours, {from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least 1 message after yours, {from}"
+msgstr "At least 1 message after yours, {from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least 1 reply after yours, {from}"
+msgstr "At least 1 reply after yours, {from}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Attach at most {MAX_DRAFT_GIFS} GIFs per message."
@@ -240,6 +604,39 @@ msgstr "Attach at most {MAX_DRAFT_GIFS} GIFs per message."
 #: src/features/messages/MessageComposer.tsx
 msgid "Attach files"
 msgstr "Attach files"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Attachment"
+msgstr "Attachment"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/ComposerAttachmentViewer.tsx
+#: src/features/messages/ImageReviewStage.tsx
+#: src/features/messages/MediaAttachment.tsx
+msgid "Attachment preview"
+msgstr "Attachment preview"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Attachment unavailable"
+msgstr "Attachment unavailable"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Attachment unavailable."
+msgstr "Attachment unavailable."
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Attachments"
+msgstr "Attachments"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Audio playback"
+msgstr "Audio playback"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Audio unavailable"
+msgstr "Audio unavailable"
 
 #: src/features/updates/UpdateSettings.tsx
 msgid "Automatic updates aren't available on this build. Download the latest release manually."
@@ -272,6 +669,14 @@ msgstr "Away"
 #: src/features/identity/Welcome.tsx
 msgid "Back"
 msgstr "Back"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Back to drafts"
+msgstr "Back to drafts"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Back to sent"
+msgstr "Back to sent"
 
 #: src/features/identity/BackupConsent.tsx
 msgid "Back up key"
@@ -355,8 +760,11 @@ msgstr "Can’t connect"
 #: src/features/identity/RestoreIdentity.tsx
 #: src/features/identity/SignOut.tsx
 #: src/features/identity/Welcome.tsx
+#: src/features/messages/BackgroundUploadStatus.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
+#: src/features/messages/ForwardMessage.tsx
 #: src/features/messages/MessageManagement.tsx
+#: src/features/messages/ReportMessageDialog.tsx
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -364,10 +772,27 @@ msgstr "Cancel"
 msgid "Cancel edit"
 msgstr "Cancel edit"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "Cancel reply target"
+msgstr "Cancel reply target"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Cancel upload and remove attachment"
+msgstr "Cancel upload and remove attachment"
+
+#. placeholder {0}: uploads.destination.name
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "Cancel upload to {0}"
+msgstr "Cancel upload to {0}"
+
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Canceling recovery…"
 msgstr "Canceling recovery…"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "channel"
+msgstr "channel"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Channel actions"
@@ -377,10 +802,35 @@ msgstr "Channel actions"
 msgid "Channel archived: {channelName}"
 msgstr "Channel archived: {channelName}"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Channel conversation"
+msgstr "Channel conversation"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Channel message history"
+msgstr "Channel message history"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Channel preview"
+msgstr "Channel preview"
+
+#. placeholder {0}: notice.name
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Channel setup couldn’t finish: {0}"
+msgstr "Channel setup couldn’t finish: {0}"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Channel unavailable"
+msgstr "Channel unavailable"
+
 #: src/app/shell/PageSearch.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Channels"
 msgstr "Channels"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "chat"
+msgstr "chat"
 
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Chat actions"
@@ -389,6 +839,18 @@ msgstr "Chat actions"
 #: src/features/messages/MessageComposer.tsx
 msgid "Chat archived: {channelName}"
 msgstr "Chat archived: {channelName}"
+
+#: src/features/messages/ComposerChatCards.tsx
+msgid "Chat attachments"
+msgstr "Chat attachments"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Chat preview"
+msgstr "Chat preview"
+
+#: src/features/conversation/MessageLink.tsx
+msgid "Chat unavailable. You don’t have access, or it no longer exists."
+msgstr "Chat unavailable. You don’t have access, or it no longer exists."
 
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
@@ -456,6 +918,7 @@ msgid "Chillin’"
 msgstr "Chillin’"
 
 #: src/bundled/channels/ChannelsPage.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Choose a community"
 msgstr "Choose a community"
 
@@ -524,9 +987,25 @@ msgstr "Citrus"
 msgid "Clear {0}"
 msgstr "Clear {0}"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Clear draft"
+msgstr "Clear draft"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Clear draft in {where}: {line}"
+msgstr "Clear draft in {where}: {line}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Clear search"
+msgstr "Clear search"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Clear status"
 msgstr "Clear status"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Click the image to zoom."
+msgstr "Click the image to zoom."
 
 #: src/app/AppearanceSettings.tsx
 msgid "Clock"
@@ -542,6 +1021,14 @@ msgstr "Clock preference wasn’t saved"
 msgid "Close"
 msgstr "Close"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Close conversation"
+msgstr "Close conversation"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Close draft preview"
+msgstr "Close draft preview"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Close edit"
 msgstr "Close edit"
@@ -549,6 +1036,15 @@ msgstr "Close edit"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Close formatting"
 msgstr "Close formatting"
+
+#: src/features/messages/MediaAttachment.tsx
+#: src/features/messages/MediaReviewFrame.tsx
+msgid "Close fullscreen viewer"
+msgstr "Close fullscreen viewer"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Close sent preview"
+msgstr "Close sent preview"
 
 #: src/app/App.tsx
 msgid "Close Settings"
@@ -561,6 +1057,10 @@ msgstr "Close status editor"
 #: src/bundled/channels/PageTabs.tsx
 msgid "Close tab pane"
 msgstr "Close tab pane"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Close thread"
+msgstr "Close thread"
 
 #: src/app/shell/WindowControls.tsx
 msgid "Close window"
@@ -578,10 +1078,29 @@ msgstr "Code"
 msgid "Code block"
 msgstr "Code block"
 
+#: src/features/messages/ActivityDisclosure.tsx
+#: src/features/messages/ActivityGroupPreview.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "Collapse"
+msgstr "Collapse"
+
+#. placeholder {0}: descendants.length
+#: src/features/messages/ThreadPanel.tsx
+msgid "Collapse {0} {replyWord}"
+msgstr "Collapse {0} {replyWord}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Comment at current frame"
+msgstr "Comment at current frame"
+
 #. placeholder {0}: formatMediaTime(mediaTimeSeconds)
 #: src/features/messages/MessageComposer.tsx
 msgid "Commenting at {0}"
 msgstr "Commenting at {0}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Comments"
+msgstr "Comments"
 
 #: src/features/communities/CommunityPicker.tsx
 msgid "Communities"
@@ -645,9 +1164,21 @@ msgstr "Compact"
 msgid "Compact flat-list messages use the full conversation width."
 msgstr "Compact flat-list messages use the full conversation width."
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Compact session"
+msgstr "Compact session"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Compact shows conversations as a flat list that fits more messages on screen."
 msgstr "Compact shows conversations as a flat list that fits more messages on screen."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "compacting"
+msgstr "compacting"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Compacting session. Wait for it to finish, or interrupt it."
+msgstr "Compacting session. Wait for it to finish, or interrupt it."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Compacting session…"
@@ -693,6 +1224,10 @@ msgstr "Connecting…"
 msgid "Continue"
 msgstr "Continue"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Continue draft in {where}: {line}"
+msgstr "Continue draft in {where}: {line}"
+
 #: src/features/identity/WelcomeBack.tsx
 msgid "Continue with {name}"
 msgstr "Continue with {name}"
@@ -722,13 +1257,25 @@ msgstr "Continue without backup"
 msgid "Continue without signing in"
 msgstr "Continue without signing in"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "conversation"
+msgstr "conversation"
+
 #: src/bundled/channels/PageTabs.tsx
 msgid "Conversation actions"
 msgstr "Conversation actions"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Conversation activity"
+msgstr "Conversation activity"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Conversations"
 msgstr "Conversations"
+
+#: src/features/channel-navigation/SidebarBoundary.tsx
+msgid "Conversations couldn’t open."
+msgstr "Conversations couldn’t open."
 
 #: src/features/identity/PrivateKey.tsx
 #: src/features/identity/PublicKeyPanel.tsx
@@ -738,6 +1285,10 @@ msgstr "Copy"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Copy community URL"
 msgstr "Copy community URL"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Copy image"
+msgstr "Copy image"
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy link"
@@ -755,6 +1306,7 @@ msgstr "Copy npub"
 msgid "Copy private key"
 msgstr "Copy private key"
 
+#: src/features/drafts-sent/DraftPreview.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Copy text"
 msgstr "Copy text"
@@ -766,6 +1318,10 @@ msgstr "Copy this from Identity details in your old Buzz app. Never share it wit
 #: src/app/CommunityLocalSettings.tsx
 msgid "Copy URL"
 msgstr "Copy URL"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Could not add reaction. Try again."
+msgstr "Could not add reaction. Try again."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not attach {refused} files"
@@ -804,6 +1360,10 @@ msgstr "could not be tagged: the message would be too long"
 msgid "Could not confirm your status. Try again."
 msgstr "Could not confirm your status. Try again."
 
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Could not copy the text. Try again."
+msgstr "Could not copy the text. Try again."
+
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Could not copy. Select the key above to copy it."
 msgstr "Could not copy. Select the key above to copy it."
@@ -816,6 +1376,10 @@ msgstr "Could not delete this message. Try again."
 msgid "Could not dismiss the operation."
 msgstr "Could not dismiss the operation."
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Could not load people."
+msgstr "Could not load people."
+
 #: src/features/communities/FindCommunity.tsx
 #: src/features/identity/ProfileStep.tsx
 msgid "Could not reach the relay. Check your connection and try again."
@@ -824,6 +1388,10 @@ msgstr "Could not reach the relay. Check your connection and try again."
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not read saved model and effort for this chat on this device. Retry before sending."
 msgstr "Could not read saved model and effort for this chat on this device. Retry before sending."
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Could not restore the message."
+msgstr "Could not restore the message."
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not restore unread state."
@@ -845,6 +1413,14 @@ msgstr "Could not save thread follow. Try again."
 msgid "Could not save your choice. Try again."
 msgstr "Could not save your choice. Try again."
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Could not send your message. Try again."
+msgstr "Could not send your message. Try again."
+
+#: src/features/messages/MessageReactions.tsx
+msgid "Could not update reaction. Try again."
+msgstr "Could not update reaction. Try again."
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not update unread state. Try again."
 msgstr "Could not update unread state. Try again."
@@ -860,6 +1436,10 @@ msgstr "Couldn’t check whether erasing is available"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Couldn’t check your latest status. Your draft is unchanged."
 msgstr "Couldn’t check your latest status. Your draft is unchanged."
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Couldn't copy image"
+msgstr "Couldn't copy image"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Couldn’t copy text"
@@ -881,6 +1461,18 @@ msgstr "Couldn’t copy your private key. Reveal it to copy manually, or retry."
 msgid "Couldn’t copy. Try again from the message menu."
 msgstr "Couldn’t copy. Try again from the message menu."
 
+#: src/features/messages/FileAttachment.tsx
+msgid "Couldn’t download · Retry"
+msgstr "Couldn’t download · Retry"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Couldn’t download {displayName}. Try again."
+msgstr "Couldn’t download {displayName}. Try again."
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Couldn’t download. Try again."
+msgstr "Couldn’t download. Try again."
+
 #: src/features/communities/FindCommunity.tsx
 msgid "Couldn’t find community"
 msgstr "Couldn’t find community"
@@ -889,18 +1481,39 @@ msgstr "Couldn’t find community"
 msgid "Couldn’t finish setup"
 msgstr "Couldn’t finish setup"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "Couldn’t forward the message. Try again."
+msgstr "Couldn’t forward the message. Try again."
+
 #: src/features/identity/KeyImport.tsx
 msgid "Couldn’t import this key."
 msgstr "Couldn’t import this key."
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Couldn’t join this {placeWord}."
+msgstr "Couldn’t join this {placeWord}."
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "Couldn’t leave {0}"
 msgstr "Couldn’t leave {0}"
 
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Couldn’t load this preview."
+msgstr "Couldn’t load this preview."
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Couldn’t mark everything as read."
 msgstr "Couldn’t mark everything as read."
+
+#. placeholder {0}: intent.name
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Couldn’t mute {0}"
+msgstr "Couldn’t mute {0}"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Couldn’t open that message."
+msgstr "Couldn’t open that message."
 
 #. placeholder {0}: next.name
 #: src/features/communities/CommunityDialog.tsx
@@ -915,9 +1528,17 @@ msgstr "Couldn’t read that file."
 msgid "Couldn’t read the repositories folder on this device. Try again."
 msgstr "Couldn’t read the repositories folder on this device. Try again."
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t refresh recent activity"
+msgstr "Couldn’t refresh recent activity"
+
 #: src/features/identity/KeyRestore.tsx
 msgid "Couldn’t restore your key"
 msgstr "Couldn’t restore your key"
+
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "Couldn’t retry {agentName}. {detail}"
+msgstr "Couldn’t retry {agentName}. {detail}"
 
 #: src/features/identity/PrivateKey.tsx
 msgid "Couldn’t reveal your private key. Retry when secure storage is available."
@@ -927,9 +1548,34 @@ msgstr "Couldn’t reveal your private key. Retry when secure storage is availab
 msgid "Couldn’t save the display name. Try again."
 msgstr "Couldn’t save the display name. Try again."
 
+#. placeholder {0}: sectionTitleFor( group, )
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the filter for {0}. {error}"
+msgstr "Couldn’t save the filter for {0}. {error}"
+
+#. placeholder {0}: sectionTitleFor( `section:${preferences.orderError?.sectionId}`, )
+#. placeholder {1}: preferences.orderError.error
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the move for {0}. {1}"
+msgstr "Couldn’t save the move for {0}. {1}"
+
+#. placeholder {0}: move.error
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the move for {channelName}. {0}"
+msgstr "Couldn’t save the move for {channelName}. {0}"
+
+#. placeholder {0}: sectionTitleFor( group, )
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the sort order for {0}. {error}"
+msgstr "Couldn’t save the sort order for {0}. {error}"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Couldn’t save this on this device. Try again."
 msgstr "Couldn’t save this on this device. Try again."
+
+#: src/features/messages/DeliveryNotice.tsx
+msgid "Couldn’t send this message."
+msgstr "Couldn’t send this message."
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Couldn’t send to channel"
@@ -942,6 +1588,15 @@ msgstr "Couldn’t sign in"
 #: src/features/identity/Welcome.tsx
 msgid "Couldn’t sign out"
 msgstr "Couldn’t sign out"
+
+#. placeholder {0}: intent.name
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Couldn’t unmute {0}"
+msgstr "Couldn’t unmute {0}"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Couldn’t update reaction."
+msgstr "Couldn’t update reaction."
 
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/identity/CreateCommunityStep.tsx
@@ -960,6 +1615,10 @@ msgstr "Create account"
 #: src/features/identity/CreateCommunityStep.tsx
 msgid "Create community"
 msgstr "Create community"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Create new…"
+msgstr "Create new…"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
@@ -1034,6 +1693,15 @@ msgstr "Delivery could not be confirmed."
 msgid "Delivery could not be confirmed. Retry sends the same operation."
 msgstr "Delivery could not be confirmed. Retry sends the same operation."
 
+#: src/features/messages/DeliveryNotice.tsx
+msgid "Delivery not yet confirmed."
+msgstr "Delivery not yet confirmed."
+
+#. placeholder {0}: row.deliveryError
+#: src/features/messages/DeliveryNotice.tsx
+msgid "Delivery not yet confirmed. {0}"
+msgstr "Delivery not yet confirmed. {0}"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Density"
 msgstr "Density"
@@ -1054,7 +1722,16 @@ msgstr "Details"
 msgid "Developer"
 msgstr "Developer"
 
+#: src/features/messages/MessageRow.tsx
+msgid "Diff"
+msgstr "Diff"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Diff truncated. View the full diff at the source repository."
+msgstr "Diff truncated. View the full diff at the source repository."
+
 #: src/app/NotificationSettings.tsx
+#: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Direct messages"
 msgstr "Direct messages"
 
@@ -1069,6 +1746,16 @@ msgstr "Discard changes?"
 #: src/features/messages/MessageManagement.tsx
 msgid "Discard failed update"
 msgstr "Discard failed update"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Dismiss"
+msgstr "Dismiss"
+
+#. placeholder {0}: named(entry.agent)
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "Dismiss error from {0}"
+msgstr "Dismiss error from {0}"
 
 #: src/app/ProfileSettings.tsx
 #: src/features/messages/MessageActionBar.tsx
@@ -1113,13 +1800,76 @@ msgstr "Dock unread badge"
 msgid "Don’t clear"
 msgstr "Don’t clear"
 
+#: src/features/messages/FileAttachment.tsx
+msgid "Download"
+msgstr "Download"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Download {displayName}"
+msgstr "Download {displayName}"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Download {kind}"
+msgstr "Download {kind}"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Download failed"
+msgstr "Download failed"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Download file"
+msgstr "Download file"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Download image"
+msgstr "Download image"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Downloaded"
+msgstr "Downloaded"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Downloading {displayName}"
+msgstr "Downloading {displayName}"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Downloading update…"
 msgstr "Downloading update…"
 
+#: src/features/messages/FileAttachment.tsx
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Downloading…"
+msgstr "Downloading…"
+
+#: src/features/messages/ReplySummary.tsx
+msgid "Draft"
+msgstr "Draft"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Draft for {title}"
+msgstr "Draft for {title}"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+msgid "Draft reply"
+msgstr "Draft reply"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Draft text copied."
+msgstr "Draft text copied."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Drafts"
+msgstr "Drafts"
+
 #: src/app/shell/BestieNavigation.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Drafts & sent"
 msgstr "Drafts & sent"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Drafts and sent"
+msgstr "Drafts and sent"
 
 #: src/features/messages/FileDropOverlay.tsx
 msgid "Drop files into this conversation"
@@ -1137,6 +1887,10 @@ msgstr "Duration"
 msgid "Duration: {durationLabel}"
 msgstr "Duration: {durationLabel}"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "Earlier reply unavailable in loaded history."
+msgstr "Earlier reply unavailable in loaded history."
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Edit connection"
@@ -1151,9 +1905,25 @@ msgstr "Edit link"
 msgid "Edit message"
 msgstr "Edit message"
 
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Edit queued message"
+msgstr "Edit queued message"
+
+#: src/features/messages/MessageRow.tsx
+msgid "edited"
+msgstr "edited"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Editing message"
 msgstr "Editing message"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Empty draft"
+msgstr "Empty draft"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Empty message"
+msgstr "Empty message"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Enable Messages to see conversations."
@@ -1195,6 +1965,10 @@ msgstr "Erasing clears this app’s data, local storage, caches and plugin stora
 msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 msgstr "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 
+#: src/features/messages/MessageReactions.tsx
+msgid "Everyone who reacted"
+msgstr "Everyone who reacted"
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Expiration time"
 msgstr "Expiration time"
@@ -1202,6 +1976,22 @@ msgstr "Expiration time"
 #: src/features/messages/MessageComposer.tsx
 msgid "Explicit mentions"
 msgstr "Explicit mentions"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Failed to submit report. Try again."
+msgstr "Failed to submit report. Try again."
+
+#: src/features/messages/FileAttachment.tsx
+msgid "File"
+msgstr "File"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "File unavailable"
+msgstr "File unavailable"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Find a person…"
+msgstr "Find a person…"
 
 #: src/features/identity/setup.ts
 msgid "Finding communities…"
@@ -1255,6 +2045,11 @@ msgstr "Formatting"
 msgid "Formatting options"
 msgstr "Formatting options"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "Forward"
+msgstr "Forward"
+
+#: src/features/messages/ForwardMessage.tsx
 #: src/features/messages/MessageActionBar.tsx
 msgid "Forward message"
 msgstr "Forward message"
@@ -1281,6 +2076,10 @@ msgstr "Go forward"
 msgid "Go to Messages"
 msgstr "Go to Messages"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Hidden conversations could not be refreshed."
+msgstr "Hidden conversations could not be refreshed."
+
 #: src/app/AppearanceSettings.tsx
 msgid "Hidden times stay available to screen readers."
 msgstr "Hidden times stay available to screen readers."
@@ -1289,6 +2088,10 @@ msgstr "Hidden times stay available to screen readers."
 #: src/features/identity/PrivateKey.tsx
 msgid "Hide"
 msgstr "Hide"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Hide comments"
+msgstr "Hide comments"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Hide in Solo chats"
@@ -1306,6 +2109,14 @@ msgstr "Hide private key"
 #: src/app/shell/AppShell.tsx
 msgid "Hide sidebar"
 msgstr "Hide sidebar"
+
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "Hide tasks and chats in {title}"
+msgstr "Hide tasks and chats in {title}"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "History window limit reached"
+msgstr "History window limit reached"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Honey"
@@ -1347,9 +2158,58 @@ msgstr "Identity"
 msgid "Identity to restore"
 msgstr "Identity to restore"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Illegal content"
+msgstr "Illegal content"
+
 #: src/app/AppearancePreview.tsx
 msgid "Illustrated preview of your current mode, accent, contrast, and"
 msgstr "Illustrated preview of your current mode, accent, contrast, and"
+
+#: src/features/messages/MessageRow.tsx
+msgid "image"
+msgstr "image"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Image"
+msgstr "Image"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/MediaAttachment.tsx
+msgid "Image attachment"
+msgstr "Image attachment"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Image copied"
+msgstr "Image copied"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Image gallery"
+msgstr "Image gallery"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/ImageReviewStage.tsx
+#: src/features/messages/MediaAttachment.tsx
+msgid "Image unavailable"
+msgstr "Image unavailable"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Image viewer"
+msgstr "Image viewer"
+
+#. placeholder {0}: Math.round(zoom * 100)
+#. placeholder {1}: nextZoom * 100
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Image zoom: {0}%. Zoom to {1}%"
+msgstr "Image zoom: {0}%. Zoom to {1}%"
+
+#: src/features/messages/MessageRow.tsx
+msgid "images"
+msgstr "images"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Impersonation"
+msgstr "Impersonation"
 
 #: src/features/communities/LegacyCommunityImport.tsx
 msgid "Import communities"
@@ -1366,6 +2226,10 @@ msgstr "Import this identity"
 #: src/features/identity/KeyImport.tsx
 msgid "Importing your key…"
 msgstr "Importing your key…"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "In"
+msgstr "In"
 
 #. placeholder {0}: region.title
 #: src/bundled/channels/SoloHeading.tsx
@@ -1404,6 +2268,18 @@ msgstr "Interface size"
 msgid "Interface size wasn’t saved"
 msgstr "Interface size wasn’t saved"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Interrupt"
+msgstr "Interrupt"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Interrupt compaction"
+msgstr "Interrupt compaction"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Interrupt requested"
+msgstr "Interrupt requested"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/InviteCodeField.tsx
 msgid "Invite code"
@@ -1441,6 +2317,10 @@ msgstr "It may have been removed, or you may need to update Buzz."
 msgid "Italic"
 msgstr "Italic"
 
+#: src/features/messages/MessageRow.tsx
+msgid "item"
+msgstr "item"
+
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
@@ -1449,8 +2329,13 @@ msgstr "Its relay didn’t confirm the leave, so you may still be a member. You 
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/communities/FindCommunity.tsx
 #: src/features/identity/InviteCodeField.tsx
+#: src/features/messages/ChannelJoinNotice.tsx
 msgid "Join"
 msgstr "Join"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Join {placeWord} to send messages"
+msgstr "Join {placeWord} to send messages"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/CommunityLanding.tsx
@@ -1462,6 +2347,14 @@ msgstr "Join a community"
 #: src/features/communities/FindCommunity.tsx
 msgid "Join Community"
 msgstr "Join Community"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Join may have taken effect, but it is not confirmed yet. Try again to check."
+msgstr "Join may have taken effect, but it is not confirmed yet. Try again to check."
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Joined"
+msgstr "Joined"
 
 #: src/features/communities/FindCommunity.tsx
 msgid "Joining {host}…"
@@ -1505,6 +2398,12 @@ msgstr "Language wasn’t saved"
 #: src/app/PluginUpdates.tsx
 msgid "Later"
 msgstr "Later"
+
+#. placeholder {0}: nameOf(latest.author)
+#. placeholder {1}: relativeTimestamp(latest.created_at, now / 1000)
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "latest from {0}, {1}"
+msgstr "latest from {0}, {1}"
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
@@ -1550,13 +2449,65 @@ msgstr "Linking your key…"
 msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 msgstr "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Load more people"
+msgstr "Load more people"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Load older messages"
+msgstr "Load older messages"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Load saved draft"
 msgstr "Load saved draft"
 
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Loading comments…"
+msgstr "Loading comments…"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Loading conversation…"
+msgstr "Loading conversation…"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "Loading conversations…"
+msgstr "Loading conversations…"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Loading media…"
+msgstr "Loading media…"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Loading message…"
+msgstr "Loading message…"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Loading messages…"
+msgstr "Loading messages…"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Loading model and effort…"
+msgstr "Loading model and effort…"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Loading older…"
+msgstr "Loading older…"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Loading people"
+msgstr "Loading people"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Loading saved model and effort…"
 msgstr "Loading saved model and effort…"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Loading sent messages…"
+msgstr "Loading sent messages…"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Loading thread…"
+msgstr "Loading thread…"
 
 #: src/app/ProfileSettings.tsx
 msgid "Loading your community profile…"
@@ -1566,6 +2517,10 @@ msgstr "Loading your community profile…"
 #: src/app/ProfileSettings.tsx
 msgid "Loading your profile in {0}…"
 msgstr "Loading your profile in {0}…"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Loading your sidebar…"
+msgstr "Loading your sidebar…"
 
 #: src/app/App.tsx
 msgid "Loading…"
@@ -1591,6 +2546,10 @@ msgstr "Magenta"
 #: src/app/AppearanceSettings.tsx
 msgid "Main pane"
 msgstr "Main pane"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Malware or scam"
+msgstr "Malware or scam"
 
 #: src/app/PluginUpdates.tsx
 msgid "Manage {name} update checks"
@@ -1627,6 +2586,14 @@ msgstr "Marked all as read."
 msgid "Maximize or restore window"
 msgstr "Maximize or restore window"
 
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Media comments"
+msgstr "Media comments"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Media unavailable"
+msgstr "Media unavailable"
+
 #: src/app/NotificationSettings.tsx
 msgid "Mentions"
 msgstr "Mentions"
@@ -1639,6 +2606,10 @@ msgstr "Message"
 #: src/features/messages/MessageComposer.tsx
 msgid "Message {channelDisplayName}"
 msgstr "Message {channelDisplayName}"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Message {recipientNames}"
+msgstr "Message {recipientNames}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Message accepted. Could not update the saved draft. Retry cleanup before sending again."
@@ -1664,6 +2635,11 @@ msgstr "Message density wasn’t saved"
 msgid "Message edit"
 msgstr "Message edit"
 
+#. placeholder {0}: to.name
+#: src/features/messages/ForwardMessage.tsx
+msgid "Message forwarded to {0}"
+msgstr "Message forwarded to {0}"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Message is too long to attach this GIF"
 msgstr "Message is too long to attach this GIF"
@@ -1676,6 +2652,10 @@ msgstr "Message is too long to insert text"
 msgid "Message link unavailable"
 msgstr "Message link unavailable"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Message recipients"
+msgstr "Message recipients"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Message search is unavailable while this community is disconnected."
 msgstr "Message search is unavailable while this community is disconnected."
@@ -1683,6 +2663,10 @@ msgstr "Message search is unavailable while this community is disconnected."
 #: src/app/AppearanceSettings.tsx
 msgid "Message timestamps"
 msgstr "Message timestamps"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Message to forward"
+msgstr "Message to forward"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Message width"
@@ -1696,6 +2680,14 @@ msgstr "Message width wasn’t saved"
 msgid "Messages"
 msgstr "Messages"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Messages you send in this community show up here."
+msgstr "Messages you send in this community show up here."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Messages you start and don’t send wait here."
+msgstr "Messages you start and don’t send wait here."
+
 #: src/app/shell/WindowControls.tsx
 msgid "Minimize window"
 msgstr "Minimize window"
@@ -1704,9 +2696,47 @@ msgstr "Minimize window"
 msgid "Mode"
 msgstr "Mode"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort"
+msgstr "Model and effort"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Model and effort choices are still saving. Try sending again shortly."
 msgstr "Model and effort choices are still saving. Try sending again shortly."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort could not be loaded."
+msgstr "Model and effort could not be loaded."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort for the next run"
+msgstr "Model and effort for the next run"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort for this chat"
+msgstr "Model and effort for this chat"
+
+#. placeholder {0}: choice.name
+#: src/features/messages/ComposerModels.tsx
+msgid "Model for {0} in this chat"
+msgstr "Model for {0} in this chat"
+
+#. placeholder {0}: choice.name
+#: src/features/messages/ComposerModels.tsx
+msgid "Model for {0}'s next run"
+msgstr "Model for {0}'s next run"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model unavailable"
+msgstr "Model unavailable"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model, effort, and session controls"
+msgstr "Model, effort, and session controls"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model, effort, and session controls for this chat"
+msgstr "Model, effort, and session controls for this chat"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Mono"
@@ -1719,6 +2749,31 @@ msgstr "More message actions"
 #: src/app/shell/PageSearch.tsx
 msgid "Most relevant"
 msgstr "Most relevant"
+
+#. placeholder {0}: channel.name
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move {0} to section"
+msgstr "Move {0} to section"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move channel"
+msgstr "Move channel"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move conversation"
+msgstr "Move conversation"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move to…"
+msgstr "Move to…"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Mute"
+msgstr "Mute"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Mute video"
+msgstr "Mute video"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Name"
@@ -1750,28 +2805,80 @@ msgid "New channel"
 msgstr "New channel"
 
 #: src/app/shell/NewMenu.tsx
+#: src/features/channel-navigation/SoloInventory.tsx
 msgid "New chat"
 msgstr "New chat"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "New chat or workspace"
+msgstr "New chat or workspace"
 
 #: src/app/shell/NewMenu.tsx
 msgid "New DM"
 msgstr "New DM"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "new message"
+msgstr "new message"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "New message"
+msgstr "New message"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "New messages"
+msgstr "New messages"
+
 #: src/app/shell/NewMenu.tsx
 msgid "New section"
 msgstr "New section"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "New session started"
+msgstr "New session started"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "New Solo chats"
 msgstr "New Solo chats"
+
+#: src/features/channel-navigation/RegionChannelGroup.tsx
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "New task"
+msgstr "New task"
+
+#. placeholder {0}: channel.name
+#: src/features/channel-navigation/RegionChannelGroup.tsx
+msgid "New task in {0}"
+msgstr "New task in {0}"
+
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "New task in {title}"
+msgstr "New task in {title}"
 
 #: src/app/AppearanceSettings.tsx
 msgid "New threads open here. Already-open threads stay where you placed them."
 msgstr "New threads open here. Already-open threads stay where you placed them."
 
 #: src/app/shell/NewMenu.tsx
+#: src/features/channel-navigation/SoloInventory.tsx
 msgid "New workspace"
 msgstr "New workspace"
+
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "Next attachment"
+msgstr "Next attachment"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Next image"
+msgstr "Next image"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Next media"
+msgstr "Next media"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "next run"
+msgstr "next run"
 
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "No automatic archive."
@@ -1781,26 +2888,101 @@ msgstr "No automatic archive."
 msgid "No backups were found for this account."
 msgstr "No backups were found for this account."
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "No channels yet."
+msgstr "No channels yet."
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "No comments yet. Add the first below."
+msgstr "No comments yet. Add the first below."
+
 #: src/features/communities/FindCommunity.tsx
 msgid "No community is set up at this address."
 msgstr "No community is set up at this address."
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "No current step details received."
+msgstr "No current step details received."
+
+#: src/features/messages/MessageRow.tsx
+msgid "No diff content"
+msgstr "No diff content"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No drafts"
+msgstr "No drafts"
+
+#. placeholder {0}: search.trim()
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No drafts match “{0}”."
+msgstr "No drafts match “{0}”."
 
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "No matching pages."
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "No matching people."
+msgstr "No matching people."
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "No matching time zones."
 msgstr "No matching time zones."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No messages after yours"
+msgstr "No messages after yours"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "No messages yet."
+msgstr "No messages yet."
+
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "No preview available for this file type."
+msgstr "No preview available for this file type."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No replies after yours"
+msgstr "No replies after yours"
+
+#. placeholder {0}: search.trim()
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No sent messages match “{0}”"
+msgstr "No sent messages match “{0}”"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
+msgstr "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "None of your backups holds the key linked to this account, so nothing was restored."
 msgstr "None of your backups holds the key linked to this account, so nothing was restored."
 
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Not joined"
+msgstr "Not joined"
+
 #: src/features/identity/LegacyIdentityOffer.tsx
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "Not now"
 msgstr "Not now"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Note (optional)"
+msgstr "Note (optional)"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Notes to self"
+msgstr "Notes to self"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Nothing sent yet"
+msgstr "Nothing sent yet"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Nothing to interrupt. The session is idle."
+msgstr "Nothing to interrupt. The session is idle."
 
 #: src/app/NotificationSettings.tsx
 msgid "Notification choices weren’t saved"
@@ -1836,6 +3018,14 @@ msgstr "Notify while viewing"
 msgid "Now {0}"
 msgstr "Now {0}"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Nudity or sexual content"
+msgstr "Nudity or sexual content"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Observed unread replies{staleUnreadNote}. Not an exact total."
+msgstr "Observed unread replies{staleUnreadNote}. Not an exact total."
+
 #: src/app/shell/ProfileButton.tsx
 msgid "offline"
 msgstr "offline"
@@ -1844,6 +3034,10 @@ msgstr "offline"
 msgid "Offline"
 msgstr "Offline"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Offline · Showing saved conversations."
+msgstr "Offline · Showing saved conversations."
+
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "OK"
 msgstr "OK"
@@ -1851,6 +3045,10 @@ msgstr "OK"
 #: src/features/identity/LegacyIdentityOffer.tsx
 msgid "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
 msgstr "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "One person at a time. Remove them to choose someone else."
+msgstr "One person at a time. Remove them to choose someone else."
 
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Ongoing"
@@ -1876,13 +3074,62 @@ msgstr "Only saved conversations are searched while this community is disconnect
 msgid "Only the selected community can be marked as read."
 msgstr "Only the selected community can be marked as read."
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Only typing updates are reaching this app."
+msgstr "Only typing updates are reaching this app."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
 msgstr "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
 
+#. placeholder {0}: notice.destination.name
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "Open {0}"
+msgstr "Open {0}"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Open {displayName}"
+msgstr "Open {displayName}"
+
+#. placeholder {0}: name(pubkey)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Open {openKind} for {0}"
+msgstr "Open {openKind} for {0}"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Open conversation"
+msgstr "Open conversation"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Open file"
+msgstr "Open file"
+
+#. placeholder {0}: index + 1
+#. placeholder {1}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "Open image {0} of {1}"
+msgstr "Open image {0} of {1}"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "Open image attachment"
+msgstr "Open image attachment"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Open image fullscreen"
+msgstr "Open image fullscreen"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Open image in browser"
+msgstr "Open image in browser"
+
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Open in main view"
 msgstr "Open in main view"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Open link"
+msgstr "Open link"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Open tab pane"
@@ -1895,6 +3142,25 @@ msgstr "Open the desktop app to choose a folder on this device."
 #: src/app/AppearanceSettings.tsx
 msgid "Open threads in"
 msgstr "Open threads in"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Open video"
+msgstr "Open video"
+
+#. placeholder {0}: index + 1
+#. placeholder {1}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "Open video {0} of {1}"
+msgstr "Open video {0} of {1}"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Open video fullscreen"
+msgstr "Open video fullscreen"
+
+#. placeholder {0}: to.name
+#: src/features/messages/ForwardMessage.tsx
+msgid "Open your DM with {0}"
+msgstr "Open your DM with {0}"
 
 #: src/app/App.tsx
 msgid "Opening Buzz"
@@ -1925,6 +3191,15 @@ msgstr "Or enter your private key if you have a copy."
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Ordered list"
 msgstr "Ordered list"
+
+#: src/features/messages/MediaReviewViewer.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "Original message unavailable."
+msgstr "Original message unavailable."
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Other"
+msgstr "Other"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Other communities you’ve joined aren’t listed."
@@ -1975,10 +3250,68 @@ msgstr "Paste your community link. Continue shares your Buzz identity with the c
 msgid "Paste your private key to sign in to Buzz. You can also select or drop a text file with your key."
 msgstr "Paste your private key to sign in to Buzz. You can also select or drop a text file with your key."
 
+#. placeholder {0}: attachment.name
+#: src/features/messages/AudioAttachment.tsx
+msgid "Pause {0}"
+msgstr "Pause {0}"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Pause audio"
+msgstr "Pause audio"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Pause video"
+msgstr "Pause video"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Paused because an earlier message was handled in another window. Send when ready."
+msgstr "Paused because an earlier message was handled in another window. Send when ready."
+
+#: src/features/messages/FileAttachment.tsx
+msgid "PDF file"
+msgstr "PDF file"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "People"
+msgstr "People"
+
+#: src/features/messages/MessageReactions.tsx
+msgid "People who reacted with {name}"
+msgstr "People who reacted with {name}"
+
 #: src/app/settings-sections.ts
 #: src/features/communities/CommunityPicker.tsx
 msgid "Personal space"
 msgstr "Personal space"
+
+#: src/features/messages/MessageRow.tsx
+msgid "photos and videos"
+msgstr "photos and videos"
+
+#. placeholder {0}: attachment.name
+#: src/features/messages/AudioAttachment.tsx
+msgid "Play {0}"
+msgstr "Play {0}"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Play audio"
+msgstr "Play audio"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Play video"
+msgstr "Play video"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Playback paused. Press play to try again."
+msgstr "Playback paused. Press play to try again."
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Playback speed: {rate}x"
+msgstr "Playback speed: {rate}x"
+
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Please try again."
+msgstr "Please try again."
 
 #: src/app/PluginUpdates.tsx
 msgid "Plugin recovery actions"
@@ -1993,19 +3326,77 @@ msgstr "Plugins"
 msgid "Preparing update…"
 msgstr "Preparing update…"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Preparing upload"
+msgstr "Preparing upload"
+
 #: src/features/identity/setup.ts
 #: src/features/identity/Welcome.tsx
 msgid "Preparing your identity…"
 msgstr "Preparing your identity…"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Preparing…"
+msgstr "Preparing…"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Presence: {presence}"
+msgstr "Presence: {presence}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Press Down Arrow for working agents and conversation actions."
+msgstr "Press Down Arrow for working agents and conversation actions."
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "preview"
+msgstr "preview"
+
+#. placeholder {0}: item.file.name
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Preview {0}"
+msgstr "Preview {0}"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Preview {displayName}"
+msgstr "Preview {displayName}"
+
+#: src/features/messages/ComposerAttachments.tsx
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "Preview unavailable"
+msgstr "Preview unavailable"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "previews"
+msgstr "previews"
+
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "Previous attachment"
+msgstr "Previous attachment"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Previous identity"
 msgstr "Previous identity"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Previous image"
+msgstr "Previous image"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Previous media"
+msgstr "Previous media"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid "Privacy Notice"
 msgstr "Privacy Notice"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Private channel"
+msgstr "Private channel"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Private channel. You aren’t a member, it no longer exists, or the link is from another community."
+msgstr "Private channel. You aren’t a member, it no longer exists, or the link is from another community."
 
 #: src/features/identity/PrivateKey.tsx
 msgid "Private key"
@@ -2029,6 +3420,10 @@ msgstr "Private key copied"
 msgid "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 msgstr "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Profanity or hate speech"
+msgstr "Profanity or hate speech"
+
 #: src/app/ProfileSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Profile"
@@ -2045,6 +3440,10 @@ msgstr "Profile preview"
 #: src/app/ProfileSettings.tsx
 msgid "Profile updated"
 msgstr "Profile updated"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Public channel"
+msgstr "Public channel"
 
 #: src/features/identity/KeyImport.tsx
 msgid "Public identity:"
@@ -2066,13 +3465,38 @@ msgstr "Publishing…"
 msgid "Queue"
 msgstr "Queue"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Queued"
+msgstr "Queued"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Queued follow-ups"
+msgstr "Queued follow-ups"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Quick statuses"
 msgstr "Quick statuses"
 
 #: src/features/messages/ComposerFormattingTools.tsx
+#: src/features/messages/SelectionQuote.tsx
 msgid "Quote"
 msgstr "Quote"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Raw diff"
+msgstr "Raw diff"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Reaction delivery not confirmed."
+msgstr "Reaction delivery not confirmed."
+
+#: src/features/messages/MessageReactions.tsx
+msgid "Reactions"
+msgstr "Reactions"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Reactions unavailable"
+msgstr "Reactions unavailable"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Read state can’t sync on this connection."
@@ -2082,13 +3506,41 @@ msgstr "Read state can’t sync on this connection."
 msgid "Read state couldn’t be saved"
 msgstr "Read state couldn’t be saved"
 
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Read-only {placeWord}"
+msgstr "Read-only {placeWord}"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Read-only access"
+msgstr "Read-only access"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Ready"
+msgstr "Ready"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Ready to install. Buzz will restart."
 msgstr "Ready to install. Buzz will restart."
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Reason"
+msgstr "Reason"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Recent activity"
 msgstr "Recent activity"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Recipients"
+msgstr "Recipients"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Refresh"
+msgstr "Refresh"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Refresh saved sidebar preferences before retrying this move."
+msgstr "Refresh saved sidebar preferences before retrying this move."
 
 #: src/app/NotificationSettings.tsx
 msgid "Reload saved choices"
@@ -2098,9 +3550,22 @@ msgstr "Reload saved choices"
 msgid "Reminders"
 msgstr "Reminders"
 
+#: src/features/messages/RemoteAgentHint.tsx
+msgid "Remote"
+msgstr "Remote"
+
+#: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove"
 msgstr "Remove"
+
+#. placeholder {0}: gif.title
+#. placeholder {0}: item.file.name
+#. placeholder {0}: label(person)
+#: src/features/direct-messages/RecipientPicker.tsx
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Remove {0}"
+msgstr "Remove {0}"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
@@ -2123,11 +3588,20 @@ msgstr "Remove agent {0} {1}"
 msgid "Remove and erase data"
 msgstr "Remove and erase data"
 
+#. placeholder {0}: index + 1
+#: src/features/messages/ComposerChatCards.tsx
+msgid "Remove chat attachment {0}"
+msgstr "Remove chat attachment {0}"
+
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove explicit mention of {0} ({1})"
 msgstr "Remove explicit mention of {0} ({1})"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Remove from"
+msgstr "Remove from"
 
 #: src/features/identity/SignOut.tsx
 #: src/features/identity/Welcome.tsx
@@ -2153,6 +3627,10 @@ msgstr "Remove mention {0} {1}"
 msgid "Remove message from this device?"
 msgstr "Remove message from this device?"
 
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Remove queued message"
+msgstr "Remove queued message"
+
 #: src/features/identity/Welcome.tsx
 msgid "Remove the unreadable key?"
 msgstr "Remove the unreadable key?"
@@ -2160,6 +3638,10 @@ msgstr "Remove the unreadable key?"
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove video time"
 msgstr "Remove video time"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Remove voice note"
+msgstr "Remove voice note"
 
 #: src/features/identity/SignOut.tsx
 msgid "Remove your key from this device?"
@@ -2182,9 +3664,34 @@ msgstr "Replacing it removes that account from this computer to continue with th
 msgid "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
 msgstr "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
 
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "replies"
+msgstr "replies"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "reply"
+msgstr "reply"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Reply"
 msgstr "Reply"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Reply in thread"
+msgstr "Reply in thread"
+
+#. placeholder {0}: senderName(root)
+#: src/features/messages/ThreadPanel.tsx
+msgid "Reply in thread to {0}"
+msgstr "Reply in thread to {0}"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Reply target is no longer available."
+msgstr "Reply target is no longer available."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Reply to thread"
@@ -2193,6 +3700,27 @@ msgstr "Reply to thread"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Reply unavailable for this message"
 msgstr "Reply unavailable for this message"
+
+#. placeholder {0}: senderName(selectedParent)
+#: src/features/messages/ThreadPanel.tsx
+msgid "Replying to {0}"
+msgstr "Replying to {0}"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Report"
+msgstr "Report"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Report message"
+msgstr "Report message"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Report submitted to community moderators"
+msgstr "Report submitted to community moderators"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Reports go to this community's moderators for review. The author is not notified of who reported them."
+msgstr "Reports go to this community's moderators for review. The author is not notified of who reported them."
 
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Repositories folder"
@@ -2210,9 +3738,17 @@ msgstr "Repositories folders are configured in the desktop app."
 msgid "Reset interface size"
 msgstr "Reset interface size"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Reset model and effort"
+msgstr "Reset model and effort"
+
 #: src/app/CommunityLocalSettings.tsx
 msgid "Reset name"
 msgstr "Reset name"
+
+#: src/features/channel-navigation/ResizableSidebar.tsx
+msgid "Resize sidebar"
+msgstr "Resize sidebar"
 
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Restore default"
@@ -2239,20 +3775,48 @@ msgstr "Restoring your communities…"
 msgid "Restoring your key…"
 msgstr "Restoring your key…"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+#: src/features/channel-navigation/ChannelNavigationState.tsx
 #: src/features/communities/FindCommunity.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/features/messages/ActivityGroupActions.tsx
+#: src/features/messages/ComposerAttachments.tsx
+#: src/features/messages/ComposerModels.tsx
+#: src/features/messages/DeliveryNotice.tsx
+#: src/features/messages/MediaReviewViewer.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/updates/UpdateSettings.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Retry"
 msgstr "Retry"
 
+#. placeholder {0}: item.file.name
+#. placeholder {0}: named(entry.agent)
+#: src/features/messages/ActivityGroupActions.tsx
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Retry {0}"
+msgstr "Retry {0}"
+
 #: src/app/PluginUpdates.tsx
 msgid "Retry activation"
 msgstr "Retry activation"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Retry agents"
+msgstr "Retry agents"
+
 #: src/app/shell/PageSearch.tsx
+#: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry connection"
 msgstr "Retry connection"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Retry download"
+msgstr "Retry download"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Retry download {kind}"
+msgstr "Retry download {kind}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry draft cleanup"
@@ -2266,6 +3830,26 @@ msgstr "Retry draft save"
 msgid "Retry edit"
 msgstr "Retry edit"
 
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "Retry failed send recovery"
+msgstr "Retry failed send recovery"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry filter"
+msgstr "Retry filter"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Retry forward"
+msgstr "Retry forward"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry hidden conversations"
+msgstr "Retry hidden conversations"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Retry loading people"
+msgstr "Retry loading people"
+
 #: src/app/ProfileSettings.tsx
 msgid "Retry loading profile"
 msgstr "Retry loading profile"
@@ -2277,6 +3861,22 @@ msgstr "Retry message preparation"
 #: src/features/messages/MessageManagement.tsx
 msgid "Retry message update"
 msgstr "Retry message update"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Retry messages"
+msgstr "Retry messages"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry move"
+msgstr "Retry move"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Retry older messages"
+msgstr "Retry older messages"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Retry reaction"
+msgstr "Retry reaction"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry saved choices"
@@ -2339,6 +3939,34 @@ msgstr "Retry saving vibe level"
 msgid "Retry secure storage access"
 msgstr "Retry secure storage access"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Retry send"
+msgstr "Retry send"
+
+#: src/features/channel-navigation/SidebarBoundary.tsx
+msgid "Retry sidebar"
+msgstr "Retry sidebar"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry sort"
+msgstr "Retry sort"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry templates"
+msgstr "Retry templates"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Retry the earlier message to confirm its delivery before editing."
+msgstr "Retry the earlier message to confirm its delivery before editing."
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Retry the pending forward before forwarding another message."
+msgstr "Retry the pending forward before forwarding another message."
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Retry voice note upload"
+msgstr "Retry voice note upload"
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Reveal"
 msgstr "Reveal"
@@ -2348,9 +3976,17 @@ msgstr "Reveal"
 msgid "Reveal private key"
 msgstr "Reveal private key"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "Review pending forward"
+msgstr "Review pending forward"
+
 #: src/app/PluginUpdates.tsx
 msgid "Review permissions"
 msgstr "Review permissions"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Review report"
+msgstr "Review report"
 
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/ProfileSettings.tsx
@@ -2378,13 +4014,55 @@ msgstr "Save status"
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 
+#: src/features/messages/FileAttachment.tsx
+msgid "Saved {displayName} to Downloads"
+msgstr "Saved {displayName} to Downloads"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Saved before restart. Send when ready."
+msgstr "Saved before restart. Send when ready."
+
+#. placeholder {0}: runs.label
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved effort is unavailable for {0}."
+msgstr "Saved effort is unavailable for {0}."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved effort is unavailable."
+msgstr "Saved effort is unavailable."
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Saved groups and stars aren’t supported by this host yet."
+msgstr "Saved groups and stars aren’t supported by this host yet."
+
 #: src/features/identity/WelcomeBack.tsx
 msgid "Saved key"
 msgstr "Saved key"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved model and effort availability"
+msgstr "Saved model and effort availability"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Saved model and effort choices are still loading. Try sending again shortly."
 msgstr "Saved model and effort choices are still loading. Try sending again shortly."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved model and effort choices could not be loaded. Open model and effort controls to retry or reset them."
+msgstr "Saved model and effort choices could not be loaded. Open model and effort controls to retry or reset them."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved model is unavailable."
+msgstr "Saved model is unavailable."
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Saved sidebar preferences couldn’t refresh"
+msgstr "Saved sidebar preferences couldn’t refresh"
+
+#: src/features/messages/FileAttachment.tsx
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Saved to Downloads"
+msgstr "Saved to Downloads"
 
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/RestoreIdentity.tsx
@@ -2392,6 +4070,7 @@ msgid "Saving your identity securely…"
 msgstr "Saving your identity securely…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Saving…"
 msgstr "Saving…"
@@ -2411,6 +4090,14 @@ msgstr "Search Buzz"
 #: src/app/shell/PageSearch.tsx
 msgid "Search Buzz ({0})"
 msgstr "Search Buzz ({0})"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Search covers your latest {SENT_LIMIT} messages."
+msgstr "Search covers your latest {SENT_LIMIT} messages."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Search drafts and sent messages"
+msgstr "Search drafts and sent messages"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Search in"
@@ -2437,6 +4124,29 @@ msgstr "Search..."
 msgid "Security"
 msgstr "Security"
 
+#. placeholder {0}: attachment.name
+#: src/features/messages/AudioAttachment.tsx
+msgid "Seek {0}"
+msgstr "Seek {0}"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Seek audio"
+msgstr "Seek audio"
+
+#. placeholder {0}: marker.label
+#. placeholder {1}: marker.author
+#: src/features/messages/VideoPlayer.tsx
+msgid "Seek to {0}, {1}"
+msgstr "Seek to {0}, {1}"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Selected message unavailable."
+msgstr "Selected message unavailable."
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Send"
+msgstr "Send"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Send a message to {channelName}"
 msgstr "Send a message to {channelName}"
@@ -2461,9 +4171,21 @@ msgstr "Send immediately"
 msgid "Send message"
 msgstr "Send message"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Send omits model and effort overrides; the agent or provider decides which model runs"
+msgstr "Send omits model and effort overrides; the agent or provider decides which model runs"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Send this message to a person, with an optional note."
+msgstr "Send this message to a person, with an optional note."
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Send to channel"
 msgstr "Send to channel"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Sending message…"
+msgstr "Sending message…"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Sending to"
@@ -2472,6 +4194,47 @@ msgstr "Sending to"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Sending to channel"
 msgstr "Sending to channel"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Sending…"
+msgstr "Sending…"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Sent"
+msgstr "Sent"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Sent from"
+msgstr "Sent from"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Sent message in {title}"
+msgstr "Sent message in {title}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Sent messages could not be loaded."
+msgstr "Sent messages could not be loaded."
+
+#. placeholder {0}: place(current.entry.channelId).title
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Sent to {0}."
+msgstr "Sent to {0}."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session action failed"
+msgstr "Session action failed"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session compacted"
+msgstr "Session compacted"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session controls"
+msgstr "Session controls"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session controls for this chat"
+msgstr "Session controls for this chat"
 
 #: src/app/shell/ProfileButton.tsx
 #: src/features/user-status/StatusEditor.tsx
@@ -2536,8 +4299,22 @@ msgid "Shorten the text and try again."
 msgstr "Shorten the text and try again."
 
 #: src/app/AppearanceSettings.tsx
+#: src/features/messages/ActivityGroupPreview.tsx
+#: src/features/messages/MessageRow.tsx
 msgid "Show"
 msgstr "Show"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "Show {hidden} more {hiddenNoun}"
+msgstr "Show {hidden} more {hiddenNoun}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Show comments"
+msgstr "Show comments"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "Show fewer previews"
+msgstr "Show fewer previews"
 
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Show my local time on my profile"
@@ -2559,6 +4336,10 @@ msgstr "Show seconds"
 msgid "Show sidebar"
 msgstr "Show sidebar"
 
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "Show tasks and chats in {title}"
+msgstr "Show tasks and chats in {title}"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Show time zone details on profiles"
 msgstr "Show time zone details on profiles"
@@ -2566,6 +4347,14 @@ msgstr "Show time zone details on profiles"
 #: src/app/AppearanceSettings.tsx
 msgid "Show unread first in search"
 msgstr "Show unread first in search"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Showing 500 drafts."
+msgstr "Showing 500 drafts."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Showing your latest {SENT_LIMIT} messages."
+msgstr "Showing your latest {SENT_LIMIT} messages."
 
 #. placeholder {0}: leaving.membership.localName
 #: src/features/communities/CommunityPicker.tsx
@@ -2579,6 +4368,10 @@ msgstr "Shows a dot for unread activity in the selected community. It doesn’t 
 #: src/app/AppearanceSettings.tsx
 msgid "Side pane"
 msgstr "Side pane"
+
+#: src/features/channel-navigation/SidebarBoundary.tsx
+msgid "Sidebar"
+msgstr "Sidebar"
 
 #: src/features/identity/Welcome.tsx
 msgid "Sign in"
@@ -2642,6 +4435,10 @@ msgstr "Some of your backups couldn’t be recovered, and the ones that were don
 msgid "Some parts of Buzz are not translated yet."
 msgstr "Some parts of Buzz are not translated yet."
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Some saved drafts could not be read. They are unchanged."
+msgstr "Some saved drafts could not be read. They are unchanged."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Someone joined this chat. Tag an agent to send."
 msgstr "Someone joined this chat. Tag an agent to send."
@@ -2649,6 +4446,10 @@ msgstr "Someone joined this chat. Tag an agent to send."
 #: src/app/NotificationSettings.tsx
 msgid "Sound"
 msgstr "Sound"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Spam"
+msgstr "Spam"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Spelling preference wasn’t saved"
@@ -2658,13 +4459,33 @@ msgstr "Spelling preference wasn’t saved"
 msgid "Spoiler"
 msgstr "Spoiler"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Starred"
+msgstr "Starred"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Start a new session"
+msgstr "Start a new session"
+
 #: src/features/identity/KeyLost.tsx
 msgid "Start over with a new key"
 msgstr "Start over with a new key"
 
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Start the conversation below."
+msgstr "Start the conversation below."
+
 #: src/features/communities/CommunityDialog.tsx
 msgid "Start with your local profile, or choose how you appear in this community."
 msgstr "Start with your local profile, or choose how you appear in this community."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "starting a new session"
+msgstr "starting a new session"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Starting direct messages is unavailable on this connection."
+msgstr "Starting direct messages is unavailable on this connection."
 
 #: src/features/identity/KeyLost.tsx
 msgid "Starting over permanently unlinks your old key."
@@ -2698,9 +4519,35 @@ msgstr "Still can’t connect. Check your connection, then try again."
 msgid "Still can’t connect. We’ll keep trying."
 msgstr "Still can’t connect. We’ll keep trying."
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Stop"
+msgstr "Stop"
+
+#. placeholder {0}: name(pubkey)
+#. placeholder {1}: stopScopeLabel(pubkey, root)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Stop {0}{1}"
+msgstr "Stop {0}{1}"
+
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "Stop {name}"
+msgstr "Stop {name}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Stopping…"
+msgstr "Stopping…"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
 msgstr "Strikethrough"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Submit report"
+msgstr "Submit report"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Submitting report…"
+msgstr "Submitting report…"
 
 #: src/features/communities/CommunityPicker.tsx
 msgid "Switch community"
@@ -2766,6 +4613,10 @@ msgstr "That doesn’t look like a valid nsec. Paste an nsec1 key."
 msgid "That isn’t the key linked to this account. It expects"
 msgstr "That isn’t the key linked to this account. It expects"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "That message is no longer available."
+msgstr "That message is no longer available."
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "The draft changed or this link exceeds the message limit. Close and try again."
 msgstr "The draft changed or this link exceeds the message limit. Close and try again."
@@ -2782,6 +4633,14 @@ msgstr "The installed plugin changed after this update was checked."
 msgid "The message can't be edited right now"
 msgstr "The message can't be edited right now"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "The previous placement is shown. A partial save may already exist on the relay."
+msgstr "The previous placement is shown. A partial save may already exist on the relay."
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "The recipient can open the original only if they have access to its conversation."
+msgstr "The recipient can open the original only if they have access to its conversation."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "The session changed. Review its channel and retry."
 msgstr "The session changed. Review its channel and retry."
@@ -2794,6 +4653,14 @@ msgstr "The team would exceed the message length or 32-recipient limit. Nothing 
 msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
 msgstr "The update candidate changed after it was checked. Check for updates again before reviewing it."
 
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "This {placeWord} is archived"
+msgstr "This {placeWord} is archived"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "This {placeWord} is read-only{joinKeepNote}"
+msgstr "This {placeWord} is read-only{joinKeepNote}"
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "This account or community changed. Open Local settings again."
 msgstr "This account or community changed. Open Local settings again."
@@ -2802,9 +4669,21 @@ msgstr "This account or community changed. Open Local settings again."
 msgid "This address isn’t a Buzz community."
 msgstr "This address isn’t a Buzz community."
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "This agent is no longer available for direct messages. Choose another person."
+msgstr "This agent is no longer available for direct messages. Choose another person."
+
 #: src/app/NotificationSettings.tsx
 msgid "This build can’t show system notifications."
 msgstr "This build can’t show system notifications."
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "this channel"
+msgstr "this channel"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "this chat"
+msgstr "this chat"
 
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device."
@@ -2826,6 +4705,14 @@ msgstr "This computer’s key was backed up in Builderlab: sign in to its accoun
 msgid "This conversation"
 msgstr "This conversation"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This conversation could not be opened. It may have been removed, or your access may have changed."
+msgstr "This conversation could not be opened. It may have been removed, or your access may have changed."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This conversation could not be opened. Try again."
+msgstr "This conversation could not be opened. Try again."
+
 #: src/features/messages/MessageManagement.tsx
 msgid "This conversation is no longer available for changes."
 msgstr "This conversation is no longer available for changes."
@@ -2833,6 +4720,18 @@ msgstr "This conversation is no longer available for changes."
 #: src/bundled/channels/PageTabs.tsx
 msgid "This conversation is no longer available."
 msgstr "This conversation is no longer available."
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "This conversation is not available for replying right now."
+msgstr "This conversation is not available for replying right now."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This conversation is not available right now"
+msgstr "This conversation is not available right now"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "This conversation isn’t available right now. Your draft is still saved."
+msgstr "This conversation isn’t available right now. Your draft is still saved."
 
 #: src/features/identity/Welcome.tsx
 msgid "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
@@ -2845,6 +4744,14 @@ msgstr "This device’s time zone is shared by default. Uncheck and save to stop
 #: src/features/messages/MessageComposer.tsx
 msgid "This draft changed elsewhere. Your edits are kept here; choose which draft to keep."
 msgstr "This draft changed elsewhere. Your edits are kept here; choose which draft to keep."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This draft could not be cleared. Try again."
+msgstr "This draft could not be cleared. Try again."
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "This draft has no text to copy."
+msgstr "This draft has no text to copy."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "This is the relay URL you use to connect to this community."
@@ -2869,6 +4776,14 @@ msgstr "This may already have reached the conversation. Retry sends the same ope
 #: src/features/messages/MessageComposer.tsx
 msgid "This message is no longer available to edit."
 msgstr "This message is no longer available to edit."
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "This message isn’t available."
+msgstr "This message isn’t available."
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "This message isn’t available. It may have been deleted."
+msgstr "This message isn’t available. It may have been deleted."
 
 #: src/features/messages/MessageManagement.tsx
 msgid "This message wasn’t sent. Deleting it removes it from this device. This cannot be undone."
@@ -2910,10 +4825,22 @@ msgstr "This relay connection supports reading only."
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 msgstr "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "This saved draft does not identify a thread root. Open its origin to check the destination."
+msgstr "This saved draft does not identify a thread root. Open its origin to check the destination."
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "this section"
+msgstr "this section"
+
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
 msgstr "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "This thread didn’t load."
+msgstr "This thread didn’t load."
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
@@ -2922,6 +4849,42 @@ msgstr "This week"
 #: src/features/identity/RestoreIdentity.tsx
 msgid "This won’t change the identity linked to your account."
 msgstr "This won’t change the identity linked to your account."
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "thread"
+msgstr "thread"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "Thread"
+msgstr "Thread"
+
+#. placeholder {0}: row.sentFromThread.excerpt
+#: src/features/messages/MessageRow.tsx
+msgid "Thread — {0}"
+msgstr "Thread — {0}"
+
+#. placeholder {0}: text || root.slice(0, 8)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Thread · {0}"
+msgstr "Thread · {0}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "Thread history limit reached."
+msgstr "Thread history limit reached."
+
+#: src/features/messages/MessageRow.tsx
+msgid "Thread marked unread"
+msgstr "Thread marked unread"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Thread marked unread on this device only"
+msgstr "Thread marked unread on this device only"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Thread messages"
+msgstr "Thread messages"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Thread preference wasn’t saved"
@@ -2939,7 +4902,13 @@ msgstr "Time zone"
 msgid "Timestamps"
 msgstr "Timestamps"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "To:"
+msgstr "To:"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/features/user-status/StatusEditor.tsx
+#: src/shared/datetime.ts
 msgid "Today"
 msgstr "Today"
 
@@ -2951,11 +4920,16 @@ msgstr "Toggle formatting"
 msgid "Toggle tab pane"
 msgstr "Toggle tab pane"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Transfer complete; waiting for server confirmation"
+msgstr "Transfer complete; waiting for server confirmation"
+
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/Welcome.tsx
 #: src/features/messages/MessageComposer.tsx
+#: src/features/messages/ThreadPanel.tsx
 msgid "Try again"
 msgstr "Try again"
 
@@ -2967,13 +4941,49 @@ msgstr "Try recovery again"
 msgid "Type “{WIPE_PHRASE}” to confirm"
 msgstr "Type “{WIPE_PHRASE}” to confirm"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
+msgstr "Type at least {SEARCH_MIN_CHARS} characters to search people."
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Unavailable"
+msgstr "Unavailable"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Unavailable conversation"
+msgstr "Unavailable conversation"
+
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "Unfiled"
+msgstr "Unfiled"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Unfollow thread"
 msgstr "Unfollow thread"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "Unknown author"
+msgstr "Unknown author"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Unknown person"
+msgstr "Unknown person"
+
 #: src/features/identity/setup.ts
 msgid "Unlinking your old key…"
 msgstr "Unlinking your old key…"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Unmute"
+msgstr "Unmute"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Unmute video"
+msgstr "Unmute video"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "Unsent draft"
+msgstr "Unsent draft"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Until"
@@ -3013,6 +5023,26 @@ msgstr "Update this community’s profile. Other community profiles stay unchang
 msgid "Updating to {targetLabel}…"
 msgstr "Updating to {targetLabel}…"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Upload failed"
+msgstr "Upload failed"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Upload failed. Retry or remove it to send."
+msgstr "Upload failed. Retry or remove it to send."
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Uploading"
+msgstr "Uploading"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Uploading files…"
+msgstr "Uploading files…"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Uploading…"
+msgstr "Uploading…"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Uploads are unavailable on this connection."
 msgstr "Uploads are unavailable on this connection."
@@ -3047,6 +5077,11 @@ msgstr "Used for new communities. Existing community profiles stay unchanged."
 msgid "Username"
 msgstr "Username"
 
+#. placeholder {0}: runs.label
+#: src/features/messages/ComposerModels.tsx
+msgid "Using {0}{effortSuffix}"
+msgstr "Using {0}{effortSuffix}"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Vacationing"
 msgstr "Vacationing"
@@ -3063,13 +5098,97 @@ msgstr "Vibe level"
 msgid "Vibe level wasn’t saved"
 msgstr "Vibe level wasn’t saved"
 
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Video"
+msgstr "Video"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Video attachment"
+msgstr "Video attachment"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video progress"
+msgstr "Video progress"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Video review"
+msgstr "Video review"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video timeline"
+msgstr "Video timeline"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Video unavailable"
+msgstr "Video unavailable"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video volume"
+msgstr "Video volume"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video volume controls"
+msgstr "Video volume controls"
+
+#. placeholder {0}: descendants.length
+#: src/features/messages/ThreadPanel.tsx
+msgid "View {0} {replyWord}"
+msgstr "View {0} {replyWord}"
+
+#. placeholder {0}: name(pubkey)
+#: src/features/messages/TypingIndicator.tsx
+msgid "View {0} activity"
+msgstr "View {0} activity"
+
+#: src/features/messages/MessageRow.tsx
+msgid "View {name} profile"
+msgstr "View {name} profile"
+
+#: src/features/messages/MessageRow.tsx
+msgid "View activity"
+msgstr "View activity"
+
+#. placeholder {0}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "View all {0} {mediaLabel}, starting at {startKind} 4"
+msgstr "View all {0} {mediaLabel}, starting at {startKind} 4"
+
+#. placeholder {0}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "View all {0} {mediaLabel}, starting at item 4"
+msgstr "View all {0} {mediaLabel}, starting at item 4"
+
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "View channel details"
 msgstr "View channel details"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "View message in {where}: {line}"
+msgstr "View message in {where}: {line}"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+msgid "View thread"
+msgstr "View thread"
+
+#. placeholder {0}: row.replyCount
+#: src/features/messages/MessageRow.tsx
+msgid "View thread: {0} {replyCountWord}"
+msgstr "View thread: {0} {replyCountWord}"
+
+#: src/features/messages/ActivityGroupActions.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "View transcript"
+msgstr "View transcript"
+
 #: src/features/messages/MessageComposer.tsx
+#: src/features/messages/QueuedFollowUps.tsx
 msgid "Wait for compaction to finish, or interrupt it."
 msgstr "Wait for compaction to finish, or interrupt it."
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Wait for the active turn to finish before {waitVerb}."
+msgstr "Wait for the active turn to finish before {waitVerb}."
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Waiting for {name} to connect."
@@ -3136,21 +5255,67 @@ msgstr "With nothing typed, search leads with unread channels and DMs and select
 msgid "With someone’s local time, shows how far ahead or behind you they are and their time zone."
 msgstr "With someone’s local time, shows how far ahead or behind you they are and their time zone."
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Work with unconfirmed thread"
+msgstr "Work with unconfirmed thread"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Workflow"
+msgstr "Workflow"
+
 #: src/app/shell/BestieNavigation.tsx
 msgid "Workflows"
 msgstr "Workflows"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Working now"
+msgstr "Working now"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Working remotely"
 msgstr "Working remotely"
 
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "Workspace actions"
+msgstr "Workspace actions"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/shared/datetime.ts
+msgid "Yesterday"
+msgstr "Yesterday"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/features/messages/MessageReactions.tsx
+msgid "You"
+msgstr "You"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "You can load older messages once Buzz reconnects."
+msgstr "You can load older messages once Buzz reconnects."
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "You can message up to {maxRecipients} people at once."
+msgstr "You can message up to {maxRecipients} people at once."
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "You can’t post in {title} anymore. Your draft is still saved."
+msgstr "You can’t post in {title} anymore. Your draft is still saved."
+
 #: src/app/App.tsx
 msgid "You don’t have access to this"
 msgstr "You don’t have access to this"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "You’re last"
+msgstr "You’re last"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "You're on the latest version."
 msgstr "You're on the latest version."
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "You’re previewing this {placeWord}"
+msgstr "You’re previewing this {placeWord}"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Your account is unavailable. Open Local settings again."
@@ -3189,9 +5354,17 @@ msgstr "Your Buzz identity"
 msgid "Your channels, one conversation."
 msgstr "Your channels, one conversation."
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Your conversations are still available."
+msgstr "Your conversations are still available."
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Your current identity isn’t in these backups. You can choose a previous identity."
 msgstr "Your current identity isn’t in these backups. You can choose a previous identity."
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Your drafts and sent messages appear once a community is selected."
+msgstr "Your drafts and sent messages appear once a community is selected."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Your edit is still in the outbox."
@@ -3268,3 +5441,11 @@ msgstr "Your status is unavailable"
 #: src/app/shell/ProfileButton.tsx
 msgid "Your status: {label}"
 msgstr "Your status: {label}"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Zoom out"
+msgstr "Zoom out"

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { ChannelLifecycleCapability } from "../relay/channel-lifecycle";
 import { ChannelLifecycleUnconfirmed } from "../relay/channel-lifecycle";
@@ -32,6 +34,7 @@ export function ChannelJoinNotice({
   onJoin(): void;
   onHeightChange?(height: number): void;
 }) {
+  const { i18n, t } = useLingui();
   const notice = useRef<HTMLElement>(null);
   // Notices float above Join, not over it.
   useToastClearance(notice);
@@ -55,6 +58,8 @@ export function ChannelJoinNotice({
   useEffect(() => () => controller.current?.abort(), []);
   const pending = state?.channelId === channelId && state.error === undefined;
   const error = state?.channelId === channelId ? state.error : undefined;
+  // place 是 "chat" | "channel" 枚举值，插值前先翻成可读词。
+  const placeWord = place === "chat" ? t`chat` : t`channel`;
   const join = () => {
     if (!lifecycle || pending) return;
     controller.current?.abort();
@@ -72,27 +77,32 @@ export function ChannelJoinNotice({
           channelId,
           error:
             reason instanceof ChannelLifecycleUnconfirmed
-              ? "Join may have taken effect, but it is not confirmed yet. Try again to check."
+              ? i18n._(
+                  msg`Join may have taken effect, but it is not confirmed yet. Try again to check.`,
+                )
               : reason instanceof Error
                 ? reason.message
-                : `Couldn’t join this ${place}.`,
+                : i18n._(msg`Couldn’t join this ${placeWord}.`),
         });
       },
     );
   };
   const readOnly = guest || joinRole === "guest";
   const canJoin = !archived && !guest && joinable && !!lifecycle?.available;
+  const joinKeepNote = canJoin
+    ? t`. Join to keep it in your sidebar and appear as a viewer.`
+    : "";
   return (
     <section
       ref={notice}
       aria-label={
         archived
-          ? `Archived ${place}`
+          ? t`Archived ${placeWord}`
           : readOnly
-            ? `Read-only ${place}`
+            ? t`Read-only ${placeWord}`
             : place === "chat"
-              ? "Chat preview"
-              : "Channel preview"
+              ? t`Chat preview`
+              : t`Channel preview`
       }
       aria-hidden={!visible}
       inert={!visible}
@@ -105,14 +115,14 @@ export function ChannelJoinNotice({
       >
         <p className="max-w-md px-2 text-center text-body-sm text-subtle">
           {archived
-            ? `This ${place} is archived`
+            ? t`This ${placeWord} is archived`
             : readOnly
               ? joinRole === "guest"
-                ? `This ${place} is read-only${canJoin ? ". Join to keep it in your sidebar and appear as a viewer." : ""}`
-                : "Read-only access"
+                ? t`This ${placeWord} is read-only${joinKeepNote}`
+                : t`Read-only access`
               : canJoin
-                ? `Join ${place} to send messages`
-                : `You’re previewing this ${place}`}
+                ? t`Join ${placeWord} to send messages`
+                : t`You’re previewing this ${placeWord}`}
         </p>
         {canJoin && (
           <Button
@@ -121,7 +131,7 @@ export function ChannelJoinNotice({
             loading={pending}
             onClick={join}
           >
-            Join
+            {t`Join`}
           </Button>
         )}
         {canJoin && error && (

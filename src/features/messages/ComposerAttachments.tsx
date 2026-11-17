@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type {
   AttachmentRenderer,
   ContributionReader,
@@ -56,6 +57,7 @@ export function ComposerAttachments({
   /** The section finished animating out after the last item was removed. */
   onExitComplete?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const active = useConversationPresentation();
   const mixed = items.some((item) => {
     const { image, video } = draftAttachmentMedia(item);
@@ -82,7 +84,7 @@ export function ComposerAttachments({
         {shown && (
           <motion.section
             key="attachments"
-            aria-label="Attachments"
+            aria-label={t`Attachments`}
             className={styles.attachments}
             initial={instant ? false : { height: 0, overflow: "hidden" }}
             animate={{
@@ -188,6 +190,7 @@ function GifItem({
   disabled: boolean;
   remove(): void;
 }) {
+  const { t } = useLingui();
   const { instant, appearance } = useItemAppearance();
   const [failed, setFailed] = useState<string>();
   const source = gif.source && failed !== gif.source ? gif.source : undefined;
@@ -219,7 +222,7 @@ function GifItem({
           type="button"
           disabled={disabled}
           data-remove-action=""
-          aria-label={`Remove ${gif.title}`}
+          aria-label={t`Remove ${gif.title}`}
           onClick={remove}
           icon={<XIcon size={16} />}
         />
@@ -245,6 +248,7 @@ function AttachmentItem({
   remove(id: string): void;
   retry(id: string): void;
 }) {
+  const { t } = useLingui();
   const { instant, appearance } = useItemAppearance();
   const { source, image, video } = useDraftAttachmentSource(item, media);
   const previewButton = useRef<HTMLButtonElement>(null);
@@ -263,17 +267,18 @@ function AttachmentItem({
       : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   const uploadFailed = item.status === "error";
   const status = {
-    queued: "Queued",
-    preparing: "Preparing…",
-    uploading: "Uploading…",
-    ready: "Ready",
-    error: "Upload failed",
+    queued: t`Queued`,
+    preparing: t`Preparing…`,
+    uploading: t`Uploading…`,
+    ready: t`Ready`,
+    error: t`Upload failed`,
   }[item.status];
   // Preparation has no byte total; transfer progress comes from the host.
   const busy =
     item.status === "queued" ||
     item.status === "preparing" ||
     item.status === "uploading";
+  const transferState = item.status === "queued" ? t`Queued` : t`Uploading`;
   if (item.voice && source && renderers)
     return (
       <motion.li {...appearance} className={styles.voiceItem} data-voice-draft>
@@ -299,7 +304,7 @@ function AttachmentItem({
                   disabled={disabled}
                   onClick={() => remove(item.id)}
                 >
-                  Remove voice note
+                  {t`Remove voice note`}
                 </button>
               </div>
             }
@@ -313,7 +318,7 @@ function AttachmentItem({
               disabled={disabled}
               onClick={() => retry(item.id)}
             >
-              Retry voice note upload
+              {t`Retry voice note upload`}
             </button>
           </>
         )}
@@ -334,7 +339,7 @@ function AttachmentItem({
           data-draft-preview={item.id}
           className={styles.preview}
           type="button"
-          aria-label={`Preview ${item.file.name}`}
+          aria-label={t`Preview ${item.file.name}`}
           onClick={(event) => {
             prepareReviewEntrance(event);
             preview(event.currentTarget);
@@ -393,7 +398,7 @@ function AttachmentItem({
             style={{ width: "100%", height: "100%", borderRadius: "inherit" }}
             ref={previewButton}
             data-draft-preview={item.id}
-            aria-label={`Preview ${item.file.name}`}
+            aria-label={t`Preview ${item.file.name}`}
             onClick={(event) => preview(event.currentTarget)}
             icon={<FileTypeIcon name={item.file.name} mime={item.file.type} />}
           />
@@ -412,12 +417,12 @@ function AttachmentItem({
           <span className="sr-only">{item.file.name}: </span>
           {uploadFailed ? size : `${size} · ${status}`}
         </span>
-        {failed && <span className="sr-only">Preview unavailable</span>}
+        {failed && <span className="sr-only">{t`Preview unavailable`}</span>}
       </div>
       {uploadFailed && (
         <p className={styles.error} role="alert">
           <span className="sr-only">{item.file.name}: </span>
-          {item.error || "Upload failed. Retry or remove it to send."}
+          {item.error || t`Upload failed. Retry or remove it to send.`}
         </p>
       )}
       <div
@@ -429,7 +434,7 @@ function AttachmentItem({
             <Button
               size="sm"
               disabled={disabled}
-              aria-label={`Retry ${item.file.name}`}
+              aria-label={t`Retry ${item.file.name}`}
               onClick={(event) => {
                 // Retry replaces this control. Hand off only focus that it owns.
                 if (document.activeElement === event.currentTarget)
@@ -437,16 +442,16 @@ function AttachmentItem({
                 retry(item.id);
               }}
             >
-              Retry
+              {t`Retry`}
             </Button>
             <Button
               size="sm"
               variant="ghost"
               disabled={disabled}
-              aria-label={`Remove ${item.file.name}`}
+              aria-label={t`Remove ${item.file.name}`}
               onClick={() => remove(item.id)}
             >
-              Remove
+              {t`Remove`}
             </Button>
           </>
         ) : (
@@ -457,8 +462,8 @@ function AttachmentItem({
             type="button"
             disabled={disabled}
             data-remove-action={!busy ? "" : undefined}
-            aria-label={`Remove ${item.file.name}`}
-            title={busy ? "Cancel upload and remove attachment" : undefined}
+            aria-label={t`Remove ${item.file.name}`}
+            title={busy ? t`Cancel upload and remove attachment` : undefined}
             onClick={() => remove(item.id)}
             icon={
               busy ? (
@@ -466,7 +471,7 @@ function AttachmentItem({
                   <span
                     className={styles.progress}
                     role="progressbar"
-                    aria-label={`${item.status === "queued" ? "Queued" : "Uploading"} ${item.file.name}`}
+                    aria-label={t`${transferState} ${item.file.name}`}
                     aria-valuemin={0}
                     aria-valuemax={100}
                     aria-valuenow={
@@ -479,11 +484,11 @@ function AttachmentItem({
                     aria-valuetext={
                       item.transfer
                         ? item.transfer.sent === item.transfer.total
-                          ? "Transfer complete; waiting for server confirmation"
+                          ? t`Transfer complete; waiting for server confirmation`
                           : undefined
                         : item.status === "queued"
-                          ? "Queued"
-                          : "Preparing upload"
+                          ? t`Queued`
+                          : t`Preparing upload`
                     }
                   >
                     <svg

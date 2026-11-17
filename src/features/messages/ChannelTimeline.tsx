@@ -1,4 +1,5 @@
 // biome-ignore-all lint/a11y/noNoninteractiveTabindex: The history region must support keyboard scrolling.
+import { useLingui } from "@lingui/react/macro";
 import { AgentConnectionSetup } from "../agents/AgentConnectionSetup";
 import { TypingIndicator, useLiveConversationAgents } from "./TypingIndicator";
 import { ActivityGroupPreview } from "./ActivityGroupPreview";
@@ -276,6 +277,7 @@ function Timeline({
   chatPresentation = false,
   startsThreads = true,
 }: ChannelTimelineProps) {
+  const { t } = useLingui();
   useMessageSelectionCopy();
   const shownIntro =
     !window.hasMore && !window.historyLimited ? intro : undefined;
@@ -2050,7 +2052,7 @@ function Timeline({
         }
       }}
       tabIndex={0}
-      aria-label="Channel message history"
+      aria-label={t`Channel message history`}
       onScroll={(event) => {
         // React may receive this event before Virtua updates its handle metrics.
         const element = event.currentTarget;
@@ -2079,9 +2081,9 @@ function Timeline({
         {shownIntro}
         {edgeError && <span role="alert">{edgeError}</span>}
         {window.historyLimited ? (
-          <span>History window limit reached</span>
+          <span>{t`History window limit reached`}</span>
         ) : window.hasMore && queries.channels.cachedOnly ? (
-          <span>You can load older messages once Buzz reconnects.</span>
+          <span>{t`You can load older messages once Buzz reconnects.`}</span>
         ) : window.hasMore && (historyControl === "button" || window.error) ? (
           <Button
             type="button"
@@ -2094,13 +2096,13 @@ function Timeline({
             }}
           >
             {window.loadingOlder
-              ? "Loading older…"
+              ? t`Loading older…`
               : window.error
-                ? "Retry older messages"
-                : "Load older messages"}
+                ? t`Retry older messages`
+                : t`Load older messages`}
           </Button>
         ) : window.loadingOlder ? (
-          <span role="status">Loading older…</span>
+          <span role="status">{t`Loading older…`}</span>
         ) : null}
       </div>
       <JumpToLatestButton
@@ -2263,10 +2265,10 @@ function Timeline({
                   >
                     <hr
                       className="sr-only select-none"
-                      aria-label="New messages"
+                      aria-label={t`New messages`}
                     />
                     <span className="select-none" aria-hidden="true">
-                      New messages
+                      {t`New messages`}
                     </span>
                   </div>
                 )}
@@ -2327,9 +2329,9 @@ function Timeline({
           <div className={styles.emptyConversation}>
             <EmptyState
               icon={<ChatCircleIcon />}
-              title="No messages yet."
+              title={t`No messages yet.`}
               description={
-                composerless ? undefined : "Start the conversation below."
+                composerless ? undefined : t`Start the conversation below.`
               }
             />
           </div>

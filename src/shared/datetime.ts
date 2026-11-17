@@ -9,6 +9,10 @@
  * Clock times follow the hour cycle and seconds chosen in Appearance settings.
  */
 
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：所有 Lingui 宏都解析到它（见 lingui.config.ts）。
+// 日期标签在每次调用时求值，语言切换后随下一次渲染生效。
+import { i18n } from "../features/localization/service";
 import { clockHourCycle, clockPreference } from "./clock-preference";
 
 let defaultsChecked = false;
@@ -133,8 +137,8 @@ export function formatDayGroupLabel(
   const now = new Date(nowSeconds * 1_000);
   const dayDiff = calendarDaysBetween(now, date);
   const f = dateFormats();
-  if (dayDiff === 0) return "Today";
-  if (dayDiff === 1) return "Yesterday";
+  if (dayDiff === 0) return i18n._(msg`Today`);
+  if (dayDiff === 1) return i18n._(msg`Yesterday`);
   // Bounded below too: a future timestamp (clock skew) must not get a weekday
   // that reads as the recent past.
   if (dayDiff > 1 && dayDiff < WEEKDAY_BAND_DAYS) return f.weekday.format(date);
@@ -175,13 +179,13 @@ export function formatItemTimestamp(
   if (dayDiff === 0) return time;
   const dayLabel =
     dayDiff === 1
-      ? "Yesterday"
+      ? i18n._(msg`Yesterday`)
       : dayDiff > 1 && dayDiff < WEEKDAY_BAND_DAYS
         ? f.weekday.format(date)
         : date.getFullYear() === now.getFullYear()
           ? f.shortWeekdayMonthDay.format(date)
           : f.shortMonthDayYear.format(date);
-  return withTime ? `${dayLabel} at ${time}` : dayLabel;
+  return withTime ? i18n._(msg`${dayLabel} at ${time}`) : dayLabel;
 }
 
 /** The complete date and time, such as a timestamp's hover text:

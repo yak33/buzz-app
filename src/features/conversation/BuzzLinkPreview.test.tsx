@@ -2,6 +2,7 @@
 import { act, cleanup, render } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
 import { BuzzLinkPreview, previewFailures } from "./BuzzLinkPreview";
+import { i18n } from "../localization/service";
 import type { RelaySession } from "../relay/session";
 import type { ThreadSnapshot, ThreadView } from "../relay/threads";
 import type {
@@ -172,13 +173,13 @@ const purged: ThreadSnapshot = {
 };
 it("says why each stopped read fails instead of loading forever, and that the card opens", () => {
   const failed = setup({ ...base, status: "error", error: "read failed" });
-  expect(text(failed.tree)).toBe(previewFailures.unavailable);
+  expect(text(failed.tree)).toBe(i18n._(previewFailures.unavailable));
   expect(failed.tree.textContent).toContain("Open link");
   // purge() on a denied or revoked channel publishes idle + an error string,
   // never status "error". With no lookup to wait for, the card still stops.
-  expect(text(setup(purged).tree)).toBe(previewFailures.unavailable);
+  expect(text(setup(purged).tree)).toBe(i18n._(previewFailures.unavailable));
   const exhausted = setup({ ...base, status: "ready", root: undefined });
-  expect(text(exhausted.tree)).toBe(previewFailures["not-found"]);
+  expect(text(exhausted.tree)).toBe(i18n._(previewFailures["not-found"]));
   // A readable channel without the message names the channel. An empty exact
   // read isn't evidence of a deletion, so the card doesn't claim one.
   const missing = setup(
@@ -194,7 +195,7 @@ it("says why each stopped read fails instead of loading forever, and that the ca
   expect(missing.tree.textContent).toContain("Public channel · Not joined");
   expect(missing.tree.textContent).toContain("Open link");
   const withheld = setup(base, root.id, undefined, { state: "withheld" });
-  expect(text(withheld.tree)).toBe(previewFailures.withheld);
+  expect(text(withheld.tree)).toBe(i18n._(previewFailures.withheld));
   expect(withheld.tree.textContent).toContain("Open link");
   expect(withheld.thread).not.toHaveBeenCalled();
 });
@@ -213,7 +214,7 @@ it("waits for the channel lookup before trusting a refused read, then reads agai
   for (const record of observer.takeRecords())
     for (const node of record.addedNodes) painted.push(node.textContent ?? "");
   observer.disconnect();
-  expect(painted.join(" ")).not.toContain(previewFailures.unavailable);
+  expect(painted.join(" ")).not.toContain(i18n._(previewFailures.unavailable));
   expect(h.thread).toHaveBeenCalledTimes(2);
   expect(h.views[0]?.view.dispose).toHaveBeenCalledOnce();
   expect(h.views[1]?.view.refresh).toHaveBeenCalledOnce();
@@ -238,7 +239,7 @@ it("never shows a read that started before the lookup found the channel", () => 
 it("stops reading a channel the lookup withholds", () => {
   const h = setup(purged, root.id, undefined, { state: "looking" });
   h.answer({ state: "withheld" });
-  expect(text(h.tree)).toBe(previewFailures.withheld);
+  expect(text(h.tree)).toBe(i18n._(previewFailures.withheld));
   expect(h.thread).toHaveBeenCalledOnce();
   expect(h.views[0]?.view.dispose).toHaveBeenCalledOnce();
 });
@@ -247,7 +248,7 @@ it("stops waiting when the channel lookup fails while the read is refused", () =
   expect(text(h.tree)).toBe("Loading message…");
   // The store backs off after a failed lookup, so none is on the way.
   h.answer({ state: "unknown" });
-  expect(text(h.tree)).toBe(previewFailures.unavailable);
+  expect(text(h.tree)).toBe(i18n._(previewFailures.unavailable));
   expect(h.tree.textContent).toContain("Open link");
   expect(h.thread).toHaveBeenCalledOnce();
 });
@@ -257,7 +258,7 @@ it("waits while the channel list loads, and trusts a refused read once it errors
   expect(text(h.tree)).toBe("Loading message…");
   expect(h.refer).not.toHaveBeenCalled();
   h.answer({ state: "unknown" }, "error");
-  expect(text(h.tree)).toBe(previewFailures.unavailable);
+  expect(text(h.tree)).toBe(i18n._(previewFailures.unavailable));
   expect(h.tree.textContent).toContain("Open link");
   expect(h.refer).not.toHaveBeenCalled();
   expect(h.thread).toHaveBeenCalledOnce();
@@ -363,7 +364,7 @@ it("fails safely when an exact target timestamp is outside Date range", () => {
     target,
     targetStatus: "ready",
   });
-  expect(text(result.tree)).toBe(previewFailures.unavailable);
+  expect(text(result.tree)).toBe(i18n._(previewFailures.unavailable));
 });
 
 it("labels a workflow preview as automation, with an owner fallback instead of a signer avatar", () => {

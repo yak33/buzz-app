@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -70,6 +72,7 @@ export function DraftPreview({
   onOpen(): void;
   onSaved(restoreFocus: boolean): void;
 }) {
+  const { i18n, t } = useLingui();
   const region = useRef<HTMLElement>(null);
   const [sent, setSent] = useState<string>();
   const sending = useRef<string | undefined>(undefined);
@@ -155,20 +158,24 @@ export function DraftPreview({
     try {
       const text = mentionDraft(readView(session.scope, entry.id, "")).text;
       if (!text) {
-        setCopyStatus("This draft has no text to copy.");
+        setCopyStatus(i18n._(msg`This draft has no text to copy.`));
         return;
       }
       await writeClipboardText(text);
-      setCopyStatus("Draft text copied.");
+      setCopyStatus(i18n._(msg`Draft text copied.`));
     } catch {
-      setCopyStatus("Could not copy the text. Try again.");
+      setCopyStatus(i18n._(msg`Could not copy the text. Try again.`));
     }
   }
   return (
     <section
       ref={region}
       className={styles.draftPreview}
-      aria-label={`${mode === "draft" ? "Draft for" : "Sent message in"} ${title}`}
+      aria-label={
+        mode === "draft"
+          ? t`Draft for ${title}`
+          : t`Sent message in ${title}`
+      }
       onKeyDown={(event) => {
         if (
           event.key !== "Escape" ||
@@ -189,7 +196,9 @@ export function DraftPreview({
             <IconButton
               ref={back}
               size="sm"
-              aria-label={mode === "draft" ? "Back to drafts" : "Back to sent"}
+              aria-label={
+                mode === "draft" ? t`Back to drafts` : t`Back to sent`
+              }
               icon={<ArrowLeftIcon size="1rem" />}
               onClick={onClose}
             />
@@ -197,15 +206,15 @@ export function DraftPreview({
         }
         title={
           <PanelHeaderLabel
-            title={`${title}${entry.threadRootId ? " · Thread" : ""}`}
+            title={`${title}${entry.threadRootId ? t` · Thread` : ""}`}
           />
         }
         actions={
           <>
             <IconButton
               size="sm"
-              aria-label="Open conversation"
-              title="Open conversation"
+              aria-label={t`Open conversation`}
+              title={t`Open conversation`}
               icon={<ArrowSquareOutIcon size="1rem" />}
               onClick={onOpen}
               disabled={!channel || channel.cached || channel.pending}
@@ -216,8 +225,8 @@ export function DraftPreview({
                 size="sm"
                 aria-label={
                   mode === "draft"
-                    ? "Close draft preview"
-                    : "Close sent preview"
+                    ? t`Close draft preview`
+                    : t`Close sent preview`
                 }
                 icon={<XIcon size="1rem" />}
                 onClick={onClose}
@@ -227,7 +236,7 @@ export function DraftPreview({
         }
       />
       {waiting ? (
-        <LoadingRegion pending label="Loading conversation…">
+        <LoadingRegion pending label={t`Loading conversation…`}>
           {null}
         </LoadingRegion>
       ) : channel && (writable || (mode === "sent" && readable)) ? (
@@ -267,14 +276,14 @@ export function DraftPreview({
         <div className={styles.draftUnavailable}>
           <p className="text-body-sm text-subtle">
             {mode === "sent"
-              ? "This conversation is not available for replying right now."
+              ? t`This conversation is not available for replying right now.`
               : channel
-                ? `You can’t post in ${title} anymore. Your draft is still saved.`
-                : "This conversation isn’t available right now. Your draft is still saved."}
+                ? t`You can’t post in ${title} anymore. Your draft is still saved.`
+                : t`This conversation isn’t available right now. Your draft is still saved.`}
           </p>
           {mode === "draft" && (
             <Button size="sm" onClick={() => void copy()}>
-              Copy text
+              {t`Copy text`}
             </Button>
           )}
           <p role="status" className="text-body-sm text-subtle">

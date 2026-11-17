@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useMediaReadRecovery } from "./use-media-read-recovery";
 import { useVideoGestures } from "./use-video-gestures";
 import { useMediaControls } from "./use-media-controls";
@@ -73,6 +75,7 @@ export function VideoControls({
   markers?: readonly VideoMarker[];
   onMarker?(id: string, seconds: number): void;
 }) {
+  const { i18n, t } = useLingui();
   const corners = useMediaCorners();
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(0);
@@ -157,9 +160,12 @@ export function VideoControls({
     if (!video) return;
     if (playing) video.pause();
     else
-      void video
-        .play()
-        .catch(() => setNotice("Playback paused. Press play to try again."));
+      void video.play().catch(
+        () =>
+          void setNotice(
+            i18n._(msg`Playback paused. Press play to try again.`),
+          ),
+      );
   };
   const seek = (seconds: number) => {
     if (!videoRef.current || !duration) return;
@@ -174,7 +180,7 @@ export function VideoControls({
       <IconButton
         size={inline ? "md" : "sm"}
         variant={inline ? "media" : "ghost"}
-        aria-label={playing ? "Pause video" : "Play video"}
+        aria-label={playing ? t`Pause video` : t`Play video`}
         onClick={toggle}
         icon={playing ? <PauseFilledIcon /> : <PlayFilledIcon />}
       />
@@ -203,7 +209,7 @@ export function VideoControls({
             render={
               <IconButton
                 size="sm"
-                aria-label="Video volume"
+                aria-label={t`Video volume`}
                 icon={
                   muted || volume === 0 ? (
                     <SpeakerSlashIcon />
@@ -215,7 +221,7 @@ export function VideoControls({
             }
           />
           <PopoverPopup
-            aria-label="Video volume controls"
+            aria-label={t`Video volume controls`}
             collisionAvoidance={{ side: "none", align: "shift" }}
             side="top"
             align="center"
@@ -243,7 +249,7 @@ export function VideoControls({
               <input
                 type="range"
                 tabIndex={0}
-                aria-label="Video volume"
+                aria-label={t`Video volume`}
                 aria-orientation="vertical"
                 min={0}
                 max={1}
@@ -262,7 +268,9 @@ export function VideoControls({
             </div>
             <IconButton
               size="sm"
-              aria-label={muted || volume === 0 ? "Unmute video" : "Mute video"}
+              aria-label={
+                muted || volume === 0 ? t`Unmute video` : t`Mute video`
+              }
               onClick={(event) => {
                 const video = videoRef.current;
                 if (!video) return;
@@ -302,7 +310,7 @@ export function VideoControls({
           <input
             type="range"
             tabIndex={0}
-            aria-label={inline ? "Video progress" : "Video timeline"}
+            aria-label={inline ? t`Video progress` : t`Video timeline`}
             aria-valuetext={`${videoTime(time)} / ${videoTime(duration)}`}
             min={0}
             max={duration || 1}
@@ -340,8 +348,8 @@ export function VideoControls({
                   <IconButton
                     size="sm"
                     variant="avatar"
-                    aria-label={`Seek to ${marker.label}, ${marker.author}`}
-                    title={`${marker.label} · ${marker.author}: ${marker.text}`}
+                    aria-label={t`Seek to ${marker.label}, ${marker.author}`}
+                    title={t`${marker.label} · ${marker.author}: ${marker.text}`}
                     onClick={() => {
                       seek(marker.seconds);
                       onMarker?.(marker.id, marker.seconds);
@@ -370,7 +378,8 @@ export function VideoControls({
                   {rate}x
                 </Button>
               }
-              aria-label={`Playback speed: ${rate}x`}
+              aria-label={t`Playback speed: ${rate}x`}
+              data-playback-speed=""
             >
               {rate}x
             </MenuTrigger>

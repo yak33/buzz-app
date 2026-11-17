@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   AnimatePresence,
   motion,
@@ -49,6 +50,7 @@ export function ComposerAttachmentViewer({
   restoreFocus: RefObject<HTMLElement | null>;
   close(): void;
 }) {
+  const { t } = useLingui();
   const index = items.findIndex((item) => item.id === selected);
   const item = items[index];
   const frame = useRef<HTMLElement>(null);
@@ -103,7 +105,7 @@ export function ComposerAttachmentViewer({
   return (
     <MediaReviewFrame
       title={item.file.name}
-      label="Attachment preview"
+      label={t`Attachment preview`}
       isVideo={isVideo}
       video={video}
       frame={frame}
@@ -117,7 +119,7 @@ export function ComposerAttachmentViewer({
           <>
             <IconButton
               size="compact"
-              aria-label="Previous attachment"
+              aria-label={t`Previous attachment`}
               disabled={index === 0}
               onClick={() => navigate(-1)}
               icon={<CaretLeftIcon size={20} />}
@@ -127,7 +129,7 @@ export function ComposerAttachmentViewer({
             </span>
             <IconButton
               size="compact"
-              aria-label="Next attachment"
+              aria-label={t`Next attachment`}
               disabled={index === items.length - 1}
               onClick={() => navigate(1)}
               icon={<CaretRightIcon size={20} />}
@@ -213,6 +215,7 @@ function DraftMedia({
   activeVideo?: RefObject<HTMLVideoElement | null> | undefined;
   initialSource?: string | undefined;
 }) {
+  const { t } = useLingui();
   const [openedItem] = useState(item);
   const [failed, setFailed] = useState<string>();
   const openedMedia = draftAttachmentMedia(openedItem);
@@ -265,13 +268,13 @@ function DraftMedia({
       <p className={styles.mediaReviewUnavailable}>
         {item.file.name}
         <br />
-        No preview available for this file type.
+        {t`No preview available for this file type.`}
       </p>
     );
   if (!source || sourceUnavailable || failed === source)
     return (
       <p className={styles.mediaReviewUnavailable} role="status">
-        Preview unavailable
+        {t`Preview unavailable`}
       </p>
     );
   if (image)
@@ -312,7 +315,7 @@ function DraftMedia({
       <p className={styles.mediaReviewUnavailable}>
         {item.file.name}
         <br />
-        No preview available for this file type.
+        {t`No preview available for this file type.`}
       </p>
     );
   return renderers ? (

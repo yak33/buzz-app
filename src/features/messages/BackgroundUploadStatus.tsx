@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useId, useLayoutEffect, useRef } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { ToastNotice } from "../../shared/design-system/ui/Toast";
@@ -24,6 +25,7 @@ export function BackgroundUploadStatus({
   /** The hosting composer's link handler opens a notice's conversation. */
   onOpenLink?: ((target: string) => boolean) | undefined;
 }) {
+  const { t } = useLingui();
   const uploads = useBackgroundUploads(session);
   const focusedCancel = useRef(false);
   const phase = useId();
@@ -46,8 +48,8 @@ export function BackgroundUploadStatus({
           {/* The text takes the spare width, so the bar and Cancel stay put
               as it changes. */}
           <span id={phase} role="status" className="min-w-0 flex-1 truncate">
-            {`${uploads.phase} to ${uploads.destination.name}`}
-            {uploads.others > 0 && ` and ${uploads.others} more`}
+            {t`${uploads.phase} to ${uploads.destination.name}`}
+            {uploads.others > 0 && t` and ${uploads.others} more`}
           </span>
           {/* Desktop's bar: measured bytes, or an indeterminate sweep while
               the host reports none. It never shows a number. */}
@@ -91,13 +93,13 @@ export function BackgroundUploadStatus({
             }}
             size="sm"
             variant="ghost"
-            aria-label={`Cancel upload to ${uploads.destination.name}`}
+            aria-label={t`Cancel upload to ${uploads.destination.name}`}
             // Pressing Cancel can disable it; focus stays for the handoff above.
             disabled={!uploads.cancellable}
             focusableWhenDisabled
             onClick={() => cancelBackgroundUpload(session)}
           >
-            Cancel
+            {t`Cancel`}
           </Button>
         </div>
       )}
@@ -113,7 +115,7 @@ export function BackgroundUploadStatus({
           >
             {notice.retry && (
               <Button type="button" onClick={notice.retry}>
-                Retry failed send recovery
+                {t`Retry failed send recovery`}
               </Button>
             )}
             {onOpenLink && link && link !== here && (
@@ -124,7 +126,7 @@ export function BackgroundUploadStatus({
                   if (onOpenLink(link) && !notice.retry) dismiss();
                 }}
               >
-                {`Open ${notice.destination.name}`}
+                {t`Open ${notice.destination.name}`}
               </Button>
             )}
           </ToastNotice>

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   ChannelLifecycleDialog,
   lifecycleNoun,
@@ -158,6 +159,7 @@ export function ChannelNavigationProvider({
   relay: RelayData;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const scope = connection.scope ?? "disconnected";
   const mute = useOptimisticMute(connection.session.sidebarPreferences.setMute);
@@ -305,7 +307,7 @@ export function ChannelNavigationProvider({
                     trigger
                       ?.closest("[data-panel-workspace]")
                       ?.querySelector<HTMLElement>(
-                        'button[aria-label="Close Channel settings tab"]',
+                        'button[data-tab-close="settings"]',
                       ) ??
                     trigger
                       ?.closest("aside")
@@ -410,8 +412,12 @@ export function ChannelNavigationProvider({
         .map((intent) => (
           <ToastNotice
             key={intent.channelId}
-            title={`Couldn’t ${intent.muted ? "mute" : "unmute"} ${intent.name}`}
-            description={intent.error ?? "Please try again."}
+            title={
+              intent.muted
+                ? t`Couldn’t mute ${intent.name}`
+                : t`Couldn’t unmute ${intent.name}`
+            }
+            description={intent.error ?? t`Please try again.`}
             tone="warning"
           >
             <Button
@@ -423,7 +429,7 @@ export function ChannelNavigationProvider({
                 muteRecovery.current?.focus(intent.channelId);
               }}
             >
-              Retry
+              {t`Retry`}
             </Button>
             <Button
               type="button"
@@ -433,7 +439,7 @@ export function ChannelNavigationProvider({
                 muteRecovery.current?.focus(intent.channelId);
               }}
             >
-              Dismiss
+              {t`Dismiss`}
             </Button>
           </ToastNotice>
         ))}

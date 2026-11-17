@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { requestWork, isSettledWork } from "../agents/request-work";
 import { ActivityDisclosure } from "./ActivityDisclosure";
 import { ActivityOutcome } from "./ActivityOutcome";
@@ -267,6 +268,7 @@ function MessageRowContent({
   onOpenMediaReview,
   agentPubkeys,
 }: MessageContentProps) {
+  const { t } = useLingui();
   const [avatarFocused, setAvatarFocused] = useState(false);
   // Compact is a flat list: everyone's rows start at the left, with no own surface.
   const flat = useMessageDensity() === "compact";
@@ -329,24 +331,31 @@ function MessageRowContent({
   const showTime =
     messageTimestamps === "show" ||
     (messageTimestamps === "hide-solo" && !solo);
+  // “; may be out of date ” 片段先求值成局部变量，再插值（t`` 内不能嵌套 t``）。
+  const staleUnreadNote =
+    threadUnread?.freshness === "stale" ? t`; may be out of date` : "";
   const unreadLabel =
     threadUnread?.manual === "local-only"
-      ? "Thread marked unread on this device only"
+      ? t`Thread marked unread on this device only`
       : threadUnread?.manual === "remote"
-        ? "Thread marked unread"
+        ? t`Thread marked unread`
         : (threadUnread?.observedCount ?? 0) > 0
-          ? `Observed unread replies${threadUnread?.freshness === "stale" ? "; may be out of date" : ""}. Not an exact total.`
+          ? t`Observed unread replies${staleUnreadNote}. Not an exact total.`
           : undefined;
   const workingLabel = threadAgents.length
-    ? `${threadAgents
-        .map(({ pubkey, name }) => resolveName(pubkey, name))
-        .join(", ")} ${threadWaiting ? "waiting" : "working"}`
+    ? threadWaiting
+      ? t`${threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")} waiting`
+      : t`${threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")} working`
     : undefined;
   const firstThreadAgent = threadAgents[0];
   const threadWorkingLabel =
     threadAgents.length === 1 && firstThreadAgent
-      ? `${resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)} is ${threadWaiting ? "waiting" : "working"}`
-      : `${threadAgents.length} agents are ${threadWaiting ? "waiting" : "working"}`;
+      ? threadWaiting
+        ? t`${resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)} is waiting`
+        : t`${resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)} is working`
+      : threadWaiting
+        ? t`${threadAgents.length} agents are waiting`
+        : t`${threadAgents.length} agents are working`;
   const name = resolveName(
     row.authorId,
     profile?.name ?? row.authorId.slice(0, 10),
@@ -393,7 +402,7 @@ function MessageRowContent({
       <MenuIcon>
         <ListBulletsIcon />
       </MenuIcon>
-      View activity
+      {t`View activity`}
     </MenuItem>
   );
   const avatarShape =
@@ -417,7 +426,7 @@ function MessageRowContent({
     owner.id !== viewer &&
     owner.profile &&
     !owner.profile.nameIsFallback
-      ? `${resolveName(owner.id, owner.profile.name)}’s agent`
+      ? t`${resolveName(owner.id, owner.profile.name)}’s agent`
       : undefined;
   const presenceId = useId();
   const shown = shownRow ?? row;
@@ -541,7 +550,7 @@ function MessageRowContent({
         <MenuIcon>
           <FlagIcon />
         </MenuIcon>
-        Report
+        {t`Report`}
       </MenuItem>
     </>
   );
@@ -674,7 +683,7 @@ function MessageRowContent({
   }
   const body = row.diff ? (
     <div>
-      <p className="text-label-sm">{row.diff.filePath || "Diff"}</p>
+      <p className="text-label-sm">{row.diff.filePath || t`Diff`}</p>
       {row.diff.description && (
         <p className="text-body-sm">{row.diff.description}</p>
       )}
@@ -684,13 +693,13 @@ function MessageRowContent({
         // biome-ignore lint/a11y/noNoninteractiveTabindex: The raw scroll owner must support keyboard scrolling.
         tabIndex={0}
         role="region"
-        aria-label="Raw diff"
+        aria-label={t`Raw diff`}
       >
-        {row.content || "No diff content"}
+        {row.content || t`No diff content`}
       </pre>
       {row.diff.truncated && (
         <p className="text-body-sm">
-          Diff truncated. View the full diff at the source repository.
+          {t`Diff truncated. View the full diff at the source repository.`}
         </p>
       )}
     </div>
@@ -722,8 +731,8 @@ function MessageRowContent({
   const avatar = row.workflowOwnerId ? (
     <span className={styles.nestedAvatar}>
       <Avatar
-        alt="Workflow"
-        fallback="Workflow"
+        alt={t`Workflow`}
+        fallback={t`Workflow`}
         fallbackContent={<LightningIcon size={16} />}
         shape="squircle"
         size={avatarSize}
@@ -746,7 +755,7 @@ function MessageRowContent({
         <IconButton
           size="sm"
           shape="round"
-          aria-label={`View ${name} profile`}
+          aria-label={t`View ${name} profile`}
           aria-describedby={presence !== "unknown" ? presenceId : undefined}
           icon={
             <>
@@ -760,7 +769,7 @@ function MessageRowContent({
               />
               {presence !== "unknown" && (
                 <span className="sr-only select-none" id={presenceId}>
-                  Presence: {presence}
+                  {t`Presence: ${presence}`}
                 </span>
               )}
             </>
@@ -776,8 +785,8 @@ function MessageRowContent({
           presence === "unknown"
             ? ""
             : avatarShape === "squircle"
-              ? "Agent"
-              : `${name} avatar`
+              ? t`Agent`
+              : t`${name} avatar`
         }
         fallback={name}
         size={avatarSize}
@@ -931,7 +940,7 @@ function MessageRowContent({
         <ToastNotice
           tone="success"
           timeout={5000}
-          title="Report submitted to community moderators"
+          title={t`Report submitted to community moderators`}
           onDismiss={() => setReporting(undefined)}
         />
       )}
@@ -944,9 +953,17 @@ function MessageRowContent({
     const remainingThreadAgents = threadAgents.filter(
       (agent) => !activity?.participants.includes(agent.pubkey),
     );
+    const remainingWorkingNames = remainingThreadAgents
+      .map(({ pubkey, name }) => resolveName(pubkey, name))
+      .join(", ");
     const remainingWorkingLabel = remainingThreadAgents.length
-      ? `${remainingThreadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")} ${threadWaiting ? "waiting" : "working"}`
+      ? threadWaiting
+        ? t`${remainingWorkingNames} waiting`
+        : t`${remainingWorkingNames} working`
       : undefined;
+    // reply/replies 先求值成局部变量，再插值进 aria-label 消息。
+    const replyCountWord =
+      row.replyCount === 1 ? t`reply` : t`replies`;
     return (
       ((row.replyCount > 0 ||
         (startsThreads &&
@@ -971,14 +988,14 @@ function MessageRowContent({
             type="button"
             aria-label={
               row.replyCount > 0
-                ? `View thread: ${row.replyCount} ${row.replyCount === 1 ? "reply" : "replies"}${unreadLabel ? `. ${unreadLabel}` : ""}${workingLabel ? `. ${workingLabel}` : ""}${activity ? `. ${activity.label}` : ""}${threadDraft ? ". Draft reply" : ""}`
-                : `View thread: ${[
+                ? `${t`View thread: ${row.replyCount} ${replyCountWord}`}${unreadLabel ? `. ${unreadLabel}` : ""}${workingLabel ? `. ${workingLabel}` : ""}${activity ? `. ${activity.label}` : ""}${threadDraft ? `. ${t`Draft reply`}` : ""}`
+                : `${t`View thread`}: ${[
                     ...(activity
                       ? [remainingWorkingLabel, activity.label]
                       : threadAgents.length > 0
                         ? [threadWorkingLabel]
                         : []),
-                    threadDraft && "Draft reply",
+                    threadDraft && t`Draft reply`,
                   ]
                     .filter(Boolean)
                     .join(". ")}`
@@ -1253,7 +1270,7 @@ function MessageRowContent({
                           openProfileTranscript(transcriptView, openLink);
                       }}
                     >
-                      View activity
+                      {t`View activity`}
                     </button>
                   </span>
                 )}
@@ -1273,7 +1290,7 @@ function MessageRowContent({
             </div>
             {row.sentFromThread && (
               <div className={styles.sentFromThread}>
-                Sent from{" "}
+                {t`Sent from`}{" "}
                 <MessageLink
                   url={`buzz://message?${new URLSearchParams({ channel: row.channelId, id: row.sentFromThread.rootId, thread: row.sentFromThread.rootId })}`}
                   registry={extensions?.links}
@@ -1282,8 +1299,8 @@ function MessageRowContent({
                   onOpenLink={openLink}
                   label={
                     row.sentFromThread.excerpt
-                      ? `Thread — ${row.sentFromThread.excerpt}`
-                      : "Thread"
+                      ? t`Thread — ${row.sentFromThread.excerpt}`
+                      : t`Thread`
                   }
                 />
               </div>
@@ -1338,7 +1355,7 @@ function MessageRowContent({
                         <Button
                           variant="subtle"
                           size="inline"
-                          title="Open video"
+                          title={t`Open video`}
                           type="button"
                           onClick={() => onMediaTime(timeReply.anchor.seconds)}
                         >
@@ -1403,8 +1420,15 @@ function MessageRowContent({
                       (item) => item.kind === "image",
                     );
                     const mediaLabel = imageOnly
-                      ? "images"
-                      : "photos and videos";
+                      ? t`images`
+                      : t`photos and videos`;
+                    // image/item 先求值成局部变量，再插值进消息（t`` 内不能嵌套 t``）。
+                    const startKind = imageOnly ? t`image` : t`item`;
+                    const listKind = imageOnly
+                      ? group.length === 1
+                        ? t`image`
+                        : t`images`
+                      : t`photos and videos`;
                     const files = group[0]?.kind === "file";
                     // Only collapse when the host can open the complete gallery.
                     const collapsed =
@@ -1510,10 +1534,10 @@ function MessageRowContent({
                             keepMounted={keepRowMounted}
                             label={
                               collapsed && index === 3
-                                ? `View all ${group.length} ${mediaLabel}, starting at ${imageOnly ? "image" : "item"} 4`
+                                ? t`View all ${group.length} ${mediaLabel}, starting at ${startKind} 4`
                                 : group.length > 1
-                                  ? `Open image ${index + 1} of ${group.length}`
-                                  : "Open image attachment"
+                                  ? t`Open image ${index + 1} of ${group.length}`
+                                  : t`Open image attachment`
                             }
                             {...(onOpenMediaReview
                               ? {
@@ -1560,8 +1584,8 @@ function MessageRowContent({
                           }
                           label={
                             collapsed && index === 3
-                              ? `View all ${group.length} ${mediaLabel}, starting at item 4`
-                              : `Open video ${index + 1} of ${group.length}`
+                              ? t`View all ${group.length} ${mediaLabel}, starting at item 4`
+                              : t`Open video ${index + 1} of ${group.length}`
                           }
                           mode={mediaMode}
                           {...(attachment.kind === "video" &&
@@ -1602,7 +1626,7 @@ function MessageRowContent({
                           className={`${styles.imageList} ${group.length >= 4 ? styles.imageGrid : ""}`}
                           data-image-grid={group.length >= 4 || undefined}
                           role="group"
-                          aria-label={`${group.length} ${imageOnly ? (group.length === 1 ? "image" : "images") : "photos and videos"}`}
+                          aria-label={t`${group.length} ${listKind}`}
                         >
                           {items}
                         </div>
@@ -1741,6 +1765,7 @@ function AgentsMessageRow(props: MessageRowProps & { failure?: boolean }) {
     agentPubkeys,
     failure = false,
   } = props;
+  const { t } = useLingui();
   const flat = useMessageDensity() === "compact";
   const references = props.references ?? session;
   const [open, setOpen] = useState(false);
@@ -1817,6 +1842,11 @@ function AgentsMessageRow(props: MessageRowProps & { failure?: boolean }) {
     addressedPreview.length > 280
       ? `${addressedPreview.slice(0, 279).join("")}…`
       : addressedPreview.join("");
+  // 触发器 aria-label 的收件人与 “(edited)” 后缀，先求值成局部变量再拼接。
+  const recipientsNote = to.length
+    ? t` to ${to.map((who) => who.name).join(", ")}`
+    : "";
+  const editedNote = row.edited ? ` (${t`edited`})` : "";
   const avatar = (who: typeof author) => (
     <span className={styles.audienceAvatar} title={who.name}>
       <AgentAvatar
@@ -1847,7 +1877,7 @@ function AgentsMessageRow(props: MessageRowProps & { failure?: boolean }) {
               expanded={open}
               onToggle={() => setOpen((value) => !value)}
               trigger={trigger}
-              label={`${open ? "Collapse" : "Show"} activity history: ${author.name}: Couldn’t finish`}
+              label={`${open ? t`Collapse` : t`Show`} ${t`activity history: ${author.name}: Couldn’t finish`}`}
               summary={<ActivityOutcome state="error" />}
               expandedSummary={<ActivityOutcome state="error" />}
               actions={
@@ -1857,7 +1887,7 @@ function AgentsMessageRow(props: MessageRowProps & { failure?: boolean }) {
                   <IconButton
                     size="sm"
                     variant="subtle"
-                    aria-label="View transcript"
+                    aria-label={t`View transcript`}
                     icon={<InfoIcon aria-hidden="true" />}
                     onClick={() => {
                       const target = profileActivityViewTarget(author.pubkey);
@@ -1919,7 +1949,7 @@ function AgentsMessageRow(props: MessageRowProps & { failure?: boolean }) {
                 ref={trigger}
                 data-buzz-ui=""
                 className={styles.audienceLine}
-                aria-label={`${author.name}${to.length ? ` to ${to.map((who) => who.name).join(", ")}` : ""}: ${preview}${row.edited ? " (edited)" : ""}`}
+                aria-label={`${author.name}${recipientsNote}: ${preview}${editedNote}`}
               >
                 {!bubble && avatar(author)}
                 {!open && (
@@ -1931,7 +1961,7 @@ function AgentsMessageRow(props: MessageRowProps & { failure?: boolean }) {
                   />
                 )}
                 {active && <TypingDots size="message" />}
-                {open && bubble && "Collapse"}
+                {open && bubble && t`Collapse`}
                 {!open && (
                   <span className={styles.audiencePreviewText}>
                     <ShimmerText active={active}>{visiblePreview}</ShimmerText>

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../relay/react";
 import { workflowLabel } from "../relay/workflow-attribution";
 import {
@@ -25,13 +27,11 @@ import { namedChannel, useChannelReference } from "./channel-reference";
 /** Why a message link's preview can't be shown. Surfaces that report a failed
  * message link use these words too. */
 export const previewFailures = {
-  withheld:
-    "Private channel. You aren’t a member, it no longer exists, or the link is from another community.",
-  "not-found": "This message isn’t available. It may have been deleted.",
-  unavailable: "Couldn’t load this preview.",
+  withheld: msg`Private channel. You aren’t a member, it no longer exists, or the link is from another community.`,
+  "not-found": msg`This message isn’t available. It may have been deleted.`,
+  unavailable: msg`Couldn’t load this preview.`,
 } as const;
 type FoundChannel = Extract<ChannelReference, { state: "found" }>;
-const loading = <span role="status">Loading message…</span>;
 
 /** Mounted only while a preview is open. The session owns access, edits and
  * deletion. Like a click, the card looks the channel up before trusting a
@@ -46,6 +46,7 @@ export function BuzzLinkPreview({
   channelId: string;
   messageId: string;
 }) {
+  const { t } = useLingui();
   const reference = useChannelReference(session.channels, channelId);
   const listLoading = useSyncExternalStore(
     session.channels.subscribeList,
@@ -73,7 +74,8 @@ export function BuzzLinkPreview({
   }, [session, channelId, messageId, readable, withheld]);
   const destination = namedChannel(reference);
   if (withheld) return <PreviewFailure reason="withheld" />;
-  if (read?.readable !== readable) return loading;
+  if (read?.readable !== readable)
+    return <span role="status">{t`Loading message…`}</span>;
   if (!read.view)
     return <PreviewFailure reason="unavailable" channel={destination} />;
   return (
@@ -109,6 +111,7 @@ function PreviewContent({
   /** A channel lookup is on the way, so a refused read may yet succeed. */
   looking: boolean;
 }) {
+  const { t } = useLingui();
   const snapshot = useSyncExternalStore(
     view.subscribe,
     view.snapshot,
@@ -135,7 +138,8 @@ function PreviewContent({
       void session.profiles.ensure([authorId], "background").catch(() => {});
   }, [session, authorId, profileGeneration]);
   if (!ready || !message) {
-    if (!stopped || looking) return loading;
+    if (!stopped || looking)
+      return <span role="status">{t`Loading message…`}</span>;
     // The card stops at any failed read, as navigation does at a failed root.
     const reason =
       threadFailure(snapshot, true) ??
@@ -166,8 +170,8 @@ function PreviewContent({
               channel.participants,
             ),
           ),
-        ).join(", ") || "Notes to self"
-      : (channel?.name ?? "Channel unavailable");
+        ).join(", ") || t`Notes to self`
+      : (channel?.name ?? t`Channel unavailable`);
   const ChannelIcon =
     channel?.hidden || channel?.channelType === "dm"
       ? LockIcon
@@ -209,7 +213,7 @@ function PreviewContent({
       </span>
       <span className={styles.message}>
         {messagePreviewText(message.content) ||
-          (message.attachments.length ? "Attachment" : "Empty message")}
+          (message.attachments.length ? t`Attachment` : t`Empty message`)}
       </span>
     </>
   );
@@ -224,11 +228,12 @@ function PreviewFailure({
   reason: keyof typeof previewFailures;
   channel?: FoundChannel | undefined;
 }) {
+  const { i18n, t } = useLingui();
   return (
     <>
       {channel && <ChannelByline channel={channel} />}
-      <span role="status">{previewFailures[reason]}</span>
-      <span className={styles.hint}>Open link</span>
+      <span role="status">{i18n._(previewFailures[reason])}</span>
+      <span className={styles.hint}>{t`Open link`}</span>
     </>
   );
 }
@@ -248,13 +253,16 @@ export function ChannelLinkPreview({ channel }: { channel: FoundChannel }) {
 }
 
 function ChannelByline({ channel }: { channel: FoundChannel }) {
+  const { t } = useLingui();
   const Icon = channelIcon(channel.private ? { private: true } : undefined);
   const details = [
-    channel.private ? "Private channel" : "Public channel",
-    channel.archived ? "Archived" : "",
-    channel.joined ? "Joined" : "Not joined",
+    channel.private ? t`Private channel` : t`Public channel`,
+    channel.archived ? t`Archived` : "",
+    channel.joined ? t`Joined` : t`Not joined`,
     channel.members
-      ? `${channel.members} ${channel.members === 1 ? "member" : "members"}`
+      ? channel.members === 1
+        ? t`1 member`
+        : t`${channel.members} members`
       : "",
   ].filter(Boolean);
   return (

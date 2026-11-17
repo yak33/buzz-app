@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { TypingIndicator } from "./TypingIndicator";
 import { workflowLabel } from "../relay/workflow-attribution";
 import { MessageEditScope } from "./MessageEditScope";
@@ -144,6 +145,7 @@ function ResolvedReview({
   view: ThreadView | undefined;
   threadError: string | undefined;
 }) {
+  const { t } = useLingui();
   const snapshot = useSyncExternalStore(
     view?.subscribe ?? noThreadSubscription,
     view?.snapshot ?? noThreadSnapshot,
@@ -190,8 +192,8 @@ function ResolvedReview({
         error={
           snapshot.error ??
           (snapshot.root
-            ? "Attachment unavailable."
-            : "Original message unavailable.")
+            ? t`Attachment unavailable.`
+            : t`Original message unavailable.`)
         }
         unavailable
         retry={view.refresh}
@@ -211,7 +213,7 @@ function ResolvedReview({
     return (
       <ReviewShell
         {...props}
-        error="Original message unavailable."
+        error={t`Original message unavailable.`}
         unavailable
         retry={view.refresh}
       />
@@ -277,6 +279,7 @@ function ReviewShell({
   error?: string;
   retry?: () => void | Promise<void>;
 }) {
+  const { t } = useLingui();
   const source = session.media(attachment.url);
   // Listener unavailability is not a playback error the selection resets.
   const sourceUnavailable = useMediaElementSource(
@@ -363,7 +366,7 @@ function ReviewShell({
       : attachment;
   const mediaTitle =
     displayedAttachment.name?.trim() ||
-    (displayedAttachment.kind === "video" ? "Video" : "Image");
+    (displayedAttachment.kind === "video" ? t`Video` : t`Image`);
   const mediaIndex = mediaAttachments.findIndex(
     (item) => item.url === attachment.url,
   );
@@ -412,7 +415,7 @@ function ReviewShell({
   return (
     <MediaReviewFrame
       title={mediaTitle}
-      label={attachment.kind === "video" ? "Video review" : "Image viewer"}
+      label={attachment.kind === "video" ? t`Video review` : t`Image viewer`}
       isVideo={attachment.kind === "video"}
       video={video}
       frame={frame}
@@ -431,7 +434,7 @@ function ReviewShell({
             <div className={styles.imageReviewSwitcher}>
               <IconButton
                 size="compact"
-                aria-label="Previous media"
+                aria-label={t`Previous media`}
                 disabled={mediaIndex <= 0}
                 onClick={() => navigateMedia(-1)}
                 icon={<CaretLeftIcon size={20} />}
@@ -441,7 +444,7 @@ function ReviewShell({
               </span>
               <IconButton
                 size="compact"
-                aria-label="Next media"
+                aria-label={t`Next media`}
                 disabled={mediaIndex >= mediaAttachments.length - 1}
                 onClick={() => navigateMedia(1)}
                 icon={<CaretRightIcon size={20} />}
@@ -450,7 +453,7 @@ function ReviewShell({
           )}
           <IconButton
             size="compact"
-            aria-label={commentsOpen ? "Hide comments" : "Show comments"}
+            aria-label={commentsOpen ? t`Hide comments` : t`Show comments`}
             aria-pressed={commentsOpen}
             onClick={(event) => {
               prepareSidebarMotion(event.detail > 0);
@@ -467,7 +470,9 @@ function ReviewShell({
           className={styles.mediaReviewConversation}
           inert={!commentsOpen}
           aria-hidden={!commentsOpen || undefined}
-          aria-label="Media comments"
+          aria-label={t`Media comments`}
+          // 方向键排除匹配用：语言切换后 aria-label 不再是英文（见 MediaReviewFrame）。
+          data-media-comments=""
           data-attachment-drop-zone=""
         >
           <div className={styles.mediaReviewConversationContent}>
@@ -476,7 +481,7 @@ function ReviewShell({
                 variant="compact"
                 title={
                   <PanelHeaderLabel
-                    title="Comments"
+                    title={t`Comments`}
                     icon={<ChatCircleIcon size={20} />}
                   />
                 }
@@ -511,7 +516,7 @@ function ReviewShell({
                   <div className={styles.mediaReviewTimeOption}>
                     <span>{videoTime(currentTime)}</span>
                     <Checkbox
-                      label="Comment at current frame"
+                      label={t`Comment at current frame`}
                       checked={includeTime}
                       onCheckedChange={setIncludeTime}
                     />
@@ -544,10 +549,10 @@ function ReviewShell({
               </MessageEditScope>
             ) : (
               <p className={styles.empty} role={error ? "alert" : "status"}>
-                {error ?? "Loading comments…"}
+                {error ?? t`Loading comments…`}
                 {retry && !unavailable && (
                   <Button size="sm" type="button" onClick={retryThread}>
-                    Retry
+                    {t`Retry`}
                   </Button>
                 )}
               </p>
@@ -565,10 +570,10 @@ function ReviewShell({
           className={styles.mediaReviewUnavailable}
           role={error ? "alert" : "status"}
         >
-          {error ?? (loading ? "Loading media…" : "Media unavailable")}
+          {error ?? (loading ? t`Loading media…` : t`Media unavailable`)}
           {retry && unavailable && (
             <Button size="sm" type="button" onClick={retryThread}>
-              Retry
+              {t`Retry`}
             </Button>
           )}
         </p>
@@ -651,6 +656,7 @@ function ReviewComments({
   canSeekTimecode(row: ChannelMessage): boolean;
   selectAttachment(attachment: Attachment, initialTime: number): void;
 }) {
+  const { t } = useLingui();
   const profiles = useRowProfiles(session.profiles, replies);
   const agentPubkeys = useKnownAgentPubkeys(session, profiles);
   const activity = useActivityPresentation(
@@ -699,7 +705,8 @@ function ReviewComments({
         ref={comments}
         data-message-scroller
         className={styles.mediaReviewThread}
-        aria-label="Media comments"
+        aria-label={t`Media comments`}
+        data-media-comments=""
       >
         {replies.map((row, index) => {
           return (
@@ -749,11 +756,11 @@ function ReviewComments({
         />
         {!replies.length && (
           <p className={styles.threadNote}>
-            No comments yet. Add the first below.
+            {t`No comments yet. Add the first below.`}
           </p>
         )}
         {limited && (
-          <p className={styles.threadNote}>Thread history limit reached.</p>
+          <p className={styles.threadNote}>{t`Thread history limit reached.`}</p>
         )}
       </section>
     </LinkThreadTabContext>

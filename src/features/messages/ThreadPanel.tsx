@@ -1,4 +1,6 @@
 // biome-ignore-all lint/a11y/noNoninteractiveTabindex: The thread region supports keyboard scrolling and Escape.
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { AgentConnectionSetup } from "../agents/AgentConnectionSetup";
 import { TypingIndicator, useLiveConversationAgents } from "./TypingIndicator";
 import { ActivityExpansion } from "./ActivityExpansion";
@@ -125,10 +127,12 @@ export type ThreadPanelProps = {
 };
 
 // Read errors are diagnostics, not copy; the notice says what happened.
-const THREAD_FAILED = "This thread didn’t load.";
+// 模块级 msg 描述符，渲染处用 i18n._(THREAD_FAILED) 取译文。
+const THREAD_FAILED = msg`This thread didn’t load.`;
 
 /** Safe to retarget through ordinary props; callers do not own internal remount keys. */
 export function ThreadPanel(props: ThreadPanelProps) {
+  const { t } = useLingui();
   useMessageSelectionCopy();
   const host = !!usePanelTabHost();
   const tabbed = props.tabbed ?? host;
@@ -146,7 +150,7 @@ export function ThreadPanel(props: ThreadPanelProps) {
       }
       data-attachment-drop-zone=""
       data-reading-surface=""
-      aria-label="Thread"
+      aria-label={t`Thread`}
       onKeyDown={(event) => {
         // Portalled viewers bubble here through React but own their Escape.
         if (
@@ -171,7 +175,7 @@ export function ThreadPanel(props: ThreadPanelProps) {
       )}
       {props.parent && (
         <p className={styles.threadParent}>
-          In{" "}
+          {t`In`}{" "}
           <Button variant="link" size="inline" onClick={props.parent.open}>
             {props.parent.label}
           </Button>
@@ -192,20 +196,21 @@ function ThreadHeader({
   close(): void;
   actions?: ReactNode;
 }) {
+  const { t } = useLingui();
   const closeButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     closeButton.current?.focus();
   }, []);
   return (
     <PanelHeader
-      title="Thread"
+      title={t`Thread`}
       actions={
         <>
           {actions}
           <IconButton
             ref={closeButton}
             size="toolbar"
-            aria-label="Close thread"
+            aria-label={t`Close thread`}
             onClick={close}
             icon={<XIcon size={18} aria-hidden="true" />}
           />
@@ -226,6 +231,7 @@ type ThreadPlace = {
 const THREAD_PLACE = "thread";
 /** Reader lifetime follows the open thread; navigation owns only a reveal request. */
 function RetainedThreadPanel(props: ThreadPanelProps) {
+  const { i18n, t } = useLingui();
   type Opening = {
     view: ThreadView;
     messageId: string;
@@ -383,9 +389,9 @@ function RetainedThreadPanel(props: ThreadPanelProps) {
     <>
       {error && !opening && (
         <div role="alert" className={styles.empty}>
-          <p>{THREAD_FAILED}</p>
+          <p>{i18n._(THREAD_FAILED)}</p>
           <Button loading={pending} onClick={retryNavigation}>
-            Try again
+            {t`Try again`}
           </Button>
         </div>
       )}
@@ -432,6 +438,7 @@ function OwnedThreadPanel({
   onDraftSaved,
   onSend,
 }: ThreadPanelProps) {
+  const { i18n, t } = useLingui();
   const [view, setView] = useState<ThreadView>();
   const [error, setError] = useState<string>();
   const [attempt, setAttempt] = useState(0);
@@ -479,9 +486,9 @@ function OwnedThreadPanel({
   ]);
   return error ? (
     <div className={styles.empty} role="alert">
-      <p>{THREAD_FAILED}</p>
+      <p>{i18n._(THREAD_FAILED)}</p>
       <Button type="button" onClick={() => setAttempt((value) => value + 1)}>
-        Try again
+        {t`Try again`}
       </Button>
     </div>
   ) : view ? (
@@ -577,6 +584,7 @@ function ThreadMessages({
   onOpenMediaReview?: ThreadPanelProps["onOpenMediaReview"];
   canOpenLink?: ((target: string) => boolean) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const channelAccess = useListedChannel(
     session.channels,
     channelId,
@@ -687,15 +695,15 @@ function ThreadMessages({
     const id = row.workflowOwnerId ?? row.authorId;
     const name = resolveName(
       id,
-      profiles.get(id)?.name ?? formatPublicKey(id) ?? "Unknown author",
+      profiles.get(id)?.name ?? formatPublicKey(id) ?? t`Unknown author`,
     );
     return row.workflowOwnerId ? workflowLabel(name) : name;
   };
   // Never address the viewer: threads they started (every agent exchange) stay neutral.
   const replyPlaceholder = (root: ChannelMessage) =>
     (root.workflowOwnerId ?? root.authorId) === session.viewer
-      ? "Reply in thread"
-      : `Reply in thread to ${senderName(root)}`;
+      ? t`Reply in thread`
+      : t`Reply in thread to ${senderName(root)}`;
   const rows = useMemo(
     () =>
       snapshot.root ? [snapshot.root, ...snapshot.replies] : snapshot.replies,
@@ -1542,8 +1550,11 @@ function ThreadMessages({
         (reply) => session.unread.attention(channelId, reply.id).unread,
       ).length;
       const unreadLabel = unreadCount
-        ? `${unreadCount} new in available replies`
+        ? t`${unreadCount} new in available replies`
         : undefined;
+      // reply/replies 先求值成局部变量，再插值进 label 消息（t`` 内不能嵌套 t``）。
+      const replyWord =
+        descendants.length === 1 ? t`reply` : t`replies`;
       const renderMessage = (row: ChannelMessage, inside = false) => {
         const recordedActivity = presentation.byRow.get(row.id);
         const requestId = presentation.replyRequests.get(row.id);
@@ -1622,7 +1633,7 @@ function ThreadMessages({
             row.replyParentId !== rootId &&
             !requestRows.has(row.replyParentId) && (
               <p className={styles.threadNote}>
-                Earlier reply unavailable in loaded history.
+                {t`Earlier reply unavailable in loaded history.`}
               </p>
             )}
 
@@ -1665,7 +1676,7 @@ function ThreadMessages({
             message={message}
             hasReplies={!!children?.length}
             layout={continuation ? "continuation" : "thread"}
-            label={`View ${descendants.length} ${descendants.length === 1 ? "reply" : "replies"}${unreadLabel ? `. ${unreadLabel}` : ""}`}
+            label={`${t`View ${descendants.length} ${replyWord}`}${unreadLabel ? `. ${unreadLabel}` : ""}`}
             summary={
               <ReplySummary
                 count={descendants.length}
@@ -1687,7 +1698,7 @@ function ThreadMessages({
               targetAnchor.current = undefined;
               setExpanded((current) => new Set([...current, row.id]));
             }}
-            collapseLabel={`Collapse ${descendants.length} ${descendants.length === 1 ? "reply" : "replies"}`}
+            collapseLabel={t`Collapse ${descendants.length} ${replyWord}`}
             onCollapse={() => {
               follow.current = false;
               targetAnchor.current = undefined;
@@ -1805,7 +1816,7 @@ function ThreadMessages({
               : "0px",
           } as CSSProperties
         }
-        aria-label="Thread messages"
+        aria-label={t`Thread messages`}
         aria-busy={positioning}
         data-positioning={positioning || undefined}
         data-jump-visible={showJumpToLatest || undefined}
@@ -1930,15 +1941,15 @@ function ThreadMessages({
               targetUnavailable ? (
                 // One notice, with its recovery beside it, when nothing loaded.
                 <div className={styles.threadNotice}>
-                  <p role="status">This message isn’t available.</p>
+                  <p role="status">{t`This message isn’t available.`}</p>
                   {!historyError && (
                     <Button type="button" onClick={() => void view.refresh()}>
-                      Try again
+                      {t`Try again`}
                     </Button>
                   )}
                 </div>
               ) : (
-                <p className={styles.empty}>Original message unavailable.</p>
+                <p className={styles.empty}>{t`Original message unavailable.`}</p>
               )
             ) : null}
             <ol>
@@ -1946,7 +1957,7 @@ function ThreadMessages({
                 <li className={styles.threadHistoryPageStatus}>
                   <p role="alert">{snapshot.error}</p>
                   <Button type="button" onClick={retryThread}>
-                    Try again
+                    {t`Try again`}
                   </Button>
                 </li>
               )}
@@ -1978,8 +1989,7 @@ function ThreadMessages({
           snapshot.root &&
           snapshot.root.id !== messageId && (
             <p role="status">
-              This saved draft does not identify a thread root. Open its origin
-              to check the destination.
+              {t`This saved draft does not identify a thread root. Open its origin to check the destination.`}
             </p>
           )}
         {positioning || (snapshot.status === "loading" && !rows.length) ? (
@@ -1988,21 +1998,21 @@ function ThreadMessages({
         {selectionNotice && (
           <p role="alert">
             {selectionNotice.unavailable
-              ? "That message is no longer available."
-              : "Couldn’t open that message."}
+              ? t`That message is no longer available.`
+              : t`Couldn’t open that message.`}
           </p>
         )}
         {snapshot.limited && !snapshot.error && (
-          <p className={styles.threadNote}>Thread history limit reached.</p>
+          <p className={styles.threadNote}>{t`Thread history limit reached.`}</p>
         )}
         {(historyError || (targetUnavailable && snapshot.root)) && (
           <div className={styles.threadNotice}>
             {targetUnavailable && snapshot.root && (
-              <p role="status">Selected message unavailable.</p>
+              <p role="status">{t`Selected message unavailable.`}</p>
             )}
-            {historyError && <p role="alert">{THREAD_FAILED}</p>}
+            {historyError && <p role="alert">{i18n._(THREAD_FAILED)}</p>}
             <Button type="button" onClick={() => void view.refresh()}>
-              Try again
+              {t`Try again`}
             </Button>
           </div>
         )}
@@ -2013,7 +2023,7 @@ function ThreadMessages({
               loading={selectionNotice.pending}
               onClick={selectionNotice.retry}
             >
-              Try again
+              {t`Try again`}
             </Button>
           </div>
         )}
@@ -2067,9 +2077,9 @@ function ThreadMessages({
           replyContext={
             replyParent && !selectedParent ? (
               <div className={styles.replyContext}>
-                <span>Reply target is no longer available.</span>
+                <span>{t`Reply target is no longer available.`}</span>
                 <Button size="sm" onClick={focusReply}>
-                  Cancel reply target
+                  {t`Cancel reply target`}
                 </Button>
               </div>
             ) : (
@@ -2085,12 +2095,12 @@ function ThreadMessages({
                     size="default"
                   />
                   <div>
-                    <span>Replying to {senderName(selectedParent)}</span>
+                    <span>{t`Replying to ${senderName(selectedParent)}`}</span>
                     <p>{selectedParent.content}</p>
                   </div>
                   <IconButton
                     size="sm"
-                    aria-label="Cancel reply target"
+                    aria-label={t`Cancel reply target`}
                     onClick={focusReply}
                     icon={<XIcon size={16} aria-hidden="true" />}
                   />
@@ -2145,6 +2155,7 @@ function readingDrift(
 }
 
 function ThreadLoading() {
+  const { t } = useLingui();
   return (
     <div className={styles.threadLoading} role="status">
       <picture>
@@ -2154,7 +2165,7 @@ function ThreadLoading() {
         />
         <img src="/buzz-loading-mark.svg" alt="" width="498" height="341" />
       </picture>
-      <span className="sr-only">Loading thread…</span>
+      <span className="sr-only">{t`Loading thread…`}</span>
     </div>
   );
 }

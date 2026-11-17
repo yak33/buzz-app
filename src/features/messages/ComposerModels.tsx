@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { I18n } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../relay/react";
 import { Popover } from "@base-ui/react/popover";
 import { EffortSlider } from "./composer-models/EffortSlider";
@@ -124,6 +127,7 @@ function ComposerModelsFor({
   startsThread: boolean;
   place: SessionPlace;
 }) {
+  const { i18n, t } = useLingui();
   const [open, setOpen] = useState(false);
   const [retry, setRetry] = useState(0);
   const unavailableDescriptionId = useId();
@@ -135,6 +139,7 @@ function ComposerModelsFor({
         const visible: MentionModelChoice =
           startsThread && session === "thread" ? catalog : choice;
         const unavailablePick = unavailableSavedPick(
+          i18n,
           visible,
           value[visible.pubkey] ?? {},
           resettable,
@@ -149,7 +154,7 @@ function ComposerModelsFor({
           ? [visible]
           : [];
       }),
-    [mentioned, startsThread, resettable, explicitOnly, value],
+    [mentioned, startsThread, resettable, explicitOnly, value, i18n],
   );
   const profileKey = pubkeys.join(":");
   const selection = useMemo(
@@ -225,7 +230,9 @@ function ComposerModelsFor({
       onResolved(
         null,
         inventoryFailed || mentioned.some((choice) => choice.failed)
-          ? "Saved model and effort choices could not be loaded. Open model and effort controls to retry or reset them."
+          ? i18n._(
+              msg`Saved model and effort choices could not be loaded. Open model and effort controls to retry or reset them.`,
+            )
           : undefined,
       );
       return () => onResolved(undefined);
@@ -275,6 +282,7 @@ function ComposerModelsFor({
     onResolved,
     resettable,
     explicitOnly,
+    i18n,
     unresolvedInventory,
     inventoryFailed,
   ]);
@@ -293,6 +301,7 @@ function ComposerModelsFor({
     const runs = runModel(choice, model);
     const selected = choice.models.some((item) => item.id === model);
     const unavailable = unavailableSavedPick(
+      i18n,
       choice,
       value[choice.pubkey] ?? {},
       resettable,
@@ -311,6 +320,7 @@ function ComposerModelsFor({
   });
   const unavailableDescription = choices.flatMap((choice) => {
     const unavailable = unavailableSavedPick(
+      i18n,
       choice,
       value[choice.pubkey] ?? {},
       resettable,
@@ -331,13 +341,17 @@ function ComposerModelsFor({
   };
   const label =
     choices.length > 0 && choices.every((choice) => choice.automatic)
-      ? `Session controls${resettable ? " for this chat" : ""}`
+      ? resettable
+        ? t`Session controls for this chat`
+        : t`Session controls`
       : choices.some((choice) => choice.session)
-        ? `Model, effort, and session controls${resettable ? " for this chat" : ""}`
+        ? resettable
+          ? t`Model, effort, and session controls for this chat`
+          : t`Model, effort, and session controls`
         : resettable
-          ? "Model and effort for this chat"
-          : "Model and effort for the next run";
-  const target = resettable ? "this chat" : "next run";
+          ? t`Model and effort for this chat`
+          : t`Model and effort for the next run`;
+  const target = resettable ? t`this chat` : t`next run`;
   const unavailableDescriptionText = unavailableDescription.join(" ");
   return (
     <Popover.Root open={open && !disabled} onOpenChange={setOpen}>
@@ -361,7 +375,7 @@ function ComposerModelsFor({
             }
             title={
               picked.length
-                ? `${label}. ${target}: ${picked.join(", ")}`
+                ? t`${label}. ${target}: ${picked.join(", ")}`
                 : label
             }
             icon={<GaugeIcon size={18} aria-hidden="true" />}
@@ -386,7 +400,7 @@ function ComposerModelsFor({
             <div
               className="sr-only"
               role="status"
-              aria-label="Saved model and effort availability"
+              aria-label={t`Saved model and effort availability`}
               aria-atomic="true"
             >
               <span className={styles.statusCopy}>
@@ -397,12 +411,12 @@ function ComposerModelsFor({
               <div className={`${styles.agent} floating-surface`}>
                 <PanelHeader
                   variant="card"
-                  title={<PanelHeaderLabel title="Model and effort" />}
+                  title={<PanelHeaderLabel title={t`Model and effort`} />}
                 />
                 <div className={styles.controls}>
                   <div className={styles.status}>
                     <span className={styles.statusCopy} role="alert">
-                      Agents could not be loaded.
+                      {t`Agents could not be loaded.`}
                     </span>
                     {onRetryInventory && (
                       <Button
@@ -412,7 +426,7 @@ function ComposerModelsFor({
                           setOpen(false);
                         }}
                       >
-                        Retry agents
+                        {t`Retry agents`}
                       </Button>
                     )}
                   </div>
@@ -437,7 +451,7 @@ function ComposerModelsFor({
                   setOpen(false);
                 }}
               >
-                Reset model and effort
+                {t`Reset model and effort`}
               </Button>
             )}
             {choices.map((choice, index) => (
@@ -445,6 +459,7 @@ function ComposerModelsFor({
                 key={choice.pubkey}
                 choice={choice}
                 availability={unavailableSavedPick(
+                  i18n,
                   choice,
                   value[choice.pubkey] ?? {},
                   resettable,
@@ -477,6 +492,7 @@ const runModel = (choice: MentionModelChoice, picked: string | undefined) =>
   choice.models[0] ?? { id: "", label: "", efforts: [] };
 
 function unavailableSavedPick(
+  i18n: I18n,
   choice: MentionModelChoice,
   value: RunPick,
   resettable: boolean,
@@ -497,23 +513,28 @@ function unavailableSavedPick(
     selectedModel ||
     (choice.sendDefaults && !explicitOnly) ||
     choice.current === runs.id;
+  const effortSuffix = defaultEffort
+    ? i18n._(msg` with its default effort (${defaultEffort.label})`)
+    : runs.efforts.length
+      ? i18n._(msg` with the provider's default effort`)
+      : "";
   const fallback = runs.id
     ? !modelIsKnown
-      ? "Send omits model and effort overrides; the agent or provider decides which model runs"
-      : `Using ${runs.label}${
-          defaultEffort
-            ? ` with its default effort (${defaultEffort.label})`
-            : runs.efforts.length
-              ? " with the provider's default effort"
-              : ""
-        }`
-    : "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults";
+      ? i18n._(
+          msg`Send omits model and effort overrides; the agent or provider decides which model runs`,
+        )
+      : i18n._(msg`Using ${runs.label}${effortSuffix}`)
+    : i18n._(
+        msg`No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults`,
+      );
   const reason = unavailableModel
-    ? "Saved model is unavailable."
+    ? i18n._(msg`Saved model is unavailable.`)
     : modelIsKnown && runs.id
-      ? `Saved effort is unavailable for ${runs.label}.`
-      : "Saved effort is unavailable.";
-  return `${reason} ${fallback}. Your saved choice is retained until you reset it.`;
+      ? i18n._(msg`Saved effort is unavailable for ${runs.label}.`)
+      : i18n._(msg`Saved effort is unavailable.`);
+  return i18n._(
+    msg`${reason} ${fallback}. Your saved choice is retained until you reset it.`,
+  );
 }
 
 function AgentChoice({
@@ -539,6 +560,7 @@ function AgentChoice({
   pick(next: RunPick): void;
   thumb?: Ref<HTMLInputElement>;
 }) {
+  const { t } = useLingui();
   const [feedback, setFeedback] = useState("");
   if (choice.loading)
     return (
@@ -561,7 +583,7 @@ function AgentChoice({
               />
             </span>
             <div className={styles.statusCopy}>
-              <ShimmerText>Loading model and effort…</ShimmerText>
+              <ShimmerText>{t`Loading model and effort…`}</ShimmerText>
             </div>
           </div>
         </div>
@@ -596,8 +618,8 @@ function AgentChoice({
             disabled={disabled}
             aria-label={
               chatScoped
-                ? `Model for ${choice.name} in this chat`
-                : `Model for ${choice.name}'s next run`
+                ? t`Model for ${choice.name} in this chat`
+                : t`Model for ${choice.name}'s next run`
             }
             render={
               <Button variant="subtle" size="sm">
@@ -655,10 +677,10 @@ function AgentChoice({
           {choice.failed ? (
             <div className={styles.status}>
               <span className={styles.statusCopy} role="alert">
-                Model and effort could not be loaded.
+                {t`Model and effort could not be loaded.`}
               </span>
               <Button size="sm" disabled={disabled} onClick={retry}>
-                Retry
+                {t`Retry`}
               </Button>
             </div>
           ) : runs.efforts.length > 0 ? (
@@ -690,8 +712,8 @@ function AgentChoice({
                 ) : (
                   <span>
                     {runs.id
-                      ? `${runs.label} · No thinking options`
-                      : "Model unavailable"}
+                      ? t`${runs.label} · No thinking options`
+                      : t`Model unavailable`}
                   </span>
                 )}
               </div>
@@ -719,6 +741,7 @@ function SessionActions({
   place: SessionPlace;
   onFeedback(message: string): void;
 }) {
+  const { i18n, t } = useLingui();
   const agents = useContext(AgentsContext);
   const state = useSessionState(agents, [pubkey], place);
   const [started, setStarted] = useState<object>();
@@ -741,48 +764,54 @@ function SessionActions({
         setStarted({});
       } else {
         onFeedback(
-          action === "compact" ? "Session compacted" : "Interrupt requested",
+          action === "compact"
+            ? i18n._(msg`Session compacted`)
+            : i18n._(msg`Interrupt requested`),
         );
       }
     } catch (error) {
       onFeedback(
-        error instanceof Error ? error.message : "Session action failed",
+        error instanceof Error
+          ? error.message
+          : i18n._(msg`Session action failed`),
       );
     }
   };
   return (
-    <fieldset className={styles.actions} aria-label={`${name}'s session`}>
+    <fieldset className={styles.actions} aria-label={t`${name}'s session`}>
       <span className="sr-only" role="status">
-        {started ? "New session started" : ""}
+        {started ? t`New session started` : ""}
       </span>
       {(
         [
-          ["compact", "Compact session", FoldIcon],
-          ["new", "Start a new session", ArrowCounterClockwiseIcon],
-          ["interrupt", "Interrupt", StopIcon],
+          ["compact", t`Compact session`, FoldIcon],
+          ["new", t`Start a new session`, ArrowCounterClockwiseIcon],
+          ["interrupt", t`Interrupt`, StopIcon],
         ] as const
       ).map(([action, label, Icon]) => {
         const enabled =
           action === "interrupt"
             ? state === "active" || state === "compacting"
             : state === "idle";
+        const waitVerb =
+          action === "compact" ? t`compacting` : t`starting a new session`;
         const title =
           state === "unavailable"
-            ? `${label}: session controls unavailable. Check the agent's connection and the app running it.`
+            ? t`${label}: session controls unavailable. Check the agent's connection and the app running it.`
             : state === "compacting"
               ? action === "interrupt"
-                ? "Interrupt compaction"
-                : "Compacting session. Wait for it to finish, or interrupt it."
+                ? t`Interrupt compaction`
+                : t`Compacting session. Wait for it to finish, or interrupt it.`
               : enabled
                 ? label
                 : action === "interrupt"
-                  ? "Nothing to interrupt. The session is idle."
-                  : `Wait for the active turn to finish before ${action === "compact" ? "compacting" : "starting a new session"}.`;
+                  ? t`Nothing to interrupt. The session is idle.`
+                  : t`Wait for the active turn to finish before ${waitVerb}.`;
         const succeeded = action === "new" && !!started;
         return (
           <Tooltip
             key={action}
-            content={succeeded ? "New session started" : title}
+            content={succeeded ? t`New session started` : title}
             {...(succeeded && !hintDismissed ? { open: true } : {})}
             onOpenChange={(open) => {
               if (!open && succeeded) setHintDismissed(true);

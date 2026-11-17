@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { resolveMatch, type Contribution } from "../../plugins/contributions";
 import {
@@ -29,6 +30,7 @@ export function LinkPreviews({
   registry: ContributionReader<LinkPreviewRenderer> | undefined;
   onOpenLink(url: string): boolean;
 }) {
+  const { t } = useLingui();
   const renderers = useSyncExternalStore(
     registry?.subscribe ?? noSubscribe,
     registry?.snapshot ?? noSnapshot,
@@ -49,6 +51,7 @@ export function LinkPreviews({
   if (!cards.length) return null;
   const shown = open ? cards : cards.slice(0, FOLD_AFTER);
   const hidden = cards.length - shown.length;
+  const hiddenNoun = hidden === 1 ? t`preview` : t`previews`;
   return (
     <div className={styles.previews} data-link-previews>
       {shown.map(({ url, renderer }) => {
@@ -79,9 +82,7 @@ export function LinkPreviews({
           type="button"
           onClick={() => setOpen((value) => !value)}
         >
-          {open
-            ? "Show fewer previews"
-            : `Show ${hidden} more ${hidden === 1 ? "preview" : "previews"}`}
+          {open ? t`Show fewer previews` : t`Show ${hidden} more ${hiddenNoun}`}
         </Button>
       )}
     </div>

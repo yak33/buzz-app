@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../../shared/design-system/ui/Button";
 import { ArrowsClockwiseIcon } from "../../shared/design-system/icons";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ export function DeliveryNotice({
   row: ChannelMessage;
   retry?: ((id: string) => void) | undefined;
 }) {
+  const { t } = useLingui();
   const [now, setNow] = useState(Date.now);
   useEffect(() => {
     if (!row.delivery || row.delivery === "seen") return;
@@ -29,7 +31,14 @@ export function DeliveryNotice({
   const refused =
     refusal && refusal.delivery === row.delivery ? refusal.reason : undefined;
   const status = deliveryFeedback(row, now);
-  const feedback = status && refused ? `${status} ${refused}` : status;
+  // delivery.ts 只决定是否显示；英文状态串不直接展示，展示文案在这里翻译。
+  const statusText =
+    row.delivery === "failed"
+      ? t`Couldn’t send this message.`
+      : row.deliveryError
+        ? t`Delivery not yet confirmed. ${row.deliveryError}`
+        : t`Delivery not yet confirmed.`;
+  const feedback = status ? (refused ? `${statusText} ${refused}` : statusText) : undefined;
   if (!feedback) return null;
   const canRetry =
     !refused &&
@@ -56,7 +65,7 @@ export function DeliveryNotice({
             }
           }}
         >
-          <ArrowsClockwiseIcon size={12} aria-hidden="true" /> Retry
+          <ArrowsClockwiseIcon size={12} aria-hidden="true" /> {t`Retry`}
         </Button>
       )}
     </div>

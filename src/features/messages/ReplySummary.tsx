@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { ReactNode } from "react";
 import { AvatarStack } from "../../shared/design-system/ui/AvatarStack";
 import { PencilSimpleIcon } from "../../shared/design-system/icons/index";
@@ -38,6 +39,10 @@ export function ReplySummary({
   unreadLabel?: string | undefined;
   unreadCount?: number;
 }) {
+  const { t } = useLingui();
+  // reply/replies 先求值成局部变量，再插值进同一条消息（t`` 内不能嵌套 t``）。
+  const replyWord = count === 1 ? t`reply` : t`replies`;
+  const replyCountLabel = t`${count} ${replyWord}`;
   return (
     <>
       <AvatarStack
@@ -56,14 +61,10 @@ export function ReplySummary({
       />
       {activity}
       {(count > 0 || !(hideEmptyLabel || draft)) && (
-        <span>
-          {count > 0
-            ? `${count} ${count === 1 ? "reply" : "replies"}`
-            : "View thread"}
-        </span>
+        <span>{count > 0 ? replyCountLabel : t`View thread`}</span>
       )}
       {unreadCount ? (
-        <span>({unreadCount} new)</span>
+        <span>{t`(${unreadCount} new)`}</span>
       ) : unreadLabel ? (
         <span
           className={styles.threadUnread}
@@ -75,7 +76,7 @@ export function ReplySummary({
         <span className={styles.threadDraft} data-thread-draft="">
           {replied && <span aria-hidden="true">·</span>}
           <PencilSimpleIcon size={14} aria-hidden="true" />
-          {replied ? "Draft" : "Draft reply"}
+          {replied ? t`Draft` : t`Draft reply`}
         </span>
       )}
     </>

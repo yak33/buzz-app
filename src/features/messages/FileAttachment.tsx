@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { I18n } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import type { FileCardProps } from "../conversation/contracts";
 import {
   IconButton,
@@ -31,13 +34,13 @@ export function formatFileSize(size: number): string {
   return `${Math.round(size / (1024 * 1024 * 1024))} GB`;
 }
 
-function mimeLabel(mime: string | undefined): string | undefined {
+function mimeLabel(mime: string | undefined, i18n: I18n): string | undefined {
   if (!mime) return undefined;
   const [type, subtype] = mime.split("/");
   if (!type || !subtype) return undefined;
-  if (subtype === "pdf") return "PDF file";
+  if (subtype === "pdf") return i18n._(msg`PDF file`);
   if (!/^[a-z0-9]+$/i.test(subtype)) return undefined;
-  return `${subtype.toUpperCase()} file`;
+  return i18n._(msg`${subtype.toUpperCase()} file`);
 }
 
 export function FileAttachment({
@@ -47,7 +50,9 @@ export function FileAttachment({
   onPreview,
   typeLabel,
 }: Omit<FileCardProps, "source"> & { source: string | undefined }) {
-  const displayName = attachment.name ?? mimeLabel(attachment.mime) ?? "File";
+  const { i18n, t } = useLingui();
+  const displayName =
+    attachment.name ?? mimeLabel(attachment.mime, i18n) ?? t`File`;
   const nativeSource = source ? isNativeMediaSource(source) : false;
   const proxySource = source ? isProxySource(source) || nativeSource : false;
   const externalSource = !!source && safeOpenUrl(source) && !proxySource;
@@ -64,9 +69,12 @@ export function FileAttachment({
       state: DownloadState = "idle",
       download?: () => Promise<void>,
     ) => {
+      // Resolve the verb first: a `t` call must not nest inside another
+      // `t` interpolation.
+      const verb = state === "failed" ? t`Retry download` : t`Download`;
       const action = {
-        "aria-label": `${state === "failed" ? "Retry download" : "Download"} ${displayName}`,
-        title: `Download ${displayName}`,
+        "aria-label": t`${verb} ${displayName}`,
+        title: t`Download ${displayName}`,
         icon:
           state === "failed" ? (
             <ArrowsClockwiseIcon aria-hidden="true" />
@@ -81,7 +89,7 @@ export function FileAttachment({
         <div className={styles.filePreviewAttachment}>
           <div className={styles.filePreviewMain}>
             <NavigationItem
-              aria-label={`Preview ${displayName}`}
+              aria-label={t`Preview ${displayName}`}
               icon={
                 <span className={fileIconStyles.slot}>
                   <FileTypeIcon name={attachment.name} mime={attachment.mime} />
@@ -97,14 +105,14 @@ export function FileAttachment({
                   </span>
                   <span className={styles.fileAttachmentMeta}>
                     {state === "pending" ? (
-                      "Downloading…"
+                      t`Downloading…`
                     ) : state === "saved" ? (
-                      "Saved to Downloads"
+                      t`Saved to Downloads`
                     ) : state === "failed" ? (
-                      "Couldn’t download · Retry"
+                      t`Couldn’t download · Retry`
                     ) : (
                       <>
-                        {typeLabel ?? mimeLabel(attachment.mime) ?? "File"}
+                        {typeLabel ?? mimeLabel(attachment.mime, i18n) ?? t`File`}
                         {attachment.size !== undefined &&
                           ` · ${formatFileSize(attachment.size)}`}
                       </>
@@ -157,18 +165,18 @@ export function FileAttachment({
         <span className={styles.fileAttachmentName}>{displayName}</span>
         <span className={styles.fileAttachmentMeta}>
           {state === "pending"
-            ? "Downloading…"
+            ? t`Downloading…`
             : state === "saved"
-              ? "Saved to Downloads"
+              ? t`Saved to Downloads`
               : state === "failed"
-                ? "Couldn’t download · Retry"
+                ? t`Couldn’t download · Retry`
                 : source
                   ? attachment.size
                     ? formatFileSize(attachment.size)
                     : proxySource
-                      ? "Download file"
-                      : "Open file"
-                  : "File unavailable"}
+                      ? t`Download file`
+                      : t`Open file`
+                  : t`File unavailable`}
         </span>
       </span>
       {state === "pending" ? (
@@ -202,7 +210,7 @@ export function FileAttachment({
         href={source}
         target="_blank"
         rel="noreferrer"
-        aria-label={`Open ${displayName}`}
+        aria-label={t`Open ${displayName}`}
         title={displayName}
         onClick={(event) => {
           if (event.metaKey || event.ctrlKey || event.shiftKey) return;
@@ -220,19 +228,24 @@ export function FileAttachment({
         name={attachment.name ?? ""}
         displayName={displayName}
       >
-        {(state, download) => (
-          <button
-            type="button"
-            className={styles.fileAttachment}
-            aria-label={`${state === "failed" ? "Retry download" : "Download"} ${displayName}`}
-            aria-disabled={state === "pending"}
-            aria-busy={state === "pending"}
-            title={displayName}
-            onClick={() => void download()}
-          >
-            {content(state)}
-          </button>
-        )}
+        {(state, download) => {
+          // Resolve the verb first: a `t` call must not nest inside another
+          // `t` interpolation.
+          const verb = state === "failed" ? t`Retry download` : t`Download`;
+          return (
+            <button
+              type="button"
+              className={styles.fileAttachment}
+              aria-label={t`${verb} ${displayName}`}
+              aria-disabled={state === "pending"}
+              aria-busy={state === "pending"}
+              title={displayName}
+              onClick={() => void download()}
+            >
+              {content(state)}
+            </button>
+          );
+        }}
       </NativeFileDownload>
     );
   return (
@@ -240,7 +253,7 @@ export function FileAttachment({
       className={styles.fileAttachment}
       href={source}
       download={attachment.name ?? ""}
-      aria-label={`Download ${displayName}`}
+      aria-label={t`Download ${displayName}`}
       title={displayName}
     >
       {content()}
@@ -260,14 +273,15 @@ function NativeFileDownload({
   displayName: string;
   children(state: DownloadState, download: () => Promise<void>): ReactNode;
 }) {
+  const { t } = useLingui();
   const { state, download } = useNativeDownload(source, name);
   const announcement =
     state === "pending"
-      ? `Downloading ${displayName}`
+      ? t`Downloading ${displayName}`
       : state === "saved"
-        ? `Saved ${displayName} to Downloads`
+        ? t`Saved ${displayName} to Downloads`
         : state === "failed"
-          ? `Couldn’t download ${displayName}. Try again.`
+          ? t`Couldn’t download ${displayName}. Try again.`
           : "";
   return (
     <>
@@ -286,6 +300,7 @@ function UnavailableFileAttachment({
   displayName: string;
   attachment: Attachment;
 }) {
+  const { t } = useLingui();
   return (
     <span className={styles.fileAttachment} role="status" title={displayName}>
       <span className={fileIconStyles.slot}>
@@ -293,7 +308,7 @@ function UnavailableFileAttachment({
       </span>
       <span className={styles.fileAttachmentBody}>
         <span className={styles.fileAttachmentName}>{displayName}</span>
-        <span className={styles.fileAttachmentMeta}>File unavailable</span>
+        <span className={styles.fileAttachmentMeta}>{t`File unavailable`}</span>
       </span>
     </span>
   );

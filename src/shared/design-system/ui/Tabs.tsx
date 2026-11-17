@@ -280,6 +280,9 @@ export function Tabs<Value extends string>({
               {item.onClose && (
                 <IconButton
                   size="xs"
+                  // A stable lookup key for callers that focus this button:
+                  // the aria-label is localized, the tab value is not.
+                  data-tab-close={item.value}
                   aria-label={`Close ${item.label} tab`}
                   onClick={item.onClose}
                   icon={<XIcon size="1rem" aria-hidden="true" />}

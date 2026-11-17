@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useConversationPresentation } from "../conversation/ConversationPresentation";
 import {
   type CSSProperties,
@@ -45,6 +47,7 @@ const noOperations = Object.freeze([]);
 const empty = () => noOperations;
 
 function useReactionAction({ row, session, disabled }: Props) {
+  const { i18n } = useLingui();
   const presented = useConversationPresentation();
   const [error, setError] = useState<string>();
   const active = useRef(false);
@@ -87,7 +90,7 @@ function useReactionAction({ row, session, disabled }: Props) {
       setError(
         reason instanceof Error
           ? reason.message
-          : "Could not update reaction. Try again.",
+          : i18n._(msg`Could not update reaction. Try again.`),
       );
       return false;
     }
@@ -179,6 +182,7 @@ function ReactionPreviewContent({
   overflowing: boolean;
   onOverflow(overflowing: boolean): void;
 }) {
+  const { t } = useLingui();
   const previewAuthors = useMemo(() => {
     return session.viewer && authorIds.includes(session.viewer)
       ? [session.viewer, ...authorIds.filter((id) => id !== session.viewer)]
@@ -195,7 +199,7 @@ function ReactionPreviewContent({
   );
   const users = previewAuthors.map((authorId) =>
     authorId === session.viewer
-      ? "You"
+      ? t`You`
       : (loadedReactors.get(authorId)?.name ??
         profiles?.get(authorId)?.name ??
         authorId.slice(0, 10)),
@@ -258,7 +262,7 @@ function ReactionPreviewContent({
       <section
         ref={observePeople}
         className={styles.reactionPreviewNames}
-        aria-label="Everyone who reacted"
+        aria-label={t`Everyone who reacted`}
         tabIndex={overflowing ? 0 : undefined}
       >
         <div>
@@ -304,6 +308,7 @@ function ReactionEmoji({
   previewOpen: boolean;
   onPreviewChange(open: boolean): void;
 }) {
+  const { t } = useLingui();
   const [name, setName] = useState(reaction.content);
   // A retained focus must not reopen the preview over delivery recovery controls.
   // Fresh pointer or keyboard entry can reveal it again.
@@ -328,10 +333,11 @@ function ReactionEmoji({
   const authorId = authorIds[0] ?? "";
   const user =
     authorId === session.viewer
-      ? "You"
+      ? t`You`
       : (loadedLabel.get(authorId)?.name ??
         profiles?.get(authorId)?.name ??
         authorId.slice(0, 10));
+  const peopleCount = t`${authorIds.length} people`;
   const revealName = () => {
     if (reaction.emoji) return;
     // A failed load keeps the raw content; the next hover or focus tries
@@ -356,7 +362,7 @@ function ReactionEmoji({
         sticky
         {...(overflowing && {
           actionRef: peopleList,
-          "aria-label": `People who reacted with ${name}`,
+          "aria-label": t`People who reacted with ${name}`,
         })}
         className={[
           styles.reactionPreview,
@@ -373,7 +379,7 @@ function ReactionEmoji({
             shape={grouped ? "capsule" : "icon"}
             data-reaction={reaction.content}
             data-reaction-url={reaction.emoji?.url}
-            aria-label={`${reaction.content}: ${grouped ? `${authorIds.length} people` : user}`}
+            aria-label={`${reaction.content}: ${grouped ? peopleCount : user}`}
             aria-pressed={mine}
             // Not disabled: hover, focus and Tab into the preview stay
             // available, and keys reach ancestors. onClick rejects activation.
@@ -439,6 +445,7 @@ export function MessageReactions(
   },
 ) {
   const active = useConversationPresentation();
+  const { t } = useLingui();
   const { row, session, scope, tools } = props;
   const action = useReactionAction(props);
   const catalog = useSyncExternalStore(
@@ -477,7 +484,7 @@ export function MessageReactions(
       data-testid="reaction-row"
       data-populated={(active && reactions.length > 0) || undefined}
       role="group"
-      aria-label="Reactions"
+      aria-label={t`Reactions`}
       onMouseEnter={() => setPointerInRow(true)}
       onMouseLeave={() => {
         setPointerInRow(false);

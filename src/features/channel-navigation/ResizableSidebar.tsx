@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useLayoutEffect, useState, type ReactNode } from "react";
 import {
   readView,
@@ -73,6 +74,7 @@ export function ResizableSidebar({
 }) {
   // A workspace change reads that workspace's width without remounting the
   // sidebar contents (which would detach focus and in-flight interactions).
+  const { t } = useLingui();
   const [view, setView] = useState(() => ({
     scope,
     width: readSidebarWidth(scope),
@@ -110,7 +112,7 @@ export function ResizableSidebar({
         min={SIDEBAR_MIN_WIDTH}
         max={SIDEBAR_MAX_WIDTH}
         reset={() => resize(SIDEBAR_DEFAULT_WIDTH)}
-        label="Resize sidebar"
+        label={t`Resize sidebar`}
         className={styles.handle}
       />
     </>

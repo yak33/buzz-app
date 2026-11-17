@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useSyncExternalStore } from "react";
 import { remoteExecutionDetail } from "../agents/execution-location";
 import { Tooltip } from "../../shared/design-system/ui/Tooltip";
@@ -45,6 +46,7 @@ export function RemoteWorkIcon({
 }
 
 export function RemoteAgentHint(props: RemoteAgentProps) {
+  const { t } = useLingui();
   const detail = useRemoteDetail(props);
   return detail ? (
     <Tooltip content={detail}>
@@ -54,7 +56,7 @@ export function RemoteAgentHint(props: RemoteAgentProps) {
         tabIndex={0}
       >
         <span aria-hidden="true">· </span>
-        Remote
+        {t`Remote`}
       </span>
     </Tooltip>
   ) : null;

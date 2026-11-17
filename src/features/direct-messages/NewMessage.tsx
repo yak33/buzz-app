@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { AvatarStack } from "../../shared/design-system/ui/AvatarStack";
 import { agentUnavailable, canMessageAgent } from "../agents/choices";
 import { avatarMedia } from "../../shared/avatar-source";
@@ -159,6 +161,7 @@ export function NewMessage({
   ): void;
   onStarted(channelId: string, messageId: string): void;
 }) {
+  const { i18n, t } = useLingui();
   // A message held for delivery or retry stays a Back stop even when its
   // draft view is gone or it carries only attachments.
   const held = useRef(false);
@@ -257,6 +260,7 @@ export function NewMessage({
     }
   }, [pending, session.directMessages, retire]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此恢复只在挂载时运行。
   useEffect(() => {
     let active = true;
     void (async () => {
@@ -289,7 +293,7 @@ export function NewMessage({
           setError(
             reason instanceof Error
               ? reason.message
-              : "Could not restore the message.",
+              : i18n._(msg`Could not restore the message.`),
           );
       }
     })();
@@ -317,7 +321,9 @@ export function NewMessage({
       )
     )
       throw new Error(
-        "A selected agent is no longer available. Remove it or refresh its details and try again.",
+        i18n._(
+          msg`A selected agent is no longer available. Remove it or refresh its details and try again.`,
+        ),
       );
   }
   function change(people: Recipient[]) {
@@ -378,7 +384,9 @@ export function NewMessage({
       ) {
         if (session.directMessages.delivery(current.id) !== "failed")
           throw new Error(
-            "Retry the earlier message to confirm its delivery before editing.",
+            i18n._(
+              msg`Retry the earlier message to confirm its delivery before editing.`,
+            ),
           );
         validateAgents();
         await outbox?.dismiss(current.id);
@@ -448,7 +456,7 @@ export function NewMessage({
         setError(
           reason instanceof Error
             ? reason.message
-            : "Could not send your message. Try again.",
+            : i18n._(msg`Could not send your message. Try again.`),
         );
     } finally {
       if (!controller.signal.aborted) setBusy(undefined);
@@ -488,7 +496,7 @@ export function NewMessage({
   return (
     <section
       className={styles.page}
-      aria-label="New message"
+      aria-label={t`New message`}
       data-attachment-drop-zone
     >
       <RecipientPicker
@@ -534,17 +542,17 @@ export function NewMessage({
       <div className={styles.feedback}>
         {busy && (
           <p role="status">
-            {busy === "uploading" ? "Uploading files…" : "Sending message…"}
+            {busy === "uploading" ? t`Uploading files…` : t`Sending message…`}
           </p>
         )}
         {uploadFailed && (
           <p role="status">
-            A file couldn’t upload. Retry or remove it, then send again.
+            {t`A file couldn’t upload. Retry or remove it, then send again.`}
           </p>
         )}
         {!session.directMessages.available && (
           <p role="status">
-            Starting direct messages is unavailable on this connection.
+            {t`Starting direct messages is unavailable on this connection.`}
           </p>
         )}
         {pending && !failed && !busy && !error && (
@@ -552,7 +560,7 @@ export function NewMessage({
             type="button"
             onClick={() => pending && void send(pending.draft)}
           >
-            Retry send
+            {t`Retry send`}
           </Button>
         )}
         {error && (
@@ -564,7 +572,7 @@ export function NewMessage({
                 disabled={!!busy}
                 onClick={() => pending && void send(pending.draft)}
               >
-                Retry send
+                {t`Retry send`}
               </Button>
             )}
           </div>
@@ -578,8 +586,10 @@ export function NewMessage({
           extensions={extensions}
           channelId={draftChannel}
           focusRequest={composerFocus}
-          channelName={recipientNames || "new message"}
-          label={recipientNames ? `Message ${recipientNames}` : "New message"}
+          channelName={recipientNames || t`new message`}
+          label={
+            recipientNames ? t`Message ${recipientNames}` : t`New message`
+          }
           placeholder={recipientNames ? undefined : ""}
           disabled={!recipients.length}
           submission={{
@@ -624,6 +634,7 @@ function ExistingDiscussion({
   onOpen(messageId: string, threadRootId: string, intent?: "reply"): void;
   onRecovered(): void;
 }) {
+  const { t } = useLingui();
   const window = useChannelWindow(session.channels, channel.id);
   const retry = useRef<HTMLButtonElement>(null);
   const [recovering, setRecovering] = useState(false);
@@ -640,7 +651,11 @@ function ExistingDiscussion({
         className={styles.feedback}
         role={window.status === "error" ? "alert" : "status"}
       >
-        <p>{window.status === "error" ? window.error : "Loading messages…"}</p>
+        <p>
+          {window.status === "error"
+            ? window.error
+            : t`Loading messages…`}
+        </p>
         {(window.status === "error" || recovering) && (
           <Button
             ref={retry}
@@ -651,7 +666,7 @@ function ExistingDiscussion({
               session.channels.ensure(channel.id);
             }}
           >
-            Retry messages
+            {t`Retry messages`}
           </Button>
         )}
       </div>

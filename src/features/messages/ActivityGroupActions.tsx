@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useChannelIdentityNames } from "../identity-names/react";
 import type { MessageLinkOrigin } from "./MessageRow";
 import {
@@ -48,6 +50,7 @@ export function ActivityGroupActions({
   open?: ((target: string, origin?: MessageLinkOrigin) => boolean) | undefined;
   canOpen?: ((target: string) => boolean) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   // Ref cleanup runs before a retired button detaches, while it still owns focus.
   const stopRef = useCallback(
     (node: HTMLButtonElement | null) => {
@@ -126,10 +129,14 @@ export function ActivityGroupActions({
             size="sm"
             variant="subtle"
             aria-label={
-              participants.length > 1 ? `${name} transcript` : "View transcript"
+              participants.length > 1
+                ? t`${name} transcript`
+                : t`View transcript`
             }
             title={
-              participants.length > 1 ? `${name} transcript` : "View transcript"
+              participants.length > 1
+                ? t`${name} transcript`
+                : t`View transcript`
             }
             icon={<InfoIcon aria-hidden="true" />}
             onClick={() =>
@@ -159,7 +166,7 @@ export function ActivityGroupActions({
               <Button
                 size="sm"
                 variant="subtle"
-                aria-label={`Retry ${named(entry.agent)}`}
+                aria-label={t`Retry ${named(entry.agent)}`}
                 onClick={() => {
                   if (!requestId) return;
                   try {
@@ -170,20 +177,23 @@ export function ActivityGroupActions({
                     );
                     returnFocus.current?.focus({ preventScroll: true });
                   } catch (error) {
+                    const agentName = named(entry.agent);
+                    const detail =
+                      error instanceof Error ? error.message : String(error);
                     notify(
-                      `Couldn’t retry ${named(entry.agent)}. ${error instanceof Error ? error.message : String(error)}`,
+                      i18n._(msg`Couldn’t retry ${agentName}. ${detail}`),
                       "error",
                     );
                   }
                 }}
               >
-                Retry
+                {t`Retry`}
               </Button>
             )}
             <IconButton
               size="sm"
               variant="ghost"
-              aria-label={`Dismiss error from ${named(entry.agent)}`}
+              aria-label={t`Dismiss error from ${named(entry.agent)}`}
               icon={<XIcon aria-hidden="true" />}
               onClick={() => {
                 if (requestId)
@@ -205,8 +215,8 @@ export function ActivityGroupActions({
             ref={stopRef}
             size="sm"
             variant="subtle"
-            aria-label={`Stop ${name}`}
-            title={`Stop ${name}`}
+            aria-label={t`Stop ${name}`}
+            title={t`Stop ${name}`}
             icon={<StopIcon aria-hidden="true" />}
             loading={pending.has(control.key)}
             onClick={() => void stop(control, name)}

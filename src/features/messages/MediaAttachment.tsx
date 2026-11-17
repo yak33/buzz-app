@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useMediaReadRecovery } from "./use-media-read-recovery";
 import { useConversationPresentation } from "../conversation/ConversationPresentation";
 import { prepareReviewEntrance } from "./use-review-entrance";
@@ -86,7 +87,7 @@ export function MediaAttachment({
   attachment,
   media,
   mode = "inline",
-  imageDescription = "Attachment preview",
+  imageDescription,
   preload = "auto",
   seekTo,
   seekRequest,
@@ -94,8 +95,12 @@ export function MediaAttachment({
   onOpenReview,
   compact = false,
   overlayCount = 0,
-  label = "Open video fullscreen",
+  label,
 }: MediaAttachmentProps) {
+  const { t } = useLingui();
+  // Defaults are resolved in the body: translated fallbacks need `t`.
+  const imageAlt = imageDescription ?? t`Attachment preview`;
+  const fullscreenLabel = label ?? t`Open video fullscreen`;
   const active = useConversationPresentation();
   const corners = useMediaCorners();
   const source = media(attachment.url);
@@ -139,8 +144,8 @@ export function MediaAttachment({
     return (
       <span className={styles.attachmentUnavailable} role="status">
         {attachment.kind === "video"
-          ? "Video unavailable"
-          : "Image unavailable"}
+          ? t`Video unavailable`
+          : t`Image unavailable`}
       </span>
     );
 
@@ -148,8 +153,8 @@ export function MediaAttachment({
     return (
       <span className={styles.attachmentUnavailable} role="status">
         {attachment.kind === "video"
-          ? "Video unavailable"
-          : "Image unavailable"}
+          ? t`Video unavailable`
+          : t`Image unavailable`}
       </span>
     );
 
@@ -161,7 +166,7 @@ export function MediaAttachment({
           className={`${styles.mediaPreview} ${mode === "thread" ? styles.mediaPreviewThread : ""}`}
           style={previewStyle}
           type="button"
-          aria-label="Open image fullscreen"
+          aria-label={t`Open image fullscreen`}
           data-image-preview=""
           data-media-preview=""
           onClick={(event) => {
@@ -173,7 +178,7 @@ export function MediaAttachment({
           <span className={styles.mediaPreviewPixels}>
             <img
               src={source}
-              alt={imageDescription}
+              alt={imageAlt}
               loading="lazy"
               onLoad={(event) =>
                 setMeasuredDimensions({
@@ -196,14 +201,14 @@ export function MediaAttachment({
           viewerOpen &&
           createPortal(
             <MediaViewer
-              title="Image attachment"
+              title={t`Image attachment`}
               close={() => setViewerOpen(false)}
             >
               <img
-                className={styles.mediaViewerImage}
-                src={source}
-                alt={imageDescription}
-              />
+              className={styles.mediaViewerImage}
+              src={source}
+              alt={imageAlt}
+            />
             </MediaViewer>,
             document.body,
           )}
@@ -213,7 +218,7 @@ export function MediaAttachment({
   if (attachment.kind !== "video")
     return (
       <span className={styles.attachmentUnavailable} role="status">
-        Attachment unavailable
+        {t`Attachment unavailable`}
       </span>
     );
 
@@ -345,7 +350,7 @@ export function MediaAttachment({
           aspectRatio: "auto",
         }}
         href={source ?? attachment.url}
-        aria-label={label}
+        aria-label={fullscreenLabel}
         data-media-preview=""
         data-video-preview=""
         onClick={(event) => {
@@ -405,7 +410,7 @@ export function MediaAttachment({
               size="compact"
               variant="media"
               type="button"
-              aria-label="Open video fullscreen"
+              aria-label={t`Open video fullscreen`}
               onClick={(event) => {
                 prepareReviewEntrance(event);
                 video.current?.pause();
@@ -429,7 +434,7 @@ export function MediaAttachment({
         viewerOpen &&
         createPortal(
           <MediaViewer
-            title="Video attachment"
+            title={t`Video attachment`}
             close={() => setViewerOpen(false)}
           >
             <VideoPlayer
@@ -462,6 +467,7 @@ export function MediaViewer({
   close(): void;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const backdrop = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   useModalBoundary(backdrop, closeButton, close);
@@ -490,7 +496,7 @@ export function MediaViewer({
                 size="compact"
                 ref={closeButton}
                 type="button"
-                aria-label="Close fullscreen viewer"
+                aria-label={t`Close fullscreen viewer`}
                 onClick={close}
                 icon={<XIcon size={20} aria-hidden="true" />}
               />

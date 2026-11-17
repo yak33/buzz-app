@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { invoke, isTauri } from "@tauri-apps/api/core";
 import { useConversationPresentation } from "./ConversationPresentation";
 import {
@@ -112,6 +113,7 @@ export function MessageLink({
   interactive?: boolean;
   channelPrivate?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const active = useConversationPresentation();
   const renderers = useSyncExternalStore(
     registry?.subscribe ?? subscribe,
@@ -324,7 +326,7 @@ export function MessageLink({
         }
         aria-description={
           chatChip && withheld
-            ? "Chat unavailable. You don’t have access, or it no longer exists."
+            ? t`Chat unavailable. You don’t have access, or it no longer exists.`
             : description
         }
         data-link-label={label ?? ""}
@@ -333,10 +335,10 @@ export function MessageLink({
         title={
           chatLabel
             ? withheld
-              ? `${chatLabel}. Chat unavailable. You don’t have access, or it no longer exists.`
+              ? t`${chatLabel}. Chat unavailable. You don’t have access, or it no longer exists.`
               : chatLabel
             : withheld
-              ? previewFailures.withheld
+              ? i18n._(previewFailures.withheld)
               : !preview && !named
                 ? url
                 : undefined

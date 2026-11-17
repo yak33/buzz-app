@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useLayoutEffect,
@@ -62,6 +63,7 @@ export function SelectionQuote({
 }: {
   list: RefObject<HTMLElement | null>;
 }) {
+  const { t } = useLingui();
   const [at, setAt] = useState<Edges | null>(null);
   const [placed, setPlaced] = useState<Place | null>(null);
   const surface = useRef<HTMLDivElement>(null);
@@ -145,7 +147,7 @@ export function SelectionQuote({
         }}
       >
         <QuotesIcon aria-hidden />
-        Quote
+        {t`Quote`}
       </Button>
     </div>,
     document.body,

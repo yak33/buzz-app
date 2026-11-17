@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useActivityFocusHandoff } from "./use-activity-focus-handoff";
 import messageStyles from "./Messages.module.css";
 import {
@@ -302,6 +303,7 @@ export function TypingIndicator({
     | ((target: string, origin?: MessageLinkOrigin) => boolean)
     | undefined;
 }) {
+  const { t } = useLingui();
   const {
     activity,
     details,
@@ -389,20 +391,23 @@ export function TypingIndicator({
     if (threadRootId) return undefined;
     const roots = workRoot ? [workRoot] : (details.get(pubkey)?.roots ?? []);
     const labels = roots.slice(0, 2).map((root) => {
-      if (root === null) return "Channel conversation";
-      if (!root) return "Work with unconfirmed thread";
+      if (root === null) return t`Channel conversation`;
+      if (!root) return t`Work with unconfirmed thread`;
       const text = rows
         .find((row) => row.id === root)
         ?.content.replace(/\s+/g, " ")
         .trim()
         .slice(0, 60);
-      return `Thread · ${text || root.slice(0, 8)}`;
+      return t`Thread · ${text || root.slice(0, 8)}`;
     });
     return [
       ...labels,
-      ...(roots.length > 2 ? [`+${roots.length - 2} more`] : []),
+      ...(roots.length > 2 ? [t`+${roots.length - 2} more`] : []),
     ].join(" / ");
   };
+  // Stop 按钮 aria-label 的 “ in {scope} ” 后缀，先求值成局部变量再插值。
+  const stopScopeLabel = (pubkey: string, root: string | undefined) =>
+    root && !threadRootId ? t` in ${scopeLabel(pubkey, root)}` : "";
   // Unknown or multiple scopes open channel activity, never an inferred transcript.
   const activityOrigin = (pubkey: string): MessageLinkOrigin | undefined => {
     const roots = details.get(pubkey)?.roots ?? [];
@@ -459,8 +464,8 @@ export function TypingIndicator({
       : detail.detailAvailability === "available"
         ? detail.label
         : detail.detailAvailability === "no-current-step"
-          ? (remoteDetail ?? "No current step details received.")
-          : "Only typing updates are reaching this app.";
+          ? (remoteDetail ?? t`No current step details received.`)
+          : t`Only typing updates are reaching this app.`;
     const scope =
       detail.roots.length === 1 && detail.roots[0] === null
         ? undefined
@@ -473,7 +478,7 @@ export function TypingIndicator({
           picture={avatarMedia(picture, session.media)}
           status={status}
           scope={scope}
-          openLabel={`View ${name(pubkey)} activity`}
+          openLabel={t`View ${name(pubkey)} activity`}
           onOpen={() =>
             navigate(
               target,
@@ -482,27 +487,36 @@ export function TypingIndicator({
           }
         />
       );
+    // thread/conversation 先翻成局部变量，再插值进 openLabel。
+    const openKind = conversationRoot ? t`thread` : t`conversation`;
     return (
       <AgentActivityRow
         name={name(pubkey)}
         picture={avatarMedia(picture, session.media)}
         status={status}
         scope={scope}
-        openLabel={`Open ${conversationRoot ? "thread" : "conversation"} for ${name(pubkey)}`}
+        openLabel={t`Open ${openKind} for ${name(pubkey)}`}
         onOpen={openActivity ? () => navigate(conversation) : undefined}
       />
     );
   };
+  const workingNames = activeAgents.map(name).join(", ");
   const workingText = activeAgents.length
-    ? `${activeAgents.map(name).join(", ")}${activeAgents.length === 1 ? " is working" : " are working"}`
+    ? activeAgents.length === 1
+      ? t`${workingNames} is working`
+      : t`${workingNames} are working`
     : "";
+  const typingNames = humans
+    .slice(0, 2)
+    .map(({ pubkey }) => name(pubkey))
+    .join(", ");
+  // “ and N others ” 片段先求值成局部变量，再插值进整句（t`` 内不能嵌套 t``）。
+  const otherTypers =
+    humans.length > 2 ? t` and ${humans.length - 2} others` : "";
   const typingText = humans.length
-    ? `${humans
-        .slice(0, 2)
-        .map(({ pubkey }) => name(pubkey))
-        .join(
-          ", ",
-        )}${humans.length > 2 ? ` and ${humans.length - 2} others` : ""}${humans.length === 1 ? " is typing" : " are typing"}`
+    ? humans.length === 1
+      ? t`${typingNames}${otherTypers} is typing`
+      : t`${typingNames}${otherTypers} are typing`
     : "";
   const firstStep = firstAgent ? details.get(firstAgent)?.label : undefined;
   const previewText =
@@ -520,7 +534,7 @@ export function TypingIndicator({
         <span
           className="sr-only"
           role="status"
-          aria-label="Conversation activity"
+          aria-label={t`Conversation activity`}
           data-agent-working-status=""
         >
           {[workingText, typingText].filter(Boolean).join(". ")}
@@ -561,8 +575,8 @@ export function TypingIndicator({
                 label={
                   visibleStep ||
                   (agents.length === 1 && firstAgent
-                    ? `Activity: ${name(firstAgent)} working`
-                    : `Activity: ${agents.length} agents working`)
+                    ? t`Activity: ${name(firstAgent)} working`
+                    : t`Activity: ${agents.length} agents working`)
                 }
                 content={
                   <ActivityStepPreview
@@ -617,7 +631,7 @@ export function TypingIndicator({
                             <Button
                               size="sm"
                               variant="plain"
-                              aria-label={`Stop ${name(pubkey)}${root && !threadRootId ? ` in ${scopeLabel(pubkey, root)}` : ""}`}
+                              aria-label={t`Stop ${name(pubkey)}${stopScopeLabel(pubkey, root)}`}
                               loading={pending.has(control.key)}
                               onClick={() => void stop(control, name(pubkey))}
                             >
@@ -625,7 +639,9 @@ export function TypingIndicator({
                                 className={styles.stopIcon}
                                 aria-hidden="true"
                               />
-                              {pending.has(control.key) ? "Stopping…" : "Stop"}
+                              {pending.has(control.key)
+                                ? t`Stopping…`
+                                : t`Stop`}
                             </Button>
                           </span>
                         </NavigationCard>
@@ -669,6 +685,7 @@ function AgentChooser({
     navigate: (target: string, origin?: MessageLinkOrigin) => void,
   ): ReactNode;
 }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   useActivityFocusHandoff(trigger);
@@ -740,7 +757,7 @@ function AgentChooser({
             aria-keyshortcuts={directTarget ? "ArrowDown" : undefined}
             aria-description={
               directTarget
-                ? "Press Down Arrow for working agents and conversation actions."
+                ? t`Press Down Arrow for working agents and conversation actions.`
                 : undefined
             }
             onKeyDown={(event) => {
@@ -773,11 +790,11 @@ function AgentChooser({
         padding="list"
         side="top"
         align="start"
-        aria-label="Working now"
+        aria-label={t`Working now`}
       >
         <section
           className={activityStyles.activityList}
-          aria-label="Agents working now"
+          aria-label={t`Agents working now`}
         >
           <ChooserItems items={() => children(navigate)} />
         </section>

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { revealCreatedChannel } from "./created-channel";
 import { openEmptyChannels } from "./routes";
 import {
@@ -176,6 +177,7 @@ export function ChannelInventory({
   sidebarRows?: SidebarRows | undefined;
   render(inventory: Inventory): ReactNode;
 }) {
+  const { t } = useLingui();
   const contributions = useSyncExternalStore(
     contributedSections?.subscribe ?? noSubscription,
     contributedSections?.snapshot ?? noSidebarSections,
@@ -807,16 +809,16 @@ export function ChannelInventory({
             <MenuIcon>
               <FolderSimpleIcon size={14} />
             </MenuIcon>
-            {movingDm ? "Move conversation" : "Move channel"}
+            {movingDm ? t`Move conversation` : t`Move channel`}
           </MenuSubmenuTrigger>
           <MenuSubmenuPopup
-            aria-label={`Move ${channel.name} to section`}
+            aria-label={t`Move ${channel.name} to section`}
             // The root restores by channel identity after relocation;
             // a nested popup must not refocus its retired trigger.
             finalFocus={false}
           >
             <MenuGroup>
-              <MenuGroupLabel>Move to…</MenuGroupLabel>
+              <MenuGroupLabel>{t`Move to…`}</MenuGroupLabel>
             </MenuGroup>
             <MenuRadioGroup
               value={
@@ -845,7 +847,7 @@ export function ChannelInventory({
             >
               <MenuRadioItem value="starred" closeOnClick={false}>
                 <MenuIcon>★</MenuIcon>
-                Starred
+                {t`Starred`}
               </MenuRadioItem>
               {preferences.data?.sections.map((group) => (
                 <MenuRadioItem
@@ -868,7 +870,7 @@ export function ChannelInventory({
                   <MenuIcon>
                     <ChatCircleIcon size={14} />
                   </MenuIcon>
-                  Direct messages
+                  {t`Direct messages`}
                 </MenuRadioItem>
               )}
             </MenuRadioGroup>
@@ -893,7 +895,7 @@ export function ChannelInventory({
               <MenuIcon>
                 <PlusIcon size={14} />
               </MenuIcon>
-              Create new…
+              {t`Create new…`}
             </MenuItem>
             {(starred || currentSectionId) && (
               <MenuItem
@@ -906,7 +908,7 @@ export function ChannelInventory({
                 <MenuIcon>
                   <MinusIcon size={14} />
                 </MenuIcon>
-                Remove from{" "}
+                {t`Remove from`}{" "}
                 {sections.find((section) => section.key === sectionKey)?.title}
               </MenuItem>
             )}
@@ -932,7 +934,7 @@ export function ChannelInventory({
           <MenuIcon>
             {muted ? <BellIcon size={14} /> : <BellSlashIcon size={14} />}
           </MenuIcon>
-          {muted ? "Unmute" : "Mute"}
+          {muted ? t`Unmute` : t`Mute`}
         </MenuItem>,
       );
     }
@@ -999,7 +1001,7 @@ export function ChannelInventory({
           <MenuIcon>
             <XIcon size={14} />
           </MenuIcon>
-          Close conversation
+          {t`Close conversation`}
         </MenuItem>,
       );
     }
@@ -1264,6 +1266,14 @@ export function ChannelInventory({
     },
     [lifecycleCallbacks, openSuccessor],
   );
+  // The section a save-failure notice names, titled for the reader, with a
+  // fallback when that section is no longer listed.
+  const sectionTitleFor = (group: string) =>
+    sections.find(
+      ({ key }) =>
+        key ===
+        (group.startsWith("section:") ? `group:${group.slice(8)}` : group),
+    )?.title ?? t`this section`;
   return render({
     sidebar,
     dmPreviews: unreadDmPreviews,
@@ -1286,14 +1296,14 @@ export function ChannelInventory({
           <p role="alert">
             {kitState.error}{" "}
             <Button onClick={() => void queries.channelKit.refresh()}>
-              Retry templates
+              {t`Retry templates`}
             </Button>
           </p>
         )}
         {setupNotices.map((notice) => (
           <ToastNotice
             key={notice.id}
-            title={`Channel setup couldn’t finish: ${notice.name}`}
+            title={t`Channel setup couldn’t finish: ${notice.name}`}
             description={notice.error}
             tone="warning"
           >
@@ -1301,13 +1311,13 @@ export function ChannelInventory({
               size="sm"
               onClick={() => queries.channelCreation.dismissNotice(notice.id)}
             >
-              Dismiss
+              {t`Dismiss`}
             </Button>
           </ToastNotice>
         ))}
         {!cached && dmVisibility.status === "error" && (
           <div role="alert">
-            Hidden conversations could not be refreshed.{" "}
+            {t`Hidden conversations could not be refreshed.`}{" "}
             <Button
               onClick={() =>
                 void lifecycle.refreshVisibility(
@@ -1315,7 +1325,7 @@ export function ChannelInventory({
                 )
               }
             >
-              Retry hidden conversations
+              {t`Retry hidden conversations`}
             </Button>
           </div>
         )}
@@ -1597,7 +1607,9 @@ export function ChannelInventory({
                         menuOpen ? (
                           <>
                             {rowActions(channel, section.key)}
-                            {readWrite?.pending && <p role="status">Saving…</p>}
+                            {readWrite?.pending && (
+                              <p role="status">{t`Saving…`}</p>
+                            )}
                             {readWrite?.error && (
                               <p role="alert">{readWrite.error}</p>
                             )}
@@ -1660,7 +1672,7 @@ export function ChannelInventory({
         </ChannelSidebarDnd>
         {!startup.ready && (
           <p className={styles.empty} role="status">
-            Loading your sidebar…
+            {t`Loading your sidebar…`}
           </p>
         )}
         {list.status === "error" && !rosterRecovers && (
@@ -1669,7 +1681,7 @@ export function ChannelInventory({
           </p>
         )}
         {startup.ready && list.status === "ready" && !channels.length && (
-          <p className={styles.empty}>No channels yet.</p>
+          <p className={styles.empty}>{t`No channels yet.`}</p>
         )}
       </>
     ),
@@ -1677,31 +1689,25 @@ export function ChannelInventory({
       <>
         {cached && connectionError && (
           <p className={styles.preferenceNotice} role="status">
-            Offline · Showing saved conversations.
-            <Button onClick={relay.tryAgain}>Retry connection</Button>
+            {t`Offline · Showing saved conversations.`}
+            <Button onClick={relay.tryAgain}>{t`Retry connection`}</Button>
           </p>
         )}
         {preferences.sortErrors?.map(({ group, mode, error }) => (
           <div key={group} className={styles.preferenceNotice} role="alert">
             <p>
-              Couldn’t save the sort order for{" "}
-              {sections.find(
-                ({ key }) =>
-                  key ===
-                  (group.startsWith("section:")
-                    ? `group:${group.slice(8)}`
-                    : group),
-              )?.title ?? "this section"}
-              . {error}
+              {t`Couldn’t save the sort order for ${sectionTitleFor(
+                group,
+              )}. ${error}`}
             </p>
             <button type="button" onClick={() => setSectionSort(group, mode)}>
-              Retry sort
+              {t`Retry sort`}
             </button>
             <button
               type="button"
               onClick={() => preferences.dismissSortError(group)}
             >
-              Dismiss
+              {t`Dismiss`}
             </button>
           </div>
         ))}
@@ -1709,15 +1715,9 @@ export function ChannelInventory({
           ({ group, mode, activeWindowSeconds, error }) => (
             <div key={group} className={styles.preferenceNotice} role="alert">
               <p>
-                Couldn’t save the filter for{" "}
-                {sections.find(
-                  ({ key }) =>
-                    key ===
-                    (group.startsWith("section:")
-                      ? `group:${group.slice(8)}`
-                      : group),
-                )?.title ?? "this section"}
-                . {error}
+                {t`Couldn’t save the filter for ${sectionTitleFor(
+                  group,
+                )}. ${error}`}
               </p>
               <button
                 type="button"
@@ -1727,13 +1727,13 @@ export function ChannelInventory({
                   )
                 }
               >
-                Retry filter
+                {t`Retry filter`}
               </button>
               <button
                 type="button"
                 onClick={() => preferences.dismissFilterError(group)}
               >
-                Dismiss
+                {t`Dismiss`}
               </button>
             </div>
           ),
@@ -1741,20 +1741,16 @@ export function ChannelInventory({
         {preferences.orderError && (
           <div className={styles.preferenceNotice} role="alert">
             <p>
-              Couldn’t save the move for{" "}
-              {sections.find(
-                ({ key }) =>
-                  key === `group:${preferences.orderError?.sectionId}`,
-              )?.title ?? "this section"}
-              . {preferences.orderError.error}
+              {t`Couldn’t save the move for ${sectionTitleFor(
+                `section:${preferences.orderError?.sectionId}`,
+              )}. ${preferences.orderError.error}`}
             </p>
             <p>
-              The previous placement is shown. A partial save may already exist
-              on the relay.
+              {t`The previous placement is shown. A partial save may already exist on the relay.`}
             </p>
             {!preferences.sectionOrderWritable && (
               <p>
-                Refresh saved sidebar preferences before retrying this move.
+                {t`Refresh saved sidebar preferences before retrying this move.`}
               </p>
             )}
             <button
@@ -1769,7 +1765,7 @@ export function ChannelInventory({
                 setGroupFocus(`group:${failed.sectionId}`);
               }}
             >
-              Retry move
+              {t`Retry move`}
             </button>
             <button
               type="button"
@@ -1779,73 +1775,78 @@ export function ChannelInventory({
                 if (failed) setGroupFocus(`group:${failed.sectionId}`);
               }}
             >
-              Dismiss
+              {t`Dismiss`}
             </button>
           </div>
         )}
         {preferences.moves
           ?.filter((move) => !move.pending)
-          .map((move) => (
-            <div key={move.id} className={styles.preferenceNotice} role="alert">
-              <p>
-                Couldn’t save the move for{" "}
-                {channels.find(({ id }) => id === move.channelId)?.name ??
-                  "this channel"}
-                . {move.error}
-              </p>
-              <p>
-                The previous placement is shown. A partial save may already
-                exist on the relay.
-              </p>
-              {!preferences.writable && (
+          .map((move) => {
+            const channelName =
+              channels.find(({ id }) => id === move.channelId)?.name ??
+              t`this channel`;
+            return (
+              <div
+                key={move.id}
+                className={styles.preferenceNotice}
+                role="alert"
+              >
                 <p>
-                  Refresh saved sidebar preferences before retrying this move.
+                  {t`Couldn’t save the move for ${channelName}. ${move.error}`}
                 </p>
-              )}
-              <button
-                type="button"
-                disabled={!preferences.writable}
-                onClick={() =>
-                  moveChannel(move.channelId, () =>
-                    preferences.retryMove(move.channelId),
-                  )
-                }
-              >
-                Retry move
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  preferences.dismissMoveError(move.channelId);
-                  focusChannelPlacement(move.channelId);
-                }}
-              >
-                Dismiss
-              </button>
-            </div>
-          ))}
+                <p>
+                  {t`The previous placement is shown. A partial save may already exist on the relay.`}
+                </p>
+                {!preferences.writable && (
+                  <p>
+                    {t`Refresh saved sidebar preferences before retrying this move.`}
+                  </p>
+                )}
+                <button
+                  type="button"
+                  disabled={!preferences.writable}
+                  onClick={() =>
+                    moveChannel(move.channelId, () =>
+                      preferences.retryMove(move.channelId),
+                    )
+                  }
+                >
+                  {t`Retry move`}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    preferences.dismissMoveError(move.channelId);
+                    focusChannelPlacement(move.channelId);
+                  }}
+                >
+                  {t`Dismiss`}
+                </button>
+              </div>
+            );
+          })}
         {!cached &&
         startup.ready &&
         preferences.status === "error" &&
         !preferences.transient ? (
           <ToastNotice
-            title="Saved sidebar preferences couldn’t refresh"
-            description="Your conversations are still available."
+            title={t`Saved sidebar preferences couldn’t refresh`}
+            description={t`Your conversations are still available.`}
             tone="warning"
           >
             <Button type="button" size="sm" onClick={preferences.reload}>
-              Retry
+              {t`Retry`}
             </Button>
           </ToastNotice>
         ) : !cached && startup.ready && preferences.status === "unsupported" ? (
           <p className={styles.preferenceNotice} role="status">
-            Saved groups and stars aren’t supported by this host yet.
+            {t`Saved groups and stars aren’t supported by this host yet.`}
           </p>
         ) : null}
         {list.activityStatus === "error" && !activityErrorDismissed && (
           <ToastNotice
-            title="Couldn’t refresh recent activity"
-            description="Activity filters and Recent sorting may be out of date."
+            title={t`Couldn’t refresh recent activity`}
+            description={t`Activity filters and Recent sorting may be out of date.`}
             tone="warning"
             onDismiss={() => setActivityErrorDismissed(true)}
           >
@@ -1854,7 +1855,7 @@ export function ChannelInventory({
               size="sm"
               onClick={() => queries.channels.refreshList?.()}
             >
-              Retry
+              {t`Retry`}
             </Button>
           </ToastNotice>
         )}

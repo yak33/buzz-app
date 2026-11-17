@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { Children, type ReactNode, type RefObject, type Ref } from "react";
 import { Avatar } from "../../shared/design-system/ui/Avatar";
 import { CaretUpIcon } from "../../shared/design-system/icons";
@@ -29,6 +30,7 @@ export function ActivityDisclosure({
   interactive?: boolean;
   expandedSummary?: ReactNode;
 }) {
+  const { t } = useLingui();
   return (
     <div
       ref={container}
@@ -79,7 +81,7 @@ export function ActivityDisclosure({
                 icon
               )}
               <span className={styles.audiencePreviewText}>
-                {expanded ? "Collapse" : summary}
+                {expanded ? t`Collapse` : summary}
               </span>
             </button>
           </div>

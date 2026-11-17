@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useContext,
   useLayoutEffect,
@@ -33,6 +35,7 @@ export function QueuedFollowUps({
   focusComposer(): void;
   onEdit?(id: string): void;
 }) {
+  const { t } = useLingui();
   const queue = followUpQueue(session);
   const entries = useSyncExternalStore(queue.subscribe, queue.snapshot).filter(
     (entry) => entry.channelId === channelId,
@@ -67,7 +70,7 @@ export function QueuedFollowUps({
     <section
       ref={section}
       className={styles.queue}
-      aria-label="Queued follow-ups"
+      aria-label={t`Queued follow-ups`}
     >
       {storageError && (
         <p role="alert" className="text-body-sm text-danger">
@@ -79,19 +82,19 @@ export function QueuedFollowUps({
           <li key={entry.id} className={styles.row}>
             <div className={styles.content}>
               <QueuePreview
-                text={entry.text || "Attachment"}
+                text={entry.text || t`Attachment`}
                 onFocus={() => {
                   focused.current = { id: entry.id, action: "preview" };
                 }}
               />
               {entry.sending && !entry.error && (
-                <p className="text-caption">Sending…</p>
+                <p className="text-caption">{t`Sending…`}</p>
               )}
               {entry.restored && !entry.sending && !entry.error && (
                 <p className="text-caption">
                   {entry.predecessorRemoved
-                    ? "Paused because an earlier message was handled in another window. Send when ready."
-                    : "Saved before restart. Send when ready."}
+                    ? t`Paused because an earlier message was handled in another window. Send when ready.`
+                    : t`Saved before restart. Send when ready.`}
                 </p>
               )}
               {entry.error && (
@@ -110,7 +113,7 @@ export function QueuedFollowUps({
                 variant="subtle"
                 shape="round"
                 size="xs"
-                aria-label="Remove queued message"
+                aria-label={t`Remove queued message`}
                 icon={<XIcon size={12} strokeWidth={2} />}
                 onClick={() => {
                   queue.remove(entry.id);
@@ -121,7 +124,7 @@ export function QueuedFollowUps({
                 onFocus={() => {
                   focused.current = { id: entry.id, action: "edit" };
                 }}
-                aria-label="Edit queued message"
+                aria-label={t`Edit queued message`}
                 variant="subtle"
                 size="xs"
                 shape="round"
@@ -244,13 +247,15 @@ function QueuedSend({
   channelId: string;
 }) {
   const agents = useContext(AgentsContext);
+  const { i18n, t } = useLingui();
   const state = useSessionState(agents, recipients, {
     channelId,
   });
   const compacting = state === "compacting";
+  const compactionNotice = t`Wait for compaction to finish, or interrupt it.`;
   return (
     <Tooltip
-      content="Wait for compaction to finish, or interrupt it."
+      content={compactionNotice}
       {...(!compacting ? { open: false } : {})}
       disableHoverablePopup
     >
@@ -268,8 +273,9 @@ function QueuedSend({
                 );
               })
             )
+              // 事件回调里的用户可见错误信息，用 i18n._ 翻译。
               throw new Error(
-                "Wait for compaction to finish, or interrupt it.",
+                i18n._(msg`Wait for compaction to finish, or interrupt it.`),
               );
           })
         }
@@ -277,7 +283,7 @@ function QueuedSend({
         size="xs"
         shape="round"
         style={accentButtonStyle}
-        aria-label="Send"
+        aria-label={t`Send`}
         icon={<ArrowUpIcon size={12} strokeWidth={2.5} />}
         disabled={props.disabled || compacting}
         focusableWhenDisabled={compacting || undefined}

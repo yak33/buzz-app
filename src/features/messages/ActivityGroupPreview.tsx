@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useChannelIdentityNames } from "../identity-names/react";
 import type { MessageLinkOrigin } from "./MessageRow";
 import { ActivityGroupActions } from "./ActivityGroupActions";
@@ -47,6 +48,7 @@ export function ActivityGroupPreview({
   layout?: "timeline" | "thread";
   renderHistory?: (row: ChannelMessage) => ReactNode;
 }) {
+  const { t } = useLingui();
   const container = useRef<HTMLDivElement>(null);
   const disclosure = useRef<HTMLButtonElement>(null);
   const resolveName = useChannelIdentityNames(session, group.latest.channelId);
@@ -118,10 +120,11 @@ export function ActivityGroupPreview({
     )
     .join("; ");
   const namedPreview = `${speaker}: ${preview}`;
+  const toggleVerb = expanded ? t`Collapse` : t`Show`;
   const summaryLabel = [
     outcomeText,
     working
-      ? `${speaker}: still working — ${preview}`
+      ? t`${speaker}: still working — ${preview}`
       : !outcomeText && namedPreview,
   ]
     .filter(Boolean)
@@ -150,7 +153,7 @@ export function ActivityGroupPreview({
         trigger={disclosure}
         expanded={expanded}
         onToggle={onToggle}
-        label={`${expanded ? "Collapse" : "Show"} activity history: ${summaryLabel}`}
+        label={t`${toggleVerb} activity history: ${summaryLabel}`}
         icon={
           <>
             <RemoteWorkIcon

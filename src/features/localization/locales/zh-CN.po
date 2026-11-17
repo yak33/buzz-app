@@ -7,10 +7,29 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: zh-CN\n"
 
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid " · Thread"
+msgstr " · 话题"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid " and "
 msgstr "和"
+
+#. placeholder {0}: uploads.others
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid " and {0} more"
+msgstr " 和另外 {0} 个"
+
+#. placeholder {0}: humans.length - 2
+#: src/features/messages/TypingIndicator.tsx
+msgid " and {0} others"
+msgstr " 和其他 {0} 人"
+
+#. placeholder {0}: scopeLabel(pubkey, root)
+#: src/features/messages/TypingIndicator.tsx
+msgid " in {0}"
+msgstr "（{0}）"
 
 #: src/features/identity/JoinCommunity.tsx
 msgid " Join an existing one or create your own."
@@ -20,9 +39,39 @@ msgstr "加入现有的，或创建你自己的。"
 msgid " Kept agents keep their names, types and keys; their settings on this device are erased."
 msgstr " 保留的智能体会保留其名称、类型和密钥；它们在此设备上的设置会被清除。"
 
+#. placeholder {0}: to.map((who) => who.name).join(", ")
+#: src/features/messages/MessageRow.tsx
+msgid " to {0}"
+msgstr " 发送给 {0}"
+
 #: src/features/identity/KeyImport.tsx
 msgid " unless you chose to manage it yourself"
 msgstr "，除非你此前选择自行管理"
+
+#. placeholder {0}: defaultEffort.label
+#: src/features/messages/ComposerModels.tsx
+msgid " with its default effort ({0})"
+msgstr "，使用其默认思考力度（{0}）"
+
+#: src/features/messages/ComposerModels.tsx
+msgid " with the provider's default effort"
+msgstr "，使用供应商的默认思考力度"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid ", {verified}"
+msgstr "，{verified}"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid ", Agent"
+msgstr "，智能体"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid ", thread"
+msgstr "，话题"
+
+#: src/features/messages/MessageRow.tsx
+msgid "; may be out of date"
+msgstr "；可能已过期"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -33,14 +82,120 @@ msgstr "。"
 msgid ". Block can use that copy to restore your identity, including anywhere else you use it."
 msgstr "。Block 可使用该副本恢复你的身份，包括你在其他地方使用该身份的场合。"
 
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid ". Join to keep it in your sidebar and appear as a viewer."
+msgstr "。加入后可将其保留在侧边栏，并以访客身份显示。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "· Thread"
+msgstr "· 话题"
+
+#. placeholder {0}: shortened(query.trim())
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "“{0}” is not a valid recipient"
+msgstr "“{0}”不是有效的收件人"
+
+#: src/features/messages/ReplySummary.tsx
+msgid "({unreadCount} new)"
+msgstr "（{unreadCount} 条新消息）"
+
 #: src/features/identity/KeyImport.tsx
 msgid "(the key on your other device)."
 msgstr "（你另一台设备上的密钥）。"
+
+#. placeholder {0}: marker.label
+#. placeholder {1}: marker.author
+#. placeholder {2}: marker.text
+#: src/features/messages/VideoPlayer.tsx
+msgid "{0} · {1}: {2}"
+msgstr "{0} · {1}：{2}"
+
+#. placeholder {0}: runs.label
+#: src/features/messages/ComposerModels.tsx
+msgid "{0} · No thinking options"
+msgstr "{0} · 无思考选项"
+
+#. placeholder {0}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "{0} {listKind}"
+msgstr "{0} {listKind}"
+
+#. placeholder {0}: threadAgents.length
+#: src/features/messages/MessageRow.tsx
+msgid "{0} agents are waiting"
+msgstr "{0} 个智能体在等待"
+
+#. placeholder {0}: threadAgents.length
+#: src/features/messages/MessageRow.tsx
+msgid "{0} agents are working"
+msgstr "{0} 个智能体在工作"
 
 #. placeholder {0}: recovery.manifest.name
 #: src/app/PluginUpdates.tsx
 msgid "{0} cannot start"
 msgstr "{0} 无法启动"
+
+#. placeholder {0}: subtype.toUpperCase()
+#: src/features/messages/FileAttachment.tsx
+msgid "{0} file"
+msgstr "{0} 个文件"
+
+#. placeholder {0}: resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)
+#: src/features/messages/MessageRow.tsx
+msgid "{0} is waiting"
+msgstr "{0} 在等待"
+
+#. placeholder {0}: resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)
+#: src/features/messages/MessageRow.tsx
+msgid "{0} is working"
+msgstr "{0} 在工作"
+
+#. placeholder {0}: channel.members
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "{0} members"
+msgstr "{0} 名成员"
+
+#. placeholder {0}: formatMediaTime(currentTime)
+#. placeholder {1}: formatMediaTime(duration)
+#: src/features/messages/AudioAttachment.tsx
+msgid "{0} of {1}"
+msgstr "{0}/{1}"
+
+#. placeholder {0}: authorIds.length
+#: src/features/messages/MessageReactions.tsx
+msgid "{0} people"
+msgstr "{0} 人"
+
+#. placeholder {0}: activity.replies
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{0} replies"
+msgstr "{0} 条回复"
+
+#. placeholder {0}: uploads.phase
+#. placeholder {1}: uploads.destination.name
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "{0} to {1}"
+msgstr "{0} 至 {1}"
+
+#. placeholder {0}: threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")
+#: src/features/messages/MessageRow.tsx
+msgid "{0} waiting"
+msgstr "{0} 在等待"
+
+#. placeholder {0}: threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")
+#: src/features/messages/MessageRow.tsx
+msgid "{0} working"
+msgstr "{0} 在工作"
+
+#. placeholder {0}: resolveName(owner.id, owner.profile.name)
+#: src/features/messages/MessageRow.tsx
+msgid "{0}’s agent"
+msgstr "{0} 的智能体"
+
+#. placeholder {0}: activity.replies
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{0}+ replies"
+msgstr "{0}+ 条回复"
 
 #: src/features/communities/ProfileFields.tsx
 msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
@@ -54,13 +209,37 @@ msgstr "{account} 绑定的密钥与这台电脑上的不同，且 Builderlab �
 msgid "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
 msgstr "{account} 绑定的密钥在另一台设备上，且 Builderlab 没有它的备份。Buzz 会继续使用这台电脑的密钥。想在这里使用你账户的密钥，请在那台设备上的“设置 → 身份”中开启身份同步，或把该密钥的私钥带到这里。"
 
+#: src/features/conversation/MessageLink.tsx
+msgid "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
+msgstr "{chatLabel}。聊天不可用。你没有访问权限，或它已不存在。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "{colorLabel} accent color"
 msgstr "{colorLabel}强调色"
 
+#: src/features/messages/ReplySummary.tsx
+msgid "{count} {replyWord}"
+msgstr "{count} 条{replyWord}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{count} messages after yours, {from}"
+msgstr "你发送之后有 {count} 条消息，{from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{count} replies after yours, {from}"
+msgstr "你发送之后有 {count} 条回复，{from}"
+
+#: src/shared/datetime.ts
+msgid "{dayLabel} at {time}"
+msgstr "{dayLabel} {time}"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel}（仅预览）"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "{headingTitle} conversations"
+msgstr "{headingTitle} 的对话"
 
 #: src/features/identity/ProfileStep.tsx
 msgid "{host} no longer admits this key. Ask a community administrator to restore your access."
@@ -78,21 +257,128 @@ msgstr "{label}日期"
 msgid "{label} time"
 msgstr "{label}时间"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "{label}: session controls unavailable. Check the agent's connection and the app running it."
+msgstr "{label}：会话控制不可用。请检查该智能体的连接及其运行的应用。"
+
+#. placeholder {0}: picked.join(", ")
+#: src/features/messages/ComposerModels.tsx
+msgid "{label}. {target}: {0}"
+msgstr "{label}。{target}：{0}"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "{maxRecipients} people selected"
+msgstr "已选择 {maxRecipients} 人"
+
+#: src/features/messages/MessageRow.tsx
+msgid "{name} avatar"
+msgstr "{name} 的头像"
+
 #: src/app/NotificationSettings.tsx
 msgid "{name} rec."
 msgstr "{name}（推荐）"
+
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "{name} transcript"
+msgstr "{name} 的执行记录"
 
 #: src/app/shell/ProfileButton.tsx
 msgid "{name}, edit profile"
 msgstr "{name}，编辑个人资料"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "{name}'s session"
+msgstr "{name} 的会话"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "{reason} {fallback}. Your saved choice is retained until you reset it."
+msgstr "{reason} {fallback}。你保存的选择会保留，直到你重置它。"
+
+#: src/features/messages/MessageRow.tsx
+msgid "{remainingWorkingNames} waiting"
+msgstr "{remainingWorkingNames} 在等待"
+
+#: src/features/messages/MessageRow.tsx
+msgid "{remainingWorkingNames} working"
+msgstr "{remainingWorkingNames} 在工作"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "{shown} after you"
+msgstr "你之后 {shown} 条"
+
+#: src/features/messages/ActivityGroupPreview.tsx
+msgid "{speaker}: still working — {preview}"
+msgstr "{speaker}：仍在工作 — {preview}"
+
+#: src/features/messages/ActivityGroupPreview.tsx
+msgid "{toggleVerb} activity history: {summaryLabel}"
+msgstr "{toggleVerb}活动历史：{summaryLabel}"
+
+#. placeholder {0}: item.file.name
+#: src/features/messages/ComposerAttachments.tsx
+msgid "{transferState} {0}"
+msgstr "{transferState} {0}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{typingNames}{otherTypers} are typing"
+msgstr "{typingNames}{otherTypers} 正在输入"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{typingNames}{otherTypers} is typing"
+msgstr "{typingNames}{otherTypers} 正在输入"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "{unreadCount} new in available replies"
+msgstr "已加载的回复中有 {unreadCount} 条新消息"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "{verb} {displayName}"
+msgstr "{verb} {displayName}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{workingNames} are working"
+msgstr "{workingNames} 在工作"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "{workingNames} is working"
+msgstr "{workingNames} 在工作"
+
 #: src/app/NotificationSettings.tsx
 msgid "@Mentions"
 msgstr "@提及我的"
 
+#. placeholder {0}: roots.length - 2
+#: src/features/messages/TypingIndicator.tsx
+msgid "+{0} more"
+msgstr "还有 {0} 个"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "1 hour"
 msgstr "1 小时"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "1 member"
+msgstr "1 名成员"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1 message after yours, {from}"
+msgstr "你发送之后有 1 条消息，{from}"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "1 person selected"
+msgstr "已选择 1 人"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1 reply"
+msgstr "1 条回复"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1 reply after yours, {from}"
+msgstr "你发送之后有 1 条回复，{from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "1+ replies"
+msgstr "1+ 条回复"
 
 #: src/app/AppearanceSettings.tsx
 msgid "12-hour"
@@ -110,6 +396,14 @@ msgstr "8 小时"
 msgid "A different account is saved on this computer"
 msgstr "此电脑上保存着另一个账户"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "A file couldn’t upload. Retry or remove it, then send again."
+msgstr "有文件未能上传。请重试或移除后再发送。"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "A selected agent is no longer available. Remove it or refresh its details and try again."
+msgstr "所选的某个智能体已不可用。请将其移除或刷新其详情后重试。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "A selected recipient is archived or being deleted. Remove it before sending."
 msgstr "所选接收方已归档或正在删除，请移除后再发送。"
@@ -126,6 +420,11 @@ msgstr "强调色"
 msgid "Accent color wasn’t saved"
 msgstr "未能保存强调色"
 
+#. placeholder {0}: channel.name
+#: src/features/channel-navigation/RegionChannelGroup.tsx
+msgid "Actions for {0}"
+msgstr "{0} 的操作"
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Actions for {name}"
 msgstr "{name} 的操作"
@@ -133,6 +432,33 @@ msgstr "{name} 的操作"
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
 msgstr "动态"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Activity filters and Recent sorting may be out of date."
+msgstr "活动过滤和“最近”排序可能已过期。"
+
+#. placeholder {0}: author.name
+#: src/features/messages/MessageRow.tsx
+msgid "activity history: {0}: Couldn’t finish"
+msgstr "活动历史：{0}：无法完成"
+
+#. placeholder {0}: agents.length
+#: src/features/messages/TypingIndicator.tsx
+msgid "Activity: {0} agents working"
+msgstr "活动：{0} 个智能体在工作"
+
+#. placeholder {0}: name(firstAgent)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Activity: {0} working"
+msgstr "活动：{0} 在工作"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Add another person…"
+msgstr "再添加一人…"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Add anything that helps moderators..."
+msgstr "补充任何有助于管理员处理的信息…"
 
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
@@ -142,6 +468,15 @@ msgstr "添加链接"
 msgid "Add these saved communities to your list and account. This may restore communities you previously removed."
 msgstr "将这些已保存的社区添加到你的列表和账户。这可能会恢复你之前移除的社区。"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Additional context (optional)"
+msgstr "补充说明（可选）"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "Agent"
+msgstr "智能体"
+
 #: src/app/settings-sections.ts
 msgid "Agent setup"
 msgstr "智能体设置"
@@ -149,6 +484,14 @@ msgstr "智能体设置"
 #: src/app/shell/BestieNavigation.tsx
 msgid "Agents"
 msgstr "智能体"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Agents could not be loaded."
+msgstr "无法加载智能体。"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Agents working now"
+msgstr "正在工作的智能体"
 
 #: src/app/shell/PageSearch.tsx
 msgid "All"
@@ -225,13 +568,34 @@ msgid "Apps dock"
 msgstr "应用栏"
 
 #: src/bundled/channels/SoloHeading.tsx
+#: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Archived"
 msgstr "已归档"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Archived {placeWord}"
+msgstr "已归档的{placeWord}"
 
 #. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Archives after {0} without activity."
 msgstr "连续 {0} 没有活动后自动归档。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least {count} messages after yours, {from}"
+msgstr "你发送之后至少有 {count} 条消息，{from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least {count} replies after yours, {from}"
+msgstr "你发送之后至少有 {count} 条回复，{from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least 1 message after yours, {from}"
+msgstr "你发送之后至少有 1 条消息，{from}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "At least 1 reply after yours, {from}"
+msgstr "你发送之后至少有 1 条回复，{from}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Attach at most {MAX_DRAFT_GIFS} GIFs per message."
@@ -240,6 +604,39 @@ msgstr "每条消息最多添加 {MAX_DRAFT_GIFS} 个 GIF。"
 #: src/features/messages/MessageComposer.tsx
 msgid "Attach files"
 msgstr "添加文件"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Attachment"
+msgstr "附件"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/ComposerAttachmentViewer.tsx
+#: src/features/messages/ImageReviewStage.tsx
+#: src/features/messages/MediaAttachment.tsx
+msgid "Attachment preview"
+msgstr "附件预览"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Attachment unavailable"
+msgstr "附件不可用"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Attachment unavailable."
+msgstr "附件不可用。"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Attachments"
+msgstr "附件"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Audio playback"
+msgstr "音频播放"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Audio unavailable"
+msgstr "音频不可用"
 
 #: src/features/updates/UpdateSettings.tsx
 msgid "Automatic updates aren't available on this build. Download the latest release manually."
@@ -272,6 +669,14 @@ msgstr "离开"
 #: src/features/identity/Welcome.tsx
 msgid "Back"
 msgstr "返回"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Back to drafts"
+msgstr "返回草稿"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Back to sent"
+msgstr "返回已发送"
 
 #: src/features/identity/BackupConsent.tsx
 msgid "Back up key"
@@ -355,8 +760,11 @@ msgstr "无法连接"
 #: src/features/identity/RestoreIdentity.tsx
 #: src/features/identity/SignOut.tsx
 #: src/features/identity/Welcome.tsx
+#: src/features/messages/BackgroundUploadStatus.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
+#: src/features/messages/ForwardMessage.tsx
 #: src/features/messages/MessageManagement.tsx
+#: src/features/messages/ReportMessageDialog.tsx
 msgid "Cancel"
 msgstr "取消"
 
@@ -364,10 +772,27 @@ msgstr "取消"
 msgid "Cancel edit"
 msgstr "取消编辑"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "Cancel reply target"
+msgstr "取消回复目标"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Cancel upload and remove attachment"
+msgstr "取消上传并移除附件"
+
+#. placeholder {0}: uploads.destination.name
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "Cancel upload to {0}"
+msgstr "取消上传至 {0}"
+
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Canceling recovery…"
 msgstr "正在取消恢复…"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "channel"
+msgstr "频道"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Channel actions"
@@ -377,10 +802,35 @@ msgstr "频道操作"
 msgid "Channel archived: {channelName}"
 msgstr "频道已归档：{channelName}"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Channel conversation"
+msgstr "频道对话"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Channel message history"
+msgstr "频道消息历史"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Channel preview"
+msgstr "频道预览"
+
+#. placeholder {0}: notice.name
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Channel setup couldn’t finish: {0}"
+msgstr "频道设置无法完成：{0}"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Channel unavailable"
+msgstr "频道不可用"
+
 #: src/app/shell/PageSearch.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Channels"
 msgstr "频道"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "chat"
+msgstr "聊天"
 
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Chat actions"
@@ -389,6 +839,18 @@ msgstr "对话操作"
 #: src/features/messages/MessageComposer.tsx
 msgid "Chat archived: {channelName}"
 msgstr "对话已归档：{channelName}"
+
+#: src/features/messages/ComposerChatCards.tsx
+msgid "Chat attachments"
+msgstr "聊天附件"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Chat preview"
+msgstr "聊天预览"
+
+#: src/features/conversation/MessageLink.tsx
+msgid "Chat unavailable. You don’t have access, or it no longer exists."
+msgstr "聊天不可用。你没有访问权限，或它已不存在。"
 
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
@@ -456,6 +918,7 @@ msgid "Chillin’"
 msgstr "柔和"
 
 #: src/bundled/channels/ChannelsPage.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Choose a community"
 msgstr "选择社区"
 
@@ -524,9 +987,25 @@ msgstr "柑橘绿"
 msgid "Clear {0}"
 msgstr "清除 {0}"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Clear draft"
+msgstr "清除草稿"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Clear draft in {where}: {line}"
+msgstr "清除 {where} 的草稿：{line}"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Clear search"
+msgstr "清除搜索"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Clear status"
 msgstr "清除状态"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Click the image to zoom."
+msgstr "点击图片可缩放。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Clock"
@@ -542,6 +1021,14 @@ msgstr "未能保存时间设置"
 msgid "Close"
 msgstr "关闭"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Close conversation"
+msgstr "关闭对话"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Close draft preview"
+msgstr "关闭草稿预览"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Close edit"
 msgstr "关闭编辑"
@@ -549,6 +1036,15 @@ msgstr "关闭编辑"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Close formatting"
 msgstr "关闭格式工具"
+
+#: src/features/messages/MediaAttachment.tsx
+#: src/features/messages/MediaReviewFrame.tsx
+msgid "Close fullscreen viewer"
+msgstr "关闭全屏查看器"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Close sent preview"
+msgstr "关闭已发送预览"
 
 #: src/app/App.tsx
 msgid "Close Settings"
@@ -561,6 +1057,10 @@ msgstr "关闭状态编辑器"
 #: src/bundled/channels/PageTabs.tsx
 msgid "Close tab pane"
 msgstr "关闭标签面板"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Close thread"
+msgstr "关闭话题"
 
 #: src/app/shell/WindowControls.tsx
 msgid "Close window"
@@ -578,10 +1078,29 @@ msgstr "行内代码"
 msgid "Code block"
 msgstr "代码块"
 
+#: src/features/messages/ActivityDisclosure.tsx
+#: src/features/messages/ActivityGroupPreview.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "Collapse"
+msgstr "收起"
+
+#. placeholder {0}: descendants.length
+#: src/features/messages/ThreadPanel.tsx
+msgid "Collapse {0} {replyWord}"
+msgstr "收起 {0} 条{replyWord}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Comment at current frame"
+msgstr "在当前帧评论"
+
 #. placeholder {0}: formatMediaTime(mediaTimeSeconds)
 #: src/features/messages/MessageComposer.tsx
 msgid "Commenting at {0}"
 msgstr "评论位置：{0}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Comments"
+msgstr "评论"
 
 #: src/features/communities/CommunityPicker.tsx
 msgid "Communities"
@@ -645,9 +1164,21 @@ msgstr "紧凑"
 msgid "Compact flat-list messages use the full conversation width."
 msgstr "使用整个对话宽度的紧凑平铺消息。"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Compact session"
+msgstr "压缩会话"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Compact shows conversations as a flat list that fits more messages on screen."
 msgstr "紧凑模式以平铺列表显示对话，让屏幕容纳更多消息。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "compacting"
+msgstr "压缩会话中"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Compacting session. Wait for it to finish, or interrupt it."
+msgstr "正在压缩会话。请等待完成，或中断它。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Compacting session…"
@@ -693,6 +1224,10 @@ msgstr "正在连接…"
 msgid "Continue"
 msgstr "继续"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Continue draft in {where}: {line}"
+msgstr "继续 {where} 的草稿：{line}"
+
 #: src/features/identity/WelcomeBack.tsx
 msgid "Continue with {name}"
 msgstr "以 {name} 继续"
@@ -722,13 +1257,25 @@ msgstr "不备份继续"
 msgid "Continue without signing in"
 msgstr "不登录直接继续"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "conversation"
+msgstr "对话"
+
 #: src/bundled/channels/PageTabs.tsx
 msgid "Conversation actions"
 msgstr "对话操作"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Conversation activity"
+msgstr "对话活动"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Conversations"
 msgstr "对话"
+
+#: src/features/channel-navigation/SidebarBoundary.tsx
+msgid "Conversations couldn’t open."
+msgstr "对话无法打开。"
 
 #: src/features/identity/PrivateKey.tsx
 #: src/features/identity/PublicKeyPanel.tsx
@@ -738,6 +1285,10 @@ msgstr "复制"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Copy community URL"
 msgstr "复制社区 URL"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Copy image"
+msgstr "复制图片"
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy link"
@@ -755,6 +1306,7 @@ msgstr "复制 npub"
 msgid "Copy private key"
 msgstr "复制私钥"
 
+#: src/features/drafts-sent/DraftPreview.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Copy text"
 msgstr "复制文字"
@@ -766,6 +1318,10 @@ msgstr "请从旧版 Buzz 应用的“身份详情”中复制此项。切勿与
 #: src/app/CommunityLocalSettings.tsx
 msgid "Copy URL"
 msgstr "复制地址"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Could not add reaction. Try again."
+msgstr "无法添加表情回应。请重试。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not attach {refused} files"
@@ -804,6 +1360,10 @@ msgstr "无法提及：消息将超出长度限制"
 msgid "Could not confirm your status. Try again."
 msgstr "无法确认你的状态，请重试。"
 
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Could not copy the text. Try again."
+msgstr "无法复制文本。请重试。"
+
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Could not copy. Select the key above to copy it."
 msgstr "无法复制。请选中上方的密钥进行复制。"
@@ -816,6 +1376,10 @@ msgstr "无法删除此消息，请重试。"
 msgid "Could not dismiss the operation."
 msgstr "无法关闭该操作提示。"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Could not load people."
+msgstr "无法加载人员。"
+
 #: src/features/communities/FindCommunity.tsx
 #: src/features/identity/ProfileStep.tsx
 msgid "Could not reach the relay. Check your connection and try again."
@@ -824,6 +1388,10 @@ msgstr "无法连接到中继。请检查网络连接后重试。"
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not read saved model and effort for this chat on this device. Retry before sending."
 msgstr "无法读取此设备上为该对话保存的模型和推理强度，请重试后再发送。"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Could not restore the message."
+msgstr "无法恢复该消息。"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not restore unread state."
@@ -845,6 +1413,14 @@ msgstr "无法保存话题关注设置，请重试。"
 msgid "Could not save your choice. Try again."
 msgstr "无法保存你的选择。请重试。"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Could not send your message. Try again."
+msgstr "无法发送你的消息。请重试。"
+
+#: src/features/messages/MessageReactions.tsx
+msgid "Could not update reaction. Try again."
+msgstr "无法更新表情回应。请重试。"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not update unread state. Try again."
 msgstr "无法更新未读状态，请重试。"
@@ -860,6 +1436,10 @@ msgstr "无法检查抹除功能是否可用"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Couldn’t check your latest status. Your draft is unchanged."
 msgstr "无法检查最新状态，草稿已保留。"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Couldn't copy image"
+msgstr "无法复制图片"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Couldn’t copy text"
@@ -881,6 +1461,18 @@ msgstr "无法复制你的私钥。请手动显示并复制，或重试。"
 msgid "Couldn’t copy. Try again from the message menu."
 msgstr "复制失败，请在消息菜单中重试。"
 
+#: src/features/messages/FileAttachment.tsx
+msgid "Couldn’t download · Retry"
+msgstr "无法下载 · 重试"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Couldn’t download {displayName}. Try again."
+msgstr "无法下载 {displayName}。请重试。"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Couldn’t download. Try again."
+msgstr "无法下载。请重试。"
+
 #: src/features/communities/FindCommunity.tsx
 msgid "Couldn’t find community"
 msgstr "找不到社区"
@@ -889,18 +1481,39 @@ msgstr "找不到社区"
 msgid "Couldn’t finish setup"
 msgstr "无法完成设置"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "Couldn’t forward the message. Try again."
+msgstr "无法转发消息。请重试。"
+
 #: src/features/identity/KeyImport.tsx
 msgid "Couldn’t import this key."
 msgstr "无法导入此密钥。"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Couldn’t join this {placeWord}."
+msgstr "无法加入此{placeWord}。"
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "Couldn’t leave {0}"
 msgstr "无法退出 {0}"
 
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Couldn’t load this preview."
+msgstr "无法加载此预览。"
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Couldn’t mark everything as read."
 msgstr "无法将全部标记为已读。"
+
+#. placeholder {0}: intent.name
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Couldn’t mute {0}"
+msgstr "无法静音 {0}"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Couldn’t open that message."
+msgstr "无法打开该消息。"
 
 #. placeholder {0}: next.name
 #: src/features/communities/CommunityDialog.tsx
@@ -915,9 +1528,17 @@ msgstr "无法读取该文件。"
 msgid "Couldn’t read the repositories folder on this device. Try again."
 msgstr "无法读取此设备的仓库目录，请重试。"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t refresh recent activity"
+msgstr "无法刷新最近活动"
+
 #: src/features/identity/KeyRestore.tsx
 msgid "Couldn’t restore your key"
 msgstr "无法恢复你的密钥"
+
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "Couldn’t retry {agentName}. {detail}"
+msgstr "无法重试 {agentName}。{detail}"
 
 #: src/features/identity/PrivateKey.tsx
 msgid "Couldn’t reveal your private key. Retry when secure storage is available."
@@ -927,9 +1548,34 @@ msgstr "无法显示你的私钥。请在安全存储可用后重试。"
 msgid "Couldn’t save the display name. Try again."
 msgstr "未能保存显示名称，请重试。"
 
+#. placeholder {0}: sectionTitleFor( group, )
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the filter for {0}. {error}"
+msgstr "无法保存 {0} 的筛选。{error}"
+
+#. placeholder {0}: sectionTitleFor( `section:${preferences.orderError?.sectionId}`, )
+#. placeholder {1}: preferences.orderError.error
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the move for {0}. {1}"
+msgstr "无法保存 {0} 的移动。{1}"
+
+#. placeholder {0}: move.error
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the move for {channelName}. {0}"
+msgstr "无法保存 {channelName} 的移动。{0}"
+
+#. placeholder {0}: sectionTitleFor( group, )
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Couldn’t save the sort order for {0}. {error}"
+msgstr "无法保存 {0} 的排序。{error}"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Couldn’t save this on this device. Try again."
 msgstr "无法保存到此设备，请重试。"
+
+#: src/features/messages/DeliveryNotice.tsx
+msgid "Couldn’t send this message."
+msgstr "无法发送此消息。"
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Couldn’t send to channel"
@@ -942,6 +1588,15 @@ msgstr "无法登录"
 #: src/features/identity/Welcome.tsx
 msgid "Couldn’t sign out"
 msgstr "无法退出登录"
+
+#. placeholder {0}: intent.name
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Couldn’t unmute {0}"
+msgstr "无法取消静音 {0}"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Couldn’t update reaction."
+msgstr "无法更新表情回应。"
 
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/identity/CreateCommunityStep.tsx
@@ -960,6 +1615,10 @@ msgstr "创建账户"
 #: src/features/identity/CreateCommunityStep.tsx
 msgid "Create community"
 msgstr "创建社区"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Create new…"
+msgstr "新建…"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
@@ -1034,6 +1693,15 @@ msgstr "无法确认投递结果。"
 msgid "Delivery could not be confirmed. Retry sends the same operation."
 msgstr "无法确认投递结果，重试将再次发送同一操作。"
 
+#: src/features/messages/DeliveryNotice.tsx
+msgid "Delivery not yet confirmed."
+msgstr "送达尚未确认。"
+
+#. placeholder {0}: row.deliveryError
+#: src/features/messages/DeliveryNotice.tsx
+msgid "Delivery not yet confirmed. {0}"
+msgstr "送达尚未确认。{0}"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Density"
 msgstr "密度"
@@ -1054,7 +1722,16 @@ msgstr "详情"
 msgid "Developer"
 msgstr "开发者"
 
+#: src/features/messages/MessageRow.tsx
+msgid "Diff"
+msgstr "差异"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Diff truncated. View the full diff at the source repository."
+msgstr "差异已截断。请在源仓库查看完整差异。"
+
 #: src/app/NotificationSettings.tsx
+#: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Direct messages"
 msgstr "私聊"
 
@@ -1069,6 +1746,16 @@ msgstr "放弃修改？"
 #: src/features/messages/MessageManagement.tsx
 msgid "Discard failed update"
 msgstr "放弃失败的更新"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Dismiss"
+msgstr "关闭"
+
+#. placeholder {0}: named(entry.agent)
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "Dismiss error from {0}"
+msgstr "关闭来自 {0} 的错误"
 
 #: src/app/ProfileSettings.tsx
 #: src/features/messages/MessageActionBar.tsx
@@ -1113,13 +1800,76 @@ msgstr "Dock 未读角标"
 msgid "Don’t clear"
 msgstr "不自动清除"
 
+#: src/features/messages/FileAttachment.tsx
+msgid "Download"
+msgstr "下载"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Download {displayName}"
+msgstr "下载 {displayName}"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Download {kind}"
+msgstr "下载{kind}"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Download failed"
+msgstr "下载失败"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Download file"
+msgstr "下载文件"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Download image"
+msgstr "下载图片"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Downloaded"
+msgstr "已下载"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Downloading {displayName}"
+msgstr "正在下载 {displayName}"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Downloading update…"
 msgstr "正在下载更新…"
 
+#: src/features/messages/FileAttachment.tsx
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Downloading…"
+msgstr "正在下载…"
+
+#: src/features/messages/ReplySummary.tsx
+msgid "Draft"
+msgstr "草稿"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Draft for {title}"
+msgstr "{title} 的草稿"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+msgid "Draft reply"
+msgstr "草稿回复"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Draft text copied."
+msgstr "草稿文本已复制。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Drafts"
+msgstr "草稿"
+
 #: src/app/shell/BestieNavigation.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Drafts & sent"
 msgstr "草稿和已发送"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Drafts and sent"
+msgstr "草稿与已发送"
 
 #: src/features/messages/FileDropOverlay.tsx
 msgid "Drop files into this conversation"
@@ -1137,6 +1887,10 @@ msgstr "持续时间"
 msgid "Duration: {durationLabel}"
 msgstr "持续时间：{durationLabel}"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "Earlier reply unavailable in loaded history."
+msgstr "更早的回复在已加载的历史中不可用。"
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Edit connection"
@@ -1151,9 +1905,25 @@ msgstr "编辑链接"
 msgid "Edit message"
 msgstr "编辑消息"
 
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Edit queued message"
+msgstr "编辑排队中的消息"
+
+#: src/features/messages/MessageRow.tsx
+msgid "edited"
+msgstr "已编辑"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Editing message"
 msgstr "正在编辑消息"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Empty draft"
+msgstr "空草稿"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Empty message"
+msgstr "空消息"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Enable Messages to see conversations."
@@ -1195,6 +1965,10 @@ msgstr "抹除仅清除应用数据、本地存储、缓存和插件存储，且
 msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 msgstr "{0} 中的每个对话都将显示为已读。之后你仍可将某个对话标为未读。"
 
+#: src/features/messages/MessageReactions.tsx
+msgid "Everyone who reacted"
+msgstr "所有回应的人"
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Expiration time"
 msgstr "到期时间"
@@ -1202,6 +1976,22 @@ msgstr "到期时间"
 #: src/features/messages/MessageComposer.tsx
 msgid "Explicit mentions"
 msgstr "明确提及"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Failed to submit report. Try again."
+msgstr "提交举报失败。请重试。"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "File"
+msgstr "文件"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "File unavailable"
+msgstr "文件不可用"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Find a person…"
+msgstr "查找人员…"
 
 #: src/features/identity/setup.ts
 msgid "Finding communities…"
@@ -1255,6 +2045,11 @@ msgstr "文本格式"
 msgid "Formatting options"
 msgstr "格式选项"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "Forward"
+msgstr "转发"
+
+#: src/features/messages/ForwardMessage.tsx
 #: src/features/messages/MessageActionBar.tsx
 msgid "Forward message"
 msgstr "转发消息"
@@ -1281,6 +2076,10 @@ msgstr "前进"
 msgid "Go to Messages"
 msgstr "前往消息"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Hidden conversations could not be refreshed."
+msgstr "无法刷新隐藏的对话。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Hidden times stay available to screen readers."
 msgstr "隐藏的时间仍可由屏幕阅读器读取。"
@@ -1289,6 +2088,10 @@ msgstr "隐藏的时间仍可由屏幕阅读器读取。"
 #: src/features/identity/PrivateKey.tsx
 msgid "Hide"
 msgstr "隐藏"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Hide comments"
+msgstr "隐藏评论"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Hide in Solo chats"
@@ -1306,6 +2109,14 @@ msgstr "隐藏私钥"
 #: src/app/shell/AppShell.tsx
 msgid "Hide sidebar"
 msgstr "隐藏侧栏"
+
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "Hide tasks and chats in {title}"
+msgstr "隐藏 {title} 中的任务和聊天"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "History window limit reached"
+msgstr "已达到历史窗口上限"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Honey"
@@ -1347,9 +2158,58 @@ msgstr "身份"
 msgid "Identity to restore"
 msgstr "要恢复的身份"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Illegal content"
+msgstr "违法内容"
+
 #: src/app/AppearancePreview.tsx
 msgid "Illustrated preview of your current mode, accent, contrast, and"
 msgstr "预览当前的模式、强调色、对比度，以及"
+
+#: src/features/messages/MessageRow.tsx
+msgid "image"
+msgstr "张图片"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Image"
+msgstr "图片"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/MediaAttachment.tsx
+msgid "Image attachment"
+msgstr "图片附件"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Image copied"
+msgstr "图片已复制"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Image gallery"
+msgstr "图片库"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/ImageReviewStage.tsx
+#: src/features/messages/MediaAttachment.tsx
+msgid "Image unavailable"
+msgstr "图片不可用"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Image viewer"
+msgstr "图片查看器"
+
+#. placeholder {0}: Math.round(zoom * 100)
+#. placeholder {1}: nextZoom * 100
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Image zoom: {0}%. Zoom to {1}%"
+msgstr "图片缩放：{0}%。缩放至 {1}%"
+
+#: src/features/messages/MessageRow.tsx
+msgid "images"
+msgstr "张图片"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Impersonation"
+msgstr "冒充他人"
 
 #: src/features/communities/LegacyCommunityImport.tsx
 msgid "Import communities"
@@ -1366,6 +2226,10 @@ msgstr "导入此身份"
 #: src/features/identity/KeyImport.tsx
 msgid "Importing your key…"
 msgstr "正在导入你的密钥…"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "In"
+msgstr "位于"
 
 #. placeholder {0}: region.title
 #: src/bundled/channels/SoloHeading.tsx
@@ -1404,6 +2268,18 @@ msgstr "界面大小"
 msgid "Interface size wasn’t saved"
 msgstr "未能保存界面大小"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Interrupt"
+msgstr "中断"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Interrupt compaction"
+msgstr "中断压缩"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Interrupt requested"
+msgstr "已请求中断"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/InviteCodeField.tsx
 msgid "Invite code"
@@ -1441,6 +2317,10 @@ msgstr "页面可能已被移除，也可能需要更新 Buzz。"
 msgid "Italic"
 msgstr "斜体"
 
+#: src/features/messages/MessageRow.tsx
+msgid "item"
+msgstr "项"
+
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
@@ -1449,8 +2329,13 @@ msgstr "该社区的中继未确认退出，你可能仍是成员。你可以改
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/communities/FindCommunity.tsx
 #: src/features/identity/InviteCodeField.tsx
+#: src/features/messages/ChannelJoinNotice.tsx
 msgid "Join"
 msgstr "加入"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Join {placeWord} to send messages"
+msgstr "加入{placeWord}以发送消息"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/CommunityLanding.tsx
@@ -1462,6 +2347,14 @@ msgstr "加入社区"
 #: src/features/communities/FindCommunity.tsx
 msgid "Join Community"
 msgstr "加入社区"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Join may have taken effect, but it is not confirmed yet. Try again to check."
+msgstr "加入可能已生效，但尚未确认。请再次尝试以确认。"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Joined"
+msgstr "已加入"
 
 #: src/features/communities/FindCommunity.tsx
 msgid "Joining {host}…"
@@ -1505,6 +2398,12 @@ msgstr "未能保存语言设置"
 #: src/app/PluginUpdates.tsx
 msgid "Later"
 msgstr "稍后"
+
+#. placeholder {0}: nameOf(latest.author)
+#. placeholder {1}: relativeTimestamp(latest.created_at, now / 1000)
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "latest from {0}, {1}"
+msgstr "最新来自 {0}，{1}"
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
@@ -1550,13 +2449,65 @@ msgstr "正在绑定你的密钥…"
 msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 msgstr "实时身份访问不可用。开发环境请在 .env.local 中将 BUZZ_DEV_VIEWER 设为你的 Buzz 公钥，然后重启 just web 或 just desktop。要求见 docs/contributing.md。"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Load more people"
+msgstr "加载更多人员"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Load older messages"
+msgstr "加载更早的消息"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Load saved draft"
 msgstr "加载已保存的草稿"
 
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Loading comments…"
+msgstr "正在加载评论…"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Loading conversation…"
+msgstr "正在加载对话…"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "Loading conversations…"
+msgstr "正在加载对话…"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Loading media…"
+msgstr "正在加载媒体…"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Loading message…"
+msgstr "正在加载消息…"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Loading messages…"
+msgstr "正在加载消息…"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Loading model and effort…"
+msgstr "正在加载模型和思考力度…"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Loading older…"
+msgstr "正在加载更早的…"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Loading people"
+msgstr "正在加载人员"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Loading saved model and effort…"
 msgstr "正在加载已保存的模型和推理强度…"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Loading sent messages…"
+msgstr "正在加载已发送消息…"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Loading thread…"
+msgstr "正在加载话题…"
 
 #: src/app/ProfileSettings.tsx
 msgid "Loading your community profile…"
@@ -1566,6 +2517,10 @@ msgstr "正在加载社区个人资料…"
 #: src/app/ProfileSettings.tsx
 msgid "Loading your profile in {0}…"
 msgstr "正在加载你在 {0} 的个人资料…"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Loading your sidebar…"
+msgstr "正在加载你的侧边栏…"
 
 #: src/app/App.tsx
 msgid "Loading…"
@@ -1591,6 +2546,10 @@ msgstr "洋红"
 #: src/app/AppearanceSettings.tsx
 msgid "Main pane"
 msgstr "主面板"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Malware or scam"
+msgstr "恶意软件或诈骗"
 
 #: src/app/PluginUpdates.tsx
 msgid "Manage {name} update checks"
@@ -1627,6 +2586,14 @@ msgstr "已将全部标为已读。"
 msgid "Maximize or restore window"
 msgstr "最大化或还原窗口"
 
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Media comments"
+msgstr "媒体评论"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Media unavailable"
+msgstr "媒体不可用"
+
 #: src/app/NotificationSettings.tsx
 msgid "Mentions"
 msgstr "提及我的"
@@ -1639,6 +2606,10 @@ msgstr "消息"
 #: src/features/messages/MessageComposer.tsx
 msgid "Message {channelDisplayName}"
 msgstr "发送消息到 {channelDisplayName}"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Message {recipientNames}"
+msgstr "发消息给 {recipientNames}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Message accepted. Could not update the saved draft. Retry cleanup before sending again."
@@ -1664,6 +2635,11 @@ msgstr "未能保存消息密度"
 msgid "Message edit"
 msgstr "消息编辑"
 
+#. placeholder {0}: to.name
+#: src/features/messages/ForwardMessage.tsx
+msgid "Message forwarded to {0}"
+msgstr "消息已转发给 {0}"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Message is too long to attach this GIF"
 msgstr "消息过长，无法添加此 GIF"
@@ -1676,6 +2652,10 @@ msgstr "消息过长，无法插入文字"
 msgid "Message link unavailable"
 msgstr "消息链接不可用"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Message recipients"
+msgstr "消息收件人"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Message search is unavailable while this community is disconnected."
 msgstr "社区断开连接时无法搜索消息。"
@@ -1683,6 +2663,10 @@ msgstr "社区断开连接时无法搜索消息。"
 #: src/app/AppearanceSettings.tsx
 msgid "Message timestamps"
 msgstr "消息时间"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Message to forward"
+msgstr "要转发的消息"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Message width"
@@ -1696,6 +2680,14 @@ msgstr "未能保存消息宽度"
 msgid "Messages"
 msgstr "消息"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Messages you send in this community show up here."
+msgstr "你在此社区发送的消息会显示在这里。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Messages you start and don’t send wait here."
+msgstr "你开始撰写但未发送的消息会保存在这里。"
+
 #: src/app/shell/WindowControls.tsx
 msgid "Minimize window"
 msgstr "最小化窗口"
@@ -1704,9 +2696,47 @@ msgstr "最小化窗口"
 msgid "Mode"
 msgstr "模式"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort"
+msgstr "模型和思考力度"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Model and effort choices are still saving. Try sending again shortly."
 msgstr "模型和推理强度选项仍在保存，请稍后发送。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort could not be loaded."
+msgstr "无法加载模型和思考力度。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort for the next run"
+msgstr "下次运行的模型和思考力度"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model and effort for this chat"
+msgstr "此聊天的模型和思考力度"
+
+#. placeholder {0}: choice.name
+#: src/features/messages/ComposerModels.tsx
+msgid "Model for {0} in this chat"
+msgstr "{0} 在此聊天中的模型"
+
+#. placeholder {0}: choice.name
+#: src/features/messages/ComposerModels.tsx
+msgid "Model for {0}'s next run"
+msgstr "{0} 下次运行的模型"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model unavailable"
+msgstr "模型不可用"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model, effort, and session controls"
+msgstr "模型、思考力度与会话控制"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Model, effort, and session controls for this chat"
+msgstr "此聊天的模型、思考力度与会话控制"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Mono"
@@ -1719,6 +2749,31 @@ msgstr "更多消息操作"
 #: src/app/shell/PageSearch.tsx
 msgid "Most relevant"
 msgstr "最相关"
+
+#. placeholder {0}: channel.name
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move {0} to section"
+msgstr "将 {0} 移动到分区"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move channel"
+msgstr "移动频道"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move conversation"
+msgstr "移动对话"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Move to…"
+msgstr "移动到…"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Mute"
+msgstr "静音"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Mute video"
+msgstr "视频静音"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Name"
@@ -1750,28 +2805,80 @@ msgid "New channel"
 msgstr "新建频道"
 
 #: src/app/shell/NewMenu.tsx
+#: src/features/channel-navigation/SoloInventory.tsx
 msgid "New chat"
 msgstr "新建对话"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "New chat or workspace"
+msgstr "新聊天或工作区"
 
 #: src/app/shell/NewMenu.tsx
 msgid "New DM"
 msgstr "新建私聊"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "new message"
+msgstr "新消息"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "New message"
+msgstr "新消息"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "New messages"
+msgstr "新消息"
+
 #: src/app/shell/NewMenu.tsx
 msgid "New section"
 msgstr "新建分组"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "New session started"
+msgstr "已开始新会话"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "New Solo chats"
 msgstr "新建个人对话"
+
+#: src/features/channel-navigation/RegionChannelGroup.tsx
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "New task"
+msgstr "新建任务"
+
+#. placeholder {0}: channel.name
+#: src/features/channel-navigation/RegionChannelGroup.tsx
+msgid "New task in {0}"
+msgstr "在 {0} 新建任务"
+
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "New task in {title}"
+msgstr "在 {title} 新建任务"
 
 #: src/app/AppearanceSettings.tsx
 msgid "New threads open here. Already-open threads stay where you placed them."
 msgstr "新话题将在此打开，已打开的话题保留原来的位置。"
 
 #: src/app/shell/NewMenu.tsx
+#: src/features/channel-navigation/SoloInventory.tsx
 msgid "New workspace"
 msgstr "新建工作区"
+
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "Next attachment"
+msgstr "下一个附件"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Next image"
+msgstr "下一张图片"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Next media"
+msgstr "下一个媒体"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "next run"
+msgstr "下次运行"
 
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "No automatic archive."
@@ -1781,26 +2888,101 @@ msgstr "不自动归档。"
 msgid "No backups were found for this account."
 msgstr "未找到此账户的备份。"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "No channels yet."
+msgstr "还没有频道。"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "No comments yet. Add the first below."
+msgstr "还没有评论。在下方添加第一条。"
+
 #: src/features/communities/FindCommunity.tsx
 msgid "No community is set up at this address."
 msgstr "此地址没有建立社区。"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "No current step details received."
+msgstr "未收到当前步骤的详情。"
+
+#: src/features/messages/MessageRow.tsx
+msgid "No diff content"
+msgstr "无差异内容"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No drafts"
+msgstr "暂无草稿"
+
+#. placeholder {0}: search.trim()
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No drafts match “{0}”."
+msgstr "没有草稿与“{0}”匹配。"
 
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "没有匹配的页面。"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "No matching people."
+msgstr "没有匹配的人员。"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "No matching time zones."
 msgstr "没有匹配的时区。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No messages after yours"
+msgstr "你发送之后没有消息"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "No messages yet."
+msgstr "还没有消息。"
+
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "No preview available for this file type."
+msgstr "此文件类型没有可用预览。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No replies after yours"
+msgstr "你发送之后没有回复"
+
+#. placeholder {0}: search.trim()
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "No sent messages match “{0}”"
+msgstr "没有已发送消息与“{0}”匹配"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
+msgstr "已加载的目录中没有列出受支持的模型。发送时不带模型和思考力度覆盖，使用该智能体的默认值"
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "None of your backups holds the key linked to this account, so nothing was restored."
 msgstr "你的备份都不包含与此账户绑定的密钥，因此没有恢复任何内容。"
 
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Not joined"
+msgstr "未加入"
+
 #: src/features/identity/LegacyIdentityOffer.tsx
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "Not now"
 msgstr "暂不"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Note (optional)"
+msgstr "备注（可选）"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Notes to self"
+msgstr "给自己的笔记"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Nothing sent yet"
+msgstr "还没有发送任何内容"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Nothing to interrupt. The session is idle."
+msgstr "没有可中断的内容。会话处于空闲状态。"
 
 #: src/app/NotificationSettings.tsx
 msgid "Notification choices weren’t saved"
@@ -1836,6 +3018,14 @@ msgstr "查看对话时仍提醒"
 msgid "Now {0}"
 msgstr "现为 {0}"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Nudity or sexual content"
+msgstr "裸露或色情内容"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Observed unread replies{staleUnreadNote}. Not an exact total."
+msgstr "观察到的未读回复{staleUnreadNote}。并非精确总数。"
+
 #: src/app/shell/ProfileButton.tsx
 msgid "offline"
 msgstr "离线"
@@ -1844,6 +3034,10 @@ msgstr "离线"
 msgid "Offline"
 msgstr "离线"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Offline · Showing saved conversations."
+msgstr "离线 · 显示已保存的对话。"
+
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "OK"
 msgstr "确定"
@@ -1851,6 +3045,10 @@ msgstr "确定"
 #: src/features/identity/LegacyIdentityOffer.tsx
 msgid "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
 msgstr "此设备上使用过旧版 Buzz。继续使用它保存的身份，而不是新建一个。你的电脑可能会请求允许访问。"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "One person at a time. Remove them to choose someone else."
+msgstr "一次只能选择一人。请先移除再选择其他人。"
 
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Ongoing"
@@ -1876,13 +3074,62 @@ msgstr "此社区断开连接时，仅搜索已保存的对话。"
 msgid "Only the selected community can be marked as read."
 msgstr "只有当前选中的社区才能标记为已读。"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Only typing updates are reaching this app."
+msgstr "此应用目前只能收到输入状态更新。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
 msgstr "个人对话只能提及你可用的智能体，请移除不可用的接收方后重试。"
 
+#. placeholder {0}: notice.destination.name
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "Open {0}"
+msgstr "打开 {0}"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Open {displayName}"
+msgstr "打开 {displayName}"
+
+#. placeholder {0}: name(pubkey)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Open {openKind} for {0}"
+msgstr "打开 {0} 的{openKind}"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Open conversation"
+msgstr "打开对话"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Open file"
+msgstr "打开文件"
+
+#. placeholder {0}: index + 1
+#. placeholder {1}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "Open image {0} of {1}"
+msgstr "打开第 {0} 张图片，共 {1} 张"
+
+#: src/features/messages/AttachmentImage.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "Open image attachment"
+msgstr "打开图片附件"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Open image fullscreen"
+msgstr "全屏打开图片"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Open image in browser"
+msgstr "在浏览器中打开图片"
+
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Open in main view"
 msgstr "在主视图打开"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Open link"
+msgstr "打开链接"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Open tab pane"
@@ -1895,6 +3142,25 @@ msgstr "请打开桌面应用，选择此设备上的目录。"
 #: src/app/AppearanceSettings.tsx
 msgid "Open threads in"
 msgstr "话题打开位置"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Open video"
+msgstr "打开视频"
+
+#. placeholder {0}: index + 1
+#. placeholder {1}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "Open video {0} of {1}"
+msgstr "打开第 {0} 个视频，共 {1} 个"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Open video fullscreen"
+msgstr "全屏打开视频"
+
+#. placeholder {0}: to.name
+#: src/features/messages/ForwardMessage.tsx
+msgid "Open your DM with {0}"
+msgstr "打开你与 {0} 的私信"
 
 #: src/app/App.tsx
 msgid "Opening Buzz"
@@ -1925,6 +3191,15 @@ msgstr "如果你有私钥副本，也可以直接输入。"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Ordered list"
 msgstr "有序列表"
+
+#: src/features/messages/MediaReviewViewer.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "Original message unavailable."
+msgstr "原始消息不可用。"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Other"
+msgstr "其他"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Other communities you’ve joined aren’t listed."
@@ -1975,10 +3250,68 @@ msgstr "粘贴你的社区链接。继续会将你的 Buzz 身份分享给该社
 msgid "Paste your private key to sign in to Buzz. You can also select or drop a text file with your key."
 msgstr "粘贴你的私钥以登录 Buzz。你也可以选择或拖入包含密钥的文本文件。"
 
+#. placeholder {0}: attachment.name
+#: src/features/messages/AudioAttachment.tsx
+msgid "Pause {0}"
+msgstr "暂停 {0}"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Pause audio"
+msgstr "暂停音频"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Pause video"
+msgstr "暂停视频"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Paused because an earlier message was handled in another window. Send when ready."
+msgstr "已暂停，因为更早的一条消息已在另一个窗口处理。准备好后发送。"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "PDF file"
+msgstr "PDF 文件"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "People"
+msgstr "人员"
+
+#: src/features/messages/MessageReactions.tsx
+msgid "People who reacted with {name}"
+msgstr "使用 {name} 回应的人"
+
 #: src/app/settings-sections.ts
 #: src/features/communities/CommunityPicker.tsx
 msgid "Personal space"
 msgstr "个人空间"
+
+#: src/features/messages/MessageRow.tsx
+msgid "photos and videos"
+msgstr "照片和视频"
+
+#. placeholder {0}: attachment.name
+#: src/features/messages/AudioAttachment.tsx
+msgid "Play {0}"
+msgstr "播放 {0}"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Play audio"
+msgstr "播放音频"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Play video"
+msgstr "播放视频"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Playback paused. Press play to try again."
+msgstr "播放已暂停。按播放键重试。"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Playback speed: {rate}x"
+msgstr "播放速度：{rate}x"
+
+#: src/features/channel-navigation/ChannelNavigationState.tsx
+msgid "Please try again."
+msgstr "请重试。"
 
 #: src/app/PluginUpdates.tsx
 msgid "Plugin recovery actions"
@@ -1993,19 +3326,77 @@ msgstr "插件"
 msgid "Preparing update…"
 msgstr "正在准备更新…"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Preparing upload"
+msgstr "正在准备上传"
+
 #: src/features/identity/setup.ts
 #: src/features/identity/Welcome.tsx
 msgid "Preparing your identity…"
 msgstr "正在准备你的身份…"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Preparing…"
+msgstr "正在准备…"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Presence: {presence}"
+msgstr "在线状态：{presence}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Press Down Arrow for working agents and conversation actions."
+msgstr "按向下方向键查看工作中的智能体和对话操作。"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "preview"
+msgstr "预览"
+
+#. placeholder {0}: item.file.name
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Preview {0}"
+msgstr "预览 {0}"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Preview {displayName}"
+msgstr "预览 {displayName}"
+
+#: src/features/messages/ComposerAttachments.tsx
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "Preview unavailable"
+msgstr "预览不可用"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "previews"
+msgstr "预览"
+
+#: src/features/messages/ComposerAttachmentViewer.tsx
+msgid "Previous attachment"
+msgstr "上一个附件"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Previous identity"
 msgstr "先前的身份"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Previous image"
+msgstr "上一张图片"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Previous media"
+msgstr "上一个媒体"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid "Privacy Notice"
 msgstr "隐私声明"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Private channel"
+msgstr "私有频道"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Private channel. You aren’t a member, it no longer exists, or the link is from another community."
+msgstr "私有频道。你不是其成员、它已不存在，或链接来自另一个社区。"
 
 #: src/features/identity/PrivateKey.tsx
 msgid "Private key"
@@ -2029,6 +3420,10 @@ msgstr "私钥已复制"
 msgid "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 msgstr "私钥已复制。请立即将其粘贴到安全的地方：Buzz 会在一分钟后尝试将其从剪贴板清除。"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Profanity or hate speech"
+msgstr "脏话或仇恨言论"
+
 #: src/app/ProfileSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Profile"
@@ -2045,6 +3440,10 @@ msgstr "个人资料预览"
 #: src/app/ProfileSettings.tsx
 msgid "Profile updated"
 msgstr "个人资料已更新"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "Public channel"
+msgstr "公开频道"
 
 #: src/features/identity/KeyImport.tsx
 msgid "Public identity:"
@@ -2066,13 +3465,38 @@ msgstr "正在发布…"
 msgid "Queue"
 msgstr "排队发送"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Queued"
+msgstr "已排队"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Queued follow-ups"
+msgstr "排队中的后续消息"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Quick statuses"
 msgstr "快捷状态"
 
 #: src/features/messages/ComposerFormattingTools.tsx
+#: src/features/messages/SelectionQuote.tsx
 msgid "Quote"
 msgstr "引用"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Raw diff"
+msgstr "原始差异"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Reaction delivery not confirmed."
+msgstr "表情回应送达未确认。"
+
+#: src/features/messages/MessageReactions.tsx
+msgid "Reactions"
+msgstr "表情回应"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Reactions unavailable"
+msgstr "表情回应不可用"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Read state can’t sync on this connection."
@@ -2082,13 +3506,41 @@ msgstr "已读状态无法在此连接上同步。"
 msgid "Read state couldn’t be saved"
 msgstr "未能保存已读状态"
 
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Read-only {placeWord}"
+msgstr "只读{placeWord}"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "Read-only access"
+msgstr "只读访问"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Ready"
+msgstr "就绪"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Ready to install. Buzz will restart."
 msgstr "准备安装更新，Buzz 将重新启动。"
 
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Reason"
+msgstr "原因"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Recent activity"
 msgstr "最近动态"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Recipients"
+msgstr "收件人"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Refresh"
+msgstr "刷新"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Refresh saved sidebar preferences before retrying this move."
+msgstr "重试此移动前请先刷新已保存的侧边栏偏好。"
 
 #: src/app/NotificationSettings.tsx
 msgid "Reload saved choices"
@@ -2098,9 +3550,22 @@ msgstr "重新加载已保存的设置"
 msgid "Reminders"
 msgstr "提醒"
 
+#: src/features/messages/RemoteAgentHint.tsx
+msgid "Remote"
+msgstr "远程"
+
+#: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove"
 msgstr "移除"
+
+#. placeholder {0}: gif.title
+#. placeholder {0}: item.file.name
+#. placeholder {0}: label(person)
+#: src/features/direct-messages/RecipientPicker.tsx
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Remove {0}"
+msgstr "移除 {0}"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
@@ -2123,11 +3588,20 @@ msgstr "移除智能体 {0} {1}"
 msgid "Remove and erase data"
 msgstr "移除并抹除数据"
 
+#. placeholder {0}: index + 1
+#: src/features/messages/ComposerChatCards.tsx
+msgid "Remove chat attachment {0}"
+msgstr "移除聊天附件 {0}"
+
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove explicit mention of {0} ({1})"
 msgstr "移除对 {0} 的明确提及（{1}）"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Remove from"
+msgstr "移除自"
 
 #: src/features/identity/SignOut.tsx
 #: src/features/identity/Welcome.tsx
@@ -2153,6 +3627,10 @@ msgstr "移除提及 {0} {1}"
 msgid "Remove message from this device?"
 msgstr "从此设备移除消息？"
 
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Remove queued message"
+msgstr "移除排队中的消息"
+
 #: src/features/identity/Welcome.tsx
 msgid "Remove the unreadable key?"
 msgstr "移除无法读取的密钥？"
@@ -2160,6 +3638,10 @@ msgstr "移除无法读取的密钥？"
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove video time"
 msgstr "移除视频时间"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Remove voice note"
+msgstr "移除语音笔记"
 
 #: src/features/identity/SignOut.tsx
 msgid "Remove your key from this device?"
@@ -2182,9 +3664,34 @@ msgstr "替换会从此电脑上移除该账户，以继续使用你刚登录的
 msgid "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
 msgstr "替换会从此电脑上移除该账户，以继续使用你刚登录的账户。该密钥已备份到 Builderlab：再次登录该账户即可恢复。"
 
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "replies"
+msgstr "回复"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "reply"
+msgstr "回复"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Reply"
 msgstr "回复"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Reply in thread"
+msgstr "在话题中回复"
+
+#. placeholder {0}: senderName(root)
+#: src/features/messages/ThreadPanel.tsx
+msgid "Reply in thread to {0}"
+msgstr "在话题中回复 {0}"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Reply target is no longer available."
+msgstr "回复目标已不可用。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Reply to thread"
@@ -2193,6 +3700,27 @@ msgstr "回复话题"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Reply unavailable for this message"
 msgstr "此消息暂不支持回复"
+
+#. placeholder {0}: senderName(selectedParent)
+#: src/features/messages/ThreadPanel.tsx
+msgid "Replying to {0}"
+msgstr "正在回复 {0}"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Report"
+msgstr "举报"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Report message"
+msgstr "举报消息"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Report submitted to community moderators"
+msgstr "举报已提交给社区管理员"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Reports go to this community's moderators for review. The author is not notified of who reported them."
+msgstr "举报将提交给此社区的管理员审核。作者不会收到举报者的信息。"
 
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Repositories folder"
@@ -2210,9 +3738,17 @@ msgstr "请在桌面应用中设置仓库目录。"
 msgid "Reset interface size"
 msgstr "重置界面大小"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Reset model and effort"
+msgstr "重置模型和思考力度"
+
 #: src/app/CommunityLocalSettings.tsx
 msgid "Reset name"
 msgstr "重置名称"
+
+#: src/features/channel-navigation/ResizableSidebar.tsx
+msgid "Resize sidebar"
+msgstr "调整侧边栏大小"
 
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Restore default"
@@ -2239,20 +3775,48 @@ msgstr "正在恢复你的社区…"
 msgid "Restoring your key…"
 msgstr "正在恢复你的密钥…"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+#: src/features/channel-navigation/ChannelNavigationState.tsx
 #: src/features/communities/FindCommunity.tsx
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/features/messages/ActivityGroupActions.tsx
+#: src/features/messages/ComposerAttachments.tsx
+#: src/features/messages/ComposerModels.tsx
+#: src/features/messages/DeliveryNotice.tsx
+#: src/features/messages/MediaReviewViewer.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/updates/UpdateSettings.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Retry"
 msgstr "重试"
 
+#. placeholder {0}: item.file.name
+#. placeholder {0}: named(entry.agent)
+#: src/features/messages/ActivityGroupActions.tsx
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Retry {0}"
+msgstr "重试 {0}"
+
 #: src/app/PluginUpdates.tsx
 msgid "Retry activation"
 msgstr "重试启用"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Retry agents"
+msgstr "重试智能体"
+
 #: src/app/shell/PageSearch.tsx
+#: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry connection"
 msgstr "重新连接"
+
+#: src/features/messages/FileAttachment.tsx
+msgid "Retry download"
+msgstr "重试下载"
+
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Retry download {kind}"
+msgstr "重试下载{kind}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry draft cleanup"
@@ -2266,6 +3830,26 @@ msgstr "重试保存草稿"
 msgid "Retry edit"
 msgstr "重试编辑"
 
+#: src/features/messages/BackgroundUploadStatus.tsx
+msgid "Retry failed send recovery"
+msgstr "重试失败的发送恢复"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry filter"
+msgstr "重试筛选"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Retry forward"
+msgstr "重试转发"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry hidden conversations"
+msgstr "重试隐藏的对话"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Retry loading people"
+msgstr "重试加载人员"
+
 #: src/app/ProfileSettings.tsx
 msgid "Retry loading profile"
 msgstr "重新加载个人资料"
@@ -2277,6 +3861,22 @@ msgstr "重试准备消息"
 #: src/features/messages/MessageManagement.tsx
 msgid "Retry message update"
 msgstr "重试更新消息"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Retry messages"
+msgstr "重试加载消息"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry move"
+msgstr "重试移动"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Retry older messages"
+msgstr "重试加载更早的消息"
+
+#: src/features/conversation/ReactionTool.tsx
+msgid "Retry reaction"
+msgstr "重试表情回应"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry saved choices"
@@ -2339,6 +3939,34 @@ msgstr "重试保存色彩风格"
 msgid "Retry secure storage access"
 msgstr "重试访问安全存储"
 
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Retry send"
+msgstr "重试发送"
+
+#: src/features/channel-navigation/SidebarBoundary.tsx
+msgid "Retry sidebar"
+msgstr "重试侧边栏"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry sort"
+msgstr "重试排序"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Retry templates"
+msgstr "重试模板"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Retry the earlier message to confirm its delivery before editing."
+msgstr "请先重试之前的消息以确认其送达，然后再编辑。"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Retry the pending forward before forwarding another message."
+msgstr "请先重试待处理的转发，再转发其他消息。"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Retry voice note upload"
+msgstr "重试语音笔记上传"
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Reveal"
 msgstr "显示"
@@ -2348,9 +3976,17 @@ msgstr "显示"
 msgid "Reveal private key"
 msgstr "显示私钥"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "Review pending forward"
+msgstr "查看待处理的转发"
+
 #: src/app/PluginUpdates.tsx
 msgid "Review permissions"
 msgstr "审核权限"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Review report"
+msgstr "查看举报"
 
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/ProfileSettings.tsx
@@ -2378,13 +4014,55 @@ msgstr "保存状态"
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "请先保存未完成的表单并停止运行中的插件任务。更新已启用的插件会立即重新加载它。"
 
+#: src/features/messages/FileAttachment.tsx
+msgid "Saved {displayName} to Downloads"
+msgstr "已将 {displayName} 保存到下载"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Saved before restart. Send when ready."
+msgstr "重启前已保存。准备好后发送。"
+
+#. placeholder {0}: runs.label
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved effort is unavailable for {0}."
+msgstr "{0} 的已保存思考力度不可用。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved effort is unavailable."
+msgstr "已保存的思考力度不可用。"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Saved groups and stars aren’t supported by this host yet."
+msgstr "此宿主尚不支持已保存的分组和星标。"
+
 #: src/features/identity/WelcomeBack.tsx
 msgid "Saved key"
 msgstr "已保存的密钥"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved model and effort availability"
+msgstr "已保存的模型和思考力度可用性"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Saved model and effort choices are still loading. Try sending again shortly."
 msgstr "正在加载已保存的模型和推理强度选项，请稍后发送。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved model and effort choices could not be loaded. Open model and effort controls to retry or reset them."
+msgstr "无法加载已保存的模型和思考力度选择。请打开模型和思考力度控件进行重试或重置。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Saved model is unavailable."
+msgstr "已保存的模型不可用。"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Saved sidebar preferences couldn’t refresh"
+msgstr "已保存的侧边栏偏好无法刷新"
+
+#: src/features/messages/FileAttachment.tsx
+#: src/features/messages/MediaDownloadAction.tsx
+msgid "Saved to Downloads"
+msgstr "已保存到下载"
 
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/RestoreIdentity.tsx
@@ -2392,6 +4070,7 @@ msgid "Saving your identity securely…"
 msgstr "正在安全保存你的身份…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Saving…"
 msgstr "正在保存…"
@@ -2411,6 +4090,14 @@ msgstr "搜索 Buzz"
 #: src/app/shell/PageSearch.tsx
 msgid "Search Buzz ({0})"
 msgstr "搜索 Buzz（{0}）"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Search covers your latest {SENT_LIMIT} messages."
+msgstr "搜索覆盖你最近的 {SENT_LIMIT} 条消息。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Search drafts and sent messages"
+msgstr "搜索草稿和已发送消息"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Search in"
@@ -2437,6 +4124,29 @@ msgstr "搜索..."
 msgid "Security"
 msgstr "安全"
 
+#. placeholder {0}: attachment.name
+#: src/features/messages/AudioAttachment.tsx
+msgid "Seek {0}"
+msgstr "跳转 {0}"
+
+#: src/features/messages/AudioAttachment.tsx
+msgid "Seek audio"
+msgstr "跳转音频"
+
+#. placeholder {0}: marker.label
+#. placeholder {1}: marker.author
+#: src/features/messages/VideoPlayer.tsx
+msgid "Seek to {0}, {1}"
+msgstr "跳转至 {0}，{1}"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Selected message unavailable."
+msgstr "所选消息不可用。"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Send"
+msgstr "发送"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Send a message to {channelName}"
 msgstr "向 {channelName} 发送消息"
@@ -2461,9 +4171,21 @@ msgstr "立即发送"
 msgid "Send message"
 msgstr "发送消息"
 
+#: src/features/messages/ComposerModels.tsx
+msgid "Send omits model and effort overrides; the agent or provider decides which model runs"
+msgstr "发送时不带模型和思考力度覆盖；由智能体或供应商决定运行的模型"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "Send this message to a person, with an optional note."
+msgstr "将此消息发送给某人，可附备注。"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Send to channel"
 msgstr "发送到频道"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Sending message…"
+msgstr "正在发送消息…"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Sending to"
@@ -2472,6 +4194,47 @@ msgstr "发送给"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Sending to channel"
 msgstr "正在发送到频道"
+
+#: src/features/messages/QueuedFollowUps.tsx
+msgid "Sending…"
+msgstr "正在发送…"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Sent"
+msgstr "已发送"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Sent from"
+msgstr "发送自"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "Sent message in {title}"
+msgstr "{title} 中的已发送消息"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Sent messages could not be loaded."
+msgstr "无法加载已发送消息。"
+
+#. placeholder {0}: place(current.entry.channelId).title
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Sent to {0}."
+msgstr "已发送至 {0}。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session action failed"
+msgstr "会话操作失败"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session compacted"
+msgstr "会话已压缩"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session controls"
+msgstr "会话控制"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Session controls for this chat"
+msgstr "此聊天的会话控制"
 
 #: src/app/shell/ProfileButton.tsx
 #: src/features/user-status/StatusEditor.tsx
@@ -2536,8 +4299,22 @@ msgid "Shorten the text and try again."
 msgstr "请缩短文字后重试。"
 
 #: src/app/AppearanceSettings.tsx
+#: src/features/messages/ActivityGroupPreview.tsx
+#: src/features/messages/MessageRow.tsx
 msgid "Show"
 msgstr "显示"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "Show {hidden} more {hiddenNoun}"
+msgstr "再显示 {hidden} {hiddenNoun}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Show comments"
+msgstr "显示评论"
+
+#: src/features/messages/LinkPreviews.tsx
+msgid "Show fewer previews"
+msgstr "显示更少预览"
 
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Show my local time on my profile"
@@ -2559,6 +4336,10 @@ msgstr "显示秒数"
 msgid "Show sidebar"
 msgstr "显示侧栏"
 
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "Show tasks and chats in {title}"
+msgstr "显示 {title} 中的任务和聊天"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Show time zone details on profiles"
 msgstr "在个人资料中显示时区详情"
@@ -2566,6 +4347,14 @@ msgstr "在个人资料中显示时区详情"
 #: src/app/AppearanceSettings.tsx
 msgid "Show unread first in search"
 msgstr "搜索时优先显示未读"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Showing 500 drafts."
+msgstr "显示 500 条草稿。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Showing your latest {SENT_LIMIT} messages."
+msgstr "显示你最近的 {SENT_LIMIT} 条消息。"
 
 #. placeholder {0}: leaving.membership.localName
 #: src/features/communities/CommunityPicker.tsx
@@ -2579,6 +4368,10 @@ msgstr "用圆点提示当前社区中的未读动态，不显示消息数量。
 #: src/app/AppearanceSettings.tsx
 msgid "Side pane"
 msgstr "侧边面板"
+
+#: src/features/channel-navigation/SidebarBoundary.tsx
+msgid "Sidebar"
+msgstr "侧边栏"
 
 #: src/features/identity/Welcome.tsx
 msgid "Sign in"
@@ -2642,6 +4435,10 @@ msgstr "你的部分备份无法恢复，而已恢复的备份不包含与此账
 msgid "Some parts of Buzz are not translated yet."
 msgstr "Buzz 的部分界面尚未完成翻译。"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Some saved drafts could not be read. They are unchanged."
+msgstr "部分已保存的草稿无法读取。它们未被修改。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Someone joined this chat. Tag an agent to send."
 msgstr "有人加入了此对话，请提及智能体后发送。"
@@ -2649,6 +4446,10 @@ msgstr "有人加入了此对话，请提及智能体后发送。"
 #: src/app/NotificationSettings.tsx
 msgid "Sound"
 msgstr "声音"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Spam"
+msgstr "垃圾信息"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Spelling preference wasn’t saved"
@@ -2658,13 +4459,33 @@ msgstr "未能保存拼写设置"
 msgid "Spoiler"
 msgstr "剧透内容"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Starred"
+msgstr "星标"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Start a new session"
+msgstr "开始新会话"
+
 #: src/features/identity/KeyLost.tsx
 msgid "Start over with a new key"
 msgstr "使用新密钥重新开始"
 
+#: src/features/messages/ChannelTimeline.tsx
+msgid "Start the conversation below."
+msgstr "在下方开始对话。"
+
 #: src/features/communities/CommunityDialog.tsx
 msgid "Start with your local profile, or choose how you appear in this community."
 msgstr "从你的本地资料开始，或选择你在此社区中的显示方式。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "starting a new session"
+msgstr "开始新会话"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Starting direct messages is unavailable on this connection."
+msgstr "此连接上无法发起私信。"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Starting over permanently unlinks your old key."
@@ -2698,9 +4519,35 @@ msgstr "仍然无法连接，请检查网络后重试。"
 msgid "Still can’t connect. We’ll keep trying."
 msgstr "仍然无法连接，我们会继续重试。"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Stop"
+msgstr "停止"
+
+#. placeholder {0}: name(pubkey)
+#. placeholder {1}: stopScopeLabel(pubkey, root)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Stop {0}{1}"
+msgstr "停止 {0}{1}"
+
+#: src/features/messages/ActivityGroupActions.tsx
+msgid "Stop {name}"
+msgstr "停止 {name}"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Stopping…"
+msgstr "正在停止…"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
 msgstr "删除线"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Submit report"
+msgstr "提交举报"
+
+#: src/features/messages/ReportMessageDialog.tsx
+msgid "Submitting report…"
+msgstr "正在提交举报…"
 
 #: src/features/communities/CommunityPicker.tsx
 msgid "Switch community"
@@ -2766,6 +4613,10 @@ msgstr "这看起来不是有效的 nsec。请粘贴 nsec1 密钥。"
 msgid "That isn’t the key linked to this account. It expects"
 msgstr "这不是绑定到此账户的密钥。它期望的是"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "That message is no longer available."
+msgstr "该消息已不可用。"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "The draft changed or this link exceeds the message limit. Close and try again."
 msgstr "草稿已变化或此链接超出消息限制，请关闭后重试。"
@@ -2782,6 +4633,14 @@ msgstr "检查更新后，已安装的插件发生了变化。"
 msgid "The message can't be edited right now"
 msgstr "当前无法编辑此消息"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "The previous placement is shown. A partial save may already exist on the relay."
+msgstr "当前显示的是先前的位置。中继上可能已存在部分保存。"
+
+#: src/features/messages/ForwardMessage.tsx
+msgid "The recipient can open the original only if they have access to its conversation."
+msgstr "收件人只有在拥有原对话访问权限时才能打开原文。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "The session changed. Review its channel and retry."
 msgstr "会话已变化，请确认频道后重试。"
@@ -2794,6 +4653,14 @@ msgstr "添加该团队会超出消息长度或 32 个接收方的限制，未�
 msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
 msgstr "待更新版本已发生变化，请重新检查更新后再审核。"
 
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "This {placeWord} is archived"
+msgstr "此{placeWord}已归档"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "This {placeWord} is read-only{joinKeepNote}"
+msgstr "此{placeWord}为只读{joinKeepNote}"
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "This account or community changed. Open Local settings again."
 msgstr "账号或社区已变更，请重新打开本地设置。"
@@ -2802,9 +4669,21 @@ msgstr "账号或社区已变更，请重新打开本地设置。"
 msgid "This address isn’t a Buzz community."
 msgstr "此地址不是 Buzz 社区。"
 
+#: src/features/messages/ForwardMessage.tsx
+msgid "This agent is no longer available for direct messages. Choose another person."
+msgstr "此智能体已无法接收私信。请选择其他人。"
+
 #: src/app/NotificationSettings.tsx
 msgid "This build can’t show system notifications."
 msgstr "此版本无法显示系统通知。"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "this channel"
+msgstr "此频道"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "this chat"
+msgstr "此聊天"
 
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device."
@@ -2826,6 +4705,14 @@ msgstr "这台电脑的密钥已备份到 Builderlab：登录其账户即可恢�
 msgid "This conversation"
 msgstr "此对话"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This conversation could not be opened. It may have been removed, or your access may have changed."
+msgstr "无法打开此对话。它可能已被移除，或你的访问权限已变化。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This conversation could not be opened. Try again."
+msgstr "无法打开此对话。请重试。"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "This conversation is no longer available for changes."
 msgstr "此对话已无法修改。"
@@ -2833,6 +4720,18 @@ msgstr "此对话已无法修改。"
 #: src/bundled/channels/PageTabs.tsx
 msgid "This conversation is no longer available."
 msgstr "此对话已不可用。"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "This conversation is not available for replying right now."
+msgstr "此对话目前无法回复。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This conversation is not available right now"
+msgstr "此对话当前不可用"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "This conversation isn’t available right now. Your draft is still saved."
+msgstr "此对话当前不可用。你的草稿仍已保存。"
 
 #: src/features/identity/Welcome.tsx
 msgid "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
@@ -2845,6 +4744,14 @@ msgstr "默认分享此设备的时区。取消勾选并保存即可停止分享
 #: src/features/messages/MessageComposer.tsx
 msgid "This draft changed elsewhere. Your edits are kept here; choose which draft to keep."
 msgstr "草稿已在其他位置修改。已保留当前编辑，请选择要保留的草稿。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "This draft could not be cleared. Try again."
+msgstr "无法清除此草稿。请重试。"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "This draft has no text to copy."
+msgstr "此草稿没有可复制的文本。"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "This is the relay URL you use to connect to this community."
@@ -2869,6 +4776,14 @@ msgstr "此操作可能已到达对话。重试将发送同一操作；关闭提
 #: src/features/messages/MessageComposer.tsx
 msgid "This message is no longer available to edit."
 msgstr "此消息已无法编辑。"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "This message isn’t available."
+msgstr "此消息不可用。"
+
+#: src/features/conversation/BuzzLinkPreview.tsx
+msgid "This message isn’t available. It may have been deleted."
+msgstr "此消息不可用。它可能已被删除。"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "This message wasn’t sent. Deleting it removes it from this device. This cannot be undone."
@@ -2910,10 +4825,22 @@ msgstr "当前中继连接仅支持读取。"
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 msgstr "这将请求 Buzz 中继服务器移除此消息，其他人可能仍保留副本。此操作无法撤销。"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "This saved draft does not identify a thread root. Open its origin to check the destination."
+msgstr "此已保存的草稿未指明话题根消息。请打开其来源以确认目的地。"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "this section"
+msgstr "此分区"
+
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
 msgstr "这会向社区的中继发送退出请求，然后从此设备上移除 {0}，连同其保存的草稿和阅读位置。重新加入可能需要新的邀请。"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "This thread didn’t load."
+msgstr "此话题未能加载。"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
@@ -2922,6 +4849,42 @@ msgstr "本周"
 #: src/features/identity/RestoreIdentity.tsx
 msgid "This won’t change the identity linked to your account."
 msgstr "这不会改变绑定到你账户的身份。"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "thread"
+msgstr "话题"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "Thread"
+msgstr "话题"
+
+#. placeholder {0}: row.sentFromThread.excerpt
+#: src/features/messages/MessageRow.tsx
+msgid "Thread — {0}"
+msgstr "话题 — {0}"
+
+#. placeholder {0}: text || root.slice(0, 8)
+#: src/features/messages/TypingIndicator.tsx
+msgid "Thread · {0}"
+msgstr "话题 · {0}"
+
+#: src/features/messages/MediaReviewViewer.tsx
+#: src/features/messages/ThreadPanel.tsx
+msgid "Thread history limit reached."
+msgstr "已达到话题历史上限。"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Thread marked unread"
+msgstr "话题已标为未读"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Thread marked unread on this device only"
+msgstr "话题已仅在此设备上标为未读"
+
+#: src/features/messages/ThreadPanel.tsx
+msgid "Thread messages"
+msgstr "话题消息"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Thread preference wasn’t saved"
@@ -2939,7 +4902,13 @@ msgstr "时区"
 msgid "Timestamps"
 msgstr "时间"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "To:"
+msgstr "收件人："
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/features/user-status/StatusEditor.tsx
+#: src/shared/datetime.ts
 msgid "Today"
 msgstr "今天"
 
@@ -2951,11 +4920,16 @@ msgstr "切换格式工具"
 msgid "Toggle tab pane"
 msgstr "切换标签面板"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Transfer complete; waiting for server confirmation"
+msgstr "传输完成；等待服务器确认"
+
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/Welcome.tsx
 #: src/features/messages/MessageComposer.tsx
+#: src/features/messages/ThreadPanel.tsx
 msgid "Try again"
 msgstr "重试"
 
@@ -2967,13 +4941,49 @@ msgstr "再次尝试恢复"
 msgid "Type “{WIPE_PHRASE}” to confirm"
 msgstr "输入“{WIPE_PHRASE}”以确认"
 
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
+msgstr "输入至少 {SEARCH_MIN_CHARS} 个字符以搜索人员。"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "Unavailable"
+msgstr "不可用"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Unavailable conversation"
+msgstr "对话不可用"
+
+#: src/features/channel-navigation/WorkspaceComposition.tsx
+msgid "Unfiled"
+msgstr "未归档"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Unfollow thread"
 msgstr "取消关注话题"
 
+#: src/features/messages/ThreadPanel.tsx
+msgid "Unknown author"
+msgstr "未知作者"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Unknown person"
+msgstr "未知人员"
+
 #: src/features/identity/setup.ts
 msgid "Unlinking your old key…"
 msgstr "正在解绑你的旧密钥…"
+
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Unmute"
+msgstr "取消静音"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Unmute video"
+msgstr "取消视频静音"
+
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "Unsent draft"
+msgstr "未发送的草稿"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Until"
@@ -3013,6 +5023,26 @@ msgstr "更新你在此社区的个人资料，其他社区的资料不受影响
 msgid "Updating to {targetLabel}…"
 msgstr "正在切换为{targetLabel}…"
 
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Upload failed"
+msgstr "上传失败"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Upload failed. Retry or remove it to send."
+msgstr "上传失败。请重试或移除后再发送。"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Uploading"
+msgstr "正在上传"
+
+#: src/features/direct-messages/NewMessage.tsx
+msgid "Uploading files…"
+msgstr "正在上传文件…"
+
+#: src/features/messages/ComposerAttachments.tsx
+msgid "Uploading…"
+msgstr "正在上传…"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Uploads are unavailable on this connection."
 msgstr "当前连接不支持上传。"
@@ -3047,6 +5077,11 @@ msgstr "用于新加入的社区，现有社区的个人资料不受影响。"
 msgid "Username"
 msgstr "用户名"
 
+#. placeholder {0}: runs.label
+#: src/features/messages/ComposerModels.tsx
+msgid "Using {0}{effortSuffix}"
+msgstr "使用 {0}{effortSuffix}"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Vacationing"
 msgstr "休假中"
@@ -3063,13 +5098,97 @@ msgstr "色彩风格"
 msgid "Vibe level wasn’t saved"
 msgstr "未能保存色彩风格"
 
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Video"
+msgstr "视频"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Video attachment"
+msgstr "视频附件"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video progress"
+msgstr "视频进度"
+
+#: src/features/messages/MediaReviewViewer.tsx
+msgid "Video review"
+msgstr "视频审阅"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video timeline"
+msgstr "视频时间线"
+
+#: src/features/messages/MediaAttachment.tsx
+msgid "Video unavailable"
+msgstr "视频不可用"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video volume"
+msgstr "视频音量"
+
+#: src/features/messages/VideoPlayer.tsx
+msgid "Video volume controls"
+msgstr "视频音量控制"
+
+#. placeholder {0}: descendants.length
+#: src/features/messages/ThreadPanel.tsx
+msgid "View {0} {replyWord}"
+msgstr "查看 {0} 条{replyWord}"
+
+#. placeholder {0}: name(pubkey)
+#: src/features/messages/TypingIndicator.tsx
+msgid "View {0} activity"
+msgstr "查看 {0} 的活动"
+
+#: src/features/messages/MessageRow.tsx
+msgid "View {name} profile"
+msgstr "查看 {name} 的资料"
+
+#: src/features/messages/MessageRow.tsx
+msgid "View activity"
+msgstr "查看活动"
+
+#. placeholder {0}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "View all {0} {mediaLabel}, starting at {startKind} 4"
+msgstr "查看全部 {0} {mediaLabel}，从{startKind} 4 开始"
+
+#. placeholder {0}: group.length
+#: src/features/messages/MessageRow.tsx
+msgid "View all {0} {mediaLabel}, starting at item 4"
+msgstr "查看全部 {0} {mediaLabel}，从第 4 项开始"
+
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "View channel details"
 msgstr "查看频道详情"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "View message in {where}: {line}"
+msgstr "查看 {where} 的消息：{line}"
+
+#: src/features/messages/MessageRow.tsx
+#: src/features/messages/ReplySummary.tsx
+msgid "View thread"
+msgstr "查看话题"
+
+#. placeholder {0}: row.replyCount
+#: src/features/messages/MessageRow.tsx
+msgid "View thread: {0} {replyCountWord}"
+msgstr "查看话题：{0} {replyCountWord}"
+
+#: src/features/messages/ActivityGroupActions.tsx
+#: src/features/messages/MessageRow.tsx
+msgid "View transcript"
+msgstr "查看执行记录"
+
 #: src/features/messages/MessageComposer.tsx
+#: src/features/messages/QueuedFollowUps.tsx
 msgid "Wait for compaction to finish, or interrupt it."
 msgstr "请等待上下文压缩完成，或将其中断。"
+
+#: src/features/messages/ComposerModels.tsx
+msgid "Wait for the active turn to finish before {waitVerb}."
+msgstr "请等待当前轮次完成后再{waitVerb}。"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Waiting for {name} to connect."
@@ -3136,21 +5255,67 @@ msgstr "未输入搜索内容时，优先显示未读频道和私聊，并选中
 msgid "With someone’s local time, shows how far ahead or behind you they are and their time zone."
 msgstr "在当地时间旁显示对方与你的时差及其时区。"
 
+#: src/features/messages/TypingIndicator.tsx
+msgid "Work with unconfirmed thread"
+msgstr "处理未确认的话题"
+
+#: src/features/messages/MessageRow.tsx
+msgid "Workflow"
+msgstr "工作流"
+
 #: src/app/shell/BestieNavigation.tsx
 msgid "Workflows"
 msgstr "工作流"
+
+#: src/features/messages/TypingIndicator.tsx
+msgid "Working now"
+msgstr "正在工作"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Working remotely"
 msgstr "远程办公"
 
+#: src/features/channel-navigation/SoloInventory.tsx
+msgid "Workspace actions"
+msgstr "工作区操作"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/shared/datetime.ts
+msgid "Yesterday"
+msgstr "昨天"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+#: src/features/messages/MessageReactions.tsx
+msgid "You"
+msgstr "你"
+
+#: src/features/messages/ChannelTimeline.tsx
+msgid "You can load older messages once Buzz reconnects."
+msgstr "Buzz 重新连接后即可加载更早的消息。"
+
+#: src/features/direct-messages/RecipientPicker.tsx
+msgid "You can message up to {maxRecipients} people at once."
+msgstr "一次最多可与 {maxRecipients} 人私信。"
+
+#: src/features/drafts-sent/DraftPreview.tsx
+msgid "You can’t post in {title} anymore. Your draft is still saved."
+msgstr "你已无法在 {title} 中发言。你的草稿仍已保存。"
+
 #: src/app/App.tsx
 msgid "You don’t have access to this"
 msgstr "你无权访问此内容"
 
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "You’re last"
+msgstr "你是最新一条"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "You're on the latest version."
 msgstr "当前已是最新版本。"
+
+#: src/features/messages/ChannelJoinNotice.tsx
+msgid "You’re previewing this {placeWord}"
+msgstr "你正在预览此{placeWord}"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Your account is unavailable. Open Local settings again."
@@ -3189,9 +5354,17 @@ msgstr "你的 Buzz 身份"
 msgid "Your channels, one conversation."
 msgstr "你的频道，尽在一个对话。"
 
+#: src/features/channel-navigation/ChannelInventory.tsx
+msgid "Your conversations are still available."
+msgstr "你的对话仍可访问。"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Your current identity isn’t in these backups. You can choose a previous identity."
 msgstr "你当前的身份不在此备份中。你可以选择先前的身份。"
+
+#: src/features/drafts-sent/DraftsSentPage.tsx
+msgid "Your drafts and sent messages appear once a community is selected."
+msgstr "选择社区后即可查看你的草稿和已发送消息。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Your edit is still in the outbox."
@@ -3268,3 +5441,11 @@ msgstr "你的状态不可用"
 #: src/app/shell/ProfileButton.tsx
 msgid "Your status: {label}"
 msgstr "你的状态：{label}"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Zoom in"
+msgstr "放大"
+
+#: src/features/messages/ImageReviewStage.tsx
+msgid "Zoom out"
+msgstr "缩小"

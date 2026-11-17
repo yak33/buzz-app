@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   createContext,
   useContext,
@@ -53,6 +54,7 @@ export function RegionChannelGroups({
 }
 
 export function RegionChannelGroup(props: SoloChannelGroupProps) {
+  const { t } = useLingui();
   const context = useContext(RegionDestinationContext);
   const channels = useContext(ChannelGroupsContext);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -116,8 +118,8 @@ export function RegionChannelGroup(props: SoloChannelGroupProps) {
                 <IconButton
                   size="compact"
                   data-solo-channel-new-task=""
-                  aria-label={`New task in ${channel.name}`}
-                  title="New task"
+                  aria-label={t`New task in ${channel.name}`}
+                  title={t`New task`}
                   icon={<PencilSimpleIcon size={15} />}
                   onClick={newTask}
                 />
@@ -127,10 +129,12 @@ export function RegionChannelGroup(props: SoloChannelGroupProps) {
                 session={session}
                 trigger={trigger}
                 size="compact"
-                label={`Actions for ${channel.name}`}
+                label={t`Actions for ${channel.name}`}
                 openDetails={() => void openDetails()}
                 startChat={
-                  newTask && <MenuItem onClick={newTask}>New task</MenuItem>
+                  newTask && (
+                    <MenuItem onClick={newTask}>{t`New task`}</MenuItem>
+                  )
                 }
               />
             </>

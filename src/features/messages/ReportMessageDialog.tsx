@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { useConversationPresentation } from "../conversation/ConversationPresentation";
 import { FlagIcon } from "../../shared/design-system/icons";
@@ -9,14 +12,14 @@ import { Textarea } from "../../shared/design-system/ui/Textarea";
 import type { ReportType } from "../relay/messages";
 
 /** Same order and copy as Buzz desktop; `other` reads as the fallback. */
-const CATEGORIES: readonly (readonly [ReportType, string])[] = [
-  ["spam", "Spam"],
-  ["profanity", "Profanity or hate speech"],
-  ["nudity", "Nudity or sexual content"],
-  ["impersonation", "Impersonation"],
-  ["malware", "Malware or scam"],
-  ["illegal", "Illegal content"],
-  ["other", "Other"],
+const CATEGORIES: readonly (readonly [ReportType, MessageDescriptor])[] = [
+  ["spam", msg`Spam`],
+  ["profanity", msg`Profanity or hate speech`],
+  ["nudity", msg`Nudity or sexual content`],
+  ["impersonation", msg`Impersonation`],
+  ["malware", msg`Malware or scam`],
+  ["illegal", msg`Illegal content`],
+  ["other", msg`Other`],
 ];
 
 /** Retain submitted work when its modal presentation is dismissed. */
@@ -29,6 +32,7 @@ export function ReportMessageDialog({
   close(submitted: boolean): void;
   finalFocus?: RefObject<HTMLElement | null>;
 }) {
+  const { i18n, t } = useLingui();
   const formId = useId();
   const reason = useRef<HTMLButtonElement>(null);
   const active = useConversationPresentation();
@@ -50,18 +54,18 @@ export function ReportMessageDialog({
       await report(category, note);
       close(true);
     } catch {
-      setError("Failed to submit report. Try again.");
+      setError(i18n._(msg`Failed to submit report. Try again.`));
       setPending(false);
     }
   };
   if (!active) return null;
   if (!present)
     return pending ? (
-      <p role="status">Submitting report…</p>
+      <p role="status">{t`Submitting report…`}</p>
     ) : (
       <div>
         <p role="alert">{error}</p>
-        <Button onClick={() => setPresent(true)}>Review report</Button>
+        <Button onClick={() => setPresent(true)}>{t`Review report`}</Button>
       </div>
     );
   return (
@@ -81,14 +85,14 @@ export function ReportMessageDialog({
       title={
         <span className="flex items-center gap-2">
           <FlagIcon size={16} aria-hidden="true" />
-          Report message
+          {t`Report message`}
         </span>
       }
-      description="Reports go to this community's moderators for review. The author is not notified of who reported them."
+      description={t`Reports go to this community's moderators for review. The author is not notified of who reported them.`}
       actions={
         <>
           <Button disabled={pending} onClick={() => close(false)}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             variant="prominent"
@@ -97,7 +101,7 @@ export function ReportMessageDialog({
             disabled={!category}
             loading={pending}
           >
-            Submit report
+            {t`Submit report`}
           </Button>
         </>
       }
@@ -111,7 +115,7 @@ export function ReportMessageDialog({
           void submit();
         }}
       >
-        <Field label="Reason" error={error || undefined}>
+        <Field label={t`Reason`} error={error || undefined}>
           <RadioGroup<ReportType | null>
             name="report-reason"
             value={category}
@@ -123,15 +127,15 @@ export function ReportMessageDialog({
                 ref={index === 0 ? reason : undefined}
                 key={value}
                 value={value}
-                label={label}
+                label={i18n._(label)}
               />
             ))}
           </RadioGroup>
         </Field>
-        <Field label="Additional context (optional)">
+        <Field label={t`Additional context (optional)`}>
           <Textarea
             rows={3}
-            placeholder="Add anything that helps moderators..."
+            placeholder={t`Add anything that helps moderators...`}
             value={note}
             disabled={pending}
             onChange={(event) => setNote(event.target.value)}
