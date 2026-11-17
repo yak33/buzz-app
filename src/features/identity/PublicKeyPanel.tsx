@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { writeClipboardText } from "../../shared/clipboard";
 import { CopyIcon } from "../../shared/design-system/icons/index";
@@ -11,40 +13,45 @@ import { WireframePanel } from "./Wireframe";
  */
 export function PublicKeyPanel({
   publicKey,
-  heading = "Your public key (npub)",
+  heading,
 }: {
   publicKey: string;
   heading?: string;
 }) {
+  const { i18n, t } = useLingui();
   const [copyStatus, setCopyStatus] = useState("");
   return (
     <WireframePanel>
       <div className="flex items-center justify-between gap-2">
-        <h2 className="m-0 text-body text-subtle">{heading}</h2>
+        <h2 className="m-0 text-body text-subtle">
+          {heading ?? t`Your public key (npub)`}
+        </h2>
         <Button
           size="sm"
           variant="ghost"
-          aria-label="Copy npub"
+          aria-label={t`Copy npub`}
           onClick={() => {
             setCopyStatus("");
             writeClipboardText(publicKey).then(
-              () => setCopyStatus("Public key copied."),
+              () => setCopyStatus(i18n._(msg`Public key copied.`)),
               () =>
                 setCopyStatus(
-                  "Could not copy. Select the key above to copy it.",
+                  i18n._(
+                    msg`Could not copy. Select the key above to copy it.`,
+                  ),
                 ),
             );
           }}
         >
           <CopyIcon size={16} aria-hidden="true" />
-          Copy
+          {t`Copy`}
         </Button>
       </div>
       <code className="block select-text break-all font-mono text-mono">
         {publicKey}
       </code>
       <p className="m-0 text-body-sm text-subtle">
-        This is your public identity — it’s safe to share.
+        {t`This is your public identity — it’s safe to share.`}
       </p>
       <span role="status" className="text-body-sm text-subtle">
         {copyStatus}

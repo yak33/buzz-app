@@ -1,3 +1,5 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { BackupError } from "./backup";
 import type { Communities } from "../communities/service";
 import type {
@@ -13,7 +15,7 @@ import type { Identity } from "./service";
  * `then`, or the steps that run next, ahead of the rest.
  */
 export type SetupStep = Readonly<{
-  label: string;
+  label: MessageDescriptor;
   run: () => Promise<void> | Promise<Resting | Next | undefined>;
   /** Links the key on this device to the account: skipping it leaves the key unlinked. */
   links?: boolean;
@@ -38,7 +40,7 @@ export type SetupPause =
   | "key-lost";
 export type SetupSnapshot = Readonly<
   | { status: "idle" }
-  | { status: "running"; label: string }
+  | { status: "running"; label: MessageDescriptor }
   | { status: "paused"; at: SetupPause }
   | {
       status: "failed";
@@ -140,7 +142,7 @@ export function keyForAccount(
   account: FirstRunAccount,
 ): SetupStep {
   return {
-    label: "Preparing your identity…",
+    label: msg`Preparing your identity…`,
     run: async () => {
       vacant(identity);
       if (await identity.legacyAvailable().catch(() => false)) {
@@ -192,7 +194,7 @@ export async function adoptLinkedLegacy(
 /** Creates a key on this device, which the account steps then act on. */
 export function createKey(identity: Identity): SetupStep {
   return {
-    label: "Creating your key…",
+    label: msg`Creating your key…`,
     run: async () => {
       vacant(identity);
       await identity.create();
@@ -227,7 +229,7 @@ export function checkAccount(
   onDevice?: string,
 ): SetupStep {
   return {
-    label: "Checking your account…",
+    label: msg`Checking your account…`,
     run: async () => {
       const [pubkey, known] = await Promise.all([
         account.linkedKey(),
@@ -253,7 +255,7 @@ export function linkKey(
   account: FirstRunAccount,
 ): SetupStep {
   return {
-    label: "Linking your key…",
+    label: msg`Linking your key…`,
     run: () => account.bind(viewer(identity)),
     links: true,
   };
@@ -273,7 +275,7 @@ export function unlinkKey(
   old: string,
 ): SetupStep {
   return {
-    label: "Unlinking your old key…",
+    label: msg`Unlinking your old key…`,
     run: () => account.unbind(old, viewer(identity)),
   };
 }
@@ -289,7 +291,7 @@ export function backUp(
   account: FirstRunAccount,
 ): SetupStep {
   return {
-    label: "Backing up your key…",
+    label: msg`Backing up your key…`,
     backup: true,
     run: () => account.backUp(viewer(identity)),
   };
@@ -304,7 +306,7 @@ export function backUp(
  */
 export function keepBackup(identity: Identity): SetupStep {
   return {
-    label: "Backing up your key…",
+    label: msg`Backing up your key…`,
     run: async () => {
       if ((await identity.backup.ready()).builderlab)
         await identity
@@ -331,7 +333,7 @@ export function findCommunities(
   onCreatable?: (list: CommunityList | undefined) => void,
 ): SetupStep {
   return {
-    label: "Finding communities…",
+    label: msg`Finding communities…`,
     run: () =>
       account.communityList().then(
         (list) => {
@@ -360,7 +362,7 @@ export function checkCreation(
   onChecked: (list: CommunityList | undefined) => void,
 ): SetupStep {
   return {
-    label: "Finding communities…",
+    label: msg`Finding communities…`,
     run: async () => {
       try {
         const [bound, list] = await Promise.all([
@@ -389,7 +391,7 @@ export function restoreCommunities(
   decide: (outcomes: readonly Restored[]) => Resting | undefined,
 ): SetupStep {
   return {
-    label: "Restoring your communities…",
+    label: msg`Restoring your communities…`,
     run: async () =>
       decide(
         await restoreKnown(known, communities, {
@@ -414,7 +416,7 @@ export function checkBackup(
   onListed: (pubkeys: readonly string[] | undefined, failed?: true) => void,
 ): SetupStep {
   return {
-    label: "Checking for a backed-up key…",
+    label: msg`Checking for a backed-up key…`,
     run: () =>
       account.backupStatus().then(
         (listed) => onListed(listed === "unavailable" ? undefined : listed),

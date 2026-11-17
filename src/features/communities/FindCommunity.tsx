@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { CircleNotchIcon } from "../../shared/design-system/icons/index";
 import { Avatar } from "../../shared/design-system/ui/Avatar";
@@ -26,14 +29,20 @@ type State =
 export type JoinConsent = Readonly<{ adult: boolean; agreed: boolean }>;
 
 /** Classified copy; raw transport errors are never shown. */
-const FAILURES: Record<FindFailure, { message: string; retry: boolean }> = {
+const FAILURES: Record<
+  FindFailure,
+  { message: MessageDescriptor; retry: boolean }
+> = {
   unreachable: {
-    message: "Could not reach the relay. Check your connection and try again.",
+    message: msg`Could not reach the relay. Check your connection and try again.`,
     retry: true,
   },
-  "not-buzz": { message: "This address isn’t a Buzz community.", retry: false },
+  "not-buzz": {
+    message: msg`This address isn’t a Buzz community.`,
+    retry: false,
+  },
   "no-community": {
-    message: "No community is set up at this address.",
+    message: msg`No community is set up at this address.`,
     retry: false,
   },
 };
@@ -89,6 +98,7 @@ export function FindCommunity({
       onFound?: never;
     }
 )) {
+  const { i18n, t } = useLingui();
   const host = new URL(url).host;
   const [state, setState] = useState<State>({ status: "finding" });
   const [adult, setAdult] = useState(false);
@@ -155,11 +165,11 @@ export function FindCommunity({
   if (state.status === "finding" || joining === "auto")
     return (
       <>
-        {heading(joining ? "Joining community" : "Finding community")}
+        {heading(joining ? t`Joining community` : t`Finding community`)}
         {/* An initial read: its status waits a second, the hostname and Cancel do not. */}
         <LoadingRegion
           pending
-          label={joining ? `Joining ${host}…` : `Looking up ${host}…`}
+          label={joining ? t`Joining ${host}…` : t`Looking up ${host}…`}
         >
           <div className="flex flex-col gap-6">
             <p className="m-0 font-mono text-body text-subtle">{host}</p>
@@ -169,7 +179,7 @@ export function FindCommunity({
                 onClick={cancel}
                 disabled={Boolean(joining)}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
             </div>
           </div>
@@ -181,16 +191,16 @@ export function FindCommunity({
     const { message, retry } = FAILURES[state.failure];
     return (
       <>
-        {heading("Couldn’t find community")}
+        {heading(t`Couldn’t find community`)}
         <p role="alert" className="text-body text-danger">
-          {message}
+          {i18n._(message)}
         </p>
         <div
           className="flex gap-3"
           data-onboarding-actions={onboarding ? "" : undefined}
         >
           <Button size={onboarding ? "lg" : "md"} onClick={cancel}>
-            Cancel
+            {t`Cancel`}
           </Button>
           {retry && (
             <Button
@@ -198,7 +208,7 @@ export function FindCommunity({
               size={onboarding ? "lg" : "md"}
               onClick={() => setState({ status: "finding" })}
             >
-              Retry
+              {t`Retry`}
             </Button>
           )}
         </div>
@@ -215,7 +225,7 @@ export function FindCommunity({
   const consented = (!needsAge || adult) && (!needsAgreement || agreed);
   return (
     <>
-      {heading("Join Community")}
+      {heading(t`Join Community`)}
       <div className="flex items-center gap-3 rounded-[var(--radius-row)] bg-surface-inset p-4">
         <Avatar
           alt=""
@@ -236,7 +246,7 @@ export function FindCommunity({
             <Checkbox
               checked={adult}
               onCheckedChange={setAdult}
-              label="I confirm that I am at least 18 years old."
+              label={t`I confirm that I am at least 18 years old.`}
             />
           )}
           {needsAgreement && (
@@ -245,19 +255,21 @@ export function FindCommunity({
               onCheckedChange={setAgreed}
               label={
                 <>
-                  I agree to this community’s{" "}
+                  {t`I agree to this community’s `}
                   {policy?.terms_markdown && (
                     <PolicyLink url={url} document="terms">
-                      Terms of Service
+                      {t`Terms of Service`}
                     </PolicyLink>
                   )}
-                  {policy?.terms_markdown && policy.privacy_markdown && " and "}
+                  {policy?.terms_markdown &&
+                    policy.privacy_markdown &&
+                    t` and `}
                   {policy?.privacy_markdown && (
                     <PolicyLink url={url} document="privacy">
-                      Privacy Notice
+                      {t`Privacy Notice`}
                     </PolicyLink>
                   )}
-                  .
+                  {t`.`}
                 </>
               }
             />
@@ -274,7 +286,7 @@ export function FindCommunity({
             aria-hidden="true"
             className="motion-safe:animate-spin"
           />
-          Joining…
+          {t`Joining…`}
         </p>
       )}
       <div
@@ -286,7 +298,7 @@ export function FindCommunity({
           onClick={cancel}
           disabled={Boolean(joining)}
         >
-          Cancel
+          {t`Cancel`}
         </Button>
         <Button
           variant="prominent"
@@ -300,7 +312,7 @@ export function FindCommunity({
             )
           }
         >
-          Join
+          {t`Join`}
         </Button>
       </div>
     </>

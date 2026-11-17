@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState } from "react";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -41,6 +43,7 @@ export function SignOutDialog({
   identity: Identity;
   onClose(): void;
 }) {
+  const { i18n, t } = useLingui();
   const [touched, setTouched] = useState(false);
   const [haveKey, setHaveKey] = useState(false);
   const [wipe, setWipe] = useState(false);
@@ -50,11 +53,12 @@ export function SignOutDialog({
   const [error, setError] = useState("");
   // Asked of the native side, which enforces it; wipe stays off until it answers.
   const [wipeRefusal, setWipeRefusal] = useState<string | null>();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此检查只在挂载时运行一次。
   useEffect(() => {
     let current = true;
     identity
       .wipeRefusal()
-      .catch(() => "Couldn’t check whether erasing is available")
+      .catch(() => i18n._(msg`Couldn’t check whether erasing is available`))
       .then((reason) => {
         if (current) setWipeRefusal(reason ?? null);
       });
@@ -75,21 +79,21 @@ export function SignOutDialog({
   }
   return (
     <AlertDialog
-      title="Remove your key from this device?"
-      description="Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in."
+      title={t`Remove your key from this device?`}
+      description={t`Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in.`}
       onClose={onClose}
       pending={pending}
       actions={
         <>
           <Button type="button" disabled={pending} onClick={onClose}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             type="button"
             disabled={!ready || pending}
             onClick={() => void confirm()}
           >
-            {wipe ? "Remove and erase data" : "Remove from device"}
+            {wipe ? t`Remove and erase data` : t`Remove from device`}
           </Button>
         </>
       }
@@ -97,13 +101,13 @@ export function SignOutDialog({
       <PrivateKey identity={identity} onInteraction={() => setTouched(true)} />
       <div className="mt-6 flex flex-col gap-3">
         <Checkbox
-          label="I have my key"
+          label={t`I have my key`}
           checked={haveKey}
           disabled={!touched || pending}
           onCheckedChange={setHaveKey}
         />
         <Checkbox
-          label="Also erase everything else Buzz stores on this device"
+          label={t`Also erase everything else Buzz stores on this device`}
           checked={wipe}
           disabled={pending || wipeRefusal !== null}
           onCheckedChange={(checked) => {
@@ -120,13 +124,13 @@ export function SignOutDialog({
         {wipe && (
           <>
             <Checkbox
-              label="Also remove my agents"
+              label={t`Also remove my agents`}
               checked={removeAgents}
               disabled={pending}
               onCheckedChange={setRemoveAgents}
             />
             <label className="block text-label-sm" htmlFor="sign-out-phrase">
-              Type “{WIPE_PHRASE}” to confirm
+              {t`Type “${WIPE_PHRASE}” to confirm`}
             </label>
             <Input
               id="sign-out-phrase"
@@ -136,20 +140,15 @@ export function SignOutDialog({
               onChange={(event) => setPhrase(event.currentTarget.value)}
             />
             <p className="text-body-sm text-muted">
-              Erasing clears this app’s data, local storage, caches and plugin
-              storage on this device only. It can’t reach your clipboard, keys
-              you exported, or relay data; your npub and its history stay on the
-              relays.
+              {t`Erasing clears this app’s data, local storage, caches and plugin storage on this device only. It can’t reach your clipboard, keys you exported, or relay data; your npub and its history stay on the relays.`}
               {!removeAgents &&
-                " Kept agents keep their names, types and keys; their settings on this device are erased."}
+                t` Kept agents keep their names, types and keys; their settings on this device are erased.`}
             </p>
           </>
         )}
         {!wipe && (
           <p className="text-body-sm text-muted">
-            Your settings, agents and other Buzz data stay on this device. Sign
-            back in with this key and they’ll be here. Agents start only for
-            this key.
+            {t`Your settings, agents and other Buzz data stay on this device. Sign back in with this key and they’ll be here. Agents start only for this key.`}
           </p>
         )}
       </div>

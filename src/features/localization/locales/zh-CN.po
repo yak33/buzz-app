@@ -7,6 +7,36 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: zh-CN\n"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid " and "
+msgstr "和"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid " Join an existing one or create your own."
+msgstr "加入现有的，或创建你自己的。"
+
+#: src/features/identity/SignOut.tsx
+msgid " Kept agents keep their names, types and keys; their settings on this device are erased."
+msgstr " 保留的智能体会保留其名称、类型和密钥；它们在此设备上的设置会被清除。"
+
+#: src/features/identity/KeyImport.tsx
+msgid " unless you chose to manage it yourself"
+msgstr "，除非你此前选择自行管理"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "."
+msgstr "。"
+
+#: src/features/identity/KeyImport.tsx
+msgid ". Block can use that copy to restore your identity, including anywhere else you use it."
+msgstr "。Block 可使用该副本恢复你的身份，包括你在其他地方使用该身份的场合。"
+
+#: src/features/identity/KeyImport.tsx
+msgid "(the key on your other device)."
+msgstr "（你另一台设备上的密钥）。"
+
 #. placeholder {0}: recovery.manifest.name
 #: src/app/PluginUpdates.tsx
 msgid "{0} cannot start"
@@ -16,6 +46,14 @@ msgstr "{0} 无法启动"
 msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
 msgstr "{aboutLength} / {PROFILE_ABOUT_MAX_LENGTH} 个字符"
 
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "{account} is linked to a different key than the one on this computer, and Builderlab has a backup of it. Replacing removes this computer’s key and restarts Buzz to restore your account’s key. {backupNote}"
+msgstr "{account} 绑定的密钥与这台电脑上的不同，且 Builderlab 存有该密钥的备份。替换会移除这台电脑的密钥并重启 Buzz，以恢复你账户的密钥。{backupNote}"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
+msgstr "{account} 绑定的密钥在另一台设备上，且 Builderlab 没有它的备份。Buzz 会继续使用这台电脑的密钥。想在这里使用你账户的密钥，请在那台设备上的“设置 → 身份”中开启身份同步，或把该密钥的私钥带到这里。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "{colorLabel} accent color"
 msgstr "{colorLabel}强调色"
@@ -23,6 +61,10 @@ msgstr "{colorLabel}强调色"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel}（仅预览）"
+
+#: src/features/identity/ProfileStep.tsx
+msgid "{host} no longer admits this key. Ask a community administrator to restore your access."
+msgstr "{host} 不再允许此密钥。请请社区管理员恢复你的访问权限。"
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "{label} copied"
@@ -64,6 +106,10 @@ msgstr "24 小时制"
 msgid "8 hours"
 msgstr "8 小时"
 
+#: src/features/identity/Welcome.tsx
+msgid "A different account is saved on this computer"
+msgstr "此电脑上保存着另一个账户"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "A selected recipient is archived or being deleted. Remove it before sending."
 msgstr "所选接收方已归档或正在删除，请移除后再发送。"
@@ -80,6 +126,10 @@ msgstr "强调色"
 msgid "Accent color wasn’t saved"
 msgstr "未能保存强调色"
 
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Actions for {name}"
+msgstr "{name} 的操作"
+
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
 msgstr "动态"
@@ -87,6 +137,10 @@ msgstr "动态"
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
 msgstr "添加链接"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Add these saved communities to your list and account. This may restore communities you previously removed."
+msgstr "将这些已保存的社区添加到你的列表和账户。这可能会恢复你之前移除的社区。"
 
 #: src/app/settings-sections.ts
 msgid "Agent setup"
@@ -124,6 +178,14 @@ msgstr "允许通知以接收提醒。"
 msgid "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
 msgstr "允许智能体使用已有的本地代码仓库，无需另外克隆。留空则使用默认位置。"
 
+#: src/features/identity/SignOut.tsx
+msgid "Also erase everything else Buzz stores on this device"
+msgstr "同时抹除此设备上 Buzz 存储的其他所有数据"
+
+#: src/features/identity/SignOut.tsx
+msgid "Also remove my agents"
+msgstr "同时移除我的智能体"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "An agent you're sending to is archived or being deleted. Choose another agent to send."
 msgstr "接收消息的智能体已归档或正在删除，请选择其他智能体。"
@@ -131,6 +193,10 @@ msgstr "接收消息的智能体已归档或正在删除，请选择其他智能
 #: src/app/PluginUpdates.tsx
 msgid "Another plugin review opened. Close it before confirming this update."
 msgstr "另一个插件审核已打开，请先关闭再确认此更新。"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Anyone with this key can act as you. Never share it."
+msgstr "持有此密钥的任何人都能以你的身份行事。切勿分享。"
 
 #: src/app/LanguageSettings.tsx
 msgid "App language"
@@ -199,6 +265,30 @@ msgstr "离开"
 msgid "Away"
 msgstr "离开"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/OnboardingBack.tsx
+#: src/features/identity/RestoreIdentity.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Back"
+msgstr "返回"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "Back up key"
+msgstr "备份密钥"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "Back up your key?"
+msgstr "备份你的密钥？"
+
+#: src/features/identity/setup.ts
+msgid "Backing up your key…"
+msgstr "正在备份你的密钥…"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Backup restoration isn’t available for this account. Enter your private key to continue."
+msgstr "此账户无法使用备份恢复。请输入你的私钥继续。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Behavior"
 msgstr "发送方式"
@@ -206,6 +296,10 @@ msgstr "发送方式"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bold"
 msgstr "加粗"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Browse"
+msgstr "浏览"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bullet list"
@@ -215,6 +309,10 @@ msgstr "无序列表"
 msgid "Buzz can show Dock badges."
 msgstr "Buzz 可以显示 Dock 角标。"
 
+#: src/features/identity/Welcome.tsx
+msgid "Buzz can’t read the key saved on this computer, so it can’t open with it or copy it. Trying again won’t change that."
+msgstr "Buzz 无法读取这台电脑上保存的密钥，因此无法用它打开应用或复制它。重试不会改变结果。"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
 msgstr "Buzz 无法确认消息是否已送达。移除后，此设备会停止发送该消息；如果已经送达，对话中的消息仍会保留。此操作无法撤销。"
@@ -222,6 +320,14 @@ msgstr "Buzz 无法确认消息是否已送达。移除后，此设备会停止�
 #: src/app/NotificationSettings.tsx
 msgid "Buzz couldn’t send the notification"
 msgstr "Buzz 未能发送通知"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Buzz will automatically sync this key with your Builderlab account"
+msgstr "Buzz 会自动将此密钥同步到你的 Builderlab 账户"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
+msgstr "Buzz 会将你身份密钥的加密副本保存到你的 Builderlab 账户。该副本可恢复你的身份，包括你在其他应用中使用同一密钥的场合。如果你自行管理密钥，请保留私钥副本：在另一台设备上使用此账户、或失去此设备的访问权时，都需要它。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Buzzin’"
@@ -240,6 +346,15 @@ msgstr "无法连接"
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/CommunityRepositoriesSettings.tsx
 #: src/app/ProfileSettings.tsx
+#: src/app/shell/MarkAllReadShortcut.tsx
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/PrivateKey.tsx
+#: src/features/identity/RestoreIdentity.tsx
+#: src/features/identity/SignOut.tsx
+#: src/features/identity/Welcome.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Cancel"
@@ -248,6 +363,11 @@ msgstr "取消"
 #: src/features/messages/MessageComposer.tsx
 msgid "Cancel edit"
 msgstr "取消编辑"
+
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Canceling recovery…"
+msgstr "正在取消恢复…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Channel actions"
@@ -279,6 +399,10 @@ msgstr "在此社区中通过“新建对话”创建的个人对话使用此保
 msgid "Check again"
 msgstr "再次检查"
 
+#: src/features/identity/KeyLost.tsx
+msgid "Check another device where you’re signed in to Buzz, or look for a backup. Without a copy or a usable backup, we can’t recover your key."
+msgstr "请检查你登录过 Buzz 的其他设备，或寻找备份。没有副本或可用备份，我们无法恢复你的密钥。"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Check Dock permission"
 msgstr "检查 Dock 权限"
@@ -305,6 +429,10 @@ msgstr "请检查网络后重试。"
 msgid "Check your connection. We’ll keep trying."
 msgstr "请检查网络，我们会继续重试。"
 
+#: src/features/identity/setup.ts
+msgid "Checking for a backed-up key…"
+msgstr "正在检查是否有密钥备份…"
+
 #: src/app/PluginUpdates.tsx
 msgid "Checking for updates. Try again when the check finishes."
 msgstr "正在检查更新，请在检查完成后重试。"
@@ -313,6 +441,11 @@ msgstr "正在检查更新，请在检查完成后重试。"
 #: src/features/updates/UpdateSettings.tsx
 msgid "Checking for updates…"
 msgstr "正在检查更新…"
+
+#: src/features/identity/setup.ts
+#: src/features/identity/Welcome.tsx
+msgid "Checking your account…"
+msgstr "正在检查你的账户…"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Checking your current status…"
@@ -325,6 +458,10 @@ msgstr "柔和"
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Choose a community"
 msgstr "选择社区"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Choose a community first"
+msgstr "请先选择一个社区"
 
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Choose a community to see its channels, or join one. Your profile and settings work without a community."
@@ -369,6 +506,14 @@ msgstr "选择目录…"
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Choose repositories folder"
 msgstr "选择仓库目录"
+
+#: src/features/identity/CreateCommunityStep.tsx
+msgid "Choose the address your team will use to connect."
+msgstr "选择你的团队用来连接的地址。"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Choose the Buzz identity to restore on this device."
+msgstr "选择要在这台设备上恢复的 Buzz 身份。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Citrus"
@@ -438,6 +583,23 @@ msgstr "代码块"
 msgid "Commenting at {0}"
 msgstr "评论位置：{0}"
 
+#: src/features/communities/CommunityPicker.tsx
+msgid "Communities"
+msgstr "社区"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Communities are where you work with people and agents."
+msgstr "社区是你与人和智能体协作的地方。"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Communities to import"
+msgstr "要导入的社区"
+
+#: src/features/identity/JoinCommunity.tsx
+#: src/features/identity/KeyLost.tsx
+msgid "Communities you own"
+msgstr "你拥有的社区"
+
 #: src/app/settings-sections.ts
 msgid "Community"
 msgstr "社区"
@@ -445,6 +607,10 @@ msgstr "社区"
 #: src/app/CommunityLocalSettings.tsx
 msgid "Community address"
 msgstr "社区地址"
+
+#: src/features/identity/CommunityUrlField.tsx
+msgid "Community address or invite link"
+msgstr "社区地址或邀请链接"
 
 #: src/app/settings-sections.ts
 msgid "Community admin"
@@ -454,7 +620,16 @@ msgstr "社区管理"
 msgid "Community profiles are not available in this build yet."
 msgstr "此版本暂不支持社区个人资料。"
 
+#: src/features/communities/CommunityPicker.tsx
+msgid "Community switcher: {activeLabel}"
+msgstr "社区切换器：{activeLabel}"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Community URL"
+msgstr "社区 URL"
+
 #: src/app/CommunityLocalSettings.tsx
+#: src/features/communities/CommunityPickerItem.tsx
 msgid "Community URL copied."
 msgstr "已复制社区地址。"
 
@@ -478,13 +653,74 @@ msgstr "紧凑模式以平铺列表显示对话，让屏幕容纳更多消息。
 msgid "Compacting session…"
 msgstr "正在压缩会话上下文…"
 
+#: src/features/identity/KeyRestore.tsx
+msgid "Complete sign-in in your browser if prompted."
+msgstr "如果浏览器有提示，请在其中完成登录。"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Connect"
+msgstr "连接"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Connect to {host}"
+msgstr "连接到 {host}"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Connect to a community"
+msgstr "连接到一个社区"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connect to this community to search messages."
 msgstr "连接此社区后即可搜索消息。"
 
+#: src/features/identity/ConnectChoice.tsx
+msgid "Connect to your community"
+msgstr "连接到你的社区"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connecting to this community…"
 msgstr "正在连接社区…"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Connecting…"
+msgstr "正在连接…"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/CommunityUrlField.tsx
+#: src/features/identity/LegacyIdentityOffer.tsx
+#: src/features/identity/ProfileStep.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Continue"
+msgstr "继续"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Continue with {name}"
+msgstr "以 {name} 继续"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Continue with this key"
+msgstr "使用此密钥继续"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Continue with your Buzz identity"
+msgstr "使用你的 Buzz 身份继续"
+
+#: src/features/identity/LegacyIdentityOffer.tsx
+msgid "Continue with your Buzz identity?"
+msgstr "使用你的 Buzz 身份继续？"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Continue with your Buzz profile."
+msgstr "使用你的 Buzz 个人资料继续。"
+
+#: src/features/identity/Welcome.tsx
+msgid "Continue without backup"
+msgstr "不备份继续"
+
+#: src/features/identity/Welcome.tsx
+msgid "Continue without signing in"
+msgstr "不登录直接继续"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Conversation actions"
@@ -494,6 +730,15 @@ msgstr "对话操作"
 msgid "Conversations"
 msgstr "对话"
 
+#: src/features/identity/PrivateKey.tsx
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Copy"
+msgstr "复制"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Copy community URL"
+msgstr "复制社区 URL"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy link"
 msgstr "复制链接"
@@ -502,9 +747,21 @@ msgstr "复制链接"
 msgid "Copy message"
 msgstr "复制消息"
 
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Copy npub"
+msgstr "复制 npub"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Copy private key"
+msgstr "复制私钥"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Copy text"
 msgstr "复制文字"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Copy this from Identity details in your old Buzz app. Never share it with anyone."
+msgstr "请从旧版 Buzz 应用的“身份详情”中复制此项。切勿与任何人分享。"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Copy URL"
@@ -547,6 +804,10 @@ msgstr "无法提及：消息将超出长度限制"
 msgid "Could not confirm your status. Try again."
 msgstr "无法确认你的状态，请重试。"
 
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Could not copy. Select the key above to copy it."
+msgstr "无法复制。请选中上方的密钥进行复制。"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not delete this message. Try again."
 msgstr "无法删除此消息，请重试。"
@@ -554,6 +815,11 @@ msgstr "无法删除此消息，请重试。"
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not dismiss the operation."
 msgstr "无法关闭该操作提示。"
+
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/ProfileStep.tsx
+msgid "Could not reach the relay. Check your connection and try again."
+msgstr "无法连接到中继。请检查网络连接后重试。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not read saved model and effort for this chat on this device. Retry before sending."
@@ -575,6 +841,10 @@ msgstr "无法在此设备上保存草稿，当前编辑已保留。"
 msgid "Could not save thread follow. Try again."
 msgstr "无法保存话题关注设置，请重试。"
 
+#: src/features/identity/BackupConsent.tsx
+msgid "Could not save your choice. Try again."
+msgstr "无法保存你的选择。请重试。"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not update unread state. Try again."
 msgstr "无法更新未读状态，请重试。"
@@ -582,6 +852,10 @@ msgstr "无法更新未读状态，请重试。"
 #: src/app/PluginUpdates.tsx
 msgid "Couldn’t check for updates."
 msgstr "无法检查更新。"
+
+#: src/features/identity/SignOut.tsx
+msgid "Couldn’t check whether erasing is available"
+msgstr "无法检查抹除功能是否可用"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Couldn’t check your latest status. Your draft is unchanged."
@@ -591,17 +865,63 @@ msgstr "无法检查最新状态，草稿已保留。"
 msgid "Couldn’t copy text"
 msgstr "无法复制文字"
 
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Couldn’t copy the community URL."
+msgstr "无法复制社区 URL。"
+
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t copy the URL. Select it and copy manually."
 msgstr "未能复制地址，请选中地址后手动复制。"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Couldn’t copy your private key. Reveal it to copy manually, or retry."
+msgstr "无法复制你的私钥。请手动显示并复制，或重试。"
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Couldn’t copy. Try again from the message menu."
 msgstr "复制失败，请在消息菜单中重试。"
 
+#: src/features/communities/FindCommunity.tsx
+msgid "Couldn’t find community"
+msgstr "找不到社区"
+
+#: src/features/identity/Welcome.tsx
+msgid "Couldn’t finish setup"
+msgstr "无法完成设置"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Couldn’t import this key."
+msgstr "无法导入此密钥。"
+
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "Couldn’t leave {0}"
+msgstr "无法退出 {0}"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Couldn’t mark everything as read."
+msgstr "无法将全部标记为已读。"
+
+#. placeholder {0}: next.name
+#: src/features/communities/CommunityDialog.tsx
+msgid "Couldn’t reach {0}. Check the address, or try again."
+msgstr "无法连接到 {0}。请检查地址或重试。"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Couldn’t read that file."
+msgstr "无法读取该文件。"
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Couldn’t read the repositories folder on this device. Try again."
 msgstr "无法读取此设备的仓库目录，请重试。"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Couldn’t restore your key"
+msgstr "无法恢复你的密钥"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Couldn’t reveal your private key. Retry when secure storage is available."
+msgstr "无法显示你的私钥。请在安全存储可用后重试。"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t save the display name. Try again."
@@ -615,9 +935,43 @@ msgstr "无法保存到此设备，请重试。"
 msgid "Couldn’t send to channel"
 msgstr "无法发送到频道"
 
+#: src/features/identity/Welcome.tsx
+msgid "Couldn’t sign in"
+msgstr "无法登录"
+
+#: src/features/identity/Welcome.tsx
+msgid "Couldn’t sign out"
+msgstr "无法退出登录"
+
+#: src/features/communities/CommunityLanding.tsx
+#: src/features/identity/CreateCommunityStep.tsx
+msgid "Create a community"
+msgstr "创建社区"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Create a new identity"
+msgstr "创建新身份"
+
+#: src/features/identity/Welcome.tsx
+msgid "Create account"
+msgstr "创建账户"
+
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/identity/CreateCommunityStep.tsx
+msgid "Create community"
+msgstr "创建社区"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
 msgstr "请先创建对话，再添加文件。"
+
+#: src/features/identity/setup.ts
+msgid "Creating your key…"
+msgstr "正在创建你的密钥…"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Current identity"
+msgstr "当前身份"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom"
@@ -771,6 +1125,10 @@ msgstr "草稿和已发送"
 msgid "Drop files into this conversation"
 msgstr "将文件拖放到此对话"
 
+#: src/features/identity/KeyImport.tsx
+msgid "Drop to use this file."
+msgstr "松开以使用此文件。"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Duration"
 msgstr "持续时间"
@@ -780,6 +1138,7 @@ msgid "Duration: {durationLabel}"
 msgstr "持续时间：{durationLabel}"
 
 #: src/app/CommunityLocalSettings.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Edit connection"
 msgstr "编辑连接"
 
@@ -800,6 +1159,42 @@ msgstr "正在编辑消息"
 msgid "Enable Messages to see conversations."
 msgstr "启用消息功能以查看对话。"
 
+#: src/features/identity/Welcome.tsx
+msgid "Enter a community address or an invite link to continue."
+msgstr "输入社区地址或邀请链接以继续。"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/CommunityUrlField.tsx
+msgid "Enter a community address or invite link."
+msgstr "请输入社区地址或邀请链接。"
+
+#: src/features/identity/ProfileStep.tsx
+msgid "Enter a name for your community profile. You can change it later."
+msgstr "为你的社区资料输入一个名称。以后可以随时修改。"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community."
+msgstr "输入不带路径的 wss:// 或 https:// 中继地址。更改连接 URL 不会重命名或移动此社区。"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Enter my private key"
+msgstr "输入我的私钥"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/RestoreIdentity.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Enter your private key"
+msgstr "输入你的私钥"
+
+#: src/features/identity/SignOut.tsx
+msgid "Erasing clears this app’s data, local storage, caches and plugin storage on this device only. It can’t reach your clipboard, keys you exported, or relay data; your npub and its history stay on the relays."
+msgstr "抹除仅清除应用数据、本地存储、缓存和插件存储，且只针对此设备。它无法触及你的剪贴板、已导出的密钥或中继数据；你的 npub 及其历史记录会保留在中继上。"
+
+#. placeholder {0}: asking.name
+#: src/app/shell/MarkAllReadShortcut.tsx
+msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
+msgstr "{0} 中的每个对话都将显示为已读。之后你仍可将某个对话标为未读。"
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Expiration time"
 msgstr "到期时间"
@@ -807,6 +1202,18 @@ msgstr "到期时间"
 #: src/features/messages/MessageComposer.tsx
 msgid "Explicit mentions"
 msgstr "明确提及"
+
+#: src/features/identity/setup.ts
+msgid "Finding communities…"
+msgstr "正在查找社区…"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Finding community"
+msgstr "正在查找社区"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Finding your community…"
+msgstr "正在查找你的社区…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Finish conversion"
@@ -816,9 +1223,17 @@ msgstr "完成转换"
 msgid "Finish editing before attaching new files."
 msgstr "请完成编辑后再添加新文件。"
 
+#: src/features/identity/Welcome.tsx
+msgid "Finish in your browser"
+msgstr "在浏览器中完成"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Finish or cancel your current edit first."
 msgstr "请先完成或取消当前编辑。"
+
+#: src/features/identity/Welcome.tsx
+msgid "Finish signing in there, then come back and choose Continue."
+msgstr "在浏览器中完成登录后，回到这里选择“继续”。"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Follow thread"
@@ -848,8 +1263,13 @@ msgstr "转发消息"
 msgid "Full name"
 msgstr "全名"
 
+#: src/features/identity/SetupProgress.tsx
+msgid "Getting ready"
+msgstr "正在准备"
+
 #: src/app/App.tsx
 #: src/app/shell/NavigationControls.tsx
+#: src/features/identity/KeyLost.tsx
 msgid "Go back"
 msgstr "后退"
 
@@ -866,6 +1286,7 @@ msgid "Hidden times stay available to screen readers."
 msgstr "隐藏的时间仍可由屏幕阅读器读取。"
 
 #: src/app/AppearanceSettings.tsx
+#: src/features/identity/PrivateKey.tsx
 msgid "Hide"
 msgstr "隐藏"
 
@@ -876,6 +1297,11 @@ msgstr "在个人对话中隐藏"
 #: src/app/shell/AppShell.tsx
 msgid "Hide navigation"
 msgstr "隐藏导航"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/PrivateKey.tsx
+msgid "Hide private key"
+msgstr "隐藏私钥"
 
 #: src/app/shell/AppShell.tsx
 msgid "Hide sidebar"
@@ -889,13 +1315,57 @@ msgstr "蜂蜜色"
 msgid "How people with verified names appear to you. Search, profiles, and previews show both."
 msgstr "选择已验证用户的名称显示方式。搜索、个人资料和预览中仍会显示两种名称。"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "I agree to this community’s "
+msgstr "我同意此社区的"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "I confirm that I am at least 18 years old."
+msgstr "我确认我已年满 18 周岁。"
+
+#: src/features/identity/SignOut.tsx
+#: src/features/identity/Welcome.tsx
+msgid "I have my key"
+msgstr "我已持有我的密钥"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/KeyRestore.tsx
+msgid "I lost my key"
+msgstr "我丢失了密钥"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "I will manage my own key"
+msgstr "我将自行管理密钥"
+
 #: src/app/settings-sections.ts
 msgid "Identity"
 msgstr "身份"
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Identity to restore"
+msgstr "要恢复的身份"
+
 #: src/app/AppearancePreview.tsx
 msgid "Illustrated preview of your current mode, accent, contrast, and"
 msgstr "预览当前的模式、强调色、对比度，以及"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Import communities"
+msgstr "导入社区"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Import communities from old Buzz?"
+msgstr "从旧版 Buzz 导入社区？"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Import this identity"
+msgstr "导入此身份"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Importing your key…"
+msgstr "正在导入你的密钥…"
 
 #. placeholder {0}: region.title
 #: src/bundled/channels/SoloHeading.tsx
@@ -934,6 +1404,19 @@ msgstr "界面大小"
 msgid "Interface size wasn’t saved"
 msgstr "未能保存界面大小"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/InviteCodeField.tsx
+msgid "Invite code"
+msgstr "邀请码"
+
+#: src/features/communities/CommunityLanding.tsx
+msgid "Invite link or community URL"
+msgstr "邀请链接或社区 URL"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Invite to community"
+msgstr "邀请加入社区"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Iris"
 msgstr "鸢尾紫"
@@ -958,6 +1441,42 @@ msgstr "页面可能已被移除，也可能需要更新 Buzz。"
 msgid "Italic"
 msgstr "斜体"
 
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
+msgstr "该社区的中继未确认退出，你可能仍是成员。你可以改为从此设备上移除 {0}，连同其保存的草稿和阅读位置。这不会改变你的成员身份。"
+
+#: src/features/communities/CommunityLanding.tsx
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/InviteCodeField.tsx
+msgid "Join"
+msgstr "加入"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/CommunityLanding.tsx
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Join a community"
+msgstr "加入社区"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Join Community"
+msgstr "加入社区"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Joining {host}…"
+msgstr "正在加入 {host}…"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Joining community"
+msgstr "正在加入社区"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/InviteCodeField.tsx
+msgid "Joining…"
+msgstr "正在加入…"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Keep attachment links unchanged. To remove this message, use Delete message."
 msgstr "请勿修改附件链接。若要移除此消息，请使用“删除消息”。"
@@ -969,6 +1488,10 @@ msgstr "继续编辑"
 #: src/features/messages/MessageComposer.tsx
 msgid "Keep my draft"
 msgstr "保留我的草稿"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Key file"
+msgstr "密钥文件"
 
 #: src/app/LanguageSettings.tsx
 #: src/app/settings-sections.ts
@@ -983,9 +1506,23 @@ msgstr "未能保存语言设置"
 msgid "Later"
 msgstr "稍后"
 
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "Leave {0}?"
+msgstr "退出 {0}？"
+
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Leave community"
+msgstr "退出社区"
+
 #: src/app/settings-sections.ts
 msgid "Leave or remove"
 msgstr "退出或移除"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Leaving…"
+msgstr "正在退出…"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
@@ -1004,6 +1541,14 @@ msgstr "链接"
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Link text must stay on one line."
 msgstr "链接文字必须在同一行。"
+
+#: src/features/identity/setup.ts
+msgid "Linking your key…"
+msgstr "正在绑定你的密钥…"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
+msgstr "实时身份访问不可用。开发环境请在 .env.local 中将 BUZZ_DEV_VIEWER 设为你的 Buzz 公钥，然后重启 just web 或 just desktop。要求见 docs/contributing.md。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Load saved draft"
@@ -1031,6 +1576,14 @@ msgstr "正在加载…"
 msgid "Local settings"
 msgstr "本地设置"
 
+#: src/features/communities/FindCommunity.tsx
+msgid "Looking up {host}…"
+msgstr "正在查询 {host}…"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Lost your key?"
+msgstr "丢失了密钥？"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Magenta"
 msgstr "洋红"
@@ -1049,6 +1602,15 @@ msgstr "管理 {name} 的更新检查"
 msgid "Manage plugins"
 msgstr "管理插件"
 
+#: src/app/shell/MarkAllReadShortcut.tsx
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Mark all as read"
+msgstr "全部标为已读"
+
+#: src/app/shell/MarkAllReadShortcut.tsx
+msgid "Mark everything as read?"
+msgstr "将全部标为已读？"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark read"
 msgstr "标为已读"
@@ -1056,6 +1618,10 @@ msgstr "标为已读"
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark unread"
 msgstr "标为未读"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Marked all as read."
+msgstr "已将全部标为已读。"
 
 #: src/app/shell/WindowControls.tsx
 msgid "Maximize or restore window"
@@ -1211,6 +1777,14 @@ msgstr "新建工作区"
 msgid "No automatic archive."
 msgstr "不自动归档。"
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "No backups were found for this account."
+msgstr "未找到此账户的备份。"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "No community is set up at this address."
+msgstr "此地址没有建立社区。"
+
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "没有匹配的页面。"
@@ -1218,6 +1792,15 @@ msgstr "没有匹配的页面。"
 #: src/features/profiles/TimeZoneField.tsx
 msgid "No matching time zones."
 msgstr "没有匹配的时区。"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "None of your backups holds the key linked to this account, so nothing was restored."
+msgstr "你的备份都不包含与此账户绑定的密钥，因此没有恢复任何内容。"
+
+#: src/features/identity/LegacyIdentityOffer.tsx
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "Not now"
+msgstr "暂不"
 
 #: src/app/NotificationSettings.tsx
 msgid "Notification choices weren’t saved"
@@ -1261,6 +1844,14 @@ msgstr "离线"
 msgid "Offline"
 msgstr "离线"
 
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "OK"
+msgstr "确定"
+
+#: src/features/identity/LegacyIdentityOffer.tsx
+msgid "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
+msgstr "此设备上使用过旧版 Buzz。继续使用它保存的身份，而不是新建一个。你的电脑可能会请求允许访问。"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Ongoing"
 msgstr "长期保留"
@@ -1280,6 +1871,10 @@ msgstr "连接此社区前，仅搜索已保存的对话。"
 #: src/app/shell/PageSearch.tsx
 msgid "Only saved conversations are searched while this community is disconnected."
 msgstr "此社区断开连接时，仅搜索已保存的对话。"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Only the selected community can be marked as read."
+msgstr "只有当前选中的社区才能标记为已读。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
@@ -1305,13 +1900,39 @@ msgstr "话题打开位置"
 msgid "Opening Buzz"
 msgstr "正在打开 Buzz"
 
+#: src/features/identity/Welcome.tsx
+msgid "Opening Buzz…"
+msgstr "正在打开 Buzz…"
+
 #: src/app/ProfileSettings.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Opening your local identity…"
 msgstr "正在读取本地身份…"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Opening your saved identity…"
+msgstr "正在打开你保存的身份…"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Or create a community"
+msgstr "或创建一个社区"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Or enter your private key if you have a copy."
+msgstr "如果你有私钥副本，也可以直接输入。"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Ordered list"
 msgstr "有序列表"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Other communities you’ve joined aren’t listed."
+msgstr "你加入的其他社区未在此列出。"
+
+#: src/features/identity/Welcome.tsx
+msgid "Other options"
+msgstr "其他选项"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Out sick"
@@ -1330,7 +1951,32 @@ msgstr "页面"
 msgid "Pane"
 msgstr "面板"
 
+#: src/features/identity/KeyImport.tsx
+msgid "Password-protected backups aren’t supported here yet. Paste the nsec1 key itself."
+msgstr "此处暂不支持受密码保护的备份。请直接粘贴 nsec1 密钥。"
+
+#: src/features/identity/CommunityUrlField.tsx
+msgid "Paste a link or address"
+msgstr "粘贴链接或地址"
+
+#: src/features/communities/CommunityLanding.tsx
+msgid "Paste an invite link or community URL."
+msgstr "请粘贴邀请链接或社区 URL。"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+msgstr "请立即将其粘贴到安全的地方：Buzz 会在一分钟后尝试将其从剪贴板清除。"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Paste your community link. Continue shares your Buzz identity with the community so you can preview it before joining."
+msgstr "粘贴你的社区链接。继续会将你的 Buzz 身份分享给该社区，以便你在加入前预览。"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Paste your private key to sign in to Buzz. You can also select or drop a text file with your key."
+msgstr "粘贴你的私钥以登录 Buzz。你也可以选择或拖入包含密钥的文本文件。"
+
 #: src/app/settings-sections.ts
+#: src/features/communities/CommunityPicker.tsx
 msgid "Personal space"
 msgstr "个人空间"
 
@@ -1346,6 +1992,42 @@ msgstr "插件"
 #: src/features/updates/UpdateSettings.tsx
 msgid "Preparing update…"
 msgstr "正在准备更新…"
+
+#: src/features/identity/setup.ts
+#: src/features/identity/Welcome.tsx
+msgid "Preparing your identity…"
+msgstr "正在准备你的身份…"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Previous identity"
+msgstr "先前的身份"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "Privacy Notice"
+msgstr "隐私声明"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key"
+msgstr "私钥"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key (nsec)"
+msgstr "私钥（nsec）"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key actions"
+msgstr "私钥操作"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key copied"
+msgstr "私钥已复制"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+msgstr "私钥已复制。请立即将其粘贴到安全的地方：Buzz 会在一分钟后尝试将其从剪贴板清除。"
 
 #: src/app/ProfileSettings.tsx
 #: src/app/settings-sections.ts
@@ -1364,6 +2046,22 @@ msgstr "个人资料预览"
 msgid "Profile updated"
 msgstr "个人资料已更新"
 
+#: src/features/identity/KeyImport.tsx
+msgid "Public identity:"
+msgstr "公共身份："
+
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Public key copied."
+msgstr "公钥已复制。"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Publish profile & open"
+msgstr "发布资料并打开"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Publishing…"
+msgstr "正在发布…"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Queue"
 msgstr "排队发送"
@@ -1375,6 +2073,10 @@ msgstr "快捷状态"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Quote"
 msgstr "引用"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Read state can’t sync on this connection."
+msgstr "已读状态无法在此连接上同步。"
 
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Read state couldn’t be saved"
@@ -1417,12 +2119,22 @@ msgstr "移除 {0} 搜索范围"
 msgid "Remove agent {0} {1}"
 msgstr "移除智能体 {0} {1}"
 
+#: src/features/identity/SignOut.tsx
+msgid "Remove and erase data"
+msgstr "移除并抹除数据"
+
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove explicit mention of {0} ({1})"
 msgstr "移除对 {0} 的明确提及（{1}）"
 
+#: src/features/identity/SignOut.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Remove from device"
+msgstr "从此设备移除"
+
+#: src/features/communities/CommunityPicker.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove from this device"
 msgstr "从此设备移除"
@@ -1441,13 +2153,34 @@ msgstr "移除提及 {0} {1}"
 msgid "Remove message from this device?"
 msgstr "从此设备移除消息？"
 
+#: src/features/identity/Welcome.tsx
+msgid "Remove the unreadable key?"
+msgstr "移除无法读取的密钥？"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove video time"
 msgstr "移除视频时间"
 
+#: src/features/identity/SignOut.tsx
+msgid "Remove your key from this device?"
+msgstr "从此设备移除你的密钥？"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Removing…"
 msgstr "正在移除…"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Replace"
+msgstr "替换"
+
+#: src/features/identity/Welcome.tsx
+msgid "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key may not be backed up: copy its private key first, or you could lose that account."
+msgstr "替换会从此电脑上移除该账户，以继续使用你刚登录的账户。该密钥可能没有备份：请先复制其私钥，否则可能失去该账户。"
+
+#: src/features/identity/Welcome.tsx
+msgid "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
+msgstr "替换会从此电脑上移除该账户，以继续使用你刚登录的账户。该密钥已备份到 Builderlab：再次登录该账户即可恢复。"
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Reply"
@@ -1485,6 +2218,28 @@ msgstr "重置名称"
 msgid "Restore default"
 msgstr "恢复默认"
 
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Restore from backup"
+msgstr "从备份恢复"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Restore this identity"
+msgstr "恢复此身份"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Restore your key"
+msgstr "恢复你的密钥"
+
+#: src/features/identity/setup.ts
+msgid "Restoring your communities…"
+msgstr "正在恢复你的社区…"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Restoring your key…"
+msgstr "正在恢复你的密钥…"
+
+#: src/features/communities/FindCommunity.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/updates/UpdateSettings.tsx
 #: src/features/user-status/StatusEditor.tsx
@@ -1579,6 +2334,20 @@ msgstr "重试保存话题位置"
 msgid "Retry saving vibe level"
 msgstr "重试保存色彩风格"
 
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Retry secure storage access"
+msgstr "重试访问安全存储"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Reveal"
+msgstr "显示"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/PrivateKey.tsx
+msgid "Reveal private key"
+msgstr "显示私钥"
+
 #: src/app/PluginUpdates.tsx
 msgid "Review permissions"
 msgstr "审核权限"
@@ -1597,6 +2366,10 @@ msgstr "保存修改"
 msgid "Save folder"
 msgstr "保存目录"
 
+#: src/features/communities/CommunityDialog.tsx
+msgid "Save profile"
+msgstr "保存资料"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Save status"
 msgstr "保存状态"
@@ -1605,11 +2378,21 @@ msgstr "保存状态"
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "请先保存未完成的表单并停止运行中的插件任务。更新已启用的插件会立即重新加载它。"
 
+#: src/features/identity/WelcomeBack.tsx
+msgid "Saved key"
+msgstr "已保存的密钥"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Saved model and effort choices are still loading. Try sending again shortly."
 msgstr "正在加载已保存的模型和推理强度选项，请稍后发送。"
 
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Saving your identity securely…"
+msgstr "正在安全保存你的身份…"
+
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Saving…"
 msgstr "正在保存…"
 
@@ -1708,6 +2491,10 @@ msgstr "设置 Dock 角标"
 msgid "Set up Dock badges to show the unread dot."
 msgstr "设置 Dock 角标以显示未读圆点。"
 
+#: src/features/identity/ProfileStep.tsx
+msgid "Set up your profile"
+msgstr "设置你的资料"
+
 #: src/app/App.tsx
 #: src/app/Settings.tsx
 #: src/app/shell/PageSearch.tsx
@@ -1780,6 +2567,11 @@ msgstr "在个人资料中显示时区详情"
 msgid "Show unread first in search"
 msgstr "搜索时优先显示未读"
 
+#. placeholder {0}: leaving.membership.localName
+#: src/features/communities/CommunityPicker.tsx
+msgid "Shown as {0} on this device"
+msgstr "在此设备上显示为 {0}"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
 msgstr "用圆点提示当前社区中的未读动态，不显示消息数量。"
@@ -1788,9 +2580,38 @@ msgstr "用圆点提示当前社区中的未读动态，不显示消息数量。
 msgid "Side pane"
 msgstr "侧边面板"
 
+#: src/features/identity/Welcome.tsx
+msgid "Sign in"
+msgstr "登录"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Sign in in your browser to find your backups…"
+msgstr "请在浏览器中登录以查找你的备份…"
+
+#: src/features/identity/ConnectChoice.tsx
+msgid "Sign in to your Builderlab account with email, or use an existing private key to continue."
+msgstr "使用电子邮箱登录你的 Builderlab 账户，或使用已有的私钥继续。"
+
+#: src/features/identity/ConnectChoice.tsx
+msgid "Sign in with Builderlab"
+msgstr "使用 Builderlab 登录"
+
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Signed in as {email}"
+msgstr "已登录为 {email}"
+
+#: src/features/identity/Welcome.tsx
+msgid "Signing in…"
+msgstr "正在登录…"
+
 #: src/app/NotificationSettings.tsx
 msgid "Silent"
 msgstr "静音"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Skip import"
+msgstr "跳过导入"
 
 #: src/app/shell/AppShell.tsx
 msgid "Skip to content"
@@ -1808,6 +2629,14 @@ msgstr "个人"
 #: src/app/NotificationSettings.tsx
 msgid "Solo chat completions"
 msgstr "个人对话完成"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Some backups couldn’t be recovered."
+msgstr "部分备份无法恢复。"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Some of your backups couldn’t be recovered, and the ones that were don’t hold the key linked to this account."
+msgstr "你的部分备份无法恢复，而已恢复的备份不包含与此账户绑定的密钥。"
 
 #: src/app/LanguageSettings.tsx
 msgid "Some parts of Buzz are not translated yet."
@@ -1828,6 +2657,22 @@ msgstr "未能保存拼写设置"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Spoiler"
 msgstr "剧透内容"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Start over with a new key"
+msgstr "使用新密钥重新开始"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Start with your local profile, or choose how you appear in this community."
+msgstr "从你的本地资料开始，或选择你在此社区中的显示方式。"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Starting over permanently unlinks your old key."
+msgstr "重新开始将永久解绑你的旧密钥。"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Starting over replaces the key linked to your Builderlab account. Your profile, messages, and community access won’t carry over. Your old content won’t be deleted. The new key will be backed up to your Builderlab account automatically. Block can use that copy to restore this key, including anywhere else you use it."
+msgstr "重新开始会替换绑定到你 Builderlab 账户的密钥。你的资料、消息和社区访问权限不会延续。旧内容不会被删除。新密钥将自动备份到你的 Builderlab 账户。Block 可使用该副本恢复此密钥，包括你在其他地方使用它的场合。"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Status expiration"
@@ -1856,6 +2701,14 @@ msgstr "仍然无法连接，我们会继续重试。"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
 msgstr "删除线"
+
+#: src/features/communities/CommunityPicker.tsx
+msgid "Switch community"
+msgstr "切换社区"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Switch to {name}"
+msgstr "切换到 {name}"
 
 #: src/app/AppearanceSettings.tsx
 #: src/app/shell/ProfileButton.tsx
@@ -1892,6 +2745,11 @@ msgstr "团队"
 msgid "Temporary, {0}"
 msgstr "临时保留，{0}"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "Terms of Service"
+msgstr "服务条款"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Text"
 msgstr "文字"
@@ -1899,6 +2757,14 @@ msgstr "文字"
 #: src/features/messages/MessageComposer.tsx
 msgid "Text copied"
 msgstr "文字已复制"
+
+#: src/features/identity/KeyImport.tsx
+msgid "That doesn’t look like a valid nsec. Paste an nsec1 key."
+msgstr "这看起来不是有效的 nsec。请粘贴 nsec1 密钥。"
+
+#: src/features/identity/KeyImport.tsx
+msgid "That isn’t the key linked to this account. It expects"
+msgstr "这不是绑定到此账户的密钥。它期望的是"
 
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "The draft changed or this link exceeds the message limit. Close and try again."
@@ -1932,6 +2798,10 @@ msgstr "待更新版本已发生变化，请重新检查更新后再审核。"
 msgid "This account or community changed. Open Local settings again."
 msgstr "账号或社区已变更，请重新打开本地设置。"
 
+#: src/features/communities/FindCommunity.tsx
+msgid "This address isn’t a Buzz community."
+msgstr "此地址不是 Buzz 社区。"
+
 #: src/app/NotificationSettings.tsx
 msgid "This build can’t show system notifications."
 msgstr "此版本无法显示系统通知。"
@@ -1943,6 +2813,14 @@ msgstr "此设置已生效，但未能保存到当前设备。"
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device. Try again."
 msgstr "此设置已生效，但未能保存到当前设备，请重试。"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it."
+msgstr "这台电脑的密钥可能没有备份：请先从“设置 → 身份”复制其私钥，否则可能失去它。"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "This computer’s key was backed up in Builderlab: sign in to its account to restore it."
+msgstr "这台电脑的密钥已备份到 Builderlab：登录其账户即可恢复。"
 
 #: src/app/shell/PageSearch.tsx
 msgid "This conversation"
@@ -1956,6 +2834,10 @@ msgstr "此对话已无法修改。"
 msgid "This conversation is no longer available."
 msgstr "此对话已不可用。"
 
+#: src/features/identity/Welcome.tsx
+msgid "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
+msgstr "这会将其从此电脑的安全存储中删除，让你退出各个组织，并重启 Buzz。之后登录即可从备份恢复你账户的密钥，或输入你的私钥。如果没有备份或副本，该身份将无法恢复。"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
 msgstr "默认分享此设备的时区。取消勾选并保存即可停止分享。"
@@ -1967,6 +2849,10 @@ msgstr "草稿已在其他位置修改。已保留当前编辑，请选择要保
 #: src/app/CommunityLocalSettings.tsx
 msgid "This is the relay URL you use to connect to this community."
 msgstr "这是用于连接此社区的中继服务器地址。"
+
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "This is your public identity — it’s safe to share."
+msgstr "这是你的公共身份——可以安全分享。"
 
 #: src/app/LanguageSettings.tsx
 msgid "This language is active, but could not be saved on this device. Try again."
@@ -2024,9 +2910,18 @@ msgstr "当前中继连接仅支持读取。"
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 msgstr "这将请求 Buzz 中继服务器移除此消息，其他人可能仍保留副本。此操作无法撤销。"
 
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
+msgstr "这会向社区的中继发送退出请求，然后从此设备上移除 {0}，连同其保存的草稿和阅读位置。重新加入可能需要新的邀请。"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "本周"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "This won’t change the identity linked to your account."
+msgstr "这不会改变绑定到你账户的身份。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Thread preference wasn’t saved"
@@ -2058,13 +2953,27 @@ msgstr "切换标签面板"
 
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/Welcome.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Try again"
 msgstr "重试"
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Try recovery again"
+msgstr "再次尝试恢复"
+
+#: src/features/identity/SignOut.tsx
+msgid "Type “{WIPE_PHRASE}” to confirm"
+msgstr "输入“{WIPE_PHRASE}”以确认"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Unfollow thread"
 msgstr "取消关注话题"
+
+#: src/features/identity/setup.ts
+msgid "Unlinking your old key…"
+msgstr "正在解绑你的旧密钥…"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Until"
@@ -2108,9 +3017,27 @@ msgstr "正在切换为{targetLabel}…"
 msgid "Uploads are unavailable on this connection."
 msgstr "当前连接不支持上传。"
 
+#: src/features/identity/Welcome.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Use a different account"
+msgstr "使用其他账户"
+
+#: src/features/identity/ConnectChoice.tsx
+#: src/features/identity/IdentitySetup.tsx
+msgid "Use an existing key"
+msgstr "使用已有密钥"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Use an HTTP(S) URL or a valid buzz:// link."
 msgstr "请使用 HTTP(S) 地址或有效的 buzz:// 链接。"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Use your existing identity"
+msgstr "使用你已有的身份"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Use your identity across communities. Your profile and conversations stay separate in each one."
+msgstr "在各个社区中使用你的身份。你的资料和对话在每个社区中相互独立。"
 
 #: src/app/ProfileSettings.tsx
 msgid "Used for new communities. Existing community profiles stay unchanged."
@@ -2144,10 +3071,38 @@ msgstr "查看频道详情"
 msgid "Wait for compaction to finish, or interrupt it."
 msgstr "请等待上下文压缩完成，或将其中断。"
 
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Waiting for {name} to connect."
+msgstr "正在等待 {name} 连接。"
+
 #: src/app/NotificationSettings.tsx
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Waiting for system permission…"
 msgstr "正在等待系统授权…"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "We couldn’t check all your backups. Try again, or enter your private key if you have a copy."
+msgstr "我们无法检查你的全部备份。请重试，或在你有私钥副本时直接输入。"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "We couldn’t find a key backup in this Builderlab account. If you have a copy of your private key, you can enter it instead."
+msgstr "在此 Builderlab 账户中未找到密钥备份。如果你有私钥副本，可以直接输入。"
+
+#: src/features/identity/KeyLost.tsx
+msgid "We couldn’t load your owned communities. Other communities may be affected."
+msgstr "我们无法加载你拥有的社区。其他社区可能受到影响。"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "We found backups, but none contains the key linked to your account. Enter your private key to continue."
+msgstr "我们找到了备份，但其中不包含绑定到你账户的密钥。请输入你的私钥继续。"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "We found the key to your account."
+msgstr "我们找到了你账户的密钥。"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Welcome back"
+msgstr "欢迎回来"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "What's your status?"
@@ -2201,24 +3156,87 @@ msgstr "当前已是最新版本。"
 msgid "Your account is unavailable. Open Local settings again."
 msgstr "账号不可用，请重新打开本地设置。"
 
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "Your account uses a different key"
+msgstr "你的账户使用的是另一个密钥"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Your account’s key isn’t on this device. Enter its private key to continue."
+msgstr "你账户的密钥不在此设备上。请输入其私钥继续。"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
+msgstr "你账户的密钥不在此设备上。请尝试从备份恢复，或输入其私钥。"
+
 #: src/app/shell/ProfileButton.tsx
 msgid "Your avatar"
 msgstr "你的头像"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Your backups couldn’t be recovered. Try again."
+msgstr "你的备份无法恢复。请重试。"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "Your Builderlab account"
+msgstr "你的 Builderlab 账户"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Your Buzz identity"
+msgstr "你的 Buzz 身份"
 
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Your channels, one conversation."
 msgstr "你的频道，尽在一个对话。"
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Your current identity isn’t in these backups. You can choose a previous identity."
+msgstr "你当前的身份不在此备份中。你可以选择先前的身份。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Your edit is still in the outbox."
 msgstr "你的修改仍在发件箱中。"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings."
+msgstr "你的身份已就绪，但此构建版本尚不支持连接社区。你可以在设置中管理本地资料和身份。"
+
+#: src/features/identity/Welcome.tsx
+msgid "Your key is saved on this device, but it isn’t linked to your account or backed up yet."
+msgstr "你的密钥已保存在此设备上，但尚未绑定到你的账户，也未备份。"
+
+#: src/features/identity/Welcome.tsx
+msgid "Your key is saved on this device."
+msgstr "你的密钥已保存在此设备上。"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Your key is stored securely on this device. No community is joined automatically."
+msgstr "你的密钥安全地存储在此设备上。不会自动加入任何社区。"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Your local default. Use it when joining communities; saving here does not publish changes to them."
+msgstr "你的本地默认资料。加入社区时会使用它；在此保存不会将更改发布到社区。"
 
 #: src/app/ProfileSettings.tsx
 msgid "Your local identity is unavailable. Connect your identity to edit your profile."
 msgstr "本地身份不可用，请连接身份后编辑个人资料。"
 
+#: src/features/identity/KeyLost.tsx
+msgid "Your old key can’t be linked again"
+msgstr "你的旧密钥无法再次绑定"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Your people, your agents, one place."
+msgstr "你的伙伴、你的智能体，汇聚一处。"
+
+#: src/features/identity/SignOut.tsx
+msgid "Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in."
+msgstr "私钥是你登录 Buzz 的凭据。这会将其从此设备的安全存储中移除，并让你退出组织、Builderlab 和托管社区。账户备份和保存在别处的副本不受影响。请先保存副本，以便重新登录。"
+
 #: src/app/ProfileSettings.tsx
 #: src/app/shell/ProfileButton.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Your profile"
 msgstr "你的个人资料"
 
@@ -2234,6 +3252,14 @@ msgstr "个人资料中有未保存的修改。"
 #: src/app/ProfileSettings.tsx
 msgid "Your profile in {0} couldn’t be loaded."
 msgstr "无法加载你在 {0} 的个人资料。"
+
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Your public key (npub)"
+msgstr "你的公钥（npub）"
+
+#: src/features/identity/SignOut.tsx
+msgid "Your settings, agents and other Buzz data stay on this device. Sign back in with this key and they’ll be here. Agents start only for this key."
+msgstr "你的设置、智能体和其他 Buzz 数据会保留在此设备上。使用此密钥重新登录即可找回。智能体仅随此密钥启动。"
 
 #: src/app/shell/ProfileButton.tsx
 msgid "Your status is unavailable"

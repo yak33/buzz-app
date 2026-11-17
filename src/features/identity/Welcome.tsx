@@ -1,4 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { OnboardingBack } from "./OnboardingBack";
 import {
   useEffect,
@@ -190,6 +193,7 @@ export function Welcome({
   /** The build's sign-in servers, for whether its Builderlab hosts a URL. */
   servers?: () => Promise<readonly SessionSnapshot[]>;
 }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(identity.subscribe, identity.snapshot);
   // Whether the next sign-in opens the sign-up screen: set by the landing's
   // Create account and taken by the sign-in it starts. A restart or a later
@@ -442,7 +446,7 @@ export function Welcome({
    * progress page until the restart, or fails if none comes.
    */
   const replaceKey = (linked: string | undefined): SetupStep => ({
-    label: "Signing in…",
+    label: msg`Signing in…`,
     run: async () => {
       const withdraw = requestSignInAfterRestart(linked);
       try {
@@ -523,7 +527,7 @@ export function Welcome({
       ...(expected
         ? [
             {
-              label: "Checking your account…",
+              label: msg`Checking your account…`,
               run: async () => {
                 if (checkedKey !== expected) throw new Error(WRONG_ACCOUNT);
               },
@@ -536,7 +540,7 @@ export function Welcome({
         setBackupUnknown(!!failed);
       }),
       {
-        label: "Preparing your identity…",
+        label: msg`Preparing your identity…`,
         run: async () => {
           // The account's key, with no backup and not on this device, may be
           // old Buzz's: a first run linked it, then stopped before saving it.
@@ -555,7 +559,7 @@ export function Welcome({
             communities.snapshot().memberships.length > 0
               ? [
                   {
-                    label: "Opening Buzz…",
+                    label: msg`Opening Buzz…`,
                     run: async () => {
                       enterApp();
                       return { status: "idle" };
@@ -620,7 +624,7 @@ export function Welcome({
   };
   /** Rests where setup ends, as when the account check found its key here. */
   const settled: SetupStep = {
-    label: "Preparing your identity…",
+    label: msg`Preparing your identity…`,
     run: async () => ({ status: "done" }),
   };
   /**
@@ -1030,18 +1034,18 @@ export function Welcome({
         // Cancel leaves this device as it was, signed out of the new account.
         return (
           <>
-            <SetupProgress label="Signing in…" />
+            <SetupProgress label={msg`Signing in…`} />
             <AlertDialog
-              title="A different account is saved on this computer"
+              title={t`A different account is saved on this computer`}
               description={
                 replacingBackedUp
-                  ? "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
-                  : "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key may not be backed up: copy its private key first, or you could lose that account."
+                  ? t`Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it.`
+                  : t`Replacing it removes that account from this computer to continue with the one you just signed in to. Its key may not be backed up: copy its private key first, or you could lose that account.`
               }
               onClose={switchAccount}
               actions={
                 <>
-                  <Button onClick={switchAccount}>Cancel</Button>
+                  <Button onClick={switchAccount}>{t`Cancel`}</Button>
                   <Button
                     variant="destructive"
                     disabled={
@@ -1050,7 +1054,7 @@ export function Welcome({
                     }
                     onClick={() => void setup.start([replaceKey(linked)])}
                   >
-                    Replace
+                    {t`Replace`}
                   </Button>
                 </>
               }
@@ -1063,7 +1067,7 @@ export function Welcome({
                   />
                   <div className="mt-6">
                     <Checkbox
-                      label="I have my key"
+                      label={t`I have my key`}
                       checked={replacingHaveKey}
                       disabled={!replacingKeyKept}
                       onCheckedChange={setReplacingHaveKey}
@@ -1180,25 +1184,24 @@ export function Welcome({
               tabIndex={-1}
               className="text-heading text-standard"
             >
-              Your Buzz identity
+              {t`Your Buzz identity`}
             </h1>
             {state.status === "loading" ? (
-              <p role="status">Opening your saved identity…</p>
+              <p role="status">{t`Opening your saved identity…`}</p>
             ) : state.error === MALFORMED_IDENTITY ? (
               // Reading it again gets the same bytes: only removing it, which
               // restarts into first run's restore or import, gets past it.
               <>
                 <p role="alert">
-                  Buzz can’t read the key saved on this computer, so it can’t
-                  open with it or copy it. Trying again won’t change that.
+                  {t`Buzz can’t read the key saved on this computer, so it can’t open with it or copy it. Trying again won’t change that.`}
                 </p>
                 <Button onClick={() => setRemovingKey({ pending: false })}>
-                  Remove from device
+                  {t`Remove from device`}
                 </Button>
                 {removingKey && (
                   <AlertDialog
-                    title="Remove the unreadable key?"
-                    description="This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
+                    title={t`Remove the unreadable key?`}
+                    description={t`This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered.`}
                     pending={removingKey.pending}
                     onClose={() => setRemovingKey(undefined)}
                     actions={
@@ -1207,7 +1210,7 @@ export function Welcome({
                           disabled={removingKey.pending}
                           onClick={() => setRemovingKey(undefined)}
                         >
-                          Cancel
+                          {t`Cancel`}
                         </Button>
                         <Button
                           variant="destructive"
@@ -1224,7 +1227,7 @@ export function Welcome({
                               );
                           }}
                         >
-                          Remove from device
+                          {t`Remove from device`}
                         </Button>
                       </>
                     }
@@ -1239,7 +1242,7 @@ export function Welcome({
               <>
                 <p role="alert">{state.error}</p>
                 <Button onClick={() => void identity.retry()}>
-                  Retry secure storage access
+                  {t`Retry secure storage access`}
                 </Button>
               </>
             )}
@@ -1273,10 +1276,10 @@ export function Welcome({
               ref={focusCommunityHeading}
               className="text-heading text-standard"
             >
-              Join a community
+              {t`Join a community`}
             </h1>
             <p className="text-body-sm text-subtle">
-              Enter a community address or an invite link to continue.
+              {t`Enter a community address or an invite link to continue.`}
             </p>
           </>
         }
@@ -1315,7 +1318,7 @@ export function Welcome({
               <OnboardingWordmark />
             </h1>
             <p className={styles.tagline}>
-              Your people, your agents, one place.
+              {t`Your people, your agents, one place.`}
             </p>
           </>
         }
@@ -1327,7 +1330,7 @@ export function Welcome({
             disabled={restoring}
             onClick={() => start(!returning)}
           >
-            {returning ? "Sign in" : "Create account"}
+            {returning ? t`Sign in` : t`Create account`}
           </Button>
         )}
         {keyLanding ? (
@@ -1342,7 +1345,7 @@ export function Welcome({
               enterApp();
             }}
           >
-            Continue without signing in
+            {t`Continue without signing in`}
           </Button>
         ) : (
           <>
@@ -1353,7 +1356,7 @@ export function Welcome({
                 disabled={restoring}
                 onClick={() => start(returning)}
               >
-                {returning ? "Create account" : "Sign in"}
+                {returning ? t`Create account` : t`Sign in`}
               </Button>
             )}
             <Button
@@ -1374,7 +1377,7 @@ export function Welcome({
                 })
               }
             >
-              Other options
+              {t`Other options`}
             </Button>
           </>
         )}
@@ -1480,13 +1483,13 @@ export function Welcome({
         paused(progress.at)
       ) : progress.status === "failed" ? (
         <Failure
-          title="Couldn’t finish setup"
+          title={t`Couldn’t finish setup`}
           error={progress.error}
           note={
             blocked
               ? UNLINKED_NOTE
               : failedAfterKey
-                ? "Your key is saved on this device."
+                ? msg`Your key is saved on this device.`
                 : undefined
           }
           // After a Builderlab sign-in the way out signs out of it, so the
@@ -1513,7 +1516,7 @@ export function Welcome({
         <FinishInBrowser onContinue={resumeSignIn} onBack={backToLanding} />
       ) : auth.error ? (
         <Failure
-          title={auth.retrySignOut ? "Couldn’t sign out" : "Couldn’t sign in"}
+          title={auth.retrySignOut ? t`Couldn’t sign out` : t`Couldn’t sign in`}
           error={auth.error}
           onBack={backToLanding}
           onRetry={
@@ -1554,6 +1557,7 @@ function FinishInBrowser({
   onContinue: () => void;
   onBack: () => void;
 }) {
+  const { t } = useLingui();
   return (
     <>
       <h1
@@ -1561,16 +1565,16 @@ function FinishInBrowser({
         tabIndex={-1}
         className="text-heading text-standard"
       >
-        Finish in your browser
+        {t`Finish in your browser`}
       </h1>
       <p className="text-body text-subtle">
-        Finish signing in there, then come back and choose Continue.
+        {t`Finish signing in there, then come back and choose Continue.`}
       </p>
       {/* Footer order: secondary first, primary last. */}
       <div data-onboarding-actions="">
-        <OnboardingBack onClick={onBack} aria-label="Back" />
+        <OnboardingBack onClick={onBack} aria-label={t`Back`} />
         <Button variant="prominent" size="lg" onClick={onContinue}>
-          Continue
+          {t`Continue`}
         </Button>
       </div>
     </>
@@ -1608,15 +1612,14 @@ function npubOf(state: ReturnType<Identity["snapshot"]>) {
  * which needs a linked key. The page has no way past it but Try again, where
  * another attempt can help, or leaving through Use a different account.
  */
-const UNLINKED_NOTE =
-  "Your key is saved on this device, but it isn’t linked to your account or backed up yet.";
+const UNLINKED_NOTE = msg`Your key is saved on this device, but it isn’t linked to your account or backed up yet.`;
 
 function Failure({
   title,
   error,
   note,
   onBack,
-  backLabel = "Back",
+  backLabel,
   publicKey,
   invite,
   onRetry,
@@ -1627,10 +1630,10 @@ function Failure({
   title: string;
   error: string;
   /** Setup failed after the key was saved: say it is not lost, and what is undone. */
-  note?: string | undefined;
+  note?: MessageDescriptor | undefined;
   /** The way back or on; absent where the failure blocks and only Try again is offered. */
   onBack?: (() => void) | undefined;
-  backLabel?: string | undefined;
+  backLabel?: MessageDescriptor | undefined;
   /** Shown as the user's shareable identity, with Copy, when set. */
   publicKey?: string | undefined;
   /** Offers an invite code field, with the last code's refusal under it. */
@@ -1645,6 +1648,7 @@ function Failure({
   /** Which action is in flight: Try again's read, or the code's claim. */
   busy?: "read" | "code" | undefined;
 }) {
+  const { i18n, t } = useLingui();
   return (
     <>
       <h1
@@ -1655,7 +1659,7 @@ function Failure({
         {title}
       </h1>
       <p role="alert" className="text-body text-danger">
-        {note && <span>{note} </span>}
+        {note && <span>{i18n._(note)} </span>}
         {error}
       </p>
       {invite && (
@@ -1673,7 +1677,7 @@ function Failure({
           <OnboardingBack
             onClick={onBack}
             disabled={!!busy}
-            aria-label={backLabel}
+            aria-label={backLabel ? i18n._(backLabel) : t`Back`}
           />
         )}
         {onSwitchAccount && (
@@ -1684,12 +1688,12 @@ function Failure({
             onClick={onSwitchAccount}
             disabled={!!busy}
           >
-            Use a different account
+            {t`Use a different account`}
           </Button>
         )}
         {onContinue && (
           <Button variant="prominent" size="lg" onClick={onContinue}>
-            Continue without backup
+            {t`Continue without backup`}
           </Button>
         )}
         {onRetry && (
@@ -1702,7 +1706,7 @@ function Failure({
             loading={busy === "read"}
             disabled={busy === "code"}
           >
-            Try again
+            {t`Try again`}
           </Button>
         )}
       </div>

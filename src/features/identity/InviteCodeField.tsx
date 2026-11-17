@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Field } from "../../shared/design-system/ui/Field";
@@ -21,6 +22,7 @@ export function InviteCodeField({
   pending: boolean;
   onSubmit: (code: string) => void;
 }) {
+  const { t } = useLingui();
   const [code, setCode] = useState("");
   const [edited, setEdited] = useState(false);
   const shown = edited ? undefined : error;
@@ -34,7 +36,7 @@ export function InviteCodeField({
     <div className="flex flex-col gap-1">
       <div className="flex flex-col gap-12">
         <div className="min-w-0 flex-1">
-          <Field label="Invite code" error={shown} disabled={busy}>
+          <Field label={t`Invite code`} error={shown} disabled={busy}>
             <Input
               autoComplete="off"
               autoCapitalize="none"
@@ -61,7 +63,7 @@ export function InviteCodeField({
           disabled={busy || !value}
           onClick={submit}
         >
-          {pending ? "Joining…" : "Join"}
+          {pending ? t`Joining…` : t`Join`}
         </Button>
       </div>
     </div>

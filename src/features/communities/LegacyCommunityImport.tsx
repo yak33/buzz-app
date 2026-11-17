@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -10,6 +11,7 @@ export function LegacyCommunityImport({
 }: {
   communities: Communities;
 }) {
+  const { t } = useLingui();
   const [request, setRequest] = useState<{
     origins: string[];
     resolve(approved: boolean): void;
@@ -37,14 +39,14 @@ export function LegacyCommunityImport({
   };
   return (
     <AlertDialog
-      title="Import communities from old Buzz?"
-      description="Add these saved communities to your list and account. This may restore communities you previously removed."
+      title={t`Import communities from old Buzz?`}
+      description={t`Add these saved communities to your list and account. This may restore communities you previously removed.`}
       initialFocus={proceed}
       onClose={() => respond(false)}
       actions={
         <>
           <Button type="button" onClick={() => respond(false)}>
-            Skip import
+            {t`Skip import`}
           </Button>
           <Button
             ref={proceed}
@@ -52,13 +54,13 @@ export function LegacyCommunityImport({
             variant="prominent"
             onClick={() => respond(true)}
           >
-            Import communities
+            {t`Import communities`}
           </Button>
         </>
       }
     >
       <ul
-        aria-label="Communities to import"
+        aria-label={t`Communities to import`}
         // biome-ignore lint/a11y/noNoninteractiveTabindex: The bounded list must support keyboard scrolling.
         tabIndex={0}
         className="max-h-48 overflow-y-auto break-words text-body-sm"

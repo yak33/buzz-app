@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { OnboardingBack } from "./OnboardingBack";
 import { useState } from "react";
 import { enteredRelayOrigin } from "../communities/destination";
@@ -47,6 +48,7 @@ export function CommunityUrlField({
   /** Continue fills the width right under the field, for a card whose only step this is. */
   stacked?: boolean;
 }) {
+  const { t } = useLingui();
   const [invalid, setInvalid] = useState(false);
   const entered = enteredCommunity(url);
   const submit = () => {
@@ -58,9 +60,11 @@ export function CommunityUrlField({
       <div className="flex flex-col gap-12">
         <div className="min-w-0 w-full">
           <Field
-            label="Community address or invite link"
+            label={t`Community address or invite link`}
             error={
-              invalid ? "Enter a community address or invite link." : undefined
+              invalid
+                ? t`Enter a community address or invite link.`
+                : undefined
             }
             disabled={disabled}
           >
@@ -68,7 +72,7 @@ export function CommunityUrlField({
               inputMode="url"
               autoComplete="off"
               spellCheck={false}
-              placeholder="Paste a link or address"
+              placeholder={t`Paste a link or address`}
               value={url}
               disabled={disabled}
               onChange={(event) => {
@@ -93,7 +97,7 @@ export function CommunityUrlField({
               disabled={disabled}
               onClick={submit}
             >
-              Continue
+              {t`Continue`}
             </Button>
           </div>
         ) : (
@@ -105,7 +109,7 @@ export function CommunityUrlField({
               disabled={disabled}
               onClick={submit}
             >
-              Continue
+              {t`Continue`}
             </Button>
           </div>
         )}

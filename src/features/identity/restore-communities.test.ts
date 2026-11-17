@@ -204,7 +204,8 @@ it("the restore step hands the outcomes to `decide` and rests where it says", as
   vi.mocked(inspectProfile).mockResolvedValue(none);
   const decide = vi.fn(() => ({ status: "idle" }) as const);
   const step = restoreCommunities(["wss://a.example"], service(), decide);
-  expect(step.label).toBe("Restoring your communities…");
+  // label 是 Lingui 的 msg 描述符，源文案在其 message 字段。
+  expect(step.label.message).toBe("Restoring your communities…");
   expect(await step.run()).toEqual({ status: "idle" });
   expect(decide).toHaveBeenCalledWith([
     expect.objectContaining({ id: "https://a.example", kind: "admitted" }),

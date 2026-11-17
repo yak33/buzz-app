@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Dialog, type DialogProps } from "../../shared/design-system/ui/Dialog";
@@ -56,6 +58,7 @@ export function CommunityDialog({
       }>
     | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const BackControl = onboarding ? OnboardingBack : Button;
   const formId = useId();
   const destinationInput = useRef<HTMLInputElement>(null);
@@ -216,7 +219,10 @@ export function CommunityDialog({
         const entered = parsePastedInvite(url);
         if (!entered)
           throw new Error(
-            pastedInviteError(url, "Enter a community address or invite link."),
+            pastedInviteError(
+              url,
+              i18n._(msg`Enter a community address or invite link.`),
+            ),
           );
         const next = communityDestination(entered.community);
         // A pasted invite link carries its code the way an opened invite does.
@@ -232,7 +238,9 @@ export function CommunityDialog({
         const explained = (reason: unknown) =>
           isTransientFailure(reason)
             ? new Error(
-                `Couldn’t reach ${next.name}. Check the address, or try again.`,
+                i18n._(
+                  msg`Couldn’t reach ${next.name}. Check the address, or try again.`,
+                ),
               )
             : reason;
         const value = await communityRequest<CommunityInfo>(
@@ -300,7 +308,7 @@ export function CommunityDialog({
           communities.saveProfile({ ...profile, name: profile.name.trim() });
         else {
           if (!destination || !original)
-            throw new Error("Choose a community first");
+            throw new Error(i18n._(msg`Choose a community first`));
           await askAgain(destination.url);
           const done = await completeJoin({
             community: id,
@@ -341,14 +349,14 @@ export function CommunityDialog({
   // While busy, the primary action names the operation its step started.
   const [action, actionPending] =
     step === "destination"
-      ? ["Continue", "Connecting…"]
+      ? [t`Continue`, t`Connecting…`]
       : step === "access"
-        ? ["Continue", "Joining…"]
+        ? [t`Continue`, t`Joining…`]
         : mode === "profile"
-          ? ["Save profile", "Saving…"]
+          ? [t`Save profile`, t`Saving…`]
           : keepsProfile
-            ? ["Continue", "Joining…"]
-            : ["Publish profile & open", "Publishing…"];
+            ? [t`Continue`, t`Joining…`]
+            : [t`Publish profile & open`, t`Publishing…`];
 
   return (
     <JoinSurface
@@ -380,8 +388,8 @@ export function CommunityDialog({
           ? undefined
           : step === "destination"
             ? connectionFrom
-              ? "Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community."
-              : "Use your identity across communities. Your profile and conversations stay separate in each one."
+              ? t`Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community.`
+              : t`Use your identity across communities. Your profile and conversations stay separate in each one.`
             : step === "access"
               ? destination && (
                   <span className="flex items-center gap-3 rounded-[var(--radius-row)] bg-surface-inset p-4">
@@ -403,10 +411,10 @@ export function CommunityDialog({
                   </span>
                 )
               : mode === "profile"
-                ? "Your local default. Use it when joining communities; saving here does not publish changes to them."
+                ? t`Your local default. Use it when joining communities; saving here does not publish changes to them.`
                 : original?.exists
                   ? undefined
-                  : "Start with your local profile, or choose how you appear in this community."
+                  : t`Start with your local profile, or choose how you appear in this community.`
       }
       leadingActions={
         !unavailable && (
@@ -434,7 +442,7 @@ export function CommunityDialog({
               }
             }}
           >
-            {onboarding ? undefined : looking ? "Cancel" : "Back"}
+            {onboarding ? undefined : looking ? t`Cancel` : t`Back`}
           </BackControl>
         )
       }
@@ -461,12 +469,12 @@ export function CommunityDialog({
       }
       title={
         mode === "profile"
-          ? "Your profile"
+          ? t`Your profile`
           : step === "profile"
-            ? "Your profile"
+            ? t`Your profile`
             : connectionFrom
-              ? "Edit connection"
-              : "Join a community"
+              ? t`Edit connection`
+              : t`Join a community`
       }
     >
       <form
@@ -481,24 +489,24 @@ export function CommunityDialog({
         {unavailable ? (
           <p>
             {client.status === "loading"
-              ? "Opening your local identity…"
+              ? t`Opening your local identity…`
               : client.status === "ready"
-                ? "Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings."
-                : "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."}
+                ? t`Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings.`
+                : t`Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements.`}
           </p>
         ) : (
           <>
             {step === "destination" && submittedDestination && busy ? (
-              <p role="status">Finding your community…</p>
+              <p role="status">{t`Finding your community…`}</p>
             ) : (
               step === "destination" && (
                 <Field
-                  label="Community URL"
+                  label={t`Community URL`}
                   error={(!explained && error) || undefined}
                   description={
                     connectionFrom
                       ? undefined
-                      : "Paste your community link. Continue shares your Buzz identity with the community so you can preview it before joining."
+                      : t`Paste your community link. Continue shares your Buzz identity with the community so you can preview it before joining.`
                   }
                 >
                   <Input
@@ -531,7 +539,7 @@ export function CommunityDialog({
             {step === "access" && (
               <>
                 {needsInvite && (
-                  <Field label="Invite code">
+                  <Field label={t`Invite code`}>
                     <Input
                       disabled={busy}
                       value={code}
@@ -545,11 +553,11 @@ export function CommunityDialog({
                     {(policy.terms_markdown || policy.privacy_markdown) && (
                       <Checkbox
                         checked={agreed}
-                        aria-label={`I agree to this community’s ${[policy.terms_markdown && "Terms of Service", policy.privacy_markdown && "Privacy Notice"].filter(Boolean).join(" and ")}.`}
+                        aria-label={`${t`I agree to this community’s `}${[policy.terms_markdown && t`Terms of Service`, policy.privacy_markdown && t`Privacy Notice`].filter(Boolean).join(t` and `)}${t`.`}`}
                         onCheckedChange={setAgreed}
                         label={
                           <>
-                            I agree to this community’s{" "}
+                            {t`I agree to this community’s `}
                             {policy.terms_markdown && (
                               <a
                                 className="underline"
@@ -557,12 +565,12 @@ export function CommunityDialog({
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                Terms of Service
+                                {t`Terms of Service`}
                               </a>
                             )}
                             {policy.terms_markdown &&
                               policy.privacy_markdown &&
-                              " and "}
+                              t` and `}
                             {policy.privacy_markdown && (
                               <a
                                 className="underline"
@@ -570,10 +578,10 @@ export function CommunityDialog({
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                Privacy Notice
+                                {t`Privacy Notice`}
                               </a>
                             )}
-                            .
+                            {t`.`}
                           </>
                         }
                       />
@@ -582,7 +590,7 @@ export function CommunityDialog({
                       <Checkbox
                         checked={adult}
                         onCheckedChange={setAdult}
-                        label="I confirm that I am at least 18 years old."
+                        label={t`I confirm that I am at least 18 years old.`}
                       />
                     )}
                   </div>

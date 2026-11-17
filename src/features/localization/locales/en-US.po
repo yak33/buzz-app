@@ -7,6 +7,36 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-US\n"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid " and "
+msgstr " and "
+
+#: src/features/identity/JoinCommunity.tsx
+msgid " Join an existing one or create your own."
+msgstr " Join an existing one or create your own."
+
+#: src/features/identity/SignOut.tsx
+msgid " Kept agents keep their names, types and keys; their settings on this device are erased."
+msgstr " Kept agents keep their names, types and keys; their settings on this device are erased."
+
+#: src/features/identity/KeyImport.tsx
+msgid " unless you chose to manage it yourself"
+msgstr " unless you chose to manage it yourself"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "."
+msgstr "."
+
+#: src/features/identity/KeyImport.tsx
+msgid ". Block can use that copy to restore your identity, including anywhere else you use it."
+msgstr ". Block can use that copy to restore your identity, including anywhere else you use it."
+
+#: src/features/identity/KeyImport.tsx
+msgid "(the key on your other device)."
+msgstr "(the key on your other device)."
+
 #. placeholder {0}: recovery.manifest.name
 #: src/app/PluginUpdates.tsx
 msgid "{0} cannot start"
@@ -16,6 +46,14 @@ msgstr "{0} cannot start"
 msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
 msgstr "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
 
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "{account} is linked to a different key than the one on this computer, and Builderlab has a backup of it. Replacing removes this computer’s key and restarts Buzz to restore your account’s key. {backupNote}"
+msgstr "{account} is linked to a different key than the one on this computer, and Builderlab has a backup of it. Replacing removes this computer’s key and restarts Buzz to restore your account’s key. {backupNote}"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
+msgstr "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
+
 #: src/app/AppearanceSettings.tsx
 msgid "{colorLabel} accent color"
 msgstr "{colorLabel} accent color"
@@ -23,6 +61,10 @@ msgstr "{colorLabel} accent color"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel} (preview only)"
+
+#: src/features/identity/ProfileStep.tsx
+msgid "{host} no longer admits this key. Ask a community administrator to restore your access."
+msgstr "{host} no longer admits this key. Ask a community administrator to restore your access."
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "{label} copied"
@@ -64,6 +106,10 @@ msgstr "24-hour"
 msgid "8 hours"
 msgstr "8 hours"
 
+#: src/features/identity/Welcome.tsx
+msgid "A different account is saved on this computer"
+msgstr "A different account is saved on this computer"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "A selected recipient is archived or being deleted. Remove it before sending."
 msgstr "A selected recipient is archived or being deleted. Remove it before sending."
@@ -80,6 +126,10 @@ msgstr "Accent color"
 msgid "Accent color wasn’t saved"
 msgstr "Accent color wasn’t saved"
 
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Actions for {name}"
+msgstr "Actions for {name}"
+
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
 msgstr "Activity"
@@ -87,6 +137,10 @@ msgstr "Activity"
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
 msgstr "Add link"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Add these saved communities to your list and account. This may restore communities you previously removed."
+msgstr "Add these saved communities to your list and account. This may restore communities you previously removed."
 
 #: src/app/settings-sections.ts
 msgid "Agent setup"
@@ -124,6 +178,14 @@ msgstr "Allow notifications to receive alerts."
 msgid "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
 msgstr "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
 
+#: src/features/identity/SignOut.tsx
+msgid "Also erase everything else Buzz stores on this device"
+msgstr "Also erase everything else Buzz stores on this device"
+
+#: src/features/identity/SignOut.tsx
+msgid "Also remove my agents"
+msgstr "Also remove my agents"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "An agent you're sending to is archived or being deleted. Choose another agent to send."
 msgstr "An agent you're sending to is archived or being deleted. Choose another agent to send."
@@ -131,6 +193,10 @@ msgstr "An agent you're sending to is archived or being deleted. Choose another 
 #: src/app/PluginUpdates.tsx
 msgid "Another plugin review opened. Close it before confirming this update."
 msgstr "Another plugin review opened. Close it before confirming this update."
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Anyone with this key can act as you. Never share it."
+msgstr "Anyone with this key can act as you. Never share it."
 
 #: src/app/LanguageSettings.tsx
 msgid "App language"
@@ -199,6 +265,30 @@ msgstr "away"
 msgid "Away"
 msgstr "Away"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/OnboardingBack.tsx
+#: src/features/identity/RestoreIdentity.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Back"
+msgstr "Back"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "Back up key"
+msgstr "Back up key"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "Back up your key?"
+msgstr "Back up your key?"
+
+#: src/features/identity/setup.ts
+msgid "Backing up your key…"
+msgstr "Backing up your key…"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Backup restoration isn’t available for this account. Enter your private key to continue."
+msgstr "Backup restoration isn’t available for this account. Enter your private key to continue."
+
 #: src/app/AppearanceSettings.tsx
 msgid "Behavior"
 msgstr "Behavior"
@@ -206,6 +296,10 @@ msgstr "Behavior"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bold"
 msgstr "Bold"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Browse"
+msgstr "Browse"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bullet list"
@@ -215,6 +309,10 @@ msgstr "Bullet list"
 msgid "Buzz can show Dock badges."
 msgstr "Buzz can show Dock badges."
 
+#: src/features/identity/Welcome.tsx
+msgid "Buzz can’t read the key saved on this computer, so it can’t open with it or copy it. Trying again won’t change that."
+msgstr "Buzz can’t read the key saved on this computer, so it can’t open with it or copy it. Trying again won’t change that."
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
 msgstr "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
@@ -222,6 +320,14 @@ msgstr "Buzz couldn’t confirm whether this message was delivered. Removing it 
 #: src/app/NotificationSettings.tsx
 msgid "Buzz couldn’t send the notification"
 msgstr "Buzz couldn’t send the notification"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Buzz will automatically sync this key with your Builderlab account"
+msgstr "Buzz will automatically sync this key with your Builderlab account"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
+msgstr "Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
 
 #: src/app/AppearanceSettings.tsx
 msgid "Buzzin’"
@@ -240,6 +346,15 @@ msgstr "Can’t connect"
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/CommunityRepositoriesSettings.tsx
 #: src/app/ProfileSettings.tsx
+#: src/app/shell/MarkAllReadShortcut.tsx
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/PrivateKey.tsx
+#: src/features/identity/RestoreIdentity.tsx
+#: src/features/identity/SignOut.tsx
+#: src/features/identity/Welcome.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Cancel"
@@ -248,6 +363,11 @@ msgstr "Cancel"
 #: src/features/messages/MessageComposer.tsx
 msgid "Cancel edit"
 msgstr "Cancel edit"
+
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Canceling recovery…"
+msgstr "Canceling recovery…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Channel actions"
@@ -279,6 +399,10 @@ msgstr "Chats you start with New chat in this community begin with this lifetime
 msgid "Check again"
 msgstr "Check again"
 
+#: src/features/identity/KeyLost.tsx
+msgid "Check another device where you’re signed in to Buzz, or look for a backup. Without a copy or a usable backup, we can’t recover your key."
+msgstr "Check another device where you’re signed in to Buzz, or look for a backup. Without a copy or a usable backup, we can’t recover your key."
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Check Dock permission"
 msgstr "Check Dock permission"
@@ -305,6 +429,10 @@ msgstr "Check your connection, then try again."
 msgid "Check your connection. We’ll keep trying."
 msgstr "Check your connection. We’ll keep trying."
 
+#: src/features/identity/setup.ts
+msgid "Checking for a backed-up key…"
+msgstr "Checking for a backed-up key…"
+
 #: src/app/PluginUpdates.tsx
 msgid "Checking for updates. Try again when the check finishes."
 msgstr "Checking for updates. Try again when the check finishes."
@@ -313,6 +441,11 @@ msgstr "Checking for updates. Try again when the check finishes."
 #: src/features/updates/UpdateSettings.tsx
 msgid "Checking for updates…"
 msgstr "Checking for updates…"
+
+#: src/features/identity/setup.ts
+#: src/features/identity/Welcome.tsx
+msgid "Checking your account…"
+msgstr "Checking your account…"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Checking your current status…"
@@ -325,6 +458,10 @@ msgstr "Chillin’"
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Choose a community"
 msgstr "Choose a community"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Choose a community first"
+msgstr "Choose a community first"
 
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Choose a community to see its channels, or join one. Your profile and settings work without a community."
@@ -369,6 +506,14 @@ msgstr "Choose folder…"
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Choose repositories folder"
 msgstr "Choose repositories folder"
+
+#: src/features/identity/CreateCommunityStep.tsx
+msgid "Choose the address your team will use to connect."
+msgstr "Choose the address your team will use to connect."
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Choose the Buzz identity to restore on this device."
+msgstr "Choose the Buzz identity to restore on this device."
 
 #: src/app/AppearanceSettings.tsx
 msgid "Citrus"
@@ -438,6 +583,23 @@ msgstr "Code block"
 msgid "Commenting at {0}"
 msgstr "Commenting at {0}"
 
+#: src/features/communities/CommunityPicker.tsx
+msgid "Communities"
+msgstr "Communities"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Communities are where you work with people and agents."
+msgstr "Communities are where you work with people and agents."
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Communities to import"
+msgstr "Communities to import"
+
+#: src/features/identity/JoinCommunity.tsx
+#: src/features/identity/KeyLost.tsx
+msgid "Communities you own"
+msgstr "Communities you own"
+
 #: src/app/settings-sections.ts
 msgid "Community"
 msgstr "Community"
@@ -445,6 +607,10 @@ msgstr "Community"
 #: src/app/CommunityLocalSettings.tsx
 msgid "Community address"
 msgstr "Community address"
+
+#: src/features/identity/CommunityUrlField.tsx
+msgid "Community address or invite link"
+msgstr "Community address or invite link"
 
 #: src/app/settings-sections.ts
 msgid "Community admin"
@@ -454,7 +620,16 @@ msgstr "Community admin"
 msgid "Community profiles are not available in this build yet."
 msgstr "Community profiles are not available in this build yet."
 
+#: src/features/communities/CommunityPicker.tsx
+msgid "Community switcher: {activeLabel}"
+msgstr "Community switcher: {activeLabel}"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Community URL"
+msgstr "Community URL"
+
 #: src/app/CommunityLocalSettings.tsx
+#: src/features/communities/CommunityPickerItem.tsx
 msgid "Community URL copied."
 msgstr "Community URL copied."
 
@@ -478,13 +653,74 @@ msgstr "Compact shows conversations as a flat list that fits more messages on sc
 msgid "Compacting session…"
 msgstr "Compacting session…"
 
+#: src/features/identity/KeyRestore.tsx
+msgid "Complete sign-in in your browser if prompted."
+msgstr "Complete sign-in in your browser if prompted."
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Connect"
+msgstr "Connect"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Connect to {host}"
+msgstr "Connect to {host}"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Connect to a community"
+msgstr "Connect to a community"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connect to this community to search messages."
 msgstr "Connect to this community to search messages."
 
+#: src/features/identity/ConnectChoice.tsx
+msgid "Connect to your community"
+msgstr "Connect to your community"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connecting to this community…"
 msgstr "Connecting to this community…"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Connecting…"
+msgstr "Connecting…"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/CommunityUrlField.tsx
+#: src/features/identity/LegacyIdentityOffer.tsx
+#: src/features/identity/ProfileStep.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Continue"
+msgstr "Continue"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Continue with {name}"
+msgstr "Continue with {name}"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Continue with this key"
+msgstr "Continue with this key"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Continue with your Buzz identity"
+msgstr "Continue with your Buzz identity"
+
+#: src/features/identity/LegacyIdentityOffer.tsx
+msgid "Continue with your Buzz identity?"
+msgstr "Continue with your Buzz identity?"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Continue with your Buzz profile."
+msgstr "Continue with your Buzz profile."
+
+#: src/features/identity/Welcome.tsx
+msgid "Continue without backup"
+msgstr "Continue without backup"
+
+#: src/features/identity/Welcome.tsx
+msgid "Continue without signing in"
+msgstr "Continue without signing in"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Conversation actions"
@@ -494,6 +730,15 @@ msgstr "Conversation actions"
 msgid "Conversations"
 msgstr "Conversations"
 
+#: src/features/identity/PrivateKey.tsx
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Copy"
+msgstr "Copy"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Copy community URL"
+msgstr "Copy community URL"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy link"
 msgstr "Copy link"
@@ -502,9 +747,21 @@ msgstr "Copy link"
 msgid "Copy message"
 msgstr "Copy message"
 
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Copy npub"
+msgstr "Copy npub"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Copy private key"
+msgstr "Copy private key"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Copy text"
 msgstr "Copy text"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Copy this from Identity details in your old Buzz app. Never share it with anyone."
+msgstr "Copy this from Identity details in your old Buzz app. Never share it with anyone."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Copy URL"
@@ -547,6 +804,10 @@ msgstr "could not be tagged: the message would be too long"
 msgid "Could not confirm your status. Try again."
 msgstr "Could not confirm your status. Try again."
 
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Could not copy. Select the key above to copy it."
+msgstr "Could not copy. Select the key above to copy it."
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not delete this message. Try again."
 msgstr "Could not delete this message. Try again."
@@ -554,6 +815,11 @@ msgstr "Could not delete this message. Try again."
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not dismiss the operation."
 msgstr "Could not dismiss the operation."
+
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/ProfileStep.tsx
+msgid "Could not reach the relay. Check your connection and try again."
+msgstr "Could not reach the relay. Check your connection and try again."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not read saved model and effort for this chat on this device. Retry before sending."
@@ -575,6 +841,10 @@ msgstr "Could not save this draft on this device. Your edits are kept here."
 msgid "Could not save thread follow. Try again."
 msgstr "Could not save thread follow. Try again."
 
+#: src/features/identity/BackupConsent.tsx
+msgid "Could not save your choice. Try again."
+msgstr "Could not save your choice. Try again."
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not update unread state. Try again."
 msgstr "Could not update unread state. Try again."
@@ -582,6 +852,10 @@ msgstr "Could not update unread state. Try again."
 #: src/app/PluginUpdates.tsx
 msgid "Couldn’t check for updates."
 msgstr "Couldn’t check for updates."
+
+#: src/features/identity/SignOut.tsx
+msgid "Couldn’t check whether erasing is available"
+msgstr "Couldn’t check whether erasing is available"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Couldn’t check your latest status. Your draft is unchanged."
@@ -591,17 +865,63 @@ msgstr "Couldn’t check your latest status. Your draft is unchanged."
 msgid "Couldn’t copy text"
 msgstr "Couldn’t copy text"
 
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Couldn’t copy the community URL."
+msgstr "Couldn’t copy the community URL."
+
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t copy the URL. Select it and copy manually."
 msgstr "Couldn’t copy the URL. Select it and copy manually."
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Couldn’t copy your private key. Reveal it to copy manually, or retry."
+msgstr "Couldn’t copy your private key. Reveal it to copy manually, or retry."
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Couldn’t copy. Try again from the message menu."
 msgstr "Couldn’t copy. Try again from the message menu."
 
+#: src/features/communities/FindCommunity.tsx
+msgid "Couldn’t find community"
+msgstr "Couldn’t find community"
+
+#: src/features/identity/Welcome.tsx
+msgid "Couldn’t finish setup"
+msgstr "Couldn’t finish setup"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Couldn’t import this key."
+msgstr "Couldn’t import this key."
+
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "Couldn’t leave {0}"
+msgstr "Couldn’t leave {0}"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Couldn’t mark everything as read."
+msgstr "Couldn’t mark everything as read."
+
+#. placeholder {0}: next.name
+#: src/features/communities/CommunityDialog.tsx
+msgid "Couldn’t reach {0}. Check the address, or try again."
+msgstr "Couldn’t reach {0}. Check the address, or try again."
+
+#: src/features/identity/KeyImport.tsx
+msgid "Couldn’t read that file."
+msgstr "Couldn’t read that file."
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Couldn’t read the repositories folder on this device. Try again."
 msgstr "Couldn’t read the repositories folder on this device. Try again."
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Couldn’t restore your key"
+msgstr "Couldn’t restore your key"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Couldn’t reveal your private key. Retry when secure storage is available."
+msgstr "Couldn’t reveal your private key. Retry when secure storage is available."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t save the display name. Try again."
@@ -615,9 +935,43 @@ msgstr "Couldn’t save this on this device. Try again."
 msgid "Couldn’t send to channel"
 msgstr "Couldn’t send to channel"
 
+#: src/features/identity/Welcome.tsx
+msgid "Couldn’t sign in"
+msgstr "Couldn’t sign in"
+
+#: src/features/identity/Welcome.tsx
+msgid "Couldn’t sign out"
+msgstr "Couldn’t sign out"
+
+#: src/features/communities/CommunityLanding.tsx
+#: src/features/identity/CreateCommunityStep.tsx
+msgid "Create a community"
+msgstr "Create a community"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Create a new identity"
+msgstr "Create a new identity"
+
+#: src/features/identity/Welcome.tsx
+msgid "Create account"
+msgstr "Create account"
+
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/identity/CreateCommunityStep.tsx
+msgid "Create community"
+msgstr "Create community"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
 msgstr "Create this conversation before attaching files."
+
+#: src/features/identity/setup.ts
+msgid "Creating your key…"
+msgstr "Creating your key…"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Current identity"
+msgstr "Current identity"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom"
@@ -771,6 +1125,10 @@ msgstr "Drafts & sent"
 msgid "Drop files into this conversation"
 msgstr "Drop files into this conversation"
 
+#: src/features/identity/KeyImport.tsx
+msgid "Drop to use this file."
+msgstr "Drop to use this file."
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Duration"
 msgstr "Duration"
@@ -780,6 +1138,7 @@ msgid "Duration: {durationLabel}"
 msgstr "Duration: {durationLabel}"
 
 #: src/app/CommunityLocalSettings.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Edit connection"
 msgstr "Edit connection"
 
@@ -800,6 +1159,42 @@ msgstr "Editing message"
 msgid "Enable Messages to see conversations."
 msgstr "Enable Messages to see conversations."
 
+#: src/features/identity/Welcome.tsx
+msgid "Enter a community address or an invite link to continue."
+msgstr "Enter a community address or an invite link to continue."
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/CommunityUrlField.tsx
+msgid "Enter a community address or invite link."
+msgstr "Enter a community address or invite link."
+
+#: src/features/identity/ProfileStep.tsx
+msgid "Enter a name for your community profile. You can change it later."
+msgstr "Enter a name for your community profile. You can change it later."
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community."
+msgstr "Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community."
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Enter my private key"
+msgstr "Enter my private key"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/RestoreIdentity.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Enter your private key"
+msgstr "Enter your private key"
+
+#: src/features/identity/SignOut.tsx
+msgid "Erasing clears this app’s data, local storage, caches and plugin storage on this device only. It can’t reach your clipboard, keys you exported, or relay data; your npub and its history stay on the relays."
+msgstr "Erasing clears this app’s data, local storage, caches and plugin storage on this device only. It can’t reach your clipboard, keys you exported, or relay data; your npub and its history stay on the relays."
+
+#. placeholder {0}: asking.name
+#: src/app/shell/MarkAllReadShortcut.tsx
+msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
+msgstr "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Expiration time"
 msgstr "Expiration time"
@@ -807,6 +1202,18 @@ msgstr "Expiration time"
 #: src/features/messages/MessageComposer.tsx
 msgid "Explicit mentions"
 msgstr "Explicit mentions"
+
+#: src/features/identity/setup.ts
+msgid "Finding communities…"
+msgstr "Finding communities…"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Finding community"
+msgstr "Finding community"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Finding your community…"
+msgstr "Finding your community…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Finish conversion"
@@ -816,9 +1223,17 @@ msgstr "Finish conversion"
 msgid "Finish editing before attaching new files."
 msgstr "Finish editing before attaching new files."
 
+#: src/features/identity/Welcome.tsx
+msgid "Finish in your browser"
+msgstr "Finish in your browser"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Finish or cancel your current edit first."
 msgstr "Finish or cancel your current edit first."
+
+#: src/features/identity/Welcome.tsx
+msgid "Finish signing in there, then come back and choose Continue."
+msgstr "Finish signing in there, then come back and choose Continue."
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Follow thread"
@@ -848,8 +1263,13 @@ msgstr "Forward message"
 msgid "Full name"
 msgstr "Full name"
 
+#: src/features/identity/SetupProgress.tsx
+msgid "Getting ready"
+msgstr "Getting ready"
+
 #: src/app/App.tsx
 #: src/app/shell/NavigationControls.tsx
+#: src/features/identity/KeyLost.tsx
 msgid "Go back"
 msgstr "Go back"
 
@@ -866,6 +1286,7 @@ msgid "Hidden times stay available to screen readers."
 msgstr "Hidden times stay available to screen readers."
 
 #: src/app/AppearanceSettings.tsx
+#: src/features/identity/PrivateKey.tsx
 msgid "Hide"
 msgstr "Hide"
 
@@ -876,6 +1297,11 @@ msgstr "Hide in Solo chats"
 #: src/app/shell/AppShell.tsx
 msgid "Hide navigation"
 msgstr "Hide navigation"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/PrivateKey.tsx
+msgid "Hide private key"
+msgstr "Hide private key"
 
 #: src/app/shell/AppShell.tsx
 msgid "Hide sidebar"
@@ -889,13 +1315,57 @@ msgstr "Honey"
 msgid "How people with verified names appear to you. Search, profiles, and previews show both."
 msgstr "How people with verified names appear to you. Search, profiles, and previews show both."
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "I agree to this community’s "
+msgstr "I agree to this community’s "
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "I confirm that I am at least 18 years old."
+msgstr "I confirm that I am at least 18 years old."
+
+#: src/features/identity/SignOut.tsx
+#: src/features/identity/Welcome.tsx
+msgid "I have my key"
+msgstr "I have my key"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/KeyRestore.tsx
+msgid "I lost my key"
+msgstr "I lost my key"
+
+#: src/features/identity/BackupConsent.tsx
+msgid "I will manage my own key"
+msgstr "I will manage my own key"
+
 #: src/app/settings-sections.ts
 msgid "Identity"
 msgstr "Identity"
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Identity to restore"
+msgstr "Identity to restore"
+
 #: src/app/AppearancePreview.tsx
 msgid "Illustrated preview of your current mode, accent, contrast, and"
 msgstr "Illustrated preview of your current mode, accent, contrast, and"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Import communities"
+msgstr "Import communities"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Import communities from old Buzz?"
+msgstr "Import communities from old Buzz?"
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Import this identity"
+msgstr "Import this identity"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Importing your key…"
+msgstr "Importing your key…"
 
 #. placeholder {0}: region.title
 #: src/bundled/channels/SoloHeading.tsx
@@ -934,6 +1404,19 @@ msgstr "Interface size"
 msgid "Interface size wasn’t saved"
 msgstr "Interface size wasn’t saved"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/identity/InviteCodeField.tsx
+msgid "Invite code"
+msgstr "Invite code"
+
+#: src/features/communities/CommunityLanding.tsx
+msgid "Invite link or community URL"
+msgstr "Invite link or community URL"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Invite to community"
+msgstr "Invite to community"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Iris"
 msgstr "Iris"
@@ -958,6 +1441,42 @@ msgstr "It may have been removed, or you may need to update Buzz."
 msgid "Italic"
 msgstr "Italic"
 
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
+msgstr "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
+
+#: src/features/communities/CommunityLanding.tsx
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/InviteCodeField.tsx
+msgid "Join"
+msgstr "Join"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/CommunityLanding.tsx
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Join a community"
+msgstr "Join a community"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Join Community"
+msgstr "Join Community"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Joining {host}…"
+msgstr "Joining {host}…"
+
+#: src/features/communities/FindCommunity.tsx
+msgid "Joining community"
+msgstr "Joining community"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+#: src/features/identity/InviteCodeField.tsx
+msgid "Joining…"
+msgstr "Joining…"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Keep attachment links unchanged. To remove this message, use Delete message."
 msgstr "Keep attachment links unchanged. To remove this message, use Delete message."
@@ -969,6 +1488,10 @@ msgstr "Keep editing"
 #: src/features/messages/MessageComposer.tsx
 msgid "Keep my draft"
 msgstr "Keep my draft"
+
+#: src/features/identity/KeyImport.tsx
+msgid "Key file"
+msgstr "Key file"
 
 #: src/app/LanguageSettings.tsx
 #: src/app/settings-sections.ts
@@ -983,9 +1506,23 @@ msgstr "Language wasn’t saved"
 msgid "Later"
 msgstr "Later"
 
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "Leave {0}?"
+msgstr "Leave {0}?"
+
+#: src/features/communities/CommunityPicker.tsx
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Leave community"
+msgstr "Leave community"
+
 #: src/app/settings-sections.ts
 msgid "Leave or remove"
 msgstr "Leave or remove"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Leaving…"
+msgstr "Leaving…"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
@@ -1004,6 +1541,14 @@ msgstr "Link"
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Link text must stay on one line."
 msgstr "Link text must stay on one line."
+
+#: src/features/identity/setup.ts
+msgid "Linking your key…"
+msgstr "Linking your key…"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
+msgstr "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Load saved draft"
@@ -1031,6 +1576,14 @@ msgstr "Loading…"
 msgid "Local settings"
 msgstr "Local settings"
 
+#: src/features/communities/FindCommunity.tsx
+msgid "Looking up {host}…"
+msgstr "Looking up {host}…"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Lost your key?"
+msgstr "Lost your key?"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Magenta"
 msgstr "Magenta"
@@ -1049,6 +1602,15 @@ msgstr "Manage {name} update checks"
 msgid "Manage plugins"
 msgstr "Manage plugins"
 
+#: src/app/shell/MarkAllReadShortcut.tsx
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Mark all as read"
+msgstr "Mark all as read"
+
+#: src/app/shell/MarkAllReadShortcut.tsx
+msgid "Mark everything as read?"
+msgstr "Mark everything as read?"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark read"
 msgstr "Mark read"
@@ -1056,6 +1618,10 @@ msgstr "Mark read"
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark unread"
 msgstr "Mark unread"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Marked all as read."
+msgstr "Marked all as read."
 
 #: src/app/shell/WindowControls.tsx
 msgid "Maximize or restore window"
@@ -1211,6 +1777,14 @@ msgstr "New workspace"
 msgid "No automatic archive."
 msgstr "No automatic archive."
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "No backups were found for this account."
+msgstr "No backups were found for this account."
+
+#: src/features/communities/FindCommunity.tsx
+msgid "No community is set up at this address."
+msgstr "No community is set up at this address."
+
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "No matching pages."
@@ -1218,6 +1792,15 @@ msgstr "No matching pages."
 #: src/features/profiles/TimeZoneField.tsx
 msgid "No matching time zones."
 msgstr "No matching time zones."
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "None of your backups holds the key linked to this account, so nothing was restored."
+msgstr "None of your backups holds the key linked to this account, so nothing was restored."
+
+#: src/features/identity/LegacyIdentityOffer.tsx
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "Not now"
+msgstr "Not now"
 
 #: src/app/NotificationSettings.tsx
 msgid "Notification choices weren’t saved"
@@ -1261,6 +1844,14 @@ msgstr "offline"
 msgid "Offline"
 msgstr "Offline"
 
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "OK"
+msgstr "OK"
+
+#: src/features/identity/LegacyIdentityOffer.tsx
+msgid "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
+msgstr "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Ongoing"
 msgstr "Ongoing"
@@ -1280,6 +1871,10 @@ msgstr "Only saved conversations are searched until this community connects."
 #: src/app/shell/PageSearch.tsx
 msgid "Only saved conversations are searched while this community is disconnected."
 msgstr "Only saved conversations are searched while this community is disconnected."
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Only the selected community can be marked as read."
+msgstr "Only the selected community can be marked as read."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
@@ -1305,13 +1900,39 @@ msgstr "Open threads in"
 msgid "Opening Buzz"
 msgstr "Opening Buzz"
 
+#: src/features/identity/Welcome.tsx
+msgid "Opening Buzz…"
+msgstr "Opening Buzz…"
+
 #: src/app/ProfileSettings.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Opening your local identity…"
 msgstr "Opening your local identity…"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Opening your saved identity…"
+msgstr "Opening your saved identity…"
+
+#: src/features/identity/JoinCommunity.tsx
+msgid "Or create a community"
+msgstr "Or create a community"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Or enter your private key if you have a copy."
+msgstr "Or enter your private key if you have a copy."
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Ordered list"
 msgstr "Ordered list"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Other communities you’ve joined aren’t listed."
+msgstr "Other communities you’ve joined aren’t listed."
+
+#: src/features/identity/Welcome.tsx
+msgid "Other options"
+msgstr "Other options"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "Out sick"
@@ -1330,7 +1951,32 @@ msgstr "Pages"
 msgid "Pane"
 msgstr "Pane"
 
+#: src/features/identity/KeyImport.tsx
+msgid "Password-protected backups aren’t supported here yet. Paste the nsec1 key itself."
+msgstr "Password-protected backups aren’t supported here yet. Paste the nsec1 key itself."
+
+#: src/features/identity/CommunityUrlField.tsx
+msgid "Paste a link or address"
+msgstr "Paste a link or address"
+
+#: src/features/communities/CommunityLanding.tsx
+msgid "Paste an invite link or community URL."
+msgstr "Paste an invite link or community URL."
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+msgstr "Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Paste your community link. Continue shares your Buzz identity with the community so you can preview it before joining."
+msgstr "Paste your community link. Continue shares your Buzz identity with the community so you can preview it before joining."
+
+#: src/features/identity/KeyImport.tsx
+msgid "Paste your private key to sign in to Buzz. You can also select or drop a text file with your key."
+msgstr "Paste your private key to sign in to Buzz. You can also select or drop a text file with your key."
+
 #: src/app/settings-sections.ts
+#: src/features/communities/CommunityPicker.tsx
 msgid "Personal space"
 msgstr "Personal space"
 
@@ -1346,6 +1992,42 @@ msgstr "Plugins"
 #: src/features/updates/UpdateSettings.tsx
 msgid "Preparing update…"
 msgstr "Preparing update…"
+
+#: src/features/identity/setup.ts
+#: src/features/identity/Welcome.tsx
+msgid "Preparing your identity…"
+msgstr "Preparing your identity…"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Previous identity"
+msgstr "Previous identity"
+
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "Privacy Notice"
+msgstr "Privacy Notice"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key"
+msgstr "Private key"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key (nsec)"
+msgstr "Private key (nsec)"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key actions"
+msgstr "Private key actions"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key copied"
+msgstr "Private key copied"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+msgstr "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 
 #: src/app/ProfileSettings.tsx
 #: src/app/settings-sections.ts
@@ -1364,6 +2046,22 @@ msgstr "Profile preview"
 msgid "Profile updated"
 msgstr "Profile updated"
 
+#: src/features/identity/KeyImport.tsx
+msgid "Public identity:"
+msgstr "Public identity:"
+
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Public key copied."
+msgstr "Public key copied."
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Publish profile & open"
+msgstr "Publish profile & open"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Publishing…"
+msgstr "Publishing…"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Queue"
 msgstr "Queue"
@@ -1375,6 +2073,10 @@ msgstr "Quick statuses"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Quote"
 msgstr "Quote"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Read state can’t sync on this connection."
+msgstr "Read state can’t sync on this connection."
 
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Read state couldn’t be saved"
@@ -1417,12 +2119,22 @@ msgstr "Remove {0} search scope"
 msgid "Remove agent {0} {1}"
 msgstr "Remove agent {0} {1}"
 
+#: src/features/identity/SignOut.tsx
+msgid "Remove and erase data"
+msgstr "Remove and erase data"
+
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove explicit mention of {0} ({1})"
 msgstr "Remove explicit mention of {0} ({1})"
 
+#: src/features/identity/SignOut.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Remove from device"
+msgstr "Remove from device"
+
+#: src/features/communities/CommunityPicker.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove from this device"
 msgstr "Remove from this device"
@@ -1441,13 +2153,34 @@ msgstr "Remove mention {0} {1}"
 msgid "Remove message from this device?"
 msgstr "Remove message from this device?"
 
+#: src/features/identity/Welcome.tsx
+msgid "Remove the unreadable key?"
+msgstr "Remove the unreadable key?"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Remove video time"
 msgstr "Remove video time"
 
+#: src/features/identity/SignOut.tsx
+msgid "Remove your key from this device?"
+msgstr "Remove your key from this device?"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Removing…"
 msgstr "Removing…"
+
+#: src/features/identity/LinkedKeyCheck.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Replace"
+msgstr "Replace"
+
+#: src/features/identity/Welcome.tsx
+msgid "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key may not be backed up: copy its private key first, or you could lose that account."
+msgstr "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key may not be backed up: copy its private key first, or you could lose that account."
+
+#: src/features/identity/Welcome.tsx
+msgid "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
+msgstr "Replacing it removes that account from this computer to continue with the one you just signed in to. Its key was backed up in Builderlab: sign in to that account again to restore it."
 
 #: src/features/messages/MessageActionBar.tsx
 msgid "Reply"
@@ -1485,6 +2218,28 @@ msgstr "Reset name"
 msgid "Restore default"
 msgstr "Restore default"
 
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Restore from backup"
+msgstr "Restore from backup"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Restore this identity"
+msgstr "Restore this identity"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Restore your key"
+msgstr "Restore your key"
+
+#: src/features/identity/setup.ts
+msgid "Restoring your communities…"
+msgstr "Restoring your communities…"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "Restoring your key…"
+msgstr "Restoring your key…"
+
+#: src/features/communities/FindCommunity.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/updates/UpdateSettings.tsx
 #: src/features/user-status/StatusEditor.tsx
@@ -1579,6 +2334,20 @@ msgstr "Retry saving thread placement"
 msgid "Retry saving vibe level"
 msgstr "Retry saving vibe level"
 
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Retry secure storage access"
+msgstr "Retry secure storage access"
+
+#: src/features/identity/PrivateKey.tsx
+msgid "Reveal"
+msgstr "Reveal"
+
+#: src/features/identity/KeyImport.tsx
+#: src/features/identity/PrivateKey.tsx
+msgid "Reveal private key"
+msgstr "Reveal private key"
+
 #: src/app/PluginUpdates.tsx
 msgid "Review permissions"
 msgstr "Review permissions"
@@ -1597,6 +2366,10 @@ msgstr "Save changes"
 msgid "Save folder"
 msgstr "Save folder"
 
+#: src/features/communities/CommunityDialog.tsx
+msgid "Save profile"
+msgstr "Save profile"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Save status"
 msgstr "Save status"
@@ -1605,11 +2378,21 @@ msgstr "Save status"
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 
+#: src/features/identity/WelcomeBack.tsx
+msgid "Saved key"
+msgstr "Saved key"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Saved model and effort choices are still loading. Try sending again shortly."
 msgstr "Saved model and effort choices are still loading. Try sending again shortly."
 
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Saving your identity securely…"
+msgstr "Saving your identity securely…"
+
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Saving…"
 msgstr "Saving…"
 
@@ -1708,6 +2491,10 @@ msgstr "Set up Dock badges"
 msgid "Set up Dock badges to show the unread dot."
 msgstr "Set up Dock badges to show the unread dot."
 
+#: src/features/identity/ProfileStep.tsx
+msgid "Set up your profile"
+msgstr "Set up your profile"
+
 #: src/app/App.tsx
 #: src/app/Settings.tsx
 #: src/app/shell/PageSearch.tsx
@@ -1780,6 +2567,11 @@ msgstr "Show time zone details on profiles"
 msgid "Show unread first in search"
 msgstr "Show unread first in search"
 
+#. placeholder {0}: leaving.membership.localName
+#: src/features/communities/CommunityPicker.tsx
+msgid "Shown as {0} on this device"
+msgstr "Shown as {0} on this device"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
 msgstr "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
@@ -1788,9 +2580,38 @@ msgstr "Shows a dot for unread activity in the selected community. It doesn’t 
 msgid "Side pane"
 msgstr "Side pane"
 
+#: src/features/identity/Welcome.tsx
+msgid "Sign in"
+msgstr "Sign in"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Sign in in your browser to find your backups…"
+msgstr "Sign in in your browser to find your backups…"
+
+#: src/features/identity/ConnectChoice.tsx
+msgid "Sign in to your Builderlab account with email, or use an existing private key to continue."
+msgstr "Sign in to your Builderlab account with email, or use an existing private key to continue."
+
+#: src/features/identity/ConnectChoice.tsx
+msgid "Sign in with Builderlab"
+msgstr "Sign in with Builderlab"
+
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Signed in as {email}"
+msgstr "Signed in as {email}"
+
+#: src/features/identity/Welcome.tsx
+msgid "Signing in…"
+msgstr "Signing in…"
+
 #: src/app/NotificationSettings.tsx
 msgid "Silent"
 msgstr "Silent"
+
+#: src/features/communities/LegacyCommunityImport.tsx
+msgid "Skip import"
+msgstr "Skip import"
 
 #: src/app/shell/AppShell.tsx
 msgid "Skip to content"
@@ -1808,6 +2629,14 @@ msgstr "Solo"
 #: src/app/NotificationSettings.tsx
 msgid "Solo chat completions"
 msgstr "Solo chat completions"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Some backups couldn’t be recovered."
+msgstr "Some backups couldn’t be recovered."
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Some of your backups couldn’t be recovered, and the ones that were don’t hold the key linked to this account."
+msgstr "Some of your backups couldn’t be recovered, and the ones that were don’t hold the key linked to this account."
 
 #: src/app/LanguageSettings.tsx
 msgid "Some parts of Buzz are not translated yet."
@@ -1828,6 +2657,22 @@ msgstr "Spelling preference wasn’t saved"
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Spoiler"
 msgstr "Spoiler"
+
+#: src/features/identity/KeyLost.tsx
+msgid "Start over with a new key"
+msgstr "Start over with a new key"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Start with your local profile, or choose how you appear in this community."
+msgstr "Start with your local profile, or choose how you appear in this community."
+
+#: src/features/identity/KeyLost.tsx
+msgid "Starting over permanently unlinks your old key."
+msgstr "Starting over permanently unlinks your old key."
+
+#: src/features/identity/KeyLost.tsx
+msgid "Starting over replaces the key linked to your Builderlab account. Your profile, messages, and community access won’t carry over. Your old content won’t be deleted. The new key will be backed up to your Builderlab account automatically. Block can use that copy to restore this key, including anywhere else you use it."
+msgstr "Starting over replaces the key linked to your Builderlab account. Your profile, messages, and community access won’t carry over. Your old content won’t be deleted. The new key will be backed up to your Builderlab account automatically. Block can use that copy to restore this key, including anywhere else you use it."
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Status expiration"
@@ -1856,6 +2701,14 @@ msgstr "Still can’t connect. We’ll keep trying."
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
 msgstr "Strikethrough"
+
+#: src/features/communities/CommunityPicker.tsx
+msgid "Switch community"
+msgstr "Switch community"
+
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Switch to {name}"
+msgstr "Switch to {name}"
 
 #: src/app/AppearanceSettings.tsx
 #: src/app/shell/ProfileButton.tsx
@@ -1892,6 +2745,11 @@ msgstr "Team"
 msgid "Temporary, {0}"
 msgstr "Temporary, {0}"
 
+#: src/features/communities/CommunityDialog.tsx
+#: src/features/communities/FindCommunity.tsx
+msgid "Terms of Service"
+msgstr "Terms of Service"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Text"
 msgstr "Text"
@@ -1899,6 +2757,14 @@ msgstr "Text"
 #: src/features/messages/MessageComposer.tsx
 msgid "Text copied"
 msgstr "Text copied"
+
+#: src/features/identity/KeyImport.tsx
+msgid "That doesn’t look like a valid nsec. Paste an nsec1 key."
+msgstr "That doesn’t look like a valid nsec. Paste an nsec1 key."
+
+#: src/features/identity/KeyImport.tsx
+msgid "That isn’t the key linked to this account. It expects"
+msgstr "That isn’t the key linked to this account. It expects"
 
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "The draft changed or this link exceeds the message limit. Close and try again."
@@ -1932,6 +2798,10 @@ msgstr "The update candidate changed after it was checked. Check for updates aga
 msgid "This account or community changed. Open Local settings again."
 msgstr "This account or community changed. Open Local settings again."
 
+#: src/features/communities/FindCommunity.tsx
+msgid "This address isn’t a Buzz community."
+msgstr "This address isn’t a Buzz community."
+
 #: src/app/NotificationSettings.tsx
 msgid "This build can’t show system notifications."
 msgstr "This build can’t show system notifications."
@@ -1943,6 +2813,14 @@ msgstr "This choice is active, but could not be saved on this device."
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device. Try again."
 msgstr "This choice is active, but could not be saved on this device. Try again."
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it."
+msgstr "This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it."
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "This computer’s key was backed up in Builderlab: sign in to its account to restore it."
+msgstr "This computer’s key was backed up in Builderlab: sign in to its account to restore it."
 
 #: src/app/shell/PageSearch.tsx
 msgid "This conversation"
@@ -1956,6 +2834,10 @@ msgstr "This conversation is no longer available for changes."
 msgid "This conversation is no longer available."
 msgstr "This conversation is no longer available."
 
+#: src/features/identity/Welcome.tsx
+msgid "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
+msgstr "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
 msgstr "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
@@ -1967,6 +2849,10 @@ msgstr "This draft changed elsewhere. Your edits are kept here; choose which dra
 #: src/app/CommunityLocalSettings.tsx
 msgid "This is the relay URL you use to connect to this community."
 msgstr "This is the relay URL you use to connect to this community."
+
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "This is your public identity — it’s safe to share."
+msgstr "This is your public identity — it’s safe to share."
 
 #: src/app/LanguageSettings.tsx
 msgid "This language is active, but could not be saved on this device. Try again."
@@ -2024,9 +2910,18 @@ msgstr "This relay connection supports reading only."
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 msgstr "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 
+#. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/features/communities/CommunityPicker.tsx
+msgid "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
+msgstr "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "This week"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "This won’t change the identity linked to your account."
+msgstr "This won’t change the identity linked to your account."
 
 #: src/app/AppearanceSettings.tsx
 msgid "Thread preference wasn’t saved"
@@ -2058,13 +2953,27 @@ msgstr "Toggle tab pane"
 
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
+#: src/features/identity/KeyRestore.tsx
+#: src/features/identity/Welcome.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Try again"
 msgstr "Try again"
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Try recovery again"
+msgstr "Try recovery again"
+
+#: src/features/identity/SignOut.tsx
+msgid "Type “{WIPE_PHRASE}” to confirm"
+msgstr "Type “{WIPE_PHRASE}” to confirm"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Unfollow thread"
 msgstr "Unfollow thread"
+
+#: src/features/identity/setup.ts
+msgid "Unlinking your old key…"
+msgstr "Unlinking your old key…"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Until"
@@ -2108,9 +3017,27 @@ msgstr "Updating to {targetLabel}…"
 msgid "Uploads are unavailable on this connection."
 msgstr "Uploads are unavailable on this connection."
 
+#: src/features/identity/Welcome.tsx
+#: src/features/identity/WelcomeBack.tsx
+msgid "Use a different account"
+msgstr "Use a different account"
+
+#: src/features/identity/ConnectChoice.tsx
+#: src/features/identity/IdentitySetup.tsx
+msgid "Use an existing key"
+msgstr "Use an existing key"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Use an HTTP(S) URL or a valid buzz:// link."
 msgstr "Use an HTTP(S) URL or a valid buzz:// link."
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Use your existing identity"
+msgstr "Use your existing identity"
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Use your identity across communities. Your profile and conversations stay separate in each one."
+msgstr "Use your identity across communities. Your profile and conversations stay separate in each one."
 
 #: src/app/ProfileSettings.tsx
 msgid "Used for new communities. Existing community profiles stay unchanged."
@@ -2144,10 +3071,38 @@ msgstr "View channel details"
 msgid "Wait for compaction to finish, or interrupt it."
 msgstr "Wait for compaction to finish, or interrupt it."
 
+#: src/features/communities/CommunityPickerItem.tsx
+msgid "Waiting for {name} to connect."
+msgstr "Waiting for {name} to connect."
+
 #: src/app/NotificationSettings.tsx
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Waiting for system permission…"
 msgstr "Waiting for system permission…"
+
+#: src/features/identity/KeyRestore.tsx
+msgid "We couldn’t check all your backups. Try again, or enter your private key if you have a copy."
+msgstr "We couldn’t check all your backups. Try again, or enter your private key if you have a copy."
+
+#: src/features/identity/KeyRestore.tsx
+msgid "We couldn’t find a key backup in this Builderlab account. If you have a copy of your private key, you can enter it instead."
+msgstr "We couldn’t find a key backup in this Builderlab account. If you have a copy of your private key, you can enter it instead."
+
+#: src/features/identity/KeyLost.tsx
+msgid "We couldn’t load your owned communities. Other communities may be affected."
+msgstr "We couldn’t load your owned communities. Other communities may be affected."
+
+#: src/features/identity/KeyRestore.tsx
+msgid "We found backups, but none contains the key linked to your account. Enter your private key to continue."
+msgstr "We found backups, but none contains the key linked to your account. Enter your private key to continue."
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "We found the key to your account."
+msgstr "We found the key to your account."
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Welcome back"
+msgstr "Welcome back"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "What's your status?"
@@ -2201,24 +3156,87 @@ msgstr "You're on the latest version."
 msgid "Your account is unavailable. Open Local settings again."
 msgstr "Your account is unavailable. Open Local settings again."
 
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "Your account uses a different key"
+msgstr "Your account uses a different key"
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Your account’s key isn’t on this device. Enter its private key to continue."
+msgstr "Your account’s key isn’t on this device. Enter its private key to continue."
+
+#: src/features/identity/WelcomeBack.tsx
+msgid "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
+msgstr "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
+
 #: src/app/shell/ProfileButton.tsx
 msgid "Your avatar"
 msgstr "Your avatar"
+
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Your backups couldn’t be recovered. Try again."
+msgstr "Your backups couldn’t be recovered. Try again."
+
+#: src/features/identity/LinkedKeyCheck.tsx
+msgid "Your Builderlab account"
+msgstr "Your Builderlab account"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Your Buzz identity"
+msgstr "Your Buzz identity"
 
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Your channels, one conversation."
 msgstr "Your channels, one conversation."
 
+#: src/features/identity/RestoreIdentity.tsx
+msgid "Your current identity isn’t in these backups. You can choose a previous identity."
+msgstr "Your current identity isn’t in these backups. You can choose a previous identity."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Your edit is still in the outbox."
 msgstr "Your edit is still in the outbox."
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings."
+msgstr "Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings."
+
+#: src/features/identity/Welcome.tsx
+msgid "Your key is saved on this device, but it isn’t linked to your account or backed up yet."
+msgstr "Your key is saved on this device, but it isn’t linked to your account or backed up yet."
+
+#: src/features/identity/Welcome.tsx
+msgid "Your key is saved on this device."
+msgstr "Your key is saved on this device."
+
+#: src/features/identity/IdentitySetup.tsx
+msgid "Your key is stored securely on this device. No community is joined automatically."
+msgstr "Your key is stored securely on this device. No community is joined automatically."
+
+#: src/features/communities/CommunityDialog.tsx
+msgid "Your local default. Use it when joining communities; saving here does not publish changes to them."
+msgstr "Your local default. Use it when joining communities; saving here does not publish changes to them."
 
 #: src/app/ProfileSettings.tsx
 msgid "Your local identity is unavailable. Connect your identity to edit your profile."
 msgstr "Your local identity is unavailable. Connect your identity to edit your profile."
 
+#: src/features/identity/KeyLost.tsx
+msgid "Your old key can’t be linked again"
+msgstr "Your old key can’t be linked again"
+
+#: src/features/identity/IdentitySetup.tsx
+#: src/features/identity/Welcome.tsx
+msgid "Your people, your agents, one place."
+msgstr "Your people, your agents, one place."
+
+#: src/features/identity/SignOut.tsx
+msgid "Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in."
+msgstr "Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in."
+
 #: src/app/ProfileSettings.tsx
 #: src/app/shell/ProfileButton.tsx
+#: src/features/communities/CommunityDialog.tsx
 msgid "Your profile"
 msgstr "Your profile"
 
@@ -2234,6 +3252,14 @@ msgstr "Your profile has unsaved changes."
 #: src/app/ProfileSettings.tsx
 msgid "Your profile in {0} couldn’t be loaded."
 msgstr "Your profile in {0} couldn’t be loaded."
+
+#: src/features/identity/PublicKeyPanel.tsx
+msgid "Your public key (npub)"
+msgstr "Your public key (npub)"
+
+#: src/features/identity/SignOut.tsx
+msgid "Your settings, agents and other Buzz data stay on this device. Sign back in with this key and they’ll be here. Agents start only for this key."
+msgstr "Your settings, agents and other Buzz data stay on this device. Sign back in with this key and they’ll be here. Agents start only for this key."
 
 #: src/app/shell/ProfileButton.tsx
 msgid "Your status is unavailable"

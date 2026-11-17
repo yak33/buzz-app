@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import {
   CommunityAddressField,
@@ -25,6 +26,7 @@ export function CreateCommunityStep({
   onCreated: (origin: string) => void;
   onBack: () => void;
 }) {
+  const { t } = useLingui();
   const address = useCommunityAddress(account.communityAvailable, true);
   const [busy, setBusy] = useState(false);
   // A refusal belongs to the name it refused, so editing the name clears it;
@@ -55,10 +57,10 @@ export function CreateCommunityStep({
           tabIndex={-1}
           className="text-heading text-standard"
         >
-          Create a community
+          {t`Create a community`}
         </h1>
         <p className="mt-2 text-body text-subtle">
-          Choose the address your team will use to connect.
+          {t`Choose the address your team will use to connect.`}
         </p>
       </div>
       <WireframePanel>
@@ -78,7 +80,7 @@ export function CreateCommunityStep({
           loading={busy}
           disabled={!address.ready || Boolean(refusal)}
         >
-          Create community
+          {t`Create community`}
         </Button>
       </div>
     </form>

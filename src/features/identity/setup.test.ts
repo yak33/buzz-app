@@ -1,3 +1,5 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { expect, it, vi } from "vitest";
 import type { FirstRunAccount } from "./builderlab-account";
 import { BackupError } from "./backup";
@@ -13,16 +15,16 @@ import {
   type SetupStep,
 } from "./setup";
 
-const ok = (label: string): SetupStep => ({
+const ok = (label: MessageDescriptor): SetupStep => ({
   label,
   run: vi.fn(() => Promise.resolve()),
 });
 /** Fails until `heal`, with a retryable error when asked. */
-function flaky(label: string, retryable: boolean) {
+function flaky(label: MessageDescriptor, retryable: boolean) {
   let broken = true;
   const run = vi.fn(async () => {
     if (broken)
-      throw Object.assign(new Error(`${label} failed`), { retryable });
+      throw Object.assign(new Error("step failed"), { retryable });
   });
   const step: SetupStep = { label, run };
   return { step, run, heal: () => (broken = false) };
@@ -30,16 +32,16 @@ function flaky(label: string, retryable: boolean) {
 
 it("retries from the failed step and rests where the steps would have", async () => {
   const setup = createSetup();
-  const before = ok("Before");
-  const failing = flaky("Linking", true);
-  const after = ok("After");
+  const before = ok(msg`Before`);
+  const failing = flaky(msg`Linking`, true);
+  const after = ok(msg`After`);
   await setup.start([before, failing.step, after], {
     status: "paused",
     at: "welcome-back",
   });
   expect(setup.snapshot()).toEqual({
     status: "failed",
-    error: "Linking failed",
+    error: "step failed",
     retryable: true,
     skipsLink: false,
     bound: false,
@@ -59,12 +61,12 @@ it.each(["pubkey_already_bound", "identity_already_bound"])(
     const setup = createSetup();
     const refusal = Object.assign(new Error("Refused"), { code });
     await setup.start([
-      { label: "Linking", run: () => Promise.reject<void>(refusal) },
+      { label: msg`Linking`, run: () => Promise.reject<void>(refusal) },
     ]);
     expect(setup.snapshot()).toMatchObject({ status: "failed", bound: true });
     await setup.start([
       {
-        label: "Linking",
+        label: msg`Linking`,
         run: () =>
           Promise.reject<void>(
             Object.assign(new Error("Busy"), { code: "too_many_attempts" }),
@@ -77,10 +79,10 @@ it.each(["pubkey_already_bound", "identity_already_bound"])(
 
 it("reports an error as not retryable only when it says so", async () => {
   const setup = createSetup();
-  await setup.start([flaky("Backing up", false).step]);
+  await setup.start([flaky(msg`Backing up`, false).step]);
   expect(setup.snapshot()).toEqual({
     status: "failed",
-    error: "Backing up failed",
+    error: "step failed",
     retryable: false,
     skipsLink: false,
     bound: false,
@@ -88,13 +90,13 @@ it("reports an error as not retryable only when it says so", async () => {
   // An error that does not say keeps Try again, which may help.
   await setup.start([
     {
-      label: "Plain",
+      label: msg`Plain`,
       run: () => Promise.reject<void>(new Error("Plain failed")),
     },
   ]);
   expect(setup.snapshot()).toMatchObject({ retryable: true });
   await setup.start([
-    { label: "Odd", run: () => Promise.reject<void>("text") },
+    { label: msg`Odd`, run: () => Promise.reject<void>("text") },
   ]);
   expect(setup.snapshot()).toMatchObject({ retryable: true });
 });
@@ -112,9 +114,9 @@ it.each([
         : Promise.resolve();
     const setup = createSetup();
     await setup.start([
-      { label: "Unlinking", run: run(0) },
-      { label: "Linking", run: run(1), links: true },
-      { label: "Backing up", run: run(2) },
+      { label: msg`Unlinking`, run: run(0) },
+      { label: msg`Linking`, run: run(1), links: true },
+      { label: msg`Backing up`, run: run(2) },
     ]);
     expect(setup.snapshot()).toMatchObject({ status: "failed", skipsLink });
   },
@@ -137,10 +139,10 @@ it("ignores Try again unless failed, and a second click", async () => {
           release = resolve;
         }),
     );
-  const after = ok("After");
-  await setup.start([{ label: "Backing up", run }, after]);
+  const after = ok(msg`After`);
+  await setup.start([{ label: msg`Backing up`, run }, after]);
   const first = setup.retry();
-  expect(setup.snapshot()).toEqual({ status: "running", label: "Backing up" });
+  expect(setup.snapshot()).toEqual({ status: "running", label: msg`Backing up` });
   await setup.retry();
   release();
   await first;
@@ -284,9 +286,9 @@ it("a refused save while keeping a listed backup fails setup as an interrupted b
 
 it("a step that rests idle ends setup past the caller's rest, also when a retry reaches it", async () => {
   const setup = createSetup();
-  const failing = flaky("Linking", true);
+  const failing = flaky(msg`Linking`, true);
   const enter: SetupStep = {
-    label: "Restoring",
+    label: msg`Restoring`,
     run: async () => ({ status: "idle" }) as const,
   };
   await setup.start([failing.step, enter], { status: "done" });
@@ -305,10 +307,10 @@ it.each([
   ["unfinished linking", true, true, "not_offered"],
 ] as const)("cannot bypass %s", async (_name, backup, links, kind) => {
   const setup = createSetup();
-  const after = ok("Finish");
+  const after = ok(msg`Finish`);
   await setup.start([
     {
-      label: "Fail",
+      label: msg`Fail`,
       backup,
       run: async () => {
         throw new BackupError(kind);
@@ -324,22 +326,22 @@ it.each([
 it("runs the steps a step decides on next, before the rest, and retries from them", async () => {
   const setup = createSetup();
   const order: string[] = [];
-  const failing = flaky("Linking", true);
+  const failing = flaky(msg`Linking`, true);
   const decided: SetupStep = {
-    label: "Decided",
+    label: msg`Decided`,
     run: async () => {
       order.push("Decided");
     },
   };
   const decide: SetupStep = {
-    label: "Checking",
+    label: msg`Checking`,
     run: async () => {
       order.push("Checking");
       return { next: [decided, failing.step] };
     },
   };
   const after: SetupStep = {
-    label: "After",
+    label: msg`After`,
     run: async () => {
       order.push("After");
     },

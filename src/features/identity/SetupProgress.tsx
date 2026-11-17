@@ -1,6 +1,9 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import styles from "./IdentitySetup.module.css";
 
-export function SetupProgress({ label }: { label: string }) {
+export function SetupProgress({ label }: { label: MessageDescriptor }) {
+  const { i18n, t } = useLingui();
   return (
     <div className={styles.progress}>
       <span className={styles.loadingBee} aria-hidden="true" />
@@ -9,10 +12,10 @@ export function SetupProgress({ label }: { label: string }) {
         tabIndex={-1}
         className="text-heading text-standard"
       >
-        Getting ready
+        {t`Getting ready`}
       </h1>
       <span role="status" className="sr-only">
-        {label}
+        {i18n._(label)}
       </span>
     </div>
   );

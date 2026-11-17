@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import type { Recovery } from "./builderlab-account";
@@ -23,6 +24,7 @@ export function KeyRestore({
   onImport: () => void;
   onInstalled: () => void;
 }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(recovery.subscribe, recovery.snapshot);
   const candidate =
     state?.status === "choosing"
@@ -50,21 +52,21 @@ export function KeyRestore({
   const off = recoveryOff(state);
   const canRetry = !off && (state?.status === "error" || partial);
   const description = off
-    ? "Backup restoration isn’t available for this account. Enter your private key to continue."
+    ? t`Backup restoration isn’t available for this account. Enter your private key to continue.`
     : partial
-      ? "We couldn’t check all your backups. Try again, or enter your private key if you have a copy."
+      ? t`We couldn’t check all your backups. Try again, or enter your private key if you have a copy.`
       : state?.status === "choosing" && !candidate
         ? state.candidates.length === 0
-          ? "We couldn’t find a key backup in this Builderlab account. If you have a copy of your private key, you can enter it instead."
-          : "We found backups, but none contains the key linked to your account. Enter your private key to continue."
+          ? t`We couldn’t find a key backup in this Builderlab account. If you have a copy of your private key, you can enter it instead.`
+          : t`We found backups, but none contains the key linked to your account. Enter your private key to continue.`
         : state?.status === "error"
           ? // Native names the cause: canceled, timed out, offline or a retry.
-            `${state.error} Or enter your private key if you have a copy.`
+            `${state.error} ${t`Or enter your private key if you have a copy.`}`
           : saving
-            ? "Restoring your key…"
+            ? t`Restoring your key…`
             : canceling
-              ? "Canceling recovery…"
-              : "Restoring your key…";
+              ? t`Canceling recovery…`
+              : t`Restoring your key…`;
   return (
     <OnboardingScreen
       labelledBy="welcome-title"
@@ -75,11 +77,11 @@ export function KeyRestore({
             tabIndex={-1}
             className="text-heading text-standard"
           >
-            {failed ? "Couldn’t restore your key" : "Restore your key"}
+            {failed ? t`Couldn’t restore your key` : t`Restore your key`}
           </h1>
           {email && (
             <p className="break-words text-body-sm text-subtle">
-              Signed in as {email}
+              {t`Signed in as ${email}`}
             </p>
           )}
           <p
@@ -90,7 +92,7 @@ export function KeyRestore({
           </p>
           {state?.status === "waiting" && (
             <p className="text-body-sm text-subtle">
-              Complete sign-in in your browser if prompted.
+              {t`Complete sign-in in your browser if prompted.`}
             </p>
           )}
         </>
@@ -103,23 +105,23 @@ export function KeyRestore({
             variant="prominent"
             onClick={() => void leave(onImport)}
           >
-            Enter my private key
+            {t`Enter my private key`}
           </Button>
           {onLost && (
             <Button size="lg" onClick={() => void leave(onLost)}>
-              I lost my key
+              {t`I lost my key`}
             </Button>
           )}
           {canRetry && (
             <Button size="lg" variant="ghost" onClick={() => void retry()}>
-              Try again
+              {t`Try again`}
             </Button>
           )}
         </>
       )}
       <div data-onboarding-actions="">
         <OnboardingBack
-          aria-label={!failed && !saving ? "Cancel" : "Back"}
+          aria-label={!failed && !saving ? t`Cancel` : t`Back`}
           disabled={saving || canceling}
           onClick={() => void leave(onBack)}
         />

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { OnboardingBack } from "./OnboardingBack";
 import { useId, useRef, useState } from "react";
 import { npubEncode } from "nostr-tools/nip19";
@@ -40,6 +42,7 @@ export function KeyImport({
   /** Rejects with the native refusal, shown under the field. */
   onImport: (nsec: string) => Promise<void>;
 }) {
+  const { i18n, t } = useLingui();
   const [text, setText] = useState("");
   const [revealed, setRevealed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -63,7 +66,9 @@ export function KeyImport({
       change(await readKeyFile(file));
     } catch (error) {
       setFailure(
-        error instanceof Error ? error.message : "Couldn’t read that file.",
+        error instanceof Error
+          ? error.message
+          : i18n._(msg`Couldn’t read that file.`),
       );
     }
   };
@@ -76,7 +81,9 @@ export function KeyImport({
       await onImport(input.nsec);
     } catch (error) {
       setFailure(
-        error instanceof Error ? error.message : "Couldn’t import this key.",
+        error instanceof Error
+          ? error.message
+          : i18n._(msg`Couldn’t import this key.`),
       );
     } finally {
       setBusy(false);
@@ -86,16 +93,16 @@ export function KeyImport({
     failure ??
     (mismatch ? (
       <>
-        That isn’t the key linked to this account. It expects{" "}
+        {t`That isn’t the key linked to this account. It expects`}{" "}
         <code className="select-text break-all font-mono text-mono">
           {expected}
         </code>{" "}
-        (the key on your other device).
+        {t`(the key on your other device).`}
       </>
     ) : input.kind === "encrypted" ? (
-      "Password-protected backups aren’t supported here yet. Paste the nsec1 key itself."
+      t`Password-protected backups aren’t supported here yet. Paste the nsec1 key itself.`
     ) : input.kind === "invalid" ? (
-      "That doesn’t look like a valid nsec. Paste an nsec1 key."
+      t`That doesn’t look like a valid nsec. Paste an nsec1 key.`
     ) : undefined);
   return (
     <OnboardingScreen
@@ -103,7 +110,7 @@ export function KeyImport({
       intro={
         busy ? (
           <div className={`${styles.importContent} items-center`}>
-            <SetupProgress label="Importing your key…" />
+            <SetupProgress label={msg`Importing your key…`} />
           </div>
         ) : (
           <>
@@ -122,30 +129,27 @@ export function KeyImport({
                 tabIndex={-1}
                 className="text-heading text-standard"
               >
-                Enter your private key
+                {t`Enter your private key`}
               </h1>
               <p className="text-body text-subtle">
-                Paste your private key to sign in to Buzz. You can also select
-                or drop a text file with your key.
+                {t`Paste your private key to sign in to Buzz. You can also select or drop a text file with your key.`}
               </p>
               {automaticBackup && (
                 <p className="text-body-sm text-subtle">
-                  Buzz will automatically sync this key with your Builderlab
-                  account
+                  {t`Buzz will automatically sync this key with your Builderlab account`}
                   {automaticBackup === "kept" &&
-                    " unless you chose to manage it yourself"}
-                  . Block can use that copy to restore your identity, including
-                  anywhere else you use it.
+                    t` unless you chose to manage it yourself`}
+                  {t`. Block can use that copy to restore your identity, including anywhere else you use it.`}
                 </p>
               )}
               <div className={styles.importForm}>
                 <Field
-                  label="Private key (nsec)"
+                  label={t`Private key (nsec)`}
                   error={message}
                   description={
                     input.kind === "nsec" && (
                       <>
-                        Public identity:{" "}
+                        {t`Public identity:`}{" "}
                         <code className="select-text break-all font-mono text-mono">
                           {input.npub}
                         </code>
@@ -161,8 +165,8 @@ export function KeyImport({
                             type="button"
                             aria-label={
                               revealed
-                                ? "Hide private key"
-                                : "Reveal private key"
+                                ? t`Hide private key`
+                                : t`Reveal private key`
                             }
                             icon={revealed ? <EyeSlashIcon /> : <EyeIcon />}
                             onClick={() => setRevealed(!revealed)}
@@ -188,21 +192,21 @@ export function KeyImport({
                         size="md"
                         onClick={() => picker.current?.click()}
                       >
-                        Browse
+                        {t`Browse`}
                       </Button>
                     </div>
                   </div>
                 </Field>
                 {dragging && (
                   <p className="m-0 text-body-sm text-subtle">
-                    Drop to use this file.
+                    {t`Drop to use this file.`}
                   </p>
                 )}
               </div>
               {onLost && (
                 <div className="flex justify-start">
                   <Button variant="link" onClick={onLost}>
-                    I lost my key
+                    {t`I lost my key`}
                   </Button>
                 </div>
               )}
@@ -213,7 +217,7 @@ export function KeyImport({
               type="file"
               className="sr-only"
               tabIndex={-1}
-              aria-label="Key file"
+              aria-label={t`Key file`}
               accept=".txt,.key,text/plain"
               onChange={(event) => {
                 const file = event.target.files?.[0];
@@ -234,7 +238,7 @@ export function KeyImport({
             variant="prominent"
             disabled={!ready}
           >
-            Continue with this key
+            {t`Continue with this key`}
           </Button>
           <OnboardingBack type="button" onClick={onBack} />
         </>

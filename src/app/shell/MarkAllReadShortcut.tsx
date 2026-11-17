@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { channelHasUnread } from "../../bundled/channels/useSidebarFilters";
 import { inTerminal } from "../../bundled/channels/conversation-rows";
@@ -26,6 +27,7 @@ export function MarkAllReadShortcut({
   communities: Communities;
   shortcuts: SearchServices["shortcuts"];
 }) {
+  const { i18n, t } = useLingui();
   const client = useSyncExternalStore(
     communities.subscribe,
     communities.snapshot,
@@ -52,11 +54,12 @@ export function MarkAllReadShortcut({
   // A different session retires an open question about the old one.
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only the session retires it.
   useEffect(() => setAsking(undefined), [session]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: t 每次渲染重建，重新注册快捷键只需 session 变化。
   useEffect(() => {
     if (!session || !name) return;
     return shortcuts.registerHost({
       id: "mark-all-read",
-      title: "Mark all as read",
+      title: t`Mark all as read`,
       binding: { key: "Escape", shift: true },
       order: 76,
       allowInEditable: true,
@@ -74,15 +77,15 @@ export function MarkAllReadShortcut({
   const close = () => setAsking(undefined);
   return (
     <AlertDialog
-      title="Mark everything as read?"
-      description={`Every conversation in ${asking.name} will show as read. You can still mark a conversation unread afterward.`}
+      title={t`Mark everything as read?`}
+      description={t`Every conversation in ${asking.name} will show as read. You can still mark a conversation unread afterward.`}
       pending={pending}
       initialFocus={proceed}
       onClose={close}
       actions={
         <>
           <Button disabled={pending} onClick={close}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             ref={proceed}
@@ -90,13 +93,13 @@ export function MarkAllReadShortcut({
             loading={pending}
             onClick={() => {
               setPending(true);
-              void markAllRead(asking.unread, notify).finally(() => {
+              void markAllRead(asking.unread, notify, i18n).finally(() => {
                 setPending(false);
                 close();
               });
             }}
           >
-            Mark all as read
+            {t`Mark all as read`}
           </Button>
         </>
       }

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { OnboardingBack } from "./OnboardingBack";
 import {
   useEffect,
@@ -29,6 +30,7 @@ export function IdentitySetup({
   identity: Identity;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(identity.subscribe, identity.snapshot);
   const [importing, setImporting] = useState(false);
   const [nsec, setNsec] = useState("");
@@ -73,7 +75,7 @@ export function IdentitySetup({
               <OnboardingWordmark />
             </h1>
             <p className={styles.tagline}>
-              Your people, your agents, one place.
+              {t`Your people, your agents, one place.`}
             </p>
           </>
         }
@@ -88,7 +90,7 @@ export function IdentitySetup({
                 disabled={state.busy}
                 onClick={() => void identity.importLegacy()}
               >
-                Continue with your Buzz identity
+                {t`Continue with your Buzz identity`}
               </Button>
             )}
             <Button
@@ -97,7 +99,7 @@ export function IdentitySetup({
               disabled={state.busy}
               onClick={() => void identity.create()}
             >
-              Create a new identity
+              {t`Create a new identity`}
             </Button>
             <Button
               ref={(button) => {
@@ -110,7 +112,7 @@ export function IdentitySetup({
               disabled={state.busy}
               onClick={() => setImporting(true)}
             >
-              Use an existing key
+              {t`Use an existing key`}
             </Button>
             {available.backup && (
               <Button
@@ -119,12 +121,12 @@ export function IdentitySetup({
                 disabled={state.busy}
                 onClick={() => void identity.beginRecovery()}
               >
-                Restore from backup
+                {t`Restore from backup`}
               </Button>
             )}
           </>
         )}
-        {state.busy && <p role="status">Saving your identity securely…</p>}
+        {state.busy && <p role="status">{t`Saving your identity securely…`}</p>}
       </OnboardingScreen>
     );
   }
@@ -146,23 +148,24 @@ export function IdentitySetup({
       >
         <div className={importing ? styles.importContent : styles.setupContent}>
           <h1 id="identity-setup-title" className="text-heading">
-            {importing ? "Use your existing identity" : "Your Buzz identity"}
+            {importing
+              ? t`Use your existing identity`
+              : t`Your Buzz identity`}
           </h1>
           {state.status === "loading" ? (
-            <p role="status">Opening your saved identity…</p>
+            <p role="status">{t`Opening your saved identity…`}</p>
           ) : state.status === "error" ? (
             <>
               <p role="alert">{state.error}</p>
               <Button onClick={() => void identity.retry()}>
-                Retry secure storage access
+                {t`Retry secure storage access`}
               </Button>
             </>
           ) : (
             <>
               {!importing && (
                 <p>
-                  Your key is stored securely on this device. No community is
-                  joined automatically.
+                  {t`Your key is stored securely on this device. No community is joined automatically.`}
                 </p>
               )}
               {state.error && <p role="alert">{state.error}</p>}
@@ -183,9 +186,9 @@ export function IdentitySetup({
                   }}
                 >
                   <Field
-                    label="Private key (nsec)"
+                    label={t`Private key (nsec)`}
                     controlId="import-nsec"
-                    description="Copy this from Identity details in your old Buzz app. Never share it with anyone."
+                    description={t`Copy this from Identity details in your old Buzz app. Never share it with anyone.`}
                   >
                     <Input
                       autoFocus
@@ -201,7 +204,7 @@ export function IdentitySetup({
                 </form>
               ) : null}
               {state.busy && !state.recovery && (
-                <p role="status">Saving your identity securely…</p>
+                <p role="status">{t`Saving your identity securely…`}</p>
               )}
             </>
           )}
@@ -215,7 +218,7 @@ export function IdentitySetup({
               variant="prominent"
               disabled={state.busy || !nsec.trim()}
             >
-              Import this identity
+              {t`Import this identity`}
             </Button>
             <OnboardingBack
               type="button"

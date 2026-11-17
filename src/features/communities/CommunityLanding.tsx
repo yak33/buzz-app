@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState, useSyncExternalStore } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Field } from "../../shared/design-system/ui/Field";
@@ -32,6 +33,7 @@ export function CommunityLanding({
   onJoined(id: string): void;
   onCreate(): void;
 }) {
+  const { t } = useLingui();
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
   const [joining, setJoining] = useState<InviteLink>();
@@ -62,7 +64,7 @@ export function CommunityLanding({
       intro={
         <>
           <h1 id="community-landing-title" className="text-heading">
-            Join a community
+            {t`Join a community`}
           </h1>
           <form
             className="mt-4 grid w-full max-w-md gap-4 text-left"
@@ -75,12 +77,12 @@ export function CommunityLanding({
                 setError(
                   pastedInviteError(
                     link,
-                    "Paste an invite link or community URL.",
+                    t`Paste an invite link or community URL.`,
                   ),
                 );
             }}
           >
-            <Field label="Invite link or community URL" error={error}>
+            <Field label={t`Invite link or community URL`} error={error}>
               <Input
                 autoFocus
                 value={link}
@@ -99,7 +101,7 @@ export function CommunityLanding({
               variant="prominent"
               disabled={!link.trim()}
             >
-              Join
+              {t`Join`}
             </Button>
           </form>
         </>
@@ -107,7 +109,7 @@ export function CommunityLanding({
     >
       {hostedAvailable && (
         <Button size="lg" variant="subtle" onClick={onCreate}>
-          Create a community
+          {t`Create a community`}
         </Button>
       )}
     </OnboardingScreen>

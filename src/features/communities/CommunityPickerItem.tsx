@@ -1,3 +1,6 @@
+import type { I18n } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -53,10 +56,11 @@ const noSubscription = () => () => {};
 export function markAllRead(
   unread: Pick<UnreadCapability, "markAllChannelsRead">,
   notify: ReturnType<typeof useToastNotification>,
+  i18n: I18n,
 ) {
   return unread.markAllChannelsRead().then(
-    () => notify("Marked all as read.", "success"),
-    () => notify("Couldn’t mark everything as read.", "error"),
+    () => notify(i18n._(msg`Marked all as read.`), "success"),
+    () => notify(i18n._(msg`Couldn’t mark everything as read.`), "error"),
   );
 }
 
@@ -90,6 +94,7 @@ export function CommunityPickerItem({
   /** Asks the picker to confirm and run a leave; the picker owns the dialog. */
   onLeave: (membership: Membership) => void;
 }) {
+  const { i18n, t } = useLingui();
   // A keyboard open anchors to the picker item; a pointer open leaves the anchor
   // to Base UI's cursor point.
   const [menu, setMenu] = useState<{
@@ -143,8 +148,8 @@ export function CommunityPickerItem({
   };
   const copy = () =>
     writeClipboardText(origin).then(
-      () => notify("Community URL copied.", "success"),
-      () => notify("Couldn’t copy the community URL.", "error"),
+      () => notify(i18n._(msg`Community URL copied.`), "success"),
+      () => notify(i18n._(msg`Couldn’t copy the community URL.`), "error"),
     );
   return (
     <ContextMenuRoot
@@ -165,7 +170,7 @@ export function CommunityPickerItem({
           }}
           label={name}
           title={`${name} — ${origin}`}
-          aria-label={`Switch to ${name}`}
+          aria-label={t`Switch to ${name}`}
           aria-current={selected ? "true" : undefined}
           selected={selected}
           icon={
@@ -181,7 +186,7 @@ export function CommunityPickerItem({
         />
       </ContextMenuTrigger>
       <MenuPopup
-        aria-label={`Actions for ${name}`}
+        aria-label={t`Actions for ${name}`}
         size="compact"
         anchor={menu?.anchor}
         side={menu?.anchor ? "right" : "bottom"}
@@ -208,13 +213,14 @@ export function CommunityPickerItem({
           selected={selected}
           session={session}
           notify={notify}
+          i18n={i18n}
         />
         <MenuSeparator />
         <MenuItem onClick={() => void copy()}>
           <MenuIcon>
             <LinkIcon size={14} />
           </MenuIcon>
-          Copy community URL
+          {t`Copy community URL`}
         </MenuItem>
         {selected && manager && scope && onOpenTarget && (
           <MenuItem
@@ -230,7 +236,7 @@ export function CommunityPickerItem({
             <MenuIcon>
               <TicketIcon size={14} />
             </MenuIcon>
-            Invite to community
+            {t`Invite to community`}
           </MenuItem>
         )}
         <MenuSeparator />
@@ -244,7 +250,7 @@ export function CommunityPickerItem({
           <MenuIcon>
             <SignOutIcon size={14} />
           </MenuIcon>
-          {leaving ? "Leaving…" : "Leave community"}
+          {leaving ? t`Leaving…` : t`Leave community`}
         </MenuItem>
       </MenuPopup>
     </ContextMenuRoot>
@@ -257,12 +263,15 @@ function MarkAllReadItem({
   selected,
   session,
   notify,
+  i18n,
 }: {
   name: string;
   selected: boolean;
   session: SelectedSession | undefined;
   notify: ReturnType<typeof useToastNotification>;
+  i18n: I18n;
 }) {
+  const { t } = useLingui();
   const noteId = useId();
   const unread = session?.unread;
   const subscribe = useCallback(
@@ -278,11 +287,11 @@ function MarkAllReadItem({
   // Read state is session-bound and validated against the relay snapshot, so an
   // inactive community cannot be marked without acquiring it.
   const reason = !selected
-    ? "Only the selected community can be marked as read."
+    ? t`Only the selected community can be marked as read.`
     : !unread
-      ? `Waiting for ${name} to connect.`
+      ? t`Waiting for ${name} to connect.`
       : capability !== "frontier-sync"
-        ? "Read state can’t sync on this connection."
+        ? t`Read state can’t sync on this connection.`
         : undefined;
   return (
     <>
@@ -291,13 +300,13 @@ function MarkAllReadItem({
         aria-describedby={reason ? noteId : undefined}
         onClick={() => {
           if (!unread || reason) return;
-          void markAllRead(unread, notify);
+          void markAllRead(unread, notify, i18n);
         }}
       >
         <MenuIcon>
           <ChecksIcon size={14} />
         </MenuIcon>
-        Mark all as read
+        {t`Mark all as read`}
       </MenuItem>
       {reason && <MenuNote id={noteId}>{reason}</MenuNote>}
     </>

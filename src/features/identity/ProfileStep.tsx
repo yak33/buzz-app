@@ -1,3 +1,6 @@
+import type { I18n } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import type { inspectProfile } from "../communities/api";
 import type { FoundCommunity } from "../communities/find-community";
@@ -28,6 +31,7 @@ export function ProfileStep({
   /** Publishes the trimmed draft and finishes the join; a rejection keeps the step. */
   onContinue: (profile: PersonalProfile) => Promise<void>;
 }) {
+  const { i18n, t } = useLingui();
   const [draft, setDraft] = useState<PersonalProfile>(() =>
     read.exists ? read.profile : { name: defaultName, picture: "", about: "" },
   );
@@ -41,7 +45,7 @@ export function ProfileStep({
     try {
       await action();
     } catch (reason) {
-      setError(publishFailure(found.host, reason));
+      setError(publishFailure(found.host, reason, i18n));
       setBusy(false);
     }
   };
@@ -66,11 +70,11 @@ export function ProfileStep({
           tabIndex={-1}
           className="text-heading text-standard"
         >
-          Set up your profile
+          {t`Set up your profile`}
         </h1>
         <p className="mt-2 break-all text-body text-subtle">{found.url}</p>
         <p className="mt-2 text-body text-subtle">
-          Enter a name for your community profile. You can change it later.
+          {t`Enter a name for your community profile. You can change it later.`}
         </p>
       </div>
       <WireframePanel>
@@ -98,7 +102,7 @@ export function ProfileStep({
           loading={busy}
           disabled={!canContinue}
         >
-          Continue
+          {t`Continue`}
         </Button>
       </div>
     </form>
@@ -109,10 +113,14 @@ export function ProfileStep({
  * native route's "Community request failed (500)", an unconfirmed receipt, a
  * readback that is not current, a device record that will not save) are
  * shown as is. */
-function publishFailure(host: string, error: unknown) {
+function publishFailure(host: string, error: unknown, i18n: I18n) {
   if (readErrorKind(error) === "denied")
-    return `${host} no longer admits this key. Ask a community administrator to restore your access.`;
+    return i18n._(
+      msg`${host} no longer admits this key. Ask a community administrator to restore your access.`,
+    );
   return error instanceof Error
     ? error.message
-    : "Could not reach the relay. Check your connection and try again.";
+    : i18n._(
+        msg`Could not reach the relay. Check your connection and try again.`,
+      );
 }

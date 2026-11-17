@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useRef,
@@ -187,6 +189,7 @@ export function BackupPrompt({
   /** The consent wait is over, by this answer or another. */
   ended?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const [saving, setSaving] = useState<boolean>();
   const [error, setError] = useState<string>();
   const sync = useRef<HTMLButtonElement>(null);
@@ -209,15 +212,15 @@ export function BackupPrompt({
           setError(
             typeof reason === "string"
               ? reason
-              : "Could not save your choice. Try again.",
+              : i18n._(msg`Could not save your choice. Try again.`),
           );
         },
       );
   };
   return (
     <AlertDialog
-      title="Back up your key?"
-      description="Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
+      title={t`Back up your key?`}
+      description={t`Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one.`}
       onClose={onClose}
       initialFocus={sync}
       finalFocus={finalFocus}
@@ -230,7 +233,7 @@ export function BackupPrompt({
             loading={saving === false}
             onClick={() => answer(false)}
           >
-            I will manage my own key
+            {t`I will manage my own key`}
           </Button>
           <Button
             ref={sync}
@@ -240,7 +243,7 @@ export function BackupPrompt({
             loading={saving === true}
             onClick={() => answer(true)}
           >
-            Back up key
+            {t`Back up key`}
           </Button>
         </>
       }

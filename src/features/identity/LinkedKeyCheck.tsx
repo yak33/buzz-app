@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   type ReactNode,
   useEffect,
@@ -88,6 +89,7 @@ export function LinkedKeyCheck({
   /** Rendered throughout, told whether this check is asking. */
   children?: (asking: boolean) => ReactNode;
 }) {
+  const { t } = useLingui();
   const session = useSession(federated);
   const revision =
     session?.status === "signed-in" && session.authority
@@ -155,31 +157,31 @@ export function LinkedKeyCheck({
     rememberDismissed(question);
     setFound(undefined);
   };
-  const account = session?.email ?? "Your Builderlab account";
+  const account = session?.email ?? t`Your Builderlab account`;
+  // 先在 t 插值之外求值：嵌套 t 宏在插值内会被宏编译器丢弃。
+  const backupNote = found.backedUp
+    ? t`This computer’s key was backed up in Builderlab: sign in to its account to restore it.`
+    : t`This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it.`;
   const prompt = found.restorable ? (
     <AlertDialog
-      title="Your account uses a different key"
-      description={`${account} is linked to a different key than the one on this computer, and Builderlab has a backup of it. Replacing removes this computer’s key and restarts Buzz to restore your account’s key. ${
-        found.backedUp
-          ? "This computer’s key was backed up in Builderlab: sign in to its account to restore it."
-          : "This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it."
-      }`}
+      title={t`Your account uses a different key`}
+      description={t`${account} is linked to a different key than the one on this computer, and Builderlab has a backup of it. Replacing removes this computer’s key and restarts Buzz to restore your account’s key. ${backupNote}`}
       onClose={dismiss}
       actions={
         <>
-          <Button onClick={dismiss}>Not now</Button>
+          <Button onClick={dismiss}>{t`Not now`}</Button>
           <Button variant="destructive" onClick={() => onReplace(found.linked)}>
-            Replace
+            {t`Replace`}
           </Button>
         </>
       }
     />
   ) : (
     <AlertDialog
-      title="Your account uses a different key"
-      description={`${account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here.`}
+      title={t`Your account uses a different key`}
+      description={t`${account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here.`}
       onClose={dismiss}
-      actions={<Button onClick={dismiss}>OK</Button>}
+      actions={<Button onClick={dismiss}>{t`OK`}</Button>}
     />
   );
   return (

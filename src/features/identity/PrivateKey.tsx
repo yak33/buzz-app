@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useId,
@@ -44,6 +46,7 @@ export function PrivateKey({
     feedback: ReactNode;
   }) => ReactNode;
 }) {
+  const { i18n, t } = useLingui();
   const warningId = useId();
   const fieldRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -108,7 +111,9 @@ export function PrivateKey({
         await writeClipboardSecret(value);
         if (current === generation.current)
           setMessage(
-            "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute.",
+            i18n._(
+              msg`Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute.`,
+            ),
           );
       } else {
         focusReveal.current =
@@ -122,8 +127,12 @@ export function PrivateKey({
         setFailed(true);
         setMessage(
           copy
-            ? "Couldn’t copy your private key. Reveal it to copy manually, or retry."
-            : "Couldn’t reveal your private key. Retry when secure storage is available.",
+            ? i18n._(
+                msg`Couldn’t copy your private key. Reveal it to copy manually, or retry.`,
+              )
+            : i18n._(
+                msg`Couldn’t reveal your private key. Retry when secure storage is available.`,
+              ),
         );
       }
     } finally {
@@ -135,7 +144,7 @@ export function PrivateKey({
     <Input
       ref={fieldRef}
       id="identity-private-key"
-      aria-label="Private key (nsec)"
+      aria-label={t`Private key (nsec)`}
       aria-describedby={warningId}
       readOnly={presentation !== "magnetic" || !secret}
       aria-readonly="true"
@@ -164,7 +173,7 @@ export function PrivateKey({
                 ref={triggerRef}
                 appearance="masked"
                 prefix="nsec"
-                aria-label="Private key actions"
+                aria-label={t`Private key actions`}
                 aria-describedby={warningId}
               />
             }
@@ -179,7 +188,7 @@ export function PrivateKey({
                   <IconButton
                     ref={triggerRef}
                     type="button"
-                    aria-label="Private key actions"
+                    aria-label={t`Private key actions`}
                     icon={<CaretDownIcon aria-hidden="true" />}
                   />
                 }
@@ -195,22 +204,22 @@ export function PrivateKey({
           finalFocus={secret ? fieldRef : triggerRef}
         >
           <MenuGroup>
-            <MenuGroupLabel>Private key</MenuGroupLabel>
+            <MenuGroupLabel>{t`Private key`}</MenuGroupLabel>
             <MenuItem
-              aria-label="Copy private key"
+              aria-label={t`Copy private key`}
               disabled={busy}
               onClick={() => void access(true)}
             >
-              Copy
+              {t`Copy`}
             </MenuItem>
             <MenuItem
-              aria-label={secret ? "Hide private key" : "Reveal private key"}
+              aria-label={secret ? t`Hide private key` : t`Reveal private key`}
               disabled={busy && !secret}
               onClick={() => (secret ? hide() : void access(false))}
             >
-              {secret ? "Hide" : "Reveal"}
+              {secret ? t`Hide` : t`Reveal`}
             </MenuItem>
-            {busy && <MenuItem onClick={hide}>Cancel</MenuItem>}
+            {busy && <MenuItem onClick={hide}>{t`Cancel`}</MenuItem>}
           </MenuGroup>
         </MenuPopup>
       </MenuRoot>
@@ -219,7 +228,7 @@ export function PrivateKey({
     );
   const warning = (
     <p id={warningId} className="text-body-sm text-muted">
-      Anyone with this key can act as you. Never share it.
+      {t`Anyone with this key can act as you. Never share it.`}
     </p>
   );
   const actions =
@@ -227,23 +236,23 @@ export function PrivateKey({
       <div className="mt-3 flex flex-wrap gap-3">
         <Button
           type="button"
-          aria-label={secret ? "Hide private key" : "Reveal private key"}
+          aria-label={secret ? t`Hide private key` : t`Reveal private key`}
           disabled={busy && !secret}
           onClick={() => (secret ? hide() : void access(false))}
         >
-          {secret ? "Hide private key" : "Reveal private key"}
+          {secret ? t`Hide private key` : t`Reveal private key`}
         </Button>
         <Button
           type="button"
-          aria-label="Copy private key"
+          aria-label={t`Copy private key`}
           disabled={busy}
           onClick={() => void access(true)}
         >
-          Copy private key
+          {t`Copy private key`}
         </Button>
         {busy && (
           <Button type="button" onClick={hide}>
-            Cancel
+            {t`Cancel`}
           </Button>
         )}
       </div>
@@ -251,8 +260,8 @@ export function PrivateKey({
   const feedback = message ? (
     presentation === "magnetic" && !failed ? (
       <ToastNotice
-        title="Private key copied"
-        description="Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+        title={t`Private key copied`}
+        description={t`Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute.`}
         tone="success"
         timeout={5000}
         onDismiss={() => setMessage("")}
@@ -268,7 +277,7 @@ export function PrivateKey({
         className="mb-2 block text-label-sm"
         htmlFor="identity-private-key"
       >
-        Private key (nsec)
+        {t`Private key (nsec)`}
       </label>
       {warning}
       {input}
