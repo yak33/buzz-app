@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { memo, type Ref } from "react";
 import type {
   CodeBlockRenderer,
@@ -43,12 +44,12 @@ export const CanvasMarkdown = memo(function CanvasMarkdown({
   openLink(url: string): boolean;
   codeBlocks?: ContributionReader<CodeBlockRenderer> | undefined;
 }) {
+  const { t } = useLingui();
   if (!renderable(content))
     return (
       <>
         <p role="status" className="text-secondary">
-          This Canvas is too large or too complex to render, so it is shown as
-          Markdown source.
+          {t`This Canvas is too large or too complex to render, so it is shown as Markdown source.`}
         </p>
         <MarkdownSource content={content} />
       </>
@@ -89,16 +90,17 @@ export function CanvasView({
   /** Only the active tab offers the panel host a focus target. */
   active: boolean;
 }) {
+  const { t } = useLingui();
   return (
     <LoadingRegion
       pending={!loaded && !readError}
-      label="Loading Canvas…"
+      label={t`Loading Canvas…`}
       feedback={
         readError ? (
           <div className={styles.failure}>
             <p role="alert">{readError}</p>
             <Button ref={retryRef} loading={busy} onClick={retry}>
-              Retry loading
+              {t`Retry loading`}
             </Button>
           </div>
         ) : undefined
@@ -108,7 +110,7 @@ export function CanvasView({
         ref={focusRef}
         tabIndex={-1}
         data-tab-focus={active || undefined}
-        aria-label="Saved Canvas"
+        aria-label={t`Saved Canvas`}
         className={styles.markdown}
       >
         {!loaded ? null : content ? (
@@ -118,7 +120,7 @@ export function CanvasView({
             codeBlocks={codeBlocks}
           />
         ) : (
-          <p className="text-secondary">This Canvas is empty.</p>
+          <p className="text-secondary">{t`This Canvas is empty.`}</p>
         )}
       </article>
     </LoadingRegion>

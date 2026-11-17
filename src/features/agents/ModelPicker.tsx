@@ -1,5 +1,6 @@
 // A type's model choice, shared by agent types for the New agent dialog and
 // their settings. Each type decides whether its catalog accepts custom IDs.
+import { useLingui } from "@lingui/react/macro";
 import {
   useId,
   useRef,
@@ -42,11 +43,8 @@ export type ModelChoice = Readonly<{
   loadEfforts?: () => Promise<readonly { id: string; label: string }[]>;
 }>;
 
-const CUSTOM_MODEL_ACTION: ModelChoice = {
-  id: "\0custom-model",
-  label: "Custom model",
-  description: "Enter a model ID",
-};
+/** The custom-model option's stable ID; its label is built per render. */
+const CUSTOM_MODEL_ID = "\0custom-model";
 
 /** Resolve artwork before passing an optional leading slot to a control. */
 export function modelLogo(model: string, className?: string) {
@@ -91,6 +89,7 @@ export function CustomModelDialog({
   onClose(): void;
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
 }) {
+  const { t } = useLingui();
   const [model, setModel] = useState(initialValue);
   const input = useRef<HTMLInputElement>(null);
   const form = useId();
@@ -101,20 +100,20 @@ export function CustomModelDialog({
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
-      title="Custom model"
+      title={t`Custom model`}
       headerGap="compact"
       initialFocus={input}
       finalFocus={finalFocus}
       actions={
         <>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose}>{t`Cancel`}</Button>
           <Button
             form={form}
             type="submit"
             variant="prominent"
             disabled={!model.trim()}
           >
-            Use model
+            {t`Use model`}
           </Button>
         </>
       }
@@ -128,11 +127,11 @@ export function CustomModelDialog({
           if (value) onSubmit(value);
         }}
       >
-        <Field label="Model ID" labelVisibility="hidden">
+        <Field label={t`Model ID`} labelVisibility="hidden">
           <Input
             ref={input}
             value={model}
-            placeholder="Enter a model ID"
+            placeholder={t`Enter a model ID`}
             required
             autoCorrect="off"
             autoCapitalize="none"
@@ -147,7 +146,7 @@ export function CustomModelDialog({
 
 /** `value` is a model ID, or "" for the type's default, `defaultLabel`. */
 export function ModelPicker({
-  label = "Model",
+  label,
   groupByFamily = false,
   leading,
   onConfigure,
@@ -199,6 +198,13 @@ export function ModelPicker({
 }) {
   const [customModel, setCustomModel] = useState<string | null>(null);
   const control = useRef<HTMLDivElement>(null);
+  const { t } = useLingui();
+  // 文案在渲染期构造，语言切换即时生效。
+  const customModelAction: ModelChoice = {
+    id: CUSTOM_MODEL_ID,
+    label: t`Custom model`,
+    description: t`Enter a model ID`,
+  };
   const defaultChoice = models.find((model) => model.id === defaultModel);
   const efforts = models.find(
     (model) => model.id === (value || defaultModel),
@@ -215,7 +221,9 @@ export function ModelPicker({
     listed.push({
       id: value,
       label: value,
-      description: allowCustomModel ? "Custom model" : "Unavailable model",
+      description: allowCustomModel
+        ? t`Custom model`
+        : t`Unavailable model`,
       unlisted: true,
     });
   // The default takes part in telling names apart, even when it is not a row.
@@ -228,11 +236,11 @@ export function ModelPicker({
     shown.find((model) => model.id === (value || defaultModel)) ?? shownDefault;
   const inherited = value === "";
   const selectedLabel = inherited
-    ? `${selected.label} · Default`
+    ? `${selected.label}${t` · Default`}`
     : selected.label;
   const discovering = loading && !pending;
   const choices =
-    allowCustomModel && !compact ? [...shown, CUSTOM_MODEL_ACTION] : shown;
+    allowCustomModel && !compact ? [...shown, customModelAction] : shown;
   const optionLogos = choices.map((model) =>
     modelLogo(`${model.id} ${model.label}`),
   );
@@ -268,12 +276,14 @@ export function ModelPicker({
                 : undefined
             }
             inherited={!discovering && inherited}
-            label={label}
+            label={label ?? t`Model`}
             compact={compact}
             onConfigure={onConfigure}
             models={shown.filter((model) => model.id !== "")}
             selected={
-              discovering ? { ...selected, label: "Loading models…" } : selected
+              discovering
+                ? { ...selected, label: t`Loading models…` }
+                : selected
             }
             defaultChoice={includeDefault ? shownDefault : undefined}
             disabled={disabled}
@@ -284,11 +294,11 @@ export function ModelPicker({
           />
         ) : (
           <Select
-            label={label}
+            label={label ?? t`Model`}
             value={selected.id}
-            valueLabel={discovering ? "Loading models…" : selected.label}
-            valueSuffix={!discovering && inherited ? " · Default" : undefined}
-            valueTitle={discovering ? "Loading models…" : selectedLabel}
+            valueLabel={discovering ? t`Loading models…` : selected.label}
+            valueSuffix={!discovering && inherited ? t` · Default` : undefined}
+            valueTitle={discovering ? t`Loading models…` : selectedLabel}
             leading={modelLogo(`${selected.id} ${selected.label}`)}
             variant={compact ? "compact" : "preference"}
             appearance={appearance}
@@ -301,7 +311,7 @@ export function ModelPicker({
                   value: model.id,
                   label:
                     includeDefault && model.id === ""
-                      ? `${model.label} · Default`
+                      ? `${model.label}${t` · Default`}`
                       : model.label,
                   description: model.description,
                   // The empty fragment reserves Select's icon column only in mixed lists.
@@ -314,14 +324,14 @@ export function ModelPicker({
             disabled={disabled || loading || pending}
             description={description}
             onValueChange={(model) => {
-              if (model === CUSTOM_MODEL_ACTION.id) openCustomDialog();
+              if (model === CUSTOM_MODEL_ID) openCustomDialog();
               else onChange(model);
             }}
           />
         )}
         {!groupByFamily && onEffortChange && efforts && efforts.length > 1 && (
           <Select
-            label="Thinking effort"
+            label={t`Thinking effort`}
             value={effort ?? ""}
             valueLabel={effortLabel}
             variant={compact ? "compact" : "preference"}

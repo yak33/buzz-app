@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   formatFullTimestamp,
   formatItemTimestamp,
@@ -31,11 +34,12 @@ import {
 } from "./agent-config-history";
 import styles from "./AgentConfigHistory.module.css";
 
-const GAP_TEXT: Record<Gap, string> = {
-  unloaded: "Older revisions aren't loaded yet.",
-  capped: `Older history isn't available from this relay (limit ${HISTORY_LIMIT.toLocaleString("en-US")} revisions).`,
-  failed: "Couldn't load older revisions.",
-  unavailable: "A revision here isn't available (removed or expired).",
+// 模块级文案表：值为 MessageDescriptor，渲染处用 i18n._() 求值。
+const GAP_TEXT: Record<Gap, MessageDescriptor> = {
+  unloaded: msg`Older revisions aren't loaded yet.`,
+  capped: msg`Older history isn't available from this relay (limit ${HISTORY_LIMIT.toLocaleString("en-US")} revisions).`,
+  failed: msg`Couldn't load older revisions.`,
+  unavailable: msg`A revision here isn't available (removed or expired).`,
 };
 
 /** The text a person edits, for the line diff. */
@@ -51,8 +55,11 @@ function text(expected: Expected, event: RelayEvent) {
 
 const message = (error: unknown) =>
   error instanceof Error ? error.message : String(error);
-const unconfirmed = (detail: string) =>
-  `Couldn't confirm the revert was saved (${detail}). It may still arrive; check the history before trying again.`;
+// revert 流程在事件回调中触发，文案经 i18n._(msg`...`) 在触发时求值。
+const unconfirmed = (i18n: I18n, detail: string) =>
+  i18n._(
+    msg`Couldn't confirm the revert was saved (${detail}). It may still arrive; check the history before trying again.`,
+  );
 
 /** What a revert's send came to: accepted, definitely not saved, or maybe. */
 export type RevertOutcome =
@@ -66,7 +73,7 @@ export function AgentConfigHistory({
   read,
   settings,
   onRevert,
-  title = "History",
+  title,
   onHistoryChange,
   selected,
   onSelect,
@@ -89,6 +96,8 @@ export function AgentConfigHistory({
   /** Reports loaded counts without a separate history read. */
   onHistoryChange?: (history: History) => void;
 }) {
+  const { i18n, t } = useLingui();
+  const heading = title ?? t`History`;
   const [history, setHistory] = useState<History>(
     () => recalledHistory(read, expected, head, version) ?? emptyHistory,
   );
@@ -145,18 +154,18 @@ export function AgentConfigHistory({
     try {
       template = revertTemplate(expected, head, target, settings);
     } catch (error) {
-      return fail(`Not reverted: ${message(error)}`);
+      return fail(i18n._(msg`Not reverted: ${message(error)}`));
     }
     setReverting(target.id);
     try {
       const delivery = await onRevert(template);
       if (delivery.status === "refused")
-        fail(`Not reverted: ${delivery.message}`);
+        fail(i18n._(msg`Not reverted: ${delivery.message}`));
       else if (delivery.status === "uncertain")
-        fail(unconfirmed(delivery.message));
+        fail(unconfirmed(i18n, delivery.message));
       else setOpen(undefined);
     } catch (error) {
-      fail(unconfirmed(message(error)));
+      fail(unconfirmed(i18n, message(error)));
     } finally {
       setReverting(undefined);
     }
@@ -165,7 +174,7 @@ export function AgentConfigHistory({
   const gapAction = (gap: Gap) =>
     gap === "unloaded" || gap === "failed" ? (
       <Button size="inline" variant="subtle" loading={loading} onClick={more}>
-        {gap === "failed" ? "Retry" : "Load older"}
+        {gap === "failed" ? t`Retry` : t`Load older`}
       </Button>
     ) : null;
 
@@ -174,26 +183,25 @@ export function AgentConfigHistory({
     if (problem)
       return (
         <p className="text-body-sm">
-          This revision isn't valid config ({problem}), so changes can't be
-          shown.
+          {t`This revision isn't valid config (${problem}), so changes can't be shown.`}
         </p>
       );
     if (before && revisionProblem(expected, before, settings))
       return (
         <p className="text-body-sm">
-          The previous revision isn't valid config, so changes can't be shown.
+          {t`The previous revision isn't valid config, so changes can't be shown.`}
         </p>
       );
     if (!before && artifactOp(event) !== "create")
       return (
         <p className="text-body-sm">
-          The previous revision isn't loaded, so changes can't be shown.
+          {t`The previous revision isn't loaded, so changes can't be shown.`}
         </p>
       );
     if (expected.type === "buzz.agent.settings") {
       const fields = settingsDiff(before?.content ?? "", event.content);
       return fields.length ? (
-        <ul className={styles.diff} aria-label="Changes">
+        <ul className={styles.diff} aria-label={t`Changes`}>
           {fields.map(({ field, before, after }) => (
             <li key={field}>
               {field}: {JSON.stringify(before) ?? "—"} →{" "}
@@ -202,7 +210,7 @@ export function AgentConfigHistory({
           ))}
         </ul>
       ) : (
-        <p className="text-body-sm">No setting changes.</p>
+        <p className="text-body-sm">{t`No setting changes.`}</p>
       );
     }
     return (
@@ -210,7 +218,7 @@ export function AgentConfigHistory({
       <pre
         className={styles.diff}
         role="region"
-        aria-label="Changes"
+        aria-label={t`Changes`}
         // biome-ignore lint/a11y/noNoninteractiveTabindex: The scroll owner must support keyboard panning.
         tabIndex={0}
       >
@@ -256,16 +264,18 @@ export function AgentConfigHistory({
     !deleted &&
     !revisionProblem(expected, event, settings);
   return (
-    <section className="contents" aria-label={title}>
+    <section className="contents" aria-label={heading}>
       {!history.revisions.length &&
         !history.failed &&
         !loading &&
         history.next > 0 && (
-          <p className="text-body-sm">{title}: No revisions returned.</p>
+          <p className="text-body-sm">
+            {t`${heading}: No revisions returned.`}
+          </p>
         )}
       {!history.revisions.length && history.failed && (
         <div className={styles.gap}>
-          <span className={styles.label}>{GAP_TEXT.failed}</span>
+          <span className={styles.label}>{i18n._(GAP_TEXT.failed)}</span>
           {gapAction("failed")}
         </div>
       )}
@@ -273,7 +283,8 @@ export function AgentConfigHistory({
         segment.gap ? (
           <div className={styles.gap} key={segment.revisions[0]?.id}>
             <span className={`text-caption ${styles.label}`}>
-              {title}: {GAP_TEXT[segment.gap]}
+              {/* 先把文案表求值成局部变量，再插值进整句。 */}
+              {t`${heading}: ${i18n._(GAP_TEXT[segment.gap])}`}
             </span>
             {gapAction(segment.gap)}
           </div>
@@ -286,10 +297,10 @@ export function AgentConfigHistory({
         }}
         title={
           <span className="flex flex-wrap items-center gap-2">
-            <span>{title} version</span>{" "}
+            <span>{t`${heading} version`}</span>{" "}
             {current && (
               <span className={`${styles.currentBadge} text-label-sm`}>
-                Current
+                {t`Current`}
               </span>
             )}
           </span>
@@ -312,8 +323,8 @@ export function AgentConfigHistory({
               onClick={() => void revert(event)}
             >
               {artifactOp(head) === "delete"
-                ? "Restore this"
-                : "Revert to this"}
+                ? t`Restore this`
+                : t`Revert to this`}
             </Button>
           )
         }
@@ -322,7 +333,7 @@ export function AgentConfigHistory({
           {event ? (
             deleted ? (
               <p className="m-0 text-body-sm">
-                This version removed this configuration.
+                {t`This version removed this configuration.`}
               </p>
             ) : (
               changes(event, segment?.revisions[index + 1])
@@ -330,8 +341,8 @@ export function AgentConfigHistory({
           ) : (
             <p className="m-0 text-body-sm">
               {loading
-                ? "Loading version…"
-                : "This version isn't in the loaded history."}
+                ? t`Loading version…`
+                : t`This version isn't in the loaded history.`}
             </p>
           )}
           {!event &&
@@ -368,6 +379,7 @@ export function AgentConfigVersionRow({
   label?: string;
   onSelect(): void;
 }) {
+  const { t } = useLingui();
   useClockFormat();
   const operation = artifactOp(event);
   const invalid =
@@ -393,22 +405,22 @@ export function AgentConfigVersionRow({
         <span className="flex w-full min-w-0 items-center justify-between gap-3 text-body text-left">
           <span className="flex min-w-0 items-center gap-2">
             <span className="truncate">
-              {label ?? "Version"}
-              {operation === "delete" ? " · Deleted" : ""}
-              {operation === "restore" ? " · Restored" : ""}
-              {operation === "move" ? " · Moved" : ""}
+              {label ?? t`Version`}
+              {operation === "delete" ? t` · Deleted` : ""}
+              {operation === "restore" ? t` · Restored` : ""}
+              {operation === "move" ? t` · Moved` : ""}
               {event.id === head?.id && (
                 <>
                   {" "}
-                  <span className="sr-only">· Current</span>
+                  <span className="sr-only">{t`· Current`}</span>
                 </>
               )}
-              {invalid ? " · Not valid" : ""}
+              {invalid ? t` · Not valid` : ""}
             </span>
             {event.id === head?.id && (
               <span
                 className={styles.current}
-                title="Current version"
+                title={t`Current version`}
                 aria-hidden="true"
               />
             )}

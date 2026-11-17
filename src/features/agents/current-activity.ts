@@ -1,24 +1,33 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../localization/service";
 import { localActivity, localWorkLabel, localWorkRoot } from "./local-activity";
 import type { RelaySession } from "../relay/session";
 import type { TypingEntry } from "../relay/typing";
 import { activityTranscript, type ToolItem } from "./activity-transcript";
 
 type Snapshot = ReturnType<RelaySession["agentActivity"]["snapshot"]>;
-const verbs: Record<string, string> = {
-  read: "Reading",
-  edit: "Editing",
-  delete: "Deleting",
-  move: "Moving",
-  search: "Searching",
-  fetch: "Fetching",
-  execute: "Running a command",
-  think: "Working",
+// 动词表值为 MessageDescriptor，用全局 i18n 单例求值（本模块无组件上下文，
+// 与 datetime.ts 的做法一致）。
+const verbs: Record<string, MessageDescriptor> = {
+  read: msg`Reading`,
+  edit: msg`Editing`,
+  delete: msg`Deleting`,
+  move: msg`Moving`,
+  search: msg`Searching`,
+  fetch: msg`Fetching`,
+  execute: msg`Running a command`,
+  think: msg`Working`,
 };
+
+/** “Working” 的共享文案：TypingIndicator 用它对 label 做相等比较，显示与
+ * 比较必须来自同一来源（同一 descriptor、同一 i18n 实例）。 */
+export const WORKING_LABEL: MessageDescriptor = msg`Working`;
 
 function toolLabel(tool: ToolItem): string {
   if (tool.permission && !tool.permission.outcome)
-    return "Waiting for permission";
-  if (tool.status === "pending") return "Preparing a tool";
+    return i18n._(msg`Waiting for permission`);
+  if (tool.status === "pending") return i18n._(msg`Preparing a tool`);
   // These local MCP tools publish kind=other. Recognize only their exact names;
   // never infer an action by parsing an arbitrary shell command or tool title.
   const localKind: Record<string, string> = {
@@ -30,8 +39,9 @@ function toolLabel(tool: ToolItem): string {
     ? localKind[tool.title]
     : undefined;
   const kind = local ?? tool.kind;
+  const knownVerb = Object.hasOwn(verbs, kind) ? verbs[kind] : undefined;
   const verb =
-    (Object.hasOwn(verbs, kind) ? verbs[kind] : undefined) ?? "Running a tool";
+    (knownVerb && i18n._(knownVerb)) ?? i18n._(msg`Running a tool`);
   // Compact UI never displays raw arguments, commands, or full local paths.
   let path = tool.paths[0];
   if (!path && local && kind !== "execute") {
@@ -55,7 +65,7 @@ function toolLabel(tool: ToolItem): string {
     ?.replace(/[\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g, "")
     .slice(0, 80);
   return file && ["read", "edit", "delete", "move"].includes(kind)
-    ? `${verb} ${file}`
+    ? i18n._(msg`${verb} ${file}`)
     : verb;
 }
 
@@ -79,7 +89,7 @@ export function currentActivity(
   const agents = new Map<string, CurrentActivity>();
   const add = (agent: string, root: string | null | undefined) => {
     const activity: CurrentActivity = agents.get(agent) ?? {
-      label: "Working",
+      label: i18n._(WORKING_LABEL),
       detailAvailability: "typing-only",
       roots: [],
     };
@@ -142,7 +152,7 @@ export function currentActivity(
       activity.detailAvailability = "available";
       activity.label =
         tools.length > 1
-          ? `Running ${tools.length} tools`
+          ? i18n._(msg`Running ${tools.length} tools`)
           : toolLabel(firstTool);
     }
   }

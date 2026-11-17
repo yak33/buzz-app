@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../../features/relay/react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { RelaySession } from "../../features/relay/session";
@@ -45,6 +47,7 @@ export function useSoloShare({
   query: string;
   close(): void;
 }) {
+  const { i18n } = useLingui();
   const notify = useToastNotification();
   useChatConversions(session);
   const mounted = useRef(false);
@@ -85,6 +88,7 @@ export function useSoloShare({
   const chosen = list.channels.find(
     (item) => item.id === destination && item.id !== channelId,
   );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果不需随语言重建。
   useEffect(() => {
     void rosterReload;
     if (!enabled) return;
@@ -101,16 +105,18 @@ export function useSoloShare({
             signal: controller.signal,
           })
         : Promise.reject(
-            new Error("Current access is unavailable on this connection."),
+            new Error(
+              i18n._(msg`Current access is unavailable on this connection.`),
+            ),
           )
-    )
+      )
       .then((fresh) => {
         if (controller.signal.aborted) return;
         const current = session.channels
           .list()
           .channels.find((item) => item.id === channelId);
         if (!fresh || current?.cached || !current?.members)
-          throw new Error("Current access could not be confirmed.");
+          throw new Error(i18n._(msg`Current access could not be confirmed.`));
         setRosterState("ready");
       })
       .catch((reason: unknown) => {
@@ -119,7 +125,7 @@ export function useSoloShare({
           setRosterError(
             reason instanceof Error
               ? reason.message
-              : "Current access could not be confirmed.",
+              : i18n._(msg`Current access could not be confirmed.`),
           );
         }
       });
@@ -171,7 +177,9 @@ export function useSoloShare({
     if (!visible() || running.current || !target) return;
     if (!eligible) {
       setError(
-        "Chat access changed. Close and reopen to check current access before retrying.",
+        i18n._(
+          msg`Chat access changed. Close and reopen to check current access before retrying.`,
+        ),
       );
       return;
     }
@@ -181,7 +189,7 @@ export function useSoloShare({
     setFailed(false);
     setBusy(true);
     setError("");
-    setProgress("Checking chat access…");
+    setProgress(i18n._(msg`Checking chat access…`));
     const controller = new AbortController();
     const cancelled = () => controller.abort();
     signal?.addEventListener("abort", cancelled, { once: true });
@@ -209,7 +217,7 @@ export function useSoloShare({
       active.throwIfAborted();
       if (!visible()) return;
       setConfirmation(undefined);
-      setProgress("Posting chat link…");
+      setProgress(i18n._(msg`Posting chat link…`));
       const current = session.channels
         .list()
         .channels.find((item) => item.id === channelId);
@@ -230,25 +238,31 @@ export function useSoloShare({
       const shared = session.channels
         .list()
         .channels.find((item) => item.id === target);
-      notify(
-        `${accessChanged.current ? "Chat changed to View only. " : ""}${shared ? `Shared in ${channelText(shared)}` : "Shared"}`,
-        "success",
-        view && navigationController
-          ? {
-              label: "View",
-              onClick: () => {
-                void navigationController.open(view);
-              },
-            }
-          : undefined,
-      );
+      // Split into whole messages: macro interpolations must not nest messages.
+      const changedNote = accessChanged.current
+        ? i18n._(msg`Chat changed to View only. `)
+        : "";
+      const sharedNote = shared
+        ? i18n._(msg`Shared in ${channelText(shared)}`)
+        : i18n._(msg`Shared`);
+      notify(`${changedNote}${sharedNote}`, "success", view && navigationController
+        ? {
+            label: i18n._(msg`View`),
+            onClick: () => {
+              void navigationController.open(view);
+            },
+          }
+        : undefined);
       accessChanged.current = false;
       close();
     } catch (reason) {
       if (!visible()) return;
       setFailed(true);
+      const failure = reason instanceof Error
+        ? reason.message
+        : i18n._(msg`Couldn’t share this chat.`);
       setError(
-        `${reason instanceof Error ? reason.message : "Couldn’t share this chat."} The link was not posted. Any access change already saved is kept.`,
+        `${failure} ${i18n._(msg`The link was not posted. Any access change already saved is kept.`)}`,
       );
     } finally {
       signal?.removeEventListener("abort", cancelled);

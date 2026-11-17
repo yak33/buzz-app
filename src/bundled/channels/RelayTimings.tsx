@@ -1,17 +1,19 @@
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../../shared/design-system/ui/Button";
 import { useState } from "react";
 import type { RelayProfiler } from "../../features/relay/profiling";
 
 /** On-demand diagnostics avoid subscribing rendering to every instrumentation sample. */
 export function RelayTimings({ profiling }: { profiling: RelayProfiler }) {
+  const { t } = useLingui();
   const [samples, setSamples] = useState<ReturnType<RelayProfiler["snapshot"]>>(
     [],
   );
   return (
     <details>
-      <summary>Relay timings</summary>
+      <summary>{t`Relay timings`}</summary>
       <Button type="button" onClick={() => setSamples(profiling.snapshot())}>
-        Capture timings
+        {t`Capture timings`}
       </Button>
       <Button
         type="button"
@@ -28,7 +30,7 @@ export function RelayTimings({ profiling }: { profiling: RelayProfiler }) {
           setTimeout(() => URL.revokeObjectURL(url), 1000);
         }}
       >
-        Export timings
+        {t`Export timings`}
       </Button>
       <pre style={{ maxHeight: "16rem", overflow: "auto" }}>
         {samples

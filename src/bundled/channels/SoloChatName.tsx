@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { useIsPresent } from "motion/react";
 import type { RelaySession } from "../../features/relay/session";
@@ -21,6 +22,7 @@ export function SoloChatName({
   title: string;
   close(focus: boolean): void;
 }) {
+  const { t } = useLingui();
   const present = useIsPresent();
   const name = useLifetime({ session, id, enabled: true });
   const input = useRef<HTMLInputElement>(null);
@@ -79,7 +81,7 @@ export function SoloChatName({
     <form
       ref={form}
       className={styles.nameEditor}
-      aria-label={`Rename ${title}`}
+      aria-label={t`Rename ${title}`}
       aria-busy={(!name.base && !name.error) || name.busy}
       onSubmit={(event) => {
         event.preventDefault();
@@ -114,15 +116,15 @@ export function SoloChatName({
         </span>
         <div className={styles.nameEditorField}>
           <Field
-            label="Chat name"
+            label={t`Chat name`}
             labelVisibility="hidden"
             error={
               name.invalid ||
               name.error ||
               (name.base && !name.eligible
-                ? "This chat can’t be renamed."
+                ? t`This chat can’t be renamed.`
                 : name.unrelatedAttempt
-                  ? "Finish the pending change in Chat settings first."
+                  ? t`Finish the pending change in Chat settings first.`
                   : undefined)
             }
           >
@@ -142,7 +144,7 @@ export function SoloChatName({
           {!name.busy &&
             (name.checkOnly ? (
               <Button type="submit" size="sm">
-                Check save status
+                {t`Check save status`}
               </Button>
             ) : (
               name.error && (
@@ -154,14 +156,14 @@ export function SoloChatName({
                     void name.run("reload").catch(() => {});
                   }}
                 >
-                  Reload chat details
+                  {t`Reload chat details`}
                 </Button>
               )
             ))}
         </div>
         <IconButton
           type="button"
-          aria-label="Cancel rename"
+          aria-label={t`Cancel rename`}
           icon={<XIcon size={16} />}
           disabled={name.busy}
           onClick={() => finish(true)}

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useLingui } from "@lingui/react/macro";
 import { Avatar } from "../../shared/Avatar";
 import { NavigationItem } from "../../shared/design-system/ui/NavigationItem";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
@@ -25,6 +26,7 @@ export function AgentActivityRow({
   onOpen?: (() => void) | undefined;
   onOpenActivity?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const avatar = (
     <Avatar
       name={name}
@@ -75,8 +77,8 @@ export function AgentActivityRow({
           <IconButton
             size="toolbar"
             icon={<ListBulletsIcon />}
-            aria-label={`View ${name} activity`}
-            title="View activity"
+            aria-label={t`View ${name} activity`}
+            title={t`View activity`}
             onClick={onOpenActivity}
           />
         </span>

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useSyncExternalStore } from "react";
 import type { Context } from "@deepseek-ai/cordis";
 import { useListedChannel } from "../../features/relay/listed-channel";
@@ -23,7 +24,8 @@ const tabIcon = <FileTextIcon size="1rem" />;
 
 export function registerCanvas(ctx: Context) {
   function Panel({ channelContext }: PanelProps) {
-    usePanelTabTitle("Canvas", tabIcon);
+    const { t } = useLingui();
+    usePanelTabTitle(t`Canvas`, tabIcon);
     const state = useSyncExternalStore(ctx.relay.subscribe, ctx.relay.snapshot);
     const readOnly = useListedChannel(
       state.status === "ready" ? state.session.channels : undefined,
@@ -37,7 +39,7 @@ export function registerCanvas(ctx: Context) {
     )
       return (
         <p role="status">
-          Canvas is unavailable while the connection recovers.
+          {t`Canvas is unavailable while the connection recovers.`}
         </p>
       );
     const { origin, viewer } = state;

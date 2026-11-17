@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -38,12 +39,13 @@ export function ChannelDetailsEditor({
   scope: string;
   capability: ChannelDetailsCapability;
   channel: ChannelSummary;
-  renderSurface?(
-    action: ChannelDetailsAction | undefined,
-    status: ReactNode,
-    loading: boolean,
-  ): ReactNode;
+    renderSurface?(
+      action: ChannelDetailsAction | undefined,
+      status: ReactNode,
+      loading: boolean,
+    ): ReactNode;
 }) {
+  const { t } = useLingui();
   const id = channel.id;
   const attempt = useSyncExternalStore(capability.subscribe, () =>
     capability.snapshot(id),
@@ -259,9 +261,7 @@ export function ChannelDetailsEditor({
       <div id={statusId} className={styles.detailsEditor}>
         {attempt?.status === "unconfirmed" && (
           <p role="status">
-            The change may have been saved. Check its status before trying
-            again. Checking never resends it. Closing this dialog does not undo
-            the change.
+            {t`The change may have been saved. Check its status before trying again. Checking never resends it. Closing this dialog does not undo the change.`}
           </p>
         )}
         {view.error && <p role="alert">{view.error}</p>}
@@ -272,7 +272,7 @@ export function ChannelDetailsEditor({
               if (lifetime.current) void load(lifetime.current.signal);
             }}
           >
-            Reload details
+            {t`Reload details`}
           </Button>
         )}
       </div>
@@ -280,7 +280,7 @@ export function ChannelDetailsEditor({
   const trigger = (
     <section
       className={styles.detailsEditor}
-      aria-label="Edit channel details"
+      aria-label={t`Edit channel details`}
       aria-busy={view.loading}
     >
       {(canEdit || attempt) && (
@@ -290,7 +290,7 @@ export function ChannelDetailsEditor({
           loading={pending}
           disabled={pending}
         >
-          Edit details
+          {t`Edit details`}
         </Button>
       )}
       {!view.editing && status}
@@ -326,16 +326,16 @@ export function ChannelDetailsEditor({
           if (!open) requestClose();
         }}
         dismissOnOutsideClick
-        title={confirmDiscard ? "Discard changes?" : "Edit channel details"}
+        title={confirmDiscard ? t`Discard changes?` : t`Edit channel details`}
         description={
           confirmDiscard
-            ? "Your channel details have unsaved changes."
+            ? t`Your channel details have unsaved changes.`
             : undefined
         }
         closeLabel={
           confirmDiscard
-            ? "Back to edit channel details"
-            : "Close edit channel details"
+            ? t`Back to edit channel details`
+            : t`Close edit channel details`
         }
         preventClose={pending}
         initialFocus={
@@ -353,16 +353,16 @@ export function ChannelDetailsEditor({
                 ref={keepEditing}
                 onClick={() => patch({ confirmDiscard: false })}
               >
-                Keep editing
+                {t`Keep editing`}
               </Button>
               <Button variant="destructive" onClick={close}>
-                Discard changes
+                {t`Discard changes`}
               </Button>
             </>
           ) : (
             <>
               <Button disabled={pending} onClick={close}>
-                {attempt ? "Close" : "Cancel"}
+                {attempt ? t`Close` : t`Cancel`}
               </Button>
               {attempt?.status === "unconfirmed" ? (
                 <Button
@@ -371,7 +371,7 @@ export function ChannelDetailsEditor({
                   disabled={view.loading}
                   onClick={() => void check()}
                 >
-                  Check save status
+                  {t`Check save status`}
                 </Button>
               ) : (
                 <Button
@@ -381,7 +381,7 @@ export function ChannelDetailsEditor({
                   loading={pending}
                   disabled={!canSave}
                 >
-                  Save changes
+                  {t`Save changes`}
                 </Button>
               )}
             </>

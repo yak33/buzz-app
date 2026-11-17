@@ -1,14 +1,19 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState, useRef, type RefObject } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Dialog } from "../../shared/design-system/ui/Dialog";
 import { Field } from "../../shared/design-system/ui/Field";
 import { Radio, RadioGroup } from "../../shared/design-system/ui/RadioGroup";
 import { DEFAULT_ACTIVE_WINDOW_SECONDS } from "../../features/relay/sidebar-preferences";
+// 本地化服务是全局单例（见 lingui.config.ts），供非组件的工具函数在调用时求值。
+import { i18n } from "../../features/localization/service";
 import styles from "./SidebarActiveDialog.module.css";
 
 export function activeWindowLabel(seconds = DEFAULT_ACTIVE_WINDOW_SECONDS) {
   const days = seconds / 86400;
-  return `${days} ${days === 1 ? "day" : "days"}`;
+  // 单复数拆成两个完整模板，避免在插值里做词形变化。
+  return days === 1 ? i18n._(msg`1 day`) : i18n._(msg`${days} days`);
 }
 
 /** A draft stays local until Apply; a failed save keeps the entered values. */
@@ -23,6 +28,7 @@ export function SidebarActiveDialog({
   close: () => void;
   finalFocus: RefObject<HTMLButtonElement | null>;
 }) {
+  const { t } = useLingui();
   const form = useRef<HTMLDivElement>(null);
   const days = seconds / 86400;
   const [preset, setPreset] = useState(
@@ -48,7 +54,7 @@ export function SidebarActiveDialog({
     <Dialog
       size="compact"
       open
-      title="Active in the last"
+      title={t`Active in the last`}
       headerGap="compact"
       footerGap="compact"
       onOpenChange={(open) => !open && close()}
@@ -62,25 +68,29 @@ export function SidebarActiveDialog({
       actions={
         <>
           <Button disabled={pending} onClick={close}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             variant="prominent"
             loading={pending}
             onClick={() => void submit()}
           >
-            Apply
+            {t`Apply`}
           </Button>
         </>
       }
     >
       <div ref={form} className={styles.form}>
-        <Field label="Time frame" labelVisibility="hidden" nativeLabel={false}>
+        <Field
+          label={t`Time frame`}
+          labelVisibility="hidden"
+          nativeLabel={false}
+        >
           <RadioGroup
             value={preset}
             onValueChange={setPreset}
             disabled={pending}
-            aria-label="Time frame"
+            aria-label={t`Time frame`}
           >
             <div className={styles.presets}>
               {[1, 7, 30, 90].map((days) => (
@@ -101,7 +111,7 @@ export function SidebarActiveDialog({
         )}
         {pending && (
           <p role="status" className="sr-only">
-            Saving filter and waiting for confirmation…
+            {t`Saving filter and waiting for confirmation…`}
           </p>
         )}
       </div>

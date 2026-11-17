@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useId, type ReactNode } from "react";
 import type { ChannelSummary } from "../../features/relay/contracts";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -55,6 +56,7 @@ export function ArchivedChannelNotice({
   session: LifecycleSession;
   unarchive(trigger: HTMLElement): void;
 }) {
+  const { t } = useLingui();
   const offer = useLifecycleOffer(session, channel);
   // A preview reader never had it in their sidebar. Cached membership and
   // guests are members, so readOnly alone does not mean a preview.
@@ -62,11 +64,11 @@ export function ArchivedChannelNotice({
     channel.readOnly && !channel.cached && channel.viewerRole !== "guest";
   return (
     <ChannelStateNotice
-      title="Archived · view only"
+      title={t`Archived · view only`}
       detail={
         preview
           ? undefined
-          : "It’s hidden from the sidebar until it’s unarchived."
+          : t`It’s hidden from the sidebar until it’s unarchived.`
       }
     >
       {offer?.canUnarchive && session.channelLifecycle.available && (
@@ -75,7 +77,7 @@ export function ArchivedChannelNotice({
           size="sm"
           onClick={(event) => unarchive(event.currentTarget)}
         >
-          Unarchive
+          {t`Unarchive`}
         </Button>
       )}
     </ChannelStateNotice>

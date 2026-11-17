@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState, type ReactNode } from "react";
 import { modelLogo, type ModelChoice } from "./ModelPicker";
 import {
@@ -26,10 +27,11 @@ import {
 /** A bolt after the name marks a low-latency model; its text stays for
  * screen readers and the trigger's accessible name. */
 function FastMark() {
+  const { t } = useLingui();
   return (
-    <span className={styles.fast} title="Fast">
+    <span className={styles.fast} title={t`Fast`}>
       <LightningIcon size={14} aria-hidden="true" />
-      <span className="sr-only">Fast</span>
+      <span className="sr-only">{t`Fast`}</span>
     </span>
   );
 }
@@ -115,6 +117,7 @@ export function ModelFamilyMenu({
   onChange(id: string): void;
   onCustom?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const families = new Map<string, ModelChoice[]>();
   for (const model of models) {
     const family = modelFamily(model);
@@ -129,7 +132,7 @@ export function ModelFamilyMenu({
   const fastModels = models.filter((model) => model.fast);
   const fastSection =
     fastModels.length > 0 && fastModels.length < models.length;
-  const selectedLabel = `${selected.label}${selected.fast ? " · Fast" : ""}${inherited ? " · Default" : ""}`;
+  const selectedLabel = `${selected.label}${selected.fast ? t` · Fast` : ""}${inherited ? t` · Default` : ""}`;
   const choiceRow = (model: ModelChoice, inFastSection: boolean) => {
     const leading = inFastSection && hasFamilyLogos && (
       <span className="buzz-select-leading" aria-hidden="true">
@@ -191,7 +194,7 @@ export function ModelFamilyMenu({
               {selected.fast && <FastMark />}
               {inherited && appearance !== "glass-ghost" && (
                 <span className="buzz-select-value-suffix text-subtle">
-                  {" · Default"}
+                  {t` · Default`}
                 </span>
               )}
               {effortLabel && (
@@ -214,7 +217,8 @@ export function ModelFamilyMenu({
               {hasFamilyLogos && (
                 <span className="buzz-select-leading" aria-hidden="true" />
               )}
-              {defaultChoice.label} · Default
+              {defaultChoice.label}
+              {t` · Default`}
             </MenuRadioItem>
           </MenuRadioGroup>
         )}
@@ -224,7 +228,7 @@ export function ModelFamilyMenu({
               <MenuGroupLabel emphasis="quiet">
                 <span className={styles.name}>
                   <LightningIcon size={14} aria-hidden="true" />
-                  Fast
+                  {t`Fast`}
                 </span>
               </MenuGroupLabel>
               <MenuRadioGroup
@@ -249,9 +253,11 @@ export function ModelFamilyMenu({
                     {modelLogo(family)}
                   </span>
                 )}
-                {family}
+                {family === "Other" ? t`Other` : family}
               </MenuSubmenuTrigger>
-              <MenuSubmenuPopup aria-label={`${family} models`}>
+              <MenuSubmenuPopup
+                aria-label={t`${family} models`}
+              >
                 <MenuRadioGroup
                   value={selected.id}
                   onValueChange={(id) => onChange(id)}
@@ -265,9 +271,11 @@ export function ModelFamilyMenu({
           <MenuItem onClick={() => onChange("")}>{resetLabel}</MenuItem>
         )}
         {onConfigure && (
-          <MenuItem onClick={onConfigure}>Edit configuration</MenuItem>
+          <MenuItem onClick={onConfigure}>{t`Edit configuration`}</MenuItem>
         )}
-        {onCustom && <MenuItem onClick={onCustom}>Custom model</MenuItem>}
+        {onCustom && (
+          <MenuItem onClick={onCustom}>{t`Custom model`}</MenuItem>
+        )}
       </MenuPopup>
     </MenuRoot>
   );
@@ -300,6 +308,7 @@ function EffortMenu({
   effort: string;
   onChange(model: string, effort: string): void;
 }) {
+  const { t } = useLingui();
   const [levels, setLevels] = useState(model.efforts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -320,11 +329,15 @@ function EffortMenu({
         <ModelName model={model} label={model.label} mark={mark} />
         {selected && <CheckIcon size={16} aria-hidden="true" />}
       </MenuSubmenuTrigger>
-      <MenuSubmenuPopup aria-label={`${model.label} thinking effort`}>
-        {loading && <MenuItem disabled>Loading thinking levels…</MenuItem>}
-        {error && <MenuItem disabled>Could not load thinking levels</MenuItem>}
+      <MenuSubmenuPopup aria-label={t`${model.label} thinking effort`}>
+        {loading && <MenuItem disabled>{t`Loading thinking levels…`}</MenuItem>}
+        {error && (
+          <MenuItem disabled>{t`Could not load thinking levels`}</MenuItem>
+        )}
         {(!levels?.length || error) && (
-          <MenuItem onClick={() => onChange(model.id, "")}>Use model</MenuItem>
+          <MenuItem onClick={() => onChange(model.id, "")}>
+            {t`Use model`}
+          </MenuItem>
         )}
         <MenuRadioGroup
           value={selected ? effort : null}

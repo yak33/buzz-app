@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { workflowLabel } from "../../features/relay/workflow-attribution";
 import { useIsPresent } from "motion/react";
 import { LightningIcon } from "../../shared/design-system/icons";
@@ -72,6 +73,8 @@ function ActivityRow({
   onOpen(): void;
   read(): Promise<unknown>;
 }) {
+  const { t } = useLingui();
+  const nounLabel = noun === "thread" ? t`thread` : t`mention`;
   const selection = useMemo(
     () =>
       selectProfiles(session.profiles, [item.workflowOwnerId ?? item.authorId]),
@@ -116,19 +119,20 @@ function ActivityRow({
       setPending(false);
     }
   };
+  const elapsedText = elapsed(item.createdAt);
   return (
     <div
       className={`${activityStyles.activityItem} ${activityStyles.activityItemWithAction}`}
     >
       <NavigationItem
         type="button"
-        aria-label={`Open unread ${noun} from ${name}: ${preview}`}
+        aria-label={t`Open unread ${nounLabel} from ${name}: ${preview}`}
         onClick={onOpen}
         icon={
           item.workflowOwnerId ? (
             <WorkflowAvatar
-              alt="Workflow"
-              fallback="Workflow"
+              alt={t`Workflow`}
+              fallback={t`Workflow`}
               fallbackContent={<LightningIcon size={20} />}
               shape="squircle"
             />
@@ -146,7 +150,7 @@ function ActivityRow({
             <span className={activityStyles.activityItemHeading}>
               <strong>{name}</strong>
               <span className={activityStyles.activityTimestamp}>
-                {elapsed(item.createdAt)}
+                {elapsedText === "now" ? t`now` : elapsedText}
               </span>
             </span>
             <span className={styles.activityItemPreview}>{preview}</span>
@@ -157,15 +161,15 @@ function ActivityRow({
         <IconButton
           size="toolbar"
           icon={<EnvelopeOpenIcon />}
-          aria-label={`Mark ${noun} from ${name} as read`}
-          title="Mark as read"
+          aria-label={t`Mark ${nounLabel} from ${name} as read`}
+          title={t`Mark as read`}
           loading={pending}
           onClick={() => void markRead()}
         />
       </span>
       {error && (
         <p className={styles.activityReadError} role="alert">
-          Could not mark this {noun} as read. Try again.
+          {t`Could not mark this ${nounLabel} as read. Try again.`}
         </p>
       )}
     </div>
@@ -203,6 +207,7 @@ export function ChannelActivityPopover({
   onOpenThread(item: ThreadActivityItem): void;
   onOpenMention(item: MentionActivityItem): void;
 }) {
+  const { t } = useLingui();
   const present = useIsPresent();
   const subscribe = useCallback(
     (listener: () => void) =>
@@ -341,35 +346,39 @@ export function ChannelActivityPopover({
         sideOffset={6}
         size="wide"
         padding="list"
-        aria-label={`Activity in ${channelName}`}
+        aria-label={t`Activity in ${channelName}`}
         finalFocus={() => !handoff.current}
       >
         {open && (
           <div className={activityStyles.activityList}>
             {stale && (
-              <p className={styles.activityStale}>May be out of date</p>
+              <p className={styles.activityStale}>{t`May be out of date`}</p>
             )}
             {activeAgents.length > 0 && (
-              <section aria-label="Agents working now">
+              <section aria-label={t`Agents working now`}>
                 <h2 className={activityStyles.activitySectionLabel}>
-                  Working now
+                  {t`Working now`}
                 </h2>
                 {activeAgents.map((agent, index) => {
                   const profile = agentProfiles?.get(agent);
-                  const name = profile?.name ?? keyLabels.get(agent) ?? "Agent";
+                  const name =
+                    profile?.name ?? keyLabels.get(agent) ?? t`Agent`;
                   const { messageId, startedAt, label } = details[index] ?? {};
+                  const openTarget = messageId
+                    ? t`thread`
+                    : t`conversation`;
                   return (
                     <AgentActivityRow
                       key={agent}
                       name={name}
                       picture={avatarMedia(profile?.picture, session.media)}
-                      status={label ?? "Working"}
+                      status={label ?? t`Working`}
                       meta={
                         startedAt === undefined
                           ? "—"
                           : workingDuration(startedAt, now)
                       }
-                      openLabel={`Open ${messageId ? "thread" : "conversation"} for ${name} in ${channelName}`}
+                      openLabel={t`Open ${openTarget} for ${name} in ${channelName}`}
                       onOpen={() => {
                         close();
                         onOpenWorkingAgent?.(channelId, agent, messageId);
@@ -388,9 +397,9 @@ export function ChannelActivityPopover({
               </section>
             )}
             {mentions.length > 0 && (
-              <section aria-label="Mentions">
+              <section aria-label={t`Mentions`}>
                 <h2 className={activityStyles.activitySectionLabel}>
-                  Mentions
+                  {t`Mentions`}
                 </h2>
                 {mentions.map((mention) => (
                   <ActivityRow
@@ -420,9 +429,9 @@ export function ChannelActivityPopover({
               </section>
             )}
             {items.length > 0 && (
-              <section aria-label="Unread threads">
+              <section aria-label={t`Unread threads`}>
                 <h2 className={activityStyles.activitySectionLabel}>
-                  Unread threads
+                  {t`Unread threads`}
                 </h2>
                 {items.map((item) => (
                   <ActivityRow

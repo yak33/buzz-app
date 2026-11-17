@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { diffLines } from "diff";
 import { useMemo, type ReactNode } from "react";
 import styles from "./ChannelTemplates.module.css";
@@ -62,7 +64,11 @@ export function canvasDiffRows(current: string, revision: string) {
 }
 
 const marks = { added: "+", removed: "−", same: " " } as const;
-const names = { added: "Added", removed: "Removed", same: "Unchanged" };
+const names = {
+  added: msg`Added`,
+  removed: msg`Removed`,
+  same: msg`Unchanged`,
+};
 
 export function CanvasDiff({
   current,
@@ -73,14 +79,15 @@ export function CanvasDiff({
   revision: string;
   fallback(note: string): ReactNode;
 }) {
+  const { i18n, t } = useLingui();
   const rows = useMemo(
     () => canvasDiffRows(current, revision),
     [current, revision],
   );
-  if (!rows) return fallback("Comparison too large; showing full content.");
+  if (!rows) return fallback(t`Comparison too large; showing full content.`);
   return (
     <section
-      aria-label="Changes from current version"
+      aria-label={t`Changes from current version`}
       className={styles.diff}
       // biome-ignore lint/a11y/noNoninteractiveTabindex: The scroll owner must support keyboard panning.
       tabIndex={0}
@@ -88,14 +95,16 @@ export function CanvasDiff({
       {rows.map((row) =>
         row.kind === "skip" ? (
           <div key={row.key} className={styles.diffSkip}>
-            {`⋯ ${row.count} unchanged ${row.count === 1 ? "line" : "lines"}`}
+            {row.count === 1
+              ? t`⋯ ${row.count} unchanged line`
+              : t`⋯ ${row.count} unchanged lines`}
           </div>
         ) : (
           <div key={row.key} className={styles.diffLine} data-change={row.kind}>
             <span aria-hidden="true" className={styles.diffMark}>
               {marks[row.kind]}
             </span>
-            <span className="sr-only">{`${names[row.kind]}: `}</span>
+            <span className="sr-only">{`${i18n._(names[row.kind])}: `}</span>
             {row.text || " "}
           </div>
         ),

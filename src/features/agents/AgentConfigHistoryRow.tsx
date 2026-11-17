@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useLingui } from "@lingui/react/macro";
 import { Accordion } from "../../shared/design-system/ui/Accordion";
 import styles from "./AgentConfigHistory.module.css";
 import {
@@ -41,6 +42,7 @@ export function ConfigHistoryRow({
   history: ConfigHistory;
   presentation?: HistoryPresentation | undefined;
 }) {
+  const { t } = useLingui();
   const [localSelection, select] = useState<HistorySelection>();
   const selected = presentation ? presentation.selected : localSelection;
   const setSelected = presentation?.select ?? select;
@@ -81,10 +83,13 @@ export function ConfigHistoryRow({
   const summary = tracks.some(
     (track) => !track || (!track.next && !track.failed),
   )
-    ? "Loading versions…"
+    ? t`Loading versions…`
     : tracks.some((track) => track?.failed)
-      ? "Version count unavailable"
-      : `${count.toLocaleString()}${tracks.some((track) => !track?.done) ? "+" : ""} ${count === 1 ? "version" : "versions"}`;
+      ? t`Version count unavailable`
+      : // 单复数各用一个完整模板；"+" 后缀表示还有更多未计入。
+        count === 1
+        ? t`${count.toLocaleString()}${tracks.some((track) => !track?.done) ? "+" : ""} version`
+        : t`${count.toLocaleString()}${tracks.some((track) => !track?.done) ? "+" : ""} versions`;
   const revisions = history.sides
     .flatMap((track) => {
       const loaded = counts[track.side];
@@ -109,23 +114,22 @@ export function ConfigHistoryRow({
       onValueChange={setExpanded}
       items={[
         {
+          // value 是 Accordion 的内部标识，不随语言翻译；title 才是显示文案。
           value: "Previous versions",
           title: (
             <span className="flex items-center justify-between gap-3 text-body-sm text-left">
-              <span>Previous versions</span>
+              <span>{t`Previous versions`}</span>
               <span className="text-secondary">{summary}</span>
             </span>
           ),
           content: (
             <div className="grid gap-2">
-              <ol className={styles.list} aria-label="Previous versions">
+              <ol className={styles.list} aria-label={t`Previous versions`}>
                 {revisions.map(({ track, event }) => (
                   <AgentConfigVersionRow
                     key={`${track.side}/${event.id}`}
                     event={event}
-                    label={
-                      track.side === "settings" ? "Settings" : "Instructions"
-                    }
+                    label={track.side === "settings" ? t`Settings` : t`Instructions`}
                     head={track.head}
                     expected={track.expected}
                     settings={
@@ -142,7 +146,7 @@ export function ConfigHistoryRow({
                   key={`${expected.channel}/${expected.d}`}
                   selected={selected?.side === side ? selected.id : undefined}
                   onSelect={(id) => setSelected(id ? { side, id } : undefined)}
-                  title={side === "settings" ? "Settings" : "Instructions"}
+                  title={side === "settings" ? t`Settings` : t`Instructions`}
                   expected={expected}
                   head={head}
                   version={version}

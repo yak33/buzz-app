@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   type Ref,
   useCallback,
@@ -62,6 +64,7 @@ export function CanvasHistory({
   retryRef?: Ref<HTMLButtonElement>;
   restore(revision: RelayEvent): Promise<void>;
 }) {
+  const { i18n, t } = useLingui();
   const [page, setPage] = useState<CanvasHistoryPage>();
   const [selected, setSelected] = useState<RelayEvent>();
   const [loading, setLoading] = useState(false);
@@ -109,6 +112,7 @@ export function CanvasHistory({
     void profileGeneration;
     void queries.ensure(ids, "background").catch(() => {});
   }, [queries, ids, profileGeneration]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，加载回调不需随语言重建。
   const load = useCallback(
     async (cursor?: CanvasHistoryCursor) => {
       const current = ++generation.current;
@@ -136,8 +140,8 @@ export function CanvasHistory({
           );
         setNotice(
           result.revisions.length
-            ? `${result.revisions.length} revisions loaded.`
-            : "No more revisions.",
+            ? i18n._(msg`${result.revisions.length} revisions loaded.`)
+            : i18n._(msg`No more revisions.`),
         );
       } catch (reason) {
         if (current === generation.current) setError(String(reason));
@@ -163,7 +167,7 @@ export function CanvasHistory({
     <>
       {note && <p>{note}</p>}
       <Textarea
-        aria-label="Revision Markdown"
+        aria-label={t`Revision Markdown`}
         variant="code"
         rows={10}
         readOnly
@@ -181,7 +185,7 @@ export function CanvasHistory({
     try {
       await restore(selected);
       if (current !== generation.current) return;
-      setNotice("Version restored as a new revision.");
+      setNotice(i18n._(msg`Version restored as a new revision.`));
     } catch (reason) {
       if (current !== generation.current) return;
       setError(reason instanceof Error ? reason.message : String(reason));
@@ -203,7 +207,9 @@ export function CanvasHistory({
       if (current === generation.current)
         setError(
           (previous) =>
-            `${previous ? `${previous} ` : ""}History refresh failed: ${String(reason)}`,
+            i18n._(
+              msg`${previous ? `${previous} ` : ""}History refresh failed: ${String(reason)}`,
+            ),
         );
     } finally {
       if (current === generation.current) setLoading(false);
@@ -220,15 +226,15 @@ export function CanvasHistory({
             void load();
           }}
         >
-          Refresh history
+          {t`Refresh history`}
         </Button>
-        <span role="status">{loading ? "Loading history…" : notice}</span>
+        <span role="status">{loading ? t`Loading history…` : notice}</span>
       </div>
-      {page && !page.revisions.length && <p>No saved revisions.</p>}
+      {page && !page.revisions.length && <p>{t`No saved revisions.`}</p>}
       {page && page.revisions.length > 0 && (
         <>
           <div ref={rows} className={styles.choices}>
-            <Field label="Saved revisions">
+            <Field label={t`Saved revisions`}>
               <RadioGroup
                 value={selected?.id ?? ""}
                 disabled={busy}
@@ -250,7 +256,7 @@ export function CanvasHistory({
                         >
                           {new Date(event.created_at * 1000).toLocaleString()}
                         </time>
-                        {event.id === head?.id ? " · Current" : ""}
+                        {event.id === head?.id ? t` · Current` : ""}
                       </>
                     }
                     description={`${profiles.get(event.pubkey)?.name ?? labels.get(event.pubkey)} · ${event.id.slice(0, 8)}`}
@@ -265,7 +271,7 @@ export function CanvasHistory({
               loading={loading}
               onClick={() => void load(page.next)}
             >
-              Load older
+              {t`Load older`}
             </Button>
           )}
         </>
@@ -278,7 +284,7 @@ export function CanvasHistory({
       {selected && (
         <>
           <Checkbox
-            label="Show full content"
+            label={t`Show full content`}
             checked={full}
             onCheckedChange={setFull}
           />
@@ -286,16 +292,15 @@ export function CanvasHistory({
             {!loaded ? (
               <LoadingRegion
                 pending={busy}
-                label="Reading the current Canvas…"
+                label={t`Reading the current Canvas…`}
                 feedback={
                   headFailed ? (
                     <div className={styles.actions}>
                       <p role="alert">
-                        The current Canvas could not be read, so this version
-                        cannot be compared with it.
+                        {t`The current Canvas could not be read, so this version cannot be compared with it.`}
                       </p>
                       <Button ref={retryRef} loading={busy} onClick={retryHead}>
-                        Retry
+                        {t`Retry`}
                       </Button>
                     </div>
                   ) : undefined
@@ -306,7 +311,7 @@ export function CanvasHistory({
             ) : full ? (
               fullContent()
             ) : selected.id === head?.id || selected.content === headContent ? (
-              <p>Same as current version.</p>
+              <p>{t`Same as current version.`}</p>
             ) : (
               <CanvasDiff
                 current={headContent}
@@ -315,11 +320,10 @@ export function CanvasHistory({
               />
             )}
           </div>
-          {!selected.content && <p>This version is empty.</p>}
+          {!selected.content && <p>{t`This version is empty.`}</p>}
           {tooLarge && (
             <p>
-              This version exceeds the {LIVE_CANVAS_LIMIT} Canvas limit and
-              cannot be restored here.
+              {t`This version exceeds the ${LIVE_CANVAS_LIMIT} Canvas limit and cannot be restored here.`}
             </p>
           )}
           <div className={styles.actions}>
@@ -341,7 +345,7 @@ export function CanvasHistory({
                 setConfirm(true);
               }}
             >
-              Restore this version
+              {t`Restore this version`}
             </Button>
           </div>
         </>
@@ -350,8 +354,8 @@ export function CanvasHistory({
         size="compact"
         open={confirm}
         onOpenChange={setConfirm}
-        title="Restore this version?"
-        description="This publishes the selected version as a new Canvas revision. Existing history is kept."
+        title={t`Restore this version?`}
+        description={t`This publishes the selected version as a new Canvas revision. Existing history is kept.`}
         initialFocus={proceed}
         finalFocus={() =>
           attempted.current ? refreshButton.current : restoreButton.current
@@ -361,7 +365,7 @@ export function CanvasHistory({
         actions={
           <>
             <Button disabled={busy} onClick={() => setConfirm(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               ref={proceed}
@@ -370,15 +374,14 @@ export function CanvasHistory({
               disabled={readOnly}
               onClick={() => void apply()}
             >
-              Restore version
+              {t`Restore version`}
             </Button>
           </>
         }
       >
         {dirty && (
           <p>
-            Your unsaved draft will be kept separately. Copy any edits you want
-            to keep before reloading the restored Canvas.
+            {t`Your unsaved draft will be kept separately. Copy any edits you want to keep before reloading the restored Canvas.`}
           </p>
         )}
       </Dialog>

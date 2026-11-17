@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { Checkbox } from "../../shared/design-system/ui/Checkbox";
 import { readView, writeView } from "../../shared/view-state";
@@ -19,10 +22,11 @@ export function rememberPrivacyConfirmation(scope: string) {
   writeView(scope, preferenceKey, true);
 }
 
-export function privacyConsequence(visibility: Visibility) {
+/** Returns a descriptor so both callers translate at their own render site. */
+export function privacyConsequence(visibility: Visibility): MessageDescriptor {
   return visibility === "private"
-    ? "Only channel members will have access."
-    : "Everyone in this community will be able to view this channel’s full history.";
+    ? msg`Only channel members will have access.`
+    : msg`Everyone in this community will be able to view this channel’s full history.`;
 }
 
 export function ChannelPrivacyConfirmation({
@@ -36,14 +40,15 @@ export function ChannelPrivacyConfirmation({
   checked: boolean;
   onCheckedChange(checked: boolean): void;
 }) {
+  const { i18n, t } = useLingui();
   return (
     <div style={{ display: "grid", gap: "var(--space-4)" }}>
       <BaseDialog.Description>
-        {privacyConsequence(visibility)}
+        {i18n._(privacyConsequence(visibility))}
       </BaseDialog.Description>
       {!hidePreference && (
         <Checkbox
-          label="Don’t show me this again"
+          label={t`Don’t show me this again`}
           checked={checked}
           onCheckedChange={onCheckedChange}
         />

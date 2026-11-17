@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type {
   HostMcpServer,
   McpAuthorization,
@@ -6,6 +7,8 @@ import type {
 import type { AgentKey } from "./membership";
 import type { Agents } from "./service";
 import { communityDestination } from "../communities/destination";
+// 错误文案在写入状态时求值：本地化服务是全局单例（见 lingui.config.ts）。
+import { i18n } from "../localization/service";
 
 export function externalMcpEnabled(community: string | null) {
   if (!community) return false;
@@ -23,8 +26,7 @@ export function externalMcpEnabled(community: string | null) {
 export type ExternalScope = "read" | "post" | "create" | "agent";
 export const fullAgentAccess = (scopes: readonly ExternalScope[]) =>
   scopes.length === 1 && scopes[0] === "agent";
-export const legacyRequest =
-  "This app asks for limited access, which Buzz no longer grants. Update the app, then start setup again.";
+export const legacyRequest = msg`This app asks for limited access, which Buzz no longer grants. Update the app, then start setup again.`;
 export type ExternalAuthorization = McpAuthorization &
   Readonly<{
     version: 1 | 2;
@@ -410,7 +412,7 @@ export function createExternalApps() {
       // Limited access is no longer granted, and is never widened to full access.
       if (!fullAgentAccess(pending.request.scope)) {
         await deny();
-        update({ ...state, error: legacyRequest });
+        update({ ...state, error: i18n._(legacyRequest) });
         return;
       }
       clearPending();

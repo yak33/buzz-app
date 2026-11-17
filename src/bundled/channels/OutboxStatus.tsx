@@ -1,3 +1,6 @@
+import type { I18n } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../../shared/design-system/ui/Button";
 import { isWorkflowOperation } from "../../features/workflows/protocol";
 import { useState, useSyncExternalStore } from "react";
@@ -9,11 +12,11 @@ import type { RelaySession } from "../../features/relay/session";
 import { isBatchAddition } from "../../features/channel-members/members";
 
 /** A batch names everyone its Retry re-adds. */
-function additionLabel(tags: readonly (readonly string[])[]) {
+function additionLabel(tags: readonly (readonly string[])[], i18n: I18n) {
   const people = tags.filter(([tag]) => tag === "p");
   return people.length > 1
-    ? `Add ${people.length} people`
-    : `Add agent ${people[0]?.[1]?.slice(0, 12) ?? ""}`;
+    ? i18n._(msg`Add ${people.length} people`)
+    : i18n._(msg`Add agent ${people[0]?.[1]?.slice(0, 12) ?? ""}`);
 }
 
 /** Delivery belongs to the session, including messages from other pages or a previous launch. */
@@ -26,6 +29,7 @@ export function OutboxStatus({
   profiling: RelayProfiler;
   memberAdditions: Pick<RelaySession["memberAdditions"], "add">;
 }) {
+  const { i18n, t } = useLingui();
   const operations = useSyncExternalStore(
     outbox.subscribe,
     outbox.snapshot,
@@ -35,8 +39,10 @@ export function OutboxStatus({
 
   return (
     <details>
-      <summary>Outbox · {operations.length} items</summary>
-      <p>Removing an item from the outbox does not delete a sent message.</p>
+      <summary>{t`Outbox · ${operations.length} items`}</summary>
+      <p>
+        {t`Removing an item from the outbox does not delete a sent message.`}
+      </p>
       <ul
         style={{
           maxHeight: "10rem",
@@ -48,16 +54,16 @@ export function OutboxStatus({
           <li key={item.event.id}>
             <span>
               {item.event.kind === 9000
-                ? additionLabel(item.event.tags)
+                ? additionLabel(item.event.tags, i18n)
                 : item.event.content.slice(0, 100)}{" "}
               ·{" "}
               {
                 {
-                  sending: "Sending",
-                  accepted: "Sent",
-                  unknown: "Unconfirmed",
-                  failed: "Not sent",
-                  seen: "Sent",
+                  sending: i18n._(msg`Sending`),
+                  accepted: i18n._(msg`Sent`),
+                  unknown: i18n._(msg`Unconfirmed`),
+                  failed: i18n._(msg`Not sent`),
+                  seen: i18n._(msg`Sent`),
                 }[item.delivery]
               }
             </span>{" "}
@@ -86,7 +92,7 @@ export function OutboxStatus({
                         );
                         if (!channelId || !pubkeys.length)
                           throw new Error(
-                            "Reopen Members to check this addition.",
+                            i18n._(msg`Reopen Members to check this addition.`),
                           );
                         // A stale explicit role must never overwrite a newer
                         // admission, so each person is checked again. A guest
@@ -117,14 +123,13 @@ export function OutboxStatus({
                     }
                   }}
                 >
-                  Retry
+                  {t`Retry`}
                 </Button>
               )}{" "}
             {item.guarded &&
               (item.delivery === "failed" || item.delivery === "unknown") && (
                 <span>
-                  Retry from the channel or agent profile after checking
-                  membership.
+                  {t`Retry from the channel or agent profile after checking membership.`}
                 </span>
               )}{" "}
             {item.held &&
@@ -152,7 +157,7 @@ export function OutboxStatus({
                   }
                 }}
               >
-                Remove from outbox
+                {t`Remove from outbox`}
               </Button>
             )}
           </li>

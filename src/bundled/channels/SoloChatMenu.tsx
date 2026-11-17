@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useSoloNavigation } from "../../features/channel-navigation/solo-navigation-react";
 import {
   type ComponentProps,
@@ -68,6 +70,7 @@ export function SoloChatMenuItems({
   /** The menu closes at once; its host reports a failed read change. */
   onReadResult(error?: string): void;
 }) {
+  const { i18n, t } = useLingui();
   const handoff = useChannelNavigation();
   const regions = useSoloNavigation(session);
   const preferences = session.soloPreferences;
@@ -96,7 +99,7 @@ export function SoloChatMenuItems({
                 onReadResult(
                   error instanceof Error
                     ? error.message
-                    : "Read state couldn’t be saved. Try again.",
+                    : i18n._(msg`Read state couldn’t be saved. Try again.`),
                 ),
             )
           }
@@ -107,7 +110,7 @@ export function SoloChatMenuItems({
           <MenuIcon>
             <PencilSimpleIcon size={14} />
           </MenuIcon>
-          Rename
+          {t`Rename`}
         </MenuItem>
       )}
       <MenuItem
@@ -120,7 +123,7 @@ export function SoloChatMenuItems({
         <MenuIcon>
           <GearIcon size={14} />
         </MenuIcon>
-        Chat settings
+        {t`Chat settings`}
       </MenuItem>
       {active &&
         !regions.managed.has(channel.id) &&
@@ -131,16 +134,18 @@ export function SoloChatMenuItems({
               <MenuIcon>
                 <FolderSimpleIcon size={14} />
               </MenuIcon>
-              Move to
+              {t`Move to`}
             </MenuSubmenuTrigger>
-            <MenuSubmenuPopup aria-label="Workspace">
-              {grouped && <MenuItem onClick={() => onMove()}>Chats</MenuItem>}
+            <MenuSubmenuPopup aria-label={t`Workspace`}>
+              {grouped && (
+                <MenuItem onClick={() => onMove()}>{t`Chats`}</MenuItem>
+              )}
               {groups.map((group) => (
                 <MenuItem key={group.id} onClick={() => onMove(group.id)}>
                   {group.name}
                 </MenuItem>
               ))}
-              <MenuItem onClick={onNewWorkspace}>New workspace</MenuItem>
+              <MenuItem onClick={onNewWorkspace}>{t`New workspace`}</MenuItem>
             </MenuSubmenuPopup>
           </MenuSubmenu>
         )}
@@ -154,7 +159,7 @@ export function SoloChatMenuItems({
           <MenuIcon>
             <ShareIcon size={14} />
           </MenuIcon>
-          Share access
+          {t`Share access`}
         </MenuItem>
       )}
       <ChannelCopyLinkMenuItem channelId={channel.id} />
@@ -196,6 +201,7 @@ export function NewWorkspaceDialog({
   close: () => void;
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
 }) {
+  const { t } = useLingui();
   const [value, setValue] = useState("");
   const [blocked, setBlocked] = useState(false);
   const form = useId();
@@ -207,20 +213,20 @@ export function NewWorkspaceDialog({
       onOpenChange={(open) => {
         if (!open) close();
       }}
-      title="Create new workspace"
-      description={`Move ${name} into a personal workspace that syncs across Buzz.`}
+      title={t`Create new workspace`}
+      description={t`Move ${name} into a personal workspace that syncs across Buzz.`}
       initialFocus={input}
       finalFocus={finalFocus}
       actions={
         <>
-          <Button onClick={close}>Cancel</Button>
+          <Button onClick={close}>{t`Cancel`}</Button>
           <Button
             form={form}
             type="submit"
             variant="prominent"
             disabled={!value.trim()}
           >
-            Create and move
+            {t`Create and move`}
           </Button>
         </>
       }
@@ -234,8 +240,8 @@ export function NewWorkspaceDialog({
       >
         <Input
           ref={input}
-          aria-label="Workspace name"
-          placeholder="Workspace name"
+          aria-label={t`Workspace name`}
+          placeholder={t`Workspace name`}
           required
           maxLength={80}
           value={value}
@@ -244,7 +250,7 @@ export function NewWorkspaceDialog({
       </form>
       {blocked && (
         <p role="alert">
-          Workspaces are unavailable. Close this dialog and retry.
+          {t`Workspaces are unavailable. Close this dialog and retry.`}
         </p>
       )}
     </Dialog>

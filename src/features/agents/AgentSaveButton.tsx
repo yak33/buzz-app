@@ -10,6 +10,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
+import { useLingui } from "@lingui/react/macro";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
 import { Button } from "../../shared/design-system/ui/Button";
 import { ScrollEdgeMaterial } from "../../shared/design-system/ui/ScrollEdgeMaterial";
@@ -135,16 +136,17 @@ export function DiscardChanges({
   onKeep(): void;
   onDiscard(): void;
 }) {
+  const { t } = useLingui();
   return (
     <AlertDialog
-      title="Discard changes?"
+      title={t`Discard changes?`}
       description={description}
       onClose={onKeep}
       actions={
         <>
-          <Button onClick={onKeep}>Keep editing</Button>
+          <Button onClick={onKeep}>{t`Keep editing`}</Button>
           <Button variant="destructive" onClick={onDiscard}>
-            Discard changes
+            {t`Discard changes`}
           </Button>
         </>
       }
@@ -164,6 +166,7 @@ export function AgentSaveButton({
   /** Validation can disable Save while the form still contains unsaved edits. */
   dirty?: boolean;
 }) {
+  const { t } = useLingui();
   const footer = useContext(AgentSaveFooter);
   useAgentSaveState(dirty, saving);
   const reducedMotion = useReducedMotion();
@@ -217,7 +220,7 @@ export function AgentSaveButton({
       focusableWhenDisabled
       style={footer?.target ? { width: "100%" } : undefined}
     >
-      {saving ? "Saving…" : "Save"}
+      {saving ? t`Saving…` : t`Save`}
     </Button>
   );
   return footer?.target

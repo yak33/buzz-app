@@ -26,6 +26,7 @@ import {
 import {
   currentActivity,
   workingRequests,
+  WORKING_LABEL,
   type CurrentActivity,
 } from "../agents/current-activity";
 import {
@@ -299,11 +300,11 @@ export function TypingIndicator({
   channelId: string;
   threadRootId?: string | undefined;
   canOpenActivity?: ((target: string) => boolean) | undefined;
-  openActivity?:
+    openActivity?:
     | ((target: string, origin?: MessageLinkOrigin) => boolean)
     | undefined;
 }) {
-  const { t } = useLingui();
+  const { i18n, t } = useLingui();
   const {
     activity,
     details,
@@ -519,9 +520,12 @@ export function TypingIndicator({
       : t`${typingNames}${otherTypers} are typing`
     : "";
   const firstStep = firstAgent ? details.get(firstAgent)?.label : undefined;
+  // “Working” 的显示与比较同源：current-activity 导出同一 MessageDescriptor，
+  // 经同一 i18n 实例求值后比较。“Received · waiting to start”和“Starting”来自
+  // 尚未汉化的 local-activity.ts（localWorkLabel），仍是英文原串比较。
   const previewText =
     (firstAgent && replaced.has(firstAgent)) ||
-    firstStep === "Working" ||
+    firstStep === i18n._(WORKING_LABEL) ||
     firstStep === "Received · waiting to start" ||
     firstStep === "Starting"
       ? undefined

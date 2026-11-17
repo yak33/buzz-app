@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useState,
@@ -27,6 +28,7 @@ export function ExternalAuthorizationDialog({
   communities,
   relay,
 }: ConsentProps & { agents: Agents; relay: RelayData }) {
+  const { i18n, t } = useLingui();
   const state = useSyncExternalStore(connection.subscribe, connection.snapshot);
   const client = useSyncExternalStore(
     communities.subscribe,
@@ -44,7 +46,7 @@ export function ExternalAuthorizationDialog({
         (!fullAgentAccess(pending.request.scope) ? (
           <ConsentDialog connection={connection} communities={communities}>
             <p role="status" className="m-0 text-body-sm text-secondary">
-              {legacyRequest}
+              {i18n._(legacyRequest)}
             </p>
           </ConsentDialog>
         ) : transport.status === "ready" &&
@@ -61,14 +63,14 @@ export function ExternalAuthorizationDialog({
           <ConsentDialog connection={connection} communities={communities}>
             <p role="status" className="m-0 text-body-sm text-secondary">
               {externalMcpEnabled(client.selected)
-                ? "Select a connected community to authorize this app."
-                : "External apps are not enabled for this community. Select an enabled community."}
+                ? t`Select a connected community to authorize this app.`
+                : t`External apps are not enabled for this community. Select an enabled community.`}
             </p>
           </ConsentDialog>
         ))}
       {state.error && (
         <ToastNotice
-          title="External app authorization failed"
+          title={t`External app authorization failed`}
           description={state.error}
           onDismiss={connection.clearError}
         />
@@ -82,6 +84,7 @@ function ConsentDialog({
   actions,
   children,
 }: ConsentProps & { actions?: ReactNode; children: ReactNode }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(connection.subscribe, connection.snapshot);
   const client = useSyncExternalStore(
     communities.subscribe,
@@ -93,14 +96,16 @@ function ConsentDialog({
       variant="outline"
       onClick={() => void connection.deny().catch(() => {})}
     >
-      Deny
+      {t`Deny`}
     </Button>
   );
   return (
     <Dialog
       open={!!request}
-      title="Authorize app"
-      description={request ? `${request.client} requests access.` : undefined}
+      title={t`Authorize app`}
+      description={
+        request ? t`${request.client} requests access.` : undefined
+      }
       size="compact"
       actions={actions ?? deny}
       onOpenChange={(open) => {
@@ -110,31 +115,28 @@ function ConsentDialog({
       {request && (
         <div className="grid gap-4">
           <p className="m-0 text-body-sm text-secondary">
-            The requesting app supplies its name. Authorize it only if you
-            started setup in that app.
+            {t`The requesting app supplies its name. Authorize it only if you started setup in that app.`}
           </p>
           {state.grant && state.grant.phase !== "ended" && (
             <p className="m-0 text-body-sm text-secondary">
-              Authorization replaces access for {state.grant.client}. Switching
-              communities ends that access immediately, even if you then select
-              Deny.
+              {t`Authorization replaces access for ${state.grant.client}. Switching communities ends that access immediately, even if you then select Deny.`}
             </p>
           )}
           <Select
-            label="Community"
+            label={t`Community`}
             variant="field"
             value={client.selected ?? ""}
-            placeholder="Select a community"
+            placeholder={t`Select a community`}
             groups={[
               {
-                label: "Your communities",
+                label: t`Your communities`,
                 options: client.memberships.map((membership) => ({
                   value: membership.id,
                   label: membership.name,
                   disabled: !externalMcpEnabled(membership.id),
                   description: externalMcpEnabled(membership.id)
                     ? undefined
-                    : "External apps are not enabled here.",
+                    : t`External apps are not enabled here.`,
                 })),
               },
             ]}
@@ -142,23 +144,15 @@ function ConsentDialog({
           />
           {fullAgentAccess(request.scope) && (
             <p className="m-0 text-body-sm text-secondary">
-              Full access as the selected agent: the app can use every Buzz tool
-              the agent has, including tools plugins add later. It reads, posts
-              and manages channels where the agent can, uses its memory,
-              attention and Git access to its community's repositories, wakes
-              the agent in its conversations, runs the Nexus workers the agent
-              may run, and can change Buzz settings on this device. It can post
-              any file the agent can read on this device, including outside its
-              workspace. It can disable plugins; installing, updating, enabling
-              or removing one needs your confirmation. Keys stay in Buzz.
+              {t`Full access as the selected agent: the app can use every Buzz tool the agent has, including tools plugins add later. It reads, posts and manages channels where the agent can, uses its memory, attention and Git access to its community's repositories, wakes the agent in its conversations, runs the Nexus workers the agent may run, and can change Buzz settings on this device. It can post any file the agent can read on this device, including outside its workspace. It can disable plugins; installing, updating, enabling or removing one needs your confirmation. Keys stay in Buzz.`}
               {request.version === 2 &&
-                " The app can renew valid approval for another 30 days. Approval expires after 30 days without renewal. The app can restore this access after either app restarts. You can revoke it in External apps."}
+                t` The app can renew valid approval for another 30 days. Approval expires after 30 days without renewal. The app can restore this access after either app restarts. You can revoke it in External apps.`}
             </p>
           )}
           {children}
           {!state.available && (
             <p role="alert" className="m-0 text-body-sm text-danger">
-              Enable Agents in Buzz desktop to authorize external apps.
+              {t`Enable Agents in Buzz desktop to authorize external apps.`}
             </p>
           )}
         </div>
@@ -172,6 +166,7 @@ function ReadyConsent({
   connection,
   communities,
 }: ConsentProps & { session: RelaySession; agents: Agents }) {
+  const { t } = useLingui();
   const choices = useAgentChoices(session, false, true);
   const inventory = useSyncExternalStore(agents.subscribe, agents.snapshot);
   const availability = useSyncExternalStore(agents.subscribe, () =>
@@ -208,7 +203,7 @@ function ReadyConsent({
             variant="outline"
             onClick={() => void connection.deny().catch(() => {})}
           >
-            Deny
+            {t`Deny`}
           </Button>
           <Button
             disabled={!chosen || !state.available}
@@ -217,26 +212,26 @@ function ReadyConsent({
                 void connection.approve(chosen.key);
             }}
           >
-            Authorize
+            {t`Authorize`}
           </Button>
         </>
       }
     >
       <Select
-        label="Agent"
+        label={t`Agent`}
         variant="field"
-        placeholder="Select an agent"
+        placeholder={t`Select an agent`}
         value={chosen?.key ?? ""}
         groups={[
           {
-            label: "Agents on this device",
+            label: t`Agents on this device`,
             options: eligible.map((agent) => ({
               value: agent.key,
               label: agent.name,
               disabled: !available.has(agent.key),
               description: available.has(agent.key)
                 ? undefined
-                : "Unavailable in this copy of Buzz.",
+                : t`Unavailable in this copy of Buzz.`,
             })),
           },
         ]}
@@ -244,14 +239,12 @@ function ReadyConsent({
       />
       {usable.length < eligible.length && (
         <p className="m-0 text-body-sm text-secondary">
-          Enable its runtime plugin, or use the Buzz copy that runs this agent.
-          You can deny this request and start setup there.
+          {t`Enable its runtime plugin, or use the Buzz copy that runs this agent. You can deny this request and start setup there.`}
         </p>
       )}
       {!eligible.length && (
         <p className="m-0 text-body-sm text-secondary">
-          No eligible agent runs here. Start an agent in this community.
-          Protected agents cannot use external connections.
+          {t`No eligible agent runs here. Start an agent in this community. Protected agents cannot use external connections.`}
         </p>
       )}
     </ConsentDialog>

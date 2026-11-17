@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { FadingLabel } from "./FadingLabel";
 import { activeChannelRows } from "../../features/channel-navigation/active-channel-rows";
 import { NavigationItem } from "../../shared/design-system/ui/NavigationItem";
@@ -47,6 +48,7 @@ export function ChannelSidebarRow({
   onPrepare: (id: string) => void;
   onHideDm?: (id: string) => void;
 }) {
+  const { t } = useLingui();
   const selectRef = useRef<HTMLButtonElement>(null);
   const present = useIsPresent();
   useLayoutEffect(() => {
@@ -114,7 +116,7 @@ export function ChannelSidebarRow({
         >
           <FadingLabel className={styles.label}>{channel.name}</FadingLabel>
           {muted && (
-            <span className={styles.muted} role="img" aria-label="Muted">
+            <span className={styles.muted} role="img" aria-label={t`Muted`}>
               <BellSlashIcon size={14} />
             </span>
           )}
@@ -158,7 +160,7 @@ export function ChannelSidebarRow({
           <IconButton
             type="button"
             size="compact"
-            aria-label={`Remove ${channel.name} from DMs`}
+            aria-label={t`Remove ${channel.name} from DMs`}
             onClick={(event) => {
               const section = event.currentTarget.closest(
                 "[data-sidebar-section]",

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { motion, useReducedMotion } from "motion/react";
 import { Field } from "../../shared/design-system/ui/Field";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
@@ -47,6 +48,7 @@ export function ChannelDurationField({
   label?: string;
   onChange(ttlSeconds: number | undefined): void;
 }) {
+  const { i18n, t } = useLingui();
   const reduceMotion = useReducedMotion();
   const instant =
     reduceMotion ||
@@ -58,10 +60,10 @@ export function ChannelDurationField({
   };
   const shorter = [...durations].reverse().find((value) => value < ttlSeconds);
   const longer = durations.find((value) => value > ttlSeconds);
-  const label = channelDurationLabel(ttlSeconds);
+  const label = channelDurationLabel(ttlSeconds, i18n.locale);
   return (
     <Field
-      label={fieldLabel ?? "Duration"}
+      label={fieldLabel ?? t`Duration`}
       labelVisibility={fieldLabel ? "visible" : "hidden"}
       error={error}
     >
@@ -76,23 +78,23 @@ export function ChannelDurationField({
         <Radio
           value="ongoing"
           variant="card"
-          label="Ongoing"
-          description="No automatic archive."
+          label={t`Ongoing`}
+          description={t`No automatic archive.`}
         />
         <div className={styles.temporary}>
           <Radio
             value="temporary"
             variant="card"
-            label={<span className={styles.temporaryLabel}>Temporary</span>}
+            label={<span className={styles.temporaryLabel}>{t`Temporary`}</span>}
             description={
               <>
                 <span className="sr-only">
                   {temporary
-                    ? `Archives after ${label} without activity.`
-                    : "Archives without activity."}
+                    ? t`Archives after ${label} without activity.`
+                    : t`Archives without activity.`}
                 </span>
                 <span aria-hidden="true">
-                  Archives{" "}
+                  {t`Archives`}{" "}
                   <motion.span
                     className={styles.durationReveal}
                     initial={false}
@@ -106,10 +108,12 @@ export function ChannelDurationField({
                     }}
                     transition={{ ...transition, whiteSpace: { duration: 0 } }}
                   >
-                    <strong className={styles.duration}>after {label}</strong>
+                    <strong className={styles.duration}>
+                      {t`after ${label}`}
+                    </strong>
                     {"\u00a0"}
                   </motion.span>
-                  without activity.
+                  {t`without activity.`}
                 </span>
               </>
             }
@@ -127,7 +131,7 @@ export function ChannelDurationField({
           >
             <div className={styles.adjustments}>
               <IconButton
-                aria-label="Decrease duration"
+                aria-label={t`Decrease duration`}
                 icon={<MinusIcon />}
                 variant="subtle"
                 size="sm"
@@ -137,7 +141,7 @@ export function ChannelDurationField({
                 }}
               />
               <IconButton
-                aria-label="Increase duration"
+                aria-label={t`Increase duration`}
                 icon={<PlusIcon />}
                 variant="subtle"
                 size="sm"

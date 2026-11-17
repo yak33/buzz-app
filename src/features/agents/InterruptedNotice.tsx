@@ -1,4 +1,7 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
+import type { I18n } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Accordion } from "../../shared/design-system/ui/Accordion";
 import { Button } from "../../shared/design-system/ui/Button";
 import { ToastNotice } from "../../shared/design-system/ui/Toast";
@@ -12,6 +15,7 @@ import type { Agent, Agents } from "./service";
 /** Asks the owner whether agents that were working when the app last closed
  * or reloaded carry on; nothing resumes until they choose. */
 export function InterruptedNotice({ agents }: { agents: Agents }) {
+  const { t } = useLingui();
   const interrupted = useAgentsSnapshot(agents)?.interrupted ?? [];
   if (!interrupted.length) return null;
   const names = new Intl.ListFormat(undefined, { type: "conjunction" }).format(
@@ -21,10 +25,15 @@ export function InterruptedNotice({ agents }: { agents: Agents }) {
     <ToastNotice
       title={
         interrupted.length === 1
-          ? "Resume interrupted agent?"
-          : "Resume interrupted agents?"
+          ? t`Resume interrupted agent?`
+          : t`Resume interrupted agents?`
       }
-      description={`${names} ${interrupted.length === 1 ? "was" : "were"} working when Buzz closed or reloaded.`}
+      // 单复数拆成两个完整模板，避免在 t`` 插值里拼接动词形态。
+      description={
+        interrupted.length === 1
+          ? t`${names} was working when Buzz closed or reloaded.`
+          : t`${names} were working when Buzz closed or reloaded.`
+      }
       details={<InterruptedDetails agents={agents} interrupted={interrupted} />}
       tone="info"
     >
@@ -34,10 +43,10 @@ export function InterruptedNotice({ agents }: { agents: Agents }) {
         variant="prominent"
         onClick={agents.resumeInterrupted}
       >
-        Resume
+        {t`Resume`}
       </Button>
       <Button type="button" size="sm" onClick={agents.dismissInterrupted}>
-        Don’t resume
+        {t`Don’t resume`}
       </Button>
     </ToastNotice>
   );
@@ -52,6 +61,7 @@ function InterruptedDetails({
   agents: Agents;
   interrupted: readonly Agent[];
 }) {
+  const { i18n, t } = useLingui();
   const [open, setOpen] = useState(false);
   // Each agent's read once settled: its events, or "failed", read again on the
   // next open. Keyed by agent, so snapshot rebuilds neither cancel nor repeat it.
@@ -101,10 +111,12 @@ function InterruptedDetails({
       items={[
         {
           value: "details",
-          title: `${count} ${count === 1 ? "mention" : "mentions"}`,
+          // 单复数各用一个完整模板。
+          title:
+            count === 1 ? t`1 mention` : t`${count} mentions`,
           content: (
             <section
-              aria-label="Interrupted conversations"
+              aria-label={t`Interrupted conversations`}
               // biome-ignore lint/a11y/noNoninteractiveTabindex: Scroll owner supports keyboard access to the overflowing list.
               tabIndex={0}
               className={`grid max-h-48 gap-3 overflow-y-auto ${styles.conversations}`}
@@ -117,7 +129,7 @@ function InterruptedDetails({
                     </h4>
                   )}
                   <ul className="m-0 grid list-none gap-2 p-0">
-                    {conversations(turns, read[agent.key]).map((row) => (
+                    {conversations(turns, read[agent.key], i18n).map((row) => (
                       <li key={row.key} className="min-w-0">
                         <div className="truncate text-label-sm">
                           {row.channel}
@@ -143,13 +155,14 @@ function InterruptedDetails({
 function conversations(
   turns: ReturnType<Agents["interruptedTurns"]>,
   events: readonly RelayEvent[] | "failed" | undefined,
+  i18n: I18n,
 ) {
   const rows = new Map<
     string,
     { key: string; channel: string; detail: string; count: number }
   >();
   for (const turn of turns) {
-    const channel = turn.channel?.name ?? "Unknown channel";
+    const channel = turn.channel?.name ?? i18n._(msg`Unknown channel`);
     const event =
       events === "failed"
         ? undefined
@@ -157,28 +170,31 @@ function conversations(
     if (!event) {
       const detail =
         events === undefined
-          ? "Checking…"
+          ? i18n._(msg`Checking…`)
           : events === "failed"
-            ? "Couldn’t load details"
-            : "Details unavailable";
+            ? i18n._(msg`Couldn’t load details`)
+            : i18n._(msg`Details unavailable`);
       rows.set(turn.id, { key: turn.id, channel, detail, count: 1 });
       continue;
     }
     const reply = threadReference(event);
     const key = `${turn.channelId}:${reply?.rootId ?? event.id}`;
+    const place = reply
+      ? i18n._(msg`Thread`)
+      : i18n._(msg`In channel`);
     const row = rows.get(key);
     if (row) row.count++;
     else
       rows.set(key, {
         key,
         channel,
-        detail: `${reply ? "Thread" : "In channel"} · “${messagePreview(event.content)}”`,
+        detail: `${place} · “${messagePreview(event.content)}”`,
         count: 1,
       });
   }
   return [...rows.values()].map(({ key, channel, detail, count }) => ({
     key,
     channel,
-    place: count > 1 ? `${detail} · ${count} mentions` : detail,
+    place: count > 1 ? i18n._(msg`${detail} · ${count} mentions`) : detail,
   }));
 }

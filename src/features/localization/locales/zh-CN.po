@@ -7,9 +7,50 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: zh-CN\n"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid " · Current"
+msgstr " · 当前"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+#: src/features/agents/ModelPicker.tsx
+msgid " · Default"
+msgstr " · 默认"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Deleted"
+msgstr " · 已删除"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid " · Fast"
+msgstr " · 极速"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Moved"
+msgstr " · 已移动"
+
+#: src/features/agents/AgentManage.tsx
+msgid " · Not connected"
+msgstr " · 未连接"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Not valid"
+msgstr " · 无效"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid " · Posted"
+msgstr " · 已发送"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Restored"
+msgstr " · 已恢复"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid " · Thread"
 msgstr " · 话题"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid " (you)"
+msgstr "（你）"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -26,6 +67,10 @@ msgstr " 和另外 {0} 个"
 msgid " and {0} others"
 msgstr " 和其他 {0} 人"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid " in "
+msgstr " 于 "
+
 #. placeholder {0}: scopeLabel(pubkey, root)
 #: src/features/messages/TypingIndicator.tsx
 msgid " in {0}"
@@ -38,6 +83,14 @@ msgstr "加入现有的，或创建你自己的。"
 #: src/features/identity/SignOut.tsx
 msgid " Kept agents keep their names, types and keys; their settings on this device are erased."
 msgstr " 保留的智能体会保留其名称、类型和密钥；它们在此设备上的设置会被清除。"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid " Stop this agent in old Buzz before connecting, so only one app replies."
+msgstr " 连接前请先在旧版 Buzz 中停止此智能体，避免两个应用同时回复。"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid " The app can renew valid approval for another 30 days. Approval expires after 30 days without renewal. The app can restore this access after either app restarts. You can revoke it in External apps."
+msgstr " 应用可将有效授权续期 30 天。授权在 30 天未续期后过期。任一应用重启后均可恢复此访问。你可以在“外部应用”中撤销它。"
 
 #. placeholder {0}: to.map((who) => who.name).join(", ")
 #: src/features/messages/MessageRow.tsx
@@ -61,14 +114,27 @@ msgstr "，使用供应商的默认思考力度"
 msgid ", {verified}"
 msgstr "，{verified}"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid ", agent"
+msgstr "，智能体"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid ", Agent"
 msgstr "，智能体"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid ", archived"
+msgstr "，已归档"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid ", not in this {placeText}"
+msgstr "，不在此{placeText}中"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid ", thread"
 msgstr "，话题"
 
+#: src/bundled/channels/UnreadBadge.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "; may be out of date"
 msgstr "；可能已过期"
@@ -86,6 +152,18 @@ msgstr "。Block 可使用该副本恢复你的身份，包括你在其他地方
 msgid ". Join to keep it in your sidebar and appear as a viewer."
 msgstr "。加入后可将其保留在侧边栏，并以访客身份显示。"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "· {failedChildren} failed call"
+msgstr "· {failedChildren} 次失败的调用"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "· {failedChildren} failed calls"
+msgstr "· {failedChildren} 次失败的调用"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "· Current"
+msgstr "· 当前"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "· Thread"
 msgstr "· 话题"
@@ -98,6 +176,14 @@ msgstr "“{0}”不是有效的收件人"
 #: src/features/messages/ReplySummary.tsx
 msgid "({unreadCount} new)"
 msgstr "（{unreadCount} 条新消息）"
+
+#: src/features/agents/AISettings.tsx
+msgid "(recommended)"
+msgstr "（推荐）"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "(steer) "
+msgstr "（steer）"
 
 #: src/features/identity/KeyImport.tsx
 msgid "(the key on your other device)."
@@ -135,10 +221,25 @@ msgstr "{0} 个智能体在工作"
 msgid "{0} cannot start"
 msgstr "{0} 无法启动"
 
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "{0} connected"
+msgstr "{0} 已连接"
+
+#. placeholder {0}: copy.title
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{0} failed"
+msgstr "{0} 失败"
+
 #. placeholder {0}: subtype.toUpperCase()
 #: src/features/messages/FileAttachment.tsx
 msgid "{0} file"
 msgstr "{0} 个文件"
+
+#. placeholder {0}: team.name
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0} is in the channel."
+msgstr "{0} 在频道中。"
 
 #. placeholder {0}: resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)
 #: src/features/messages/MessageRow.tsx
@@ -149,6 +250,16 @@ msgstr "{0} 在等待"
 #: src/features/messages/MessageRow.tsx
 msgid "{0} is working"
 msgstr "{0} 在工作"
+
+#. placeholder {0}: copy.detail
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{0} It’s a starter channel, so new members will be added to it again once it’s unarchived. To stop that, turn off Starter channel for new members in Settings first."
+msgstr "{0} 这是入门频道，取消归档后新成员会被再次自动加入。要阻止这一点，请先在设置中关闭“新成员加入入门频道”。"
+
+#. placeholder {0}: groupLabel(group.name)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0} member pages"
+msgstr "{0} 页成员"
 
 #. placeholder {0}: channel.members
 #: src/features/conversation/BuzzLinkPreview.tsx
@@ -161,6 +272,11 @@ msgstr "{0} 名成员"
 msgid "{0} of {1}"
 msgstr "{0}/{1}"
 
+#. placeholder {0}: page + 1
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0} of {pageCount}"
+msgstr "第 {0} 页，共 {pageCount} 页"
+
 #. placeholder {0}: authorIds.length
 #: src/features/messages/MessageReactions.tsx
 msgid "{0} people"
@@ -170,6 +286,31 @@ msgstr "{0} 人"
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{0} replies"
 msgstr "{0} 条回复"
+
+#. placeholder {0}: request.client
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "{0} requests access."
+msgstr "{0} 请求访问。"
+
+#. placeholder {0}: result.revisions.length
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "{0} revisions loaded."
+msgstr "已加载 {0} 个修订。"
+
+#. placeholder {0}: sections.length
+#: src/features/agents/ActivityTranscript.tsx
+msgid "{0} sections"
+msgstr "{0} 个分区"
+
+#. placeholder {0}: item.entries.length
+#: src/features/agents/ActivityTranscript.tsx
+msgid "{0} steps"
+msgstr "{0} 个步骤"
+
+#. placeholder {0}: model.label
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "{0} thinking effort"
+msgstr "{0} 的思考力度"
 
 #. placeholder {0}: uploads.phase
 #. placeholder {1}: uploads.destination.name
@@ -187,15 +328,44 @@ msgstr "{0} 在等待"
 msgid "{0} working"
 msgstr "{0} 在工作"
 
+#. placeholder {0}: copy.done
+#. placeholder {0}: copy.title
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{0}: {channelName}"
+msgstr "{0}：{channelName}"
+
+#. placeholder {0}: label(highlightedPerson.pubkey, highlightedPerson.name)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0}. Press Enter to add."
+msgstr "{0}。按回车添加。"
+
 #. placeholder {0}: resolveName(owner.id, owner.profile.name)
 #: src/features/messages/MessageRow.tsx
 msgid "{0}’s agent"
 msgstr "{0} 的智能体"
 
+#. placeholder {0}: count.toLocaleString()
+#. placeholder {1}: tracks.some((track) => !track?.done) ? "+" : ""
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "{0}{1} version"
+msgstr "{0}{1} 个版本"
+
+#. placeholder {0}: count.toLocaleString()
+#. placeholder {1}: tracks.some((track) => !track?.done) ? "+" : ""
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "{0}{1} versions"
+msgstr "{0}{1} 个版本"
+
 #. placeholder {0}: activity.replies
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{0}+ replies"
 msgstr "{0}+ 条回复"
+
+#. placeholder {0}: previous ? `${previous} ` : ""
+#. placeholder {1}: String(reason)
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "{0}History refresh failed: {1}"
+msgstr "{0}历史刷新失败：{1}"
 
 #: src/features/communities/ProfileFields.tsx
 msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
@@ -209,6 +379,24 @@ msgstr "{account} 绑定的密钥与这台电脑上的不同，且 Builderlab �
 msgid "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
 msgstr "{account} 绑定的密钥在另一台设备上，且 Builderlab 没有它的备份。Buzz 会继续使用这台电脑的密钥。想在这里使用你账户的密钥，请在那台设备上的“设置 → 身份”中开启身份同步，或把该密钥的私钥带到这里。"
 
+#. placeholder {0}: channelText(item)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{action} {0}"
+msgstr "{action} {0}"
+
+#. placeholder {0}: label.toLowerCase()
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "{actionLabel} {0}"
+msgstr "{actionLabel} {0}"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "{channelCount} channel will move back to Channels. This does not delete any channels."
+msgstr "{channelCount} 个频道将移回“频道”。这不会删除任何频道。"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "{channelCount} channels will move back to Channels. This does not delete any channels."
+msgstr "{channelCount} 个频道将移回“频道”。这不会删除任何频道。"
+
 #: src/features/conversation/MessageLink.tsx
 msgid "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
 msgstr "{chatLabel}。聊天不可用。你没有访问权限，或它已不存在。"
@@ -221,21 +409,71 @@ msgstr "{colorLabel}强调色"
 msgid "{count} {replyWord}"
 msgstr "{count} 条{replyWord}"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{count} mentions"
+msgstr "{count} 次提及"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{count} messages after yours, {from}"
 msgstr "你发送之后有 {count} 条消息，{from}"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{count} observed unread messages; may be out of date. Not an exact total."
+msgstr "观察到 {count} 条未读消息；可能已过期。并非精确总数。"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{count} observed unread messages. Not an exact total."
+msgstr "观察到 {count} 条未读消息。并非精确总数。"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{count} replies after yours, {from}"
 msgstr "你发送之后有 {count} 条回复，{from}"
 
+#: src/bundled/channels/ChannelTextField.tsx
+msgid "{countLabel} of {limitLabel} characters"
+msgstr "{countLabel}/{limitLabel} 字符"
+
 #: src/shared/datetime.ts
 msgid "{dayLabel} at {time}"
 msgstr "{dayLabel} {time}"
 
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "{days} days"
+msgstr "{days} 天"
+
+#. placeholder {0}: wait(i18n, cooldown)
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{description} Relay requests are paused, so nothing was deleted. You can retry in {0}."
+msgstr "{description} 中继请求已暂停，因此没有删除任何内容。你可以在 {0} 后重试。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{description} Relay requests were paused, so nothing was deleted. You can retry now."
+msgstr "{description} 中继请求曾暂停，因此没有删除任何内容。现在可以重试了。"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{detail} · {count} mentions"
+msgstr "{detail} · {count} 次提及"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel}（仅预览）"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "{family} models"
+msgstr "{family} 系列模型"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "{heading} version"
+msgstr "{heading} 版本"
+
+#. placeholder {0}: i18n._(GAP_TEXT[segment.gap])
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "{heading}: {0}"
+msgstr "{heading}：{0}"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "{heading}: No revisions returned."
+msgstr "{heading}：未返回任何修订。"
 
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "{headingTitle} conversations"
@@ -266,9 +504,30 @@ msgstr "{label}：会话控制不可用。请检查该智能体的连接及其�
 msgid "{label}. {target}: {0}"
 msgstr "{label}。{target}：{0}"
 
+#. placeholder {0}: soloOwnerLabel(owner)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{labelText}, {0}"
+msgstr "{labelText}，{0}"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "{maxRecipients} people selected"
 msgstr "已选择 {maxRecipients} 人"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{memberName} added."
+msgstr "已添加 {memberName}。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{memberName} is in the {placeText}."
+msgstr "{memberName} 在此{placeText}中。"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{mentionCount} unread mentions"
+msgstr "{mentionCount} 条未读提及"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{minutes} minutes"
+msgstr "{minutes} 分钟"
 
 #: src/features/messages/MessageRow.tsx
 msgid "{name} avatar"
@@ -290,6 +549,34 @@ msgstr "{name}，编辑个人资料"
 msgid "{name}'s session"
 msgstr "{name} 的会话"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{names} are in the {placeText}."
+msgstr "{names} 在此{placeText}中。"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{names} was working when Buzz closed or reloaded."
+msgstr "Buzz 关闭或刷新时 {names} 正在工作。"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{names} were working when Buzz closed or reloaded."
+msgstr "Buzz 关闭或刷新时 {names} 正在工作。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} archived"
+msgstr "{nounTitle}已归档"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} deleted"
+msgstr "{nounTitle}已删除"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} left"
+msgstr "{nounTitle}已离开"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} unarchived"
+msgstr "{nounTitle}已取消归档"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "{reason} {fallback}. Your saved choice is retained until you reset it."
 msgstr "{reason} {fallback}。你保存的选择会保留，直到你重置它。"
@@ -302,6 +589,14 @@ msgstr "{remainingWorkingNames} 在等待"
 msgid "{remainingWorkingNames} working"
 msgstr "{remainingWorkingNames} 在工作"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{rest} more"
+msgstr "还有 {rest} 个"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{seconds} seconds"
+msgstr "{seconds} 秒"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{shown} after you"
 msgstr "你之后 {shown} 条"
@@ -309,6 +604,14 @@ msgstr "你之后 {shown} 条"
 #: src/features/messages/ActivityGroupPreview.tsx
 msgid "{speaker}: still working — {preview}"
 msgstr "{speaker}：仍在工作 — {preview}"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{threadCount} unread threads"
+msgstr "{threadCount} 个未读话题"
+
+#: src/features/agents/AISettings.tsx
+msgid "{title}:"
+msgstr "{title}："
 
 #: src/features/messages/ActivityGroupPreview.tsx
 msgid "{toggleVerb} activity history: {summaryLabel}"
@@ -335,6 +638,14 @@ msgstr "已加载的回复中有 {unreadCount} 条新消息"
 msgid "{verb} {displayName}"
 msgstr "{verb} {displayName}"
 
+#: src/features/agents/current-activity.ts
+msgid "{verb} {file}"
+msgstr "{verb} {file}"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "{weeks} weeks ago"
+msgstr "{weeks} 周前"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "{workingNames} are working"
 msgstr "{workingNames} 在工作"
@@ -347,10 +658,36 @@ msgstr "{workingNames} 在工作"
 msgid "@Mentions"
 msgstr "@提及我的"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "# Goal\n"
+"\n"
+"# Scope\n"
+"\n"
+"# Success criteria"
+msgstr "# 目标\n"
+"\n"
+"# 范围\n"
+"\n"
+"# 成功标准"
+
 #. placeholder {0}: roots.length - 2
 #: src/features/messages/TypingIndicator.tsx
 msgid "+{0} more"
 msgstr "还有 {0} 个"
+
+#. placeholder {0}: row.count
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "⋯ {0} unchanged line"
+msgstr "⋯ {0} 行未更改"
+
+#. placeholder {0}: row.count
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "⋯ {0} unchanged lines"
+msgstr "⋯ {0} 行未更改"
+
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "1 day"
+msgstr "1 天"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "1 hour"
@@ -360,9 +697,21 @@ msgstr "1 小时"
 msgid "1 member"
 msgstr "1 名成员"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "1 mention"
+msgstr "1 次提及"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "1 message after yours, {from}"
 msgstr "你发送之后有 1 条消息，{from}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "1 minute"
+msgstr "1 分钟"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "1 month ago"
+msgstr "1 个月前"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "1 person selected"
@@ -375,6 +724,22 @@ msgstr "1 条回复"
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "1 reply after yours, {from}"
 msgstr "你发送之后有 1 条回复，{from}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "1 second"
+msgstr "1 秒"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "1 unread mention"
+msgstr "1 条未读提及"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "1 unread thread"
+msgstr "1 个未读话题"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "1 week ago"
+msgstr "1 周前"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "1+ replies"
@@ -392,6 +757,14 @@ msgstr "24 小时制"
 msgid "8 hours"
 msgstr "8 小时"
 
+#: src/features/agents/AgentManage.tsx
+msgid "A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here."
+msgstr "对它的修改会在所有社区生效。它的头像和关注内容在每个社区各自独立。记忆按社区保存，因此它之前在这里保存的内容会恢复，它在这里的对话也会恢复。"
+
+#: src/features/agents/AgentManage.tsx
+msgid "A change to them applies in every community. Their pictures and what they pay attention to are their own in each. Memory is kept per community, so anything they saved here before comes back, and so do their conversations here."
+msgstr "对它们的修改会在所有社区生效。它们的头像和关注内容在每个社区各自独立。记忆按社区保存，因此它们之前在这里保存的内容会恢复，它们在这里的对话也会恢复。"
+
 #: src/features/identity/Welcome.tsx
 msgid "A different account is saved on this computer"
 msgstr "此电脑上保存着另一个账户"
@@ -399,6 +772,14 @@ msgstr "此电脑上保存着另一个账户"
 #: src/features/direct-messages/NewMessage.tsx
 msgid "A file couldn’t upload. Retry or remove it, then send again."
 msgstr "有文件未能上传。请重试或移除后再发送。"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "A relay request was rate-limited; recovery needs attention."
+msgstr "一个中继请求被限流；恢复需要人工处理。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "A revision here isn't available (removed or expired)."
+msgstr "此处的一个修订不可用（已移除或已过期）。"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "A selected agent is no longer available. Remove it or refresh its details and try again."
@@ -412,6 +793,14 @@ msgstr "所选接收方已归档或正在删除，请移除后再发送。"
 msgid "A team member is no longer available. Refresh choices before trying again."
 msgstr "某个团队成员已不可用，请刷新选项后重试。"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "A–Z"
+msgstr "A–Z"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "About your other agents"
+msgstr "关于你的其他智能体"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Accent color"
 msgstr "强调色"
@@ -419,6 +808,18 @@ msgstr "强调色"
 #: src/app/AppearanceSettings.tsx
 msgid "Accent color wasn’t saved"
 msgstr "未能保存强调色"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Access"
+msgstr "访问权限"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Access unavailable"
+msgstr "访问权限不可用"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Access updated"
+msgstr "访问权限已更新"
 
 #. placeholder {0}: channel.name
 #: src/features/channel-navigation/RegionChannelGroup.tsx
@@ -428,6 +829,15 @@ msgstr "{0} 的操作"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Actions for {name}"
 msgstr "{name} 的操作"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Actions for {title}"
+msgstr "{title} 的操作"
+
+#: src/bundled/channels/SidebarActiveDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Active in the last"
+msgstr "活跃于最近"
 
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
@@ -442,6 +852,10 @@ msgstr "活动过滤和“最近”排序可能已过期。"
 msgid "activity history: {0}: Couldn’t finish"
 msgstr "活动历史：{0}：无法完成"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Activity in {channelName}"
+msgstr "{channelName} 中的活动"
+
 #. placeholder {0}: agents.length
 #: src/features/messages/TypingIndicator.tsx
 msgid "Activity: {0} agents working"
@@ -452,6 +866,32 @@ msgstr "活动：{0} 个智能体在工作"
 msgid "Activity: {0} working"
 msgstr "活动：{0} 在工作"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add"
+msgstr "添加"
+
+#. placeholder {0}: people.length
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Add {0} people"
+msgstr "添加 {0} 人"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add {name} ({keyLabel})"
+msgstr "添加 {name}（{keyLabel}）"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add {name} ({keyLabel}) as"
+msgstr "将 {name}（{keyLabel}）添加为"
+
+#. placeholder {0}: people[0]?.[1]?.slice(0, 12) ?? ""
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Add agent {0}"
+msgstr "添加智能体 {0}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add agents"
+msgstr "添加智能体"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Add another person…"
 msgstr "再添加一人…"
@@ -460,28 +900,106 @@ msgstr "再添加一人…"
 msgid "Add anything that helps moderators..."
 msgstr "补充任何有助于管理员处理的信息…"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add as"
+msgstr "添加为"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add as admin"
+msgstr "设为管理员"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
 msgstr "添加链接"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add member?"
+msgstr "添加成员？"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add people and agents"
+msgstr "添加人和智能体"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add people or share to a channel"
+msgstr "添加人员或分享到频道"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add people, agents or a channel"
+msgstr "添加人员、智能体或频道"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add team"
+msgstr "添加团队"
+
+#. placeholder {0}: team.name
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add team {0}"
+msgstr "添加团队 {0}"
 
 #: src/features/communities/LegacyCommunityImport.tsx
 msgid "Add these saved communities to your list and account. This may restore communities you previously removed."
 msgstr "将这些已保存的社区添加到你的列表和账户。这可能会恢复你之前移除的社区。"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add to participate"
+msgstr "加入后即可参与"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add with view-only access"
+msgstr "以只读权限添加"
+
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Added"
+msgstr "已添加"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Adding members is unavailable in this connection."
+msgstr "此连接上无法添加成员。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Adding…"
+msgstr "正在添加…"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Additional context (optional)"
 msgstr "补充说明（可选）"
 
+#. placeholder {0}: templateSetup.agents.map((key) => agentNames.get(key)).join(", ")
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Adds {0}"
+msgstr "会添加 {0}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Admin"
+msgstr "管理员"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "after {label}"
+msgstr "在 {label} 后"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "agent"
+msgstr "智能体"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+#: src/features/agents/ExternalAuthorizationDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "Agent"
 msgstr "智能体"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Agent connection setup"
+msgstr "智能体连接设置"
 
 #: src/app/settings-sections.ts
 msgid "Agent setup"
 msgstr "智能体设置"
 
 #: src/app/shell/BestieNavigation.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Agents"
 msgstr "智能体"
 
@@ -489,11 +1007,22 @@ msgstr "智能体"
 msgid "Agents could not be loaded."
 msgstr "无法加载智能体。"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Agents on this device"
+msgstr "此设备上的智能体"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "Agents working now"
 msgstr "正在工作的智能体"
 
+#: src/features/agents/AISettings.tsx
+msgid "AI setup"
+msgstr "AI 设置"
+
 #: src/app/shell/PageSearch.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
 msgid "All"
 msgstr "全部"
 
@@ -537,6 +1066,19 @@ msgstr "接收消息的智能体已归档或正在删除，请选择其他智能
 msgid "Another plugin review opened. Close it before confirming this update."
 msgstr "另一个插件审核已打开，请先关闭再确认此更新。"
 
+#. placeholder {0}: group.count
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Any access · {0}"
+msgstr "任何权限 · {0}"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Anyone in the community"
+msgstr "社区中的任何人"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Anyone in the community can read."
+msgstr "社区中的任何人都可以阅读。"
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Anyone with this key can act as you. Never share it."
 msgstr "持有此密钥的任何人都能以你的身份行事。切勿分享。"
@@ -559,6 +1101,10 @@ msgstr "外观预览"
 msgid "Appearance wasn’t saved"
 msgstr "未能保存外观设置"
 
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "Apply"
+msgstr "应用"
+
 #: src/app/shell/PageNavigation.tsx
 msgid "Apps"
 msgstr "应用"
@@ -567,19 +1113,74 @@ msgstr "应用"
 msgid "Apps dock"
 msgstr "应用栏"
 
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archive {nounText}"
+msgstr "归档{nounText}"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Archive state"
+msgstr "归档状态"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archive this channel for everyone and remove it from the sidebar. Messages are kept. Find it in search to unarchive it later."
+msgstr "为所有人归档此频道并从侧边栏移除。消息会保留。之后可通过搜索找到并取消归档。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archive this chat for everyone in it and remove it from the sidebar. Messages are kept. Find it in search to unarchive it later."
+msgstr "为聊天中的所有人归档此聊天并从侧边栏移除。消息会保留。之后可通过搜索找到并取消归档。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/SoloHeading.tsx
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Archived"
 msgstr "已归档"
 
+#: src/bundled/channels/ChannelStateNotice.tsx
+msgid "Archived · view only"
+msgstr "已归档 · 仅查看"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Archived {placeText}s cannot add members."
+msgstr "已归档的{placeText}不能添加成员。"
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Archived {placeWord}"
 msgstr "已归档的{placeWord}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Archived identities could not be checked."
+msgstr "无法检查已归档的身份。"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Archives"
+msgstr "归档"
 
 #. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Archives after {0} without activity."
 msgstr "连续 {0} 没有活动后自动归档。"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Archives after {label} without activity."
+msgstr "在 {label} 无活动后归档。"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Archives without activity."
+msgstr "无活动后归档。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archiving {nounText}…"
+msgstr "正在归档{nounText}…"
+
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Ask {0} to respond"
+msgstr "请 {0} 回复"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Assigned channels will move back to Channels. This does not delete any channels."
+msgstr "已分配的频道将移回“频道”。这不会删除任何频道。"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "At least {count} messages after yours, {from}"
@@ -638,6 +1239,23 @@ msgstr "音频播放"
 msgid "Audio unavailable"
 msgstr "音频不可用"
 
+#. placeholder {0}: state.grant.client
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Authorization replaces access for {0}. Switching communities ends that access immediately, even if you then select Deny."
+msgstr "授权将替换 {0} 的访问权限。切换社区会立即终止该权限，即使你随后选择拒绝。"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Authorize"
+msgstr "授权"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Authorize app"
+msgstr "授权应用"
+
+#: src/features/agents/AISettings.tsx
+msgid "Automatic"
+msgstr "自动"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Automatic updates aren't available on this build. Download the latest release manually."
 msgstr "此版本不支持自动更新，请手动下载最新发布版本。"
@@ -670,13 +1288,29 @@ msgstr "离开"
 msgid "Back"
 msgstr "返回"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Back to channel creation"
+msgstr "返回频道创建"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Back to drafts"
 msgstr "返回草稿"
 
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Back to edit channel details"
+msgstr "返回编辑频道详情"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Back to members"
+msgstr "返回成员"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Back to sent"
 msgstr "返回已发送"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Back to template"
+msgstr "返回模板"
 
 #: src/features/identity/BackupConsent.tsx
 msgid "Back up key"
@@ -734,6 +1368,11 @@ msgstr "Buzz 会自动将此密钥同步到你的 Builderlab 账户"
 msgid "Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
 msgstr "Buzz 会将你身份密钥的加密副本保存到你的 Builderlab 账户。该副本可恢复你的身份，包括你在其他应用中使用同一密钥的场合。如果你自行管理密钥，请保留私钥副本：在另一台设备上使用此账户、或失去此设备的访问权时，都需要它。"
 
+#. placeholder {0}: candidate.label
+#: src/features/agents/AISettings.tsx
+msgid "Buzz’s usual pick, {skipped}, isn’t set up on this computer, so this agent uses {0}."
+msgstr "Buzz 常用的 {skipped} 未在这台电脑上配置，因此此智能体使用 {0}。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Buzzin’"
 msgstr "鲜明"
@@ -742,6 +1381,10 @@ msgstr "鲜明"
 #: src/features/communities/ProfileFields.tsx
 msgid "Cached verification from {0}"
 msgstr "已缓存 {0} 的验证信息"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Calls recorded during this script"
+msgstr "此脚本运行期间记录的调用"
 
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
@@ -752,6 +1395,20 @@ msgstr "无法连接"
 #: src/app/CommunityRepositoriesSettings.tsx
 #: src/app/ProfileSettings.tsx
 #: src/app/shell/MarkAllReadShortcut.tsx
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/CanvasHistory.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/CreateSidebarSection.tsx
+#: src/bundled/channels/RenameSidebarSection.tsx
+#: src/bundled/channels/SidebarActiveDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
+#: src/features/agents/AgentManage.tsx
+#: src/features/agents/ModelPicker.tsx
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -772,6 +1429,10 @@ msgstr "取消"
 msgid "Cancel edit"
 msgstr "取消编辑"
 
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Cancel rename"
+msgstr "取消重命名"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Cancel reply target"
 msgstr "取消回复目标"
@@ -790,21 +1451,124 @@ msgstr "取消上传至 {0}"
 msgid "Canceling recovery…"
 msgstr "正在取消恢复…"
 
+#: src/bundled/channels/canvas-panel.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Canvas"
+msgstr "Canvas"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas changed since this draft began. Your draft is kept. Copy any edits you want to keep before reloading the saved Canvas."
+msgstr "自本次草稿开始后 Canvas 已更改。你的草稿会保留。重新加载已保存的 Canvas 前，请先复制想保留的修改。"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas is read-only."
+msgstr "Canvas 为只读。"
+
+#: src/bundled/channels/canvas-panel.tsx
+msgid "Canvas is unavailable while the connection recovers."
+msgstr "连接恢复期间 Canvas 不可用。"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas Markdown"
+msgstr "Canvas Markdown"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas views"
+msgstr "Canvas 视图"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas was restored. Your unsaved draft is kept. Copy any edits you want to keep before reloading the saved Canvas."
+msgstr "Canvas 已恢复。你未保存的草稿会保留。重新加载已保存的 Canvas 前，请先复制想保留的修改。"
+
+#: src/bundled/channels/RelayTimings.tsx
+msgid "Capture timings"
+msgstr "采集耗时"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Change access"
+msgstr "更改访问权限"
+
+#. placeholder {0}: memberAccessLabel(selection.expectedRole)
+#. placeholder {1}: memberAccessLabel(selection.role)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Change access from {0} to {1}. Admins can manage this {placeText} and its members."
+msgstr "将访问权限从 {0} 改为 {1}。管理员可以管理此{placeText}及其成员。"
+
+#. placeholder {0}: memberAccessLabel(selection.expectedRole)
+#. placeholder {1}: memberAccessLabel(selection.role)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Change access from {0} to {1}. This changes what they can do in this {placeText}."
+msgstr "将访问权限从 {0} 改为 {1}。这会改变他们在此{placeText}中能做的事。"
+
+#. placeholder {0}: memberAccessLabel(selection.role)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Change access to {0}?"
+msgstr "将访问权限改为 {0}？"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Change general access?"
+msgstr "更改通用访问权限？"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Changed"
+msgstr "已更改"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Changes"
+msgstr "更改"
+
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Changes from current version"
+msgstr "相对当前版本的更改"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "channel"
+msgstr "频道"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Channel"
 msgstr "频道"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Channel actions"
 msgstr "频道操作"
 
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+msgid "Channel actions unavailable on this connection"
+msgstr "此连接上频道操作不可用"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Channel archived: {channelName}"
 msgstr "频道已归档：{channelName}"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Channel Canvas"
+msgstr "频道 Canvas"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Channel conversation"
 msgstr "频道对话"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Channel creation unavailable"
+msgstr "频道创建不可用"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Channel ID"
+msgstr "频道 ID"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Channel ID copied"
+msgstr "频道 ID 已复制"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Channel list needs refreshing."
+msgstr "频道列表需要刷新。"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Channel message history"
@@ -814,23 +1578,49 @@ msgstr "频道消息历史"
 msgid "Channel preview"
 msgstr "频道预览"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Channel settings"
+msgstr "频道设置"
+
 #. placeholder {0}: notice.name
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Channel setup couldn’t finish: {0}"
 msgstr "频道设置无法完成：{0}"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Channel templates"
+msgstr "频道模板"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Channel templates settings"
+msgstr "频道模板设置"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Channel unavailable"
 msgstr "频道不可用"
 
 #: src/app/shell/PageSearch.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Channels"
 msgstr "频道"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "chat"
 msgstr "聊天"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Chat"
+msgstr "聊天"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/useSoloShare.ts
+msgid "Chat access changed. Close and reopen to check current access before retrying."
+msgstr "聊天访问权限已变化。重试前请先关闭并重新打开以确认当前权限。"
 
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Chat actions"
@@ -844,17 +1634,38 @@ msgstr "对话已归档：{channelName}"
 msgid "Chat attachments"
 msgstr "聊天附件"
 
+#: src/bundled/channels/useSoloShare.ts
+msgid "Chat changed to View only. "
+msgstr "聊天已改为仅查看。"
+
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Chat name"
+msgstr "聊天名称"
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Chat preview"
 msgstr "聊天预览"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Chat settings"
+msgstr "聊天设置"
 
 #: src/features/conversation/MessageLink.tsx
 msgid "Chat unavailable. You don’t have access, or it no longer exists."
 msgstr "聊天不可用。你没有访问权限，或它已不存在。"
 
+#: src/bundled/channels/SoloChatMenu.tsx
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Chats"
+msgstr "聊天"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
 msgstr "在此社区中通过“新建对话”创建的个人对话使用此保留时间，也可以在对话设置中修改。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Check access and share"
+msgstr "检查权限并分享"
 
 #: src/app/PluginUpdates.tsx
 #: src/features/updates/UpdateSettings.tsx
@@ -881,6 +1692,12 @@ msgstr "检查是否有新版本。"
 msgid "Check permission"
 msgstr "检查权限"
 
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Check save status"
+msgstr "检查保存状态"
+
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Check your connection, then try again."
@@ -890,6 +1707,14 @@ msgstr "请检查网络后重试。"
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Check your connection. We’ll keep trying."
 msgstr "请检查网络，我们会继续重试。"
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Checking chat access…"
+msgstr "正在检查聊天权限…"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Checking current access…"
+msgstr "正在检查当前权限…"
 
 #: src/features/identity/setup.ts
 msgid "Checking for a backed-up key…"
@@ -904,6 +1729,18 @@ msgstr "正在检查更新，请在检查完成后重试。"
 msgid "Checking for updates…"
 msgstr "正在检查更新…"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Checking save status…"
+msgstr "正在检查保存状态…"
+
+#: src/features/agents/AISettings.tsx
+msgid "Checking this computer…"
+msgstr "正在检查这台电脑…"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Checking which of its agents are in this community…"
+msgstr "正在检查它的哪些智能体在此社区中…"
+
 #: src/features/identity/setup.ts
 #: src/features/identity/Welcome.tsx
 msgid "Checking your account…"
@@ -912,6 +1749,10 @@ msgstr "正在检查你的账户…"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Checking your current status…"
 msgstr "正在检查当前状态…"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Checking…"
+msgstr "正在检查…"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Chillin’"
@@ -937,6 +1778,14 @@ msgstr "选择社区以查看最近的对话。"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Choose a date and time in the future."
 msgstr "请选择未来的日期和时间。"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Choose a harness to continue."
+msgstr "选择一个运行框架以继续。"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Choose a harness to import this agent."
+msgstr "选择一个运行框架来导入此智能体。"
 
 #: src/app/NotificationSettings.tsx
 msgid "Choose a sound to preview it."
@@ -966,6 +1815,10 @@ msgstr "选择到期日期"
 msgid "Choose folder…"
 msgstr "选择目录…"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Choose harness"
+msgstr "选择运行框架"
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Choose repositories folder"
 msgstr "选择仓库目录"
@@ -977,6 +1830,10 @@ msgstr "选择你的团队用来连接的地址。"
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Choose the Buzz identity to restore on this device."
 msgstr "选择要在这台设备上恢复的 Buzz 身份。"
+
+#: src/features/agents/AISettings.tsx
+msgid "Choose your own settings."
+msgstr "自定义你的设置。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Citrus"
@@ -1016,10 +1873,16 @@ msgid "Clock preference wasn’t saved"
 msgstr "未能保存时间设置"
 
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Close"
 msgstr "关闭"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Close channel creation"
+msgstr "关闭频道创建"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Close conversation"
@@ -1032,6 +1895,10 @@ msgstr "关闭草稿预览"
 #: src/features/messages/MessageComposer.tsx
 msgid "Close edit"
 msgstr "关闭编辑"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Close edit channel details"
+msgstr "关闭编辑频道详情"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Close formatting"
@@ -1057,6 +1924,10 @@ msgstr "关闭状态编辑器"
 #: src/bundled/channels/PageTabs.tsx
 msgid "Close tab pane"
 msgstr "关闭标签面板"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Close template"
+msgstr "关闭模板"
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "Close thread"
@@ -1120,6 +1991,7 @@ msgid "Communities you own"
 msgstr "你拥有的社区"
 
 #: src/app/settings-sections.ts
+#: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Community"
 msgstr "社区"
 
@@ -1184,13 +2056,27 @@ msgstr "正在压缩会话。请等待完成，或中断它。"
 msgid "Compacting session…"
 msgstr "正在压缩会话上下文…"
 
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Comparison too large; showing full content."
+msgstr "对比内容过大；显示完整内容。"
+
 #: src/features/identity/KeyRestore.tsx
 msgid "Complete sign-in in your browser if prompted."
 msgstr "如果浏览器有提示，请在其中完成登录。"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Completed"
+msgstr "已完成"
+
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/identity/JoinCommunity.tsx
 msgid "Connect"
 msgstr "连接"
+
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Connect {0}"
+msgstr "连接 {0}"
 
 #: src/features/identity/JoinCommunity.tsx
 msgid "Connect to {host}"
@@ -1208,14 +2094,20 @@ msgstr "连接此社区后即可搜索消息。"
 msgid "Connect to your community"
 msgstr "连接到你的社区"
 
+#: src/bundled/channels/LiveStatus.tsx
+msgid "connecting"
+msgstr "连接中"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connecting to this community…"
 msgstr "正在连接社区…"
 
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Connecting…"
 msgstr "正在连接…"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/CommunityUrlField.tsx
 #: src/features/identity/LegacyIdentityOffer.tsx
@@ -1257,6 +2149,7 @@ msgstr "不备份继续"
 msgid "Continue without signing in"
 msgstr "不登录直接继续"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "conversation"
 msgstr "对话"
@@ -1269,6 +2162,14 @@ msgstr "对话操作"
 msgid "Conversation activity"
 msgstr "对话活动"
 
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Conversation hidden"
+msgstr "对话已隐藏"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Conversation unknown"
+msgstr "对话未知"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Conversations"
 msgstr "对话"
@@ -1277,6 +2178,7 @@ msgstr "对话"
 msgid "Conversations couldn’t open."
 msgstr "对话无法打开。"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
 #: src/features/identity/PrivateKey.tsx
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Copy"
@@ -1286,10 +2188,15 @@ msgstr "复制"
 msgid "Copy community URL"
 msgstr "复制社区 URL"
 
+#: src/features/agents/MemoryPanel.tsx
+msgid "Copy full body"
+msgstr "复制完整内容"
+
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Copy image"
 msgstr "复制图片"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy link"
 msgstr "复制链接"
@@ -1297,6 +2204,10 @@ msgstr "复制链接"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy message"
 msgstr "复制消息"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Copy name"
+msgstr "复制名称"
 
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Copy npub"
@@ -1319,9 +2230,21 @@ msgstr "请从旧版 Buzz 应用的“身份详情”中复制此项。切勿与
 msgid "Copy URL"
 msgstr "复制地址"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Copying a link does not grant access."
+msgstr "复制链接不会授予访问权限。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Core memories"
+msgstr "核心记忆"
+
 #: src/features/conversation/ReactionTool.tsx
 msgid "Could not add reaction. Try again."
 msgstr "无法添加表情回应。请重试。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Could not add this agent. Try again."
+msgstr "无法添加此智能体。请重试。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not attach {refused} files"
@@ -1380,6 +2303,18 @@ msgstr "无法关闭该操作提示。"
 msgid "Could not load people."
 msgstr "无法加载人员。"
 
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Could not load thinking levels"
+msgstr "无法加载思考级别"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Could not mark this {nounLabel} as read. Try again."
+msgstr "无法将此{nounLabel}标为已读。请重试。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Could not open the conversation. Try Send message again."
+msgstr "无法打开对话。请再次尝试“发送消息”。"
+
 #: src/features/communities/FindCommunity.tsx
 #: src/features/identity/ProfileStep.tsx
 msgid "Could not reach the relay. Check your connection and try again."
@@ -1396,6 +2331,10 @@ msgstr "无法恢复该消息。"
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not restore unread state."
 msgstr "无法恢复未读状态。"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Could not save dismissal. Try again."
+msgstr "无法保存关闭操作。请重试。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not save model and effort for this chat on this device. The current choices remain until this composer closes."
@@ -1433,9 +2372,26 @@ msgstr "无法检查更新。"
 msgid "Couldn’t check whether erasing is available"
 msgstr "无法检查抹除功能是否可用"
 
+#. placeholder {0}: message(reason)
+#: src/features/agents/AgentManage.tsx
+msgid "Couldn't check whether it's archived: {0}"
+msgstr "无法检查它是否已归档：{0}"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Couldn’t check your latest status. Your draft is unchanged."
 msgstr "无法检查最新状态，草稿已保留。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Couldn't confirm the revert was saved ({detail}). It may still arrive; check the history before trying again."
+msgstr "无法确认回退已保存（{detail}）。它可能仍在送达途中；再次尝试前请先查看历史。"
+
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Couldn't confirm the section was saved. Try again."
+msgstr "无法确认分区已保存。请重试。"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Couldn’t copy channel ID. Try again."
+msgstr "无法复制频道 ID。请重试。"
 
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Couldn't copy image"
@@ -1448,6 +2404,18 @@ msgstr "无法复制文字"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Couldn’t copy the community URL."
 msgstr "无法复制社区 URL。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Couldn’t copy the link."
+msgstr "无法复制链接。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Couldn’t copy the memory body."
+msgstr "无法复制记忆内容。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Couldn’t copy the memory name."
+msgstr "无法复制记忆名称。"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t copy the URL. Select it and copy manually."
@@ -1497,6 +2465,14 @@ msgstr "无法加入此{placeWord}。"
 #: src/features/communities/CommunityPicker.tsx
 msgid "Couldn’t leave {0}"
 msgstr "无法退出 {0}"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Couldn’t load details"
+msgstr "无法加载详情"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Couldn't load older revisions."
+msgstr "无法加载更早的修订。"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Couldn’t load this preview."
@@ -1581,6 +2557,10 @@ msgstr "无法发送此消息。"
 msgid "Couldn’t send to channel"
 msgstr "无法发送到频道"
 
+#: src/bundled/channels/useSoloShare.ts
+msgid "Couldn’t share this chat."
+msgstr "无法分享此聊天。"
+
 #: src/features/identity/Welcome.tsx
 msgid "Couldn’t sign in"
 msgstr "无法登录"
@@ -1598,6 +2578,14 @@ msgstr "无法取消静音 {0}"
 msgid "Couldn’t update reaction."
 msgstr "无法更新表情回应。"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Create"
+msgstr "创建"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Create a channel"
+msgstr "创建频道"
+
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/identity/CreateCommunityStep.tsx
 msgid "Create a community"
@@ -1611,14 +2599,36 @@ msgstr "创建新身份"
 msgid "Create account"
 msgstr "创建账户"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Create and move"
+msgstr "创建并移动"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Create channel"
+msgstr "创建频道"
+
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/identity/CreateCommunityStep.tsx
 msgid "Create community"
 msgstr "创建社区"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Create new section"
+msgstr "新建分区"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Create new workspace"
+msgstr "新建工作区"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Create new…"
 msgstr "新建…"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Create section"
+msgstr "创建分区"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
@@ -1628,10 +2638,28 @@ msgstr "请先创建对话，再添加文件。"
 msgid "Creating your key…"
 msgstr "正在创建你的密钥…"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Current"
+msgstr "当前"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/useSoloShare.ts
+msgid "Current access could not be confirmed."
+msgstr "无法确认当前访问权限。"
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Current access is unavailable on this connection."
+msgstr "此连接上无法获取当前访问权限。"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Current identity"
 msgstr "当前身份"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Current version"
+msgstr "当前版本"
+
+#: src/features/agents/AISettings.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom"
 msgstr "自定义"
@@ -1639,6 +2667,11 @@ msgstr "自定义"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom date and time"
 msgstr "自定义日期和时间"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+#: src/features/agents/ModelPicker.tsx
+msgid "Custom model"
+msgstr "自定义模型"
 
 #: src/app/AppearanceSettings.tsx
 #: src/app/shell/ProfileButton.tsx
@@ -1648,6 +2681,10 @@ msgstr "深色"
 #: src/app/settings-sections.ts
 msgid "Decisions API"
 msgstr "Decisions API"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Decrease duration"
+msgstr "缩短时长"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Decrease interface size"
@@ -1665,9 +2702,34 @@ msgstr "采用{widthLabel}宽度的默认气泡消息。"
 msgid "Default REPOS folder in each agent’s workspace"
 msgstr "各智能体工作区中的默认 REPOS 目录"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/features/agents/ActivityTranscript.tsx
+#: src/features/agents/AgentManage.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete"
 msgstr "删除"
+
+#. placeholder {0}: agent.name
+#: src/features/agents/AgentManage.tsx
+msgid "Delete {0}?"
+msgstr "删除 {0}？"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Delete {channelName}?"
+msgstr "删除 {channelName}？"
+
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Delete {nounText}"
+msgstr "删除{nounText}"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Delete again to finish here."
+msgstr "再次删除以在此处完成。"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Delete agent"
+msgstr "删除智能体"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete message"
@@ -1676,6 +2738,18 @@ msgstr "删除消息"
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete message?"
 msgstr "删除消息？"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Delete workspace"
+msgstr "删除工作区"
+
+#: src/features/agents/current-activity.ts
+msgid "Deleting"
+msgstr "删除中"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Deleting {nounText}…"
+msgstr "正在删除{nounText}…"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Deleting…"
@@ -1706,6 +2780,15 @@ msgstr "送达尚未确认。{0}"
 msgid "Density"
 msgstr "密度"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Deny"
+msgstr "拒绝"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+#: src/bundled/channels/ChannelTextField.tsx
+msgid "Description"
+msgstr "描述"
+
 #: src/app/NotificationSettings.tsx
 msgid "Desktop alerts"
 msgstr "桌面提醒"
@@ -1718,9 +2801,21 @@ msgstr "桌面通知"
 msgid "Details"
 msgstr "详情"
 
+#: src/features/agents/MemoryPanel.tsx
+msgid "Details the agent can look up as needed."
+msgstr "智能体按需查阅的详细内容。"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Details unavailable"
+msgstr "详情不可用"
+
 #: src/app/settings-sections.ts
 msgid "Developer"
 msgstr "开发者"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Diagnostics"
+msgstr "诊断"
 
 #: src/features/messages/MessageRow.tsx
 msgid "Diff"
@@ -1735,11 +2830,23 @@ msgstr "差异已截断。请在源仓库查看完整差异。"
 msgid "Direct messages"
 msgstr "私聊"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Discard and reload"
+msgstr "放弃并重新加载"
+
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/features/agents/AgentSaveButton.tsx
 msgid "Discard changes"
 msgstr "放弃修改"
 
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/features/agents/AgentSaveButton.tsx
 msgid "Discard changes?"
 msgstr "放弃修改？"
 
@@ -1747,10 +2854,21 @@ msgstr "放弃修改？"
 msgid "Discard failed update"
 msgstr "放弃失败的更新"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Discard your draft and reload the saved Canvas?"
+msgstr "放弃你的草稿并重新加载已保存的 Canvas？"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 msgid "Dismiss"
 msgstr "关闭"
+
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Dismiss connection setup for {0}"
+msgstr "关闭 {0} 的连接设置"
 
 #. placeholder {0}: named(entry.agent)
 #: src/features/messages/ActivityGroupActions.tsx
@@ -1780,6 +2898,15 @@ msgstr "显示名称"
 msgid "Display name saved on this device."
 msgstr "显示名称已保存到此设备。"
 
+#. placeholder {0}: dmLabel(target.participants, profiles, resolveName, target.name)
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "DM · {0}"
+msgstr "私信 · {0}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "DM membership cannot be changed here."
+msgstr "无法在此更改私信成员。"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Dock badge unavailable"
 msgstr "Dock 角标不可用"
@@ -1799,6 +2926,18 @@ msgstr "Dock 未读角标"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Don’t clear"
 msgstr "不自动清除"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Don’t resume"
+msgstr "不恢复"
+
+#: src/bundled/channels/ChannelPrivacyConfirmation.tsx
+msgid "Don’t show me this again"
+msgstr "不再显示"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Done"
+msgstr "完成"
 
 #: src/features/messages/FileAttachment.tsx
 msgid "Download"
@@ -1879,6 +3018,7 @@ msgstr "将文件拖放到此对话"
 msgid "Drop to use this file."
 msgstr "松开以使用此文件。"
 
+#: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Duration"
 msgstr "持续时间"
@@ -1891,10 +3031,38 @@ msgstr "持续时间：{durationLabel}"
 msgid "Earlier reply unavailable in loaded history."
 msgstr "更早的回复在已加载的历史中不可用。"
 
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Edit"
+msgstr "编辑"
+
+#. placeholder {0}: item.name
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Edit {0}"
+msgstr "编辑 {0}"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Edit channel details"
+msgstr "编辑频道详情"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Edit channel name"
+msgstr "编辑频道名称"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Edit configuration"
+msgstr "编辑配置"
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Edit connection"
 msgstr "编辑连接"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Edit details"
+msgstr "编辑详情"
 
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Edit link"
@@ -1909,13 +3077,29 @@ msgstr "编辑消息"
 msgid "Edit queued message"
 msgstr "编辑排队中的消息"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Edit template"
+msgstr "编辑模板"
+
 #: src/features/messages/MessageRow.tsx
 msgid "edited"
 msgstr "已编辑"
 
+#: src/features/agents/current-activity.ts
+msgid "Editing"
+msgstr "编辑中"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Editing is unavailable on this connection."
+msgstr "此连接上无法编辑。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Editing message"
 msgstr "正在编辑消息"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Empty"
+msgstr "空"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Empty draft"
@@ -1924,6 +3108,14 @@ msgstr "空草稿"
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Empty message"
 msgstr "空消息"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Enable Agents in Buzz desktop to authorize external apps."
+msgstr "请在 Buzz 桌面版中启用智能体以授权外部应用。"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Enable its runtime plugin, or use the Buzz copy that runs this agent. You can deny this request and start setup there."
+msgstr "请启用它的运行时插件，或使用运行此智能体的那份 Buzz。你可以拒绝此请求并在那边开始设置。"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Enable Messages to see conversations."
@@ -1937,6 +3129,10 @@ msgstr "输入社区地址或邀请链接以继续。"
 #: src/features/identity/CommunityUrlField.tsx
 msgid "Enter a community address or invite link."
 msgstr "请输入社区地址或邀请链接。"
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Enter a model ID"
+msgstr "输入模型 ID"
 
 #: src/features/identity/ProfileStep.tsx
 msgid "Enter a name for your community profile. You can change it later."
@@ -1965,9 +3161,17 @@ msgstr "抹除仅清除应用数据、本地存储、缓存和插件存储，且
 msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 msgstr "{0} 中的每个对话都将显示为已读。之后你仍可将某个对话标为未读。"
 
+#: src/bundled/channels/ChannelPrivacyConfirmation.tsx
+msgid "Everyone in this community will be able to view this channel’s full history."
+msgstr "此社区中的所有人都能查看此频道的完整历史。"
+
 #: src/features/messages/MessageReactions.tsx
 msgid "Everyone who reacted"
 msgstr "所有回应的人"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Existing members keep their access."
+msgstr "现有成员保留其权限。"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Expiration time"
@@ -1977,9 +3181,45 @@ msgstr "到期时间"
 msgid "Explicit mentions"
 msgstr "明确提及"
 
+#: src/bundled/channels/RelayTimings.tsx
+msgid "Export timings"
+msgstr "导出耗时"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "External app authorization failed"
+msgstr "外部应用授权失败"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "External apps are not enabled for this community. Select an enabled community."
+msgstr "此社区未启用外部应用。请选择一个已启用的社区。"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "External apps are not enabled here."
+msgstr "此处未启用外部应用。"
+
+#: src/features/agents/AISettings.tsx
+msgid "Extra high"
+msgstr "极高"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Failed"
+msgstr "失败"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Failed to submit report. Try again."
 msgstr "提交举报失败。请重试。"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Fast"
+msgstr "极速"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Fetch"
+msgstr "获取"
+
+#: src/features/agents/current-activity.ts
+msgid "Fetching"
+msgstr "获取中"
 
 #: src/features/messages/FileAttachment.tsx
 msgid "File"
@@ -1989,9 +3229,25 @@ msgstr "文件"
 msgid "File unavailable"
 msgstr "文件不可用"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Filter"
+msgstr "筛选"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Filter {title}"
+msgstr "筛选 {title}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Filter members: {filterText}"
+msgstr "筛选成员：{filterText}"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Find a person…"
 msgstr "查找人员…"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Find more matches"
+msgstr "查找更多匹配"
 
 #: src/features/identity/setup.ts
 msgid "Finding communities…"
@@ -2025,6 +3281,10 @@ msgstr "请先完成或取消当前编辑。"
 msgid "Finish signing in there, then come back and choose Continue."
 msgstr "在浏览器中完成登录后，回到这里选择“继续”。"
 
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Finish the pending change in Chat settings first."
+msgstr "请先完成聊天设置中待处理的更改。"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Follow thread"
 msgstr "关注话题"
@@ -2036,6 +3296,27 @@ msgstr "追加消息的发送方式"
 #: src/app/AppearanceSettings.tsx
 msgid "Follow-up preference wasn’t saved"
 msgstr "未能保存追加消息设置"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Follow-up queued"
+msgstr "后续消息已排队"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Forget"
+msgstr "忘记"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Forget deletes it from this device without reaching that community, so it may stay in its channels there."
+msgstr "“忘记”仅从此设备删除它，不会通知那个社区，因此它可能仍保留在那边的频道中。"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Forget it"
+msgstr "忘记它"
+
+#. placeholder {0}: hostOf(membership.origin)
+#: src/features/agents/AgentManage.tsx
+msgid "Forget it in {0}"
+msgstr "在 {0} 中忘记它"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Formatting"
@@ -2054,9 +3335,25 @@ msgstr "转发"
 msgid "Forward message"
 msgstr "转发消息"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Full access as the selected agent: the app can use every Buzz tool the agent has, including tools plugins add later. It reads, posts and manages channels where the agent can, uses its memory, attention and Git access to its community's repositories, wakes the agent in its conversations, runs the Nexus workers the agent may run, and can change Buzz settings on this device. It can post any file the agent can read on this device, including outside its workspace. It can disable plugins; installing, updating, enabling or removing one needs your confirmation. Keys stay in Buzz."
+msgstr "以所选智能体的身份完全访问：应用可以使用该智能体拥有的每个 Buzz 工具，包括插件日后添加的工具。它可以在智能体可及的频道中阅读、发送和管理消息，使用其记忆、关注功能及其社区仓库的 Git 访问，在其对话中唤醒该智能体，运行该智能体可运行的 Nexus worker，并可更改此设备上的 Buzz 设置。它可以发布该智能体在此设备上可读取的任何文件，包括其工作区之外的文件。它可以禁用插件；安装、更新、启用或移除插件需要你的确认。密钥保存在 Buzz 中。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Full name"
 msgstr "全名"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "General"
+msgstr "通用"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "General access"
+msgstr "通用访问权限"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "General access recovery"
+msgstr "通用访问权限恢复"
 
 #: src/features/identity/SetupProgress.tsx
 msgid "Getting ready"
@@ -2076,6 +3373,14 @@ msgstr "前进"
 msgid "Go to Messages"
 msgstr "前往消息"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Harness"
+msgstr "运行框架"
+
+#: src/features/agents/AgentInstructions.tsx
+msgid "Help me plan my week and prioritize tasks."
+msgstr "帮我规划这一周并排列任务优先级。"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Hidden conversations could not be refreshed."
 msgstr "无法刷新隐藏的对话。"
@@ -2092,6 +3397,10 @@ msgstr "隐藏"
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Hide comments"
 msgstr "隐藏评论"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Hide conversation"
+msgstr "隐藏对话"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Hide in Solo chats"
@@ -2113,6 +3422,19 @@ msgstr "隐藏侧栏"
 #: src/features/channel-navigation/WorkspaceComposition.tsx
 msgid "Hide tasks and chats in {title}"
 msgstr "隐藏 {title} 中的任务和聊天"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Hide this conversation from your sidebar only. Messages and membership are kept; other participants are not removed."
+msgstr "仅从你的侧边栏隐藏此对话。消息和成员身份会保留；其他参与者不会被移除。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Hiding conversation…"
+msgstr "正在隐藏对话…"
+
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "History"
+msgstr "历史"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "History window limit reached"
@@ -2240,6 +3562,10 @@ msgstr "位于 {0}"
 msgid "In a meeting"
 msgstr "开会中"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "In channel"
+msgstr "在频道中"
+
 #: src/app/AppearanceSettings.tsx
 msgid "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
 msgstr "在个人对话中，立即发送追加消息，或排队等待智能体完成上一条回复。"
@@ -2248,13 +3574,30 @@ msgstr "在个人对话中，立即发送追加消息，或排队等待智能体
 msgid "Include direct messages in the conversation you’re viewing."
 msgstr "正在查看的私聊也接收提醒。"
 
+#: src/features/agents/MemoryPanel.tsx
+msgid "Included in this agent’s context for every session."
+msgstr "包含在此智能体每个会话的上下文中。"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Increase duration"
+msgstr "延长时长"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Increase interface size"
 msgstr "放大界面"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Input"
+msgstr "输入"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Installing update…"
 msgstr "正在安装更新…"
+
+#: src/features/agents/AgentConfigHistoryRow.tsx
+#: src/features/agents/AgentInstructions.tsx
+msgid "Instructions"
+msgstr "指令"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Interface"
@@ -2279,6 +3622,10 @@ msgstr "中断压缩"
 #: src/features/messages/ComposerModels.tsx
 msgid "Interrupt requested"
 msgstr "已请求中断"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Interrupted conversations"
+msgstr "被中断的对话"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/InviteCodeField.tsx
@@ -2313,6 +3660,26 @@ msgstr "链接可能不完整或已失效，请向分享者索取新链接。"
 msgid "It may have been removed, or you may need to update Buzz."
 msgstr "页面可能已被移除，也可能需要更新 Buzz。"
 
+#: src/features/agents/AgentManage.tsx
+msgid "It stops here, leaves this community's channels and is archived here. It stays in your other communities with the same name, type and settings. Add it here again and its memory and conversations here come back, but what it paid attention to here doesn't."
+msgstr "它在此停止，离开此社区的频道并在此归档。它会以相同的名称、类型和设置留在你的其他社区中。在此重新添加它后，它在这里的记忆和对话会恢复，但它在这里的关注内容不会恢复。"
+
+#: src/features/agents/AgentManage.tsx
+msgid "It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+msgstr "它会在所在的每个社区停止。在每个社区中离开所有频道并归档，不再出现在成员列表或提及建议中，然后其密钥会从此设备删除。此操作无法撤销。"
+
+#: src/features/agents/AgentManage.tsx
+msgid "It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+msgstr "它会停止、离开所有频道并归档，不再出现在成员列表或提及建议中，然后其密钥会从此设备删除。此操作无法撤销。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first."
+msgstr "这是入门频道，设为公开后新成员会被再次自动加入。要阻止这一点，请先在设置中关闭“新成员加入入门频道”。"
+
+#: src/bundled/channels/ChannelStateNotice.tsx
+msgid "It’s hidden from the sidebar until it’s unarchived."
+msgstr "取消归档前它会一直隐藏在侧边栏之外。"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Italic"
 msgstr "斜体"
@@ -2320,6 +3687,18 @@ msgstr "斜体"
 #: src/features/messages/MessageRow.tsx
 msgid "item"
 msgstr "项"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Its agents can’t be checked right now, so they can’t be added. Retry, or choose None to create the channel without them."
+msgstr "目前无法检查它的智能体，因此无法添加。请重试，或选择“无”来创建不含它们的频道。"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Its communities"
+msgstr "其社区"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone."
+msgstr "其提供商会删除它及其密钥，然后它离开所有频道并归档，不再出现在成员列表或提及建议中。此操作无法撤销。"
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
@@ -2352,6 +3731,10 @@ msgstr "加入社区"
 msgid "Join may have taken effect, but it is not confirmed yet. Try again to check."
 msgstr "加入可能已生效，但尚未确认。请再次尝试以确认。"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Join this channel to add people and agents."
+msgstr "加入此频道后才能添加人和智能体。"
+
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Joined"
 msgstr "已加入"
@@ -2375,6 +3758,10 @@ msgid "Keep attachment links unchanged. To remove this message, use Delete messa
 msgstr "请勿修改附件链接。若要移除此消息，请使用“删除消息”。"
 
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/features/agents/AgentSaveButton.tsx
 msgid "Keep editing"
 msgstr "继续编辑"
 
@@ -2395,6 +3782,10 @@ msgstr "语言"
 msgid "Language wasn’t saved"
 msgstr "未能保存语言设置"
 
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Last rejection: "
+msgstr "上次拒绝："
+
 #: src/app/PluginUpdates.tsx
 msgid "Later"
 msgstr "稍后"
@@ -2410,6 +3801,11 @@ msgstr "最新来自 {0}，{1}"
 msgid "Leave {0}?"
 msgstr "退出 {0}？"
 
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leave {nounText}"
+msgstr "离开{nounText}"
+
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Leave community"
@@ -2418,6 +3814,18 @@ msgstr "退出社区"
 #: src/app/settings-sections.ts
 msgid "Leave or remove"
 msgstr "退出或移除"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leave this channel and remove it from your sidebar. You may need an invitation to rejoin a private channel."
+msgstr "离开此频道并从侧边栏移除。重新加入私有频道可能需要邀请。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leave this chat and remove it from your sidebar. You may need an invitation to rejoin."
+msgstr "离开此聊天并从侧边栏移除。重新加入可能需要邀请。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leaving {nounText}…"
+msgstr "正在离开{nounText}…"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Leaving…"
@@ -2437,6 +3845,10 @@ msgstr "浅色"
 msgid "Link"
 msgstr "链接"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Link copied"
+msgstr "链接已复制"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Link text must stay on one line."
 msgstr "链接文字必须在同一行。"
@@ -2449,9 +3861,30 @@ msgstr "正在绑定你的密钥…"
 msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 msgstr "实时身份访问不可用。开发环境请在 .env.local 中将 BUZZ_DEV_VIEWER 设为你的 Buzz 公钥，然后重启 just web 或 just desktop。要求见 docs/contributing.md。"
 
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Live updates are unavailable."
+msgstr "实时更新不可用。"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Live updates limited"
+msgstr "实时更新受限"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Live updates:"
+msgstr "实时更新："
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Load a verified message before marking through it."
+msgstr "标记前请先加载一条经过验证的消息。"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Load more people"
 msgstr "加载更多人员"
+
+#: src/bundled/channels/CanvasHistory.tsx
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Load older"
+msgstr "加载更早的"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Load older messages"
@@ -2460,6 +3893,18 @@ msgstr "加载更早的消息"
 #: src/features/messages/MessageComposer.tsx
 msgid "Load saved draft"
 msgstr "加载已保存的草稿"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Loading access…"
+msgstr "正在加载权限…"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Loading agents…"
+msgstr "正在加载智能体…"
+
+#: src/bundled/channels/CanvasView.tsx
+msgid "Loading Canvas…"
+msgstr "正在加载 Canvas…"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Loading comments…"
@@ -2473,9 +3918,29 @@ msgstr "正在加载对话…"
 msgid "Loading conversations…"
 msgstr "正在加载对话…"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Loading history…"
+msgstr "正在加载历史…"
+
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Loading media…"
 msgstr "正在加载媒体…"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Loading members"
+msgstr "正在加载成员"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Loading members…"
+msgstr "正在加载成员…"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Loading memories"
+msgstr "正在加载记忆"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Loading memory…"
+msgstr "正在加载记忆…"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Loading message…"
@@ -2488,6 +3953,14 @@ msgstr "正在加载消息…"
 #: src/features/messages/ComposerModels.tsx
 msgid "Loading model and effort…"
 msgstr "正在加载模型和思考力度…"
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Loading models…"
+msgstr "正在加载模型…"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Loading more memories…"
+msgstr "正在加载更多记忆…"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Loading older…"
@@ -2505,9 +3978,25 @@ msgstr "正在加载已保存的模型和推理强度…"
 msgid "Loading sent messages…"
 msgstr "正在加载已发送消息…"
 
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Loading thinking levels…"
+msgstr "正在加载思考级别…"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Loading thread…"
 msgstr "正在加载话题…"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Loading version…"
+msgstr "正在加载版本…"
+
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "Loading versions…"
+msgstr "正在加载版本…"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Loading workspaces…"
+msgstr "正在加载工作区…"
 
 #: src/app/ProfileSettings.tsx
 msgid "Loading your community profile…"
@@ -2547,6 +4036,18 @@ msgstr "洋红"
 msgid "Main pane"
 msgstr "主面板"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Make channel private?"
+msgstr "将频道设为私有？"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Make channel public?"
+msgstr "将频道设为公开？"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Make teams on the Agents page."
+msgstr "在智能体页面创建团队。"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Malware or scam"
 msgstr "恶意软件或诈骗"
@@ -2561,10 +4062,26 @@ msgstr "管理 {name} 的更新检查"
 msgid "Manage plugins"
 msgstr "管理插件"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Manage this channel and its members."
+msgstr "管理此频道及其成员。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Managed by "
+msgstr "管理者："
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Mark {nounLabel} from {name} as read"
+msgstr "将来自 {name} 的此{nounLabel}标为已读"
+
 #: src/app/shell/MarkAllReadShortcut.tsx
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Mark all as read"
 msgstr "全部标为已读"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Mark as read"
+msgstr "标为已读"
 
 #: src/app/shell/MarkAllReadShortcut.tsx
 msgid "Mark everything as read?"
@@ -2574,17 +4091,41 @@ msgstr "将全部标为已读？"
 msgid "Mark read"
 msgstr "标为已读"
 
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Mark read through loaded messages"
+msgstr "标记至已加载消息为已读"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark unread"
 msgstr "标为未读"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Mark unread on this device"
+msgstr "在此设备上标为未读"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Markdown, copied into each new channel made from this template."
+msgstr "Markdown，会复制到由此模板创建的每个新频道。"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Marked all as read."
 msgstr "已将全部标为已读。"
 
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Marked unread"
+msgstr "已标为未读"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Marked unread on this device only"
+msgstr "已仅在此设备上标为未读"
+
 #: src/app/shell/WindowControls.tsx
 msgid "Maximize or restore window"
 msgstr "最大化或还原窗口"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "May be out of date"
+msgstr "可能已过期"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Media comments"
@@ -2594,7 +4135,56 @@ msgstr "媒体评论"
 msgid "Media unavailable"
 msgstr "媒体不可用"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "member"
+msgstr "成员"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Member list"
+msgstr "成员列表"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Members"
+msgstr "成员"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memories"
+msgstr "记忆"
+
+#: src/features/agents/tabs.tsx
+msgid "Memory"
+msgstr "记忆"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory body copied."
+msgstr "记忆内容已复制。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory can be read once Buzz is connected."
+msgstr "Buzz 连接后即可读取记忆。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory couldn't be read."
+msgstr "无法读取记忆。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory isn't available here."
+msgstr "此处无法使用记忆。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory isn't loaded."
+msgstr "记忆未加载。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory name copied."
+msgstr "记忆名称已复制。"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "mention"
+msgstr "提及"
+
 #: src/app/NotificationSettings.tsx
+#: src/bundled/channels/ChannelActivityPopover.tsx
 msgid "Mentions"
 msgstr "提及我的"
 
@@ -2696,6 +4286,10 @@ msgstr "最小化窗口"
 msgid "Mode"
 msgstr "模式"
 
+#: src/features/agents/ModelPicker.tsx
+msgid "Model"
+msgstr "模型"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Model and effort"
 msgstr "模型和思考力度"
@@ -2726,6 +4320,10 @@ msgstr "{0} 在此聊天中的模型"
 msgid "Model for {0}'s next run"
 msgstr "{0} 下次运行的模型"
 
+#: src/features/agents/ModelPicker.tsx
+msgid "Model ID"
+msgstr "模型 ID"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Model unavailable"
 msgstr "模型不可用"
@@ -2742,6 +4340,10 @@ msgstr "此聊天的模型、思考力度与会话控制"
 msgid "Mono"
 msgstr "单色"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "More actions for {title}"
+msgstr "{title} 的更多操作"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "More message actions"
 msgstr "更多消息操作"
@@ -2750,10 +4352,18 @@ msgstr "更多消息操作"
 msgid "Most relevant"
 msgstr "最相关"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Move"
+msgstr "移动"
+
 #. placeholder {0}: channel.name
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move {0} to section"
 msgstr "将 {0} 移动到分区"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Move {name} into a personal workspace that syncs across Buzz."
+msgstr "将 {name} 移入一个跨 Buzz 同步的个人工作区。"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move channel"
@@ -2763,9 +4373,48 @@ msgstr "移动频道"
 msgid "Move conversation"
 msgstr "移动对话"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Move down"
+msgstr "下移"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Move to"
+msgstr "移动到"
+
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Move to new section"
+msgstr "移到新分区"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move to…"
 msgstr "移动到…"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Move up"
+msgstr "上移"
+
+#. placeholder {0}: index + 1
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to position {0} in the {pane} pane."
+msgstr "已移动到{pane}窗格中的第 {0} 位。"
+
+#. placeholder {0}: position + 1
+#. placeholder {1}: order.length
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to position {0} of {1}."
+msgstr "已移动到第 {0} 位（共 {1} 项）。"
+
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to the {pane} pane."
+msgstr "已移动到{pane}窗格。"
+
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to the {target} pane."
+msgstr "已移动到{target}窗格。"
+
+#: src/features/agents/current-activity.ts
+msgid "Moving"
+msgstr "移动中"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Mute"
@@ -2775,7 +4424,13 @@ msgstr "静音"
 msgid "Mute video"
 msgstr "视频静音"
 
+#: src/bundled/channels/ChannelSidebarRow.tsx
+msgid "Muted"
+msgstr "已静音"
+
 #: src/app/AppearanceSettings.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/ChannelTextField.tsx
 msgid "Name"
 msgstr "名称"
 
@@ -2783,6 +4438,10 @@ msgstr "名称"
 #: src/features/communities/ProfileFields.tsx
 msgid "Name verified by {0}"
 msgstr "名称已由 {0} 验证"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Name, type and settings, including instructions, model and workspace, are shared across communities."
+msgstr "名称、类型和设置（包括指令、模型和工作区）跨社区共享。"
 
 #: src/app/AppearancePreview.tsx
 msgid "narrow"
@@ -2805,22 +4464,37 @@ msgid "New channel"
 msgstr "新建频道"
 
 #: src/app/shell/NewMenu.tsx
+#: src/bundled/channels/SoloWorkspaces.tsx
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "New chat"
 msgstr "新建对话"
+
+#. placeholder {0}: project.name
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "New chat in {0}"
+msgstr "在 {0} 中新建聊天"
 
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "New chat or workspace"
 msgstr "新聊天或工作区"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "New community members are added to this channel automatically."
+msgstr "新社区成员会自动加入此频道。"
+
 #: src/app/shell/NewMenu.tsx
 msgid "New DM"
 msgstr "新建私聊"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "New file"
+msgstr "新文件"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "new message"
 msgstr "新消息"
 
+#: src/bundled/channels/SidebarSection.tsx
 #: src/features/direct-messages/NewMessage.tsx
 msgid "New message"
 msgstr "新消息"
@@ -2829,9 +4503,37 @@ msgstr "新消息"
 msgid "New messages"
 msgstr "新消息"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people can only view."
+msgstr "新成员只能查看。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people can participate."
+msgstr "新成员可以参与。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people can participate. People already in the channel keep their access."
+msgstr "新成员可以参与。频道中已有的人员保留其权限。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people will be able to participate. People already in the {placeText} keep their access."
+msgstr "新成员将可以参与。此{placeText}中已有的人员保留其权限。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people will only be able to view. People already in the {placeText} keep their access."
+msgstr "新成员将只能查看。此{placeText}中已有的人员保留其权限。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people’s access could not be confirmed."
+msgstr "无法确认新成员的访问权限。"
+
 #: src/app/shell/NewMenu.tsx
 msgid "New section"
 msgstr "新建分组"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "New session"
+msgstr "新会话"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "New session started"
@@ -2855,14 +4557,23 @@ msgstr "在 {0} 新建任务"
 msgid "New task in {title}"
 msgstr "在 {title} 新建任务"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "New template"
+msgstr "新建模板"
+
 #: src/app/AppearanceSettings.tsx
 msgid "New threads open here. Already-open threads stay where you placed them."
 msgstr "新话题将在此打开，已打开的话题保留原来的位置。"
 
 #: src/app/shell/NewMenu.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "New workspace"
 msgstr "新建工作区"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Next"
+msgstr "下一个"
 
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "Next attachment"
@@ -2880,6 +4591,16 @@ msgstr "下一个媒体"
 msgid "next run"
 msgstr "下次运行"
 
+#. placeholder {0}: activeWindowLabel(filter.activeWindowSeconds)
+#: src/bundled/channels/SidebarSection.tsx
+msgid "No activity in the last {0}"
+msgstr "最近 {0} 内无活动"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "No agents yet."
+msgstr "还没有智能体。"
+
+#: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "No automatic archive."
 msgstr "不自动归档。"
@@ -2888,9 +4609,17 @@ msgstr "不自动归档。"
 msgid "No backups were found for this account."
 msgstr "未找到此账户的备份。"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "No channel templates yet"
+msgstr "还没有频道模板"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "No channels yet."
 msgstr "还没有频道。"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "No chats in this workspace."
+msgstr "此工作区中没有聊天。"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "No comments yet. Add the first below."
@@ -2903,6 +4632,10 @@ msgstr "此地址没有建立社区。"
 #: src/features/messages/TypingIndicator.tsx
 msgid "No current step details received."
 msgstr "未收到当前步骤的详情。"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "No description"
+msgstr "暂无描述"
 
 #: src/features/messages/MessageRow.tsx
 msgid "No diff content"
@@ -2917,6 +4650,10 @@ msgstr "暂无草稿"
 msgid "No drafts match “{0}”."
 msgstr "没有草稿与“{0}”匹配。"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "No eligible agent runs here. Start an agent in this community. Protected agents cannot use external connections."
+msgstr "没有符合条件的智能体在此运行。请在此社区中启动一个智能体。受保护的智能体无法使用外部连接。"
+
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "没有匹配的页面。"
@@ -2929,6 +4666,22 @@ msgstr "没有匹配的人员。"
 msgid "No matching time zones."
 msgstr "没有匹配的时区。"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No members match this filter."
+msgstr "没有成员符合此筛选。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No members match your search."
+msgstr "没有成员符合你的搜索。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No members to show."
+msgstr "没有可显示的成员。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "No memories yet"
+msgstr "还没有记忆"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No messages after yours"
 msgstr "你发送之后没有消息"
@@ -2937,26 +4690,79 @@ msgstr "你发送之后没有消息"
 msgid "No messages yet."
 msgstr "还没有消息。"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "No more revisions."
+msgstr "没有更多修订了。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No other matching people or agents."
+msgstr "没有其他匹配的人员或智能体。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No other matching people."
+msgstr "没有其他匹配的人员。"
+
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "No preview available for this file type."
 msgstr "此文件类型没有可用预览。"
 
+#. placeholder {0}: type.title
+#: src/features/agents/AISettings.tsx
+msgid "No recommended model is available, so this uses {0}’s default."
+msgstr "没有可用的推荐模型，因此使用 {0} 的默认值。"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No replies after yours"
 msgstr "你发送之后没有回复"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "No saved revisions."
+msgstr "没有已保存的修订。"
 
 #. placeholder {0}: search.trim()
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No sent messages match “{0}”"
 msgstr "没有已发送消息与“{0}”匹配"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "No setting changes."
+msgstr "设置没有变化。"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
 msgstr "已加载的目录中没有列出受支持的模型。发送时不带模型和思考力度覆盖，使用该智能体的默认值"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "No turns captured for this scope yet."
+msgstr "此范围尚未捕获任何轮次。"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "No unread messages"
+msgstr "没有未读消息"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "None"
+msgstr "无"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "None of its agents are in this community, and it has no Canvas."
+msgstr "它的智能体都不在此社区中，且它没有 Canvas。"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "None of your backups holds the key linked to this account, so nothing was restored."
 msgstr "你的备份都不包含与此账户绑定的密钥，因此没有恢复任何内容。"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Not available"
+msgstr "不可用"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Not checked since import, so it may be hidden from member lists and mentions."
+msgstr "导入后未再检查，因此它可能在成员列表和提及中被隐藏。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Not in this {placeText}"
+msgstr "不在此{placeText}中"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Not joined"
@@ -2966,6 +4772,20 @@ msgstr "未加入"
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "Not now"
 msgstr "暂不"
+
+#. placeholder {0}: delivery.message
+#. placeholder {0}: message(error)
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Not reverted: {0}"
+msgstr "未回退：{0}"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Not sent"
+msgstr "未发送"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Not sent. Try again."
+msgstr "未发送。请重试。"
 
 #: src/features/messages/ForwardMessage.tsx
 msgid "Note (optional)"
@@ -3013,6 +4833,10 @@ msgstr "提醒内容"
 msgid "Notify while viewing"
 msgstr "查看对话时仍提醒"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "now"
+msgstr "刚刚"
+
 #. placeholder {0}: zoneLabel(renamed[zone])
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Now {0}"
@@ -3021,6 +4845,10 @@ msgstr "现为 {0}"
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Nudity or sexual content"
 msgstr "裸露或色情内容"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Observed messages only—not exact totals. Manual unread is local to this device. Older read hints can expire; this is not an everlasting read receipt log."
+msgstr "仅为观察到的消息——不是精确总数。手动未读仅存于此设备。较早的已读提示可能过期；这不是永久有效的已读回执记录。"
 
 #: src/features/messages/MessageRow.tsx
 msgid "Observed unread replies{staleUnreadNote}. Not an exact total."
@@ -3046,10 +4874,20 @@ msgstr "确定"
 msgid "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
 msgstr "此设备上使用过旧版 Buzz。继续使用它保存的身份，而不是新建一个。你的电脑可能会请求允许访问。"
 
+#. placeholder {0}: HISTORY_LIMIT.toLocaleString("en-US")
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Older history isn't available from this relay (limit {0} revisions)."
+msgstr "此中继不提供更早的历史（上限 {0} 个修订）。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Older revisions aren't loaded yet."
+msgstr "更早的修订尚未加载。"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "One person at a time. Remove them to choose someone else."
 msgstr "一次只能选择一人。请先移除再选择其他人。"
 
+#: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Ongoing"
 msgstr "长期保留"
@@ -3061,6 +4899,30 @@ msgstr "在线"
 #: src/app/shell/ProfileButton.tsx
 msgid "Online"
 msgstr "在线"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Only {placeText} members can read."
+msgstr "仅此{placeText}的成员可以阅读。"
+
+#: src/bundled/channels/ChannelPrivacyConfirmation.tsx
+msgid "Only channel members will have access."
+msgstr "仅频道成员可以访问。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Only chat members will have access."
+msgstr "仅聊天成员可以访问。"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Only community owners and admins can change this."
+msgstr "只有社区所有者和管理员可以更改此项。"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Only currently accessible messages remain readable."
+msgstr "只有当前可访问的消息保持可读。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Only people you add"
+msgstr "仅你添加的人"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Only saved conversations are searched until this community connects."
@@ -3096,6 +4958,10 @@ msgstr "打开 {displayName}"
 msgid "Open {openKind} for {0}"
 msgstr "打开 {0} 的{openKind}"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Open {openTarget} for {name} in {channelName}"
+msgstr "打开 {channelName} 中 {name} 的{openTarget}"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Open conversation"
 msgstr "打开对话"
@@ -3123,6 +4989,10 @@ msgstr "全屏打开图片"
 msgid "Open image in browser"
 msgstr "在浏览器中打开图片"
 
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Open in channel"
+msgstr "在频道中打开"
+
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Open in main view"
 msgstr "在主视图打开"
@@ -3130,6 +5000,14 @@ msgstr "在主视图打开"
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Open link"
 msgstr "打开链接"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Open owner profile: {ownerName}"
+msgstr "打开所有者资料：{ownerName}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Open profile for {name} ({keyLabel}){agentNote}{membershipNote}{archivedNote}"
+msgstr "打开 {name}（{keyLabel}）的资料{agentNote}{membershipNote}{archivedNote}"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Open tab pane"
@@ -3142,6 +5020,10 @@ msgstr "请打开桌面应用，选择此设备上的目录。"
 #: src/app/AppearanceSettings.tsx
 msgid "Open threads in"
 msgstr "话题打开位置"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Open unread {nounLabel} from {name}: {preview}"
+msgstr "打开来自 {name} 的未读{nounLabel}：{preview}"
 
 #: src/features/messages/MessageRow.tsx
 msgid "Open video"
@@ -3170,6 +5052,10 @@ msgstr "正在打开 Buzz"
 msgid "Opening Buzz…"
 msgstr "正在打开 Buzz…"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Opening conversation…"
+msgstr "正在打开对话…"
+
 #: src/app/ProfileSettings.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Opening your local identity…"
@@ -3197,9 +5083,14 @@ msgstr "有序列表"
 msgid "Original message unavailable."
 msgstr "原始消息不可用。"
 
+#: src/features/agents/ModelFamilyMenu.tsx
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Other"
 msgstr "其他"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Other agents"
+msgstr "其他智能体"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Other communities you’ve joined aren’t listed."
@@ -3213,6 +5104,19 @@ msgstr "其他选项"
 msgid "Out sick"
 msgstr "病假中"
 
+#. placeholder {0}: operations.length
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Outbox · {0} items"
+msgstr "发件箱 · {0} 项"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Output"
+msgstr "输出"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Page "
+msgstr "第 "
+
 #: src/app/App.tsx
 msgid "Page navigation"
 msgstr "页面导航"
@@ -3225,6 +5129,18 @@ msgstr "页面"
 #: src/app/AppearanceSettings.tsx
 msgid "Pane"
 msgstr "面板"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Panel tabs"
+msgstr "面板标签页"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Part of this tool call was too large and was elided by the agent."
+msgstr "此工具调用的部分内容过大，已被智能体省略。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Participate"
+msgstr "参与"
 
 #: src/features/identity/KeyImport.tsx
 msgid "Password-protected backups aren’t supported here yet. Paste the nsec1 key itself."
@@ -3271,13 +5187,39 @@ msgstr "已暂停，因为更早的一条消息已在另一个窗口处理。准
 msgid "PDF file"
 msgstr "PDF 文件"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Pending"
+msgstr "待处理"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "People"
 msgstr "人员"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "People already in the chat keep their access."
+msgstr "聊天中已有的人员保留其权限。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "People and agents"
+msgstr "人员与智能体"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "People not in this {placeText}"
+msgstr "不在此{placeText}中的人员"
+
 #: src/features/messages/MessageReactions.tsx
 msgid "People who reacted with {name}"
 msgstr "使用 {name} 回应的人"
+
+#. placeholder {0}: item.permission.options.join(", ")
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Permission options: {0}"
+msgstr "权限选项：{0}"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Permission requested"
+msgstr "已请求权限"
 
 #: src/app/settings-sections.ts
 #: src/features/communities/CommunityPicker.tsx
@@ -3287,6 +5229,10 @@ msgstr "个人空间"
 #: src/features/messages/MessageRow.tsx
 msgid "photos and videos"
 msgstr "照片和视频"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Plan"
+msgstr "计划"
 
 #. placeholder {0}: attachment.name
 #: src/features/messages/AudioAttachment.tsx
@@ -3309,6 +5255,10 @@ msgstr "播放已暂停。按播放键重试。"
 msgid "Playback speed: {rate}x"
 msgstr "播放速度：{rate}x"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Please respond to my message above."
+msgstr "请回复我上面的消息。"
+
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 msgid "Please try again."
 msgstr "请重试。"
@@ -3321,6 +5271,14 @@ msgstr "插件恢复操作"
 #: src/app/settings-sections.ts
 msgid "Plugins"
 msgstr "插件"
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Posting chat link…"
+msgstr "正在发送聊天链接…"
+
+#: src/features/agents/current-activity.ts
+msgid "Preparing a tool"
+msgstr "正在准备工具"
 
 #: src/features/updates/UpdateSettings.tsx
 msgid "Preparing update…"
@@ -3339,6 +5297,7 @@ msgstr "正在准备你的身份…"
 msgid "Preparing…"
 msgstr "正在准备…"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "Presence: {presence}"
 msgstr "在线状态：{presence}"
@@ -3360,6 +5319,10 @@ msgstr "预览 {0}"
 msgid "Preview {displayName}"
 msgstr "预览 {displayName}"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Preview only. No agent was imported."
+msgstr "仅预览。未导入智能体。"
+
 #: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "Preview unavailable"
@@ -3368,6 +5331,10 @@ msgstr "预览不可用"
 #: src/features/messages/LinkPreviews.tsx
 msgid "previews"
 msgstr "预览"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Previous"
+msgstr "上一个"
 
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "Previous attachment"
@@ -3385,10 +5352,18 @@ msgstr "上一张图片"
 msgid "Previous media"
 msgstr "上一个媒体"
 
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "Previous versions"
+msgstr "历史版本"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid "Privacy Notice"
 msgstr "隐私声明"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Private"
+msgstr "私有"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Private channel"
@@ -3440,6 +5415,14 @@ msgstr "个人资料预览"
 #: src/app/ProfileSettings.tsx
 msgid "Profile updated"
 msgstr "个人资料已更新"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Prompt context"
+msgstr "提示词上下文"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Public (existing)"
+msgstr "公开（现有）"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Public channel"
@@ -3498,6 +5481,14 @@ msgstr "表情回应"
 msgid "Reactions unavailable"
 msgstr "表情回应不可用"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Read"
+msgstr "读取"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Read messages and threads."
+msgstr "阅读消息和话题。"
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Read state can’t sync on this connection."
 msgstr "已读状态无法在此连接上同步。"
@@ -3506,6 +5497,14 @@ msgstr "已读状态无法在此连接上同步。"
 msgid "Read state couldn’t be saved"
 msgstr "未能保存已读状态"
 
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Read state couldn’t be saved. Try again."
+msgstr "无法保存已读状态。请重试。"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Read sync: "
+msgstr "已读同步："
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Read-only {placeWord}"
 msgstr "只读{placeWord}"
@@ -3513,6 +5512,22 @@ msgstr "只读{placeWord}"
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Read-only access"
 msgstr "只读访问"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Read-state operation failed"
+msgstr "已读状态操作失败"
+
+#: src/features/agents/current-activity.ts
+msgid "Reading"
+msgstr "读取中"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Reading access could not be confirmed."
+msgstr "无法确认读取权限。"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Reading the current Canvas…"
+msgstr "正在读取当前 Canvas…"
 
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Ready"
@@ -3526,6 +5541,10 @@ msgstr "准备安装更新，Buzz 将重新启动。"
 msgid "Reason"
 msgstr "原因"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Recent"
+msgstr "最近"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Recent activity"
 msgstr "最近动态"
@@ -3534,13 +5553,62 @@ msgstr "最近动态"
 msgid "Recipients"
 msgstr "收件人"
 
+#: src/features/agents/AISettings.tsx
+msgid "Recommended by {recommendedBy}."
+msgstr "由 {recommendedBy} 推荐。"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "recovering automatically after rate limiting; awaiting confirmation"
+msgstr "限流后自动恢复中；等待确认"
+
+#: src/features/agents/MemoryPanel.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Refresh"
 msgstr "刷新"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Refresh history"
+msgstr "刷新历史"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Refresh saved sidebar preferences before retrying this move."
 msgstr "重试此移动前请先刷新已保存的侧边栏偏好。"
+
+#: src/features/agents/TranscriptPanel.tsx
+msgid "Refresh transcript"
+msgstr "刷新执行记录"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Refresh unread observations"
+msgstr "刷新未读观察"
+
+#: src/features/agents/TranscriptPanel.tsx
+msgid "Refreshing transcript…"
+msgstr "正在刷新执行记录…"
+
+#: src/bundled/channels/RelayTimings.tsx
+msgid "Relay timings"
+msgstr "中继耗时"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Reload access"
+msgstr "重新加载权限"
+
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Reload chat details"
+msgstr "重新加载聊天详情"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Reload details"
+msgstr "重新加载详情"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Reload saved Canvas"
+msgstr "重新加载已保存的 Canvas"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Reload saved Canvas?"
+msgstr "重新加载已保存的 Canvas？"
 
 #: src/app/NotificationSettings.tsx
 msgid "Reload saved choices"
@@ -3554,6 +5622,11 @@ msgstr "提醒"
 msgid "Remote"
 msgstr "远程"
 
+#: src/features/agents/AgentExecutionNote.tsx
+msgid "Remote agent"
+msgstr "远程智能体"
+
+#: src/features/agents/AgentManage.tsx
 #: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove"
@@ -3573,10 +5646,32 @@ msgstr "移除 {0}"
 msgid "Remove {0} ({1})"
 msgstr "移除 {0}（{1}）"
 
+#. placeholder {0}: agent.name
+#: src/features/agents/AgentManage.tsx
+msgid "Remove {0} from {place}?"
+msgstr "将 {0} 从{place}中移除？"
+
+#. placeholder {0}: channel.name
+#: src/bundled/channels/ChannelSidebarRow.tsx
+msgid "Remove {0} from DMs"
+msgstr "从私信中移除 {0}"
+
 #. placeholder {0}: scope.label
 #: src/app/shell/SearchChoices.tsx
 msgid "Remove {0} search scope"
 msgstr "移除 {0} 搜索范围"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Remove {removalText}"
+msgstr "移除{removalText}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Remove {removalText} from {placeText}"
+msgstr "从{placeText}中移除{removalText}"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Remove {title}?"
+msgstr "移除 {title}？"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey
@@ -3608,6 +5703,10 @@ msgstr "移除自"
 msgid "Remove from device"
 msgstr "从此设备移除"
 
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Remove from outbox"
+msgstr "从发件箱移除"
+
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove from this device"
@@ -3631,6 +5730,10 @@ msgstr "从此设备移除消息？"
 msgid "Remove queued message"
 msgstr "移除排队中的消息"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Remove section"
+msgstr "移除分区"
+
 #: src/features/identity/Welcome.tsx
 msgid "Remove the unreadable key?"
 msgstr "移除无法读取的密钥？"
@@ -3647,9 +5750,43 @@ msgstr "移除语音笔记"
 msgid "Remove your key from this device?"
 msgstr "从此设备移除你的密钥？"
 
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Removed"
+msgstr "已移除"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Removing an item from the outbox does not delete a sent message."
+msgstr "从发件箱移除一项不会删除已发送的消息。"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Removing section and waiting for confirmation…"
+msgstr "正在移除分区并等待确认…"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Removing…"
 msgstr "正在移除…"
+
+#: src/bundled/channels/RenameSidebarSection.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Rename"
+msgstr "重命名"
+
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Rename {title}"
+msgstr "重命名 {title}"
+
+#: src/bundled/channels/RenameSidebarSection.tsx
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Rename section"
+msgstr "重命名分区"
+
+#: src/bundled/channels/RenameSidebarSection.tsx
+msgid "Renaming section and waiting for confirmation…"
+msgstr "正在重命名分区并等待确认…"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Reopen Members to check this addition."
+msgstr "重新打开“成员”以确认此添加。"
 
 #: src/features/identity/LinkedKeyCheck.tsx
 #: src/features/identity/Welcome.tsx
@@ -3734,6 +5871,10 @@ msgstr "仓库目录已保存到此设备。Claude 和 Goose 将在新会话中�
 msgid "Repositories folders are configured in the desktop app."
 msgstr "请在桌面应用中设置仓库目录。"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Request"
+msgstr "请求"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Reset interface size"
 msgstr "重置界面大小"
@@ -3759,9 +5900,25 @@ msgstr "恢复默认"
 msgid "Restore from backup"
 msgstr "从备份恢复"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Restore this"
+msgstr "恢复此项"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Restore this identity"
 msgstr "恢复此身份"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Restore this version"
+msgstr "恢复此版本"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Restore this version?"
+msgstr "恢复此版本？"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Restore version"
+msgstr "恢复版本"
 
 #: src/features/identity/KeyRestore.tsx
 msgid "Restore your key"
@@ -3775,6 +5932,25 @@ msgstr "正在恢复你的社区…"
 msgid "Restoring your key…"
 msgstr "正在恢复你的密钥…"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Resume"
+msgstr "恢复"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Resume interrupted agent?"
+msgstr "恢复被中断的智能体？"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Resume interrupted agents?"
+msgstr "恢复被中断的智能体？"
+
+#: src/bundled/channels/CanvasHistory.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/OutboxStatus.tsx
+#: src/features/agents/AgentConfigHistory.tsx
+#: src/features/agents/AgentManage.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -3800,6 +5976,10 @@ msgstr "重试 {0}"
 #: src/app/PluginUpdates.tsx
 msgid "Retry activation"
 msgstr "重试启用"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Retry adding {names}"
+msgstr "重试添加 {names}"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "Retry agents"
@@ -3842,9 +6022,26 @@ msgstr "重试筛选"
 msgid "Retry forward"
 msgstr "重试转发"
 
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Retry from the channel or agent profile after checking membership."
+msgstr "确认成员身份后，请从频道或智能体资料重试。"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry hidden conversations"
 msgstr "重试隐藏的对话"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Retry live updates"
+msgstr "重试实时更新"
+
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/CanvasView.tsx
+msgid "Retry loading"
+msgstr "重试加载"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Retry loading memories"
+msgstr "重试加载记忆"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Retry loading people"
@@ -3853,6 +6050,10 @@ msgstr "重试加载人员"
 #: src/app/ProfileSettings.tsx
 msgid "Retry loading profile"
 msgstr "重新加载个人资料"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Retry member data"
+msgstr "重试成员数据"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry message preparation"
@@ -3866,6 +6067,7 @@ msgstr "重试更新消息"
 msgid "Retry messages"
 msgstr "重试加载消息"
 
+#: src/bundled/channels/SoloWorkspaces.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry move"
 msgstr "重试移动"
@@ -3874,9 +6076,17 @@ msgstr "重试移动"
 msgid "Retry older messages"
 msgstr "重试加载更早的消息"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Retry preferences"
+msgstr "重试偏好设置"
+
 #: src/features/conversation/ReactionTool.tsx
 msgid "Retry reaction"
 msgstr "重试表情回应"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Retry read sync"
+msgstr "重试已读同步"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry saved choices"
@@ -3943,6 +6153,10 @@ msgstr "重试访问安全存储"
 msgid "Retry send"
 msgstr "重试发送"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Retry share"
+msgstr "重试分享"
+
 #: src/features/channel-navigation/SidebarBoundary.tsx
 msgid "Retry sidebar"
 msgstr "重试侧边栏"
@@ -3967,6 +6181,10 @@ msgstr "请先重试待处理的转发，再转发其他消息。"
 msgid "Retry voice note upload"
 msgstr "重试语音笔记上传"
 
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Retry workspaces"
+msgstr "重试工作区"
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Reveal"
 msgstr "显示"
@@ -3975,6 +6193,10 @@ msgstr "显示"
 #: src/features/identity/PrivateKey.tsx
 msgid "Reveal private key"
 msgstr "显示私钥"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Revert to this"
+msgstr "回退到此版本"
 
 #: src/features/messages/ForwardMessage.tsx
 msgid "Review pending forward"
@@ -3988,12 +6210,59 @@ msgstr "审核权限"
 msgid "Review report"
 msgstr "查看举报"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Review the settings to import this agent and continue your conversation."
+msgstr "查看要导入此智能体的设置，并继续你的对话。"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Revision Markdown"
+msgstr "修订 Markdown"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Role unverified"
+msgstr "角色未验证"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Run"
+msgstr "运行"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Running"
+msgstr "运行中"
+
+#. placeholder {0}: tools.length
+#: src/features/agents/current-activity.ts
+msgid "Running {0} tools"
+msgstr "正在运行 {0} 个工具"
+
+#: src/features/agents/current-activity.ts
+msgid "Running a command"
+msgstr "正在运行命令"
+
+#: src/features/agents/current-activity.ts
+msgid "Running a tool"
+msgstr "正在运行工具"
+
+#: src/features/agents/AgentExecutionNote.tsx
+msgid "Runs on a Builderlab machine"
+msgstr "运行在 Builderlab 机器上"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Same as current version."
+msgstr "与当前版本相同。"
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/ProfileSettings.tsx
+#: src/features/agents/AgentSaveButton.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Save"
 msgstr "保存"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Save Canvas"
+msgstr "保存 Canvas"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Save changes"
 msgstr "保存修改"
@@ -4010,6 +6279,10 @@ msgstr "保存资料"
 msgid "Save status"
 msgstr "保存状态"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Save template"
+msgstr "保存模板"
+
 #: src/app/PluginUpdates.tsx
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "请先保存未完成的表单并停止运行中的插件任务。更新已启用的插件会立即重新加载它。"
@@ -4022,6 +6295,10 @@ msgstr "已将 {displayName} 保存到下载"
 msgid "Saved before restart. Send when ready."
 msgstr "重启前已保存。准备好后发送。"
 
+#: src/bundled/channels/CanvasView.tsx
+msgid "Saved Canvas"
+msgstr "已保存的 Canvas"
+
 #. placeholder {0}: runs.label
 #: src/features/messages/ComposerModels.tsx
 msgid "Saved effort is unavailable for {0}."
@@ -4030,6 +6307,10 @@ msgstr "{0} 的已保存思考力度不可用。"
 #: src/features/messages/ComposerModels.tsx
 msgid "Saved effort is unavailable."
 msgstr "已保存的思考力度不可用。"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "saved group"
+msgstr "已保存的分组"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Saved groups and stars aren’t supported by this host yet."
@@ -4055,6 +6336,14 @@ msgstr "无法加载已保存的模型和思考力度选择。请打开模型和
 msgid "Saved model is unavailable."
 msgstr "已保存的模型不可用。"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Saved preferences are unavailable. Retry preferences before trying again."
+msgstr "已保存的偏好不可用。重试前请先重试偏好加载。"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Saved revisions"
+msgstr "已保存的修订"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Saved sidebar preferences couldn’t refresh"
 msgstr "已保存的侧边栏偏好无法刷新"
@@ -4064,18 +6353,36 @@ msgstr "已保存的侧边栏偏好无法刷新"
 msgid "Saved to Downloads"
 msgstr "已保存到下载"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Saved, but not confirmed yet. Try again to check."
+msgstr "已保存，但尚未确认。请再次尝试以确认。"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Saving access…"
+msgstr "正在保存权限…"
+
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "Saving filter and waiting for confirmation…"
+msgstr "正在保存筛选并等待确认…"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Saving workspace…"
+msgstr "正在保存工作区…"
+
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Saving your identity securely…"
 msgstr "正在安全保存你的身份…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/agents/AgentSaveButton.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Saving…"
 msgstr "正在保存…"
 
 #: src/app/shell/PageSearch.tsx
+#: src/features/agents/ActivityTranscript.tsx
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Search"
 msgstr "搜索"
@@ -4103,6 +6410,22 @@ msgstr "搜索草稿和已发送消息"
 msgid "Search in"
 msgstr "搜索范围"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search members"
+msgstr "搜索成员"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search people and agents"
+msgstr "搜索人员和智能体"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search people and channels"
+msgstr "搜索人员和频道"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search people, agents and channels"
+msgstr "搜索人员、智能体和频道"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Search preference wasn’t saved"
 msgstr "未能保存搜索设置"
@@ -4119,6 +6442,19 @@ msgstr "搜索此对话"
 #: src/app/shell/SearchChoices.tsx
 msgid "Search..."
 msgstr "搜索..."
+
+#: src/features/agents/current-activity.ts
+msgid "Searching"
+msgstr "搜索中"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Searching…"
+msgstr "正在搜索…"
+
+#: src/bundled/channels/CreateSidebarSection.tsx
+#: src/bundled/channels/RenameSidebarSection.tsx
+msgid "Section name"
+msgstr "分区名称"
 
 #: src/app/settings-sections.ts
 msgid "Security"
@@ -4139,6 +6475,18 @@ msgstr "跳转音频"
 msgid "Seek to {0}, {1}"
 msgstr "跳转至 {0}，{1}"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Select a community"
+msgstr "选择社区"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Select a connected community to authorize this app."
+msgstr "选择一个已连接的社区来授权此应用。"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Select an agent"
+msgstr "选择智能体"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Selected message unavailable."
 msgstr "所选消息不可用。"
@@ -4147,9 +6495,18 @@ msgstr "所选消息不可用。"
 msgid "Send"
 msgstr "发送"
 
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Send “Please respond to my message above.” to {0} in your original message’s thread."
+msgstr "在你的原消息所在话题中向 {0} 发送“请回复我上面的消息”。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Send a message to {channelName}"
 msgstr "向 {channelName} 发送消息"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Send a message to continue your conversation."
+msgstr "发送一条消息以继续你们的对话。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Send again to send it as text."
@@ -4171,6 +6528,10 @@ msgstr "立即发送"
 msgid "Send message"
 msgstr "发送消息"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Send messages, reply, and react."
+msgstr "发送消息、回复和回应。"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Send omits model and effort overrides; the agent or provider decides which model runs"
 msgstr "发送时不带模型和思考力度覆盖；由智能体或供应商决定运行的模型"
@@ -4182,6 +6543,10 @@ msgstr "将此消息发送给某人，可附备注。"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Send to channel"
 msgstr "发送到频道"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Sending"
+msgstr "发送中"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Sending message…"
@@ -4195,10 +6560,12 @@ msgstr "发送给"
 msgid "Sending to channel"
 msgstr "正在发送到频道"
 
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/messages/QueuedFollowUps.tsx
 msgid "Sending…"
 msgstr "正在发送…"
 
+#: src/bundled/channels/OutboxStatus.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Sent"
 msgstr "已发送"
@@ -4228,6 +6595,10 @@ msgstr "会话操作失败"
 msgid "Session compacted"
 msgstr "会话已压缩"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Session continued; earlier turns not shown"
+msgstr "会话已继续；未显示较早的轮次"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Session controls"
 msgstr "会话控制"
@@ -4246,6 +6617,23 @@ msgstr "设置状态"
 msgid "Set a status: {0}"
 msgstr "设置状态：{0}"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Set as admin"
+msgstr "设为管理员"
+
+#: src/features/agents/AISettings.tsx
+msgid "Set to"
+msgstr "设为"
+
+#. placeholder {0}: memberAccessLabel(selection.role).toLowerCase()
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Set to {0}"
+msgstr "设为 {0}"
+
+#: src/features/agents/AISettings.tsx
+msgid "Set to {modelName} (recommended)"
+msgstr "设为 {modelName}（推荐）"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Set up Dock badges"
 msgstr "设置 Dock 角标"
@@ -4262,6 +6650,8 @@ msgstr "设置你的资料"
 #: src/app/Settings.tsx
 #: src/app/shell/PageSearch.tsx
 #: src/app/shell/ProfileButton.tsx
+#: src/features/agents/AgentConfigHistoryRow.tsx
+#: src/features/agents/tabs.tsx
 msgid "Settings"
 msgstr "设置"
 
@@ -4274,9 +6664,31 @@ msgstr "这些设置仅对当前设备生效。"
 msgid "Settings sections"
 msgstr "设置分类"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Share"
+msgstr "分享"
+
+#: src/bundled/channels/SoloChatMenu.tsx
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Share access"
 msgstr "共享访问权限"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Share this chat?"
+msgstr "分享此聊天？"
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Shared"
+msgstr "已分享"
+
+#. placeholder {0}: channelText(shared)
+#: src/bundled/channels/useSoloShare.ts
+msgid "Shared in {0}"
+msgstr "已分享到 {0}"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Shared Markdown for this channel. Saves and restores check the loaded revision on supporting relays."
+msgstr "此频道的共享 Markdown。保存和恢复会校验已加载的修订（在支持的中继上）。"
 
 #: src/app/shell/BestieNavigation.tsx
 msgid "Shared notes"
@@ -4312,9 +6724,32 @@ msgstr "再显示 {hidden} {hiddenNoun}"
 msgid "Show comments"
 msgstr "显示评论"
 
+#. placeholder {0}: project.name
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show fewer chats in {0}"
+msgstr "在 {0} 中显示更少聊天"
+
 #: src/features/messages/LinkPreviews.tsx
 msgid "Show fewer previews"
 msgstr "显示更少预览"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Show full content"
+msgstr "显示完整内容"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show less"
+msgstr "收起"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show more"
+msgstr "显示更多"
+
+#. placeholder {0}: project.name
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show more chats in {0}"
+msgstr "在 {0} 中显示更多聊天"
 
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Show my local time on my profile"
@@ -4355,6 +6790,10 @@ msgstr "显示 500 条草稿。"
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Showing your latest {SENT_LIMIT} messages."
 msgstr "显示你最近的 {SENT_LIMIT} 条消息。"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Showing your unsaved local draft. Open History to view saved versions."
+msgstr "显示的是你未保存的本地草稿。打开历史可查看已保存的版本。"
 
 #. placeholder {0}: leaving.membership.localName
 #: src/features/communities/CommunityPicker.tsx
@@ -4423,9 +6862,29 @@ msgstr "个人"
 msgid "Solo chat completions"
 msgstr "个人对话完成"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Some agent managers or their names could not load. Try again."
+msgstr "部分智能体管理器或其名称无法加载。请重试。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Some agents could not load."
+msgstr "部分智能体无法加载。"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Some backups couldn’t be recovered."
 msgstr "部分备份无法恢复。"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Some channels are missing from the current roster."
+msgstr "当前名册中缺少部分频道。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Some memories couldn't be shown."
+msgstr "部分记忆无法显示。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Some names could not load. Public keys still identify members. Try again."
+msgstr "部分名称无法加载。公钥仍可标识成员。请重试。"
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Some of your backups couldn’t be recovered, and the ones that were don’t hold the key linked to this account."
@@ -4443,6 +6902,14 @@ msgstr "部分已保存的草稿无法读取。它们未被修改。"
 msgid "Someone joined this chat. Tag an agent to send."
 msgstr "有人加入了此对话，请提及智能体后发送。"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Sort"
+msgstr "排序"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Sort {title}"
+msgstr "排序 {title}"
+
 #: src/app/NotificationSettings.tsx
 msgid "Sound"
 msgstr "声音"
@@ -4459,6 +6926,7 @@ msgstr "未能保存拼写设置"
 msgid "Spoiler"
 msgstr "剧透内容"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Starred"
 msgstr "星标"
@@ -4466,6 +6934,10 @@ msgstr "星标"
 #: src/features/messages/ComposerModels.tsx
 msgid "Start a new session"
 msgstr "开始新会话"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Start new channels with your agents, teams and a Canvas already in place."
+msgstr "创建新频道时预先配好你的智能体、团队和 Canvas。"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Start over with a new key"
@@ -4479,9 +6951,17 @@ msgstr "在下方开始对话。"
 msgid "Start with your local profile, or choose how you appear in this community."
 msgstr "从你的本地资料开始，或选择你在此社区中的显示方式。"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Starter channel for new members"
+msgstr "新成员的入门频道"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "starting a new session"
 msgstr "开始新会话"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Starting Canvas"
+msgstr "正在启动 Canvas"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Starting direct messages is unavailable on this connection."
@@ -4495,6 +6975,10 @@ msgstr "重新开始将永久解绑你的旧密钥。"
 msgid "Starting over replaces the key linked to your Builderlab account. Your profile, messages, and community access won’t carry over. Your old content won’t be deleted. The new key will be backed up to your Builderlab account automatically. Block can use that copy to restore this key, including anywhere else you use it."
 msgstr "重新开始会替换绑定到你 Builderlab 账户的密钥。你的资料、消息和社区访问权限不会延续。旧内容不会被删除。新密钥将自动备份到你的 Builderlab 账户。Block 可使用该副本恢复此密钥，包括你在其他地方使用它的场合。"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Starts the Canvas"
+msgstr "启动 Canvas"
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Status expiration"
 msgstr "状态到期"
@@ -4506,6 +6990,10 @@ msgstr "状态说明"
 #: src/app/shell/ProfileButton.tsx
 msgid "Status unavailable"
 msgstr "状态不可用"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Status unknown"
+msgstr "状态未知"
 
 #: src/app/shell/ProfileButton.tsx
 msgid "Status updates are unavailable in this community."
@@ -4533,9 +7021,17 @@ msgstr "停止 {0}{1}"
 msgid "Stop {name}"
 msgstr "停止 {name}"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Stopped"
+msgstr "已停止"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Stopping…"
 msgstr "正在停止…"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "stream established"
+msgstr "数据流已建立"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
@@ -4562,6 +7058,10 @@ msgstr "切换到 {name}"
 msgid "System"
 msgstr "跟随系统"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "System prompt"
+msgstr "系统提示词"
+
 #: src/app/AppearanceSettings.tsx
 msgid "System uses your device’s time format."
 msgstr "“跟随系统”使用设备的时间格式。"
@@ -4586,11 +7086,28 @@ msgstr "请提及智能体后发送。"
 msgid "Team"
 msgstr "团队"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Teams"
+msgstr "团队"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Template"
+msgstr "模板"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Temporary"
+msgstr "临时"
+
 #. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
 #. placeholder {0}: channelDurationLabel(ttlSeconds, i18n.locale)
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Temporary, {0}"
 msgstr "临时保留，{0}"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Terminated"
+msgstr "已终止"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -4617,6 +7134,22 @@ msgstr "这不是绑定到此账户的密钥。它期望的是"
 msgid "That message is no longer available."
 msgstr "该消息已不可用。"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "The change may have been saved. Check its status before trying again. Checking never resends it."
+msgstr "更改可能已保存。再次尝试前请检查其状态。检查不会重新发送它。"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "The change may have been saved. Check its status before trying again. Checking never resends it. Closing this dialog does not undo the change."
+msgstr "更改可能已保存。再次尝试前请检查其状态。检查不会重新发送它。关闭此对话框不会撤销该更改。"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "The channel could not be created."
+msgstr "无法创建频道。"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "The current Canvas could not be read, so this version cannot be compared with it."
+msgstr "无法读取当前 Canvas，因此无法与此版本对比。"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "The draft changed or this link exceeds the message limit. Close and try again."
 msgstr "草稿已变化或此链接超出消息限制，请关闭后重试。"
@@ -4629,6 +7162,18 @@ msgstr "草稿已变化，请关闭后重试。"
 msgid "The installed plugin changed after this update was checked."
 msgstr "检查更新后，已安装的插件发生了变化。"
 
+#: src/bundled/channels/useSoloShare.ts
+msgid "The link was not posted. Any access change already saved is kept."
+msgstr "链接未发送。已保存的任何权限更改会保留。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "The member list could not be confirmed. Try again."
+msgstr "无法确认成员列表。请重试。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "The member list could not load. Try again."
+msgstr "成员列表无法加载。请重试。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "The message can't be edited right now"
 msgstr "当前无法编辑此消息"
@@ -4637,13 +7182,29 @@ msgstr "当前无法编辑此消息"
 msgid "The previous placement is shown. A partial save may already exist on the relay."
 msgstr "当前显示的是先前的位置。中继上可能已存在部分保存。"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "The previous revision isn't loaded, so changes can't be shown."
+msgstr "前一个修订未加载，因此无法显示更改。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "The previous revision isn't valid config, so changes can't be shown."
+msgstr "前一个修订不是有效配置，因此无法显示更改。"
+
 #: src/features/messages/ForwardMessage.tsx
 msgid "The recipient can open the original only if they have access to its conversation."
 msgstr "收件人只有在拥有原对话访问权限时才能打开原文。"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "The requesting app supplies its name. Authorize it only if you started setup in that app."
+msgstr "请求应用的名称由其自己提供。只有当你确实在该应用中发起了设置时才授权。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "The session changed. Review its channel and retry."
 msgstr "会话已变化，请确认频道后重试。"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "The start of this turn isn't loaded."
+msgstr "此轮次的开头未加载。"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "The team would exceed the message length or 32-recipient limit. Nothing was added."
@@ -4652,6 +7213,18 @@ msgstr "添加该团队会超出消息长度或 32 个接收方的限制，未�
 #: src/app/PluginUpdates.tsx
 msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
 msgstr "待更新版本已发生变化，请重新检查更新后再审核。"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Think"
+msgstr "思考"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Thinking"
+msgstr "思考中"
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Thinking effort"
+msgstr "思考力度"
 
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "This {placeWord} is archived"
@@ -4673,9 +7246,26 @@ msgstr "此地址不是 Buzz 社区。"
 msgid "This agent is no longer available for direct messages. Choose another person."
 msgstr "此智能体已无法接收私信。请选择其他人。"
 
+#: src/features/agents/external-connection.ts
+msgid "This app asks for limited access, which Buzz no longer grants. Update the app, then start setup again."
+msgstr "此应用请求受限访问，Buzz 已不再授予。请更新该应用后重新开始设置。"
+
 #: src/app/NotificationSettings.tsx
 msgid "This build can’t show system notifications."
 msgstr "此版本无法显示系统通知。"
+
+#: src/bundled/channels/CanvasView.tsx
+msgid "This Canvas is empty."
+msgstr "此 Canvas 为空。"
+
+#: src/bundled/channels/CanvasView.tsx
+msgid "This Canvas is too large or too complex to render, so it is shown as Markdown source."
+msgstr "此 Canvas 过大或过于复杂而无法渲染，因此以 Markdown 源码显示。"
+
+#. placeholder {0}: channelText(chosen)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "This changes the chat from Private to View only and posts its link in {0}. "
+msgstr "这会将聊天从私有改为仅查看，并把其链接发送到 {0}。"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "this channel"
@@ -4685,6 +7275,15 @@ msgstr "此频道"
 msgid "this chat"
 msgstr "此聊天"
 
+#: src/bundled/channels/SoloChatName.tsx
+msgid "This chat can’t be renamed."
+msgstr "此聊天无法重命名。"
+
+#. placeholder {0}: channelText(chosen)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "This chat is already View only. Its link will be posted in {0}. "
+msgstr "此聊天已是仅查看。其链接将发送到 {0}。"
+
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device."
 msgstr "此设置已生效，但未能保存到当前设备。"
@@ -4692,6 +7291,10 @@ msgstr "此设置已生效，但未能保存到当前设备。"
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device. Try again."
 msgstr "此设置已生效，但未能保存到当前设备，请重试。"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "This community doesn't let you read this agent's memory."
+msgstr "此社区不允许你读取此智能体的记忆。"
 
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it."
@@ -4718,6 +7321,7 @@ msgid "This conversation is no longer available for changes."
 msgstr "此对话已无法修改。"
 
 #: src/bundled/channels/PageTabs.tsx
+#: src/bundled/channels/useConversationTabs.tsx
 msgid "This conversation is no longer available."
 msgstr "此对话已不可用。"
 
@@ -4737,6 +7341,14 @@ msgstr "此对话当前不可用。你的草稿仍已保存。"
 msgid "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
 msgstr "这会将其从此电脑的安全存储中删除，让你退出各个组织，并重启 Buzz。之后登录即可从备份恢复你账户的密钥，或输入你的私钥。如果没有备份或副本，该身份将无法恢复。"
 
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "This deletes the channel for everyone. You can’t undo this."
+msgstr "这会为所有人删除此频道。此操作无法撤销。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "This deletes the chat for everyone in it. You can’t undo this."
+msgstr "这会为聊天中的所有人删除此聊天。此操作无法撤销。"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
 msgstr "默认分享此设备的时区。取消勾选并保存即可停止分享。"
@@ -4752,6 +7364,10 @@ msgstr "无法清除此草稿。请重试。"
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "This draft has no text to copy."
 msgstr "此草稿没有可复制的文本。"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "This group is no longer available. Close this dialog and create from another sidebar group or Channels."
+msgstr "此分组已不可用。请关闭此对话框，从其他侧边栏分组或“频道”创建。"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "This is the relay URL you use to connect to this community."
@@ -4809,6 +7425,10 @@ msgstr "此页面的侧栏不可用。"
 msgid "This paste would make your message too long."
 msgstr "粘贴此内容会超出消息长度限制。"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "This publishes the selected version as a new Canvas revision. Existing history is kept."
+msgstr "这会将所选版本发布为新的 Canvas 修订。现有历史会保留。"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "This queued message is no longer available to edit."
 msgstr "此排队消息已无法编辑。"
@@ -4824,6 +7444,10 @@ msgstr "当前中继连接仅支持读取。"
 #: src/features/messages/MessageManagement.tsx
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 msgstr "这将请求 Buzz 中继服务器移除此消息，其他人可能仍保留副本。此操作无法撤销。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "This revision isn't valid config ({problem}), so changes can't be shown."
+msgstr "此修订不是有效配置（{problem}），因此无法显示更改。"
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "This saved draft does not identify a thread root. Open its origin to check the destination."
@@ -4842,6 +7466,22 @@ msgstr "这会向社区的中继发送退出请求，然后从此设备上移除
 msgid "This thread didn’t load."
 msgstr "此话题未能加载。"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "This version exceeds the {LIVE_CANVAS_LIMIT} Canvas limit and cannot be restored here."
+msgstr "此版本超过 Canvas 上限（{LIVE_CANVAS_LIMIT}），无法在此恢复。"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "This version is empty."
+msgstr "此版本为空。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "This version isn't in the loaded history."
+msgstr "此版本不在已加载的历史中。"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "This version removed this configuration."
+msgstr "此版本移除了此配置。"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "本周"
@@ -4850,10 +7490,17 @@ msgstr "本周"
 msgid "This won’t change the identity linked to your account."
 msgstr "这不会改变绑定到你账户的身份。"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Thought"
+msgstr "思考"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "thread"
 msgstr "话题"
 
+#: src/bundled/channels/useConversationTabs.tsx
+#: src/features/agents/InterruptedNotice.tsx
 #: src/features/messages/MessageRow.tsx
 #: src/features/messages/ThreadPanel.tsx
 msgid "Thread"
@@ -4868,6 +7515,15 @@ msgstr "话题 — {0}"
 #: src/features/messages/TypingIndicator.tsx
 msgid "Thread · {0}"
 msgstr "话题 · {0}"
+
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Thread · {name}"
+msgstr "话题 · {name}"
+
+#. placeholder {0}: turn.threadRootId.slice(0, 8)
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Thread {0}"
+msgstr "话题 {0}"
 
 #: src/features/messages/MediaReviewViewer.tsx
 #: src/features/messages/ThreadPanel.tsx
@@ -4894,6 +7550,10 @@ msgstr "未能保存话题设置"
 msgid "Thread replies"
 msgstr "话题回复"
 
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "Time frame"
+msgstr "时间范围"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Time zone"
 msgstr "时区"
@@ -4901,6 +7561,10 @@ msgstr "时区"
 #: src/app/AppearanceSettings.tsx
 msgid "Timestamps"
 msgstr "时间"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "To add an agent, mention it in the chat."
+msgstr "要添加智能体，请在聊天中提及它。"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "To:"
@@ -4920,6 +7584,10 @@ msgstr "切换格式工具"
 msgid "Toggle tab pane"
 msgstr "切换标签面板"
 
+#: src/features/agents/TranscriptPanel.tsx
+msgid "Transcript"
+msgstr "执行记录"
+
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Transfer complete; waiting for server confirmation"
 msgstr "传输完成；等待服务器确认"
@@ -4937,21 +7605,73 @@ msgstr "重试"
 msgid "Try recovery again"
 msgstr "再次尝试恢复"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Turn"
+msgstr "轮次"
+
+#. placeholder {0}: time(turn.startedAt)
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Turn {0}"
+msgstr "轮次 {0}"
+
 #: src/features/identity/SignOut.tsx
 msgid "Type “{WIPE_PHRASE}” to confirm"
 msgstr "输入“{WIPE_PHRASE}”以确认"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
 msgstr "输入至少 {SEARCH_MIN_CHARS} 个字符以搜索人员。"
+
+#: src/bundled/channels/ChannelStateNotice.tsx
+msgid "Unarchive"
+msgstr "取消归档"
+
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchive {nounText}"
+msgstr "取消归档{nounText}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchive this channel for everyone and return it to the sidebar. Members can send messages again."
+msgstr "为所有人取消归档此频道并恢复到侧边栏。成员可以再次发送消息。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchive this chat and return it to the sidebar. Messages can be sent again."
+msgstr "取消归档此聊天并恢复到侧边栏。可以再次发送消息。"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchiving {nounText}…"
+msgstr "正在取消归档{nounText}…"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Unavailable"
 msgstr "不可用"
 
+#: src/bundled/channels/useConversationTabs.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Unavailable conversation"
 msgstr "对话不可用"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Unavailable in this copy of Buzz."
+msgstr "在此 Buzz 副本中不可用。"
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Unavailable model"
+msgstr "模型不可用"
+
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Unchanged"
+msgstr "未更改"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Unconfirmed"
+msgstr "未确认"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Undo"
+msgstr "撤销"
 
 #: src/features/channel-navigation/WorkspaceComposition.tsx
 msgid "Unfiled"
@@ -4964,6 +7684,14 @@ msgstr "取消关注话题"
 #: src/features/messages/ThreadPanel.tsx
 msgid "Unknown author"
 msgstr "未知作者"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Unknown channel"
+msgstr "未知频道"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Unknown member"
+msgstr "未知成员"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Unknown person"
@@ -4980,6 +7708,18 @@ msgstr "取消静音"
 #: src/features/messages/VideoPlayer.tsx
 msgid "Unmute video"
 msgstr "取消视频静音"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Unread status"
+msgstr "未读状态"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Unread threads"
+msgstr "未读话题"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Unreads"
+msgstr "未读"
 
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Unsent draft"
@@ -5061,6 +7801,15 @@ msgstr "使用已有密钥"
 msgid "Use an HTTP(S) URL or a valid buzz:// link."
 msgstr "请使用 HTTP(S) 地址或有效的 buzz:// 链接。"
 
+#: src/features/agents/ModelFamilyMenu.tsx
+#: src/features/agents/ModelPicker.tsx
+msgid "Use model"
+msgstr "使用模型"
+
+#: src/features/agents/AISettings.tsx
+msgid "Use recommended settings."
+msgstr "使用推荐设置。"
+
 #: src/features/identity/IdentitySetup.tsx
 msgid "Use your existing identity"
 msgstr "使用你已有的身份"
@@ -5086,9 +7835,21 @@ msgstr "使用 {0}{effortSuffix}"
 msgid "Vacationing"
 msgstr "休假中"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Version"
+msgstr "版本"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Version {version}"
 msgstr "版本 {version}"
+
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "Version count unavailable"
+msgstr "版本数不可用"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Version restored as a new revision."
+msgstr "版本已作为新修订恢复。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Vibe level"
@@ -5130,6 +7891,16 @@ msgstr "视频音量"
 msgid "Video volume controls"
 msgstr "视频音量控制"
 
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/useSoloShare.ts
+msgid "View"
+msgstr "查看"
+
+#. placeholder {0}: label.toLowerCase()
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "View {0}"
+msgstr "查看 {0}"
+
 #. placeholder {0}: descendants.length
 #: src/features/messages/ThreadPanel.tsx
 msgid "View {0} {replyWord}"
@@ -5140,10 +7911,15 @@ msgstr "查看 {0} 条{replyWord}"
 msgid "View {0} activity"
 msgstr "查看 {0} 的活动"
 
+#: src/features/agents/AgentActivityRow.tsx
+msgid "View {name} activity"
+msgstr "查看 {name} 的活动"
+
 #: src/features/messages/MessageRow.tsx
 msgid "View {name} profile"
 msgstr "查看 {name} 的资料"
 
+#: src/features/agents/AgentActivityRow.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "View activity"
 msgstr "查看活动"
@@ -5166,6 +7942,10 @@ msgstr "查看频道详情"
 msgid "View message in {where}: {line}"
 msgstr "查看 {where} 的消息：{line}"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "View only"
+msgstr "仅查看"
+
 #: src/features/messages/MessageRow.tsx
 #: src/features/messages/ReplySummary.tsx
 msgid "View thread"
@@ -5181,10 +7961,18 @@ msgstr "查看话题：{0} {replyCountWord}"
 msgid "View transcript"
 msgstr "查看执行记录"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Viewing only. Ask an owner or admin to participate."
+msgstr "仅查看。请联系所有者或管理员以参与。"
+
 #: src/features/messages/MessageComposer.tsx
 #: src/features/messages/QueuedFollowUps.tsx
 msgid "Wait for compaction to finish, or interrupt it."
 msgstr "请等待上下文压缩完成，或将其中断。"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Wait for saved sidebar groups to load, then try again."
+msgstr "请等待已保存的侧边栏分组加载后再试。"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "Wait for the active turn to finish before {waitVerb}."
@@ -5193,6 +7981,10 @@ msgstr "请等待当前轮次完成后再{waitVerb}。"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Waiting for {name} to connect."
 msgstr "正在等待 {name} 连接。"
+
+#: src/features/agents/current-activity.ts
+msgid "Waiting for permission"
+msgstr "等待权限"
 
 #: src/app/NotificationSettings.tsx
 #: src/app/UnreadIndicatorSettings.tsx
@@ -5222,6 +8014,10 @@ msgstr "我们找到了你账户的密钥。"
 #: src/features/identity/WelcomeBack.tsx
 msgid "Welcome back"
 msgstr "欢迎回来"
+
+#: src/bundled/channels/ChannelTextField.tsx
+msgid "What this channel is for"
+msgstr "此频道的用途"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "What's your status?"
@@ -5255,10 +8051,15 @@ msgstr "未输入搜索内容时，优先显示未读频道和私聊，并选中
 msgid "With someone’s local time, shows how far ahead or behind you they are and their time zone."
 msgstr "在当地时间旁显示对方与你的时差及其时区。"
 
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "without activity."
+msgstr "无活动。"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Work with unconfirmed thread"
 msgstr "处理未确认的话题"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "Workflow"
 msgstr "工作流"
@@ -5267,6 +8068,13 @@ msgstr "工作流"
 msgid "Workflows"
 msgstr "工作流"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+#: src/features/agents/ActivityTranscript.tsx
+#: src/features/agents/current-activity.ts
+msgid "Working"
+msgstr "工作中"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "Working now"
 msgstr "正在工作"
@@ -5275,14 +8083,42 @@ msgstr "正在工作"
 msgid "Working remotely"
 msgstr "远程办公"
 
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Workspace"
+msgstr "工作区"
+
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Workspace actions"
 msgstr "工作区操作"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Workspace could not be deleted. Try again."
+msgstr "无法删除工作区。请重试。"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Workspace name"
+msgstr "工作区名称"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Workspace settings"
+msgstr "工作区设置"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Workspaces are unavailable. Close this dialog and retry."
+msgstr "工作区不可用。请关闭此对话框后重试。"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Workspaces couldn’t load."
+msgstr "工作区无法加载。"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/shared/datetime.ts
 msgid "Yesterday"
 msgstr "昨天"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Yielded"
+msgstr "产出"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/features/messages/MessageReactions.tsx
@@ -5300,6 +8136,10 @@ msgstr "一次最多可与 {maxRecipients} 人私信。"
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "You can’t post in {title} anymore. Your draft is still saved."
 msgstr "你已无法在 {title} 中发言。你的草稿仍已保存。"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "You cannot share this chat."
+msgstr "你无法分享此聊天。"
 
 #: src/app/App.tsx
 msgid "You don’t have access to this"
@@ -5333,6 +8173,14 @@ msgstr "你账户的密钥不在此设备上。请输入其私钥继续。"
 msgid "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
 msgstr "你账户的密钥不在此设备上。请尝试从备份恢复，或输入其私钥。"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Your agents"
+msgstr "你的智能体"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Your agents from other devices or earlier setups."
+msgstr "来自你其他设备或早期设置的智能体。"
+
 #: src/app/shell/ProfileButton.tsx
 msgid "Your avatar"
 msgstr "你的头像"
@@ -5350,9 +8198,21 @@ msgstr "你的 Builderlab 账户"
 msgid "Your Buzz identity"
 msgstr "你的 Buzz 身份"
 
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Your channel details have unsaved changes."
+msgstr "你的频道详情有未保存的更改。"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Your channel draft has unsaved changes."
+msgstr "你的频道草稿有未保存的更改。"
+
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Your channels, one conversation."
 msgstr "你的频道，尽在一个对话。"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Your communities"
+msgstr "你的社区"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Your conversations are still available."
@@ -5398,6 +8258,10 @@ msgstr "本地身份不可用，请连接身份后编辑个人资料。"
 msgid "Your old key can’t be linked again"
 msgstr "你的旧密钥无法再次绑定"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Your other agents"
+msgstr "你的其他智能体"
+
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Your people, your agents, one place."
@@ -5441,6 +8305,14 @@ msgstr "你的状态不可用"
 #: src/app/shell/ProfileButton.tsx
 msgid "Your status: {label}"
 msgstr "你的状态：{label}"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Your template has unsaved changes."
+msgstr "你的模板有未保存的更改。"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Your unsaved draft will be kept separately. Copy any edits you want to keep before reloading the restored Canvas."
+msgstr "你未保存的草稿会单独保留。重新加载恢复的 Canvas 前，请先复制想保留的修改。"
 
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Zoom in"

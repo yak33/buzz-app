@@ -7,9 +7,50 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-US\n"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid " · Current"
+msgstr " · Current"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+#: src/features/agents/ModelPicker.tsx
+msgid " · Default"
+msgstr " · Default"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Deleted"
+msgstr " · Deleted"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid " · Fast"
+msgstr " · Fast"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Moved"
+msgstr " · Moved"
+
+#: src/features/agents/AgentManage.tsx
+msgid " · Not connected"
+msgstr " · Not connected"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Not valid"
+msgstr " · Not valid"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid " · Posted"
+msgstr " · Posted"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid " · Restored"
+msgstr " · Restored"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid " · Thread"
 msgstr " · Thread"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid " (you)"
+msgstr " (you)"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -26,6 +67,10 @@ msgstr " and {0} more"
 msgid " and {0} others"
 msgstr " and {0} others"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid " in "
+msgstr " in "
+
 #. placeholder {0}: scopeLabel(pubkey, root)
 #: src/features/messages/TypingIndicator.tsx
 msgid " in {0}"
@@ -38,6 +83,14 @@ msgstr " Join an existing one or create your own."
 #: src/features/identity/SignOut.tsx
 msgid " Kept agents keep their names, types and keys; their settings on this device are erased."
 msgstr " Kept agents keep their names, types and keys; their settings on this device are erased."
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid " Stop this agent in old Buzz before connecting, so only one app replies."
+msgstr " Stop this agent in old Buzz before connecting, so only one app replies."
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid " The app can renew valid approval for another 30 days. Approval expires after 30 days without renewal. The app can restore this access after either app restarts. You can revoke it in External apps."
+msgstr " The app can renew valid approval for another 30 days. Approval expires after 30 days without renewal. The app can restore this access after either app restarts. You can revoke it in External apps."
 
 #. placeholder {0}: to.map((who) => who.name).join(", ")
 #: src/features/messages/MessageRow.tsx
@@ -61,14 +114,27 @@ msgstr " with the provider's default effort"
 msgid ", {verified}"
 msgstr ", {verified}"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid ", agent"
+msgstr ", agent"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid ", Agent"
 msgstr ", Agent"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid ", archived"
+msgstr ", archived"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid ", not in this {placeText}"
+msgstr ", not in this {placeText}"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid ", thread"
 msgstr ", thread"
 
+#: src/bundled/channels/UnreadBadge.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "; may be out of date"
 msgstr "; may be out of date"
@@ -86,6 +152,18 @@ msgstr ". Block can use that copy to restore your identity, including anywhere e
 msgid ". Join to keep it in your sidebar and appear as a viewer."
 msgstr ". Join to keep it in your sidebar and appear as a viewer."
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "· {failedChildren} failed call"
+msgstr "· {failedChildren} failed call"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "· {failedChildren} failed calls"
+msgstr "· {failedChildren} failed calls"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "· Current"
+msgstr "· Current"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "· Thread"
 msgstr "· Thread"
@@ -98,6 +176,14 @@ msgstr "“{0}” is not a valid recipient"
 #: src/features/messages/ReplySummary.tsx
 msgid "({unreadCount} new)"
 msgstr "({unreadCount} new)"
+
+#: src/features/agents/AISettings.tsx
+msgid "(recommended)"
+msgstr "(recommended)"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "(steer) "
+msgstr "(steer) "
 
 #: src/features/identity/KeyImport.tsx
 msgid "(the key on your other device)."
@@ -135,10 +221,25 @@ msgstr "{0} agents are working"
 msgid "{0} cannot start"
 msgstr "{0} cannot start"
 
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "{0} connected"
+msgstr "{0} connected"
+
+#. placeholder {0}: copy.title
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{0} failed"
+msgstr "{0} failed"
+
 #. placeholder {0}: subtype.toUpperCase()
 #: src/features/messages/FileAttachment.tsx
 msgid "{0} file"
 msgstr "{0} file"
+
+#. placeholder {0}: team.name
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0} is in the channel."
+msgstr "{0} is in the channel."
 
 #. placeholder {0}: resolveName(firstThreadAgent.pubkey, firstThreadAgent.name)
 #: src/features/messages/MessageRow.tsx
@@ -149,6 +250,16 @@ msgstr "{0} is waiting"
 #: src/features/messages/MessageRow.tsx
 msgid "{0} is working"
 msgstr "{0} is working"
+
+#. placeholder {0}: copy.detail
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{0} It’s a starter channel, so new members will be added to it again once it’s unarchived. To stop that, turn off Starter channel for new members in Settings first."
+msgstr "{0} It’s a starter channel, so new members will be added to it again once it’s unarchived. To stop that, turn off Starter channel for new members in Settings first."
+
+#. placeholder {0}: groupLabel(group.name)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0} member pages"
+msgstr "{0} member pages"
 
 #. placeholder {0}: channel.members
 #: src/features/conversation/BuzzLinkPreview.tsx
@@ -161,6 +272,11 @@ msgstr "{0} members"
 msgid "{0} of {1}"
 msgstr "{0} of {1}"
 
+#. placeholder {0}: page + 1
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0} of {pageCount}"
+msgstr "{0} of {pageCount}"
+
 #. placeholder {0}: authorIds.length
 #: src/features/messages/MessageReactions.tsx
 msgid "{0} people"
@@ -170,6 +286,31 @@ msgstr "{0} people"
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{0} replies"
 msgstr "{0} replies"
+
+#. placeholder {0}: request.client
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "{0} requests access."
+msgstr "{0} requests access."
+
+#. placeholder {0}: result.revisions.length
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "{0} revisions loaded."
+msgstr "{0} revisions loaded."
+
+#. placeholder {0}: sections.length
+#: src/features/agents/ActivityTranscript.tsx
+msgid "{0} sections"
+msgstr "{0} sections"
+
+#. placeholder {0}: item.entries.length
+#: src/features/agents/ActivityTranscript.tsx
+msgid "{0} steps"
+msgstr "{0} steps"
+
+#. placeholder {0}: model.label
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "{0} thinking effort"
+msgstr "{0} thinking effort"
 
 #. placeholder {0}: uploads.phase
 #. placeholder {1}: uploads.destination.name
@@ -187,15 +328,44 @@ msgstr "{0} waiting"
 msgid "{0} working"
 msgstr "{0} working"
 
+#. placeholder {0}: copy.done
+#. placeholder {0}: copy.title
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{0}: {channelName}"
+msgstr "{0}: {channelName}"
+
+#. placeholder {0}: label(highlightedPerson.pubkey, highlightedPerson.name)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{0}. Press Enter to add."
+msgstr "{0}. Press Enter to add."
+
 #. placeholder {0}: resolveName(owner.id, owner.profile.name)
 #: src/features/messages/MessageRow.tsx
 msgid "{0}’s agent"
 msgstr "{0}’s agent"
 
+#. placeholder {0}: count.toLocaleString()
+#. placeholder {1}: tracks.some((track) => !track?.done) ? "+" : ""
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "{0}{1} version"
+msgstr "{0}{1} version"
+
+#. placeholder {0}: count.toLocaleString()
+#. placeholder {1}: tracks.some((track) => !track?.done) ? "+" : ""
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "{0}{1} versions"
+msgstr "{0}{1} versions"
+
 #. placeholder {0}: activity.replies
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{0}+ replies"
 msgstr "{0}+ replies"
+
+#. placeholder {0}: previous ? `${previous} ` : ""
+#. placeholder {1}: String(reason)
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "{0}History refresh failed: {1}"
+msgstr "{0}History refresh failed: {1}"
 
 #: src/features/communities/ProfileFields.tsx
 msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
@@ -209,6 +379,24 @@ msgstr "{account} is linked to a different key than the one on this computer, an
 msgid "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
 msgstr "{account} is linked to a key that lives on another device, and Builderlab has no backup of it. Buzz keeps using this computer’s key. To use your account’s key here, turn on Identity sync in Settings → Identity on that device, or bring its private key here."
 
+#. placeholder {0}: channelText(item)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{action} {0}"
+msgstr "{action} {0}"
+
+#. placeholder {0}: label.toLowerCase()
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "{actionLabel} {0}"
+msgstr "{actionLabel} {0}"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "{channelCount} channel will move back to Channels. This does not delete any channels."
+msgstr "{channelCount} channel will move back to Channels. This does not delete any channels."
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "{channelCount} channels will move back to Channels. This does not delete any channels."
+msgstr "{channelCount} channels will move back to Channels. This does not delete any channels."
+
 #: src/features/conversation/MessageLink.tsx
 msgid "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
 msgstr "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
@@ -221,21 +409,71 @@ msgstr "{colorLabel} accent color"
 msgid "{count} {replyWord}"
 msgstr "{count} {replyWord}"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{count} mentions"
+msgstr "{count} mentions"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{count} messages after yours, {from}"
 msgstr "{count} messages after yours, {from}"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{count} observed unread messages; may be out of date. Not an exact total."
+msgstr "{count} observed unread messages; may be out of date. Not an exact total."
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{count} observed unread messages. Not an exact total."
+msgstr "{count} observed unread messages. Not an exact total."
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{count} replies after yours, {from}"
 msgstr "{count} replies after yours, {from}"
 
+#: src/bundled/channels/ChannelTextField.tsx
+msgid "{countLabel} of {limitLabel} characters"
+msgstr "{countLabel} of {limitLabel} characters"
+
 #: src/shared/datetime.ts
 msgid "{dayLabel} at {time}"
 msgstr "{dayLabel} at {time}"
 
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "{days} days"
+msgstr "{days} days"
+
+#. placeholder {0}: wait(i18n, cooldown)
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{description} Relay requests are paused, so nothing was deleted. You can retry in {0}."
+msgstr "{description} Relay requests are paused, so nothing was deleted. You can retry in {0}."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{description} Relay requests were paused, so nothing was deleted. You can retry now."
+msgstr "{description} Relay requests were paused, so nothing was deleted. You can retry now."
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{detail} · {count} mentions"
+msgstr "{detail} · {count} mentions"
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel} (preview only)"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "{family} models"
+msgstr "{family} models"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "{heading} version"
+msgstr "{heading} version"
+
+#. placeholder {0}: i18n._(GAP_TEXT[segment.gap])
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "{heading}: {0}"
+msgstr "{heading}: {0}"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "{heading}: No revisions returned."
+msgstr "{heading}: No revisions returned."
 
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "{headingTitle} conversations"
@@ -266,9 +504,30 @@ msgstr "{label}: session controls unavailable. Check the agent's connection and 
 msgid "{label}. {target}: {0}"
 msgstr "{label}. {target}: {0}"
 
+#. placeholder {0}: soloOwnerLabel(owner)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{labelText}, {0}"
+msgstr "{labelText}, {0}"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "{maxRecipients} people selected"
 msgstr "{maxRecipients} people selected"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{memberName} added."
+msgstr "{memberName} added."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{memberName} is in the {placeText}."
+msgstr "{memberName} is in the {placeText}."
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{mentionCount} unread mentions"
+msgstr "{mentionCount} unread mentions"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{minutes} minutes"
+msgstr "{minutes} minutes"
 
 #: src/features/messages/MessageRow.tsx
 msgid "{name} avatar"
@@ -290,6 +549,34 @@ msgstr "{name}, edit profile"
 msgid "{name}'s session"
 msgstr "{name}'s session"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{names} are in the {placeText}."
+msgstr "{names} are in the {placeText}."
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{names} was working when Buzz closed or reloaded."
+msgstr "{names} was working when Buzz closed or reloaded."
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "{names} were working when Buzz closed or reloaded."
+msgstr "{names} were working when Buzz closed or reloaded."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} archived"
+msgstr "{nounTitle} archived"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} deleted"
+msgstr "{nounTitle} deleted"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} left"
+msgstr "{nounTitle} left"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{nounTitle} unarchived"
+msgstr "{nounTitle} unarchived"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "{reason} {fallback}. Your saved choice is retained until you reset it."
 msgstr "{reason} {fallback}. Your saved choice is retained until you reset it."
@@ -302,6 +589,14 @@ msgstr "{remainingWorkingNames} waiting"
 msgid "{remainingWorkingNames} working"
 msgstr "{remainingWorkingNames} working"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "{rest} more"
+msgstr "{rest} more"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "{seconds} seconds"
+msgstr "{seconds} seconds"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{shown} after you"
 msgstr "{shown} after you"
@@ -309,6 +604,14 @@ msgstr "{shown} after you"
 #: src/features/messages/ActivityGroupPreview.tsx
 msgid "{speaker}: still working — {preview}"
 msgstr "{speaker}: still working — {preview}"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "{threadCount} unread threads"
+msgstr "{threadCount} unread threads"
+
+#: src/features/agents/AISettings.tsx
+msgid "{title}:"
+msgstr "{title}:"
 
 #: src/features/messages/ActivityGroupPreview.tsx
 msgid "{toggleVerb} activity history: {summaryLabel}"
@@ -335,6 +638,14 @@ msgstr "{unreadCount} new in available replies"
 msgid "{verb} {displayName}"
 msgstr "{verb} {displayName}"
 
+#: src/features/agents/current-activity.ts
+msgid "{verb} {file}"
+msgstr "{verb} {file}"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "{weeks} weeks ago"
+msgstr "{weeks} weeks ago"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "{workingNames} are working"
 msgstr "{workingNames} are working"
@@ -347,10 +658,36 @@ msgstr "{workingNames} is working"
 msgid "@Mentions"
 msgstr "@Mentions"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "# Goal\n"
+"\n"
+"# Scope\n"
+"\n"
+"# Success criteria"
+msgstr "# Goal\n"
+"\n"
+"# Scope\n"
+"\n"
+"# Success criteria"
+
 #. placeholder {0}: roots.length - 2
 #: src/features/messages/TypingIndicator.tsx
 msgid "+{0} more"
 msgstr "+{0} more"
+
+#. placeholder {0}: row.count
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "⋯ {0} unchanged line"
+msgstr "⋯ {0} unchanged line"
+
+#. placeholder {0}: row.count
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "⋯ {0} unchanged lines"
+msgstr "⋯ {0} unchanged lines"
+
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "1 day"
+msgstr "1 day"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "1 hour"
@@ -360,9 +697,21 @@ msgstr "1 hour"
 msgid "1 member"
 msgstr "1 member"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "1 mention"
+msgstr "1 mention"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "1 message after yours, {from}"
 msgstr "1 message after yours, {from}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "1 minute"
+msgstr "1 minute"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "1 month ago"
+msgstr "1 month ago"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "1 person selected"
@@ -375,6 +724,22 @@ msgstr "1 reply"
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "1 reply after yours, {from}"
 msgstr "1 reply after yours, {from}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "1 second"
+msgstr "1 second"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "1 unread mention"
+msgstr "1 unread mention"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "1 unread thread"
+msgstr "1 unread thread"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "1 week ago"
+msgstr "1 week ago"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "1+ replies"
@@ -392,6 +757,14 @@ msgstr "24-hour"
 msgid "8 hours"
 msgstr "8 hours"
 
+#: src/features/agents/AgentManage.tsx
+msgid "A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here."
+msgstr "A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here."
+
+#: src/features/agents/AgentManage.tsx
+msgid "A change to them applies in every community. Their pictures and what they pay attention to are their own in each. Memory is kept per community, so anything they saved here before comes back, and so do their conversations here."
+msgstr "A change to them applies in every community. Their pictures and what they pay attention to are their own in each. Memory is kept per community, so anything they saved here before comes back, and so do their conversations here."
+
 #: src/features/identity/Welcome.tsx
 msgid "A different account is saved on this computer"
 msgstr "A different account is saved on this computer"
@@ -399,6 +772,14 @@ msgstr "A different account is saved on this computer"
 #: src/features/direct-messages/NewMessage.tsx
 msgid "A file couldn’t upload. Retry or remove it, then send again."
 msgstr "A file couldn’t upload. Retry or remove it, then send again."
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "A relay request was rate-limited; recovery needs attention."
+msgstr "A relay request was rate-limited; recovery needs attention."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "A revision here isn't available (removed or expired)."
+msgstr "A revision here isn't available (removed or expired)."
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "A selected agent is no longer available. Remove it or refresh its details and try again."
@@ -412,6 +793,14 @@ msgstr "A selected recipient is archived or being deleted. Remove it before send
 msgid "A team member is no longer available. Refresh choices before trying again."
 msgstr "A team member is no longer available. Refresh choices before trying again."
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "A–Z"
+msgstr "A–Z"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "About your other agents"
+msgstr "About your other agents"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Accent color"
 msgstr "Accent color"
@@ -419,6 +808,18 @@ msgstr "Accent color"
 #: src/app/AppearanceSettings.tsx
 msgid "Accent color wasn’t saved"
 msgstr "Accent color wasn’t saved"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Access"
+msgstr "Access"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Access unavailable"
+msgstr "Access unavailable"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Access updated"
+msgstr "Access updated"
 
 #. placeholder {0}: channel.name
 #: src/features/channel-navigation/RegionChannelGroup.tsx
@@ -428,6 +829,15 @@ msgstr "Actions for {0}"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Actions for {name}"
 msgstr "Actions for {name}"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Actions for {title}"
+msgstr "Actions for {title}"
+
+#: src/bundled/channels/SidebarActiveDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Active in the last"
+msgstr "Active in the last"
 
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
@@ -442,6 +852,10 @@ msgstr "Activity filters and Recent sorting may be out of date."
 msgid "activity history: {0}: Couldn’t finish"
 msgstr "activity history: {0}: Couldn’t finish"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Activity in {channelName}"
+msgstr "Activity in {channelName}"
+
 #. placeholder {0}: agents.length
 #: src/features/messages/TypingIndicator.tsx
 msgid "Activity: {0} agents working"
@@ -452,6 +866,32 @@ msgstr "Activity: {0} agents working"
 msgid "Activity: {0} working"
 msgstr "Activity: {0} working"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add"
+msgstr "Add"
+
+#. placeholder {0}: people.length
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Add {0} people"
+msgstr "Add {0} people"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add {name} ({keyLabel})"
+msgstr "Add {name} ({keyLabel})"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add {name} ({keyLabel}) as"
+msgstr "Add {name} ({keyLabel}) as"
+
+#. placeholder {0}: people[0]?.[1]?.slice(0, 12) ?? ""
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Add agent {0}"
+msgstr "Add agent {0}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add agents"
+msgstr "Add agents"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Add another person…"
 msgstr "Add another person…"
@@ -460,28 +900,106 @@ msgstr "Add another person…"
 msgid "Add anything that helps moderators..."
 msgstr "Add anything that helps moderators..."
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add as"
+msgstr "Add as"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add as admin"
+msgstr "Add as admin"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
 msgstr "Add link"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add member?"
+msgstr "Add member?"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add people and agents"
+msgstr "Add people and agents"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add people or share to a channel"
+msgstr "Add people or share to a channel"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add people, agents or a channel"
+msgstr "Add people, agents or a channel"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add team"
+msgstr "Add team"
+
+#. placeholder {0}: team.name
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add team {0}"
+msgstr "Add team {0}"
 
 #: src/features/communities/LegacyCommunityImport.tsx
 msgid "Add these saved communities to your list and account. This may restore communities you previously removed."
 msgstr "Add these saved communities to your list and account. This may restore communities you previously removed."
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add to participate"
+msgstr "Add to participate"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Add with view-only access"
+msgstr "Add with view-only access"
+
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Added"
+msgstr "Added"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Adding members is unavailable in this connection."
+msgstr "Adding members is unavailable in this connection."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Adding…"
+msgstr "Adding…"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Additional context (optional)"
 msgstr "Additional context (optional)"
 
+#. placeholder {0}: templateSetup.agents.map((key) => agentNames.get(key)).join(", ")
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Adds {0}"
+msgstr "Adds {0}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Admin"
+msgstr "Admin"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "after {label}"
+msgstr "after {label}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "agent"
+msgstr "agent"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+#: src/features/agents/ExternalAuthorizationDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "Agent"
 msgstr "Agent"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Agent connection setup"
+msgstr "Agent connection setup"
 
 #: src/app/settings-sections.ts
 msgid "Agent setup"
 msgstr "Agent setup"
 
 #: src/app/shell/BestieNavigation.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Agents"
 msgstr "Agents"
 
@@ -489,11 +1007,22 @@ msgstr "Agents"
 msgid "Agents could not be loaded."
 msgstr "Agents could not be loaded."
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Agents on this device"
+msgstr "Agents on this device"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "Agents working now"
 msgstr "Agents working now"
 
+#: src/features/agents/AISettings.tsx
+msgid "AI setup"
+msgstr "AI setup"
+
 #: src/app/shell/PageSearch.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
 msgid "All"
 msgstr "All"
 
@@ -537,6 +1066,19 @@ msgstr "An agent you're sending to is archived or being deleted. Choose another 
 msgid "Another plugin review opened. Close it before confirming this update."
 msgstr "Another plugin review opened. Close it before confirming this update."
 
+#. placeholder {0}: group.count
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Any access · {0}"
+msgstr "Any access · {0}"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Anyone in the community"
+msgstr "Anyone in the community"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Anyone in the community can read."
+msgstr "Anyone in the community can read."
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Anyone with this key can act as you. Never share it."
 msgstr "Anyone with this key can act as you. Never share it."
@@ -559,6 +1101,10 @@ msgstr "Appearance preview"
 msgid "Appearance wasn’t saved"
 msgstr "Appearance wasn’t saved"
 
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "Apply"
+msgstr "Apply"
+
 #: src/app/shell/PageNavigation.tsx
 msgid "Apps"
 msgstr "Apps"
@@ -567,19 +1113,74 @@ msgstr "Apps"
 msgid "Apps dock"
 msgstr "Apps dock"
 
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archive {nounText}"
+msgstr "Archive {nounText}"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Archive state"
+msgstr "Archive state"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archive this channel for everyone and remove it from the sidebar. Messages are kept. Find it in search to unarchive it later."
+msgstr "Archive this channel for everyone and remove it from the sidebar. Messages are kept. Find it in search to unarchive it later."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archive this chat for everyone in it and remove it from the sidebar. Messages are kept. Find it in search to unarchive it later."
+msgstr "Archive this chat for everyone in it and remove it from the sidebar. Messages are kept. Find it in search to unarchive it later."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/SoloHeading.tsx
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Archived"
 msgstr "Archived"
 
+#: src/bundled/channels/ChannelStateNotice.tsx
+msgid "Archived · view only"
+msgstr "Archived · view only"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Archived {placeText}s cannot add members."
+msgstr "Archived {placeText}s cannot add members."
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Archived {placeWord}"
 msgstr "Archived {placeWord}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Archived identities could not be checked."
+msgstr "Archived identities could not be checked."
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Archives"
+msgstr "Archives"
 
 #. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Archives after {0} without activity."
 msgstr "Archives after {0} without activity."
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Archives after {label} without activity."
+msgstr "Archives after {label} without activity."
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Archives without activity."
+msgstr "Archives without activity."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Archiving {nounText}…"
+msgstr "Archiving {nounText}…"
+
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Ask {0} to respond"
+msgstr "Ask {0} to respond"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Assigned channels will move back to Channels. This does not delete any channels."
+msgstr "Assigned channels will move back to Channels. This does not delete any channels."
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "At least {count} messages after yours, {from}"
@@ -638,6 +1239,23 @@ msgstr "Audio playback"
 msgid "Audio unavailable"
 msgstr "Audio unavailable"
 
+#. placeholder {0}: state.grant.client
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Authorization replaces access for {0}. Switching communities ends that access immediately, even if you then select Deny."
+msgstr "Authorization replaces access for {0}. Switching communities ends that access immediately, even if you then select Deny."
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Authorize"
+msgstr "Authorize"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Authorize app"
+msgstr "Authorize app"
+
+#: src/features/agents/AISettings.tsx
+msgid "Automatic"
+msgstr "Automatic"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Automatic updates aren't available on this build. Download the latest release manually."
 msgstr "Automatic updates aren't available on this build. Download the latest release manually."
@@ -670,13 +1288,29 @@ msgstr "Away"
 msgid "Back"
 msgstr "Back"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Back to channel creation"
+msgstr "Back to channel creation"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Back to drafts"
 msgstr "Back to drafts"
 
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Back to edit channel details"
+msgstr "Back to edit channel details"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Back to members"
+msgstr "Back to members"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Back to sent"
 msgstr "Back to sent"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Back to template"
+msgstr "Back to template"
 
 #: src/features/identity/BackupConsent.tsx
 msgid "Back up key"
@@ -734,6 +1368,11 @@ msgstr "Buzz will automatically sync this key with your Builderlab account"
 msgid "Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
 msgstr "Buzz will save an encrypted copy of your identity key with your Builderlab account. That copy can restore your identity, including in other apps where you use the same key. If you manage your own key, keep a copy of your private key: you need it to use this account on another device or if you lose access to this one."
 
+#. placeholder {0}: candidate.label
+#: src/features/agents/AISettings.tsx
+msgid "Buzz’s usual pick, {skipped}, isn’t set up on this computer, so this agent uses {0}."
+msgstr "Buzz’s usual pick, {skipped}, isn’t set up on this computer, so this agent uses {0}."
+
 #: src/app/AppearanceSettings.tsx
 msgid "Buzzin’"
 msgstr "Buzzin’"
@@ -742,6 +1381,10 @@ msgstr "Buzzin’"
 #: src/features/communities/ProfileFields.tsx
 msgid "Cached verification from {0}"
 msgstr "Cached verification from {0}"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Calls recorded during this script"
+msgstr "Calls recorded during this script"
 
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
@@ -752,6 +1395,20 @@ msgstr "Can’t connect"
 #: src/app/CommunityRepositoriesSettings.tsx
 #: src/app/ProfileSettings.tsx
 #: src/app/shell/MarkAllReadShortcut.tsx
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/CanvasHistory.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/CreateSidebarSection.tsx
+#: src/bundled/channels/RenameSidebarSection.tsx
+#: src/bundled/channels/SidebarActiveDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
+#: src/features/agents/AgentManage.tsx
+#: src/features/agents/ModelPicker.tsx
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -772,6 +1429,10 @@ msgstr "Cancel"
 msgid "Cancel edit"
 msgstr "Cancel edit"
 
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Cancel rename"
+msgstr "Cancel rename"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Cancel reply target"
 msgstr "Cancel reply target"
@@ -790,21 +1451,124 @@ msgstr "Cancel upload to {0}"
 msgid "Canceling recovery…"
 msgstr "Canceling recovery…"
 
+#: src/bundled/channels/canvas-panel.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Canvas"
+msgstr "Canvas"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas changed since this draft began. Your draft is kept. Copy any edits you want to keep before reloading the saved Canvas."
+msgstr "Canvas changed since this draft began. Your draft is kept. Copy any edits you want to keep before reloading the saved Canvas."
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas is read-only."
+msgstr "Canvas is read-only."
+
+#: src/bundled/channels/canvas-panel.tsx
+msgid "Canvas is unavailable while the connection recovers."
+msgstr "Canvas is unavailable while the connection recovers."
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas Markdown"
+msgstr "Canvas Markdown"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas views"
+msgstr "Canvas views"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Canvas was restored. Your unsaved draft is kept. Copy any edits you want to keep before reloading the saved Canvas."
+msgstr "Canvas was restored. Your unsaved draft is kept. Copy any edits you want to keep before reloading the saved Canvas."
+
+#: src/bundled/channels/RelayTimings.tsx
+msgid "Capture timings"
+msgstr "Capture timings"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Change access"
+msgstr "Change access"
+
+#. placeholder {0}: memberAccessLabel(selection.expectedRole)
+#. placeholder {1}: memberAccessLabel(selection.role)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Change access from {0} to {1}. Admins can manage this {placeText} and its members."
+msgstr "Change access from {0} to {1}. Admins can manage this {placeText} and its members."
+
+#. placeholder {0}: memberAccessLabel(selection.expectedRole)
+#. placeholder {1}: memberAccessLabel(selection.role)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Change access from {0} to {1}. This changes what they can do in this {placeText}."
+msgstr "Change access from {0} to {1}. This changes what they can do in this {placeText}."
+
+#. placeholder {0}: memberAccessLabel(selection.role)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Change access to {0}?"
+msgstr "Change access to {0}?"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Change general access?"
+msgstr "Change general access?"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Changed"
+msgstr "Changed"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Changes"
+msgstr "Changes"
+
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Changes from current version"
+msgstr "Changes from current version"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "channel"
 msgstr "channel"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Channel"
+msgstr "Channel"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "Channel actions"
 msgstr "Channel actions"
 
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+msgid "Channel actions unavailable on this connection"
+msgstr "Channel actions unavailable on this connection"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Channel archived: {channelName}"
 msgstr "Channel archived: {channelName}"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Channel Canvas"
+msgstr "Channel Canvas"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Channel conversation"
 msgstr "Channel conversation"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Channel creation unavailable"
+msgstr "Channel creation unavailable"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Channel ID"
+msgstr "Channel ID"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Channel ID copied"
+msgstr "Channel ID copied"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Channel list needs refreshing."
+msgstr "Channel list needs refreshing."
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Channel message history"
@@ -814,23 +1578,49 @@ msgstr "Channel message history"
 msgid "Channel preview"
 msgstr "Channel preview"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Channel settings"
+msgstr "Channel settings"
+
 #. placeholder {0}: notice.name
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Channel setup couldn’t finish: {0}"
 msgstr "Channel setup couldn’t finish: {0}"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Channel templates"
+msgstr "Channel templates"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Channel templates settings"
+msgstr "Channel templates settings"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Channel unavailable"
 msgstr "Channel unavailable"
 
 #: src/app/shell/PageSearch.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Channels"
 msgstr "Channels"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "chat"
 msgstr "chat"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Chat"
+msgstr "Chat"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/useSoloShare.ts
+msgid "Chat access changed. Close and reopen to check current access before retrying."
+msgstr "Chat access changed. Close and reopen to check current access before retrying."
 
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Chat actions"
@@ -844,17 +1634,38 @@ msgstr "Chat archived: {channelName}"
 msgid "Chat attachments"
 msgstr "Chat attachments"
 
+#: src/bundled/channels/useSoloShare.ts
+msgid "Chat changed to View only. "
+msgstr "Chat changed to View only. "
+
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Chat name"
+msgstr "Chat name"
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Chat preview"
 msgstr "Chat preview"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Chat settings"
+msgstr "Chat settings"
 
 #: src/features/conversation/MessageLink.tsx
 msgid "Chat unavailable. You don’t have access, or it no longer exists."
 msgstr "Chat unavailable. You don’t have access, or it no longer exists."
 
+#: src/bundled/channels/SoloChatMenu.tsx
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Chats"
+msgstr "Chats"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
 msgstr "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Check access and share"
+msgstr "Check access and share"
 
 #: src/app/PluginUpdates.tsx
 #: src/features/updates/UpdateSettings.tsx
@@ -881,6 +1692,12 @@ msgstr "Check if a new version is available."
 msgid "Check permission"
 msgstr "Check permission"
 
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Check save status"
+msgstr "Check save status"
+
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Check your connection, then try again."
@@ -890,6 +1707,14 @@ msgstr "Check your connection, then try again."
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Check your connection. We’ll keep trying."
 msgstr "Check your connection. We’ll keep trying."
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Checking chat access…"
+msgstr "Checking chat access…"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Checking current access…"
+msgstr "Checking current access…"
 
 #: src/features/identity/setup.ts
 msgid "Checking for a backed-up key…"
@@ -904,6 +1729,18 @@ msgstr "Checking for updates. Try again when the check finishes."
 msgid "Checking for updates…"
 msgstr "Checking for updates…"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Checking save status…"
+msgstr "Checking save status…"
+
+#: src/features/agents/AISettings.tsx
+msgid "Checking this computer…"
+msgstr "Checking this computer…"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Checking which of its agents are in this community…"
+msgstr "Checking which of its agents are in this community…"
+
 #: src/features/identity/setup.ts
 #: src/features/identity/Welcome.tsx
 msgid "Checking your account…"
@@ -912,6 +1749,10 @@ msgstr "Checking your account…"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Checking your current status…"
 msgstr "Checking your current status…"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Checking…"
+msgstr "Checking…"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Chillin’"
@@ -937,6 +1778,14 @@ msgstr "Choose a community to see recent conversations."
 #: src/features/user-status/StatusEditor.tsx
 msgid "Choose a date and time in the future."
 msgstr "Choose a date and time in the future."
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Choose a harness to continue."
+msgstr "Choose a harness to continue."
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Choose a harness to import this agent."
+msgstr "Choose a harness to import this agent."
 
 #: src/app/NotificationSettings.tsx
 msgid "Choose a sound to preview it."
@@ -966,6 +1815,10 @@ msgstr "Choose expiration date"
 msgid "Choose folder…"
 msgstr "Choose folder…"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Choose harness"
+msgstr "Choose harness"
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Choose repositories folder"
 msgstr "Choose repositories folder"
@@ -977,6 +1830,10 @@ msgstr "Choose the address your team will use to connect."
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Choose the Buzz identity to restore on this device."
 msgstr "Choose the Buzz identity to restore on this device."
+
+#: src/features/agents/AISettings.tsx
+msgid "Choose your own settings."
+msgstr "Choose your own settings."
 
 #: src/app/AppearanceSettings.tsx
 msgid "Citrus"
@@ -1016,10 +1873,16 @@ msgid "Clock preference wasn’t saved"
 msgstr "Clock preference wasn’t saved"
 
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Close"
 msgstr "Close"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Close channel creation"
+msgstr "Close channel creation"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Close conversation"
@@ -1032,6 +1895,10 @@ msgstr "Close draft preview"
 #: src/features/messages/MessageComposer.tsx
 msgid "Close edit"
 msgstr "Close edit"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Close edit channel details"
+msgstr "Close edit channel details"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Close formatting"
@@ -1057,6 +1924,10 @@ msgstr "Close status editor"
 #: src/bundled/channels/PageTabs.tsx
 msgid "Close tab pane"
 msgstr "Close tab pane"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Close template"
+msgstr "Close template"
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "Close thread"
@@ -1120,6 +1991,7 @@ msgid "Communities you own"
 msgstr "Communities you own"
 
 #: src/app/settings-sections.ts
+#: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Community"
 msgstr "Community"
 
@@ -1184,13 +2056,27 @@ msgstr "Compacting session. Wait for it to finish, or interrupt it."
 msgid "Compacting session…"
 msgstr "Compacting session…"
 
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Comparison too large; showing full content."
+msgstr "Comparison too large; showing full content."
+
 #: src/features/identity/KeyRestore.tsx
 msgid "Complete sign-in in your browser if prompted."
 msgstr "Complete sign-in in your browser if prompted."
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Completed"
+msgstr "Completed"
+
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/identity/JoinCommunity.tsx
 msgid "Connect"
 msgstr "Connect"
+
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Connect {0}"
+msgstr "Connect {0}"
 
 #: src/features/identity/JoinCommunity.tsx
 msgid "Connect to {host}"
@@ -1208,14 +2094,20 @@ msgstr "Connect to this community to search messages."
 msgid "Connect to your community"
 msgstr "Connect to your community"
 
+#: src/bundled/channels/LiveStatus.tsx
+msgid "connecting"
+msgstr "connecting"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connecting to this community…"
 msgstr "Connecting to this community…"
 
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Connecting…"
 msgstr "Connecting…"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/CommunityUrlField.tsx
 #: src/features/identity/LegacyIdentityOffer.tsx
@@ -1257,6 +2149,7 @@ msgstr "Continue without backup"
 msgid "Continue without signing in"
 msgstr "Continue without signing in"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "conversation"
 msgstr "conversation"
@@ -1269,6 +2162,14 @@ msgstr "Conversation actions"
 msgid "Conversation activity"
 msgstr "Conversation activity"
 
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Conversation hidden"
+msgstr "Conversation hidden"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Conversation unknown"
+msgstr "Conversation unknown"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Conversations"
 msgstr "Conversations"
@@ -1277,6 +2178,7 @@ msgstr "Conversations"
 msgid "Conversations couldn’t open."
 msgstr "Conversations couldn’t open."
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
 #: src/features/identity/PrivateKey.tsx
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Copy"
@@ -1286,10 +2188,15 @@ msgstr "Copy"
 msgid "Copy community URL"
 msgstr "Copy community URL"
 
+#: src/features/agents/MemoryPanel.tsx
+msgid "Copy full body"
+msgstr "Copy full body"
+
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Copy image"
 msgstr "Copy image"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy link"
 msgstr "Copy link"
@@ -1297,6 +2204,10 @@ msgstr "Copy link"
 #: src/features/messages/MessageActionBar.tsx
 msgid "Copy message"
 msgstr "Copy message"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Copy name"
+msgstr "Copy name"
 
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Copy npub"
@@ -1319,9 +2230,21 @@ msgstr "Copy this from Identity details in your old Buzz app. Never share it wit
 msgid "Copy URL"
 msgstr "Copy URL"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Copying a link does not grant access."
+msgstr "Copying a link does not grant access."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Core memories"
+msgstr "Core memories"
+
 #: src/features/conversation/ReactionTool.tsx
 msgid "Could not add reaction. Try again."
 msgstr "Could not add reaction. Try again."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Could not add this agent. Try again."
+msgstr "Could not add this agent. Try again."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not attach {refused} files"
@@ -1380,6 +2303,18 @@ msgstr "Could not dismiss the operation."
 msgid "Could not load people."
 msgstr "Could not load people."
 
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Could not load thinking levels"
+msgstr "Could not load thinking levels"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Could not mark this {nounLabel} as read. Try again."
+msgstr "Could not mark this {nounLabel} as read. Try again."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Could not open the conversation. Try Send message again."
+msgstr "Could not open the conversation. Try Send message again."
+
 #: src/features/communities/FindCommunity.tsx
 #: src/features/identity/ProfileStep.tsx
 msgid "Could not reach the relay. Check your connection and try again."
@@ -1396,6 +2331,10 @@ msgstr "Could not restore the message."
 #: src/features/messages/MessageManagement.tsx
 msgid "Could not restore unread state."
 msgstr "Could not restore unread state."
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Could not save dismissal. Try again."
+msgstr "Could not save dismissal. Try again."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not save model and effort for this chat on this device. The current choices remain until this composer closes."
@@ -1433,9 +2372,26 @@ msgstr "Couldn’t check for updates."
 msgid "Couldn’t check whether erasing is available"
 msgstr "Couldn’t check whether erasing is available"
 
+#. placeholder {0}: message(reason)
+#: src/features/agents/AgentManage.tsx
+msgid "Couldn't check whether it's archived: {0}"
+msgstr "Couldn't check whether it's archived: {0}"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Couldn’t check your latest status. Your draft is unchanged."
 msgstr "Couldn’t check your latest status. Your draft is unchanged."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Couldn't confirm the revert was saved ({detail}). It may still arrive; check the history before trying again."
+msgstr "Couldn't confirm the revert was saved ({detail}). It may still arrive; check the history before trying again."
+
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Couldn't confirm the section was saved. Try again."
+msgstr "Couldn't confirm the section was saved. Try again."
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Couldn’t copy channel ID. Try again."
+msgstr "Couldn’t copy channel ID. Try again."
 
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Couldn't copy image"
@@ -1448,6 +2404,18 @@ msgstr "Couldn’t copy text"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Couldn’t copy the community URL."
 msgstr "Couldn’t copy the community URL."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Couldn’t copy the link."
+msgstr "Couldn’t copy the link."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Couldn’t copy the memory body."
+msgstr "Couldn’t copy the memory body."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Couldn’t copy the memory name."
+msgstr "Couldn’t copy the memory name."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t copy the URL. Select it and copy manually."
@@ -1497,6 +2465,14 @@ msgstr "Couldn’t join this {placeWord}."
 #: src/features/communities/CommunityPicker.tsx
 msgid "Couldn’t leave {0}"
 msgstr "Couldn’t leave {0}"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Couldn’t load details"
+msgstr "Couldn’t load details"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Couldn't load older revisions."
+msgstr "Couldn't load older revisions."
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Couldn’t load this preview."
@@ -1581,6 +2557,10 @@ msgstr "Couldn’t send this message."
 msgid "Couldn’t send to channel"
 msgstr "Couldn’t send to channel"
 
+#: src/bundled/channels/useSoloShare.ts
+msgid "Couldn’t share this chat."
+msgstr "Couldn’t share this chat."
+
 #: src/features/identity/Welcome.tsx
 msgid "Couldn’t sign in"
 msgstr "Couldn’t sign in"
@@ -1598,6 +2578,14 @@ msgstr "Couldn’t unmute {0}"
 msgid "Couldn’t update reaction."
 msgstr "Couldn’t update reaction."
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Create"
+msgstr "Create"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Create a channel"
+msgstr "Create a channel"
+
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/identity/CreateCommunityStep.tsx
 msgid "Create a community"
@@ -1611,14 +2599,36 @@ msgstr "Create a new identity"
 msgid "Create account"
 msgstr "Create account"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Create and move"
+msgstr "Create and move"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Create channel"
+msgstr "Create channel"
+
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/identity/CreateCommunityStep.tsx
 msgid "Create community"
 msgstr "Create community"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Create new section"
+msgstr "Create new section"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Create new workspace"
+msgstr "Create new workspace"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Create new…"
 msgstr "Create new…"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Create section"
+msgstr "Create section"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
@@ -1628,10 +2638,28 @@ msgstr "Create this conversation before attaching files."
 msgid "Creating your key…"
 msgstr "Creating your key…"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Current"
+msgstr "Current"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/bundled/channels/useSoloShare.ts
+msgid "Current access could not be confirmed."
+msgstr "Current access could not be confirmed."
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Current access is unavailable on this connection."
+msgstr "Current access is unavailable on this connection."
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Current identity"
 msgstr "Current identity"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Current version"
+msgstr "Current version"
+
+#: src/features/agents/AISettings.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom"
 msgstr "Custom"
@@ -1639,6 +2667,11 @@ msgstr "Custom"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom date and time"
 msgstr "Custom date and time"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+#: src/features/agents/ModelPicker.tsx
+msgid "Custom model"
+msgstr "Custom model"
 
 #: src/app/AppearanceSettings.tsx
 #: src/app/shell/ProfileButton.tsx
@@ -1648,6 +2681,10 @@ msgstr "Dark"
 #: src/app/settings-sections.ts
 msgid "Decisions API"
 msgstr "Decisions API"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Decrease duration"
+msgstr "Decrease duration"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Decrease interface size"
@@ -1665,9 +2702,34 @@ msgstr "Default bubble messages at {widthLabel} width."
 msgid "Default REPOS folder in each agent’s workspace"
 msgstr "Default REPOS folder in each agent’s workspace"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/features/agents/ActivityTranscript.tsx
+#: src/features/agents/AgentManage.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete"
 msgstr "Delete"
+
+#. placeholder {0}: agent.name
+#: src/features/agents/AgentManage.tsx
+msgid "Delete {0}?"
+msgstr "Delete {0}?"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Delete {channelName}?"
+msgstr "Delete {channelName}?"
+
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Delete {nounText}"
+msgstr "Delete {nounText}"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Delete again to finish here."
+msgstr "Delete again to finish here."
+
+#: src/features/agents/AgentManage.tsx
+msgid "Delete agent"
+msgstr "Delete agent"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete message"
@@ -1676,6 +2738,18 @@ msgstr "Delete message"
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete message?"
 msgstr "Delete message?"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Delete workspace"
+msgstr "Delete workspace"
+
+#: src/features/agents/current-activity.ts
+msgid "Deleting"
+msgstr "Deleting"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Deleting {nounText}…"
+msgstr "Deleting {nounText}…"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Deleting…"
@@ -1706,6 +2780,15 @@ msgstr "Delivery not yet confirmed. {0}"
 msgid "Density"
 msgstr "Density"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Deny"
+msgstr "Deny"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+#: src/bundled/channels/ChannelTextField.tsx
+msgid "Description"
+msgstr "Description"
+
 #: src/app/NotificationSettings.tsx
 msgid "Desktop alerts"
 msgstr "Desktop alerts"
@@ -1718,9 +2801,21 @@ msgstr "Desktop delivery"
 msgid "Details"
 msgstr "Details"
 
+#: src/features/agents/MemoryPanel.tsx
+msgid "Details the agent can look up as needed."
+msgstr "Details the agent can look up as needed."
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Details unavailable"
+msgstr "Details unavailable"
+
 #: src/app/settings-sections.ts
 msgid "Developer"
 msgstr "Developer"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Diagnostics"
+msgstr "Diagnostics"
 
 #: src/features/messages/MessageRow.tsx
 msgid "Diff"
@@ -1735,11 +2830,23 @@ msgstr "Diff truncated. View the full diff at the source repository."
 msgid "Direct messages"
 msgstr "Direct messages"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Discard and reload"
+msgstr "Discard and reload"
+
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/features/agents/AgentSaveButton.tsx
 msgid "Discard changes"
 msgstr "Discard changes"
 
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/features/agents/AgentSaveButton.tsx
 msgid "Discard changes?"
 msgstr "Discard changes?"
 
@@ -1747,10 +2854,21 @@ msgstr "Discard changes?"
 msgid "Discard failed update"
 msgstr "Discard failed update"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Discard your draft and reload the saved Canvas?"
+msgstr "Discard your draft and reload the saved Canvas?"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 msgid "Dismiss"
 msgstr "Dismiss"
+
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Dismiss connection setup for {0}"
+msgstr "Dismiss connection setup for {0}"
 
 #. placeholder {0}: named(entry.agent)
 #: src/features/messages/ActivityGroupActions.tsx
@@ -1780,6 +2898,15 @@ msgstr "Display name"
 msgid "Display name saved on this device."
 msgstr "Display name saved on this device."
 
+#. placeholder {0}: dmLabel(target.participants, profiles, resolveName, target.name)
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "DM · {0}"
+msgstr "DM · {0}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "DM membership cannot be changed here."
+msgstr "DM membership cannot be changed here."
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Dock badge unavailable"
 msgstr "Dock badge unavailable"
@@ -1799,6 +2926,18 @@ msgstr "Dock unread badge"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Don’t clear"
 msgstr "Don’t clear"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Don’t resume"
+msgstr "Don’t resume"
+
+#: src/bundled/channels/ChannelPrivacyConfirmation.tsx
+msgid "Don’t show me this again"
+msgstr "Don’t show me this again"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Done"
+msgstr "Done"
 
 #: src/features/messages/FileAttachment.tsx
 msgid "Download"
@@ -1879,6 +3018,7 @@ msgstr "Drop files into this conversation"
 msgid "Drop to use this file."
 msgstr "Drop to use this file."
 
+#: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Duration"
 msgstr "Duration"
@@ -1891,10 +3031,38 @@ msgstr "Duration: {durationLabel}"
 msgid "Earlier reply unavailable in loaded history."
 msgstr "Earlier reply unavailable in loaded history."
 
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Edit"
+msgstr "Edit"
+
+#. placeholder {0}: item.name
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Edit {0}"
+msgstr "Edit {0}"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Edit channel details"
+msgstr "Edit channel details"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Edit channel name"
+msgstr "Edit channel name"
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Edit configuration"
+msgstr "Edit configuration"
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Edit connection"
 msgstr "Edit connection"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Edit details"
+msgstr "Edit details"
 
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Edit link"
@@ -1909,13 +3077,29 @@ msgstr "Edit message"
 msgid "Edit queued message"
 msgstr "Edit queued message"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Edit template"
+msgstr "Edit template"
+
 #: src/features/messages/MessageRow.tsx
 msgid "edited"
 msgstr "edited"
 
+#: src/features/agents/current-activity.ts
+msgid "Editing"
+msgstr "Editing"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Editing is unavailable on this connection."
+msgstr "Editing is unavailable on this connection."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Editing message"
 msgstr "Editing message"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Empty"
+msgstr "Empty"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Empty draft"
@@ -1924,6 +3108,14 @@ msgstr "Empty draft"
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Empty message"
 msgstr "Empty message"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Enable Agents in Buzz desktop to authorize external apps."
+msgstr "Enable Agents in Buzz desktop to authorize external apps."
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Enable its runtime plugin, or use the Buzz copy that runs this agent. You can deny this request and start setup there."
+msgstr "Enable its runtime plugin, or use the Buzz copy that runs this agent. You can deny this request and start setup there."
 
 #: src/app/shell/PageSearch.tsx
 msgid "Enable Messages to see conversations."
@@ -1937,6 +3129,10 @@ msgstr "Enter a community address or an invite link to continue."
 #: src/features/identity/CommunityUrlField.tsx
 msgid "Enter a community address or invite link."
 msgstr "Enter a community address or invite link."
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Enter a model ID"
+msgstr "Enter a model ID"
 
 #: src/features/identity/ProfileStep.tsx
 msgid "Enter a name for your community profile. You can change it later."
@@ -1965,9 +3161,17 @@ msgstr "Erasing clears this app’s data, local storage, caches and plugin stora
 msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 msgstr "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 
+#: src/bundled/channels/ChannelPrivacyConfirmation.tsx
+msgid "Everyone in this community will be able to view this channel’s full history."
+msgstr "Everyone in this community will be able to view this channel’s full history."
+
 #: src/features/messages/MessageReactions.tsx
 msgid "Everyone who reacted"
 msgstr "Everyone who reacted"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Existing members keep their access."
+msgstr "Existing members keep their access."
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Expiration time"
@@ -1977,9 +3181,45 @@ msgstr "Expiration time"
 msgid "Explicit mentions"
 msgstr "Explicit mentions"
 
+#: src/bundled/channels/RelayTimings.tsx
+msgid "Export timings"
+msgstr "Export timings"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "External app authorization failed"
+msgstr "External app authorization failed"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "External apps are not enabled for this community. Select an enabled community."
+msgstr "External apps are not enabled for this community. Select an enabled community."
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "External apps are not enabled here."
+msgstr "External apps are not enabled here."
+
+#: src/features/agents/AISettings.tsx
+msgid "Extra high"
+msgstr "Extra high"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Failed"
+msgstr "Failed"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Failed to submit report. Try again."
 msgstr "Failed to submit report. Try again."
+
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Fast"
+msgstr "Fast"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Fetch"
+msgstr "Fetch"
+
+#: src/features/agents/current-activity.ts
+msgid "Fetching"
+msgstr "Fetching"
 
 #: src/features/messages/FileAttachment.tsx
 msgid "File"
@@ -1989,9 +3229,25 @@ msgstr "File"
 msgid "File unavailable"
 msgstr "File unavailable"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Filter"
+msgstr "Filter"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Filter {title}"
+msgstr "Filter {title}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Filter members: {filterText}"
+msgstr "Filter members: {filterText}"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Find a person…"
 msgstr "Find a person…"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Find more matches"
+msgstr "Find more matches"
 
 #: src/features/identity/setup.ts
 msgid "Finding communities…"
@@ -2025,6 +3281,10 @@ msgstr "Finish or cancel your current edit first."
 msgid "Finish signing in there, then come back and choose Continue."
 msgstr "Finish signing in there, then come back and choose Continue."
 
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Finish the pending change in Chat settings first."
+msgstr "Finish the pending change in Chat settings first."
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Follow thread"
 msgstr "Follow thread"
@@ -2036,6 +3296,27 @@ msgstr "Follow-up behavior"
 #: src/app/AppearanceSettings.tsx
 msgid "Follow-up preference wasn’t saved"
 msgstr "Follow-up preference wasn’t saved"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Follow-up queued"
+msgstr "Follow-up queued"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Forget"
+msgstr "Forget"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Forget deletes it from this device without reaching that community, so it may stay in its channels there."
+msgstr "Forget deletes it from this device without reaching that community, so it may stay in its channels there."
+
+#: src/features/agents/AgentManage.tsx
+msgid "Forget it"
+msgstr "Forget it"
+
+#. placeholder {0}: hostOf(membership.origin)
+#: src/features/agents/AgentManage.tsx
+msgid "Forget it in {0}"
+msgstr "Forget it in {0}"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Formatting"
@@ -2054,9 +3335,25 @@ msgstr "Forward"
 msgid "Forward message"
 msgstr "Forward message"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Full access as the selected agent: the app can use every Buzz tool the agent has, including tools plugins add later. It reads, posts and manages channels where the agent can, uses its memory, attention and Git access to its community's repositories, wakes the agent in its conversations, runs the Nexus workers the agent may run, and can change Buzz settings on this device. It can post any file the agent can read on this device, including outside its workspace. It can disable plugins; installing, updating, enabling or removing one needs your confirmation. Keys stay in Buzz."
+msgstr "Full access as the selected agent: the app can use every Buzz tool the agent has, including tools plugins add later. It reads, posts and manages channels where the agent can, uses its memory, attention and Git access to its community's repositories, wakes the agent in its conversations, runs the Nexus workers the agent may run, and can change Buzz settings on this device. It can post any file the agent can read on this device, including outside its workspace. It can disable plugins; installing, updating, enabling or removing one needs your confirmation. Keys stay in Buzz."
+
 #: src/app/AppearanceSettings.tsx
 msgid "Full name"
 msgstr "Full name"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "General"
+msgstr "General"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "General access"
+msgstr "General access"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "General access recovery"
+msgstr "General access recovery"
 
 #: src/features/identity/SetupProgress.tsx
 msgid "Getting ready"
@@ -2076,6 +3373,14 @@ msgstr "Go forward"
 msgid "Go to Messages"
 msgstr "Go to Messages"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Harness"
+msgstr "Harness"
+
+#: src/features/agents/AgentInstructions.tsx
+msgid "Help me plan my week and prioritize tasks."
+msgstr "Help me plan my week and prioritize tasks."
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Hidden conversations could not be refreshed."
 msgstr "Hidden conversations could not be refreshed."
@@ -2092,6 +3397,10 @@ msgstr "Hide"
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Hide comments"
 msgstr "Hide comments"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Hide conversation"
+msgstr "Hide conversation"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Hide in Solo chats"
@@ -2113,6 +3422,19 @@ msgstr "Hide sidebar"
 #: src/features/channel-navigation/WorkspaceComposition.tsx
 msgid "Hide tasks and chats in {title}"
 msgstr "Hide tasks and chats in {title}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Hide this conversation from your sidebar only. Messages and membership are kept; other participants are not removed."
+msgstr "Hide this conversation from your sidebar only. Messages and membership are kept; other participants are not removed."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Hiding conversation…"
+msgstr "Hiding conversation…"
+
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "History"
+msgstr "History"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "History window limit reached"
@@ -2240,6 +3562,10 @@ msgstr "In {0}"
 msgid "In a meeting"
 msgstr "In a meeting"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "In channel"
+msgstr "In channel"
+
 #: src/app/AppearanceSettings.tsx
 msgid "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
 msgstr "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
@@ -2248,13 +3574,30 @@ msgstr "In Solo, send follow-ups immediately or queue them until the agent finis
 msgid "Include direct messages in the conversation you’re viewing."
 msgstr "Include direct messages in the conversation you’re viewing."
 
+#: src/features/agents/MemoryPanel.tsx
+msgid "Included in this agent’s context for every session."
+msgstr "Included in this agent’s context for every session."
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Increase duration"
+msgstr "Increase duration"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Increase interface size"
 msgstr "Increase interface size"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Input"
+msgstr "Input"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Installing update…"
 msgstr "Installing update…"
+
+#: src/features/agents/AgentConfigHistoryRow.tsx
+#: src/features/agents/AgentInstructions.tsx
+msgid "Instructions"
+msgstr "Instructions"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Interface"
@@ -2279,6 +3622,10 @@ msgstr "Interrupt compaction"
 #: src/features/messages/ComposerModels.tsx
 msgid "Interrupt requested"
 msgstr "Interrupt requested"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Interrupted conversations"
+msgstr "Interrupted conversations"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/InviteCodeField.tsx
@@ -2313,6 +3660,26 @@ msgstr "It may be incomplete or out of date. Ask whoever shared it for a new lin
 msgid "It may have been removed, or you may need to update Buzz."
 msgstr "It may have been removed, or you may need to update Buzz."
 
+#: src/features/agents/AgentManage.tsx
+msgid "It stops here, leaves this community's channels and is archived here. It stays in your other communities with the same name, type and settings. Add it here again and its memory and conversations here come back, but what it paid attention to here doesn't."
+msgstr "It stops here, leaves this community's channels and is archived here. It stays in your other communities with the same name, type and settings. Add it here again and its memory and conversations here come back, but what it paid attention to here doesn't."
+
+#: src/features/agents/AgentManage.tsx
+msgid "It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+msgstr "It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+
+#: src/features/agents/AgentManage.tsx
+msgid "It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+msgstr "It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first."
+msgstr "It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first."
+
+#: src/bundled/channels/ChannelStateNotice.tsx
+msgid "It’s hidden from the sidebar until it’s unarchived."
+msgstr "It’s hidden from the sidebar until it’s unarchived."
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Italic"
 msgstr "Italic"
@@ -2320,6 +3687,18 @@ msgstr "Italic"
 #: src/features/messages/MessageRow.tsx
 msgid "item"
 msgstr "item"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Its agents can’t be checked right now, so they can’t be added. Retry, or choose None to create the channel without them."
+msgstr "Its agents can’t be checked right now, so they can’t be added. Retry, or choose None to create the channel without them."
+
+#: src/features/agents/AgentManage.tsx
+msgid "Its communities"
+msgstr "Its communities"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone."
+msgstr "Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone."
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
@@ -2352,6 +3731,10 @@ msgstr "Join Community"
 msgid "Join may have taken effect, but it is not confirmed yet. Try again to check."
 msgstr "Join may have taken effect, but it is not confirmed yet. Try again to check."
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Join this channel to add people and agents."
+msgstr "Join this channel to add people and agents."
+
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Joined"
 msgstr "Joined"
@@ -2375,6 +3758,10 @@ msgid "Keep attachment links unchanged. To remove this message, use Delete messa
 msgstr "Keep attachment links unchanged. To remove this message, use Delete message."
 
 #: src/app/App.tsx
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/features/agents/AgentSaveButton.tsx
 msgid "Keep editing"
 msgstr "Keep editing"
 
@@ -2395,6 +3782,10 @@ msgstr "Language"
 msgid "Language wasn’t saved"
 msgstr "Language wasn’t saved"
 
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Last rejection: "
+msgstr "Last rejection: "
+
 #: src/app/PluginUpdates.tsx
 msgid "Later"
 msgstr "Later"
@@ -2410,6 +3801,11 @@ msgstr "latest from {0}, {1}"
 msgid "Leave {0}?"
 msgstr "Leave {0}?"
 
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leave {nounText}"
+msgstr "Leave {nounText}"
+
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Leave community"
@@ -2418,6 +3814,18 @@ msgstr "Leave community"
 #: src/app/settings-sections.ts
 msgid "Leave or remove"
 msgstr "Leave or remove"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leave this channel and remove it from your sidebar. You may need an invitation to rejoin a private channel."
+msgstr "Leave this channel and remove it from your sidebar. You may need an invitation to rejoin a private channel."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leave this chat and remove it from your sidebar. You may need an invitation to rejoin."
+msgstr "Leave this chat and remove it from your sidebar. You may need an invitation to rejoin."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Leaving {nounText}…"
+msgstr "Leaving {nounText}…"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Leaving…"
@@ -2437,6 +3845,10 @@ msgstr "Light"
 msgid "Link"
 msgstr "Link"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Link copied"
+msgstr "Link copied"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Link text must stay on one line."
 msgstr "Link text must stay on one line."
@@ -2449,9 +3861,30 @@ msgstr "Linking your key…"
 msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 msgstr "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Live updates are unavailable."
+msgstr "Live updates are unavailable."
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Live updates limited"
+msgstr "Live updates limited"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Live updates:"
+msgstr "Live updates:"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Load a verified message before marking through it."
+msgstr "Load a verified message before marking through it."
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Load more people"
 msgstr "Load more people"
+
+#: src/bundled/channels/CanvasHistory.tsx
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Load older"
+msgstr "Load older"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Load older messages"
@@ -2460,6 +3893,18 @@ msgstr "Load older messages"
 #: src/features/messages/MessageComposer.tsx
 msgid "Load saved draft"
 msgstr "Load saved draft"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Loading access…"
+msgstr "Loading access…"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Loading agents…"
+msgstr "Loading agents…"
+
+#: src/bundled/channels/CanvasView.tsx
+msgid "Loading Canvas…"
+msgstr "Loading Canvas…"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Loading comments…"
@@ -2473,9 +3918,29 @@ msgstr "Loading conversation…"
 msgid "Loading conversations…"
 msgstr "Loading conversations…"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Loading history…"
+msgstr "Loading history…"
+
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Loading media…"
 msgstr "Loading media…"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Loading members"
+msgstr "Loading members"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Loading members…"
+msgstr "Loading members…"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Loading memories"
+msgstr "Loading memories"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Loading memory…"
+msgstr "Loading memory…"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Loading message…"
@@ -2488,6 +3953,14 @@ msgstr "Loading messages…"
 #: src/features/messages/ComposerModels.tsx
 msgid "Loading model and effort…"
 msgstr "Loading model and effort…"
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Loading models…"
+msgstr "Loading models…"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Loading more memories…"
+msgstr "Loading more memories…"
 
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Loading older…"
@@ -2505,9 +3978,25 @@ msgstr "Loading saved model and effort…"
 msgid "Loading sent messages…"
 msgstr "Loading sent messages…"
 
+#: src/features/agents/ModelFamilyMenu.tsx
+msgid "Loading thinking levels…"
+msgstr "Loading thinking levels…"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Loading thread…"
 msgstr "Loading thread…"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Loading version…"
+msgstr "Loading version…"
+
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "Loading versions…"
+msgstr "Loading versions…"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Loading workspaces…"
+msgstr "Loading workspaces…"
 
 #: src/app/ProfileSettings.tsx
 msgid "Loading your community profile…"
@@ -2547,6 +4036,18 @@ msgstr "Magenta"
 msgid "Main pane"
 msgstr "Main pane"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Make channel private?"
+msgstr "Make channel private?"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Make channel public?"
+msgstr "Make channel public?"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Make teams on the Agents page."
+msgstr "Make teams on the Agents page."
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Malware or scam"
 msgstr "Malware or scam"
@@ -2561,10 +4062,26 @@ msgstr "Manage {name} update checks"
 msgid "Manage plugins"
 msgstr "Manage plugins"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Manage this channel and its members."
+msgstr "Manage this channel and its members."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Managed by "
+msgstr "Managed by "
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Mark {nounLabel} from {name} as read"
+msgstr "Mark {nounLabel} from {name} as read"
+
 #: src/app/shell/MarkAllReadShortcut.tsx
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Mark all as read"
 msgstr "Mark all as read"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Mark as read"
+msgstr "Mark as read"
 
 #: src/app/shell/MarkAllReadShortcut.tsx
 msgid "Mark everything as read?"
@@ -2574,17 +4091,41 @@ msgstr "Mark everything as read?"
 msgid "Mark read"
 msgstr "Mark read"
 
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Mark read through loaded messages"
+msgstr "Mark read through loaded messages"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark unread"
 msgstr "Mark unread"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Mark unread on this device"
+msgstr "Mark unread on this device"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Markdown, copied into each new channel made from this template."
+msgstr "Markdown, copied into each new channel made from this template."
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Marked all as read."
 msgstr "Marked all as read."
 
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Marked unread"
+msgstr "Marked unread"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Marked unread on this device only"
+msgstr "Marked unread on this device only"
+
 #: src/app/shell/WindowControls.tsx
 msgid "Maximize or restore window"
 msgstr "Maximize or restore window"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "May be out of date"
+msgstr "May be out of date"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Media comments"
@@ -2594,7 +4135,56 @@ msgstr "Media comments"
 msgid "Media unavailable"
 msgstr "Media unavailable"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "member"
+msgstr "member"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Member list"
+msgstr "Member list"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Members"
+msgstr "Members"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memories"
+msgstr "Memories"
+
+#: src/features/agents/tabs.tsx
+msgid "Memory"
+msgstr "Memory"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory body copied."
+msgstr "Memory body copied."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory can be read once Buzz is connected."
+msgstr "Memory can be read once Buzz is connected."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory couldn't be read."
+msgstr "Memory couldn't be read."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory isn't available here."
+msgstr "Memory isn't available here."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory isn't loaded."
+msgstr "Memory isn't loaded."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Memory name copied."
+msgstr "Memory name copied."
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "mention"
+msgstr "mention"
+
 #: src/app/NotificationSettings.tsx
+#: src/bundled/channels/ChannelActivityPopover.tsx
 msgid "Mentions"
 msgstr "Mentions"
 
@@ -2696,6 +4286,10 @@ msgstr "Minimize window"
 msgid "Mode"
 msgstr "Mode"
 
+#: src/features/agents/ModelPicker.tsx
+msgid "Model"
+msgstr "Model"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Model and effort"
 msgstr "Model and effort"
@@ -2726,6 +4320,10 @@ msgstr "Model for {0} in this chat"
 msgid "Model for {0}'s next run"
 msgstr "Model for {0}'s next run"
 
+#: src/features/agents/ModelPicker.tsx
+msgid "Model ID"
+msgstr "Model ID"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Model unavailable"
 msgstr "Model unavailable"
@@ -2742,6 +4340,10 @@ msgstr "Model, effort, and session controls for this chat"
 msgid "Mono"
 msgstr "Mono"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "More actions for {title}"
+msgstr "More actions for {title}"
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "More message actions"
 msgstr "More message actions"
@@ -2750,10 +4352,18 @@ msgstr "More message actions"
 msgid "Most relevant"
 msgstr "Most relevant"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Move"
+msgstr "Move"
+
 #. placeholder {0}: channel.name
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move {0} to section"
 msgstr "Move {0} to section"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Move {name} into a personal workspace that syncs across Buzz."
+msgstr "Move {name} into a personal workspace that syncs across Buzz."
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move channel"
@@ -2763,9 +4373,48 @@ msgstr "Move channel"
 msgid "Move conversation"
 msgstr "Move conversation"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Move down"
+msgstr "Move down"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Move to"
+msgstr "Move to"
+
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Move to new section"
+msgstr "Move to new section"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move to…"
 msgstr "Move to…"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Move up"
+msgstr "Move up"
+
+#. placeholder {0}: index + 1
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to position {0} in the {pane} pane."
+msgstr "Moved to position {0} in the {pane} pane."
+
+#. placeholder {0}: position + 1
+#. placeholder {1}: order.length
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to position {0} of {1}."
+msgstr "Moved to position {0} of {1}."
+
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to the {pane} pane."
+msgstr "Moved to the {pane} pane."
+
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Moved to the {target} pane."
+msgstr "Moved to the {target} pane."
+
+#: src/features/agents/current-activity.ts
+msgid "Moving"
+msgstr "Moving"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Mute"
@@ -2775,7 +4424,13 @@ msgstr "Mute"
 msgid "Mute video"
 msgstr "Mute video"
 
+#: src/bundled/channels/ChannelSidebarRow.tsx
+msgid "Muted"
+msgstr "Muted"
+
 #: src/app/AppearanceSettings.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/ChannelTextField.tsx
 msgid "Name"
 msgstr "Name"
 
@@ -2783,6 +4438,10 @@ msgstr "Name"
 #: src/features/communities/ProfileFields.tsx
 msgid "Name verified by {0}"
 msgstr "Name verified by {0}"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Name, type and settings, including instructions, model and workspace, are shared across communities."
+msgstr "Name, type and settings, including instructions, model and workspace, are shared across communities."
 
 #: src/app/AppearancePreview.tsx
 msgid "narrow"
@@ -2805,22 +4464,37 @@ msgid "New channel"
 msgstr "New channel"
 
 #: src/app/shell/NewMenu.tsx
+#: src/bundled/channels/SoloWorkspaces.tsx
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "New chat"
 msgstr "New chat"
+
+#. placeholder {0}: project.name
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "New chat in {0}"
+msgstr "New chat in {0}"
 
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "New chat or workspace"
 msgstr "New chat or workspace"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "New community members are added to this channel automatically."
+msgstr "New community members are added to this channel automatically."
+
 #: src/app/shell/NewMenu.tsx
 msgid "New DM"
 msgstr "New DM"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "New file"
+msgstr "New file"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "new message"
 msgstr "new message"
 
+#: src/bundled/channels/SidebarSection.tsx
 #: src/features/direct-messages/NewMessage.tsx
 msgid "New message"
 msgstr "New message"
@@ -2829,9 +4503,37 @@ msgstr "New message"
 msgid "New messages"
 msgstr "New messages"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people can only view."
+msgstr "New people can only view."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people can participate."
+msgstr "New people can participate."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people can participate. People already in the channel keep their access."
+msgstr "New people can participate. People already in the channel keep their access."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people will be able to participate. People already in the {placeText} keep their access."
+msgstr "New people will be able to participate. People already in the {placeText} keep their access."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people will only be able to view. People already in the {placeText} keep their access."
+msgstr "New people will only be able to view. People already in the {placeText} keep their access."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "New people’s access could not be confirmed."
+msgstr "New people’s access could not be confirmed."
+
 #: src/app/shell/NewMenu.tsx
 msgid "New section"
 msgstr "New section"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "New session"
+msgstr "New session"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "New session started"
@@ -2855,14 +4557,23 @@ msgstr "New task in {0}"
 msgid "New task in {title}"
 msgstr "New task in {title}"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "New template"
+msgstr "New template"
+
 #: src/app/AppearanceSettings.tsx
 msgid "New threads open here. Already-open threads stay where you placed them."
 msgstr "New threads open here. Already-open threads stay where you placed them."
 
 #: src/app/shell/NewMenu.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "New workspace"
 msgstr "New workspace"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Next"
+msgstr "Next"
 
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "Next attachment"
@@ -2880,6 +4591,16 @@ msgstr "Next media"
 msgid "next run"
 msgstr "next run"
 
+#. placeholder {0}: activeWindowLabel(filter.activeWindowSeconds)
+#: src/bundled/channels/SidebarSection.tsx
+msgid "No activity in the last {0}"
+msgstr "No activity in the last {0}"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "No agents yet."
+msgstr "No agents yet."
+
+#: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "No automatic archive."
 msgstr "No automatic archive."
@@ -2888,9 +4609,17 @@ msgstr "No automatic archive."
 msgid "No backups were found for this account."
 msgstr "No backups were found for this account."
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "No channel templates yet"
+msgstr "No channel templates yet"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "No channels yet."
 msgstr "No channels yet."
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "No chats in this workspace."
+msgstr "No chats in this workspace."
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "No comments yet. Add the first below."
@@ -2903,6 +4632,10 @@ msgstr "No community is set up at this address."
 #: src/features/messages/TypingIndicator.tsx
 msgid "No current step details received."
 msgstr "No current step details received."
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "No description"
+msgstr "No description"
 
 #: src/features/messages/MessageRow.tsx
 msgid "No diff content"
@@ -2917,6 +4650,10 @@ msgstr "No drafts"
 msgid "No drafts match “{0}”."
 msgstr "No drafts match “{0}”."
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "No eligible agent runs here. Start an agent in this community. Protected agents cannot use external connections."
+msgstr "No eligible agent runs here. Start an agent in this community. Protected agents cannot use external connections."
+
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "No matching pages."
@@ -2929,6 +4666,22 @@ msgstr "No matching people."
 msgid "No matching time zones."
 msgstr "No matching time zones."
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No members match this filter."
+msgstr "No members match this filter."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No members match your search."
+msgstr "No members match your search."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No members to show."
+msgstr "No members to show."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "No memories yet"
+msgstr "No memories yet"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No messages after yours"
 msgstr "No messages after yours"
@@ -2937,26 +4690,79 @@ msgstr "No messages after yours"
 msgid "No messages yet."
 msgstr "No messages yet."
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "No more revisions."
+msgstr "No more revisions."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No other matching people or agents."
+msgstr "No other matching people or agents."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "No other matching people."
+msgstr "No other matching people."
+
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "No preview available for this file type."
 msgstr "No preview available for this file type."
 
+#. placeholder {0}: type.title
+#: src/features/agents/AISettings.tsx
+msgid "No recommended model is available, so this uses {0}’s default."
+msgstr "No recommended model is available, so this uses {0}’s default."
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No replies after yours"
 msgstr "No replies after yours"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "No saved revisions."
+msgstr "No saved revisions."
 
 #. placeholder {0}: search.trim()
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No sent messages match “{0}”"
 msgstr "No sent messages match “{0}”"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "No setting changes."
+msgstr "No setting changes."
+
 #: src/features/messages/ComposerModels.tsx
 msgid "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
 msgstr "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "No turns captured for this scope yet."
+msgstr "No turns captured for this scope yet."
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "No unread messages"
+msgstr "No unread messages"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "None"
+msgstr "None"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "None of its agents are in this community, and it has no Canvas."
+msgstr "None of its agents are in this community, and it has no Canvas."
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "None of your backups holds the key linked to this account, so nothing was restored."
 msgstr "None of your backups holds the key linked to this account, so nothing was restored."
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Not available"
+msgstr "Not available"
+
+#: src/features/agents/AgentManage.tsx
+msgid "Not checked since import, so it may be hidden from member lists and mentions."
+msgstr "Not checked since import, so it may be hidden from member lists and mentions."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Not in this {placeText}"
+msgstr "Not in this {placeText}"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Not joined"
@@ -2966,6 +4772,20 @@ msgstr "Not joined"
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "Not now"
 msgstr "Not now"
+
+#. placeholder {0}: delivery.message
+#. placeholder {0}: message(error)
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Not reverted: {0}"
+msgstr "Not reverted: {0}"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Not sent"
+msgstr "Not sent"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Not sent. Try again."
+msgstr "Not sent. Try again."
 
 #: src/features/messages/ForwardMessage.tsx
 msgid "Note (optional)"
@@ -3013,6 +4833,10 @@ msgstr "Notify me about"
 msgid "Notify while viewing"
 msgstr "Notify while viewing"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "now"
+msgstr "now"
+
 #. placeholder {0}: zoneLabel(renamed[zone])
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Now {0}"
@@ -3021,6 +4845,10 @@ msgstr "Now {0}"
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Nudity or sexual content"
 msgstr "Nudity or sexual content"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Observed messages only—not exact totals. Manual unread is local to this device. Older read hints can expire; this is not an everlasting read receipt log."
+msgstr "Observed messages only—not exact totals. Manual unread is local to this device. Older read hints can expire; this is not an everlasting read receipt log."
 
 #: src/features/messages/MessageRow.tsx
 msgid "Observed unread replies{staleUnreadNote}. Not an exact total."
@@ -3046,10 +4874,20 @@ msgstr "OK"
 msgid "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
 msgstr "Old Buzz was used on this device. Continue with the identity it saved instead of setting up a new one. Your computer may ask you to allow access."
 
+#. placeholder {0}: HISTORY_LIMIT.toLocaleString("en-US")
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Older history isn't available from this relay (limit {0} revisions)."
+msgstr "Older history isn't available from this relay (limit {0} revisions)."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Older revisions aren't loaded yet."
+msgstr "Older revisions aren't loaded yet."
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "One person at a time. Remove them to choose someone else."
 msgstr "One person at a time. Remove them to choose someone else."
 
+#: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Ongoing"
 msgstr "Ongoing"
@@ -3061,6 +4899,30 @@ msgstr "online"
 #: src/app/shell/ProfileButton.tsx
 msgid "Online"
 msgstr "Online"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Only {placeText} members can read."
+msgstr "Only {placeText} members can read."
+
+#: src/bundled/channels/ChannelPrivacyConfirmation.tsx
+msgid "Only channel members will have access."
+msgstr "Only channel members will have access."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Only chat members will have access."
+msgstr "Only chat members will have access."
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Only community owners and admins can change this."
+msgstr "Only community owners and admins can change this."
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Only currently accessible messages remain readable."
+msgstr "Only currently accessible messages remain readable."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Only people you add"
+msgstr "Only people you add"
 
 #: src/app/shell/PageSearch.tsx
 msgid "Only saved conversations are searched until this community connects."
@@ -3096,6 +4958,10 @@ msgstr "Open {displayName}"
 msgid "Open {openKind} for {0}"
 msgstr "Open {openKind} for {0}"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Open {openTarget} for {name} in {channelName}"
+msgstr "Open {openTarget} for {name} in {channelName}"
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Open conversation"
 msgstr "Open conversation"
@@ -3123,6 +4989,10 @@ msgstr "Open image fullscreen"
 msgid "Open image in browser"
 msgstr "Open image in browser"
 
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Open in channel"
+msgstr "Open in channel"
+
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Open in main view"
 msgstr "Open in main view"
@@ -3130,6 +5000,14 @@ msgstr "Open in main view"
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Open link"
 msgstr "Open link"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Open owner profile: {ownerName}"
+msgstr "Open owner profile: {ownerName}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Open profile for {name} ({keyLabel}){agentNote}{membershipNote}{archivedNote}"
+msgstr "Open profile for {name} ({keyLabel}){agentNote}{membershipNote}{archivedNote}"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Open tab pane"
@@ -3142,6 +5020,10 @@ msgstr "Open the desktop app to choose a folder on this device."
 #: src/app/AppearanceSettings.tsx
 msgid "Open threads in"
 msgstr "Open threads in"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Open unread {nounLabel} from {name}: {preview}"
+msgstr "Open unread {nounLabel} from {name}: {preview}"
 
 #: src/features/messages/MessageRow.tsx
 msgid "Open video"
@@ -3170,6 +5052,10 @@ msgstr "Opening Buzz"
 msgid "Opening Buzz…"
 msgstr "Opening Buzz…"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Opening conversation…"
+msgstr "Opening conversation…"
+
 #: src/app/ProfileSettings.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Opening your local identity…"
@@ -3197,9 +5083,14 @@ msgstr "Ordered list"
 msgid "Original message unavailable."
 msgstr "Original message unavailable."
 
+#: src/features/agents/ModelFamilyMenu.tsx
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Other"
 msgstr "Other"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Other agents"
+msgstr "Other agents"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Other communities you’ve joined aren’t listed."
@@ -3213,6 +5104,19 @@ msgstr "Other options"
 msgid "Out sick"
 msgstr "Out sick"
 
+#. placeholder {0}: operations.length
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Outbox · {0} items"
+msgstr "Outbox · {0} items"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Output"
+msgstr "Output"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Page "
+msgstr "Page "
+
 #: src/app/App.tsx
 msgid "Page navigation"
 msgstr "Page navigation"
@@ -3225,6 +5129,18 @@ msgstr "Pages"
 #: src/app/AppearanceSettings.tsx
 msgid "Pane"
 msgstr "Pane"
+
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Panel tabs"
+msgstr "Panel tabs"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Part of this tool call was too large and was elided by the agent."
+msgstr "Part of this tool call was too large and was elided by the agent."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Participate"
+msgstr "Participate"
 
 #: src/features/identity/KeyImport.tsx
 msgid "Password-protected backups aren’t supported here yet. Paste the nsec1 key itself."
@@ -3271,13 +5187,39 @@ msgstr "Paused because an earlier message was handled in another window. Send wh
 msgid "PDF file"
 msgstr "PDF file"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Pending"
+msgstr "Pending"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "People"
 msgstr "People"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "People already in the chat keep their access."
+msgstr "People already in the chat keep their access."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "People and agents"
+msgstr "People and agents"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "People not in this {placeText}"
+msgstr "People not in this {placeText}"
+
 #: src/features/messages/MessageReactions.tsx
 msgid "People who reacted with {name}"
 msgstr "People who reacted with {name}"
+
+#. placeholder {0}: item.permission.options.join(", ")
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Permission options: {0}"
+msgstr "Permission options: {0}"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Permission requested"
+msgstr "Permission requested"
 
 #: src/app/settings-sections.ts
 #: src/features/communities/CommunityPicker.tsx
@@ -3287,6 +5229,10 @@ msgstr "Personal space"
 #: src/features/messages/MessageRow.tsx
 msgid "photos and videos"
 msgstr "photos and videos"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Plan"
+msgstr "Plan"
 
 #. placeholder {0}: attachment.name
 #: src/features/messages/AudioAttachment.tsx
@@ -3309,6 +5255,10 @@ msgstr "Playback paused. Press play to try again."
 msgid "Playback speed: {rate}x"
 msgstr "Playback speed: {rate}x"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Please respond to my message above."
+msgstr "Please respond to my message above."
+
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 msgid "Please try again."
 msgstr "Please try again."
@@ -3321,6 +5271,14 @@ msgstr "Plugin recovery actions"
 #: src/app/settings-sections.ts
 msgid "Plugins"
 msgstr "Plugins"
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Posting chat link…"
+msgstr "Posting chat link…"
+
+#: src/features/agents/current-activity.ts
+msgid "Preparing a tool"
+msgstr "Preparing a tool"
 
 #: src/features/updates/UpdateSettings.tsx
 msgid "Preparing update…"
@@ -3339,6 +5297,7 @@ msgstr "Preparing your identity…"
 msgid "Preparing…"
 msgstr "Preparing…"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "Presence: {presence}"
 msgstr "Presence: {presence}"
@@ -3360,6 +5319,10 @@ msgstr "Preview {0}"
 msgid "Preview {displayName}"
 msgstr "Preview {displayName}"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Preview only. No agent was imported."
+msgstr "Preview only. No agent was imported."
+
 #: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "Preview unavailable"
@@ -3368,6 +5331,10 @@ msgstr "Preview unavailable"
 #: src/features/messages/LinkPreviews.tsx
 msgid "previews"
 msgstr "previews"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Previous"
+msgstr "Previous"
 
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "Previous attachment"
@@ -3385,10 +5352,18 @@ msgstr "Previous image"
 msgid "Previous media"
 msgstr "Previous media"
 
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "Previous versions"
+msgstr "Previous versions"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid "Privacy Notice"
 msgstr "Privacy Notice"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Private"
+msgstr "Private"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Private channel"
@@ -3440,6 +5415,14 @@ msgstr "Profile preview"
 #: src/app/ProfileSettings.tsx
 msgid "Profile updated"
 msgstr "Profile updated"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Prompt context"
+msgstr "Prompt context"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Public (existing)"
+msgstr "Public (existing)"
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Public channel"
@@ -3498,6 +5481,14 @@ msgstr "Reactions"
 msgid "Reactions unavailable"
 msgstr "Reactions unavailable"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Read"
+msgstr "Read"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Read messages and threads."
+msgstr "Read messages and threads."
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Read state can’t sync on this connection."
 msgstr "Read state can’t sync on this connection."
@@ -3506,6 +5497,14 @@ msgstr "Read state can’t sync on this connection."
 msgid "Read state couldn’t be saved"
 msgstr "Read state couldn’t be saved"
 
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Read state couldn’t be saved. Try again."
+msgstr "Read state couldn’t be saved. Try again."
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Read sync: "
+msgstr "Read sync: "
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Read-only {placeWord}"
 msgstr "Read-only {placeWord}"
@@ -3513,6 +5512,22 @@ msgstr "Read-only {placeWord}"
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Read-only access"
 msgstr "Read-only access"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Read-state operation failed"
+msgstr "Read-state operation failed"
+
+#: src/features/agents/current-activity.ts
+msgid "Reading"
+msgstr "Reading"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Reading access could not be confirmed."
+msgstr "Reading access could not be confirmed."
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Reading the current Canvas…"
+msgstr "Reading the current Canvas…"
 
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Ready"
@@ -3526,6 +5541,10 @@ msgstr "Ready to install. Buzz will restart."
 msgid "Reason"
 msgstr "Reason"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Recent"
+msgstr "Recent"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Recent activity"
 msgstr "Recent activity"
@@ -3534,13 +5553,62 @@ msgstr "Recent activity"
 msgid "Recipients"
 msgstr "Recipients"
 
+#: src/features/agents/AISettings.tsx
+msgid "Recommended by {recommendedBy}."
+msgstr "Recommended by {recommendedBy}."
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "recovering automatically after rate limiting; awaiting confirmation"
+msgstr "recovering automatically after rate limiting; awaiting confirmation"
+
+#: src/features/agents/MemoryPanel.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Refresh"
 msgstr "Refresh"
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Refresh history"
+msgstr "Refresh history"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Refresh saved sidebar preferences before retrying this move."
 msgstr "Refresh saved sidebar preferences before retrying this move."
+
+#: src/features/agents/TranscriptPanel.tsx
+msgid "Refresh transcript"
+msgstr "Refresh transcript"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Refresh unread observations"
+msgstr "Refresh unread observations"
+
+#: src/features/agents/TranscriptPanel.tsx
+msgid "Refreshing transcript…"
+msgstr "Refreshing transcript…"
+
+#: src/bundled/channels/RelayTimings.tsx
+msgid "Relay timings"
+msgstr "Relay timings"
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Reload access"
+msgstr "Reload access"
+
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Reload chat details"
+msgstr "Reload chat details"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Reload details"
+msgstr "Reload details"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Reload saved Canvas"
+msgstr "Reload saved Canvas"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Reload saved Canvas?"
+msgstr "Reload saved Canvas?"
 
 #: src/app/NotificationSettings.tsx
 msgid "Reload saved choices"
@@ -3554,6 +5622,11 @@ msgstr "Reminders"
 msgid "Remote"
 msgstr "Remote"
 
+#: src/features/agents/AgentExecutionNote.tsx
+msgid "Remote agent"
+msgstr "Remote agent"
+
+#: src/features/agents/AgentManage.tsx
 #: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove"
@@ -3573,10 +5646,32 @@ msgstr "Remove {0}"
 msgid "Remove {0} ({1})"
 msgstr "Remove {0} ({1})"
 
+#. placeholder {0}: agent.name
+#: src/features/agents/AgentManage.tsx
+msgid "Remove {0} from {place}?"
+msgstr "Remove {0} from {place}?"
+
+#. placeholder {0}: channel.name
+#: src/bundled/channels/ChannelSidebarRow.tsx
+msgid "Remove {0} from DMs"
+msgstr "Remove {0} from DMs"
+
 #. placeholder {0}: scope.label
 #: src/app/shell/SearchChoices.tsx
 msgid "Remove {0} search scope"
 msgstr "Remove {0} search scope"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Remove {removalText}"
+msgstr "Remove {removalText}"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Remove {removalText} from {placeText}"
+msgstr "Remove {removalText} from {placeText}"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Remove {title}?"
+msgstr "Remove {title}?"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey
@@ -3608,6 +5703,10 @@ msgstr "Remove from"
 msgid "Remove from device"
 msgstr "Remove from device"
 
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Remove from outbox"
+msgstr "Remove from outbox"
+
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove from this device"
@@ -3631,6 +5730,10 @@ msgstr "Remove message from this device?"
 msgid "Remove queued message"
 msgstr "Remove queued message"
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Remove section"
+msgstr "Remove section"
+
 #: src/features/identity/Welcome.tsx
 msgid "Remove the unreadable key?"
 msgstr "Remove the unreadable key?"
@@ -3647,9 +5750,43 @@ msgstr "Remove voice note"
 msgid "Remove your key from this device?"
 msgstr "Remove your key from this device?"
 
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Removed"
+msgstr "Removed"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Removing an item from the outbox does not delete a sent message."
+msgstr "Removing an item from the outbox does not delete a sent message."
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Removing section and waiting for confirmation…"
+msgstr "Removing section and waiting for confirmation…"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Removing…"
 msgstr "Removing…"
+
+#: src/bundled/channels/RenameSidebarSection.tsx
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Rename"
+msgstr "Rename"
+
+#: src/bundled/channels/SoloChatName.tsx
+msgid "Rename {title}"
+msgstr "Rename {title}"
+
+#: src/bundled/channels/RenameSidebarSection.tsx
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Rename section"
+msgstr "Rename section"
+
+#: src/bundled/channels/RenameSidebarSection.tsx
+msgid "Renaming section and waiting for confirmation…"
+msgstr "Renaming section and waiting for confirmation…"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Reopen Members to check this addition."
+msgstr "Reopen Members to check this addition."
 
 #: src/features/identity/LinkedKeyCheck.tsx
 #: src/features/identity/Welcome.tsx
@@ -3734,6 +5871,10 @@ msgstr "Repositories folder saved on this device. Claude and Goose use it in new
 msgid "Repositories folders are configured in the desktop app."
 msgstr "Repositories folders are configured in the desktop app."
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Request"
+msgstr "Request"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Reset interface size"
 msgstr "Reset interface size"
@@ -3759,9 +5900,25 @@ msgstr "Restore default"
 msgid "Restore from backup"
 msgstr "Restore from backup"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Restore this"
+msgstr "Restore this"
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Restore this identity"
 msgstr "Restore this identity"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Restore this version"
+msgstr "Restore this version"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Restore this version?"
+msgstr "Restore this version?"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Restore version"
+msgstr "Restore version"
 
 #: src/features/identity/KeyRestore.tsx
 msgid "Restore your key"
@@ -3775,6 +5932,25 @@ msgstr "Restoring your communities…"
 msgid "Restoring your key…"
 msgstr "Restoring your key…"
 
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Resume"
+msgstr "Resume"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Resume interrupted agent?"
+msgstr "Resume interrupted agent?"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Resume interrupted agents?"
+msgstr "Resume interrupted agents?"
+
+#: src/bundled/channels/CanvasHistory.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/OutboxStatus.tsx
+#: src/features/agents/AgentConfigHistory.tsx
+#: src/features/agents/AgentManage.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -3800,6 +5976,10 @@ msgstr "Retry {0}"
 #: src/app/PluginUpdates.tsx
 msgid "Retry activation"
 msgstr "Retry activation"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Retry adding {names}"
+msgstr "Retry adding {names}"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "Retry agents"
@@ -3842,9 +6022,26 @@ msgstr "Retry filter"
 msgid "Retry forward"
 msgstr "Retry forward"
 
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Retry from the channel or agent profile after checking membership."
+msgstr "Retry from the channel or agent profile after checking membership."
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry hidden conversations"
 msgstr "Retry hidden conversations"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Retry live updates"
+msgstr "Retry live updates"
+
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/CanvasView.tsx
+msgid "Retry loading"
+msgstr "Retry loading"
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Retry loading memories"
+msgstr "Retry loading memories"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Retry loading people"
@@ -3853,6 +6050,10 @@ msgstr "Retry loading people"
 #: src/app/ProfileSettings.tsx
 msgid "Retry loading profile"
 msgstr "Retry loading profile"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Retry member data"
+msgstr "Retry member data"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry message preparation"
@@ -3866,6 +6067,7 @@ msgstr "Retry message update"
 msgid "Retry messages"
 msgstr "Retry messages"
 
+#: src/bundled/channels/SoloWorkspaces.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry move"
 msgstr "Retry move"
@@ -3874,9 +6076,17 @@ msgstr "Retry move"
 msgid "Retry older messages"
 msgstr "Retry older messages"
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Retry preferences"
+msgstr "Retry preferences"
+
 #: src/features/conversation/ReactionTool.tsx
 msgid "Retry reaction"
 msgstr "Retry reaction"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Retry read sync"
+msgstr "Retry read sync"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Retry saved choices"
@@ -3943,6 +6153,10 @@ msgstr "Retry secure storage access"
 msgid "Retry send"
 msgstr "Retry send"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Retry share"
+msgstr "Retry share"
+
 #: src/features/channel-navigation/SidebarBoundary.tsx
 msgid "Retry sidebar"
 msgstr "Retry sidebar"
@@ -3967,6 +6181,10 @@ msgstr "Retry the pending forward before forwarding another message."
 msgid "Retry voice note upload"
 msgstr "Retry voice note upload"
 
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Retry workspaces"
+msgstr "Retry workspaces"
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Reveal"
 msgstr "Reveal"
@@ -3975,6 +6193,10 @@ msgstr "Reveal"
 #: src/features/identity/PrivateKey.tsx
 msgid "Reveal private key"
 msgstr "Reveal private key"
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Revert to this"
+msgstr "Revert to this"
 
 #: src/features/messages/ForwardMessage.tsx
 msgid "Review pending forward"
@@ -3988,12 +6210,59 @@ msgstr "Review permissions"
 msgid "Review report"
 msgstr "Review report"
 
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Review the settings to import this agent and continue your conversation."
+msgstr "Review the settings to import this agent and continue your conversation."
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Revision Markdown"
+msgstr "Revision Markdown"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Role unverified"
+msgstr "Role unverified"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Run"
+msgstr "Run"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Running"
+msgstr "Running"
+
+#. placeholder {0}: tools.length
+#: src/features/agents/current-activity.ts
+msgid "Running {0} tools"
+msgstr "Running {0} tools"
+
+#: src/features/agents/current-activity.ts
+msgid "Running a command"
+msgstr "Running a command"
+
+#: src/features/agents/current-activity.ts
+msgid "Running a tool"
+msgstr "Running a tool"
+
+#: src/features/agents/AgentExecutionNote.tsx
+msgid "Runs on a Builderlab machine"
+msgstr "Runs on a Builderlab machine"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Same as current version."
+msgstr "Same as current version."
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/ProfileSettings.tsx
+#: src/features/agents/AgentSaveButton.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Save"
 msgstr "Save"
 
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Save Canvas"
+msgstr "Save Canvas"
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Save changes"
 msgstr "Save changes"
@@ -4010,6 +6279,10 @@ msgstr "Save profile"
 msgid "Save status"
 msgstr "Save status"
 
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Save template"
+msgstr "Save template"
+
 #: src/app/PluginUpdates.tsx
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
@@ -4022,6 +6295,10 @@ msgstr "Saved {displayName} to Downloads"
 msgid "Saved before restart. Send when ready."
 msgstr "Saved before restart. Send when ready."
 
+#: src/bundled/channels/CanvasView.tsx
+msgid "Saved Canvas"
+msgstr "Saved Canvas"
+
 #. placeholder {0}: runs.label
 #: src/features/messages/ComposerModels.tsx
 msgid "Saved effort is unavailable for {0}."
@@ -4030,6 +6307,10 @@ msgstr "Saved effort is unavailable for {0}."
 #: src/features/messages/ComposerModels.tsx
 msgid "Saved effort is unavailable."
 msgstr "Saved effort is unavailable."
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "saved group"
+msgstr "saved group"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Saved groups and stars aren’t supported by this host yet."
@@ -4055,6 +6336,14 @@ msgstr "Saved model and effort choices could not be loaded. Open model and effor
 msgid "Saved model is unavailable."
 msgstr "Saved model is unavailable."
 
+#: src/bundled/channels/CreateSidebarSection.tsx
+msgid "Saved preferences are unavailable. Retry preferences before trying again."
+msgstr "Saved preferences are unavailable. Retry preferences before trying again."
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Saved revisions"
+msgstr "Saved revisions"
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Saved sidebar preferences couldn’t refresh"
 msgstr "Saved sidebar preferences couldn’t refresh"
@@ -4064,18 +6353,36 @@ msgstr "Saved sidebar preferences couldn’t refresh"
 msgid "Saved to Downloads"
 msgstr "Saved to Downloads"
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Saved, but not confirmed yet. Try again to check."
+msgstr "Saved, but not confirmed yet. Try again to check."
+
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Saving access…"
+msgstr "Saving access…"
+
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "Saving filter and waiting for confirmation…"
+msgstr "Saving filter and waiting for confirmation…"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Saving workspace…"
+msgstr "Saving workspace…"
+
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Saving your identity securely…"
 msgstr "Saving your identity securely…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/agents/AgentSaveButton.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 #: src/features/communities/CommunityDialog.tsx
 msgid "Saving…"
 msgstr "Saving…"
 
 #: src/app/shell/PageSearch.tsx
+#: src/features/agents/ActivityTranscript.tsx
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Search"
 msgstr "Search"
@@ -4103,6 +6410,22 @@ msgstr "Search drafts and sent messages"
 msgid "Search in"
 msgstr "Search in"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search members"
+msgstr "Search members"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search people and agents"
+msgstr "Search people and agents"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search people and channels"
+msgstr "Search people and channels"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Search people, agents and channels"
+msgstr "Search people, agents and channels"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Search preference wasn’t saved"
 msgstr "Search preference wasn’t saved"
@@ -4119,6 +6442,19 @@ msgstr "Search this conversation"
 #: src/app/shell/SearchChoices.tsx
 msgid "Search..."
 msgstr "Search..."
+
+#: src/features/agents/current-activity.ts
+msgid "Searching"
+msgstr "Searching"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Searching…"
+msgstr "Searching…"
+
+#: src/bundled/channels/CreateSidebarSection.tsx
+#: src/bundled/channels/RenameSidebarSection.tsx
+msgid "Section name"
+msgstr "Section name"
 
 #: src/app/settings-sections.ts
 msgid "Security"
@@ -4139,6 +6475,18 @@ msgstr "Seek audio"
 msgid "Seek to {0}, {1}"
 msgstr "Seek to {0}, {1}"
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Select a community"
+msgstr "Select a community"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Select a connected community to authorize this app."
+msgstr "Select a connected community to authorize this app."
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Select an agent"
+msgstr "Select an agent"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Selected message unavailable."
 msgstr "Selected message unavailable."
@@ -4147,9 +6495,18 @@ msgstr "Selected message unavailable."
 msgid "Send"
 msgstr "Send"
 
+#. placeholder {0}: candidate.name
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Send “Please respond to my message above.” to {0} in your original message’s thread."
+msgstr "Send “Please respond to my message above.” to {0} in your original message’s thread."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Send a message to {channelName}"
 msgstr "Send a message to {channelName}"
+
+#: src/features/agents/AgentConnectionSetup.tsx
+msgid "Send a message to continue your conversation."
+msgstr "Send a message to continue your conversation."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Send again to send it as text."
@@ -4171,6 +6528,10 @@ msgstr "Send immediately"
 msgid "Send message"
 msgstr "Send message"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Send messages, reply, and react."
+msgstr "Send messages, reply, and react."
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Send omits model and effort overrides; the agent or provider decides which model runs"
 msgstr "Send omits model and effort overrides; the agent or provider decides which model runs"
@@ -4182,6 +6543,10 @@ msgstr "Send this message to a person, with an optional note."
 #: src/features/messages/MessageActionBar.tsx
 msgid "Send to channel"
 msgstr "Send to channel"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Sending"
+msgstr "Sending"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Sending message…"
@@ -4195,10 +6560,12 @@ msgstr "Sending to"
 msgid "Sending to channel"
 msgstr "Sending to channel"
 
+#: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/messages/QueuedFollowUps.tsx
 msgid "Sending…"
 msgstr "Sending…"
 
+#: src/bundled/channels/OutboxStatus.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Sent"
 msgstr "Sent"
@@ -4228,6 +6595,10 @@ msgstr "Session action failed"
 msgid "Session compacted"
 msgstr "Session compacted"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Session continued; earlier turns not shown"
+msgstr "Session continued; earlier turns not shown"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Session controls"
 msgstr "Session controls"
@@ -4246,6 +6617,23 @@ msgstr "Set a status"
 msgid "Set a status: {0}"
 msgstr "Set a status: {0}"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Set as admin"
+msgstr "Set as admin"
+
+#: src/features/agents/AISettings.tsx
+msgid "Set to"
+msgstr "Set to"
+
+#. placeholder {0}: memberAccessLabel(selection.role).toLowerCase()
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Set to {0}"
+msgstr "Set to {0}"
+
+#: src/features/agents/AISettings.tsx
+msgid "Set to {modelName} (recommended)"
+msgstr "Set to {modelName} (recommended)"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Set up Dock badges"
 msgstr "Set up Dock badges"
@@ -4262,6 +6650,8 @@ msgstr "Set up your profile"
 #: src/app/Settings.tsx
 #: src/app/shell/PageSearch.tsx
 #: src/app/shell/ProfileButton.tsx
+#: src/features/agents/AgentConfigHistoryRow.tsx
+#: src/features/agents/tabs.tsx
 msgid "Settings"
 msgstr "Settings"
 
@@ -4274,9 +6664,31 @@ msgstr "Settings only apply on this device."
 msgid "Settings sections"
 msgstr "Settings sections"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Share"
+msgstr "Share"
+
+#: src/bundled/channels/SoloChatMenu.tsx
 #: src/bundled/channels/SoloHeading.tsx
 msgid "Share access"
 msgstr "Share access"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Share this chat?"
+msgstr "Share this chat?"
+
+#: src/bundled/channels/useSoloShare.ts
+msgid "Shared"
+msgstr "Shared"
+
+#. placeholder {0}: channelText(shared)
+#: src/bundled/channels/useSoloShare.ts
+msgid "Shared in {0}"
+msgstr "Shared in {0}"
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Shared Markdown for this channel. Saves and restores check the loaded revision on supporting relays."
+msgstr "Shared Markdown for this channel. Saves and restores check the loaded revision on supporting relays."
 
 #: src/app/shell/BestieNavigation.tsx
 msgid "Shared notes"
@@ -4312,9 +6724,32 @@ msgstr "Show {hidden} more {hiddenNoun}"
 msgid "Show comments"
 msgstr "Show comments"
 
+#. placeholder {0}: project.name
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show fewer chats in {0}"
+msgstr "Show fewer chats in {0}"
+
 #: src/features/messages/LinkPreviews.tsx
 msgid "Show fewer previews"
 msgstr "Show fewer previews"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Show full content"
+msgstr "Show full content"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show less"
+msgstr "Show less"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show more"
+msgstr "Show more"
+
+#. placeholder {0}: project.name
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Show more chats in {0}"
+msgstr "Show more chats in {0}"
 
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Show my local time on my profile"
@@ -4355,6 +6790,10 @@ msgstr "Showing 500 drafts."
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Showing your latest {SENT_LIMIT} messages."
 msgstr "Showing your latest {SENT_LIMIT} messages."
+
+#: src/bundled/channels/CanvasEditor.tsx
+msgid "Showing your unsaved local draft. Open History to view saved versions."
+msgstr "Showing your unsaved local draft. Open History to view saved versions."
 
 #. placeholder {0}: leaving.membership.localName
 #: src/features/communities/CommunityPicker.tsx
@@ -4423,9 +6862,29 @@ msgstr "Solo"
 msgid "Solo chat completions"
 msgstr "Solo chat completions"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Some agent managers or their names could not load. Try again."
+msgstr "Some agent managers or their names could not load. Try again."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Some agents could not load."
+msgstr "Some agents could not load."
+
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Some backups couldn’t be recovered."
 msgstr "Some backups couldn’t be recovered."
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "Some channels are missing from the current roster."
+msgstr "Some channels are missing from the current roster."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "Some memories couldn't be shown."
+msgstr "Some memories couldn't be shown."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Some names could not load. Public keys still identify members. Try again."
+msgstr "Some names could not load. Public keys still identify members. Try again."
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Some of your backups couldn’t be recovered, and the ones that were don’t hold the key linked to this account."
@@ -4443,6 +6902,14 @@ msgstr "Some saved drafts could not be read. They are unchanged."
 msgid "Someone joined this chat. Tag an agent to send."
 msgstr "Someone joined this chat. Tag an agent to send."
 
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Sort"
+msgstr "Sort"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Sort {title}"
+msgstr "Sort {title}"
+
 #: src/app/NotificationSettings.tsx
 msgid "Sound"
 msgstr "Sound"
@@ -4459,6 +6926,7 @@ msgstr "Spelling preference wasn’t saved"
 msgid "Spoiler"
 msgstr "Spoiler"
 
+#: src/bundled/channels/CreateChannelDialog.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Starred"
 msgstr "Starred"
@@ -4466,6 +6934,10 @@ msgstr "Starred"
 #: src/features/messages/ComposerModels.tsx
 msgid "Start a new session"
 msgstr "Start a new session"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Start new channels with your agents, teams and a Canvas already in place."
+msgstr "Start new channels with your agents, teams and a Canvas already in place."
 
 #: src/features/identity/KeyLost.tsx
 msgid "Start over with a new key"
@@ -4479,9 +6951,17 @@ msgstr "Start the conversation below."
 msgid "Start with your local profile, or choose how you appear in this community."
 msgstr "Start with your local profile, or choose how you appear in this community."
 
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "Starter channel for new members"
+msgstr "Starter channel for new members"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "starting a new session"
 msgstr "starting a new session"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Starting Canvas"
+msgstr "Starting Canvas"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Starting direct messages is unavailable on this connection."
@@ -4495,6 +6975,10 @@ msgstr "Starting over permanently unlinks your old key."
 msgid "Starting over replaces the key linked to your Builderlab account. Your profile, messages, and community access won’t carry over. Your old content won’t be deleted. The new key will be backed up to your Builderlab account automatically. Block can use that copy to restore this key, including anywhere else you use it."
 msgstr "Starting over replaces the key linked to your Builderlab account. Your profile, messages, and community access won’t carry over. Your old content won’t be deleted. The new key will be backed up to your Builderlab account automatically. Block can use that copy to restore this key, including anywhere else you use it."
 
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Starts the Canvas"
+msgstr "Starts the Canvas"
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Status expiration"
 msgstr "Status expiration"
@@ -4506,6 +6990,10 @@ msgstr "Status message"
 #: src/app/shell/ProfileButton.tsx
 msgid "Status unavailable"
 msgstr "Status unavailable"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Status unknown"
+msgstr "Status unknown"
 
 #: src/app/shell/ProfileButton.tsx
 msgid "Status updates are unavailable in this community."
@@ -4533,9 +7021,17 @@ msgstr "Stop {0}{1}"
 msgid "Stop {name}"
 msgstr "Stop {name}"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Stopped"
+msgstr "Stopped"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Stopping…"
 msgstr "Stopping…"
+
+#: src/bundled/channels/LiveStatus.tsx
+msgid "stream established"
+msgstr "stream established"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
@@ -4562,6 +7058,10 @@ msgstr "Switch to {name}"
 msgid "System"
 msgstr "System"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "System prompt"
+msgstr "System prompt"
+
 #: src/app/AppearanceSettings.tsx
 msgid "System uses your device’s time format."
 msgstr "System uses your device’s time format."
@@ -4586,11 +7086,28 @@ msgstr "Tag an agent to send."
 msgid "Team"
 msgstr "Team"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Teams"
+msgstr "Teams"
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Template"
+msgstr "Template"
+
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "Temporary"
+msgstr "Temporary"
+
 #. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
 #. placeholder {0}: channelDurationLabel(ttlSeconds, i18n.locale)
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "Temporary, {0}"
 msgstr "Temporary, {0}"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Terminated"
+msgstr "Terminated"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -4617,6 +7134,22 @@ msgstr "That isn’t the key linked to this account. It expects"
 msgid "That message is no longer available."
 msgstr "That message is no longer available."
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "The change may have been saved. Check its status before trying again. Checking never resends it."
+msgstr "The change may have been saved. Check its status before trying again. Checking never resends it."
+
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "The change may have been saved. Check its status before trying again. Checking never resends it. Closing this dialog does not undo the change."
+msgstr "The change may have been saved. Check its status before trying again. Checking never resends it. Closing this dialog does not undo the change."
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "The channel could not be created."
+msgstr "The channel could not be created."
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "The current Canvas could not be read, so this version cannot be compared with it."
+msgstr "The current Canvas could not be read, so this version cannot be compared with it."
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "The draft changed or this link exceeds the message limit. Close and try again."
 msgstr "The draft changed or this link exceeds the message limit. Close and try again."
@@ -4629,6 +7162,18 @@ msgstr "The draft changed. Close and try again."
 msgid "The installed plugin changed after this update was checked."
 msgstr "The installed plugin changed after this update was checked."
 
+#: src/bundled/channels/useSoloShare.ts
+msgid "The link was not posted. Any access change already saved is kept."
+msgstr "The link was not posted. Any access change already saved is kept."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "The member list could not be confirmed. Try again."
+msgstr "The member list could not be confirmed. Try again."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "The member list could not load. Try again."
+msgstr "The member list could not load. Try again."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "The message can't be edited right now"
 msgstr "The message can't be edited right now"
@@ -4637,13 +7182,29 @@ msgstr "The message can't be edited right now"
 msgid "The previous placement is shown. A partial save may already exist on the relay."
 msgstr "The previous placement is shown. A partial save may already exist on the relay."
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "The previous revision isn't loaded, so changes can't be shown."
+msgstr "The previous revision isn't loaded, so changes can't be shown."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "The previous revision isn't valid config, so changes can't be shown."
+msgstr "The previous revision isn't valid config, so changes can't be shown."
+
 #: src/features/messages/ForwardMessage.tsx
 msgid "The recipient can open the original only if they have access to its conversation."
 msgstr "The recipient can open the original only if they have access to its conversation."
 
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "The requesting app supplies its name. Authorize it only if you started setup in that app."
+msgstr "The requesting app supplies its name. Authorize it only if you started setup in that app."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "The session changed. Review its channel and retry."
 msgstr "The session changed. Review its channel and retry."
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "The start of this turn isn't loaded."
+msgstr "The start of this turn isn't loaded."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "The team would exceed the message length or 32-recipient limit. Nothing was added."
@@ -4652,6 +7213,18 @@ msgstr "The team would exceed the message length or 32-recipient limit. Nothing 
 #: src/app/PluginUpdates.tsx
 msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
 msgstr "The update candidate changed after it was checked. Check for updates again before reviewing it."
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Think"
+msgstr "Think"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Thinking"
+msgstr "Thinking"
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Thinking effort"
+msgstr "Thinking effort"
 
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "This {placeWord} is archived"
@@ -4673,9 +7246,26 @@ msgstr "This address isn’t a Buzz community."
 msgid "This agent is no longer available for direct messages. Choose another person."
 msgstr "This agent is no longer available for direct messages. Choose another person."
 
+#: src/features/agents/external-connection.ts
+msgid "This app asks for limited access, which Buzz no longer grants. Update the app, then start setup again."
+msgstr "This app asks for limited access, which Buzz no longer grants. Update the app, then start setup again."
+
 #: src/app/NotificationSettings.tsx
 msgid "This build can’t show system notifications."
 msgstr "This build can’t show system notifications."
+
+#: src/bundled/channels/CanvasView.tsx
+msgid "This Canvas is empty."
+msgstr "This Canvas is empty."
+
+#: src/bundled/channels/CanvasView.tsx
+msgid "This Canvas is too large or too complex to render, so it is shown as Markdown source."
+msgstr "This Canvas is too large or too complex to render, so it is shown as Markdown source."
+
+#. placeholder {0}: channelText(chosen)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "This changes the chat from Private to View only and posts its link in {0}. "
+msgstr "This changes the chat from Private to View only and posts its link in {0}. "
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "this channel"
@@ -4685,6 +7275,15 @@ msgstr "this channel"
 msgid "this chat"
 msgstr "this chat"
 
+#: src/bundled/channels/SoloChatName.tsx
+msgid "This chat can’t be renamed."
+msgstr "This chat can’t be renamed."
+
+#. placeholder {0}: channelText(chosen)
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "This chat is already View only. Its link will be posted in {0}. "
+msgstr "This chat is already View only. Its link will be posted in {0}. "
+
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device."
 msgstr "This choice is active, but could not be saved on this device."
@@ -4692,6 +7291,10 @@ msgstr "This choice is active, but could not be saved on this device."
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device. Try again."
 msgstr "This choice is active, but could not be saved on this device. Try again."
+
+#: src/features/agents/MemoryPanel.tsx
+msgid "This community doesn't let you read this agent's memory."
+msgstr "This community doesn't let you read this agent's memory."
 
 #: src/features/identity/LinkedKeyCheck.tsx
 msgid "This computer’s key may not be backed up: copy its private key from Settings → Identity first, or you could lose it."
@@ -4718,6 +7321,7 @@ msgid "This conversation is no longer available for changes."
 msgstr "This conversation is no longer available for changes."
 
 #: src/bundled/channels/PageTabs.tsx
+#: src/bundled/channels/useConversationTabs.tsx
 msgid "This conversation is no longer available."
 msgstr "This conversation is no longer available."
 
@@ -4737,6 +7341,14 @@ msgstr "This conversation isn’t available right now. Your draft is still saved
 msgid "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
 msgstr "This deletes it from this computer’s secure storage, signs you out of your organizations and restarts Buzz. Then sign in to restore your account’s key from its backup, or enter your private key. Without a backup or a copy, that identity can’t be recovered."
 
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "This deletes the channel for everyone. You can’t undo this."
+msgstr "This deletes the channel for everyone. You can’t undo this."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "This deletes the chat for everyone in it. You can’t undo this."
+msgstr "This deletes the chat for everyone in it. You can’t undo this."
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
 msgstr "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
@@ -4752,6 +7364,10 @@ msgstr "This draft could not be cleared. Try again."
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "This draft has no text to copy."
 msgstr "This draft has no text to copy."
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "This group is no longer available. Close this dialog and create from another sidebar group or Channels."
+msgstr "This group is no longer available. Close this dialog and create from another sidebar group or Channels."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "This is the relay URL you use to connect to this community."
@@ -4809,6 +7425,10 @@ msgstr "This page’s sidebar is unavailable."
 msgid "This paste would make your message too long."
 msgstr "This paste would make your message too long."
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "This publishes the selected version as a new Canvas revision. Existing history is kept."
+msgstr "This publishes the selected version as a new Canvas revision. Existing history is kept."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "This queued message is no longer available to edit."
 msgstr "This queued message is no longer available to edit."
@@ -4824,6 +7444,10 @@ msgstr "This relay connection supports reading only."
 #: src/features/messages/MessageManagement.tsx
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
 msgstr "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "This revision isn't valid config ({problem}), so changes can't be shown."
+msgstr "This revision isn't valid config ({problem}), so changes can't be shown."
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "This saved draft does not identify a thread root. Open its origin to check the destination."
@@ -4842,6 +7466,22 @@ msgstr "This sends a leave request to the community’s relay, then removes {0} 
 msgid "This thread didn’t load."
 msgstr "This thread didn’t load."
 
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "This version exceeds the {LIVE_CANVAS_LIMIT} Canvas limit and cannot be restored here."
+msgstr "This version exceeds the {LIVE_CANVAS_LIMIT} Canvas limit and cannot be restored here."
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "This version is empty."
+msgstr "This version is empty."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "This version isn't in the loaded history."
+msgstr "This version isn't in the loaded history."
+
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "This version removed this configuration."
+msgstr "This version removed this configuration."
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "This week"
@@ -4850,10 +7490,17 @@ msgstr "This week"
 msgid "This won’t change the identity linked to your account."
 msgstr "This won’t change the identity linked to your account."
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Thought"
+msgstr "Thought"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "thread"
 msgstr "thread"
 
+#: src/bundled/channels/useConversationTabs.tsx
+#: src/features/agents/InterruptedNotice.tsx
 #: src/features/messages/MessageRow.tsx
 #: src/features/messages/ThreadPanel.tsx
 msgid "Thread"
@@ -4868,6 +7515,15 @@ msgstr "Thread — {0}"
 #: src/features/messages/TypingIndicator.tsx
 msgid "Thread · {0}"
 msgstr "Thread · {0}"
+
+#: src/bundled/channels/useConversationTabs.tsx
+msgid "Thread · {name}"
+msgstr "Thread · {name}"
+
+#. placeholder {0}: turn.threadRootId.slice(0, 8)
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Thread {0}"
+msgstr "Thread {0}"
 
 #: src/features/messages/MediaReviewViewer.tsx
 #: src/features/messages/ThreadPanel.tsx
@@ -4894,6 +7550,10 @@ msgstr "Thread preference wasn’t saved"
 msgid "Thread replies"
 msgstr "Thread replies"
 
+#: src/bundled/channels/SidebarActiveDialog.tsx
+msgid "Time frame"
+msgstr "Time frame"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Time zone"
 msgstr "Time zone"
@@ -4901,6 +7561,10 @@ msgstr "Time zone"
 #: src/app/AppearanceSettings.tsx
 msgid "Timestamps"
 msgstr "Timestamps"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "To add an agent, mention it in the chat."
+msgstr "To add an agent, mention it in the chat."
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "To:"
@@ -4920,6 +7584,10 @@ msgstr "Toggle formatting"
 msgid "Toggle tab pane"
 msgstr "Toggle tab pane"
 
+#: src/features/agents/TranscriptPanel.tsx
+msgid "Transcript"
+msgstr "Transcript"
+
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Transfer complete; waiting for server confirmation"
 msgstr "Transfer complete; waiting for server confirmation"
@@ -4937,21 +7605,73 @@ msgstr "Try again"
 msgid "Try recovery again"
 msgstr "Try recovery again"
 
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Turn"
+msgstr "Turn"
+
+#. placeholder {0}: time(turn.startedAt)
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Turn {0}"
+msgstr "Turn {0}"
+
 #: src/features/identity/SignOut.tsx
 msgid "Type “{WIPE_PHRASE}” to confirm"
 msgstr "Type “{WIPE_PHRASE}” to confirm"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
 msgstr "Type at least {SEARCH_MIN_CHARS} characters to search people."
+
+#: src/bundled/channels/ChannelStateNotice.tsx
+msgid "Unarchive"
+msgstr "Unarchive"
+
+#: src/bundled/channels/ChannelLifecycleActions.tsx
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchive {nounText}"
+msgstr "Unarchive {nounText}"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchive this channel for everyone and return it to the sidebar. Members can send messages again."
+msgstr "Unarchive this channel for everyone and return it to the sidebar. Members can send messages again."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchive this chat and return it to the sidebar. Messages can be sent again."
+msgstr "Unarchive this chat and return it to the sidebar. Messages can be sent again."
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Unarchiving {nounText}…"
+msgstr "Unarchiving {nounText}…"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Unavailable"
 msgstr "Unavailable"
 
+#: src/bundled/channels/useConversationTabs.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Unavailable conversation"
 msgstr "Unavailable conversation"
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Unavailable in this copy of Buzz."
+msgstr "Unavailable in this copy of Buzz."
+
+#: src/features/agents/ModelPicker.tsx
+msgid "Unavailable model"
+msgstr "Unavailable model"
+
+#: src/bundled/channels/CanvasDiff.tsx
+msgid "Unchanged"
+msgstr "Unchanged"
+
+#: src/bundled/channels/OutboxStatus.tsx
+msgid "Unconfirmed"
+msgstr "Unconfirmed"
+
+#: src/bundled/channels/ChannelLifecycleDialog.tsx
+msgid "Undo"
+msgstr "Undo"
 
 #: src/features/channel-navigation/WorkspaceComposition.tsx
 msgid "Unfiled"
@@ -4964,6 +7684,14 @@ msgstr "Unfollow thread"
 #: src/features/messages/ThreadPanel.tsx
 msgid "Unknown author"
 msgstr "Unknown author"
+
+#: src/features/agents/InterruptedNotice.tsx
+msgid "Unknown channel"
+msgstr "Unknown channel"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Unknown member"
+msgstr "Unknown member"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Unknown person"
@@ -4980,6 +7708,18 @@ msgstr "Unmute"
 #: src/features/messages/VideoPlayer.tsx
 msgid "Unmute video"
 msgstr "Unmute video"
+
+#: src/bundled/channels/UnreadBadge.tsx
+msgid "Unread status"
+msgstr "Unread status"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
+msgid "Unread threads"
+msgstr "Unread threads"
+
+#: src/bundled/channels/SidebarSection.tsx
+msgid "Unreads"
+msgstr "Unreads"
 
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Unsent draft"
@@ -5061,6 +7801,15 @@ msgstr "Use an existing key"
 msgid "Use an HTTP(S) URL or a valid buzz:// link."
 msgstr "Use an HTTP(S) URL or a valid buzz:// link."
 
+#: src/features/agents/ModelFamilyMenu.tsx
+#: src/features/agents/ModelPicker.tsx
+msgid "Use model"
+msgstr "Use model"
+
+#: src/features/agents/AISettings.tsx
+msgid "Use recommended settings."
+msgstr "Use recommended settings."
+
 #: src/features/identity/IdentitySetup.tsx
 msgid "Use your existing identity"
 msgstr "Use your existing identity"
@@ -5086,9 +7835,21 @@ msgstr "Using {0}{effortSuffix}"
 msgid "Vacationing"
 msgstr "Vacationing"
 
+#: src/features/agents/AgentConfigHistory.tsx
+msgid "Version"
+msgstr "Version"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Version {version}"
 msgstr "Version {version}"
+
+#: src/features/agents/AgentConfigHistoryRow.tsx
+msgid "Version count unavailable"
+msgstr "Version count unavailable"
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Version restored as a new revision."
+msgstr "Version restored as a new revision."
 
 #: src/app/AppearanceSettings.tsx
 msgid "Vibe level"
@@ -5130,6 +7891,16 @@ msgstr "Video volume"
 msgid "Video volume controls"
 msgstr "Video volume controls"
 
+#: src/bundled/channels/CanvasEditor.tsx
+#: src/bundled/channels/useSoloShare.ts
+msgid "View"
+msgstr "View"
+
+#. placeholder {0}: label.toLowerCase()
+#: src/bundled/channels/ChannelSettingsPanel.tsx
+msgid "View {0}"
+msgstr "View {0}"
+
 #. placeholder {0}: descendants.length
 #: src/features/messages/ThreadPanel.tsx
 msgid "View {0} {replyWord}"
@@ -5140,10 +7911,15 @@ msgstr "View {0} {replyWord}"
 msgid "View {0} activity"
 msgstr "View {0} activity"
 
+#: src/features/agents/AgentActivityRow.tsx
+msgid "View {name} activity"
+msgstr "View {name} activity"
+
 #: src/features/messages/MessageRow.tsx
 msgid "View {name} profile"
 msgstr "View {name} profile"
 
+#: src/features/agents/AgentActivityRow.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "View activity"
 msgstr "View activity"
@@ -5166,6 +7942,10 @@ msgstr "View channel details"
 msgid "View message in {where}: {line}"
 msgstr "View message in {where}: {line}"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "View only"
+msgstr "View only"
+
 #: src/features/messages/MessageRow.tsx
 #: src/features/messages/ReplySummary.tsx
 msgid "View thread"
@@ -5181,10 +7961,18 @@ msgstr "View thread: {0} {replyCountWord}"
 msgid "View transcript"
 msgstr "View transcript"
 
+#: src/bundled/channels/ChannelGeneralAccess.tsx
+msgid "Viewing only. Ask an owner or admin to participate."
+msgstr "Viewing only. Ask an owner or admin to participate."
+
 #: src/features/messages/MessageComposer.tsx
 #: src/features/messages/QueuedFollowUps.tsx
 msgid "Wait for compaction to finish, or interrupt it."
 msgstr "Wait for compaction to finish, or interrupt it."
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Wait for saved sidebar groups to load, then try again."
+msgstr "Wait for saved sidebar groups to load, then try again."
 
 #: src/features/messages/ComposerModels.tsx
 msgid "Wait for the active turn to finish before {waitVerb}."
@@ -5193,6 +7981,10 @@ msgstr "Wait for the active turn to finish before {waitVerb}."
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Waiting for {name} to connect."
 msgstr "Waiting for {name} to connect."
+
+#: src/features/agents/current-activity.ts
+msgid "Waiting for permission"
+msgstr "Waiting for permission"
 
 #: src/app/NotificationSettings.tsx
 #: src/app/UnreadIndicatorSettings.tsx
@@ -5222,6 +8014,10 @@ msgstr "We found the key to your account."
 #: src/features/identity/WelcomeBack.tsx
 msgid "Welcome back"
 msgstr "Welcome back"
+
+#: src/bundled/channels/ChannelTextField.tsx
+msgid "What this channel is for"
+msgstr "What this channel is for"
 
 #: src/features/user-status/StatusEditor.tsx
 msgid "What's your status?"
@@ -5255,10 +8051,15 @@ msgstr "With nothing typed, search leads with unread channels and DMs and select
 msgid "With someone’s local time, shows how far ahead or behind you they are and their time zone."
 msgstr "With someone’s local time, shows how far ahead or behind you they are and their time zone."
 
+#: src/bundled/channels/ChannelDurationField.tsx
+msgid "without activity."
+msgstr "without activity."
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Work with unconfirmed thread"
 msgstr "Work with unconfirmed thread"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/MessageRow.tsx
 msgid "Workflow"
 msgstr "Workflow"
@@ -5267,6 +8068,13 @@ msgstr "Workflow"
 msgid "Workflows"
 msgstr "Workflows"
 
+#: src/bundled/channels/ChannelActivityPopover.tsx
+#: src/features/agents/ActivityTranscript.tsx
+#: src/features/agents/current-activity.ts
+msgid "Working"
+msgstr "Working"
+
+#: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "Working now"
 msgstr "Working now"
@@ -5275,14 +8083,42 @@ msgstr "Working now"
 msgid "Working remotely"
 msgstr "Working remotely"
 
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Workspace"
+msgstr "Workspace"
+
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Workspace actions"
 msgstr "Workspace actions"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Workspace could not be deleted. Try again."
+msgstr "Workspace could not be deleted. Try again."
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Workspace name"
+msgstr "Workspace name"
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Workspace settings"
+msgstr "Workspace settings"
+
+#: src/bundled/channels/SoloChatMenu.tsx
+msgid "Workspaces are unavailable. Close this dialog and retry."
+msgstr "Workspaces are unavailable. Close this dialog and retry."
+
+#: src/bundled/channels/SoloWorkspaces.tsx
+msgid "Workspaces couldn’t load."
+msgstr "Workspaces couldn’t load."
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/shared/datetime.ts
 msgid "Yesterday"
 msgstr "Yesterday"
+
+#: src/features/agents/ActivityTranscript.tsx
+msgid "Yielded"
+msgstr "Yielded"
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/features/messages/MessageReactions.tsx
@@ -5300,6 +8136,10 @@ msgstr "You can message up to {maxRecipients} people at once."
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "You can’t post in {title} anymore. Your draft is still saved."
 msgstr "You can’t post in {title} anymore. Your draft is still saved."
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "You cannot share this chat."
+msgstr "You cannot share this chat."
 
 #: src/app/App.tsx
 msgid "You don’t have access to this"
@@ -5333,6 +8173,14 @@ msgstr "Your account’s key isn’t on this device. Enter its private key to co
 msgid "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
 msgstr "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Your agents"
+msgstr "Your agents"
+
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Your agents from other devices or earlier setups."
+msgstr "Your agents from other devices or earlier setups."
+
 #: src/app/shell/ProfileButton.tsx
 msgid "Your avatar"
 msgstr "Your avatar"
@@ -5350,9 +8198,21 @@ msgstr "Your Builderlab account"
 msgid "Your Buzz identity"
 msgstr "Your Buzz identity"
 
+#: src/bundled/channels/ChannelDetailsEditor.tsx
+msgid "Your channel details have unsaved changes."
+msgstr "Your channel details have unsaved changes."
+
+#: src/bundled/channels/CreateChannelDialog.tsx
+msgid "Your channel draft has unsaved changes."
+msgstr "Your channel draft has unsaved changes."
+
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Your channels, one conversation."
 msgstr "Your channels, one conversation."
+
+#: src/features/agents/ExternalAuthorizationDialog.tsx
+msgid "Your communities"
+msgstr "Your communities"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Your conversations are still available."
@@ -5398,6 +8258,10 @@ msgstr "Your local identity is unavailable. Connect your identity to edit your p
 msgid "Your old key can’t be linked again"
 msgstr "Your old key can’t be linked again"
 
+#: src/bundled/channels/ChannelMembersDialog.tsx
+msgid "Your other agents"
+msgstr "Your other agents"
+
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Your people, your agents, one place."
@@ -5441,6 +8305,14 @@ msgstr "Your status is unavailable"
 #: src/app/shell/ProfileButton.tsx
 msgid "Your status: {label}"
 msgstr "Your status: {label}"
+
+#: src/bundled/channels/ChannelTemplateSettings.tsx
+msgid "Your template has unsaved changes."
+msgstr "Your template has unsaved changes."
+
+#: src/bundled/channels/CanvasHistory.tsx
+msgid "Your unsaved draft will be kept separately. Copy any edits you want to keep before reloading the restored Canvas."
+msgstr "Your unsaved draft will be kept separately. Copy any edits you want to keep before reloading the restored Canvas."
 
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Zoom in"

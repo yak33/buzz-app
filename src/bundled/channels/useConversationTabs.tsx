@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -152,6 +154,7 @@ export function useConversationTabs({
     keep?: string,
   ): void;
 }) {
+  const { i18n, t } = useLingui();
   const currentId = current?.id;
   const viewer = queries.viewer;
   const { entries, setEntries } = tabState;
@@ -440,7 +443,7 @@ export function useConversationTabs({
         `[role="tab"][data-tab-value="${CSS.escape(id)}"]`,
       )
       ?.focus({ preventScroll: true });
-    setAnnouncement(`Moved to the ${pane} pane.`);
+    setAnnouncement(i18n._(msg`Moved to the ${pane} pane.`));
   };
   const selectedTab = selectedTabId(tabState.selected, rootTabIds);
   // A tab-placed channel launcher keeps one retained tab per channel.
@@ -598,8 +601,8 @@ export function useConversationTabs({
     placeTab(tab.id, target, position);
     setAnnouncement(
       crossing
-        ? `Moved to the ${target === "main" ? "main" : "side"} pane.`
-        : `Moved to position ${position + 1} of ${order.length}.`,
+        ? i18n._(msg`Moved to the ${target} pane.`)
+        : i18n._(msg`Moved to position ${position + 1} of ${order.length}.`),
     );
   };
   const drag = useTabDrag({
@@ -646,7 +649,9 @@ export function useConversationTabs({
       if (moving && tabPane(moving) === pane && order.indexOf(moving) === index)
         return;
       placeTab(id, pane, index);
-      setAnnouncement(`Moved to position ${index + 1} in the ${pane} pane.`);
+      setAnnouncement(
+        i18n._(msg`Moved to position ${index + 1} in the ${pane} pane.`),
+      );
     },
   });
   const openConversationThread = (
@@ -786,7 +791,7 @@ export function useConversationTabs({
       .replace(/\s+/g, " ")
       .trim()
       .slice(0, 80);
-    return text || (name ? `Thread · ${name}` : "Thread");
+    return text || (name ? t`Thread · ${name}` : t`Thread`);
   }
   // The current conversation's own threads are already in its channel.
   function openInChannel(tab: Tab, target: ChannelSummary | undefined) {
@@ -818,7 +823,7 @@ export function useConversationTabs({
       open && {
         label:
           target.channelType === "dm"
-            ? `DM · ${dmLabel(target.participants, profiles, resolveName, target.name)}`
+            ? t`DM · ${dmLabel(target.participants, profiles, resolveName, target.name)}`
             : `#${target.name}`,
         open,
       }
@@ -833,7 +838,7 @@ export function useConversationTabs({
       label:
         tab.kind === "thread"
           ? threadLabel(tab, target?.name)
-          : (target?.name ?? "Unavailable conversation"),
+          : (target?.name ?? t`Unavailable conversation`),
       icon:
         tab.kind === "thread" ? (
           <MessageReplyIcon size="1rem" />
@@ -851,12 +856,12 @@ export function useConversationTabs({
         rename: (name: string) => tabState.renameTab(tab.id, name),
       }),
       ...(openChannel && {
-        actions: [{ label: "Open in channel", run: openChannel }],
+        actions: [{ label: t`Open in channel`, run: openChannel }],
       }),
       content:
         !usable || !target ? (
           <p role="status" className={styles.empty}>
-            This conversation is no longer available.
+            {t`This conversation is no longer available.`}
           </p>
         ) : tab.kind === "thread" && nodes.get(tab.id) ? (
           <TabSlot node={nodes.get(tab.id) as HTMLDivElement} />

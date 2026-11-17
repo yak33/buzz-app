@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { FadingLabel } from "./FadingLabel";
 import { ChannelSidebarRows } from "../../features/channel-navigation/ChannelSidebarRows";
 import { createPortal } from "react-dom";
@@ -125,6 +127,7 @@ export function SoloWorkspaces({
   ) => ReactNode;
   onNew?: (projectId?: string) => void;
 }) {
+  const { i18n, t } = useLingui();
   useChatConversions(session);
   const handoff = useChannelNavigation();
   const pluginHiddenRows = useRef(new Map<string, object>());
@@ -279,7 +282,7 @@ export function SoloWorkspaces({
     })),
     {
       id: "",
-      name: "Chats",
+      name: t`Chats`,
       rows: chats.filter((item) => !ids.has(assignmentFor(item) ?? "")),
     },
   ];
@@ -531,7 +534,7 @@ export function SoloWorkspaces({
           <>
             {actions}
             <MenuItem onClick={() => setSettingsFor(project)}>
-              Workspace settings
+              {t`Workspace settings`}
             </MenuItem>
             <MenuItem
               tone="danger"
@@ -550,13 +553,13 @@ export function SoloWorkspaces({
                     setProjectError(
                       error instanceof Error
                         ? error.message
-                        : "Workspace could not be deleted. Try again.",
+                        : i18n._(msg`Workspace could not be deleted. Try again.`),
                     );
                   })
                   .finally(() => setDeleting(undefined));
               }}
             >
-              Delete workspace
+              {t`Delete workspace`}
             </MenuItem>
           </>
         }
@@ -572,8 +575,8 @@ export function SoloWorkspaces({
                   (onNew && (!compose || !project.id) && (
                     <IconButton
                       size="compact"
-                      aria-label={`New chat in ${project.name}`}
-                      title="New chat"
+                      aria-label={t`New chat in ${project.name}`}
+                      title={t`New chat`}
                       icon={<PlusIcon size={15} strokeWidth={2.5} />}
                       onClick={() => onNew(project.id || undefined)}
                     />
@@ -603,7 +606,7 @@ export function SoloWorkspaces({
             <ChatActionsMenu
               key={draft.id}
               id={`new-chat-draft:${draft.id}`}
-              title="New chat"
+              title={t`New chat`}
               className={styles.organizedRow}
               content={null}
               enabled={false}
@@ -667,8 +670,8 @@ export function SoloWorkspaces({
               <NavigationItem
                 variant="text"
                 data-solo-show-more-expand=""
-                label="Show more"
-                aria-label={`Show more chats in ${project.name}`}
+                label={t`Show more`}
+                aria-label={t`Show more chats in ${project.name}`}
                 icon={
                   <span className={styles.conversationIcon} aria-hidden="true">
                     <CaretDownIcon size={16} />
@@ -683,8 +686,8 @@ export function SoloWorkspaces({
               <NavigationItem
                 variant="text"
                 data-solo-show-more-fold=""
-                label="Show less"
-                aria-label={`Show fewer chats in ${project.name}`}
+                label={t`Show less`}
+                aria-label={t`Show fewer chats in ${project.name}`}
                 onClick={() => expand(project.id, 0)}
               />
             )}
@@ -696,9 +699,9 @@ export function SoloWorkspaces({
           (onNew ? (
             <NavigationItem
               variant="row"
-              label="New chat"
-              aria-label={`New chat in ${project.name}`}
-              title={`New chat in ${project.name}`}
+              label={t`New chat`}
+              aria-label={t`New chat in ${project.name}`}
+              title={t`New chat in ${project.name}`}
               icon={
                 <span className={styles.conversationIcon}>
                   <PlusIcon size={16} strokeWidth={2.5} />
@@ -707,7 +710,7 @@ export function SoloWorkspaces({
               onClick={() => onNew(project.id)}
             />
           ) : (
-            <p className={styles.listMessage}>No chats in this workspace.</p>
+            <p className={styles.listMessage}>{t`No chats in this workspace.`}</p>
           ))}
       </>
     );
@@ -772,14 +775,14 @@ export function SoloWorkspaces({
     <>
       {(snapshot.status === "idle" || snapshot.status === "loading") && (
         <p role="status" className={styles.listMessage}>
-          Loading workspaces…
+          {t`Loading workspaces…`}
         </p>
       )}
       {snapshot.status === "error" && (
         <div role="alert" className={styles.listMessage}>
-          <p>{snapshot.error ?? "Workspaces couldn’t load."}</p>
+          <p>{snapshot.error ?? t`Workspaces couldn’t load.`}</p>
           <Button onClick={() => void preferences.refresh()}>
-            Retry workspaces
+            {t`Retry workspaces`}
           </Button>
         </div>
       )}
@@ -876,7 +879,7 @@ export function SoloWorkspaces({
       )}
       {moves.some((move) => move.pending) && (
         <p role="status" className={styles.listMessage}>
-          Saving workspace…
+          {t`Saving workspace…`}
         </p>
       )}
       {moves
@@ -891,12 +894,12 @@ export function SoloWorkspaces({
                 void preferences.retryMove(move.channelId).catch(() => {})
               }
             >
-              Retry move
+              {t`Retry move`}
             </Button>
             <Button
               onClick={() => preferences.dismissMoveError(move.channelId)}
             >
-              Dismiss
+              {t`Dismiss`}
             </Button>
           </div>
         ))}
@@ -1153,6 +1156,7 @@ export function ChatActionsMenu({
   indicator?: ReactNode;
   enabled?: boolean;
 }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const [anchor, setAnchor] = useState<HTMLElement>();
   const restoreFocus = () => {
@@ -1183,13 +1187,13 @@ export function ChatActionsMenu({
             }
             variant="bare"
             size="compact"
-            aria-label={`Actions for ${title}`}
+            aria-label={t`Actions for ${title}`}
             icon={<DotsThreeIcon size={15} strokeWidth={2.5} />}
           />
         )}
       />
       <MenuPopup
-        aria-label={`Actions for ${title}`}
+        aria-label={t`Actions for ${title}`}
         align="end"
         finalFocus={restoreFocus}
       >
@@ -1230,7 +1234,7 @@ export function ChatActionsMenu({
         )}
       </ContextMenuTrigger>
       <MenuPopup
-        aria-label={`Actions for ${title}`}
+        aria-label={t`Actions for ${title}`}
         anchor={anchor}
         finalFocus={restoreFocus}
       >

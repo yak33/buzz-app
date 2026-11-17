@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   type FocusEvent,
   useEffect,
@@ -29,6 +30,7 @@ export function LiveStatus({
   /** A retry control that had focus went away; move focus on. */
   onRecovered?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const { recovering: retrying, shown } = useRecovery(
     diagnostics ? undefined : recovery,
   );
@@ -79,13 +81,13 @@ export function LiveStatus({
     actionable.some((route) => route.status === "limited") ||
     incompleteRoster;
   const reason = error?.includes("rate-limited: quota exceeded")
-    ? "A relay request was rate-limited; recovery needs attention."
+    ? t`A relay request was rate-limited; recovery needs attention.`
     : (error ??
       (incompleteRoster
-        ? "Some channels are missing from the current roster."
+        ? t`Some channels are missing from the current roster.`
         : ["error", "deferred"].includes(snapshot.roster.state)
-          ? "Channel list needs refreshing."
-          : "Live updates are unavailable."));
+          ? t`Channel list needs refreshing.`
+          : t`Live updates are unavailable.`));
   const settled = liveRecoveryStatus(snapshot) === "settled";
   // Startup, bounded automatic quota recovery and recovery before its notice
   // delay do not need user attention.
@@ -155,17 +157,20 @@ export function LiveStatus({
     return (
       <>
         <p>
-          Live updates:{" "}
+          {t`Live updates:`}{" "}
           {issue
             ? reason
             : recovering.length
-              ? "recovering automatically after rate limiting; awaiting confirmation"
+              ? t`recovering automatically after rate limiting; awaiting confirmation`
               : connecting
-                ? "connecting"
-                : "stream established"}
+                ? t`connecting`
+                : t`stream established`}
         </p>
         {(error || recovering[0]?.error) && (
-          <p>Last rejection: {error ?? recovering[0]?.error}</p>
+          <p>
+            {t`Last rejection: `}
+            {error ?? recovering[0]?.error}
+          </p>
         )}
       </>
     );
@@ -174,15 +179,15 @@ export function LiveStatus({
   return (
     <section
       role="status"
-      aria-label="Live updates limited"
+      aria-label={t`Live updates limited`}
       className={styles.recovery}
       {...track}
     >
       <div className={styles.message}>
-        <p className="text-label-sm text-warning">Live updates limited</p>
+        <p className="text-label-sm text-warning">{t`Live updates limited`}</p>
         <p className="text-body-sm text-subtle">
-          {issue ? reason : held?.reason} Only currently accessible messages
-          remain readable.
+          {issue ? reason : held?.reason}{" "}
+          {t`Only currently accessible messages remain readable.`}
         </p>
       </div>
       {manual && (
@@ -192,7 +197,7 @@ export function LiveStatus({
           // The notice and this control stay until the attempt succeeds.
           onClick={() => live.retry()}
         >
-          Retry live updates
+          {t`Retry live updates`}
         </Button>
       )}
     </section>

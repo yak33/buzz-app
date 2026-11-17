@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { usePanelTabHost } from "../../features/panels/PanelWorkspace";
 import {
   useEffect,
@@ -70,6 +72,7 @@ export function ChannelSettingsPanel({
   canOpenLink?(target: string): boolean;
   onOpenLink?(url: string): boolean;
 }) {
+  const { t } = useLingui();
   const tabbed = !!usePanelTabHost();
   const header = useRef<HTMLDivElement>(null);
   const panelId = useId();
@@ -93,7 +96,7 @@ export function ChannelSettingsPanel({
   ) => (
     <Panel
       as="aside"
-      aria-label="Channel settings"
+      aria-label={t`Channel settings`}
       aria-busy={loading}
       onKeyDown={(event) => {
         // Shift+Escape is Mark all as read, not a dismissal.
@@ -115,13 +118,13 @@ export function ChannelSettingsPanel({
             title={
               <Tabs
                 variant="navigation"
-                label="Panel tabs"
+                label={t`Panel tabs`}
                 value="settings"
                 onValueChange={() => {}}
                 items={[
                   {
                     value: "settings",
-                    label: "Channel settings",
+                    label: t`Channel settings`,
                     icon: <GearIcon size="1rem" />,
                     panelId,
                     onClose: close,
@@ -152,7 +155,7 @@ export function ChannelSettingsPanel({
                     <button
                       type="button"
                       className={styles.settingsTitleAction}
-                      aria-label="Edit channel name"
+                      aria-label={t`Edit channel name`}
                       disabled={edit.pending}
                       aria-busy={edit.pending}
                       aria-description={channel.name}
@@ -186,11 +189,11 @@ export function ChannelSettingsPanel({
                 {channel.channelType !== "solo" &&
                   channel.channelType !== "dm" && (
                     <SettingsDetail
-                      label="Description"
+                      label={t`Description`}
                       value={
                         channel.description === undefined
-                          ? "Not available"
-                          : channel.description || "No description"
+                          ? t`Not available`
+                          : channel.description || t`No description`
                       }
                       content={
                         channel.description &&
@@ -208,7 +211,7 @@ export function ChannelSettingsPanel({
                       }
                       valueClassName={styles.settingsDescription}
                       labelOnly
-                      actionLabel="Edit"
+                      actionLabel={t`Edit`}
                       loading={edit?.pending}
                       onOpen={
                         edit
@@ -231,7 +234,7 @@ export function ChannelSettingsPanel({
                   )}
                 {channel.members && (
                   <SettingsDetail
-                    label="Members"
+                    label={t`Members`}
                     value={String(channel.members.length)}
                     trailingIcon={
                       <CaretRightIcon size={16} aria-hidden="true" />
@@ -246,7 +249,7 @@ export function ChannelSettingsPanel({
           {editStatus}
           {setupTools}
           <details className={styles.settingsDiagnostics}>
-            <summary>Diagnostics</summary>
+            <summary>{t`Diagnostics`}</summary>
             <div className={styles.settingsTools}>{children}</div>
           </details>
         </div>
@@ -263,7 +266,9 @@ export function ChannelSettingsPanel({
   ) : (
     renderPanel(
       undefined,
-      editable ? <p>Editing is unavailable on this connection.</p> : undefined,
+      editable ? (
+        <p>{t`Editing is unavailable on this connection.`}</p>
+      ) : undefined,
     )
   );
 }
@@ -283,6 +288,7 @@ function AutoJoinSetting({
   lifecycle: ChannelLifecycleCapability;
   membership: CommunityMembership;
 }) {
+  const { i18n, t } = useLingui();
   const role = useSyncExternalStore(
     membership.subscribe,
     () => membership.snapshot().role,
@@ -319,13 +325,15 @@ function AutoJoinSetting({
           message:
             // Setting the same value again is idempotent, so retrying is the check.
             error instanceof ChannelLifecycleUnconfirmed
-              ? "Saved, but not confirmed yet. Try again to check."
+              ? i18n._(msg`Saved, but not confirmed yet. Try again to check.`)
               : // A rate limit or a write that never left this device, not a refusal.
                 error instanceof PublishNotSent
-                ? "Not sent. Try again."
+                ? i18n._(msg`Not sent. Try again.`)
                 : error instanceof PublishRejected
                   ? (error.reason ??
-                    "Only community owners and admins can change this.")
+                    i18n._(
+                      msg`Only community owners and admins can change this.`,
+                    ))
                   : error instanceof Error
                     ? error.message
                     : String(error),
@@ -343,15 +351,15 @@ function AutoJoinSetting({
       data-disabled={disabled || undefined}
     >
       <dt>
-        <label htmlFor={control}>Starter channel for new members</label>
+        <label htmlFor={control}>{t`Starter channel for new members`}</label>
       </dt>
       <dd>
         <span id={description}>
-          New community members are added to this channel automatically.
+          {t`New community members are added to this channel automatically.`}
         </span>
         <Switch
           id={control}
-          aria-label="Starter channel for new members"
+          aria-label={t`Starter channel for new members`}
           aria-describedby={error ? `${description} ${alert}` : description}
           checked={!!channel.autoJoin}
           disabled={disabled}
@@ -445,6 +453,7 @@ function SettingsDetail({
   renderAction?(action: ReactElement<ComponentProps<"button">>): ReactNode;
   onOpen?: ((trigger: HTMLButtonElement) => void) | undefined;
 }) {
+  const { t } = useLingui();
   return (
     <div>
       <dt>
@@ -459,8 +468,8 @@ function SettingsDetail({
                 }
                 aria-label={
                   actionLabel
-                    ? `${actionLabel} ${label.toLowerCase()}`
-                    : `View ${label.toLowerCase()}`
+                    ? t`${actionLabel} ${label.toLowerCase()}`
+                    : t`View ${label.toLowerCase()}`
                 }
                 aria-description={labelOnly ? undefined : value}
                 aria-haspopup={hasPopup}
@@ -503,6 +512,7 @@ function SettingsDetail({
 }
 
 function ChannelIdDetail({ id }: { id: string }) {
+  const { t } = useLingui();
   const [state, setState] = useState<"idle" | "copying" | "copied" | "failed">(
     "idle",
   );
@@ -520,17 +530,17 @@ function ChannelIdDetail({ id }: { id: string }) {
   }
   return (
     <SettingsDetail
-      label="Channel ID"
+      label={t`Channel ID`}
       value={id}
       valueClassName={styles.settingsId}
       feedback={
         state === "failed" && (
           <p role="alert" className="text-danger">
-            Couldn’t copy channel ID. Try again.
+            {t`Couldn’t copy channel ID. Try again.`}
           </p>
         )
       }
-      actionLabel="Copy"
+      actionLabel={t`Copy`}
       actionIcon={<CopyIcon size={14} />}
       hasPopup={false}
       disabled={state === "copying"}
@@ -543,7 +553,7 @@ function ChannelIdDetail({ id }: { id: string }) {
             if (!open) setFeedbackOpen(false);
           }}
           disableHoverablePopup
-          content={<span role="status">Channel ID copied</span>}
+          content={<span role="status">{t`Channel ID copied`}</span>}
         >
           {action}
         </Tooltip>

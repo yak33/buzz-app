@@ -2,6 +2,9 @@
 // Custom rows open in place under it. Create agent and an agent's Identity
 // settings share it. The recommendation names its source when supplied.
 import { type ComponentType, type ReactNode, useEffect, useState } from "react";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
+import { i18n } from "../localization/service";
 import styles from "./AISettings.module.css";
 import { SettingsAiIcon } from "../../shared/design-system/icons";
 import { PreferenceRow } from "../../shared/design-system/ui/PreferenceRow";
@@ -9,9 +12,10 @@ import { Select } from "../../shared/design-system/ui/Select";
 import { SettingsGroupExpand } from "../../shared/design-system/ui/SettingsGroup";
 import { type RecommendedCandidate, recommendedSetup } from "./recommended";
 
+// 模块级工具函数无组件上下文，按项目惯例直接用全局 i18n 单例（见 datetime.ts）。
 const effortLabel = (effort: string) =>
   effort === "xhigh"
-    ? "Extra high"
+    ? i18n._(msg`Extra high`)
     : `${effort.charAt(0).toUpperCase()}${effort.slice(1)}`;
 
 type Mark = ComponentType<{ size?: number | string }> | undefined;
@@ -65,6 +69,7 @@ export function UsesLine({
   /** The usual pick's harness, when it isn't set up here. */
   skipped?: string | undefined;
 }>) {
+  const { t } = useLingui();
   const value = `${candidate.label} · ${effortLabel(candidate.effort)}`;
   return (
     <span>
@@ -74,14 +79,14 @@ export function UsesLine({
             <Icon size={12} />
           </span>
         )}
-        <span className="sr-only">{title}:</span>{" "}
+        <span className="sr-only">{t`${title}:`}</span>{" "}
         <span title={value}>{value}</span>
       </span>
       {skipped && (
         <>
           {" "}
           <span className="mt-1 block text-body-sm">
-            {`Buzz’s usual pick, ${skipped}, isn’t set up on this computer, so this agent uses ${candidate.label}.`}
+            {t`Buzz’s usual pick, ${skipped}, isn’t set up on this computer, so this agent uses ${candidate.label}.`}
           </span>
         </>
       )}
@@ -92,6 +97,7 @@ export function UsesLine({
 /** "Checking this computer…", held back a second so a quick check doesn't
  * flash it; until then a blank line as tall as the result. */
 export function Checking() {
+  const { t } = useLingui();
   const [shown, setShown] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setShown(true), 1000);
@@ -99,7 +105,7 @@ export function Checking() {
   }, []);
   return (
     <span className="buzz-uses-line inline-flex items-center">
-      {shown ? "Checking this computer…" : "\u00a0"}
+      {shown ? t`Checking this computer…` : "\u00a0"}
     </span>
   );
 }
@@ -119,7 +125,9 @@ export function runsOnDetails(
     };
   }
   return {
-    summary: `No recommended model is available, so this uses ${type.title}’s default.`,
+    summary: i18n._(
+      msg`No recommended model is available, so this uses ${type.title}’s default.`,
+    ),
   };
 }
 
@@ -131,7 +139,7 @@ export function AISettings({
   summary,
   action,
   automaticHint,
-  manualHint = "Choose your own settings.",
+  manualHint,
   disabled = false,
   onChange,
   children,
@@ -154,22 +162,23 @@ export function AISettings({
   /** The custom rows, opened in place while Custom is selected. */
   children: ReactNode;
 }>) {
+  const { i18n, t } = useLingui();
   const { recommendedBy, description: configuredDescription } =
     recommendedSetup();
+  const recommended =
+    recommendedBy && i18n._(msg`Recommended by ${recommendedBy}.`);
   const description =
-    [
-      recommendedBy && `Recommended by ${recommendedBy}.`,
-      automaticHint ?? configuredDescription,
-    ]
+    [recommended, automaticHint ?? configuredDescription]
       .filter(Boolean)
-      .join(" ") || "Use recommended settings.";
+      .join(" ") || i18n._(msg`Use recommended settings.`);
+  const hint = manualHint ?? i18n._(msg`Choose your own settings.`);
   return (
     <>
       <PreferenceRow
         icon={
           <AISettingsIcon automatic={automatic} harnessIcon={HarnessIcon} />
         }
-        title="AI setup"
+        title={t`AI setup`}
         // One lasting live region, announced as it changes (from checking to
         // available); a link or button in `action` stays outside it.
         subtitle={
@@ -177,11 +186,11 @@ export function AISettings({
             {automatic && modelName && (
               <span
                 className="flex min-w-0 items-baseline gap-1"
-                title={`Set to ${modelName} (recommended)`}
+                title={t`Set to ${modelName} (recommended)`}
               >
-                <span className="shrink-0">Set to</span>{" "}
+                <span className="shrink-0">{t`Set to`}</span>{" "}
                 <span className="truncate">{modelName}</span>{" "}
-                <span className="shrink-0"> (recommended)</span>
+                <span className="shrink-0">{t`(recommended)`}</span>
               </span>
             )}
             <span
@@ -196,7 +205,7 @@ export function AISettings({
         trailing={(control) => (
           <Select
             describedBy={control["aria-describedby"]}
-            label="AI setup"
+            label={t`AI setup`}
             variant="compact"
             align="end"
             value={automatic ? "automatic" : "manual"}
@@ -207,7 +216,7 @@ export function AISettings({
                 options: [
                   {
                     value: "automatic",
-                    label: "Automatic",
+                    label: t`Automatic`,
                     description: (
                       <span className="grid gap-1.5 text-caption">
                         {description && (
@@ -224,8 +233,8 @@ export function AISettings({
                   },
                   {
                     value: "manual",
-                    label: "Custom",
-                    description: manualHint,
+                    label: t`Custom`,
+                    description: hint,
                   },
                 ],
               },

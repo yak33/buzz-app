@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useLingui } from "@lingui/react/macro";
 import { ArrowsClockwiseIcon } from "../../shared/design-system/icons";
 import { InlineHeader } from "../../shared/design-system/ui/Header";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
@@ -311,6 +312,7 @@ export function TranscriptPanel<T extends Transcript>({
   /** Shown above the oldest loaded turn. */
   notes?: (transcript: T) => ReactNode;
 }) {
+  const { t } = useLingui();
   const { shown, loading, refresh } = useLiveTranscript({
     read,
     readLatest,
@@ -324,12 +326,12 @@ export function TranscriptPanel<T extends Transcript>({
     <div className={activityStyles.transcript}>
       <div className={activityStyles.transcriptHeader}>
         <InlineHeader
-          title="Transcript"
+          title={t`Transcript`}
           actions={
             <IconButton
               hint="familiar"
-              aria-label="Refresh transcript"
-              title="Refresh transcript"
+              aria-label={t`Refresh transcript`}
+              title={t`Refresh transcript`}
               onClick={refresh}
               icon={<ArrowsClockwiseIcon size="1rem" aria-hidden="true" />}
             />
@@ -338,7 +340,7 @@ export function TranscriptPanel<T extends Transcript>({
       </div>
       <LoadingRegion
         pending={loading}
-        label={transcript === undefined ? reading : "Refreshing transcript…"}
+        label={transcript === undefined ? reading : t`Refreshing transcript…`}
         statusVisibility={
           transcript === undefined ? "visible" : "screen-reader"
         }

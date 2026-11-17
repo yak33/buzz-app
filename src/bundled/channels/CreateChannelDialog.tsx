@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import type { ChannelCreationInput } from "../../features/channel-templates/setup";
 import type { RelaySession } from "../../features/relay/session";
 import type { Agents } from "../../features/agents/service";
@@ -89,6 +91,7 @@ function OpenCreateChannelDialog({
   initialStarred = false,
   groupsReady,
 }: Props) {
+  const { i18n, t } = useLingui();
   const [confirmDiscard, setConfirmDiscard] = useState(false);
   const keepEditing = useRef<HTMLButtonElement>(null);
   const previousDiscard = useRef(confirmDiscard);
@@ -184,13 +187,13 @@ function OpenCreateChannelDialog({
     !unresolved &&
     ([
       templateSetup.agents.length
-        ? `Adds ${templateSetup.agents.map((key) => agentNames.get(key)).join(", ")}`
+        ? t`Adds ${templateSetup.agents.map((key) => agentNames.get(key)).join(", ")}`
         : "",
-      templateSetup.canvas.trim() ? "Starts the Canvas" : "",
+      templateSetup.canvas.trim() ? t`Starts the Canvas` : "",
     ]
       .filter(Boolean)
       .join(" · ") ||
-      "None of its agents are in this community, and it has no Canvas.");
+      t`None of its agents are in this community, and it has no Canvas.`);
   const destination = destinations.find((g) => g.id === groupId);
   const editing = useRef(false);
   editing.current = !busy && !privacyChoice && !confirmDiscard;
@@ -253,8 +256,12 @@ function OpenCreateChannelDialog({
       )
         throw new Error(
           groupsReady
-            ? "This group is no longer available. Close this dialog and create from another sidebar group or Channels."
-            : "Wait for saved sidebar groups to load, then try again.",
+            ? i18n._(
+                msg`This group is no longer available. Close this dialog and create from another sidebar group or Channels.`,
+              )
+            : i18n._(
+                msg`Wait for saved sidebar groups to load, then try again.`,
+              ),
         );
       await onCreate({
         name: normalizedName,
@@ -281,7 +288,7 @@ function OpenCreateChannelDialog({
         setError(
           reason instanceof Error
             ? reason.message
-            : "The channel could not be created.",
+            : i18n._(msg`The channel could not be created.`),
         );
     } finally {
       if (mounted.current) setBusy(false);
@@ -307,19 +314,19 @@ function OpenCreateChannelDialog({
       preventClose={busy}
       title={
         confirmDiscard ? (
-          "Discard changes?"
+          t`Discard changes?`
         ) : privacyChoice ? (
           privacyChoice === "private" ? (
-            "Make channel private?"
+            t`Make channel private?`
           ) : (
-            "Make channel public?"
+            t`Make channel public?`
           )
         ) : (
           <span className={styles.title}>
-            Create a channel
+            {t`Create a channel`}
             {(groupId || starred) && (
               <>
-                {" in "}
+                {t` in `}
                 {starred ? (
                   <>
                     <SidebarStarIcon />{" "}
@@ -332,19 +339,19 @@ function OpenCreateChannelDialog({
                     />{" "}
                   </>
                 ) : null}
-                {starred ? "Starred" : (destination?.name ?? "saved group")}
+                {starred ? t`Starred` : (destination?.name ?? t`saved group`)}
               </>
             )}
           </span>
         )
       }
       description={
-        confirmDiscard ? "Your channel draft has unsaved changes." : undefined
+        confirmDiscard ? t`Your channel draft has unsaved changes.` : undefined
       }
       closeLabel={
         confirmDiscard || privacyChoice
-          ? "Back to channel creation"
-          : "Close channel creation"
+          ? t`Back to channel creation`
+          : t`Close channel creation`
       }
       initialFocus={input}
       finalFocus={finalFocus}
@@ -352,7 +359,7 @@ function OpenCreateChannelDialog({
         confirmDiscard ? (
           <>
             <Button ref={keepEditing} onClick={() => setConfirmDiscard(false)}>
-              Keep editing
+              {t`Keep editing`}
             </Button>
             <Button
               variant="destructive"
@@ -360,7 +367,7 @@ function OpenCreateChannelDialog({
                 if (!busy) onOpenChange(false);
               }}
             >
-              Discard changes
+              {t`Discard changes`}
             </Button>
           </>
         ) : privacyChoice ? (
@@ -369,7 +376,7 @@ function OpenCreateChannelDialog({
               ref={privacyCancel}
               onClick={() => setPrivacyChoice(undefined)}
             >
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="prominent"
@@ -382,7 +389,7 @@ function OpenCreateChannelDialog({
                 setError("");
               }}
             >
-              Continue
+              {t`Continue`}
             </Button>
           </>
         ) : (
@@ -391,7 +398,7 @@ function OpenCreateChannelDialog({
               <Switch
                 id={privateControlId}
                 ref={privateSwitch}
-                aria-label="Private"
+                aria-label={t`Private`}
                 checked={privateChannel}
                 readOnly={busy}
                 aria-disabled={busy || undefined}
@@ -408,7 +415,7 @@ function OpenCreateChannelDialog({
                 }}
               />
               <label className="text-label-sm" htmlFor={privateControlId}>
-                Private
+                {t`Private`}
               </label>
             </span>
             <Button
@@ -418,7 +425,7 @@ function OpenCreateChannelDialog({
               loading={busy}
               disabled={invalid}
             >
-              Create channel
+              {t`Create channel`}
             </Button>
           </>
         )
@@ -464,21 +471,19 @@ function OpenCreateChannelDialog({
           {templates.length > 0 && (
             <div ref={templateField} style={{ display: "contents" }}>
               <Select
-                label="Template"
+                label={t`Template`}
                 variant="field"
                 value={templateId}
                 description={
                   checkingAgents
-                    ? "Checking which of its agents are in this community…"
+                    ? t`Checking which of its agents are in this community…`
                     : templateNote
                 }
                 error={
                   (unresolved && !checkingAgents) ||
                   (needsAgents && retrying) ? (
                     <>
-                      Its agents can’t be checked right now, so they can’t be
-                      added. Retry, or choose None to create the channel without
-                      them.{" "}
+                      {t`Its agents can’t be checked right now, so they can’t be added. Retry, or choose None to create the channel without them.`}{" "}
                       <Button
                         ref={retryButton}
                         size="xs"
@@ -486,7 +491,7 @@ function OpenCreateChannelDialog({
                         loading={retrying}
                         onClick={() => void retryAgents()}
                       >
-                        Retry
+                        {t`Retry`}
                       </Button>
                     </>
                   ) : undefined
@@ -495,7 +500,7 @@ function OpenCreateChannelDialog({
                   {
                     label: "",
                     options: [
-                      { value: "", label: "None" },
+                      { value: "", label: t`None` },
                       ...templates.map((item) => ({
                         value: item.id,
                         label: item.name,

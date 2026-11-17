@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../../shared/design-system/ui/Button";
 import {
   useCallback,
@@ -108,6 +110,7 @@ export function UnreadBadge({
   /** Preserve observed evidence for Solo destinations with their own labels. */
   preserveUnread?: boolean;
 }) {
+  const { t } = useLingui();
   const {
     snapshot,
     activity,
@@ -132,14 +135,25 @@ export function UnreadBadge({
     threadCount === 0 &&
     labelUnread === "ordinary";
   const unreadLabel = manual
-    ? `Marked unread${snapshot.manual === "local-only" ? " on this device only" : ""}`
-    : `${count} observed unread messages${snapshot.freshness === "stale" ? "; may be out of date" : ""}. Not an exact total.`;
+    ? snapshot.manual === "local-only"
+      ? t`Marked unread on this device only`
+      : t`Marked unread`
+    : snapshot.freshness === "stale"
+      ? t`${count} observed unread messages; may be out of date. Not an exact total.`
+      : t`${count} observed unread messages. Not an exact total.`;
   const mentionCount = activity.mentions?.length ?? 0;
-  const stale = activity.freshness === "stale" ? "; may be out of date" : "";
-  const mentionLabel = `${mentionCount} unread ${mentionCount === 1 ? "mention" : "mentions"}`;
+  const stale = activity.freshness === "stale" ? t`; may be out of date` : "";
+  const mentionLabel =
+    mentionCount === 1
+      ? t`1 unread mention`
+      : t`${mentionCount} unread mentions`;
+  const threadsLabel =
+    threadCount === 1
+      ? t`1 unread thread`
+      : t`${threadCount} unread threads`;
   // Mentions share the thread dot. Without a thread they have only the
   // aria-hidden priority dot, or none when muted, so name them on their own.
-  const activityLabel = `${mentionCount ? `${mentionLabel}, ` : ""}${threadCount} unread ${threadCount === 1 ? "thread" : "threads"}${stale}`;
+  const activityLabel = `${mentionCount ? `${mentionLabel}, ` : ""}${threadsLabel}${stale}`;
   return (
     <>
       {label !== undefined && (
@@ -195,6 +209,7 @@ export function UnreadOptions({
   session: RelaySession;
   channelId?: string | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const sync = useSyncExternalStore(
     session.unread.subscribeSync,
     session.unread.sync,
@@ -205,7 +220,9 @@ export function UnreadOptions({
     setError(undefined);
     void operation.catch((cause) =>
       setError(
-        cause instanceof Error ? cause.message : "Read-state operation failed",
+        cause instanceof Error
+          ? cause.message
+          : i18n._(msg`Read-state operation failed`),
       ),
     );
   };
@@ -218,7 +235,7 @@ export function UnreadOptions({
             run(session.unread.markUnreadLocal({ kind: "channel", channelId }))
           }
         >
-          Mark unread on this device
+          {t`Mark unread on this device`}
         </Button>
       )}
       {channelId && sync.capability === "frontier-sync" && (
@@ -236,30 +253,34 @@ export function UnreadOptions({
                   last.id,
                 ),
               );
-            else setError("Load a verified message before marking through it.");
+            else
+              setError(
+                i18n._(
+                  msg`Load a verified message before marking through it.`,
+                ),
+              );
           }}
         >
-          Mark read through loaded messages
+          {t`Mark read through loaded messages`}
         </Button>
       )}
       {error && <p role="alert">{error}</p>}
       <details>
-        <summary>Unread status</summary>
+        <summary>{t`Unread status`}</summary>
         <p>
-          Observed messages only—not exact totals. Manual unread is local to
-          this device. Older read hints can expire; this is not an everlasting
-          read receipt log.
+          {t`Observed messages only—not exact totals. Manual unread is local to this device. Older read hints can expire; this is not an everlasting read receipt log.`}
         </p>
         <p>
-          Read sync: {sync.capability} · {sync.status}
+          {t`Read sync: `}
+          {sync.capability} · {sync.status}
         </p>
         {sync.error && <p role="alert">{sync.error}</p>}
         <Button type="button" onClick={() => run(session.unread.refresh())}>
-          Refresh unread observations
+          {t`Refresh unread observations`}
         </Button>
         {sync.capability === "frontier-sync" && (
           <Button type="button" onClick={() => run(session.unread.retrySync())}>
-            Retry read sync
+            {t`Retry read sync`}
           </Button>
         )}
       </details>

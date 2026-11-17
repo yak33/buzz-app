@@ -1,3 +1,4 @@
+import { i18n } from "../localization/service";
 import { afterEach, expect, it, vi } from "vitest";
 import type { HostMcpServer } from "../host/service";
 import type { Agents } from "./service";
@@ -366,7 +367,7 @@ it.each([
     expect(connect).not.toHaveBeenCalled();
     expect(deny).toHaveBeenCalledOnce();
     expect(connection.snapshot().pending).toBeUndefined();
-    expect(connection.snapshot().error).toBe(legacyRequest);
+    expect(connection.snapshot().error).toBe(i18n._(legacyRequest));
   },
 );
 it.each([{ scope: ["agent"] }] as const)(

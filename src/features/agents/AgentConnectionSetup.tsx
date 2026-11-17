@@ -5,6 +5,8 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { readView, subscribeView, writeView } from "../../shared/view-state";
 import { Avatar } from "../../shared/design-system/ui/Avatar";
 import { avatarMedia } from "../../shared/avatar-source";
@@ -214,6 +216,7 @@ function Candidate({
   message?: ChannelMessage;
 }) {
   const notify = useToastNotification();
+  const { i18n } = useLingui();
   const dismissalKey = `agent-connection-dismissed:${JSON.stringify([channelId, peer])}`;
   const dismissed = useSyncExternalStore(
     (listener) => subscribeView(session.scope, listener),
@@ -292,13 +295,13 @@ function Candidate({
       scope={session.scope}
       onDismiss={() => {
         if (!writeView(session.scope, dismissalKey, true))
-          notify("Could not save dismissal. Try again.", "error");
+          notify(i18n._(msg`Could not save dismissal. Try again.`), "error");
       }}
       onStart={() => setPhase("pending")}
       onFinish={(success, error) => {
         if (error)
           notify(error, "error", {
-            label: "Dismiss",
+            label: i18n._(msg`Dismiss`),
             onClick() {},
             timeout: Infinity,
           });
@@ -307,10 +310,11 @@ function Candidate({
       onSendAgain={
         message
           ? async () => {
+              // 与 AgentConnectionForm 里的提示句同一文案，保持显示与发送一致。
               session.messages.reply(
                 message.channelId,
                 message.threadRootId ?? message.id,
-                "Please respond to my message above.",
+                i18n._(msg`Please respond to my message above.`),
                 [peer],
                 [],
                 message.id,
@@ -343,6 +347,7 @@ export function AgentConnectionForm({
   preview?: boolean;
   onSendAgain?: (() => Promise<void>) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const { types: installedTypes } = useAgents(agents);
   const types = installedTypes.filter(
     (type) => !type.CreateModel || type.createModelReportsReadiness,
@@ -378,7 +383,7 @@ export function AgentConnectionForm({
   const connect = async () => {
     if (!type || !draft || pending || !configurationReady) return;
     if (preview) {
-      setError("Preview only. No agent was imported.");
+      setError(i18n._(msg`Preview only. No agent was imported.`));
       return;
     }
     setPending(true);
@@ -417,7 +422,10 @@ export function AgentConnectionForm({
     }
   };
   return (
-    <section aria-label="Agent connection setup" data-agent-connection-setup="">
+    <section
+      aria-label={t`Agent connection setup`}
+      data-agent-connection-setup=""
+    >
       <div className={messages.message}>
         <div className={messages.messageBody}>
           <div className="w-full max-w-xl">
@@ -438,7 +446,7 @@ export function AgentConnectionForm({
                       size="sm"
                       variant="ghost"
                       disabled={pending}
-                      aria-label={`Dismiss connection setup for ${candidate.name}`}
+                      aria-label={t`Dismiss connection setup for ${candidate.name}`}
                       icon={<XIcon size={18} aria-hidden="true" />}
                       onClick={onDismiss}
                     />
@@ -447,32 +455,32 @@ export function AgentConnectionForm({
                 <div className="flex flex-col gap-1">
                   <h3 className="m-0 text-label">
                     {done
-                      ? `${candidate.name} connected`
-                      : `Connect ${candidate.name}`}
+                      ? t`${candidate.name} connected`
+                      : t`Connect ${candidate.name}`}
                   </h3>
                   <p className="m-0 text-body-sm text-subtle">
                     {preview
-                      ? "Choose a harness to import this agent."
+                      ? t`Choose a harness to import this agent.`
                       : done
                         ? onSendAgain
-                          ? `Send “Please respond to my message above.” to ${candidate.name} in your original message’s thread.`
-                          : "Send a message to continue your conversation."
+                          ? t`Send “Please respond to my message above.” to ${candidate.name} in your original message’s thread.`
+                          : t`Send a message to continue your conversation.`
                         : type
-                          ? "Review the settings to import this agent and continue your conversation."
-                          : "Choose a harness to continue."}
+                          ? t`Review the settings to import this agent and continue your conversation.`
+                          : t`Choose a harness to continue.`}
                     {!done &&
-                      " Stop this agent in old Buzz before connecting, so only one app replies."}
+                      t` Stop this agent in old Buzz before connecting, so only one app replies.`}
                   </p>
                 </div>
                 {!done && (
                   <>
                     <div className="flex max-w-full flex-col items-start gap-3">
                       <Select
-                        label="Harness"
+                        label={t`Harness`}
                         variant="compact"
                         appearance="inverted"
                         size="sm"
-                        placeholder="Choose harness"
+                        placeholder={t`Choose harness`}
                         value={type?.key ?? ""}
                         disabled={pending}
                         onValueChange={(key) => {
@@ -524,7 +532,7 @@ export function AgentConnectionForm({
                         }
                         onClick={() => void connect()}
                       >
-                        {pending ? "Connecting…" : "Connect"}
+                        {pending ? t`Connecting…` : t`Connect`}
                       </Button>
                     </div>
                   </>
@@ -538,10 +546,10 @@ export function AgentConnectionForm({
                       onClick={() => void sendAgain()}
                     >
                       {sentAgain
-                        ? "Follow-up queued"
+                        ? t`Follow-up queued`
                         : pending
-                          ? "Sending…"
-                          : `Ask ${candidate.name} to respond`}
+                          ? t`Sending…`
+                          : t`Ask ${candidate.name} to respond`}
                     </Button>
                   </div>
                 )}

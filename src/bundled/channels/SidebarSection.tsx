@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { RenameSidebarSection } from "./RenameSidebarSection";
 import { SidebarActiveDialog, activeWindowLabel } from "./SidebarActiveDialog";
 import { FadingLabel } from "./FadingLabel";
@@ -144,6 +145,7 @@ export function SidebarSection({
     | undefined;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const id = useId();
   const cancelRemove = useRef<HTMLButtonElement>(null);
   const actionsTrigger = useRef<HTMLButtonElement>(null);
@@ -193,22 +195,22 @@ export function SidebarSection({
                     <IconButton
                       {...props}
                       size="compact"
-                      aria-label={`More actions for ${title}`}
+                      aria-label={t`More actions for ${title}`}
                       icon={<DotsThreeIcon strokeWidth={2.5} size={15} />}
                     />
                   )}
                 />
-                <MenuPopup align="end" aria-label={`More actions for ${title}`}>
+                <MenuPopup align="end" aria-label={t`More actions for ${title}`}>
                   {filter && (
                     <MenuSubmenu>
                       <MenuSubmenuTrigger>
                         <MenuIcon>
                           <Filter2Icon size={14} />
                         </MenuIcon>
-                        Filter
+                        {t`Filter`}
                       </MenuSubmenuTrigger>
                       <MenuSubmenuPopup
-                        aria-label={`Filter ${title}`}
+                        aria-label={t`Filter ${title}`}
                         finalFocus={false}
                       >
                         <MenuRadioGroup
@@ -229,7 +231,7 @@ export function SidebarSection({
                             <MenuIcon>
                               <ChatsCircleIcon size={14} />
                             </MenuIcon>
-                            All
+                            {t`All`}
                           </MenuRadioItem>
                           <MenuRadioItem
                             disabled={filter.disabled}
@@ -239,7 +241,7 @@ export function SidebarSection({
                             <MenuIcon>
                               <ChatUnreadIcon size={14} />
                             </MenuIcon>
-                            Unreads
+                            {t`Unreads`}
                           </MenuRadioItem>
                           <MenuRadioItem
                             disabled={filter.disabled}
@@ -253,7 +255,7 @@ export function SidebarSection({
                             <MenuIcon>
                               <TimerIcon size={14} />
                             </MenuIcon>
-                            Active in the last
+                            {t`Active in the last`}
                             {filter.value === "active" && (
                               <MenuTrailing>
                                 {activeWindowLabel(filter.activeWindowSeconds)}
@@ -269,8 +271,8 @@ export function SidebarSection({
                               <MenuGroup>
                                 <MenuGroupLabel emphasis="quiet">
                                   {filter.value === "unreads"
-                                    ? "No unread messages"
-                                    : `No activity in the last ${activeWindowLabel(filter.activeWindowSeconds)}`}
+                                    ? t`No unread messages`
+                                    : t`No activity in the last ${activeWindowLabel(filter.activeWindowSeconds)}`}
                                 </MenuGroupLabel>
                                 {channels.rows.map((channel) => {
                                   const select = () => {
@@ -314,10 +316,10 @@ export function SidebarSection({
                         <MenuIcon>
                           <ArrowsDownUpIcon size={14} />
                         </MenuIcon>
-                        Sort
+                        {t`Sort`}
                       </MenuSubmenuTrigger>
                       <MenuSubmenuPopup
-                        aria-label={`Sort ${title}`}
+                        aria-label={t`Sort ${title}`}
                         finalFocus={false}
                       >
                         <MenuRadioGroup
@@ -331,13 +333,13 @@ export function SidebarSection({
                             <MenuIcon>
                               <TimerIcon size={14} />
                             </MenuIcon>
-                            Recent
+                            {t`Recent`}
                           </MenuRadioItem>
                           <MenuRadioItem closeOnClick={false} value="alpha">
                             <MenuIcon>
                               <TextAaIcon size={14} />
                             </MenuIcon>
-                            A–Z
+                            {t`A–Z`}
                           </MenuRadioItem>
                           {sort.modes?.map((mode) => (
                             <MenuRadioItem
@@ -367,7 +369,7 @@ export function SidebarSection({
                         <MenuIcon>
                           <PlusIcon size={14} />
                         </MenuIcon>
-                        Create section
+                        {t`Create section`}
                       </MenuItem>
                     </>
                   )}
@@ -383,7 +385,7 @@ export function SidebarSection({
                         <MenuIcon>
                           <ArrowUpIcon size={14} />
                         </MenuIcon>
-                        Move up
+                        {t`Move up`}
                       </MenuItem>
                       <MenuItem
                         disabled={!move.down}
@@ -395,7 +397,7 @@ export function SidebarSection({
                         <MenuIcon>
                           <ArrowDownIcon size={14} />
                         </MenuIcon>
-                        Move down
+                        {t`Move down`}
                       </MenuItem>
                     </>
                   )}
@@ -409,7 +411,7 @@ export function SidebarSection({
                       <MenuIcon>
                         <PencilSimpleIcon size={14} />
                       </MenuIcon>
-                      Rename section
+                      {t`Rename section`}
                     </MenuItem>
                   )}
                   {canRemove && (
@@ -426,7 +428,7 @@ export function SidebarSection({
                         <MenuIcon>
                           <TrashIcon size={14} />
                         </MenuIcon>
-                        Remove section
+                        {t`Remove section`}
                       </MenuItem>
                     </>
                   )}
@@ -438,8 +440,8 @@ export function SidebarSection({
               <IconButton
                 hint="familiar"
                 size="compact"
-                aria-label="New message"
-                title="New message"
+                aria-label={t`New message`}
+                title={t`New message`}
                 onClick={newMessage}
                 icon={<PlusIcon strokeWidth={2.5} size={15} />}
               />
@@ -476,8 +478,14 @@ export function SidebarSection({
                     ? actionsTrigger.current
                     : (removalFocus?.() ?? false)
                 }
-                title={`Remove ${title}?`}
-                description={`${channelCount === undefined ? "Assigned channels" : `${channelCount} ${channelCount === 1 ? "channel" : "channels"}`} will move back to Channels. This does not delete any channels.`}
+                title={t`Remove ${title}?`}
+                description={
+                  channelCount === undefined
+                    ? t`Assigned channels will move back to Channels. This does not delete any channels.`
+                    : channelCount === 1
+                      ? t`${channelCount} channel will move back to Channels. This does not delete any channels.`
+                      : t`${channelCount} channels will move back to Channels. This does not delete any channels.`
+                }
                 actions={
                   <>
                     <Button
@@ -486,7 +494,7 @@ export function SidebarSection({
                       disabled={removing}
                       onClick={() => setRemoveOpen(false)}
                     >
-                      Cancel
+                      {t`Cancel`}
                     </Button>
                     <Button
                       type="button"
@@ -494,7 +502,7 @@ export function SidebarSection({
                       loading={removing}
                       onClick={() => void remove()}
                     >
-                      Remove section
+                      {t`Remove section`}
                     </Button>
                   </>
                 }
@@ -502,7 +510,7 @@ export function SidebarSection({
                 {removeError && <p role="alert">{removeError}</p>}
                 {removing && (
                   <p role="status" className="sr-only">
-                    Removing section and waiting for confirmation…
+                    {t`Removing section and waiting for confirmation…`}
                   </p>
                 )}
               </Dialog>
@@ -510,11 +518,11 @@ export function SidebarSection({
             {createChannel && (
               <IconButton
                 size="compact"
-                aria-label="Create channel"
+                aria-label={t`Create channel`}
                 title={
                   createChannel.available
-                    ? "Create channel"
-                    : "Channel creation unavailable"
+                    ? t`Create channel`
+                    : t`Channel creation unavailable`
                 }
                 disabled={!createChannel.available}
                 onClick={(event) => createChannel.open(event.currentTarget)}

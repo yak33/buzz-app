@@ -1,3 +1,6 @@
+import type { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Accordion } from "../../shared/design-system/ui/Accordion";
 import { SettingsGroup } from "../../shared/design-system/ui/SettingsGroup";
 import { Header } from "../../shared/design-system/ui/Header";
@@ -64,14 +67,14 @@ export type MemoryLinks = {
 };
 type View = ReturnType<AgentMemories["open"]>;
 
-const MESSAGES: Record<MemorySnapshot["status"], string> = {
-  idle: "Memory isn't loaded.",
-  loading: "Loading memory…",
-  blocked: "Memory can be read once Buzz is connected.",
-  error: "Memory couldn't be read.",
-  denied: "This community doesn't let you read this agent's memory.",
-  unavailable: "Memory isn't available here.",
-  ready: "Memory isn't available here.",
+const MESSAGES: Record<MemorySnapshot["status"], MessageDescriptor> = {
+  idle: msg`Memory isn't loaded.`,
+  loading: msg`Loading memory…`,
+  blocked: msg`Memory can be read once Buzz is connected.`,
+  error: msg`Memory couldn't be read.`,
+  denied: msg`This community doesn't let you read this agent's memory.`,
+  unavailable: msg`Memory isn't available here.`,
+  ready: msg`Memory isn't available here.`,
 };
 
 const PROFILE: MarkdownProfile = {
@@ -188,6 +191,7 @@ export function MemoryPanel({
   agents: AgentScopeReader;
   links?: MemoryLinks | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const community = useAgentScopeCommunity(agent, agents, communities);
   const { snapshot, refreshing, refresh } = useMemory(memories, agent.pubkey);
   const reducedMotion = useReducedMotion();
@@ -201,7 +205,9 @@ export function MemoryPanel({
     status !== "denied";
   const refreshButton = canRefresh ? (
     <IconButton
-      aria-label={listing?.partial ? "Retry loading memories" : "Refresh"}
+      aria-label={
+        listing?.partial ? t`Retry loading memories` : t`Refresh`
+      }
       disabled={refreshing}
       focusableWhenDisabled
       icon={
@@ -220,9 +226,9 @@ export function MemoryPanel({
       listing ? (
         <>
           <MemorySection
-            title="Core memories"
+            title={t`Core memories`}
             links={links}
-            description="Included in this agent’s context for every session."
+            description={t`Included in this agent’s context for every session.`}
             community={
               <AgentCommunityScope community={community} scope="Memory" />
             }
@@ -231,9 +237,9 @@ export function MemoryPanel({
             refreshing={refreshing}
           />
           <MemorySection
-            title="Memories"
+            title={t`Memories`}
             links={links}
-            description="Details the agent can look up as needed."
+            description={t`Details the agent can look up as needed.`}
             community={
               <AgentCommunityScope community={community} scope="Memory" />
             }
@@ -250,12 +256,12 @@ export function MemoryPanel({
                 className="motion-safe:animate-spin"
                 aria-hidden="true"
               />
-              Loading more memories…
+              {t`Loading more memories…`}
             </div>
           ) : status === "error" ? (
             <div className="flex items-center justify-between gap-2">
               <p role="alert" className="m-0 text-body-sm text-danger">
-                {MESSAGES.error}
+                {i18n._(MESSAGES.error)}
               </p>
               {refreshButton}
             </div>
@@ -263,7 +269,7 @@ export function MemoryPanel({
             listing.partial && (
               <div className="flex items-center justify-between gap-2">
                 <p className="m-0 text-body-sm text-secondary">
-                  Some memories couldn't be shown.
+                  {t`Some memories couldn't be shown.`}
                 </p>
                 {refreshButton}
               </div>
@@ -273,7 +279,7 @@ export function MemoryPanel({
       ) : status === "loading" ? (
         <div
           role="status"
-          aria-label="Loading memories"
+          aria-label={t`Loading memories`}
           className="flex min-h-12 items-center justify-center text-secondary"
         >
           <CircleNotchIcon
@@ -287,7 +293,7 @@ export function MemoryPanel({
             role={status === "error" ? "alert" : undefined}
             className={`m-0 text-body-sm ${status === "error" ? "text-danger" : "text-secondary"}`}
           >
-            {MESSAGES[status]}
+            {i18n._(MESSAGES[status])}
           </p>
           {refreshButton}
         </div>
@@ -305,6 +311,7 @@ function MemorySection({
   refreshing = false,
   links,
 }: {
+  // title/description 由调用方以当前语言构造后传入。
   title: string;
   description: string;
   community: ReactNode;
@@ -313,6 +320,7 @@ function MemorySection({
   refreshing?: boolean;
   links?: MemoryLinks | undefined;
 }) {
+  const { t } = useLingui();
   const ordered = [...entries].sort(
     (left, right) =>
       right.createdAt - left.createdAt || left.slug.localeCompare(right.slug),
@@ -345,7 +353,7 @@ function MemorySection({
             <SettingsGroup>
               <div className="flex flex-col items-center justify-center gap-3 py-8 text-secondary">
                 {emptyIcon}
-                <p className="m-0 text-body-sm">No memories yet</p>
+                <p className="m-0 text-body-sm">{t`No memories yet`}</p>
               </div>
             </SettingsGroup>
           </div>
@@ -362,6 +370,7 @@ function MemoryAccordion({
   entry: MemoryEntry;
   links?: MemoryLinks | undefined;
 }) {
+  const { i18n } = useLingui();
   useClockFormat();
   return (
     <ContextMenuRoot>
@@ -401,7 +410,7 @@ function MemoryAccordion({
                     title={formatFullTimestamp(entry.createdAt)}
                     aria-hidden="true"
                   >
-                    {memoryTimestamp(entry.createdAt)}
+                    {memoryTimestamp(entry.createdAt, i18n)}
                   </span>
                 </span>
               ),
@@ -419,28 +428,54 @@ function MemoryAccordion({
 
 function MemoryCopyMenu({ entry }: { entry: MemoryEntry }) {
   const notify = useToastNotification();
-  const copy = (value: string, label: "name" | "body") =>
+  const { i18n, t } = useLingui();
+  const copy = (value: string, done: string, failed: string) =>
     writeClipboardText(value).then(
-      () => notify(`Memory ${label} copied.`, "success"),
-      () => notify(`Couldn’t copy the memory ${label}.`, "error"),
+      () => notify(done, "success"),
+      () => notify(failed, "error"),
     );
   return (
     <>
-      <MenuItem onClick={() => copy(entry.slug, "name")}>Copy name</MenuItem>
-      <MenuItem onClick={() => copy(entry.body, "body")}>
-        Copy full body
+      <MenuItem
+        onClick={() =>
+          copy(
+            entry.slug,
+            i18n._(msg`Memory name copied.`),
+            i18n._(msg`Couldn’t copy the memory name.`),
+          )
+        }
+      >
+        {t`Copy name`}
+      </MenuItem>
+      <MenuItem
+        onClick={() =>
+          copy(
+            entry.body,
+            i18n._(msg`Memory body copied.`),
+            i18n._(msg`Couldn’t copy the memory body.`),
+          )
+        }
+      >
+        {t`Copy full body`}
       </MenuItem>
     </>
   );
 }
 
-function memoryTimestamp(createdAt: number, nowSeconds = Date.now() / 1_000) {
+function memoryTimestamp(
+  createdAt: number,
+  i18n: I18n,
+  nowSeconds = Date.now() / 1_000,
+) {
   const age = Math.max(0, nowSeconds - createdAt);
   if (age >= WEEK_SECONDS && age < MONTH_SECONDS) {
     const weeks = Math.floor(age / WEEK_SECONDS);
-    return `${weeks} week${weeks === 1 ? "" : "s"} ago`;
+    return weeks === 1
+      ? i18n._(msg`1 week ago`)
+      : i18n._(msg`${weeks} weeks ago`);
   }
-  if (age >= MONTH_SECONDS && age < TWO_MONTHS_SECONDS) return "1 month ago";
+  if (age >= MONTH_SECONDS && age < TWO_MONTHS_SECONDS)
+    return i18n._(msg`1 month ago`);
   return relativeTimestamp(createdAt, nowSeconds).replace(/^on /, "");
 }
 

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -52,7 +54,10 @@ export function ChannelGeneralAccess({
   /** False only when the signed member-role snapshot verifies no Guests. */
   mayHaveGuestMembers?: boolean;
 }) {
+  const { t } = useLingui();
   const place = channel?.channelType === "solo" ? "chat" : "channel";
+  // The noun is interpolated as a value so translations can reorder it.
+  const placeText = place === "chat" ? t`chat` : t`channel`;
   const Icon =
     channel?.visibility === "public"
       ? channel.joinRole === "guest"
@@ -63,9 +68,12 @@ export function ChannelGeneralAccess({
   // calling the membership/write-gated channel-details capability.
   if (channel?.readOnly)
     return (
-      <section aria-label="General access" className={styles.generalAccess}>
+      <section
+        aria-label={t`General access`}
+        className={styles.generalAccess}
+      >
         <h3 className={`${styles.groupHeading} pb-2 text-caption text-subtle`}>
-          General
+          {t`General`}
         </h3>
         <div className={styles.accessRow}>
           <span className={styles.accessIcon} aria-hidden="true">
@@ -79,17 +87,17 @@ export function ChannelGeneralAccess({
           <div className={styles.accessAudience}>
             <p className="text-body-sm">
               {channel.visibility === "public"
-                ? "Anyone in the community can read."
+                ? t`Anyone in the community can read.`
                 : channel.visibility === "private"
-                  ? `Only ${place} members can read.`
-                  : "Reading access could not be confirmed."}
+                  ? t`Only ${placeText} members can read.`
+                  : t`Reading access could not be confirmed.`}
             </p>
             <p className="text-caption text-subtle">
               {channel.viewerRole === "guest" || channel.joinRole === "guest"
-                ? "Viewing only. Ask an owner or admin to participate."
+                ? t`Viewing only. Ask an owner or admin to participate.`
                 : channel.joinRole === "member"
-                  ? "New people can participate. People already in the channel keep their access."
-                  : "New people’s access could not be confirmed."}
+                  ? t`New people can participate. People already in the channel keep their access.`
+                  : t`New people’s access could not be confirmed.`}
             </p>
           </div>
         </div>
@@ -119,6 +127,7 @@ function ChannelGeneralAccessEditor({
   mayHaveGuestMembers: boolean;
   autoJoin: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const attempt = useSyncExternalStore(capability.subscribe, () =>
     capability.snapshot(channelId),
   );
@@ -174,6 +183,8 @@ function ChannelGeneralAccessEditor({
   const locked = loading || pending || !!attempt || !base?.canEdit;
   const solo = soloLabels(base?.labels);
   const place = solo ? "chat" : "channel";
+  // The noun is interpolated as a value so translations can reorder it.
+  const placeText = place === "chat" ? t`chat` : t`channel`;
   const access = base ? generalAccessValue(base) : "";
   const Icon =
     access === "public"
@@ -218,7 +229,7 @@ function ChannelGeneralAccessEditor({
     if (check) section.current?.focus();
     busy.current = true;
     setPending(true);
-    setStatus(check ? "Checking save status…" : "Saving access…");
+    setStatus(check ? i18n._(msg`Checking save status…`) : i18n._(msg`Saving access…`));
     setError("");
     // The choices lock while saving; keep keyboard focus in the access region.
     origin.current = section.current;
@@ -228,7 +239,7 @@ function ChannelGeneralAccessEditor({
       else if (base && choice)
         await capability.save(base, choice, controller.signal);
       if (!controller.signal.aborted) {
-        setStatus("Access updated");
+        setStatus(i18n._(msg`Access updated`));
         await load(controller.signal);
       }
     } catch (reason) {
@@ -247,12 +258,12 @@ function ChannelGeneralAccessEditor({
     <>
       <section
         ref={section}
-        aria-label="General access"
+        aria-label={t`General access`}
         tabIndex={-1}
         className={styles.generalAccess}
       >
         <h3 className={`${styles.groupHeading} pb-2 text-caption text-subtle`}>
-          General
+          {t`General`}
         </h3>
         <div className={styles.accessControl}>
           <div className={styles.accessIdentity}>
@@ -276,21 +287,21 @@ function ChannelGeneralAccessEditor({
             <div className={styles.accessSummary}>
               <p className="text-body-sm">
                 {access === "private"
-                  ? "Only people you add"
+                  ? t`Only people you add`
                   : access
-                    ? "Anyone in the community"
-                    : "General access"}
+                    ? t`Anyone in the community`
+                    : t`General access`}
               </p>
               <p className="text-caption text-subtle">
                 {access === "public"
-                  ? "New people can participate."
+                  ? t`New people can participate.`
                   : access === "view-only"
-                    ? "New people can only view."
+                    ? t`New people can only view.`
                     : access === "private"
-                      ? "Existing members keep their access."
+                      ? t`Existing members keep their access.`
                       : loading
-                        ? "Checking current access…"
-                        : "Current access could not be confirmed."}
+                        ? t`Checking current access…`
+                        : t`Current access could not be confirmed.`}
               </p>
             </div>
           </div>
@@ -299,12 +310,12 @@ function ChannelGeneralAccessEditor({
               variant="compact"
               align="end"
               size="sm"
-              label="General access"
+              label={t`General access`}
               value={access}
               valueLabel={
-                solo && access === "public" ? "Public (existing)" : undefined
+                solo && access === "public" ? t`Public (existing)` : undefined
               }
-              placeholder={loading ? "Loading access…" : "Access unavailable"}
+              placeholder={loading ? t`Loading access…` : t`Access unavailable`}
               disabled={locked}
               groups={[
                 {
@@ -337,14 +348,14 @@ function ChannelGeneralAccessEditor({
         </div>
         {choice && base && (
           <AlertDialog
-            title="Change general access?"
+            title={t`Change general access?`}
             description={[
               solo && choice.visibility === "public"
                 ? SOLO_ACCESS_DISCLOSURE
                 : choice.visibility !== base.visibility
                   ? solo
-                    ? "Only chat members will have access."
-                    : privacyConsequence(choice.visibility)
+                    ? t`Only chat members will have access.`
+                    : i18n._(privacyConsequence(choice.visibility))
                   : "",
               solo && choice.visibility === "private"
                 ? soloRetainedAccessWarning(base, mayHaveGuestMembers)
@@ -353,14 +364,16 @@ function ChannelGeneralAccessEditor({
               access === "public" &&
               choice.visibility === "public" &&
               choice.joinRole === "guest"
-                ? "People already in the chat keep their access."
+                ? t`People already in the chat keep their access.`
                 : "",
               // The relay keeps the flag but refuses changing it on a private channel.
               choice.visibility === "private" && autoJoin
-                ? "It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first."
+                ? t`It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first.`
                 : "",
               !solo && choice.visibility === "public"
-                ? `New people will ${choice.joinRole === "guest" ? "only be able to view" : "be able to participate"}. People already in the ${place} keep their access.`
+                ? choice.joinRole === "guest"
+                  ? t`New people will only be able to view. People already in the ${placeText} keep their access.`
+                  : t`New people will be able to participate. People already in the ${placeText} keep their access.`
                 : "",
             ]
               .filter(Boolean)
@@ -371,14 +384,14 @@ function ChannelGeneralAccessEditor({
             actions={
               <>
                 <Button ref={cancel} onClick={() => setChoice(undefined)}>
-                  Cancel
+                  {t`Cancel`}
                 </Button>
                 <Button
                   variant="prominent"
                   disabled={locked}
                   onClick={() => void apply()}
                 >
-                  Change access
+                  {t`Change access`}
                 </Button>
               </>
             }
@@ -390,7 +403,7 @@ function ChannelGeneralAccessEditor({
       </section>
       {(error || attempt?.status === "unconfirmed") && (
         <fieldset
-          aria-label="General access recovery"
+          aria-label={t`General access recovery`}
           className={styles.accessFeedback}
         >
           {error && (
@@ -401,14 +414,13 @@ function ChannelGeneralAccessEditor({
           {attempt?.status === "unconfirmed" ? (
             <>
               <p role="status" className="text-body-sm">
-                The change may have been saved. Check its status before trying
-                again. Checking never resends it.
+                {t`The change may have been saved. Check its status before trying again. Checking never resends it.`}
               </p>
               <Button
                 disabled={loading || pending}
                 onClick={() => void apply(true)}
               >
-                Check save status
+                {t`Check save status`}
               </Button>
             </>
           ) : (
@@ -420,7 +432,7 @@ function ChannelGeneralAccessEditor({
                   if (lifetime.current) void load(lifetime.current.signal);
                 }}
               >
-                Reload access
+                {t`Reload access`}
               </Button>
             )
           )}

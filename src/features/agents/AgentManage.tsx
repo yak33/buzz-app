@@ -1,6 +1,9 @@
 // Owner actions on an agent that every surface showing it offers: the
 // Agents Build view and the profile panel.
 import { useRef, useState, type ReactNode } from "react";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
+import { i18n } from "../localization/service";
 import { TrashIcon } from "../../shared/design-system/icons";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Dialog } from "../../shared/design-system/ui/Dialog";
@@ -21,16 +24,28 @@ export const inSeveral = (agents: Agents, agent: Agent) =>
     .memberships(agent.pubkey)
     .some((membership) => membership.key !== agent.key && !membership.deleting);
 
-/** One field list for every surface explaining shared settings. */
+/** One field list for every surface explaining shared settings. 保持英文：
+ * 这是模块加载时求值的导出常量，直接翻译会在语言激活前冻结成错误的
+ * locale；渲染它的是 bundled/AgentsPage（不在本次范围）。 */
 export const sharedAgentSettings =
   "Name, type and settings, including instructions, model and workspace, are shared across communities.";
 
 /** What adding the same agent to another community shares and what it keeps
- * there, as every place that adds one says it. */
-export const sameAgent = (many = false) =>
-  many
-    ? `${sharedAgentSettings} A change to them applies in every community. Their pictures and what they pay attention to are their own in each. Memory is kept per community, so anything they saved here before comes back, and so do their conversations here.`
-    : `${sharedAgentSettings} A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here.`;
+ * there, as every place that adds one says it. 每次调用时按当前 locale 求
+ * 值（全局 i18n 单例），首句与 sharedAgentSettings 同文共用一条译文。 */
+export const sameAgent = (many = false) => {
+  const shared = i18n._(
+    msg`Name, type and settings, including instructions, model and workspace, are shared across communities.`,
+  );
+  const rest = many
+    ? i18n._(
+        msg`A change to them applies in every community. Their pictures and what they pay attention to are their own in each. Memory is kept per community, so anything they saved here before comes back, and so do their conversations here.`,
+      )
+    : i18n._(
+        msg`A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here.`,
+      );
+  return `${shared} ${rest}`;
+};
 
 /** Delete, after a confirmation that says what it does. One that cannot
  * finish keeps the dialog open with what is left; the agent stays listed.
@@ -46,6 +61,7 @@ export function AgentDelete({
   onRemoved(): void;
   trigger?: (open: () => void) => ReactNode;
 }) {
+  const { t } = useLingui();
   const cancel = useRef<HTMLButtonElement>(null);
   const [confirming, setConfirming] = useState(false);
   const [removing, setRemoving] = useState(false);
@@ -99,7 +115,7 @@ export function AgentDelete({
           variant="ghost"
           onClick={() => setConfirming(true)}
         >
-          <TrashIcon size={14} aria-hidden="true" /> Delete agent
+          <TrashIcon size={14} aria-hidden="true" /> {t`Delete agent`}
         </Button>
       )}
       <Dialog
@@ -107,13 +123,13 @@ export function AgentDelete({
         open={confirming}
         initialFocus={cancel}
         onOpenChange={setConfirming}
-        title={`Delete ${agent.name}?`}
+        title={t`Delete ${agent.name}?`}
         description={
           agent.place === "hosted"
-            ? "Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone."
+            ? t`Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone.`
             : several
-              ? "It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
-              : "It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
+              ? t`It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone.`
+              : t`It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone.`
         }
         preventClose={removing}
         actions={
@@ -123,14 +139,14 @@ export function AgentDelete({
               onClick={() => setConfirming(false)}
               disabled={removing}
             >
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="destructive"
               loading={removing}
               onClick={() => void remove()}
             >
-              Delete
+              {t`Delete`}
             </Button>
           </>
         }
@@ -139,7 +155,7 @@ export function AgentDelete({
           <div className="flex flex-col gap-3">
             {several && (
               <ul
-                aria-label="Its communities"
+                aria-label={t`Its communities`}
                 className="m-0 flex list-none flex-col gap-1 p-0"
               >
                 {memberships.map((membership) => (
@@ -150,18 +166,20 @@ export function AgentDelete({
                     <span className="truncate">
                       {hostOf(membership.origin)}
                       {!membership.connected && (
-                        <span className="text-secondary"> · Not connected</span>
+                        <span className="text-secondary">
+                          {t` · Not connected`}
+                        </span>
                       )}
                     </span>
                     {unreachable.includes(membership) && (
                       <Button
                         size="compact"
                         variant="outline"
-                        aria-label={`Forget it in ${hostOf(membership.origin)}`}
+                        aria-label={t`Forget it in ${hostOf(membership.origin)}`}
                         disabled={removing}
                         onClick={() => void forget(membership.key)}
                       >
-                        Forget
+                        {t`Forget`}
                       </Button>
                     )}
                   </li>
@@ -175,8 +193,7 @@ export function AgentDelete({
             ) : null}
             {unreachable.length > 0 && (
               <p className="m-0 text-body-sm text-secondary">
-                Forget deletes it from this device without reaching that
-                community, so it may stay in its channels there.
+                {t`Forget deletes it from this device without reaching that community, so it may stay in its channels there.`}
               </p>
             )}
             {forgot &&
@@ -184,7 +201,7 @@ export function AgentDelete({
               // A Delete marks every membership; a Remove only its own.
               memberships.every((membership) => membership.deleting) && (
                 <p className="m-0 text-body-sm text-secondary">
-                  Delete again to finish here.
+                  {t`Delete again to finish here.`}
                 </p>
               )}
             {!several && unreachable[0] && (
@@ -196,7 +213,7 @@ export function AgentDelete({
                   disabled={removing}
                   onClick={() => void forget(unreachable[0]?.key ?? "")}
                 >
-                  Forget it
+                  {t`Forget it`}
                 </Button>
               </div>
             )}
@@ -221,6 +238,7 @@ export function AgentRemoveHere({
   onRemoved(): void;
   trigger: (open: () => void) => ReactNode;
 }) {
+  const { t } = useLingui();
   const cancel = useRef<HTMLButtonElement>(null);
   const [confirming, setConfirming] = useState(false);
   const [removing, setRemoving] = useState(false);
@@ -246,8 +264,8 @@ export function AgentRemoveHere({
         open={confirming}
         initialFocus={cancel}
         onOpenChange={setConfirming}
-        title={`Remove ${agent.name} from ${place}?`}
-        description="It stops here, leaves this community's channels and is archived here. It stays in your other communities with the same name, type and settings. Add it here again and its memory and conversations here come back, but what it paid attention to here doesn't."
+        title={t`Remove ${agent.name} from ${place}?`}
+        description={t`It stops here, leaves this community's channels and is archived here. It stays in your other communities with the same name, type and settings. Add it here again and its memory and conversations here come back, but what it paid attention to here doesn't.`}
         preventClose={removing}
         actions={
           <>
@@ -256,14 +274,14 @@ export function AgentRemoveHere({
               onClick={() => setConfirming(false)}
               disabled={removing}
             >
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="destructive"
               loading={removing}
               onClick={() => void leave()}
             >
-              Remove
+              {t`Remove`}
             </Button>
           </>
         }
@@ -287,6 +305,7 @@ export function AgentArchiveRetry({
   agents: Pick<Agents, "unarchive">;
   agent: Agent;
 }) {
+  const { i18n, t } = useLingui();
   const [checking, setChecking] = useState(false);
   const [result, setResult] = useState("");
   if (!agent.archiveUnchecked && !result) return null;
@@ -296,17 +315,20 @@ export function AgentArchiveRetry({
     try {
       setResult((await agents.unarchive(agent.key)) ?? "");
     } catch (reason) {
-      setResult(`Couldn't check whether it's archived: ${message(reason)}`);
+      // 事件处理器内的文案：用 i18n._(msg`...`) 在回调触发时按当前语言求值。
+      setResult(
+        i18n._(msg`Couldn't check whether it's archived: ${message(reason)}`),
+      );
     } finally {
       setChecking(false);
     }
   };
   return (
     <PreferenceRow
-      title="Archive state"
+      title={t`Archive state`}
       subtitle={
         result ||
-        "Not checked since import, so it may be hidden from member lists and mentions."
+        t`Not checked since import, so it may be hidden from member lists and mentions.`
       }
       trailing={
         agent.archiveUnchecked ? (
@@ -315,7 +337,7 @@ export function AgentArchiveRetry({
             loading={checking}
             onClick={() => void retry()}
           >
-            Retry
+            {t`Retry`}
           </Button>
         ) : undefined
       }

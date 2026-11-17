@@ -9,6 +9,9 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import type { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import remarkGfm from "remark-gfm";
 import {
   sectionTitle,
@@ -80,12 +83,13 @@ const ICONS: Record<string, typeof WrenchIcon> = {
   fetch: GlobeIcon,
   think: BulbIcon,
 };
-const STATUS: Record<string, string> = {
-  pending: "Pending",
-  in_progress: "Running",
-  failed: "Failed",
-  terminated: "Terminated",
-  yielded: "Yielded",
+// 文案表值为 MessageDescriptor，渲染处用 i18n._() 求值。
+const STATUS: Record<string, MessageDescriptor> = {
+  pending: msg`Pending`,
+  in_progress: msg`Running`,
+  failed: msg`Failed`,
+  terminated: msg`Terminated`,
+  yielded: msg`Yielded`,
 };
 const line = (text: string) => text.split("\n").find(Boolean)?.trim() ?? "";
 const time = (at: number) => formatTime(at / 1000);
@@ -129,7 +133,18 @@ export function duration(ms: number) {
   return `${minutes}m ${Math.floor((ms % 60_000) / 1000)}s`;
 }
 const toolName = (item: ToolItem) => line(item.title) || "tool";
-const ACTIONS: Record<string, string> = {
+// 显示用的动作文案；解析仍用英文词表 ACTION_WORDS（adapter 的 title 是英文）。
+const ACTIONS: Record<string, MessageDescriptor> = {
+  execute: msg`Run`,
+  read: msg`Read`,
+  edit: msg`Edit`,
+  delete: msg`Delete`,
+  move: msg`Move`,
+  search: msg`Search`,
+  fetch: msg`Fetch`,
+  think: msg`Think`,
+};
+const ACTION_WORDS: Record<string, string> = {
   execute: "Run",
   read: "Read",
   edit: "Edit",
@@ -139,12 +154,16 @@ const ACTIONS: Record<string, string> = {
   fetch: "Fetch",
   think: "Think",
 };
-function toolLabel(item: ToolItem) {
+function toolLabel(item: ToolItem, i18n: I18n) {
   const title = toolName(item);
+  const word = ACTION_WORDS[item.kind];
+  if (!word) return { action: title, detail: "" };
+  const prefix = new RegExp(`^${word}(?:\\s+|$)`, "i");
   const action = ACTIONS[item.kind];
-  if (!action) return { action: title, detail: "" };
-  const prefix = new RegExp(`^${action}(?:\\s+|$)`, "i");
-  return { action, detail: title.replace(prefix, "") };
+  return {
+    action: action ? i18n._(action) : title,
+    detail: title.replace(prefix, ""),
+  };
 }
 
 /** The first location, unless the adapter's title already names it. */
@@ -209,6 +228,7 @@ export function ActivityTranscript({
   agentKey?: string;
   community?: string | undefined;
 }) {
+  const { t } = useLingui();
   const timeline = useFollowLatest(transcript, follow);
   const agents = useContext(AgentsContext);
   const relay = useSyncExternalStore(
@@ -236,7 +256,7 @@ export function ActivityTranscript({
           {before}
           {!transcript.turns.length && (
             <p className="text-body text-secondary">
-              No turns captured for this scope yet.
+              {t`No turns captured for this scope yet.`}
             </p>
           )}
           {transcript.turns.map((turn) => (
@@ -244,8 +264,8 @@ export function ActivityTranscript({
               {(turn.newSession || turn.continued) && (
                 <p className={`text-body ${styles.session}`}>
                   {turn.newSession
-                    ? "New session"
-                    : "Session continued; earlier turns not shown"}
+                    ? t`New session`
+                    : t`Session continued; earlier turns not shown`}
                 </p>
               )}
               <Turn
@@ -275,30 +295,43 @@ function Turn({
   agentName: string;
   openConversation?: AgentViewProps["openConversation"];
 }) {
+  const { t } = useLingui();
   useClockFormat();
   const { channelId, threadRootId } = turn;
   const openPlace =
     openConversation && channelId && threadRootId !== undefined
       ? () => openConversation(channelId, threadRootId ?? undefined)
       : undefined;
-  const status =
+  // 先算语义种类（tone/样式判断依据），再映射显示文案；避免对翻译后的
+  // 字符串做相等比较。判断顺序与原三元链逐条对应。
+  const kind =
     turn.error || turn.outcome === "error"
-      ? "Failed"
-      : turn.outcome === "stopped"
-        ? "Stopped"
-        : turn.outcome === "unknown"
-          ? "Status unknown"
-          : turn.outcome === "ended"
-            ? "Completed"
-            : state === "working"
-              ? "Working"
-              : turn.endedAt
-                ? "Completed"
-                : "Status unknown";
-  const tone =
-    status === "Failed"
       ? "failed"
-      : status === "Completed"
+      : turn.outcome === "stopped"
+        ? "stopped"
+        : turn.outcome === "unknown"
+          ? "unknown"
+          : turn.outcome === "ended"
+            ? "completed"
+            : state === "working"
+              ? "working"
+              : turn.endedAt
+                ? "completed"
+                : "unknown";
+  const status =
+    kind === "failed"
+      ? t`Failed`
+      : kind === "stopped"
+        ? t`Stopped`
+        : kind === "completed"
+          ? t`Completed`
+          : kind === "working"
+            ? t`Working`
+            : t`Status unknown`;
+  const tone =
+    kind === "failed"
+      ? "failed"
+      : kind === "completed"
         ? "completed"
         : "unknown";
   const StatusIcon =
@@ -311,7 +344,7 @@ function Turn({
     <article
       className={styles.turn}
       aria-label={
-        known(turn.startedAt) ? `Turn ${time(turn.startedAt)}` : "Turn"
+        known(turn.startedAt) ? t`Turn ${time(turn.startedAt)}` : t`Turn`
       }
     >
       {state !== "working" && (
@@ -340,17 +373,17 @@ function Turn({
               onClick={openPlace}
             >
               {turn.threadRootId
-                ? `Thread ${turn.threadRootId.slice(0, 8)}`
-                : "Channel"}
+                ? t`Thread ${turn.threadRootId.slice(0, 8)}`
+                : t`Channel`}
             </button>
           ) : (
-            "Conversation unknown"
+            t`Conversation unknown`
           )}
         </div>
       )}
       {turn.partial && (
         <p className="text-body text-secondary">
-          The start of this turn isn't loaded.
+          {t`The start of this turn isn't loaded.`}
         </p>
       )}
       {turn.items.map((item) => (
@@ -376,12 +409,13 @@ function Turn({
 
 /** The same live-work treatment at the start and end of the turn. */
 function WorkingLabel() {
+  const { t } = useLingui();
   return (
     <>
       <span className={`${styles.workingIcon} text-accent`}>
         <TypingDots size="small" />
       </span>
-      <ShimmerText>Working</ShimmerText>
+      <ShimmerText>{t`Working`}</ShimmerText>
     </>
   );
 }
@@ -408,15 +442,17 @@ function Sections({
   title,
   sections,
 }: {
+  // title 由调用方以当前语言构造后传入。
   title: string;
   sections: readonly PromptSection[];
 }) {
+  const { t } = useLingui();
   return (
     <details className={styles.context}>
       <summary className="text-body text-subtle">
         <FileTextIcon size="1rem" aria-hidden="true" />
         <span>
-          {title} · {sections.length} sections
+          {title} · {t`${sections.length} sections`}
         </span>
         <CaretRightIcon
           className={styles.chevron}
@@ -514,12 +550,13 @@ function Item({
   item: TranscriptItem;
   agentName: string;
 }) {
+  const { t } = useLingui();
   const avatarSource = useContext(AgentAvatarSource);
   switch (item.type) {
     case "system":
-      return <Sections title="System prompt" sections={item.sections} />;
+      return <Sections title={t`System prompt`} sections={item.sections} />;
     case "prompt": {
-      const name = item.author || "Request";
+      const name = item.author || t`Request`;
       return (
         <Disclosure
           item={item}
@@ -528,18 +565,18 @@ function Item({
           preview={line(item.text)}
         >
           <p className={styles.text}>
-            {item.steer && <em>(steer) </em>}
+            {item.steer && <em>{t`(steer) `}</em>}
             {item.text}
           </p>
           {item.sections.length > 1 && (
-            <Sections title="Prompt context" sections={item.sections} />
+            <Sections title={t`Prompt context`} sections={item.sections} />
           )}
         </Disclosure>
       );
     }
     case "thought": {
       const heading =
-        line(item.text).replace(/^#{1,6}\s+|^\*\*|\*\*$/g, "") || "Thinking";
+        line(item.text).replace(/^#{1,6}\s+|^\*\*|\*\*$/g, "") || t`Thinking`;
       const body = item.text
         .trimStart()
         .split("\n")
@@ -549,7 +586,7 @@ function Item({
       return (
         <Disclosure
           item={item}
-          icon={<BulbIcon size={16} aria-label="Thought" />}
+          icon={<BulbIcon size={16} aria-label={t`Thought`} />}
           label={<span className={styles.subject}>{heading}</span>}
         >
           {body && <Reply text={body} />}
@@ -575,7 +612,7 @@ function Item({
             <span className={styles.subject}>
               {agentName}
               {item.posted && (
-                <span className="text-body text-secondary"> · Posted</span>
+                <span className="text-body text-secondary">{t` · Posted`}</span>
               )}
             </span>
           }
@@ -595,10 +632,10 @@ function Item({
         <Disclosure
           item={item}
           icon={<ListChecksIcon size={16} aria-hidden="true" />}
-          label={<span className={styles.subject}>Plan</span>}
-          preview={`${item.entries.length} steps`}
+          label={<span className={styles.subject}>{t`Plan`}</span>}
+          preview={t`${item.entries.length} steps`}
         >
-          <ul className={styles.plan} aria-label="Plan">
+          <ul className={styles.plan} aria-label={t`Plan`}>
             {item.entries.map((entry, index) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: plan entries are positional and carry no row state.
               <li key={index} data-status={entry.status}>
@@ -653,6 +690,7 @@ function Reply({ text }: { text: string }) {
 const lines = (text: string) => text.replace(/\n$/, "").split("\n");
 /** One hunk between the unchanged leading and trailing lines. */
 function Diff({ diff }: { diff: ToolDiff }) {
+  const { t } = useLingui();
   const before = diff.oldText === undefined ? [] : lines(diff.oldText);
   const after = lines(diff.newText);
   let head = 0;
@@ -674,7 +712,7 @@ function Diff({ diff }: { diff: ToolDiff }) {
   return (
     <figure className={styles.diff}>
       <figcaption className="text-body text-secondary">
-        {diff.oldText === undefined ? "New file" : "Changed"} {diff.path}
+        {diff.oldText === undefined ? t`New file` : t`Changed`} {diff.path}
       </figcaption>
       <pre className={styles.pre}>
         {removed.map((text, index) => (
@@ -711,10 +749,12 @@ function ToolInput({ text }: { text: string }) {
 }
 
 function Tool({ item, agentName }: { item: ToolItem; agentName: string }) {
+  const { i18n, t } = useLingui();
   const Icon = ICONS[item.kind] ?? WrenchIcon;
-  const status = STATUS[item.status];
+  const statusDescriptor = STATUS[item.status];
+  const status = statusDescriptor && i18n._(statusDescriptor);
   const path = toolPath(item);
-  const label = toolLabel(item);
+  const label = toolLabel(item, i18n);
   const failedChildren =
     item.children?.filter(
       (child) => child.type === "tool" && child.status === "failed",
@@ -731,8 +771,10 @@ function Tool({ item, agentName }: { item: ToolItem; agentName: string }) {
           {failedChildren > 0 && (
             <span className={styles.error}>
               {" "}
-              · {failedChildren} failed{" "}
-              {failedChildren === 1 ? "call" : "calls"}
+              {/* 单复数各用一个完整模板。 */}
+              {failedChildren === 1
+                ? t`· ${failedChildren} failed call`
+                : t`· ${failedChildren} failed calls`}
             </span>
           )}
           {path && <span className={`text-body ${styles.path}`}> {path}</span>}
@@ -742,17 +784,17 @@ function Tool({ item, agentName }: { item: ToolItem; agentName: string }) {
         item.permission && (
           <span
             className={`text-body text-secondary ${styles.badge}`}
-            title={`Permission options: ${item.permission.options.join(", ")}`}
+            title={t`Permission options: ${item.permission.options.join(", ")}`}
           >
             <ShieldIcon size={14} aria-hidden="true" />
-            {item.permission.outcome ?? "Permission requested"}
+            {item.permission.outcome ?? t`Permission requested`}
           </span>
         )
       }
       footer={
         item.truncated && (
           <p className="text-body text-secondary">
-            Part of this tool call was too large and was elided by the agent.
+            {t`Part of this tool call was too large and was elided by the agent.`}
           </p>
         )
       }
@@ -763,7 +805,7 @@ function Tool({ item, agentName }: { item: ToolItem; agentName: string }) {
       {item.input && (
         <section className={styles.codePanel}>
           <h3 className={`text-body text-secondary ${styles.codePanelHeading}`}>
-            Input
+            {t`Input`}
           </h3>
           <ToolInput text={item.input} />
         </section>
@@ -775,7 +817,7 @@ function Tool({ item, agentName }: { item: ToolItem; agentName: string }) {
       {item.output && (
         <section className={styles.codePanel}>
           <h3 className={`text-body text-secondary ${styles.codePanelHeading}`}>
-            Output
+            {t`Output`}
           </h3>
           <pre className={styles.pre}>{item.output}</pre>
         </section>
@@ -783,7 +825,7 @@ function Tool({ item, agentName }: { item: ToolItem; agentName: string }) {
       {item.children?.length ? (
         <div className={styles.section}>
           <p className="text-body text-secondary">
-            Calls recorded during this script
+            {t`Calls recorded during this script`}
           </p>
           {item.children.map((child) => (
             <Entry key={child.id} item={child} agentName={agentName} />

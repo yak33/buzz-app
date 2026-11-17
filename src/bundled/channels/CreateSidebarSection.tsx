@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useId,
   useLayoutEffect,
@@ -41,6 +43,7 @@ export function CreateSidebarSection({
   retry: () => Promise<void>;
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
 }) {
+  const { i18n, t } = useLingui();
   const formId = useId();
   const input = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
@@ -81,7 +84,7 @@ export function CreateSidebarSection({
     } catch {
       section.current = attempt;
       submitted.current = false;
-      setError("Couldn't confirm the section was saved. Try again.");
+      setError(i18n._(msg`Couldn't confirm the section was saved. Try again.`));
     } finally {
       setPending(false);
     }
@@ -97,13 +100,13 @@ export function CreateSidebarSection({
       onOpenChange={(open) => {
         if (!open) close();
       }}
-      title={channelName ? "Move to new section" : "Create new section"}
+      title={channelName ? t`Move to new section` : t`Create new section`}
       initialFocus={input}
       finalFocus={finalFocus}
       actions={
         <>
           <Button disabled={pending} onClick={close}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             form={formId}
@@ -112,7 +115,7 @@ export function CreateSidebarSection({
             disabled={!writable || !name.trim()}
             loading={pending}
           >
-            {channelName ? "Create and move" : "Create"}
+            {channelName ? t`Create and move` : t`Create`}
           </Button>
         </>
       }
@@ -126,9 +129,9 @@ export function CreateSidebarSection({
       >
         <Input
           ref={input}
-          aria-label="Section name"
+          aria-label={t`Section name`}
           aria-describedby={error || needsRecovery ? errorId : undefined}
-          placeholder="Section name"
+          placeholder={t`Section name`}
           required
           readOnly={pending || !!section.current}
           maxLength={256}
@@ -142,8 +145,7 @@ export function CreateSidebarSection({
           {needsRecovery && (
             <>
               <p>
-                Saved preferences are unavailable. Retry preferences before
-                trying again.
+                {t`Saved preferences are unavailable. Retry preferences before trying again.`}
               </p>
               <Button
                 disabled={refreshing}
@@ -152,7 +154,7 @@ export function CreateSidebarSection({
                   setFocusRequest((request) => request + 1);
                 }}
               >
-                Retry preferences
+                {t`Retry preferences`}
               </Button>
             </>
           )}

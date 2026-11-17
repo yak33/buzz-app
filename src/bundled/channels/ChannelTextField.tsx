@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useId, type Ref } from "react";
 import { Field } from "../../shared/design-system/ui/Field";
 import { Input } from "../../shared/design-system/ui/Input";
@@ -16,6 +17,7 @@ type Props = {
 
 /** Shared presentation/input policy, not draft or persistence ownership. */
 export function ChannelTextField(props: Props) {
+  const { t } = useLingui();
   const countId = useId();
   const isName = props.field === "name";
   const limit = isName ? 120 : 1000;
@@ -35,7 +37,7 @@ export function ChannelTextField(props: Props) {
     <Field
       label={
         <span className={styles.label}>
-          <span>{isName ? "Name" : "Description"}</span>
+          <span>{isName ? t`Name` : t`Description`}</span>
           {showCount && (
             <span
               aria-hidden="true"
@@ -64,12 +66,12 @@ export function ChannelTextField(props: Props) {
           {...control}
           ref={props.inputRef}
           rows={3}
-          placeholder="What this channel is for"
+          placeholder={t`What this channel is for`}
         />
       )}
       {showCount && (
         <span id={countId} className="sr-only">
-          {countLabel} of {limitLabel} characters
+          {t`${countLabel} of ${limitLabel} characters`}
         </span>
       )}
     </Field>

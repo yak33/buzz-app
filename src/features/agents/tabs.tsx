@@ -3,6 +3,8 @@
 // Memory is relay-backed for both local and hosted agents. Agents classified
 // as `elsewhere` expose no sections in these views.
 import { useId, useState, type ReactNode } from "react";
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../localization/service";
 import {
   MemoryPanel,
   type AgentMemories,
@@ -153,7 +155,9 @@ export function agentSections({
   )
     tabs.unshift({
       value: "agent:settings",
-      label: "Settings",
+      // agentSections 是导出的普通函数（无组件上下文），按项目惯例用全局
+      // i18n 单例求值；label 仍是 string，调用方无需改动。
+      label: i18n._(msg`Settings`),
       render: () => (
         <div className="grid gap-4">
           {execution === "remote" && (
@@ -178,7 +182,7 @@ export function agentSections({
     ...tabs,
     {
       value: "agent:memory",
-      label: "Memory",
+      label: i18n._(msg`Memory`),
       render: () => (
         <MemoryPanel
           agents={agents}

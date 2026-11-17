@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -50,6 +52,7 @@ export function CanvasEditor({
   /** Plugin code-block renderers for the View tab. */
   codeBlocks?: ContributionReader<CodeBlockRenderer> | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const panelId = useId();
   // A stable callback keeps the retained View from re-rendering its Markdown.
   const linkOpener = useRef(openLink);
@@ -142,6 +145,7 @@ export function CanvasEditor({
     },
     [],
   );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，加载回调不需随语言重建。
   const load = useCallback(
     async (replace = false, discard = false) => {
       const generation = ++operation.current;
@@ -162,7 +166,9 @@ export function CanvasEditor({
           if (discard) retire(stored);
         } else if ((event?.id ?? null) !== base)
           setError(
-            "Canvas changed since this draft began. Your draft is kept. Copy any edits you want to keep before reloading the saved Canvas.",
+            i18n._(
+              msg`Canvas changed since this draft began. Your draft is kept. Copy any edits you want to keep before reloading the saved Canvas.`,
+            ),
           );
       } catch (reason) {
         if (generation === operation.current) {
@@ -222,7 +228,9 @@ export function CanvasEditor({
       setHead(event);
       if (dirty) {
         setError(
-          "Canvas was restored. Your unsaved draft is kept. Copy any edits you want to keep before reloading the saved Canvas.",
+          i18n._(
+            msg`Canvas was restored. Your unsaved draft is kept. Copy any edits you want to keep before reloading the saved Canvas.`,
+          ),
         );
       } else {
         setDraft(event.content);
@@ -292,7 +300,7 @@ export function CanvasEditor({
               else setConfirmReload(true);
             }}
           >
-            {loaded ? "Reload saved Canvas" : "Retry loading"}
+            {loaded ? t`Reload saved Canvas` : t`Retry loading`}
           </Button>
         )}
         <Button
@@ -306,17 +314,17 @@ export function CanvasEditor({
           }
           onClick={() => void save()}
         >
-          Save Canvas
+          {t`Save Canvas`}
         </Button>
       </>
     ) : undefined;
   const body = (
     <>
       <div className={`${styles.stack} ${panelStyles.views}`}>
-        {readOnly && <p role="status">Canvas is read-only.</p>}
+        {readOnly && <p role="status">{t`Canvas is read-only.`}</p>}
         <Tabs
           variant="panel"
-          label="Canvas views"
+          label={t`Canvas views`}
           value={tab}
           onValueChange={(next) => {
             // History stays mounted while a read or write it started settles.
@@ -324,11 +332,11 @@ export function CanvasEditor({
               setTab(next);
           }}
           items={[
-            { value: "view", label: "View", panelId: `${panelId}-view` },
-            { value: "edit", label: "Edit", panelId: `${panelId}-edit` },
+            { value: "view", label: t`View`, panelId: `${panelId}-view` },
+            { value: "edit", label: t`Edit`, panelId: `${panelId}-edit` },
             {
               value: "history",
-              label: "History",
+              label: t`History`,
               panelId: `${panelId}-history`,
             },
           ]}
@@ -361,20 +369,18 @@ export function CanvasEditor({
         >
           <div className={styles.stack}>
             <p className="text-secondary">
-              Shared Markdown for this channel. Saves and restores check the
-              loaded revision on supporting relays.
+              {t`Shared Markdown for this channel. Saves and restores check the loaded revision on supporting relays.`}
             </p>
             {readOnly && loaded && dirty && (
               <p role="status">
-                Showing your unsaved local draft. Open History to view saved
-                versions.
+                {t`Showing your unsaved local draft. Open History to view saved versions.`}
               </p>
             )}
             <Textarea
               ref={editor}
               data-tab-focus
               readOnly={readOnly || busy}
-              aria-label="Canvas Markdown"
+              aria-label={t`Canvas Markdown`}
               variant="code"
               rows={16}
               value={draft}
@@ -428,11 +434,11 @@ export function CanvasEditor({
         initialFocus={cancelReload}
         // A reload that lands before this closes has removed its button.
         finalFocus={() => recovery.current ?? editor.current}
-        title="Reload saved Canvas?"
+        title={t`Reload saved Canvas?`}
         actions={
           <>
             <Button ref={cancelReload} onClick={() => setConfirmReload(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="destructive"
@@ -441,19 +447,19 @@ export function CanvasEditor({
                 recover(true);
               }}
             >
-              Discard and reload
+              {t`Discard and reload`}
             </Button>
           </>
         }
       >
-        Discard your draft and reload the saved Canvas?
+        {t`Discard your draft and reload the saved Canvas?`}
       </Dialog>
     </>
   );
   return (
     <section
       className={panelStyles.panel}
-      aria-label="Channel Canvas"
+      aria-label={t`Channel Canvas`}
       aria-busy={busy}
       onKeyDown={(event) => {
         if (event.key === "Escape" && busy) event.stopPropagation();
