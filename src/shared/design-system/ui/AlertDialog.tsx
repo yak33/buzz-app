@@ -7,6 +7,8 @@ import { useState, type ComponentProps, type ReactNode } from "react";
 /** Confirmations keep alert-dialog semantics and focus behavior owned by Base UI. */
 export function AlertDialog({
   title,
+  lang,
+  closeLabel = "Close",
   description,
   children,
   actions,
@@ -16,6 +18,9 @@ export function AlertDialog({
   initialFocus,
 }: {
   title: ReactNode;
+  /** Language of this confirmation and its portaled controls. */
+  lang?: string;
+  closeLabel?: string;
   description: ReactNode;
   children?: ReactNode;
   actions: ReactNode;
@@ -49,6 +54,7 @@ export function AlertDialog({
           data-motion="default"
         />
         <BaseAlertDialog.Popup
+          lang={lang}
           data-buzz-ui=""
           className="buzz-dialog gap-0"
           data-size="compact"
@@ -71,7 +77,7 @@ export function AlertDialog({
             <BaseAlertDialog.Close
               render={
                 <IconButton
-                  aria-label="Close"
+                  aria-label={closeLabel}
                   tabIndex={
                     initialFocus === undefined && !focusEntered ? -1 : 0
                   }

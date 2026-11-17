@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { Conversation } from "../../features/conversation/service";
 import { prepareSoloMove } from "../../features/channel-navigation/solo-navigation";
 import { useSoloNavigation } from "../../features/channel-navigation/solo-navigation-react";
@@ -105,6 +106,7 @@ export function SoloToolbar({
   onMove,
   membershipInHeader = false,
 }: SoloToolbarProps & { membershipInHeader?: boolean }) {
+  const { t, i18n } = useLingui();
   const menus = useSyncExternalStore(
     chatMenus?.subscribe ?? noSubscription,
     () => chatMenus?.snapshot(),
@@ -137,18 +139,18 @@ export function SoloToolbar({
           shape="capsule"
           onClick={() => soloNavigationFor(session)?.reveal(channel.id)}
         >
-          In {region.title}
+          {t`In ${region.title}`}
         </Button>
       )}
       {channel.archived ? (
-        <span>Archived</span>
+        <span>{t`Archived`}</span>
       ) : (
         <>
           {!membershipInHeader && (
             <ChannelMembersButton
               session={session}
               channelId={channel.id}
-              label="Share access"
+              label={t`Share access`}
               owner={owner}
               navigator={navigator}
               signal={signal}
@@ -166,20 +168,24 @@ export function SoloToolbar({
                 hint="familiar"
                 ref={actionsTrigger}
                 size="toolbar"
-                aria-label="Chat actions"
-                title="Chat actions"
+                aria-label={t`Chat actions`}
+                title={t`Chat actions`}
                 icon={<DotsThreeIcon size="1rem" aria-hidden="true" />}
               />
             }
           />
-          <MenuPopup aria-label="Chat actions" align="end">
+          <MenuPopup
+            lang={i18n.locale}
+            aria-label={t`Chat actions`}
+            align="end"
+          >
             {onOpen && (
               <>
                 <MenuItem onClick={onOpen}>
                   <MenuIcon>
                     <ArrowSquareOutIcon size={14} />
                   </MenuIcon>
-                  Open in main view
+                  {t`Open in main view`}
                 </MenuItem>
                 <MenuSeparator />
               </>
@@ -252,7 +258,8 @@ export function SoloToolbar({
       )}
       {readError && (
         <ToastNotice
-          title="Read state couldn’t be saved"
+          lang={i18n.locale}
+          title={t`Read state couldn’t be saved`}
           description={readError}
           onDismiss={() => setReadError(undefined)}
         />

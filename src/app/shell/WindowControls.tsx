@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -21,6 +22,7 @@ export function hasIntegratedWindowControls() {
 
 /** App-owned chrome shared by the shell and pre-identity screen. */
 export function WindowControls() {
+  const { t, i18n } = useLingui();
   const [error, setError] = useState<string>();
   if (!hasIntegratedWindowControls()) return null;
   const run = async (action: () => Promise<void>) => {
@@ -28,13 +30,14 @@ export function WindowControls() {
     try {
       await action();
     } catch {
-      setError("Window action failed. Try again.");
+      setError(t`Window action failed. Try again.`);
     }
   };
   return (
     <fieldset
+      lang={i18n.locale}
       className="flex shrink-0 items-center gap-1"
-      aria-label="Window controls"
+      aria-label={t`Window controls`}
     >
       {error && (
         <span role="alert" className="text-body-sm">
@@ -44,8 +47,8 @@ export function WindowControls() {
       {window.__BUZZ_WINDOW_CONTROLS__?.minimize !== false && (
         <IconButton
           hint="familiar"
-          aria-label="Minimize window"
-          title="Minimize window"
+          aria-label={t`Minimize window`}
+          title={t`Minimize window`}
           size="toolbar"
           icon={<MinusIcon size={16} />}
           onClick={() => void run(() => getCurrentWindow().minimize())}
@@ -54,8 +57,8 @@ export function WindowControls() {
       {window.__BUZZ_WINDOW_CONTROLS__?.maximize !== false && (
         <IconButton
           hint="familiar"
-          aria-label="Maximize or restore window"
-          title="Maximize or restore window"
+          aria-label={t`Maximize or restore window`}
+          title={t`Maximize or restore window`}
           size="toolbar"
           icon={<ArrowsOutIcon size={16} />}
           onClick={() => void run(() => getCurrentWindow().toggleMaximize())}
@@ -63,8 +66,8 @@ export function WindowControls() {
       )}
       <IconButton
         hint="familiar"
-        aria-label="Close window"
-        title="Close window"
+        aria-label={t`Close window`}
+        title={t`Close window`}
         size="toolbar"
         icon={<XIcon size={16} />}
         onClick={() => void run(() => getCurrentWindow().close())}

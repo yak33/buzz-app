@@ -1,3 +1,6 @@
+import type { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { i18n as defaultI18n } from "../features/localization/service";
 // One Settings section policy for the standalone and shell presentations and
 // route classification. Visibility and authorization stay with settingsCards.
 import { isTauri } from "@tauri-apps/api/core";
@@ -17,6 +20,7 @@ import {
   UsersIcon,
   WrenchIcon,
   GearIcon,
+  GlobeIcon,
   LockIcon,
 } from "../shared/design-system/icons/index";
 import type { SettingsCard } from "../features/settings/service";
@@ -30,58 +34,65 @@ type Community = {
 export type SettingsSection = {
   id: string;
   label: string;
+  lang?: string;
   /** Contributed groups leave the icon to each presentation. */
   icon?: typeof UserIcon;
 };
 export type SettingsGroup = {
   id: string;
   label: string;
+  lang?: string;
   sections: readonly SettingsSection[];
 };
 
 export { developerMode };
 
-const profile: SettingsSection = {
+type BuiltInSection = Omit<SettingsSection, "label"> & {
+  label: MessageDescriptor;
+};
+
+const profile: BuiltInSection = {
   id: "profile",
-  label: "Profile",
+  label: msg`Profile`,
   icon: UserIcon,
 };
-const app: readonly SettingsSection[] = [
-  { id: "appearance", label: "Appearance", icon: PaletteIcon },
-  { id: "notifications", label: "Notifications", icon: BellIcon },
-  { id: "shortcuts", label: "Shortcuts", icon: KeyboardIcon },
-  { id: "agents", label: "Agent setup", icon: RobotIcon },
-  { id: "decisions", label: "Decisions API", icon: BrainIcon },
-  { id: "updates", label: "Software updates", icon: DownloadIcon },
+const app: readonly BuiltInSection[] = [
+  { id: "appearance", label: msg`Appearance`, icon: PaletteIcon },
+  { id: "language", label: msg`Language`, icon: GlobeIcon },
+  { id: "notifications", label: msg`Notifications`, icon: BellIcon },
+  { id: "shortcuts", label: msg`Shortcuts`, icon: KeyboardIcon },
+  { id: "agents", label: msg`Agent setup`, icon: RobotIcon },
+  { id: "decisions", label: msg`Decisions API`, icon: BrainIcon },
+  { id: "updates", label: msg`Software updates`, icon: DownloadIcon },
 ];
-const plugins: SettingsSection = {
+const plugins: BuiltInSection = {
   id: "plugins",
-  label: "Manage plugins",
+  label: msg`Manage plugins`,
   icon: SquaresFourIcon,
 };
-const developer: SettingsSection = {
+const developer: BuiltInSection = {
   id: "developer",
-  label: "Developer",
+  label: msg`Developer`,
   icon: WrenchIcon,
 };
-const departure: SettingsSection = {
+const departure: BuiltInSection = {
   id: "leave-community",
-  label: "Leave or remove",
+  label: msg`Leave or remove`,
   icon: SignOutIcon,
 };
-const identity: SettingsSection = {
+const identity: BuiltInSection = {
   id: "identity",
-  label: "Identity",
+  label: msg`Identity`,
   icon: ShieldIcon,
 };
-const security: SettingsSection = {
+const security: BuiltInSection = {
   id: "security",
-  label: "Security",
+  label: msg`Security`,
   icon: LockIcon,
 };
-const local: SettingsSection = {
+const local: BuiltInSection = {
   id: "local-settings",
-  label: "Local settings",
+  label: msg`Local settings`,
   icon: GearIcon,
 };
 // Keep frequent destinations first, regardless of plugin activation order.
@@ -109,7 +120,13 @@ export const isBuiltInSettingsSection = (id: string) => builtIn.has(id);
 export function settingsSections(
   cards: readonly Contribution<SettingsCard>[],
   community: Community | undefined,
+  i18n: Pick<I18n, "_" | "locale"> = defaultI18n,
 ) {
+  const label = (item: BuiltInSection): SettingsSection => ({
+    ...item,
+    label: i18n._(item.label),
+    lang: i18n.locale,
+  });
   const section = (
     card: Contribution<SettingsCard>,
     icon?: typeof UserIcon,
@@ -131,10 +148,11 @@ export function settingsSections(
       ? [
           {
             id: "community",
-            label: "Community",
+            label: i18n._(msg`Community`),
+            lang: i18n.locale,
             sections: [
-              profile,
-              local,
+              label(profile),
+              label(local),
               ...[
                 ...cards
                   .filter((card) => !card.group && !card.section)
@@ -143,7 +161,7 @@ export function settingsSections(
                 (a, b) =>
                   (communityOrder[a.id] ?? 2) - (communityOrder[b.id] ?? 2),
               ),
-              departure,
+              label(departure),
             ],
           },
         ]
@@ -152,9 +170,10 @@ export function settingsSections(
           // cards that supply their own address, such as Pair mobile.
           {
             id: "personal",
-            label: "Personal space",
+            label: i18n._(msg`Personal space`),
+            lang: i18n.locale,
             sections: [
-              profile,
+              label(profile),
               ...cards
                 .filter((card) => card.personal && !card.group && !card.section)
                 .map((card) => section(card, ChatCircleIcon)),
@@ -165,7 +184,8 @@ export function settingsSections(
       ? [
           {
             id: "administration",
-            label: "Community admin",
+            label: i18n._(msg`Community admin`),
+            lang: i18n.locale,
             sections: administration,
           },
         ]
@@ -174,22 +194,23 @@ export function settingsSections(
       id: "app",
       label: "Buzz",
       sections: [
-        identity,
+        label(identity),
         // Paired command-line tools exist only in the desktop app.
-        ...(isTauri() ? [security] : []),
-        ...app.filter((item) => item.id !== "updates"),
+        ...(isTauri() ? [label(security)] : []),
+        ...app.filter((item) => item.id !== "updates").map(label),
         ...cards
           .filter((card) => card.group === "App")
           .map((card) => section(card)),
-        ...app.filter((item) => item.id === "updates"),
-        ...(developerMode ? [developer] : []),
+        ...app.filter((item) => item.id === "updates").map(label),
+        ...(developerMode ? [label(developer)] : []),
       ],
     },
     {
       id: "plugins",
-      label: "Plugins",
+      label: i18n._(msg`Plugins`),
+      lang: i18n.locale,
       sections: [
-        plugins,
+        label(plugins),
         ...cards
           .filter((card) => card.group === "Plugins")
           .map((card) => section(card))

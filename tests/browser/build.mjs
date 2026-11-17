@@ -1,3 +1,4 @@
+import { localizationPlugin } from "../../scripts/localization-plugin.ts";
 import { fixtureAliases } from "../relay-config.ts";
 import { build } from "./vite-server.mjs";
 import react from "@vitejs/plugin-react";
@@ -38,6 +39,7 @@ export async function buildApp(
       logLevel: "error",
       plugins: [
         react(),
+        localizationPlugin(),
         ...(pairingFixture
           ? [
               {

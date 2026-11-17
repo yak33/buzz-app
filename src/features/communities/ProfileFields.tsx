@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState, type Ref } from "react";
 import { Field } from "../../shared/design-system/ui/Field";
 import { Input } from "../../shared/design-system/ui/Input";
@@ -58,32 +59,36 @@ export function ProfileFields({
       }
     | undefined;
 }) {
+  const { t, i18n } = useLingui();
+  const aboutLength = profile.about?.length ?? 0;
   // A simplified form must still let people repair an invalid saved description.
   const [repairAbout] = useState(
     () => (profile.about?.length ?? 0) > PROFILE_ABOUT_MAX_LENGTH,
   );
   return (
-    <div className="grid gap-4">
+    <div lang={i18n.locale} className="grid gap-4">
       {showAvatar && (
-        <AvatarEditor
-          personal
-          emptyStyle={emptyAvatarStyle}
-          value={profile.picture}
-          name={profile.name}
-          community={community}
-          disabled={disabled}
-          onBusyChange={onBusyChange}
-          onChange={(picture) => onChange({ ...profile, picture })}
-        />
+        <div lang="en">
+          <AvatarEditor
+            personal
+            emptyStyle={emptyAvatarStyle}
+            value={profile.picture}
+            name={profile.name}
+            community={community}
+            disabled={disabled}
+            onBusyChange={onBusyChange}
+            onChange={(picture) => onChange({ ...profile, picture })}
+          />
+        </div>
       )}
       <Field
-        label="Display name"
+        label={t`Display name`}
         description={
           verifiedName
             ? `${
                 verifiedName.status === "checked"
-                  ? `Name verified by ${verifiedName.issuerLabel}`
-                  : `Cached verification from ${verifiedName.issuerLabel}`
+                  ? t`Name verified by ${verifiedName.issuerLabel}`
+                  : t`Cached verification from ${verifiedName.issuerLabel}`
               }${
                 verifiedName.username &&
                 verifiedName.username !== verifiedName.name
@@ -94,6 +99,7 @@ export function ProfileFields({
         }
       >
         <Input
+          lang=""
           ref={nameRef}
           autoComplete="nickname"
           spellCheck={false}
@@ -110,15 +116,16 @@ export function ProfileFields({
       </Field>
       {(showAbout || repairAbout) && (
         <Field
-          label="Profile description (optional)"
-          description={`${profile.about?.length ?? 0} of ${PROFILE_ABOUT_MAX_LENGTH} characters`}
+          label={t`Profile description (optional)`}
+          description={t`${aboutLength} of ${PROFILE_ABOUT_MAX_LENGTH} characters`}
           error={
             (profile.about?.length ?? 0) > PROFILE_ABOUT_MAX_LENGTH
-              ? `Shorten the description to ${PROFILE_ABOUT_MAX_LENGTH} characters before saving.`
+              ? t`Shorten the description to ${PROFILE_ABOUT_MAX_LENGTH} characters before saving.`
               : undefined
           }
         >
           <Textarea
+            lang=""
             rows={3}
             disabled={disabled}
             value={profile.about ?? ""}

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import type { RelaySession } from "../../features/relay/session";
@@ -80,6 +81,7 @@ export function PageTabs({
   HostProps & {
     workspace?: ConversationWorkspaceProps;
   }) {
+  const { t, i18n } = useLingui();
   const tabState = useChannelTabState(session, undefined, `page:${id}`);
   const list = useChannelList(session.channels);
   const { channels, profiles } = useChannelLabels(
@@ -411,8 +413,8 @@ export function PageTabs({
       ref={ref}
       data-tab-pane-toggle=""
       size="toolbar"
-      aria-label="Toggle tab pane"
-      title={showingPanel ? "Close tab pane" : "Open tab pane"}
+      aria-label={t`Toggle tab pane`}
+      title={showingPanel ? t`Close tab pane` : t`Open tab pane`}
       aria-expanded={showingPanel}
       onClick={onClick}
       icon={<SidebarRightIcon size="1rem" aria-hidden="true" />}
@@ -482,15 +484,15 @@ export function PageTabs({
                           <IconButton
                             hint="familiar"
                             size="sm"
-                            aria-label="Conversation actions"
-                            title="Conversation actions"
+                            aria-label={t`Conversation actions`}
+                            title={t`Conversation actions`}
                             icon={
                               <DotsThreeIcon size="1rem" aria-hidden="true" />
                             }
                           />
                         }
                       />
-                      <MenuPopup align="end">
+                      <MenuPopup lang={i18n.locale} align="end">
                         {workspace.actions.map((action) => (
                           <MenuItem
                             key={action.label}
@@ -542,9 +544,10 @@ export function PageTabs({
                             close={() => {}}
                           />
                         ) : (
-                          <p role="status" className={styles.empty}>
-                            This conversation is no longer available.
-                          </p>
+                          <p
+                            role="status"
+                            className={styles.empty}
+                          >{t`This conversation is no longer available.`}</p>
                         )}
                       </div>
                     </div>

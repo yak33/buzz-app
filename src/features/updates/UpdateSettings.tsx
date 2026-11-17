@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { getVersion } from "@tauri-apps/api/app";
 import { isTauri } from "@tauri-apps/api/core";
@@ -14,6 +15,7 @@ export function UpdateSettings({
   updates: Updates;
   active: boolean;
 }) {
+  const { t, i18n } = useLingui();
   const status = useSyncExternalStore(
     updates.subscribe,
     updates.snapshot,
@@ -44,35 +46,34 @@ export function UpdateSettings({
     "installing",
   ].includes(status.state);
   const messages = {
-    idle: "Check if a new version is available.",
-    checking: "Checking for updates…",
-    "up-to-date": "You're on the latest version.",
-    unavailable:
-      "Automatic updates aren't available on this build. Download the latest release manually.",
-    available: "Preparing update…",
-    downloading: "Downloading update…",
-    installing: "Installing update…",
-    ready: "Ready to install. Buzz will restart.",
+    idle: t`Check if a new version is available.`,
+    checking: t`Checking for updates…`,
+    "up-to-date": t`You're on the latest version.`,
+    unavailable: t`Automatic updates aren't available on this build. Download the latest release manually.`,
+    available: t`Preparing update…`,
+    downloading: t`Downloading update…`,
+    installing: t`Installing update…`,
+    ready: t`Ready to install. Buzz will restart.`,
     error: "",
   };
   const label =
     status.state === "ready" || status.state === "installing"
-      ? "Update now"
+      ? t`Update now`
       : status.state === "error"
-        ? "Retry"
+        ? t`Retry`
         : status.state === "up-to-date" || status.state === "unavailable"
-          ? "Check again"
-          : "Check for updates";
+          ? t`Check again`
+          : t`Check for updates`;
   return (
-    <section aria-labelledby="update-settings-title">
-      <Header id="update-settings-title" title="Software updates" />
+    <section lang={i18n.locale} aria-labelledby="update-settings-title">
+      <Header id="update-settings-title" title={t`Software updates`} />
       <EmptyState
         icon={<ArrowsClockwiseIcon />}
-        title={version ? `Version ${version}` : "Update status"}
+        title={version ? t`Version ${version}` : t`Update status`}
         description={
           <span role="status">
             {status.state === "error" ? (
-              <span className="error">Update failed: {status.message}</span>
+              <span className="error">{t`Update failed: ${status.message}`}</span>
             ) : (
               messages[status.state]
             )}

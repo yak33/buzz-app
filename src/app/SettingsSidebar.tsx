@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { SidebarNavigation } from "../shared/design-system/ui/SidebarNavigation";
 import { CommunityAddress } from "./CommunityAddress";
 import { useMemo, useSyncExternalStore } from "react";
@@ -23,6 +24,8 @@ export function SettingsSidebar({
   recommendations?: number;
   onSection: (section: string) => void;
 }) {
+  const { i18n } = useLingui();
+  const lang = i18n.locale;
   const contributed = useSyncExternalStore(cards.subscribe, cards.snapshot);
   const client = useSyncExternalStore(
     communities.subscribe,
@@ -31,19 +34,22 @@ export function SettingsSidebar({
   const selectedCommunity = client.memberships.find(
     (membership) => membership.id === client.selected,
   );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: The Lingui instance is stable; the locale invalidates translated labels.
   const { groups, defaultSection } = useMemo(
-    () => settingsSections(contributed, selectedCommunity),
-    [contributed, selectedCommunity],
+    () => settingsSections(contributed, selectedCommunity, i18n),
+    [contributed, selectedCommunity, i18n, lang],
   );
   const current = selected ?? defaultSection;
   const section = ({
     id,
     label,
+    lang,
     icon: Icon = ChatCircleIcon,
   }: SettingsSection) => (
     <NavigationItem
       key={id}
       label={label}
+      lang={lang ?? "en"}
       icon={<Icon aria-hidden="true" size={18} />}
       selected={current === id}
       {...(id === "plugins" && recommendations > 0
@@ -65,7 +71,11 @@ export function SettingsSidebar({
         </NavigationSection>
       )}
       {groups.map((group) => (
-        <NavigationSection key={group.id} label={group.label}>
+        <NavigationSection
+          key={group.id}
+          label={group.label}
+          lang={group.lang ?? "en"}
+        >
           {group.sections.map(section)}
         </NavigationSection>
       ))}

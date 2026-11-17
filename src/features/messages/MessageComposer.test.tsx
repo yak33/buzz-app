@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { localization } from "../localization/service";
 import { MESSAGE_TOKENS_TAG, signedMessageTokenTags } from "./message-tokens";
 import { Context } from "@deepseek-ai/cordis";
 import { PluginRuntime } from "../../plugins/runtime";
@@ -16654,4 +16655,33 @@ it("shows an annotator's marks in the composer and retires them with the destina
   await waitFor(() =>
     expect(h.input().querySelector('[aria-invalid="spelling"]')).toBeNull(),
   );
+});
+
+it("preserves editor node, caret and draft while changing the interface language", async () => {
+  const h = mount();
+  h.fill("中文 draft unchanged");
+  const editor = h.input();
+  act(() => editor.setSelectionRange(2, 7));
+  try {
+    await act(async () => {
+      localization.setLocale("zh-CN");
+    });
+    expect(screen.getByRole("textbox", { name: "发送消息到 #General" })).toBe(
+      editor,
+    );
+    expect(editor).toHaveValue("中文 draft unchanged");
+    expect([editor.selectionStart, editor.selectionEnd]).toEqual([2, 7]);
+    expect(h.messages.send).not.toHaveBeenCalled();
+    await act(async () => {
+      localization.setLocale("en-US");
+    });
+    expect(screen.getByRole("textbox", { name: "Message #General" })).toBe(
+      editor,
+    );
+    expect(editor).toHaveValue("中文 draft unchanged");
+    expect([editor.selectionStart, editor.selectionEnd]).toEqual([2, 7]);
+  } finally {
+    cleanup();
+    localization.setLocale("en-US");
+  }
 });

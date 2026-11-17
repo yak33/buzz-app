@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useId, useRef, useState, type RefObject } from "react";
 import { Dialog, type DialogProps } from "../../shared/design-system/ui/Dialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -19,6 +20,7 @@ export function ComposerLinkDialog({
   disabled: boolean;
   close(): void;
 }) {
+  const { t, i18n } = useLingui();
   const formId = useId();
   const textInput = useRef<HTMLInputElement>(null);
   const urlInput = useRef<HTMLInputElement>(null);
@@ -29,16 +31,16 @@ export function ComposerLinkDialog({
     if (disabled) return;
     const href = composerLinkUrl(url);
     if (!href) {
-      setError("Use an HTTP(S) URL or a valid buzz:// link.");
+      setError(t`Use an HTTP(S) URL or a valid buzz:// link.`);
       return;
     }
     if (/[\r\n]/.test(text)) {
-      setError("Link text must stay on one line.");
+      setError(t`Link text must stay on one line.`);
       return;
     }
     if (!edit.save(text, href)) {
       setError(
-        "The draft changed or this link exceeds the message limit. Close and try again.",
+        t`The draft changed or this link exceeds the message limit. Close and try again.`,
       );
       return;
     }
@@ -46,13 +48,15 @@ export function ComposerLinkDialog({
   };
   return (
     <Dialog
+      lang={i18n.locale}
+      closeLabel={t`Close`}
       size="compact"
       open
       dismissOnOutsideClick={false}
       onOpenChange={(open) => {
         if (!open) close();
       }}
-      title={edit.existing ? "Edit link" : "Add link"}
+      title={edit.existing ? t`Edit link` : t`Add link`}
       initialFocus={edit.text ? urlInput : textInput}
       finalFocus={finalFocus}
       actions={
@@ -62,21 +66,17 @@ export function ComposerLinkDialog({
               disabled={disabled}
               onClick={() => {
                 if (edit.remove()) close();
-                else setError("The draft changed. Close and try again.");
+                else setError(t`The draft changed. Close and try again.`);
               }}
-            >
-              Remove link
-            </Button>
+            >{t`Remove link`}</Button>
           )}
-          <Button onClick={close}>Cancel</Button>
+          <Button onClick={close}>{t`Cancel`}</Button>
           <Button
             variant="prominent"
             type="submit"
             form={formId}
             disabled={disabled || !url.trim()}
-          >
-            Save
-          </Button>
+          >{t`Save`}</Button>
         </>
       }
     >
@@ -89,8 +89,9 @@ export function ComposerLinkDialog({
           save();
         }}
       >
-        <Field label="Text">
+        <Field label={t`Text`}>
           <Input
+            lang=""
             ref={textInput}
             value={text}
             onValueChange={setText}

@@ -1,3 +1,4 @@
+import { localizationPlugin } from "../../scripts/localization-plugin.ts";
 import react from "@vitejs/plugin-react";
 import {
   build as viteBuild,
@@ -48,6 +49,7 @@ function fixtureConfig({ plugins = [], optimizeDeps: custom, css, ...config }) {
     root,
     plugins: [
       ...(framework.length ? framework : react()),
+      localizationPlugin(),
       fixturePlugin(flat.filter((plugin) => !isReact(plugin))),
     ],
     optimizeDeps: fixtureOptimizeDeps,
@@ -160,7 +162,7 @@ export async function previewFixtures(pages) {
       configFile: false,
       envDir: false,
       logLevel: "error",
-      plugins: [react()],
+      plugins: [react(), localizationPlugin()],
       define: {
         "import.meta.env.DEV": "true",
         "process.env.NODE_ENV": '"development"',

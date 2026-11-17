@@ -2,10 +2,13 @@ import type { ReactNode } from "react";
 
 export function NavigationSection({
   label,
+  lang,
   action,
   children,
 }: {
   label?: string;
+  /** Language of the heading; contributed content keeps its own metadata. */
+  lang?: string | undefined;
   action?: ReactNode;
   children: ReactNode;
 }) {
@@ -17,7 +20,11 @@ export function NavigationSection({
     >
       {(label || action) && (
         <NavigationSectionHeading actions={action}>
-          {label && <h2 className="navigation-section-label">{label}</h2>}
+          {label && (
+            <h2 lang={lang} className="navigation-section-label">
+              {label}
+            </h2>
+          )}
         </NavigationSectionHeading>
       )}
       <div className="navigation-section-rows">{children}</div>

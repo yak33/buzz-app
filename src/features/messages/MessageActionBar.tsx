@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useConversationPresentation } from "../conversation/ConversationPresentation";
 import {
   cloneElement,
@@ -162,6 +163,7 @@ export function MessageActionBar(props: Props) {
 }
 
 function ActiveMessageActionBar(props: Props) {
+  const { t, i18n } = useLingui();
   const ready = useMessageActionBarReady(props.rowRef);
   return ready ? (
     <MessageActionBarControls {...props} />
@@ -170,8 +172,9 @@ function ActiveMessageActionBar(props: Props) {
       {/* biome-ignore lint/a11y/useSemanticElements: This groups message actions, not form fields. */}
       <div
         className={styles.messageActions}
+        lang={i18n.locale}
         role="group"
-        aria-label="Message actions"
+        aria-label={t`Message actions`}
       />
     </div>
   );
@@ -198,6 +201,7 @@ function MessageActionBarControls({
   /** A list's menu: selects the row under a press and releases it on close. */
   host?: { select: (element: Element) => boolean; release: () => void };
 }) {
+  const { t, i18n } = useLingui();
   const active = useConversationPresentation();
   const [open, setOpen] = useState(false);
   // A hidden conversation, or a list's removed row, retires its open menu.
@@ -241,10 +245,10 @@ function MessageActionBarControls({
     setNotice(undefined);
     try {
       await writeClipboardText(text());
-      setNotice({ text: `${label} copied`, error: false });
+      setNotice({ text: t`${label} copied`, error: false });
     } catch {
       setNotice({
-        text: "Couldn’t copy. Try again from the message menu.",
+        text: t`Couldn’t copy. Try again from the message menu.`,
         error: true,
       });
     } finally {
@@ -254,6 +258,7 @@ function MessageActionBarControls({
   };
   const popup = (
     <MenuPopup
+      lang={i18n.locale}
       align={children ? "start" : "end"}
       anchor={contextAnchor}
       data-message-id={messageId}
@@ -278,25 +283,25 @@ function MessageActionBarControls({
         {leadingItems}
         <MenuItem
           disabled={copying}
-          onClick={() => void copy(copyText, "Message")}
+          onClick={() => void copy(copyText, t`Message`)}
         >
           <MenuIcon>
             <CopyIcon />
           </MenuIcon>
-          Copy message
+          {t`Copy message`}
         </MenuItem>
         {onSendToChannel && (
           <MenuItem
             onClick={() => {
               try {
                 onSendToChannel();
-                setNotice({ text: "Sending to channel", error: false });
+                setNotice({ text: t`Sending to channel`, error: false });
               } catch (error) {
                 setNotice({
                   text:
                     error instanceof Error
                       ? error.message
-                      : "Couldn’t send to channel",
+                      : t`Couldn’t send to channel`,
                   error: true,
                 });
               }
@@ -305,7 +310,7 @@ function MessageActionBarControls({
             <MenuIcon>
               <HashArrowInIcon />
             </MenuIcon>
-            Send to channel
+            {t`Send to channel`}
           </MenuItem>
         )}
         {children && onReply && (
@@ -319,24 +324,24 @@ function MessageActionBarControls({
             <MenuIcon>
               <MessageReplyIcon />
             </MenuIcon>
-            Reply
+            {t`Reply`}
           </MenuItem>
         )}
         <MenuItem
           disabled={!link || copying}
           onClick={() => {
-            if (link) void copy(() => link, "Link");
+            if (link) void copy(() => link, t`Link`);
           }}
         >
           <MenuIcon>
             <LinkIcon />
           </MenuIcon>
-          Copy link
+          {t`Copy link`}
         </MenuItem>
         {onForward && (
           <MenuItem
             disabled={!link}
-            title={!link ? "Message link unavailable" : undefined}
+            title={!link ? t`Message link unavailable` : undefined}
             onClick={() => {
               setHandingOffFocus(true);
               // Forward returns focus to what is focused when it opens. So
@@ -353,7 +358,7 @@ function MessageActionBarControls({
             <MenuIcon>
               <ForwardIcon />
             </MenuIcon>
-            Forward message
+            {t`Forward message`}
           </MenuItem>
         )}
         {overflowItems}
@@ -470,17 +475,20 @@ function MessageActionBarControls({
             data-message-actions=""
             ref={barRef}
             popover={floating ? "manual" : undefined}
+            lang={i18n.locale}
             role="group"
-            aria-label="Message actions"
+            aria-label={t`Message actions`}
           >
             {quickControls}
             {toolbarItems}
             {onReply && (
               <IconButton
                 hint={replyDisabled ? "helpful" : "familiar"}
-                aria-label="Reply"
+                aria-label={t`Reply`}
                 title={
-                  replyDisabled ? "Reply unavailable for this message" : "Reply"
+                  replyDisabled
+                    ? t`Reply unavailable for this message`
+                    : t`Reply`
                 }
                 size="sm"
                 disabled={replyDisabled}
@@ -493,13 +501,13 @@ function MessageActionBarControls({
             )}
             <IconButton
               hint="familiar"
-              aria-label="Copy link"
-              title="Copy link"
+              aria-label={t`Copy link`}
+              title={t`Copy link`}
               size="sm"
               disabled={!link || copying}
               icon={<LinkIcon />}
               onClick={() => {
-                if (link) void copy(() => link, "Link");
+                if (link) void copy(() => link, t`Link`);
               }}
             />
             <MenuRoot
@@ -531,8 +539,8 @@ function MessageActionBarControls({
                   <IconButton
                     hint="familiar"
                     ref={trigger}
-                    aria-label="More message actions"
-                    title="More message actions"
+                    aria-label={t`More message actions`}
+                    title={t`More message actions`}
                     size="sm"
                     icon={<DotsThreeIcon />}
                   />
@@ -545,6 +553,8 @@ function MessageActionBarControls({
       )}
       {notice && (
         <ToastNotice
+          closeLabel={t`Dismiss notification`}
+          lang={i18n.locale}
           title={notice.text}
           tone={notice.error ? "error" : "success"}
           timeout={notice.error ? 0 : 4000}

@@ -1,0 +1,2244 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-14 12:01-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en-US\n"
+
+#. placeholder {0}: recovery.manifest.name
+#: src/app/PluginUpdates.tsx
+msgid "{0} cannot start"
+msgstr "{0} cannot start"
+
+#: src/features/communities/ProfileFields.tsx
+msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
+msgstr "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
+
+#: src/app/AppearanceSettings.tsx
+msgid "{colorLabel} accent color"
+msgstr "{colorLabel} accent color"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "{displayLabel} (preview only)"
+msgstr "{displayLabel} (preview only)"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "{label} copied"
+msgstr "{label} copied"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "{label} date"
+msgstr "{label} date"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "{label} time"
+msgstr "{label} time"
+
+#: src/app/NotificationSettings.tsx
+msgid "{name} rec."
+msgstr "{name} rec."
+
+#: src/app/shell/ProfileButton.tsx
+msgid "{name}, edit profile"
+msgstr "{name}, edit profile"
+
+#: src/app/NotificationSettings.tsx
+msgid "@Mentions"
+msgstr "@Mentions"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "1 hour"
+msgstr "1 hour"
+
+#: src/app/AppearanceSettings.tsx
+msgid "12-hour"
+msgstr "12-hour"
+
+#: src/app/AppearanceSettings.tsx
+msgid "24-hour"
+msgstr "24-hour"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "8 hours"
+msgstr "8 hours"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "A selected recipient is archived or being deleted. Remove it before sending."
+msgstr "A selected recipient is archived or being deleted. Remove it before sending."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "A team member is no longer available. Refresh choices before trying again."
+msgstr "A team member is no longer available. Refresh choices before trying again."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Accent color"
+msgstr "Accent color"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Accent color wasn’t saved"
+msgstr "Accent color wasn’t saved"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Activity"
+msgstr "Activity"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Add link"
+msgstr "Add link"
+
+#: src/app/settings-sections.ts
+msgid "Agent setup"
+msgstr "Agent setup"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Agents"
+msgstr "Agents"
+
+#: src/app/shell/PageSearch.tsx
+msgid "All"
+msgstr "All"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Allow automatic spelling correction"
+msgstr "Allow automatic spelling correction"
+
+#: src/app/NotificationSettings.tsx
+msgid "Allow notifications"
+msgstr "Allow notifications"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Allow notifications and badges"
+msgstr "Allow notifications and badges"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Allow notifications and badges to show the unread dot."
+msgstr "Allow notifications and badges to show the unread dot."
+
+#: src/app/NotificationSettings.tsx
+msgid "Allow notifications to receive alerts."
+msgstr "Allow notifications to receive alerts."
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
+msgstr "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "An agent you're sending to is archived or being deleted. Choose another agent to send."
+msgstr "An agent you're sending to is archived or being deleted. Choose another agent to send."
+
+#: src/app/PluginUpdates.tsx
+msgid "Another plugin review opened. Close it before confirming this update."
+msgstr "Another plugin review opened. Close it before confirming this update."
+
+#: src/app/LanguageSettings.tsx
+msgid "App language"
+msgstr "App language"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/settings-sections.ts
+#: src/app/shell/ProfileButton.tsx
+msgid "Appearance"
+msgstr "Appearance"
+
+#: src/app/AppearancePreview.tsx
+msgid "Appearance preview"
+msgstr "Appearance preview"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Appearance wasn’t saved"
+msgstr "Appearance wasn’t saved"
+
+#: src/app/shell/PageNavigation.tsx
+msgid "Apps"
+msgstr "Apps"
+
+#: src/app/shell/AppShell.tsx
+msgid "Apps dock"
+msgstr "Apps dock"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Archived"
+msgstr "Archived"
+
+#. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Archives after {0} without activity."
+msgstr "Archives after {0} without activity."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Attach at most {MAX_DRAFT_GIFS} GIFs per message."
+msgstr "Attach at most {MAX_DRAFT_GIFS} GIFs per message."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Attach files"
+msgstr "Attach files"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Automatic updates aren't available on this build. Download the latest release manually."
+msgstr "Automatic updates aren't available on this build. Download the latest release manually."
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Availability"
+msgstr "Availability"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Availability: {label}"
+msgstr "Availability: {label}"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Availability: {label}, updating to {targetLabel}"
+msgstr "Availability: {label}, updating to {targetLabel}"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "away"
+msgstr "away"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Away"
+msgstr "Away"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Behavior"
+msgstr "Behavior"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Bold"
+msgstr "Bold"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Bullet list"
+msgstr "Bullet list"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Buzz can show Dock badges."
+msgstr "Buzz can show Dock badges."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
+msgstr "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
+
+#: src/app/NotificationSettings.tsx
+msgid "Buzz couldn’t send the notification"
+msgstr "Buzz couldn’t send the notification"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Buzzin’"
+msgstr "Buzzin’"
+
+#. placeholder {0}: verifiedName.issuerLabel
+#: src/features/communities/ProfileFields.tsx
+msgid "Cached verification from {0}"
+msgstr "Cached verification from {0}"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Can’t connect"
+msgstr "Can’t connect"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/app/CommunityRepositoriesSettings.tsx
+#: src/app/ProfileSettings.tsx
+#: src/features/messages/ComposerLinkDialog.tsx
+#: src/features/messages/MessageManagement.tsx
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Cancel edit"
+msgstr "Cancel edit"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "Channel actions"
+msgstr "Channel actions"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Channel archived: {channelName}"
+msgstr "Channel archived: {channelName}"
+
+#: src/app/shell/PageSearch.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Channels"
+msgstr "Channels"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Chat actions"
+msgstr "Chat actions"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Chat archived: {channelName}"
+msgstr "Chat archived: {channelName}"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
+msgstr "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
+
+#: src/app/PluginUpdates.tsx
+#: src/features/updates/UpdateSettings.tsx
+msgid "Check again"
+msgstr "Check again"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Check Dock permission"
+msgstr "Check Dock permission"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Check for updates"
+msgstr "Check for updates"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Check if a new version is available."
+msgstr "Check if a new version is available."
+
+#: src/app/NotificationSettings.tsx
+msgid "Check permission"
+msgstr "Check permission"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Check your connection, then try again."
+msgstr "Check your connection, then try again."
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Check your connection. We’ll keep trying."
+msgstr "Check your connection. We’ll keep trying."
+
+#: src/app/PluginUpdates.tsx
+msgid "Checking for updates. Try again when the check finishes."
+msgstr "Checking for updates. Try again when the check finishes."
+
+#: src/app/PluginUpdates.tsx
+#: src/features/updates/UpdateSettings.tsx
+msgid "Checking for updates…"
+msgstr "Checking for updates…"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Checking your current status…"
+msgstr "Checking your current status…"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Chillin’"
+msgstr "Chillin’"
+
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Choose a community"
+msgstr "Choose a community"
+
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Choose a community to see its channels, or join one. Your profile and settings work without a community."
+msgstr "Choose a community to see its channels, or join one. Your profile and settings work without a community."
+
+#: src/app/shell/PageSearch.tsx
+msgid "Choose a community to see recent conversations."
+msgstr "Choose a community to see recent conversations."
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Choose a date and time in the future."
+msgstr "Choose a date and time in the future."
+
+#: src/app/NotificationSettings.tsx
+msgid "Choose a sound to preview it."
+msgstr "Choose a sound to preview it."
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Choose a status emoji"
+msgstr "Choose a status emoji"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Choose an agent to send"
+msgstr "Choose an agent to send"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Choose at most 32 recipients"
+msgstr "Choose at most 32 recipients"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Choose attachments"
+msgstr "Choose attachments"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Choose expiration date"
+msgstr "Choose expiration date"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Choose folder…"
+msgstr "Choose folder…"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Choose repositories folder"
+msgstr "Choose repositories folder"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Citrus"
+msgstr "Citrus"
+
+#. placeholder {0}: label.toLowerCase()
+#: src/app/shell/SearchChoices.tsx
+msgid "Clear {0}"
+msgstr "Clear {0}"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Clear status"
+msgstr "Clear status"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Clock"
+msgstr "Clock"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Clock preference wasn’t saved"
+msgstr "Clock preference wasn’t saved"
+
+#: src/app/App.tsx
+#: src/features/messages/ComposerLinkDialog.tsx
+#: src/features/messages/MessageManagement.tsx
+msgid "Close"
+msgstr "Close"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Close edit"
+msgstr "Close edit"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Close formatting"
+msgstr "Close formatting"
+
+#: src/app/App.tsx
+msgid "Close Settings"
+msgstr "Close Settings"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Close status editor"
+msgstr "Close status editor"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Close tab pane"
+msgstr "Close tab pane"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Close window"
+msgstr "Close window"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Cobalt"
+msgstr "Cobalt"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Code"
+msgstr "Code"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Code block"
+msgstr "Code block"
+
+#. placeholder {0}: formatMediaTime(mediaTimeSeconds)
+#: src/features/messages/MessageComposer.tsx
+msgid "Commenting at {0}"
+msgstr "Commenting at {0}"
+
+#: src/app/settings-sections.ts
+msgid "Community"
+msgstr "Community"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Community address"
+msgstr "Community address"
+
+#: src/app/settings-sections.ts
+msgid "Community admin"
+msgstr "Community admin"
+
+#: src/app/ProfileSettings.tsx
+msgid "Community profiles are not available in this build yet."
+msgstr "Community profiles are not available in this build yet."
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Community URL copied."
+msgstr "Community URL copied."
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Commuting"
+msgstr "Commuting"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Compact"
+msgstr "Compact"
+
+#: src/app/AppearancePreview.tsx
+msgid "Compact flat-list messages use the full conversation width."
+msgstr "Compact flat-list messages use the full conversation width."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Compact shows conversations as a flat list that fits more messages on screen."
+msgstr "Compact shows conversations as a flat list that fits more messages on screen."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Compacting session…"
+msgstr "Compacting session…"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Connect to this community to search messages."
+msgstr "Connect to this community to search messages."
+
+#: src/app/shell/PageSearch.tsx
+msgid "Connecting to this community…"
+msgstr "Connecting to this community…"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Conversation actions"
+msgstr "Conversation actions"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Conversations"
+msgstr "Conversations"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Copy link"
+msgstr "Copy link"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Copy message"
+msgstr "Copy message"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Copy text"
+msgstr "Copy text"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Copy URL"
+msgstr "Copy URL"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach {refused} files"
+msgstr "Could not attach {refused} files"
+
+#. placeholder {0}: files.length
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach {refused} of {0} files"
+msgstr "Could not attach {refused} of {0} files"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach file"
+msgstr "Could not attach file"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach files."
+msgstr "Could not attach files."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be confirmed as one person or agent"
+msgstr "could not be confirmed as one person or agent"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be tagged here"
+msgstr "could not be tagged here"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be tagged: a message can tag at most 32 recipients"
+msgstr "could not be tagged: a message can tag at most 32 recipients"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be tagged: the message would be too long"
+msgstr "could not be tagged: the message would be too long"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Could not confirm your status. Try again."
+msgstr "Could not confirm your status. Try again."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not delete this message. Try again."
+msgstr "Could not delete this message. Try again."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not dismiss the operation."
+msgstr "Could not dismiss the operation."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not read saved model and effort for this chat on this device. Retry before sending."
+msgstr "Could not read saved model and effort for this chat on this device. Retry before sending."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not restore unread state."
+msgstr "Could not restore unread state."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not save model and effort for this chat on this device. The current choices remain until this composer closes."
+msgstr "Could not save model and effort for this chat on this device. The current choices remain until this composer closes."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not save this draft on this device. Your edits are kept here."
+msgstr "Could not save this draft on this device. Your edits are kept here."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not save thread follow. Try again."
+msgstr "Could not save thread follow. Try again."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not update unread state. Try again."
+msgstr "Could not update unread state. Try again."
+
+#: src/app/PluginUpdates.tsx
+msgid "Couldn’t check for updates."
+msgstr "Couldn’t check for updates."
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Couldn’t check your latest status. Your draft is unchanged."
+msgstr "Couldn’t check your latest status. Your draft is unchanged."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Couldn’t copy text"
+msgstr "Couldn’t copy text"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Couldn’t copy the URL. Select it and copy manually."
+msgstr "Couldn’t copy the URL. Select it and copy manually."
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Couldn’t copy. Try again from the message menu."
+msgstr "Couldn’t copy. Try again from the message menu."
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Couldn’t read the repositories folder on this device. Try again."
+msgstr "Couldn’t read the repositories folder on this device. Try again."
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Couldn’t save the display name. Try again."
+msgstr "Couldn’t save the display name. Try again."
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Couldn’t save this on this device. Try again."
+msgstr "Couldn’t save this on this device. Try again."
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Couldn’t send to channel"
+msgstr "Couldn’t send to channel"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Create this conversation before attaching files."
+msgstr "Create this conversation before attaching files."
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Custom"
+msgstr "Custom"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Custom date and time"
+msgstr "Custom date and time"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Dark"
+msgstr "Dark"
+
+#: src/app/settings-sections.ts
+msgid "Decisions API"
+msgstr "Decisions API"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Decrease interface size"
+msgstr "Decrease interface size"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Default"
+msgstr "Default"
+
+#: src/app/AppearancePreview.tsx
+msgid "Default bubble messages at {widthLabel} width."
+msgstr "Default bubble messages at {widthLabel} width."
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Default REPOS folder in each agent’s workspace"
+msgstr "Default REPOS folder in each agent’s workspace"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delete"
+msgstr "Delete"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delete message"
+msgstr "Delete message"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delete message?"
+msgstr "Delete message?"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Deleting…"
+msgstr "Deleting…"
+
+#: src/app/NotificationSettings.tsx
+msgid "Delivery"
+msgstr "Delivery"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delivery could not be confirmed."
+msgstr "Delivery could not be confirmed."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delivery could not be confirmed. Retry sends the same operation."
+msgstr "Delivery could not be confirmed. Retry sends the same operation."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Density"
+msgstr "Density"
+
+#: src/app/NotificationSettings.tsx
+msgid "Desktop alerts"
+msgstr "Desktop alerts"
+
+#: src/app/NotificationSettings.tsx
+msgid "Desktop delivery"
+msgstr "Desktop delivery"
+
+#: src/app/PluginUpdates.tsx
+msgid "Details"
+msgstr "Details"
+
+#: src/app/settings-sections.ts
+msgid "Developer"
+msgstr "Developer"
+
+#: src/app/NotificationSettings.tsx
+msgid "Direct messages"
+msgstr "Direct messages"
+
+#: src/app/App.tsx
+msgid "Discard changes"
+msgstr "Discard changes"
+
+#: src/app/App.tsx
+msgid "Discard changes?"
+msgstr "Discard changes?"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Discard failed update"
+msgstr "Discard failed update"
+
+#: src/app/ProfileSettings.tsx
+#: src/features/messages/MessageActionBar.tsx
+#: src/features/messages/MessageComposer.tsx
+msgid "Dismiss notification"
+msgstr "Dismiss notification"
+
+#: src/app/PluginUpdates.tsx
+msgid "Dismiss plugin update notice"
+msgstr "Dismiss plugin update notice"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Dismiss unconfirmed update"
+msgstr "Dismiss unconfirmed update"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/features/communities/ProfileFields.tsx
+msgid "Display name"
+msgstr "Display name"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Display name saved on this device."
+msgstr "Display name saved on this device."
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock badge unavailable"
+msgstr "Dock badge unavailable"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock badges are off. Turn them on in macOS System Settings."
+msgstr "Dock badges are off. Turn them on in macOS System Settings."
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock badges require a bundled macOS app and aren’t available from the development server."
+msgstr "Dock badges require a bundled macOS app and aren’t available from the development server."
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock unread badge"
+msgstr "Dock unread badge"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Don’t clear"
+msgstr "Don’t clear"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Downloading update…"
+msgstr "Downloading update…"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Drafts & sent"
+msgstr "Drafts & sent"
+
+#: src/features/messages/FileDropOverlay.tsx
+msgid "Drop files into this conversation"
+msgstr "Drop files into this conversation"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Duration"
+msgstr "Duration"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Duration: {durationLabel}"
+msgstr "Duration: {durationLabel}"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Edit connection"
+msgstr "Edit connection"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Edit link"
+msgstr "Edit link"
+
+#: src/features/messages/MessageComposer.tsx
+#: src/features/messages/MessageManagement.tsx
+msgid "Edit message"
+msgstr "Edit message"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Editing message"
+msgstr "Editing message"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Enable Messages to see conversations."
+msgstr "Enable Messages to see conversations."
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Expiration time"
+msgstr "Expiration time"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Explicit mentions"
+msgstr "Explicit mentions"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "Finish conversion"
+msgstr "Finish conversion"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Finish editing before attaching new files."
+msgstr "Finish editing before attaching new files."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Finish or cancel your current edit first."
+msgstr "Finish or cancel your current edit first."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Follow thread"
+msgstr "Follow thread"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Follow-up behavior"
+msgstr "Follow-up behavior"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Follow-up preference wasn’t saved"
+msgstr "Follow-up preference wasn’t saved"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Formatting"
+msgstr "Formatting"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Formatting options"
+msgstr "Formatting options"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Forward message"
+msgstr "Forward message"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Full name"
+msgstr "Full name"
+
+#: src/app/App.tsx
+#: src/app/shell/NavigationControls.tsx
+msgid "Go back"
+msgstr "Go back"
+
+#: src/app/shell/NavigationControls.tsx
+msgid "Go forward"
+msgstr "Go forward"
+
+#: src/app/App.tsx
+msgid "Go to Messages"
+msgstr "Go to Messages"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Hidden times stay available to screen readers."
+msgstr "Hidden times stay available to screen readers."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Hide"
+msgstr "Hide"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Hide in Solo chats"
+msgstr "Hide in Solo chats"
+
+#: src/app/shell/AppShell.tsx
+msgid "Hide navigation"
+msgstr "Hide navigation"
+
+#: src/app/shell/AppShell.tsx
+msgid "Hide sidebar"
+msgstr "Hide sidebar"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Honey"
+msgstr "Honey"
+
+#: src/app/AppearanceSettings.tsx
+msgid "How people with verified names appear to you. Search, profiles, and previews show both."
+msgstr "How people with verified names appear to you. Search, profiles, and previews show both."
+
+#: src/app/settings-sections.ts
+msgid "Identity"
+msgstr "Identity"
+
+#: src/app/AppearancePreview.tsx
+msgid "Illustrated preview of your current mode, accent, contrast, and"
+msgstr "Illustrated preview of your current mode, accent, contrast, and"
+
+#. placeholder {0}: region.title
+#: src/bundled/channels/SoloHeading.tsx
+msgid "In {0}"
+msgstr "In {0}"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "In a meeting"
+msgstr "In a meeting"
+
+#: src/app/AppearanceSettings.tsx
+msgid "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
+msgstr "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
+
+#: src/app/NotificationSettings.tsx
+msgid "Include direct messages in the conversation you’re viewing."
+msgstr "Include direct messages in the conversation you’re viewing."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Increase interface size"
+msgstr "Increase interface size"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Installing update…"
+msgstr "Installing update…"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Interface"
+msgstr "Interface"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Interface size"
+msgstr "Interface size"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Interface size wasn’t saved"
+msgstr "Interface size wasn’t saved"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Iris"
+msgstr "Iris"
+
+#: src/app/App.tsx
+msgid "It belongs to another account or a community you haven’t joined."
+msgstr "It belongs to another account or a community you haven’t joined."
+
+#: src/app/App.tsx
+msgid "It didn’t load this time. Try again in a moment."
+msgstr "It didn’t load this time. Try again in a moment."
+
+#: src/app/App.tsx
+msgid "It may be incomplete or out of date. Ask whoever shared it for a new link."
+msgstr "It may be incomplete or out of date. Ask whoever shared it for a new link."
+
+#: src/app/App.tsx
+msgid "It may have been removed, or you may need to update Buzz."
+msgstr "It may have been removed, or you may need to update Buzz."
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Italic"
+msgstr "Italic"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Keep attachment links unchanged. To remove this message, use Delete message."
+msgstr "Keep attachment links unchanged. To remove this message, use Delete message."
+
+#: src/app/App.tsx
+msgid "Keep editing"
+msgstr "Keep editing"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Keep my draft"
+msgstr "Keep my draft"
+
+#: src/app/LanguageSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Language"
+msgstr "Language"
+
+#: src/app/LanguageSettings.tsx
+msgid "Language wasn’t saved"
+msgstr "Language wasn’t saved"
+
+#: src/app/PluginUpdates.tsx
+msgid "Later"
+msgstr "Later"
+
+#: src/app/settings-sections.ts
+msgid "Leave or remove"
+msgstr "Leave or remove"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
+msgstr "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Light"
+msgstr "Light"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+#: src/features/messages/MessageActionBar.tsx
+msgid "Link"
+msgstr "Link"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Link text must stay on one line."
+msgstr "Link text must stay on one line."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Load saved draft"
+msgstr "Load saved draft"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Loading saved model and effort…"
+msgstr "Loading saved model and effort…"
+
+#: src/app/ProfileSettings.tsx
+msgid "Loading your community profile…"
+msgstr "Loading your community profile…"
+
+#. placeholder {0}: communityName(community)
+#: src/app/ProfileSettings.tsx
+msgid "Loading your profile in {0}…"
+msgstr "Loading your profile in {0}…"
+
+#: src/app/App.tsx
+msgid "Loading…"
+msgstr "Loading…"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Local settings"
+msgstr "Local settings"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Magenta"
+msgstr "Magenta"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Main pane"
+msgstr "Main pane"
+
+#: src/app/PluginUpdates.tsx
+msgid "Manage {name} update checks"
+msgstr "Manage {name} update checks"
+
+#: src/app/App.tsx
+#: src/app/PluginUpdates.tsx
+#: src/app/settings-sections.ts
+msgid "Manage plugins"
+msgstr "Manage plugins"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Mark read"
+msgstr "Mark read"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Mark unread"
+msgstr "Mark unread"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Maximize or restore window"
+msgstr "Maximize or restore window"
+
+#: src/app/NotificationSettings.tsx
+msgid "Mentions"
+msgstr "Mentions"
+
+#: src/features/messages/MessageActionBar.tsx
+#: src/features/messages/MessageComposer.tsx
+msgid "Message"
+msgstr "Message"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message {channelDisplayName}"
+msgstr "Message {channelDisplayName}"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message accepted. Could not update the saved draft. Retry cleanup before sending again."
+msgstr "Message accepted. Could not update the saved draft. Retry cleanup before sending again."
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Message actions"
+msgstr "Message actions"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Message deletion"
+msgstr "Message deletion"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message density"
+msgstr "Message density"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message density wasn’t saved"
+msgstr "Message density wasn’t saved"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Message edit"
+msgstr "Message edit"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message is too long to attach this GIF"
+msgstr "Message is too long to attach this GIF"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message is too long to insert text"
+msgstr "Message is too long to insert text"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Message link unavailable"
+msgstr "Message link unavailable"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Message search is unavailable while this community is disconnected."
+msgstr "Message search is unavailable while this community is disconnected."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message timestamps"
+msgstr "Message timestamps"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message width"
+msgstr "Message width"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message width wasn’t saved"
+msgstr "Message width wasn’t saved"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Messages"
+msgstr "Messages"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Minimize window"
+msgstr "Minimize window"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Mode"
+msgstr "Mode"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Model and effort choices are still saving. Try sending again shortly."
+msgstr "Model and effort choices are still saving. Try sending again shortly."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Mono"
+msgstr "Mono"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "More message actions"
+msgstr "More message actions"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Most relevant"
+msgstr "Most relevant"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Name"
+msgstr "Name"
+
+#. placeholder {0}: verifiedName.issuerLabel
+#: src/features/communities/ProfileFields.tsx
+msgid "Name verified by {0}"
+msgstr "Name verified by {0}"
+
+#: src/app/AppearancePreview.tsx
+msgid "narrow"
+msgstr "narrow"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Narrow"
+msgstr "Narrow"
+
+#: src/app/shell/NavigationControls.tsx
+msgid "Navigation history"
+msgstr "Navigation history"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New"
+msgstr "New"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New channel"
+msgstr "New channel"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New chat"
+msgstr "New chat"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New DM"
+msgstr "New DM"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New section"
+msgstr "New section"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "New Solo chats"
+msgstr "New Solo chats"
+
+#: src/app/AppearanceSettings.tsx
+msgid "New threads open here. Already-open threads stay where you placed them."
+msgstr "New threads open here. Already-open threads stay where you placed them."
+
+#: src/app/shell/NewMenu.tsx
+msgid "New workspace"
+msgstr "New workspace"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "No automatic archive."
+msgstr "No automatic archive."
+
+#: src/app/shell/PageSearch.tsx
+msgid "No matching pages."
+msgstr "No matching pages."
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "No matching time zones."
+msgstr "No matching time zones."
+
+#: src/app/NotificationSettings.tsx
+msgid "Notification choices weren’t saved"
+msgstr "Notification choices weren’t saved"
+
+#: src/app/NotificationSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Notifications"
+msgstr "Notifications"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Notifications are off. Turn them on in macOS System Settings."
+msgstr "Notifications are off. Turn them on in macOS System Settings."
+
+#: src/app/NotificationSettings.tsx
+msgid "Notifications are off. Turn them on in your browser or system settings."
+msgstr "Notifications are off. Turn them on in your browser or system settings."
+
+#: src/app/NotificationSettings.tsx
+msgid "Notifications are paused by your local development setting. Remove BUZZ_DEV_NOTIFICATIONS=0 from .env.local and restart the dev server to resume normal behavior. Your saved alert choices are unchanged."
+msgstr "Notifications are paused by your local development setting. Remove BUZZ_DEV_NOTIFICATIONS=0 from .env.local and restart the dev server to resume normal behavior. Your saved alert choices are unchanged."
+
+#: src/app/NotificationSettings.tsx
+msgid "Notify me about"
+msgstr "Notify me about"
+
+#: src/app/NotificationSettings.tsx
+msgid "Notify while viewing"
+msgstr "Notify while viewing"
+
+#. placeholder {0}: zoneLabel(renamed[zone])
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Now {0}"
+msgstr "Now {0}"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "offline"
+msgstr "offline"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Offline"
+msgstr "Offline"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Ongoing"
+msgstr "Ongoing"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "online"
+msgstr "online"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Online"
+msgstr "Online"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Only saved conversations are searched until this community connects."
+msgstr "Only saved conversations are searched until this community connects."
+
+#: src/app/shell/PageSearch.tsx
+msgid "Only saved conversations are searched while this community is disconnected."
+msgstr "Only saved conversations are searched while this community is disconnected."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
+msgstr "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Open in main view"
+msgstr "Open in main view"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Open tab pane"
+msgstr "Open tab pane"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Open the desktop app to choose a folder on this device."
+msgstr "Open the desktop app to choose a folder on this device."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Open threads in"
+msgstr "Open threads in"
+
+#: src/app/App.tsx
+msgid "Opening Buzz"
+msgstr "Opening Buzz"
+
+#: src/app/ProfileSettings.tsx
+msgid "Opening your local identity…"
+msgstr "Opening your local identity…"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Ordered list"
+msgstr "Ordered list"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Out sick"
+msgstr "Out sick"
+
+#: src/app/App.tsx
+msgid "Page navigation"
+msgstr "Page navigation"
+
+#: src/app/shell/AppShell.tsx
+#: src/app/shell/PageSearch.tsx
+msgid "Pages"
+msgstr "Pages"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Pane"
+msgstr "Pane"
+
+#: src/app/settings-sections.ts
+msgid "Personal space"
+msgstr "Personal space"
+
+#: src/app/PluginUpdates.tsx
+msgid "Plugin recovery actions"
+msgstr "Plugin recovery actions"
+
+#: src/app/PluginUpdates.tsx
+#: src/app/settings-sections.ts
+msgid "Plugins"
+msgstr "Plugins"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Preparing update…"
+msgstr "Preparing update…"
+
+#: src/app/ProfileSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Profile"
+msgstr "Profile"
+
+#: src/features/communities/ProfileFields.tsx
+msgid "Profile description (optional)"
+msgstr "Profile description (optional)"
+
+#: src/app/ProfileSettings.tsx
+msgid "Profile preview"
+msgstr "Profile preview"
+
+#: src/app/ProfileSettings.tsx
+msgid "Profile updated"
+msgstr "Profile updated"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Queue"
+msgstr "Queue"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Quick statuses"
+msgstr "Quick statuses"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Quote"
+msgstr "Quote"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Read state couldn’t be saved"
+msgstr "Read state couldn’t be saved"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Ready to install. Buzz will restart."
+msgstr "Ready to install. Buzz will restart."
+
+#: src/app/shell/PageSearch.tsx
+msgid "Recent activity"
+msgstr "Recent activity"
+
+#: src/app/NotificationSettings.tsx
+msgid "Reload saved choices"
+msgstr "Reload saved choices"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Reminders"
+msgstr "Reminders"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Remove"
+msgstr "Remove"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey.slice(0, 8)
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove {0} ({1})"
+msgstr "Remove {0} ({1})"
+
+#. placeholder {0}: scope.label
+#: src/app/shell/SearchChoices.tsx
+msgid "Remove {0} search scope"
+msgstr "Remove {0} search scope"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove agent {0} {1}"
+msgstr "Remove agent {0} {1}"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey.slice(0, 8)
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove explicit mention of {0} ({1})"
+msgstr "Remove explicit mention of {0} ({1})"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Remove from this device"
+msgstr "Remove from this device"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Remove link"
+msgstr "Remove link"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove mention {0} {1}"
+msgstr "Remove mention {0} {1}"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Remove message from this device?"
+msgstr "Remove message from this device?"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove video time"
+msgstr "Remove video time"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Removing…"
+msgstr "Removing…"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Reply"
+msgstr "Reply"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Reply to thread"
+msgstr "Reply to thread"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Reply unavailable for this message"
+msgstr "Reply unavailable for this message"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Repositories folder"
+msgstr "Repositories folder"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Repositories folder saved on this device. Claude and Goose use it in new sessions; Codex uses it on future turns."
+msgstr "Repositories folder saved on this device. Claude and Goose use it in new sessions; Codex uses it on future turns."
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Repositories folders are configured in the desktop app."
+msgstr "Repositories folders are configured in the desktop app."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Reset interface size"
+msgstr "Reset interface size"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Reset name"
+msgstr "Reset name"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Restore default"
+msgstr "Restore default"
+
+#: src/features/messages/MessageManagement.tsx
+#: src/features/updates/UpdateSettings.tsx
+#: src/features/user-status/StatusEditor.tsx
+msgid "Retry"
+msgstr "Retry"
+
+#: src/app/PluginUpdates.tsx
+msgid "Retry activation"
+msgstr "Retry activation"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Retry connection"
+msgstr "Retry connection"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry draft cleanup"
+msgstr "Retry draft cleanup"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry draft save"
+msgstr "Retry draft save"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry edit"
+msgstr "Retry edit"
+
+#: src/app/ProfileSettings.tsx
+msgid "Retry loading profile"
+msgstr "Retry loading profile"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry message preparation"
+msgstr "Retry message preparation"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Retry message update"
+msgstr "Retry message update"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry saved choices"
+msgstr "Retry saved choices"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving accent color"
+msgstr "Retry saving accent color"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving appearance"
+msgstr "Retry saving appearance"
+
+#: src/app/NotificationSettings.tsx
+msgid "Retry saving choices"
+msgstr "Retry saving choices"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving clock preference"
+msgstr "Retry saving clock preference"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving follow-up behavior"
+msgstr "Retry saving follow-up behavior"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving interface size"
+msgstr "Retry saving interface size"
+
+#: src/app/LanguageSettings.tsx
+msgid "Retry saving language"
+msgstr "Retry saving language"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving message density"
+msgstr "Retry saving message density"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving message width"
+msgstr "Retry saving message width"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving search preference"
+msgstr "Retry saving search preference"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving spelling correction"
+msgstr "Retry saving spelling correction"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving thread placement"
+msgstr "Retry saving thread placement"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving vibe level"
+msgstr "Retry saving vibe level"
+
+#: src/app/PluginUpdates.tsx
+msgid "Review permissions"
+msgstr "Review permissions"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/app/ProfileSettings.tsx
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Save"
+msgstr "Save"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Save changes"
+msgstr "Save changes"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Save folder"
+msgstr "Save folder"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Save status"
+msgstr "Save status"
+
+#: src/app/PluginUpdates.tsx
+msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
+msgstr "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Saved model and effort choices are still loading. Try sending again shortly."
+msgstr "Saved model and effort choices are still loading. Try sending again shortly."
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "Saving…"
+msgstr "Saving…"
+
+#: src/app/shell/PageSearch.tsx
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Search"
+msgstr "Search"
+
+#: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchChoices.tsx
+#: src/app/shell/SearchResults.tsx
+msgid "Search Buzz"
+msgstr "Search Buzz"
+
+#. placeholder {0}: formatBinding(binding, apple).text
+#: src/app/shell/PageSearch.tsx
+msgid "Search Buzz ({0})"
+msgstr "Search Buzz ({0})"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Search in"
+msgstr "Search in"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Search preference wasn’t saved"
+msgstr "Search preference wasn’t saved"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Search results"
+msgstr "Search results"
+
+#: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
+msgid "Search this conversation"
+msgstr "Search this conversation"
+
+#: src/app/shell/SearchChoices.tsx
+msgid "Search..."
+msgstr "Search..."
+
+#: src/app/settings-sections.ts
+msgid "Security"
+msgstr "Security"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send a message to {channelName}"
+msgstr "Send a message to {channelName}"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send again to send it as text."
+msgstr "Send again to send it as text."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send again to send them as text."
+msgstr "Send again to send them as text."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send chips from the main window."
+msgstr "Send chips from the main window."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Send immediately"
+msgstr "Send immediately"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send message"
+msgstr "Send message"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Send to channel"
+msgstr "Send to channel"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Sending to"
+msgstr "Sending to"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Sending to channel"
+msgstr "Sending to channel"
+
+#: src/app/shell/ProfileButton.tsx
+#: src/features/user-status/StatusEditor.tsx
+msgid "Set a status"
+msgstr "Set a status"
+
+#. placeholder {0}: [status.emoji, status.text].filter(Boolean).join(" ")
+#: src/app/shell/ProfileButton.tsx
+msgid "Set a status: {0}"
+msgstr "Set a status: {0}"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Set up Dock badges"
+msgstr "Set up Dock badges"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Set up Dock badges to show the unread dot."
+msgstr "Set up Dock badges to show the unread dot."
+
+#: src/app/App.tsx
+#: src/app/Settings.tsx
+#: src/app/shell/PageSearch.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Settings"
+msgstr "Settings"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Settings only apply on this device."
+msgstr "Settings only apply on this device."
+
+#: src/app/App.tsx
+#: src/app/Settings.tsx
+msgid "Settings sections"
+msgstr "Settings sections"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Share access"
+msgstr "Share access"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Shared notes"
+msgstr "Shared notes"
+
+#: src/app/settings-sections.ts
+msgid "Shortcuts"
+msgstr "Shortcuts"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Shorten it or attach the text as a file."
+msgstr "Shorten it or attach the text as a file."
+
+#: src/features/communities/ProfileFields.tsx
+msgid "Shorten the description to {PROFILE_ABOUT_MAX_LENGTH} characters before saving."
+msgstr "Shorten the description to {PROFILE_ABOUT_MAX_LENGTH} characters before saving."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Shorten the text and try again."
+msgstr "Shorten the text and try again."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show"
+msgstr "Show"
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Show my local time on my profile"
+msgstr "Show my local time on my profile"
+
+#: src/app/shell/AppShell.tsx
+msgid "Show navigation"
+msgstr "Show navigation"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show people by"
+msgstr "Show people by"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show seconds"
+msgstr "Show seconds"
+
+#: src/app/shell/AppShell.tsx
+msgid "Show sidebar"
+msgstr "Show sidebar"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show time zone details on profiles"
+msgstr "Show time zone details on profiles"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show unread first in search"
+msgstr "Show unread first in search"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
+msgstr "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Side pane"
+msgstr "Side pane"
+
+#: src/app/NotificationSettings.tsx
+msgid "Silent"
+msgstr "Silent"
+
+#: src/app/shell/AppShell.tsx
+msgid "Skip to content"
+msgstr "Skip to content"
+
+#: src/app/settings-sections.ts
+#: src/features/updates/UpdateSettings.tsx
+msgid "Software updates"
+msgstr "Software updates"
+
+#: src/app/shell/NewMenu.tsx
+msgid "Solo"
+msgstr "Solo"
+
+#: src/app/NotificationSettings.tsx
+msgid "Solo chat completions"
+msgstr "Solo chat completions"
+
+#: src/app/LanguageSettings.tsx
+msgid "Some parts of Buzz are not translated yet."
+msgstr "Some parts of Buzz are not translated yet."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Someone joined this chat. Tag an agent to send."
+msgstr "Someone joined this chat. Tag an agent to send."
+
+#: src/app/NotificationSettings.tsx
+msgid "Sound"
+msgstr "Sound"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Spelling preference wasn’t saved"
+msgstr "Spelling preference wasn’t saved"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Spoiler"
+msgstr "Spoiler"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Status expiration"
+msgstr "Status expiration"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Status message"
+msgstr "Status message"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Status unavailable"
+msgstr "Status unavailable"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Status updates are unavailable in this community."
+msgstr "Status updates are unavailable in this community."
+
+#: src/app/App.tsx
+msgid "Still can’t connect. Check your connection, then try again."
+msgstr "Still can’t connect. Check your connection, then try again."
+
+#: src/app/App.tsx
+msgid "Still can’t connect. We’ll keep trying."
+msgstr "Still can’t connect. We’ll keep trying."
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Strikethrough"
+msgstr "Strikethrough"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "System"
+msgstr "System"
+
+#: src/app/AppearanceSettings.tsx
+msgid "System uses your device’s time format."
+msgstr "System uses your device’s time format."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag a person already in this chat or one of your available agents."
+msgstr "Tag a person already in this chat or one of your available agents."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag a person or agent to send"
+msgstr "Tag a person or agent to send"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag an agent to send"
+msgstr "Tag an agent to send"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag an agent to send."
+msgstr "Tag an agent to send."
+
+#: src/app/shell/NewMenu.tsx
+msgid "Team"
+msgstr "Team"
+
+#. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
+#. placeholder {0}: channelDurationLabel(ttlSeconds, i18n.locale)
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Temporary, {0}"
+msgstr "Temporary, {0}"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Text"
+msgstr "Text"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Text copied"
+msgstr "Text copied"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "The draft changed or this link exceeds the message limit. Close and try again."
+msgstr "The draft changed or this link exceeds the message limit. Close and try again."
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "The draft changed. Close and try again."
+msgstr "The draft changed. Close and try again."
+
+#: src/app/PluginUpdates.tsx
+msgid "The installed plugin changed after this update was checked."
+msgstr "The installed plugin changed after this update was checked."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "The message can't be edited right now"
+msgstr "The message can't be edited right now"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "The session changed. Review its channel and retry."
+msgstr "The session changed. Review its channel and retry."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "The team would exceed the message length or 32-recipient limit. Nothing was added."
+msgstr "The team would exceed the message length or 32-recipient limit. Nothing was added."
+
+#: src/app/PluginUpdates.tsx
+msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
+msgstr "The update candidate changed after it was checked. Check for updates again before reviewing it."
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "This account or community changed. Open Local settings again."
+msgstr "This account or community changed. Open Local settings again."
+
+#: src/app/NotificationSettings.tsx
+msgid "This build can’t show system notifications."
+msgstr "This build can’t show system notifications."
+
+#: src/app/AppearanceSettings.tsx
+msgid "This choice is active, but could not be saved on this device."
+msgstr "This choice is active, but could not be saved on this device."
+
+#: src/app/AppearanceSettings.tsx
+msgid "This choice is active, but could not be saved on this device. Try again."
+msgstr "This choice is active, but could not be saved on this device. Try again."
+
+#: src/app/shell/PageSearch.tsx
+msgid "This conversation"
+msgstr "This conversation"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This conversation is no longer available for changes."
+msgstr "This conversation is no longer available for changes."
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "This conversation is no longer available."
+msgstr "This conversation is no longer available."
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
+msgstr "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This draft changed elsewhere. Your edits are kept here; choose which draft to keep."
+msgstr "This draft changed elsewhere. Your edits are kept here; choose which draft to keep."
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "This is the relay URL you use to connect to this community."
+msgstr "This is the relay URL you use to connect to this community."
+
+#: src/app/LanguageSettings.tsx
+msgid "This language is active, but could not be saved on this device. Try again."
+msgstr "This language is active, but could not be saved on this device. Try again."
+
+#: src/app/App.tsx
+msgid "This link doesn’t work"
+msgstr "This link doesn’t work"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This may already have reached the conversation. Retry sends the same operation; dismissing does not undo it."
+msgstr "This may already have reached the conversation. Retry sends the same operation; dismissing does not undo it."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This message is no longer available to edit."
+msgstr "This message is no longer available to edit."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This message wasn’t sent. Deleting it removes it from this device. This cannot be undone."
+msgstr "This message wasn’t sent. Deleting it removes it from this device. This cannot be undone."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This message’s delivery changed. Cancel to see its current status."
+msgstr "This message’s delivery changed. Cancel to see its current status."
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "This name is only visible to you. Other users can’t see your display name for this community."
+msgstr "This name is only visible to you. Other users can’t see your display name for this community."
+
+#: src/app/App.tsx
+msgid "This page isn’t available"
+msgstr "This page isn’t available"
+
+#: src/app/App.tsx
+msgid "This page’s sidebar is unavailable."
+msgstr "This page’s sidebar is unavailable."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This paste would make your message too long."
+msgstr "This paste would make your message too long."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This queued message is no longer available to edit."
+msgstr "This queued message is no longer available to edit."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This recipient is no longer available. Remove it or refresh choices."
+msgstr "This recipient is no longer available. Remove it or refresh choices."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This relay connection supports reading only."
+msgstr "This relay connection supports reading only."
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
+msgstr "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "This week"
+msgstr "This week"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Thread preference wasn’t saved"
+msgstr "Thread preference wasn’t saved"
+
+#: src/app/NotificationSettings.tsx
+msgid "Thread replies"
+msgstr "Thread replies"
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Time zone"
+msgstr "Time zone"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Timestamps"
+msgstr "Timestamps"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Today"
+msgstr "Today"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Toggle formatting"
+msgstr "Toggle formatting"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Toggle tab pane"
+msgstr "Toggle tab pane"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+#: src/features/messages/MessageComposer.tsx
+msgid "Try again"
+msgstr "Try again"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Unfollow thread"
+msgstr "Unfollow thread"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Until"
+msgstr "Until"
+
+#. placeholder {0}: update.candidate?.manifest.name ?? update.id
+#: src/app/PluginUpdates.tsx
+msgid "Update {0}"
+msgstr "Update {0}"
+
+#: src/app/PluginUpdates.tsx
+msgid "Update {name}"
+msgstr "Update {name}"
+
+#: src/app/PluginUpdates.tsx
+msgid "Update and reload"
+msgstr "Update and reload"
+
+#. placeholder {0}: status.message
+#: src/features/updates/UpdateSettings.tsx
+msgid "Update failed: {0}"
+msgstr "Update failed: {0}"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Update now"
+msgstr "Update now"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Update status"
+msgstr "Update status"
+
+#: src/app/ProfileSettings.tsx
+msgid "Update this community’s profile. Other community profiles stay unchanged."
+msgstr "Update this community’s profile. Other community profiles stay unchanged."
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Updating to {targetLabel}…"
+msgstr "Updating to {targetLabel}…"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Uploads are unavailable on this connection."
+msgstr "Uploads are unavailable on this connection."
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Use an HTTP(S) URL or a valid buzz:// link."
+msgstr "Use an HTTP(S) URL or a valid buzz:// link."
+
+#: src/app/ProfileSettings.tsx
+msgid "Used for new communities. Existing community profiles stay unchanged."
+msgstr "Used for new communities. Existing community profiles stay unchanged."
+
+#: src/app/AppearanceSettings.tsx
+msgid "Username"
+msgstr "Username"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Vacationing"
+msgstr "Vacationing"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Version {version}"
+msgstr "Version {version}"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Vibe level"
+msgstr "Vibe level"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Vibe level wasn’t saved"
+msgstr "Vibe level wasn’t saved"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "View channel details"
+msgstr "View channel details"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Wait for compaction to finish, or interrupt it."
+msgstr "Wait for compaction to finish, or interrupt it."
+
+#: src/app/NotificationSettings.tsx
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Waiting for system permission…"
+msgstr "Waiting for system permission…"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "What's your status?"
+msgstr "What's your status?"
+
+#: src/app/AppearancePreview.tsx
+msgid "wide"
+msgstr "wide"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Wide"
+msgstr "Wide"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Width"
+msgstr "Width"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Window action failed. Try again."
+msgstr "Window action failed. Try again."
+
+#: src/app/shell/WindowControls.tsx
+msgid "Window controls"
+msgstr "Window controls"
+
+#: src/app/AppearanceSettings.tsx
+msgid "With nothing typed, search leads with unread channels and DMs and selects the newest."
+msgstr "With nothing typed, search leads with unread channels and DMs and selects the newest."
+
+#: src/app/AppearanceSettings.tsx
+msgid "With someone’s local time, shows how far ahead or behind you they are and their time zone."
+msgstr "With someone’s local time, shows how far ahead or behind you they are and their time zone."
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Workflows"
+msgstr "Workflows"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Working remotely"
+msgstr "Working remotely"
+
+#: src/app/App.tsx
+msgid "You don’t have access to this"
+msgstr "You don’t have access to this"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "You're on the latest version."
+msgstr "You're on the latest version."
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Your account is unavailable. Open Local settings again."
+msgstr "Your account is unavailable. Open Local settings again."
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Your avatar"
+msgstr "Your avatar"
+
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Your channels, one conversation."
+msgstr "Your channels, one conversation."
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Your edit is still in the outbox."
+msgstr "Your edit is still in the outbox."
+
+#: src/app/ProfileSettings.tsx
+msgid "Your local identity is unavailable. Connect your identity to edit your profile."
+msgstr "Your local identity is unavailable. Connect your identity to edit your profile."
+
+#: src/app/ProfileSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Your profile"
+msgstr "Your profile"
+
+#: src/app/ProfileSettings.tsx
+msgid "Your profile change is not current. Your edits are retained; save again to retry."
+msgstr "Your profile change is not current. Your edits are retained; save again to retry."
+
+#: src/app/App.tsx
+msgid "Your profile has unsaved changes."
+msgstr "Your profile has unsaved changes."
+
+#. placeholder {0}: communityName(community)
+#: src/app/ProfileSettings.tsx
+msgid "Your profile in {0} couldn’t be loaded."
+msgstr "Your profile in {0} couldn’t be loaded."
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Your status is unavailable"
+msgstr "Your status is unavailable"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Your status: {label}"
+msgstr "Your status: {label}"

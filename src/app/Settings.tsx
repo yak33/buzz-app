@@ -1,3 +1,5 @@
+import { LanguageSettings } from "./LanguageSettings";
+import { useLingui } from "@lingui/react/macro";
 import type {
   AdminAccessReader,
   AdminAccessState,
@@ -711,6 +713,8 @@ export function Settings({
   onDeparturePending?: (pending: boolean) => void;
   onUnsavedChange?: (unsaved: boolean) => void;
 }) {
+  const { t, i18n } = useLingui();
+  const lang = i18n.locale;
   useEffect(() => cards.retainVisibility(), [cards]);
   useEffect(() => adminAccess?.ensure(), [adminAccess]);
   const installRequest = useSyncExternalStore(
@@ -769,9 +773,10 @@ export function Settings({
     departure?.viewer === client.viewer
       ? (departure?.community ?? selectedCommunity)
       : selectedCommunity;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: The Lingui instance is stable; the locale invalidates translated labels.
   const { groups, sections, defaultSection } = useMemo(
-    () => settingsSections(contributed, departureCommunity),
-    [contributed, departureCommunity],
+    () => settingsSections(contributed, departureCommunity, i18n),
+    [contributed, departureCommunity, i18n, lang],
   );
   const [selected, setSelected] = useState(defaultSection);
   // Shortcuts lists every binding with its own controls, so it is built on
@@ -1420,6 +1425,9 @@ export function Settings({
             communities={communities}
           />
         </div>
+        <div hidden={selected !== "language"}>
+          <LanguageSettings active={selected === "language"} />
+        </div>
         <div hidden={selected !== "shortcuts"}>
           {shortcutsVisited && (
             <ShortcutSettings
@@ -1859,11 +1867,19 @@ export function Settings({
         >
           <aside className={styles.sidebar}>
             <div className={styles.sidebarHeader}>
-              <h1 id="settings-title" className="m-0 text-label">
-                Settings
+              <h1
+                id="settings-title"
+                lang={i18n.locale}
+                className="m-0 text-label"
+              >
+                {t`Settings`}
               </h1>
             </div>
-            <nav aria-label="Settings sections" className={styles.navigation}>
+            <nav
+              lang={i18n.locale}
+              aria-label={t`Settings sections`}
+              className={styles.navigation}
+            >
               <SidebarNavigation wrapSections>
                 {departureCommunity && (
                   <NavigationSection>
@@ -1874,9 +1890,14 @@ export function Settings({
                   </NavigationSection>
                 )}
                 {groups.map((group) => (
-                  <NavigationSection key={group.id} label={group.label}>
-                    {group.sections.map(({ id, label, icon: Icon }) => (
+                  <NavigationSection
+                    key={group.id}
+                    label={group.label}
+                    lang={group.lang ?? "en"}
+                  >
+                    {group.sections.map(({ id, label, lang, icon: Icon }) => (
                       <NavigationItem
+                        lang={lang ?? "en"}
                         label={label}
                         icon={Icon && <Icon aria-hidden="true" size={18} />}
                         selected={selected === id}

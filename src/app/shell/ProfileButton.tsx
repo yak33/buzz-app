@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { PluginUpdatesMenu } from "../PluginUpdates";
 import { formatPublicKey } from "../../shared/identity/public-key";
 import { usePresenceStatus } from "../../features/presence/react";
@@ -65,12 +68,12 @@ import {
 const noSubscription = () => () => {};
 // The parent row retains the icon for the saved appearance preference.
 const colorModes = {
-  light: { label: "Light", Icon: SunIcon },
-  dark: { label: "Dark", Icon: MoonIcon },
-  system: { label: "System", Icon: MonitorIcon },
+  light: { label: msg`Light`, Icon: SunIcon },
+  dark: { label: msg`Dark`, Icon: MoonIcon },
+  system: { label: msg`System`, Icon: MonitorIcon },
 } as const satisfies Record<
   ColorModePreference,
-  { label: string; Icon: typeof SunIcon }
+  { label: MessageDescriptor; Icon: typeof SunIcon }
 >;
 
 export function ProfileButton({
@@ -89,6 +92,7 @@ export function ProfileButton({
   /** Opens Settings, optionally at one of its own sections. */
   onSettings(section?: "profile" | "plugins"): void;
 }) {
+  const { t, i18n } = useLingui();
   const {
     profile: localProfile,
     viewer,
@@ -110,12 +114,13 @@ export function ProfileButton({
     selected && connection.viewer === viewer ? session?.presence : undefined,
     viewer ?? undefined,
   );
-  const label = {
-    online: "Online",
-    away: "Away",
-    offline: "Offline",
-    unknown: "Status unavailable",
-  }[observed];
+  const presenceLabels = {
+    online: t`Online`,
+    away: t`Away`,
+    offline: t`Offline`,
+    unknown: t`Status unavailable`,
+  };
+  const label = presenceLabels[observed];
   const [statusChange, setStatusChange] = useState<{
     target: "online" | "away" | "offline";
     session: typeof session;
@@ -131,6 +136,15 @@ export function ProfileButton({
       : undefined;
   const pending =
     currentChange && !currentChange.failed && observed !== currentChange.target;
+  const targetLabels = {
+    online: t`online`,
+    away: t`away`,
+    offline: t`offline`,
+  };
+  const targetLabel = currentChange ? targetLabels[currentChange.target] : "";
+  const availabilityLabel = pending
+    ? t`Availability: ${label}, updating to ${targetLabel}`
+    : t`Availability: ${label}`;
   useEffect(() => {
     if (!statusChange) return;
     if (!currentChange || observed === currentChange.target)
@@ -220,7 +234,7 @@ export function ProfileButton({
   const name =
     displayName ||
     (viewer ? formatPublicKey(viewer) : undefined) ||
-    "Your profile";
+    t`Your profile`;
   const source = avatarSource(profile?.picture);
   const picture = selected ? avatarMedia(source, session?.media) : source;
   const status = useUserStatus(session?.statuses, viewer ?? "");
@@ -253,7 +267,11 @@ export function ProfileButton({
     (action) => action === selectedAction,
   )?.component;
   const renderAction = (action: RegisteredAccountAction) => (
-    <MenuItem key={action.key} onClick={() => setSelectedAction(action)}>
+    <MenuItem
+      lang="en"
+      key={action.key}
+      onClick={() => setSelectedAction(action)}
+    >
       <MenuIcon>{action.icon ?? <PlugIcon size={17} />}</MenuIcon>
       {action.title}
     </MenuItem>
@@ -303,7 +321,8 @@ export function ProfileButton({
           render={
             <IconButton
               type="button"
-              aria-label="Your profile"
+              lang={i18n.locale}
+              aria-label={t`Your profile`}
               ref={profileTrigger}
               title={name}
               variant="avatar"
@@ -315,9 +334,9 @@ export function ProfileButton({
                   aria-label={
                     viewer
                       ? observed === "unknown"
-                        ? "Your status is unavailable"
-                        : `Your status: ${label}`
-                      : "Your avatar"
+                        ? t`Your status is unavailable`
+                        : t`Your status: ${label}`
+                      : t`Your avatar`
                   }
                 >
                   {avatar}
@@ -327,6 +346,7 @@ export function ProfileButton({
           }
         />
         <MenuPopup
+          lang={i18n.locale}
           data-profile-menu=""
           side="right"
           collisionAvoidance={{ fallbackAxisSide: "start" }}
@@ -349,7 +369,7 @@ export function ProfileButton({
                 render={
                   <IconButton
                     type="button"
-                    aria-label={`${name}, edit profile`}
+                    aria-label={t`${name}, edit profile`}
                     variant="avatar"
                     shape="round"
                     icon={avatar}
@@ -358,12 +378,14 @@ export function ProfileButton({
               />
             </span>
             <div className={styles.profileDetails}>
-              <p className="m-0 truncate text-body">{name}</p>
+              <p lang="" className="m-0 truncate text-body">
+                {name}
+              </p>
               {viewer && (
                 <MenuRoot modal={false}>
                   <span className={styles.availability} data-status={observed}>
                     <MenuTrigger
-                      aria-label={`Availability: ${label}${pending ? `, updating to ${currentChange.target}` : ""}`}
+                      aria-label={availabilityLabel}
                       render={
                         <Button variant="subtle" size="xs">
                           {pending && (
@@ -376,14 +398,14 @@ export function ProfileButton({
                           {label}
                           {pending && (
                             <span role="status" className="sr-only">
-                              Updating to {currentChange?.target}…
+                              {t`Updating to ${targetLabel}…`}
                             </span>
                           )}
                         </Button>
                       }
                     />
                   </span>
-                  <MenuPopup align="start" size="compact">
+                  <MenuPopup lang={i18n.locale} align="start" size="compact">
                     <MenuRadioGroup
                       value={observed === "unknown" ? "" : observed}
                       onValueChange={(value) => {
@@ -401,13 +423,13 @@ export function ProfileButton({
                         });
                         communities.presence.setPreference(value);
                       }}
-                      aria-label="Availability"
+                      aria-label={t`Availability`}
                     >
                       {(
                         [
-                          ["online", "Online"],
-                          ["away", "Away"],
-                          ["offline", "Offline"],
+                          ["online", t`Online`],
+                          ["away", t`Away`],
+                          ["offline", t`Offline`],
                         ] as const
                       ).map(([value, name]) => (
                         <MenuRadioItem
@@ -428,9 +450,7 @@ export function ProfileButton({
             <p
               role="alert"
               className="mx-3 my-2 max-w-56 text-body-sm text-danger"
-            >
-              Could not confirm your status. Try again.
-            </p>
+            >{t`Could not confirm your status. Try again.`}</p>
           )}
           {presence.error && (
             <p
@@ -445,8 +465,8 @@ export function ProfileButton({
               <MenuItem
                 aria-label={
                   status
-                    ? `Set a status: ${[status.emoji, status.text].filter(Boolean).join(" ")}`
-                    : "Set a status"
+                    ? t`Set a status: ${[status.emoji, status.text].filter(Boolean).join(" ")}`
+                    : t`Set a status`
                 }
                 aria-describedby={
                   !session.statuses.writable ? statusUnavailable : undefined
@@ -468,7 +488,7 @@ export function ProfileButton({
                       url={status.emojiUrl}
                       hint
                     />
-                    <span className="min-w-0 truncate text-body-sm">
+                    <span lang="" className="min-w-0 truncate text-body-sm">
                       {status.text}
                     </span>
                   </>
@@ -477,7 +497,7 @@ export function ProfileButton({
                     <MenuIcon>
                       <SmileyIcon size={16} aria-hidden="true" />
                     </MenuIcon>
-                    Set a status
+                    {t`Set a status`}
                   </>
                 )}
               </MenuItem>
@@ -487,9 +507,7 @@ export function ProfileButton({
             <p
               id={statusUnavailable}
               className="mx-3 my-2 max-w-56 text-body-sm text-muted"
-            >
-              Status updates are unavailable in this community.
-            </p>
+            >{t`Status updates are unavailable in this community.`}</p>
           )}
           <MenuSeparator />
           <MenuSubmenu>
@@ -497,10 +515,11 @@ export function ProfileButton({
               <MenuIcon>
                 <ColorModeIcon size={16} aria-hidden="true" />
               </MenuIcon>
-              Appearance
+              {t`Appearance`}
             </MenuSubmenuTrigger>
             <MenuSubmenuPopup
-              aria-label="Appearance"
+              lang={i18n.locale}
+              aria-label={t`Appearance`}
               finalFocus={appearanceTrigger}
             >
               <MenuRadioGroup
@@ -525,7 +544,7 @@ export function ProfileButton({
                       <MenuIcon>
                         <Icon size={16} aria-hidden="true" />
                       </MenuIcon>
-                      {label}
+                      {i18n._(label)}
                     </MenuRadioItem>
                   );
                 })}
@@ -555,7 +574,7 @@ export function ProfileButton({
             <MenuIcon>
               <GearIcon aria-hidden="true" size={16} />
             </MenuIcon>
-            Settings
+            {t`Settings`}
             {settingsSelected && (
               <MenuTrailing>
                 <CheckIcon aria-hidden="true" size={14} />

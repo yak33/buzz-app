@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useContext,
   useEffect,
@@ -144,9 +145,21 @@ export function BestieUnreadBadge({ pageKey }: { pageKey: string }) {
 
 /** Decorate Bestie's navigation and search destination with its exact choice. */
 export function usePagePresentation() {
+  const { t, i18n } = useLingui();
+  const labels: Record<string, string> = {
+    "buzz.channels/channels": t`Messages`,
+    "buzz.inbox/inbox": t`Activity`,
+    "buzz.agents/agents": t`Agents`,
+    "buzz.reminders/reminders": t`Reminders`,
+    "buzz.workflows/workflows": t`Workflows`,
+    "buzz.drafts-and-sent/drafts-sent": t`Drafts & sent`,
+    "buzz.relay-notes/notes": t`Shared notes`,
+  };
   const bestie = useContext(BestieNavigationContext);
   return (page: RegisteredPage) => ({
     ...pagePresentation(page),
+    lang: labels[page.key] ? i18n.locale : "en",
+    ...(labels[page.key] ? { label: labels[page.key] } : {}),
     ...(page.key === BESTIE_PAGE ? bestie : undefined),
   });
 }

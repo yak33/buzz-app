@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   AnimatePresence,
   motion,
@@ -84,6 +85,19 @@ export function ComposerFormattingTools({
   toggleFormat(format: ComposerFormat): void;
   editLink(): void;
 }) {
+  const { t, i18n } = useLingui();
+  const labels: Record<string, string> = {
+    Bold: t`Bold`,
+    Italic: t`Italic`,
+    Strikethrough: t`Strikethrough`,
+    Code: t`Code`,
+    "Code block": t`Code block`,
+    Link: t`Link`,
+    "Bullet list": t`Bullet list`,
+    "Ordered list": t`Ordered list`,
+    Quote: t`Quote`,
+    Spoiler: t`Spoiler`,
+  };
   const [open, setOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const [keyboardToggle, setKeyboardToggle] = useState(false);
@@ -110,9 +124,9 @@ export function ComposerFormattingTools({
       ref={closedToggle}
       size="sm"
       variant="ghost"
-      aria-label="Toggle formatting"
+      aria-label={t`Toggle formatting`}
       aria-pressed={open}
-      title="Formatting"
+      title={t`Formatting`}
       disabled={disabled}
       onMouseDown={(event) => event.preventDefault()}
       onClick={(event) => change(!open, event.detail === 0)}
@@ -147,8 +161,8 @@ export function ComposerFormattingTools({
                 ref={openToggle}
                 size="sm"
                 variant="subtle"
-                aria-label="Close formatting"
-                title="Close formatting"
+                aria-label={t`Close formatting`}
+                title={t`Close formatting`}
                 disabled={disabled}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={(event) => change(false, event.detail === 0)}
@@ -165,13 +179,14 @@ export function ComposerFormattingTools({
             >
               <fieldset
                 className={styles.options}
-                aria-label="Formatting options"
+                aria-label={t`Formatting options`}
               >
                 {options.map(([label, Icon]) => {
                   const format = composerFormats.find(
                     (item) => item.label === label,
                   );
                   const isLink = label === "Link";
+                  const displayLabel = labels[label] ?? label;
                   const binding =
                     format?.binding ?? (isLink ? linkBindings[0] : undefined);
                   const active = format && activeFormats.includes(format.mark);
@@ -181,11 +196,12 @@ export function ComposerFormattingTools({
                       hint={binding ? "familiar" : "helpful"}
                       key={label}
                       size="sm"
-                      aria-label={label}
+                      lang={i18n.locale}
+                      aria-label={displayLabel}
                       title={
                         binding
-                          ? `${label} (${formatBinding(binding, apple).text})`
-                          : `${label} (preview only)`
+                          ? `${displayLabel} (${formatBinding(binding, apple).text})`
+                          : t`${displayLabel} (preview only)`
                       }
                       aria-disabled={binding ? undefined : true}
                       aria-pressed={active}

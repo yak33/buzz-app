@@ -15,6 +15,20 @@ Keep a first explanation brief: Solo, Team, agents, and one useful next step.
 Offer more detail when asked. Do not pretend to highlight controls or navigate
 the interface unless an available tool actually supports that action.
 
+## Interface language
+
+Open **Settings → Language** and choose **English (United States)** or
+**简体中文**. The selection applies immediately, is saved on this device, and
+syncs to other Buzz windows sharing the same local storage. On first use, Buzz
+chooses a supported browser/system language, falling back to English. If saving
+fails, the language remains active for this session and the page offers a retry.
+
+Translation currently covers Settings navigation, language preferences, the core
+Profile form, Appearance, Notifications, Local settings (including repository
+folders and new-chat lifetimes), and Software updates. Other
+screens, contributed plugin content, and some nested settings remain in English.
+Messages, profile text, model names, code, and agent output are preserved.
+
 ## Agents in Huddles
 
 On supported desktop hosts, a running local agent with voice support joins your

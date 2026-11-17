@@ -4,8 +4,12 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, expect, it, vi } from "vitest";
 import { TimeZoneField } from "./TimeZoneField";
+import { localization } from "../localization/service";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  localization.setLocale("en-US");
+});
 
 // Engines list one spelling of a renamed zone: V8 (these tests) lists only
 // Asia/Calcutta and Europe/Kiev, and none list UTC by that name.
@@ -31,4 +35,15 @@ it.each([
     }),
   );
   expect(onChange).toHaveBeenCalledWith(zone);
+});
+
+it("keeps Chinese search and empty feedback inside a Chinese popup", async () => {
+  localization.setLocale("zh-CN");
+  const user = userEvent.setup();
+  render(<TimeZoneField value="Asia/Shanghai" onChange={vi.fn()} />);
+  await user.click(screen.getByRole("combobox", { name: "时区" }));
+  const search = await screen.findByRole("combobox", { name: "搜索" });
+  expect(search.closest("[lang]")).toHaveAttribute("lang", "zh-CN");
+  await user.type(search, "no-such-zone");
+  expect(screen.getByText("没有匹配的时区。")).toBeVisible();
 });

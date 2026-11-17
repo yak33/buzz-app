@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useRef, useState } from "react";
 import { CommunityDialog } from "../features/communities/CommunityDialog";
 import { CommunityRepositoriesSettings } from "./CommunityRepositoriesSettings";
@@ -27,6 +28,7 @@ export function CommunityLocalSettings({
   community: Membership;
   viewer: string | undefined;
 }) {
+  const { t, i18n } = useLingui();
   const notify = useToastNotification();
   const address = communityDestination(community.id).url;
   const [copying, setCopying] = useState(false);
@@ -37,9 +39,9 @@ export function CommunityLocalSettings({
     setCopyError("");
     try {
       await writeClipboardText(address);
-      notify("Community URL copied.", "success");
+      notify(t`Community URL copied.`, "success");
     } catch {
-      setCopyError("Couldn’t copy the URL. Select it and copy manually.");
+      setCopyError(t`Couldn’t copy the URL. Select it and copy manually.`);
     } finally {
       setCopying(false);
     }
@@ -56,7 +58,7 @@ export function CommunityLocalSettings({
     try {
       if (!viewer)
         throw new Error(
-          "Your account is unavailable. Open Local settings again.",
+          t`Your account is unavailable. Open Local settings again.`,
         );
       communities.setLocalName(community.id, viewer, value);
       setDraft(null);
@@ -68,16 +70,19 @@ export function CommunityLocalSettings({
       setError(
         error instanceof Error
           ? error.message
-          : "Couldn’t save the display name. Try again.",
+          : t`Couldn’t save the display name. Try again.`,
       );
     }
   };
   return (
-    <section aria-labelledby="community-local-settings-title">
+    <section
+      lang={i18n.locale}
+      aria-labelledby="community-local-settings-title"
+    >
       <Header
         id="community-local-settings-title"
-        title="Local settings"
-        subtitle="Settings only apply on this device."
+        title={t`Local settings`}
+        subtitle={t`Settings only apply on this device.`}
       />
       <form
         onSubmit={(event) => {
@@ -87,8 +92,8 @@ export function CommunityLocalSettings({
       >
         <SettingsGroup layout="form">
           <Field
-            label="Display name"
-            description="This name is only visible to you. Other users can’t see your display name for this community."
+            label={t`Display name`}
+            description={t`This name is only visible to you. Other users can’t see your display name for this community.`}
             error={error}
           >
             <Input
@@ -109,9 +114,7 @@ export function CommunityLocalSettings({
               variant="ghost"
               disabled={!community.localName && !draft}
               onClick={() => save("")}
-            >
-              Reset name
-            </Button>
+            >{t`Reset name`}</Button>
             <Button
               type="button"
               disabled={draft === null}
@@ -121,17 +124,18 @@ export function CommunityLocalSettings({
                 setSaved(false);
                 nameInput.current?.focus();
               }}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" variant="primary" disabled={!changed}>
-              Save
-            </Button>
+            >{t`Cancel`}</Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={!changed}
+            >{t`Save`}</Button>
           </div>
           {saved && (
-            <p role="status" className="m-0 text-body-sm text-muted">
-              Display name saved on this device.
-            </p>
+            <p
+              role="status"
+              className="m-0 text-body-sm text-muted"
+            >{t`Display name saved on this device.`}</p>
           )}
         </SettingsGroup>
       </form>
@@ -148,8 +152,8 @@ export function CommunityLocalSettings({
       <div className="mt-section-gap">
         <SettingsGroup layout="form">
           <Field
-            label="Community address"
-            description="This is the relay URL you use to connect to this community."
+            label={t`Community address`}
+            description={t`This is the relay URL you use to connect to this community.`}
           >
             <Input value={address} readOnly />
           </Field>
@@ -164,17 +168,13 @@ export function CommunityLocalSettings({
               size="xs"
               loading={copying}
               onClick={() => void copyUrl()}
-            >
-              Copy URL
-            </Button>
+            >{t`Copy URL`}</Button>
             <Button
               type="button"
               size="xs"
               disabled={!viewer || !communities.snapshot().relayAvailable}
               onClick={() => setEditingConnection(true)}
-            >
-              Edit connection
-            </Button>
+            >{t`Edit connection`}</Button>
           </div>
         </SettingsGroup>
       </div>

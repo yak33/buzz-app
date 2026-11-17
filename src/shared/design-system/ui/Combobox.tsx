@@ -125,12 +125,12 @@ function Trigger({
   );
 }
 
-function Search() {
+function Search({ label }: { label: string }) {
   return (
     <div className="p-2">
       <BaseCombobox.Input
-        aria-label="Search"
-        placeholder="Search"
+        aria-label={label}
+        placeholder={label}
         data-buzz-ui=""
         className="buzz-input"
         autoCorrect="off"
@@ -150,9 +150,15 @@ function Popup({
   collisionAvoidance,
   size = "default",
   search = false,
+  searchLabel = "Search",
+  lang,
 }: {
   children: ReactNode;
   search?: boolean;
+  /** Localized search name and placeholder in the portaled popup. */
+  searchLabel?: string;
+  /** Language of popup labels and feedback, independent of its trigger. */
+  lang?: string;
   empty: ReactNode;
   className?: string | undefined;
   /** Compact keeps search visible above a bounded, scrollable result list. */
@@ -176,13 +182,14 @@ function Popup({
         className="buzz-select-positioner"
       >
         <BaseCombobox.Popup
+          lang={lang}
           data-buzz-ui=""
           className={`buzz-select-popup text-body ${className}`}
           data-variant="field"
           data-combobox-size={size}
           initialFocus={search ? true : undefined}
         >
-          {search && <Search />}
+          {search && <Search label={searchLabel} />}
           <BaseCombobox.Empty className="buzz-combobox-empty">
             {empty}
           </BaseCombobox.Empty>

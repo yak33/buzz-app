@@ -1,8 +1,10 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useRef,
   useState,
   useSyncExternalStore,
@@ -67,6 +69,7 @@ export function PluginUpdates({
   navigation: Pick<AppServices["navigation"], "open">;
   children: ReactNode;
 }) {
+  const { t, i18n } = useLingui();
   const [store, setStore] = useState<Updates>();
   const [action, setAction] = useState<PluginUpdate>();
   const [actionQueueId, setActionQueueId] = useState<string>();
@@ -217,14 +220,13 @@ export function PluginUpdates({
             reviewLeaseRevision.current === installRequests.reviewRevision()
               ? store?.capability.getSnapshot().status === "checking"
                 ? {
-                    message:
-                      "Checking for updates. Try again when the check finishes.",
+                    message: t`Checking for updates. Try again when the check finishes.`,
                     transient: true as const,
                   }
                 : store?.isCurrentToken(reviewToken)
                   ? undefined
-                  : "The update candidate changed after it was checked. Check for updates again before reviewing it."
-              : "Another plugin review opened. Close it before confirming this update.",
+                  : t`The update candidate changed after it was checked. Check for updates again before reviewing it.`
+              : t`Another plugin review opened. Close it before confirming this update.`,
           confirmed: () => store?.beginOperation(review.queueId, reviewToken),
           settled: (
             outcome: "installed" | "updated" | "cancelled" | "unavailable",
@@ -232,6 +234,12 @@ export function PluginUpdates({
           ended: (error?: string) => endReview(review, error),
         }
       : undefined;
+  // Refresh translated review feedback without reopening or ending a review on locale changes.
+  const staleReviewReason = useEffectEvent((sameReview: boolean) =>
+    sameReview
+      ? t`The installed plugin changed after this update was checked.`
+      : t`Another plugin review opened. Close it before confirming this update.`,
+  );
   useEffect(() => {
     if (action && !validAction && !state.busy) {
       const review = store?.getActiveReview();
@@ -242,9 +250,9 @@ export function PluginUpdates({
       )
         endReview(
           review,
-          reviewLeaseRevision.current === installRequests.reviewRevision()
-            ? "The installed plugin changed after this update was checked."
-            : "Another plugin review opened. Close it before confirming this update.",
+          staleReviewReason(
+            reviewLeaseRevision.current === installRequests.reviewRevision(),
+          ),
         );
       setAction(undefined);
       setActionQueueId(undefined);
@@ -316,7 +324,7 @@ export function PluginUpdates({
           );
           const name = plugin?.manifest.name ?? update.id;
           const manage = {
-            label: `Manage ${name} update checks`,
+            label: t`Manage ${name} update checks`,
             open: () =>
               void navigation.open({
                 version: 1,
@@ -328,12 +336,13 @@ export function PluginUpdates({
           const review = needsReview(update);
           return (
             <ToastNotice
+              lang={i18n.locale}
               key={update.id}
-              title={`Update ${name}`}
-              description="Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
+              title={t`Update ${name}`}
+              description={t`Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately.`}
               tone="info"
               onDismiss={() => store?.later(update)}
-              closeLabel="Dismiss plugin update notice"
+              closeLabel={t`Dismiss plugin update notice`}
               navigation={manage}
             >
               <Button
@@ -341,11 +350,12 @@ export function PluginUpdates({
                 disabled={state.busy || !!action}
                 onClick={() => open(update)}
               >
-                {review ? "Review permissions" : "Update and reload"}
+                {review ? t`Review permissions` : t`Update and reload`}
               </Button>
-              <Button size="sm" onClick={() => store?.later(update)}>
-                Later
-              </Button>
+              <Button
+                size="sm"
+                onClick={() => store?.later(update)}
+              >{t`Later`}</Button>
             </ToastNotice>
           );
         })}
@@ -383,8 +393,9 @@ export function PluginUpdates({
           const activation = state.activation[recovery.manifest.id];
           return activation?.status === "failed" ? (
             <ToastNotice
+              lang={i18n.locale}
               key={recovery.manifest.id}
-              title={`${recovery.manifest.name} cannot start`}
+              title={t`${recovery.manifest.name} cannot start`}
               description={`${activation.error}${recovery.rollbackBlockedReason ? ` ${recovery.rollbackBlockedReason}` : ""}`}
               tone="error"
             >
@@ -400,14 +411,12 @@ export function PluginUpdates({
                   )
                 }
                 onClick={() => plugins.retryPlugin(recovery.manifest.id)}
-              >
-                Retry activation
-              </Button>
+              >{t`Retry activation`}</Button>
               <PluginMenu
                 plugin={recovery}
                 plugins={plugins}
                 busy={state.busy}
-                label="Plugin recovery actions"
+                label={t`Plugin recovery actions`}
               />
             </ToastNotice>
           ) : null;
@@ -423,6 +432,7 @@ export function PluginUpdatesMenu({
   onManage(): void;
   recommendations: number;
 }) {
+  const { t, i18n } = useLingui();
   const context = useContext(Context);
   // A failed check is reported on its plugin's row in Manage plugins.
   const updates = (context?.updates ?? empty).filter(
@@ -437,7 +447,7 @@ export function PluginUpdatesMenu({
       <MenuIcon>
         <SquaresFourIcon aria-hidden="true" size={16} />
       </MenuIcon>
-      Plugins
+      {t`Plugins`}
       {count > 0 && (
         <MenuTrailing>
           <RecommendationCount count={count} />
@@ -449,18 +459,18 @@ export function PluginUpdatesMenu({
   return (
     <MenuSubmenu>
       <MenuSubmenuTrigger>{label}</MenuSubmenuTrigger>
-      <MenuSubmenuPopup>
+      <MenuSubmenuPopup lang={i18n.locale}>
         {updates.map((update) => (
           <MenuItem
             key={update.id}
             disabled={context?.busy}
             onClick={() => context?.open(update)}
           >
-            Update {update.candidate?.manifest.name ?? update.id}
+            {t`Update ${update.candidate?.manifest.name ?? update.id}`}
           </MenuItem>
         ))}
         <MenuSeparator />
-        <MenuItem onClick={onManage}>Manage plugins</MenuItem>
+        <MenuItem onClick={onManage}>{t`Manage plugins`}</MenuItem>
       </MenuSubmenuPopup>
     </MenuSubmenu>
   );
@@ -479,6 +489,7 @@ export function PluginUpdateFailure({
   /** Where focus goes when Check again clears the status. */
   returnFocus?: () => HTMLElement | null | undefined;
 }) {
+  const { t } = useLingui();
   const context = useContext(Context);
   // Nothing else reports a failed Check again, so its failure is announced.
   // Once the row clears, a later background failure returns unannounced.
@@ -492,7 +503,7 @@ export function PluginUpdateFailure({
     return (
       <LoadingRegion
         pending
-        label="Checking for updates…"
+        label={t`Checking for updates…`}
         statusVisibility="screen-reader"
       >
         {null}
@@ -507,7 +518,8 @@ export function PluginUpdateFailure({
           className="m-0 text-body-sm error"
           role={asked ? "alert" : undefined}
         >
-          Couldn’t check for updates.{cause ? ` ${cause}` : ""}
+          {t`Couldn’t check for updates.`}
+          {cause ? ` ${cause}` : ""}
         </p>
         <Button
           size="sm"
@@ -517,13 +529,11 @@ export function PluginUpdateFailure({
             returnFocus?.()?.focus();
             void context.checkAgain(pluginId);
           }}
-        >
-          Check again
-        </Button>
+        >{t`Check again`}</Button>
       </div>
       {update.error !== cause && (
         <details>
-          <summary className="text-body-sm">Details</summary>
+          <summary className="text-body-sm">{t`Details`}</summary>
           <p className="m-0 text-body-sm text-subtle">{update.error}</p>
         </details>
       )}

@@ -10,6 +10,8 @@ export function SearchField({
   value,
   onValueChange,
   label = "Search",
+  labelLang,
+  clearLabel,
   placeholder = "Search",
   inputRef,
   variant = "default",
@@ -29,6 +31,9 @@ export function SearchField({
   value: string;
   onValueChange: (value: string) => void;
   label?: string;
+  /** Language of control labels, independent of the entered query. */
+  labelLang?: string;
+  clearLabel?: string;
   placeholder?: string;
 } & Omit<
   ComponentProps<typeof Input>,
@@ -42,7 +47,8 @@ export function SearchField({
         data-empty={!value ? "" : undefined}
         tabIndex={!value ? -1 : 0}
         aria-hidden={!value || undefined}
-        aria-label={`Clear ${label.toLowerCase()}`}
+        lang={labelLang}
+        aria-label={clearLabel ?? `Clear ${label.toLowerCase()}`}
         icon={<XIcon size={16} aria-hidden="true" />}
         size="sm"
         disabled={inputProps.disabled || inputProps.readOnly}
@@ -77,6 +83,7 @@ export function SearchField({
     );
   return (
     <Field
+      lang={labelLang}
       label={label}
       labelVisibility="hidden"
       description={description}

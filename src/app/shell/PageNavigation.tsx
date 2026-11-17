@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { ACTIVITY_PAGE } from "./activity-context";
 import { ActivityNavigationIcon } from "./ActivityNavigation";
 import {
@@ -49,6 +50,7 @@ export function PageNavigation({
   /** Show inactive page previews in this navigation surface on hover-capable devices. */
   previews?: boolean;
 }) {
+  const { t, i18n } = useLingui();
   const presentation = usePagePresentation();
   const hover = useHoverPointer();
   const previewed = (page: RegisteredPage) =>
@@ -56,7 +58,8 @@ export function PageNavigation({
   if (placement === "dock") {
     return (
       <Tabs
-        label="Apps"
+        lang={i18n.locale}
+        label={t`Apps`}
         variant="dock"
         orientation="vertical"
         value={pages.some((page) => page.key === selected) ? selected : null}
@@ -68,11 +71,12 @@ export function PageNavigation({
         items={pages.map((page) => {
           const Badge = page.badge;
           const Preview = page.preview;
-          const { icon, image, avatar, label, placeholder } =
+          const { icon, image, avatar, label, placeholder, lang } =
             presentation(page);
           return {
             value: page.key,
             label,
+            lang,
             icon: placeholder ? (
               <EmptyBestieAvatar key={page.key} compact />
             ) : avatar ? (
@@ -119,7 +123,8 @@ export function PageNavigation({
     );
   }
   return pages.map((page) => {
-    const { label, icon, image, avatar, placeholder } = presentation(page);
+    const { label, icon, image, avatar, placeholder, lang } =
+      presentation(page);
     const Badge = page.badge;
     const badge = Badge && (
       <ContributionBoundary key={contributionKey(page)} fallback={null}>
@@ -157,6 +162,7 @@ export function PageNavigation({
     const item = (
       <NavigationItem
         key={page.key}
+        lang={lang}
         onClick={select}
         selected={selected === page.key}
         label={label}

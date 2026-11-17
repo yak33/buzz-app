@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useRef, useState, type ReactNode, type RefObject } from "react";
 import type { ChannelSummary } from "../../features/relay/contracts";
 import type { RelaySession } from "../../features/relay/session";
@@ -34,7 +35,7 @@ export function ChannelHeaderMenu({
   finishConversion,
   startChat,
   size = "toolbar",
-  label = "Channel actions",
+  label: suppliedLabel,
 }: {
   channel: ChannelSummary | undefined;
   session: RelaySession;
@@ -48,6 +49,8 @@ export function ChannelHeaderMenu({
   menuPanels?: readonly RegisteredPanel[] | undefined;
   openMenuPanel?: ((panel: RegisteredPanel) => void) | undefined;
 }) {
+  const { t, i18n } = useLingui();
+  const label = suppliedLabel ?? t`Channel actions`;
   const [open, setOpen] = useState(false);
   const finalFocus = useRef<(() => HTMLElement | false) | undefined>(undefined);
   const handoff = useChannelNavigation();
@@ -73,6 +76,7 @@ export function ChannelHeaderMenu({
   };
   const popup = (lifecycle: ReactNode) => (
     <MenuPopup
+      lang={i18n.locale}
       size="default"
       align="end"
       finalFocus={() =>
@@ -83,7 +87,7 @@ export function ChannelHeaderMenu({
       {finishConversion && (
         <MenuItem onClick={finishConversion}>
           <MenuIcon>{null}</MenuIcon>
-          Finish conversion
+          {t`Finish conversion`}
         </MenuItem>
       )}
       <MenuItem
@@ -101,10 +105,14 @@ export function ChannelHeaderMenu({
         <MenuIcon>
           <InfoIcon size={16} />
         </MenuIcon>
-        View channel details
+        {t`View channel details`}
       </MenuItem>
       {menuPanels?.map((panel) => (
-        <MenuItem key={panel.key} onClick={() => openMenuPanel?.(panel)}>
+        <MenuItem
+          lang="en"
+          key={panel.key}
+          onClick={() => openMenuPanel?.(panel)}
+        >
           <MenuIcon>
             <InfoIcon size={16} />
           </MenuIcon>
@@ -112,7 +120,9 @@ export function ChannelHeaderMenu({
         </MenuItem>
       ))}
       {channel && <ChannelHeaderActions channel={channel} surface={surface} />}
-      {readAction.state?.pending && <MenuNote role="status">Saving…</MenuNote>}
+      {readAction.state?.pending && (
+        <MenuNote role="status">{t`Saving…`}</MenuNote>
+      )}
       {readAction.state?.error && (
         <MenuNote role="alert">{readAction.state.error}</MenuNote>
       )}

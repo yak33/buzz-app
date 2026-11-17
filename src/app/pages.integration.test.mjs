@@ -1,3 +1,4 @@
+import { localizationPlugin } from "../../scripts/localization-plugin.ts";
 import assert from "node:assert/strict";
 import { test, vi } from "vitest";
 import { setImmediate as settle } from "node:timers/promises";
@@ -8,6 +9,7 @@ import { createServer } from "vite";
 test("the app runtime exposes ready bundled pages and removes them on disable", async () => {
   const vite = await createServer({
     configFile: false,
+    plugins: [localizationPlugin()],
     optimizeDeps: { noDiscovery: true, include: [] },
     server: { middlewareMode: true, ws: false },
   });

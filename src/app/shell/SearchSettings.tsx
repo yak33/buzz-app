@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { pluginCategoryDefinitions } from "../plugin-categories";
 import { GearIcon, SquaresFourIcon } from "../../shared/design-system/icons";
 import { useEffect, useSyncExternalStore } from "react";
@@ -94,6 +95,7 @@ export function useSearchSettings({
   appearance?: AppServices["appearance"] | undefined;
   notifications?: AppServices["notifications"] | undefined;
 }): SearchGroup[] {
+  const { i18n } = useLingui();
   const pluginState = useSyncExternalStore(
     plugins?.subscribe ?? noSubscribe,
     plugins?.snapshot ?? noSnapshot,
@@ -124,6 +126,7 @@ export function useSearchSettings({
     ? settingsSections(
         cards,
         client?.memberships.find(({ id }) => id === client.selected),
+        i18n,
       ).groups.flatMap((group) =>
         group.sections.flatMap((section) => {
           const match = matchSection(section.label, needle);

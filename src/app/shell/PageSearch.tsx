@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useSearchSettings } from "./SearchSettings";
 import { usePagePresentation } from "./BestieNavigation";
 import { isBestiePage, useBestieConversation } from "./bestie-context";
@@ -81,6 +82,7 @@ export function PageSearch({
   onSelect: (key: string, options?: { section?: string }) => void;
   services?: SearchServices | undefined;
 }) {
+  const { t, i18n } = useLingui();
   const pagePresentation = usePagePresentation();
   const [open, setOpen] = useState(false);
   const [contentPresent, setContentPresent] = useState(false);
@@ -192,26 +194,26 @@ export function PageSearch({
     () =>
       services?.shortcuts.registerHost({
         id: SEARCH_ID,
-        title: "Search Buzz",
+        title: t`Search Buzz`,
         binding: SEARCH_BINDINGS,
         order: HOST_SHORTCUT_ORDER.search,
         allowInEditable: true,
         run: begin,
       }),
-    [services, begin],
+    [services, begin, t],
   );
   useEffect(
     () =>
       services?.shortcuts.registerHost({
         id: CONVERSATION_SEARCH_ID,
-        title: "Search this conversation",
+        title: t`Search this conversation`,
         binding: CONVERSATION_SEARCH_BINDING,
         order: HOST_SHORTCUT_ORDER.search + 1,
         allowInEditable: true,
         when: () => !!currentChannelId,
         run: beginScoped,
       }),
-    [services, currentChannelId, beginScoped],
+    [services, currentChannelId, beginScoped, t],
   );
   // The hint follows the person's rebind, derived from the same binding object.
   const { overrides } = useSyncExternalStore(
@@ -233,6 +235,7 @@ export function PageSearch({
       {
         key: "settings",
         ...shellPresentation.settings,
+        label: t`Settings`,
         open: () => onSelect("settings"),
       },
     ];
@@ -271,12 +274,14 @@ export function PageSearch({
   return (
     <>
       <Button
+        data-buzz-search-trigger=""
         ref={trigger}
         variant="inverted"
         size="sm"
         shape="capsule"
-        aria-label="Search Buzz"
-        title={`Search Buzz (${formatBinding(binding, apple).text})`}
+        lang={i18n.locale}
+        aria-label={t`Search Buzz`}
+        title={t`Search Buzz (${formatBinding(binding, apple).text})`}
         onClick={() => {
           trigger.current?.focus();
           begin();
@@ -284,20 +289,21 @@ export function PageSearch({
       >
         <span className="shell-search-content">
           <MagnifyingGlassIcon size={16} aria-hidden="true" />
-          <span className="shell-search-label">Search</span>
+          <span className="shell-search-label">{t`Search`}</span>
           <span className="shell-search-shortcut">
             <KeyCombo binding={binding} apple={apple} />
           </span>
         </span>
       </Button>
       <Dialog
+        lang={i18n.locale}
         open={open}
         onOpenChange={setSearchOpen}
         onEscape={() => {
           escaped.current = true;
           return false;
         }}
-        title={scopedChannelId ? "Search this conversation" : "Search Buzz"}
+        title={scopedChannelId ? t`Search this conversation` : t`Search Buzz`}
         footerGap="none"
         motion="default"
         dismissOnOutsideClick
@@ -332,47 +338,49 @@ export function PageSearch({
             ).focus({ preventScroll: true });
         }}
       >
-        {contentPresent &&
-          (services ? (
-            <CommunitySearch
-              tab={tab}
-              onTabChange={changeTab}
-              place={place.current}
-              services={services}
-              pages={destinations}
-              query={query}
-              onQueryChange={setQuery}
-              input={input}
-              enabled={pages.some(
-                (page) => page.key === "buzz.channels/channels",
-              )}
-              scopedChannelId={scopedChannelId}
-              currentChannelId={currentChannelId}
-              onScopeChange={(channelId) => {
-                setScopedChannelId(channelId);
-                input.current?.focus();
-              }}
-              open={open}
-              isOpen={() => openRef.current}
-              close={(channelId) => {
-                composerChannel.current = channelId;
-                returnFocus.current = document.getElementById("main-content");
-                setSearchOpen(false);
-              }}
-              openSection={(section) => {
-                returnFocus.current = document.getElementById("main-content");
-                onSelect("settings", { section });
-                setSearchOpen(false);
-              }}
-            />
-          ) : (
-            <SearchChoices
-              query={query}
-              onQueryChange={setQuery}
-              input={input}
-              groups={[{ label: "Pages", destinations }]}
-            />
-          ))}
+        <div lang="en" className="contents">
+          {contentPresent &&
+            (services ? (
+              <CommunitySearch
+                tab={tab}
+                onTabChange={changeTab}
+                place={place.current}
+                services={services}
+                pages={destinations}
+                query={query}
+                onQueryChange={setQuery}
+                input={input}
+                enabled={pages.some(
+                  (page) => page.key === "buzz.channels/channels",
+                )}
+                scopedChannelId={scopedChannelId}
+                currentChannelId={currentChannelId}
+                onScopeChange={(channelId) => {
+                  setScopedChannelId(channelId);
+                  input.current?.focus();
+                }}
+                open={open}
+                isOpen={() => openRef.current}
+                close={(channelId) => {
+                  composerChannel.current = channelId;
+                  returnFocus.current = document.getElementById("main-content");
+                  setSearchOpen(false);
+                }}
+                openSection={(section) => {
+                  returnFocus.current = document.getElementById("main-content");
+                  onSelect("settings", { section });
+                  setSearchOpen(false);
+                }}
+              />
+            ) : (
+              <SearchChoices
+                query={query}
+                onQueryChange={setQuery}
+                input={input}
+                groups={[{ label: t`Pages`, destinations }]}
+              />
+            ))}
+        </div>
       </Dialog>
     </>
   );
@@ -412,6 +420,7 @@ function CommunitySearch({
   close: (channelId?: string) => void;
   openSection: (section: string) => void;
 } & SearchInputProps) {
+  const { t, i18n } = useLingui();
   const inlineSettings = useSearchSettings({
     query: scopedChannelId ? "" : query,
     appearance: services.appearance,
@@ -445,10 +454,14 @@ function CommunitySearch({
         }}
       >
         <Tabs
+          lang={i18n.locale}
           variant="panel"
-          label="Search in"
+          label={t`Search in`}
           value={view}
-          items={SEARCH_VIEWS}
+          items={SEARCH_VIEWS.map((item) => ({
+            ...item,
+            label: item.value === "all" ? t`All` : t`Channels`,
+          }))}
           onValueChange={(next) => {
             focusTab.current =
               !pointer.current &&
@@ -463,7 +476,7 @@ function CommunitySearch({
         />
       </div>
     ),
-    [view, onTabChange, input],
+    [view, onTabChange, input, t, i18n.locale],
   );
   const switchView = (delta: 1 | -1) => {
     focusTab.current = false;
@@ -491,11 +504,13 @@ function CommunitySearch({
     !enabled || !client.selected || connection.status === "ready"
       ? undefined
       : saved
-        ? `Only saved conversations are searched ${connecting ? "until this community connects" : "while this community is disconnected"}.`
+        ? connecting
+          ? t`Only saved conversations are searched until this community connects.`
+          : t`Only saved conversations are searched while this community is disconnected.`
         : !connecting
-          ? "Message search is unavailable while this community is disconnected."
+          ? t`Message search is unavailable while this community is disconnected.`
           : query.trim() && !scopedChannelId
-            ? "Connecting to this community…"
+            ? t`Connecting to this community…`
             : undefined;
   const offline = notice && (
     <div className="px-3 text-body-sm text-subtle" aria-live="polite">
@@ -510,9 +525,7 @@ function CommunitySearch({
             input.current?.focus();
             services.communities.relay.tryAgain();
           }}
-        >
-          Retry connection
-        </Button>
+        >{t`Retry connection`}</Button>
       )}
     </div>
   );
@@ -528,38 +541,38 @@ function CommunitySearch({
         query={query}
         onQueryChange={onQueryChange}
         input={input}
-        label={scopedChannelId ? "Search this conversation" : "Search Buzz"}
+        label={scopedChannelId ? t`Search this conversation` : t`Search Buzz`}
         scope={
           scopedChannelId
-            ? { label: "This conversation", onRemove: () => onScopeChange() }
+            ? { label: t`This conversation`, onRemove: () => onScopeChange() }
             : undefined
         }
         groups={
           scopedChannelId
             ? [
                 {
-                  label: "Most relevant",
+                  label: t`Most relevant`,
                   destinations: [],
-                  empty: "Connect to this community to search messages.",
+                  empty: t`Connect to this community to search messages.`,
                 },
               ]
             : query.trim()
               ? [
                   {
-                    label: "Pages",
+                    label: t`Pages`,
                     destinations: pages,
-                    empty: "No matching pages.",
+                    empty: t`No matching pages.`,
                   },
                 ]
               : [
                   {
-                    label: "Recent activity",
+                    label: t`Recent activity`,
                     destinations: [],
                     empty: !enabled
-                      ? "Enable Messages to see conversations."
+                      ? t`Enable Messages to see conversations.`
                       : !client.selected
-                        ? "Choose a community to see recent conversations."
-                        : "Connecting to this community…",
+                        ? t`Choose a community to see recent conversations.`
+                        : t`Connecting to this community…`,
                   },
                 ]
         }
@@ -599,7 +612,7 @@ function CommunitySearch({
   const views =
     !scopedChannelId && !saved && connection.session.channels.readDirectory
       ? {
-          resultsLabel: view === "channels" ? "Channels" : "Search results",
+          resultsLabel: view === "channels" ? t`Channels` : t`Search results`,
           panelId: `search-view-${view}`,
           onSwitch: switchView,
           place,

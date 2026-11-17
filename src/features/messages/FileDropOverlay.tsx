@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { RefObject } from "react";
 import { createPortal } from "react-dom";
 import { CloudUploadIcon } from "../../shared/design-system/icons";
@@ -9,14 +10,19 @@ export function FileDropOverlay({
 }: {
   composer: RefObject<HTMLFormElement | null>;
 }) {
+  const { t, i18n } = useLingui();
   const zone =
     composer.current?.closest<HTMLElement>("[data-attachment-drop-zone]") ??
     composer.current;
   return zone
     ? createPortal(
-        <div className={styles.fileDropOverlay} role="status">
+        <div
+          lang={i18n.locale}
+          className={styles.fileDropOverlay}
+          role="status"
+        >
           <CloudUploadIcon size={32} />
-          <span>Drop files into this conversation</span>
+          <span>{t`Drop files into this conversation`}</span>
         </div>,
         zone,
       )

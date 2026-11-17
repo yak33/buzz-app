@@ -17,8 +17,8 @@ function Request({
   const focus = useHuddleRequestFocus(false, error, initial);
   return (
     <>
-      <button type="button" aria-label="Search Buzz">
-        Search
+      <button type="button" data-buzz-search-trigger="" aria-label="搜索 Buzz">
+        搜索
       </button>
       <textarea aria-label="Message" />
       {shown && (

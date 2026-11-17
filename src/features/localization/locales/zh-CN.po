@@ -1,0 +1,2244 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-14 12:01-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-CN\n"
+
+#. placeholder {0}: recovery.manifest.name
+#: src/app/PluginUpdates.tsx
+msgid "{0} cannot start"
+msgstr "{0} 无法启动"
+
+#: src/features/communities/ProfileFields.tsx
+msgid "{aboutLength} of {PROFILE_ABOUT_MAX_LENGTH} characters"
+msgstr "{aboutLength} / {PROFILE_ABOUT_MAX_LENGTH} 个字符"
+
+#: src/app/AppearanceSettings.tsx
+msgid "{colorLabel} accent color"
+msgstr "{colorLabel}强调色"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "{displayLabel} (preview only)"
+msgstr "{displayLabel}（仅预览）"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "{label} copied"
+msgstr "{label}已复制"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "{label} date"
+msgstr "{label}日期"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "{label} time"
+msgstr "{label}时间"
+
+#: src/app/NotificationSettings.tsx
+msgid "{name} rec."
+msgstr "{name}（推荐）"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "{name}, edit profile"
+msgstr "{name}，编辑个人资料"
+
+#: src/app/NotificationSettings.tsx
+msgid "@Mentions"
+msgstr "@提及我的"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "1 hour"
+msgstr "1 小时"
+
+#: src/app/AppearanceSettings.tsx
+msgid "12-hour"
+msgstr "12 小时制"
+
+#: src/app/AppearanceSettings.tsx
+msgid "24-hour"
+msgstr "24 小时制"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "8 hours"
+msgstr "8 小时"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "A selected recipient is archived or being deleted. Remove it before sending."
+msgstr "所选接收方已归档或正在删除，请移除后再发送。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "A team member is no longer available. Refresh choices before trying again."
+msgstr "某个团队成员已不可用，请刷新选项后重试。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Accent color"
+msgstr "强调色"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Accent color wasn’t saved"
+msgstr "未能保存强调色"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Activity"
+msgstr "动态"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Add link"
+msgstr "添加链接"
+
+#: src/app/settings-sections.ts
+msgid "Agent setup"
+msgstr "智能体设置"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Agents"
+msgstr "智能体"
+
+#: src/app/shell/PageSearch.tsx
+msgid "All"
+msgstr "全部"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Allow automatic spelling correction"
+msgstr "允许自动拼写纠正"
+
+#: src/app/NotificationSettings.tsx
+msgid "Allow notifications"
+msgstr "允许通知"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Allow notifications and badges"
+msgstr "允许通知和角标"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Allow notifications and badges to show the unread dot."
+msgstr "允许通知和角标，以显示未读圆点。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Allow notifications to receive alerts."
+msgstr "允许通知以接收提醒。"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
+msgstr "允许智能体使用已有的本地代码仓库，无需另外克隆。留空则使用默认位置。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "An agent you're sending to is archived or being deleted. Choose another agent to send."
+msgstr "接收消息的智能体已归档或正在删除，请选择其他智能体。"
+
+#: src/app/PluginUpdates.tsx
+msgid "Another plugin review opened. Close it before confirming this update."
+msgstr "另一个插件审核已打开，请先关闭再确认此更新。"
+
+#: src/app/LanguageSettings.tsx
+msgid "App language"
+msgstr "应用语言"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/settings-sections.ts
+#: src/app/shell/ProfileButton.tsx
+msgid "Appearance"
+msgstr "外观"
+
+#: src/app/AppearancePreview.tsx
+msgid "Appearance preview"
+msgstr "外观预览"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Appearance wasn’t saved"
+msgstr "未能保存外观设置"
+
+#: src/app/shell/PageNavigation.tsx
+msgid "Apps"
+msgstr "应用"
+
+#: src/app/shell/AppShell.tsx
+msgid "Apps dock"
+msgstr "应用栏"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Archived"
+msgstr "已归档"
+
+#. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Archives after {0} without activity."
+msgstr "连续 {0} 没有活动后自动归档。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Attach at most {MAX_DRAFT_GIFS} GIFs per message."
+msgstr "每条消息最多添加 {MAX_DRAFT_GIFS} 个 GIF。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Attach files"
+msgstr "添加文件"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Automatic updates aren't available on this build. Download the latest release manually."
+msgstr "此版本不支持自动更新，请手动下载最新发布版本。"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Availability"
+msgstr "在线状态"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Availability: {label}"
+msgstr "在线状态：{label}"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Availability: {label}, updating to {targetLabel}"
+msgstr "在线状态：{label}，正在切换为{targetLabel}"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "away"
+msgstr "离开"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Away"
+msgstr "离开"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Behavior"
+msgstr "发送方式"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Bold"
+msgstr "加粗"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Bullet list"
+msgstr "无序列表"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Buzz can show Dock badges."
+msgstr "Buzz 可以显示 Dock 角标。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
+msgstr "Buzz 无法确认消息是否已送达。移除后，此设备会停止发送该消息；如果已经送达，对话中的消息仍会保留。此操作无法撤销。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Buzz couldn’t send the notification"
+msgstr "Buzz 未能发送通知"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Buzzin’"
+msgstr "鲜明"
+
+#. placeholder {0}: verifiedName.issuerLabel
+#: src/features/communities/ProfileFields.tsx
+msgid "Cached verification from {0}"
+msgstr "已缓存 {0} 的验证信息"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Can’t connect"
+msgstr "无法连接"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/app/CommunityRepositoriesSettings.tsx
+#: src/app/ProfileSettings.tsx
+#: src/features/messages/ComposerLinkDialog.tsx
+#: src/features/messages/MessageManagement.tsx
+msgid "Cancel"
+msgstr "取消"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Cancel edit"
+msgstr "取消编辑"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "Channel actions"
+msgstr "频道操作"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Channel archived: {channelName}"
+msgstr "频道已归档：{channelName}"
+
+#: src/app/shell/PageSearch.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Channels"
+msgstr "频道"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Chat actions"
+msgstr "对话操作"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Chat archived: {channelName}"
+msgstr "对话已归档：{channelName}"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
+msgstr "在此社区中通过“新建对话”创建的个人对话使用此保留时间，也可以在对话设置中修改。"
+
+#: src/app/PluginUpdates.tsx
+#: src/features/updates/UpdateSettings.tsx
+msgid "Check again"
+msgstr "再次检查"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Check Dock permission"
+msgstr "检查 Dock 权限"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Check for updates"
+msgstr "检查更新"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Check if a new version is available."
+msgstr "检查是否有新版本。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Check permission"
+msgstr "检查权限"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Check your connection, then try again."
+msgstr "请检查网络后重试。"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Check your connection. We’ll keep trying."
+msgstr "请检查网络，我们会继续重试。"
+
+#: src/app/PluginUpdates.tsx
+msgid "Checking for updates. Try again when the check finishes."
+msgstr "正在检查更新，请在检查完成后重试。"
+
+#: src/app/PluginUpdates.tsx
+#: src/features/updates/UpdateSettings.tsx
+msgid "Checking for updates…"
+msgstr "正在检查更新…"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Checking your current status…"
+msgstr "正在检查当前状态…"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Chillin’"
+msgstr "柔和"
+
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Choose a community"
+msgstr "选择社区"
+
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Choose a community to see its channels, or join one. Your profile and settings work without a community."
+msgstr "选择社区即可查看其频道，或加入一个社区。没有社区时，你的个人资料和设置也能正常使用。"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Choose a community to see recent conversations."
+msgstr "选择社区以查看最近的对话。"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Choose a date and time in the future."
+msgstr "请选择未来的日期和时间。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Choose a sound to preview it."
+msgstr "选择声音即可试听。"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Choose a status emoji"
+msgstr "选择状态表情"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Choose an agent to send"
+msgstr "选择智能体后发送"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Choose at most 32 recipients"
+msgstr "最多选择 32 个接收方"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Choose attachments"
+msgstr "选择附件"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Choose expiration date"
+msgstr "选择到期日期"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Choose folder…"
+msgstr "选择目录…"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Choose repositories folder"
+msgstr "选择仓库目录"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Citrus"
+msgstr "柑橘绿"
+
+#. placeholder {0}: label.toLowerCase()
+#: src/app/shell/SearchChoices.tsx
+msgid "Clear {0}"
+msgstr "清除 {0}"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Clear status"
+msgstr "清除状态"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Clock"
+msgstr "时间格式"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Clock preference wasn’t saved"
+msgstr "未能保存时间设置"
+
+#: src/app/App.tsx
+#: src/features/messages/ComposerLinkDialog.tsx
+#: src/features/messages/MessageManagement.tsx
+msgid "Close"
+msgstr "关闭"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Close edit"
+msgstr "关闭编辑"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Close formatting"
+msgstr "关闭格式工具"
+
+#: src/app/App.tsx
+msgid "Close Settings"
+msgstr "关闭设置"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Close status editor"
+msgstr "关闭状态编辑器"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Close tab pane"
+msgstr "关闭标签面板"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Close window"
+msgstr "关闭窗口"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Cobalt"
+msgstr "钴蓝"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Code"
+msgstr "行内代码"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Code block"
+msgstr "代码块"
+
+#. placeholder {0}: formatMediaTime(mediaTimeSeconds)
+#: src/features/messages/MessageComposer.tsx
+msgid "Commenting at {0}"
+msgstr "评论位置：{0}"
+
+#: src/app/settings-sections.ts
+msgid "Community"
+msgstr "社区"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Community address"
+msgstr "社区地址"
+
+#: src/app/settings-sections.ts
+msgid "Community admin"
+msgstr "社区管理"
+
+#: src/app/ProfileSettings.tsx
+msgid "Community profiles are not available in this build yet."
+msgstr "此版本暂不支持社区个人资料。"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Community URL copied."
+msgstr "已复制社区地址。"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Commuting"
+msgstr "通勤中"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Compact"
+msgstr "紧凑"
+
+#: src/app/AppearancePreview.tsx
+msgid "Compact flat-list messages use the full conversation width."
+msgstr "使用整个对话宽度的紧凑平铺消息。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Compact shows conversations as a flat list that fits more messages on screen."
+msgstr "紧凑模式以平铺列表显示对话，让屏幕容纳更多消息。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Compacting session…"
+msgstr "正在压缩会话上下文…"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Connect to this community to search messages."
+msgstr "连接此社区后即可搜索消息。"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Connecting to this community…"
+msgstr "正在连接社区…"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Conversation actions"
+msgstr "对话操作"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Conversations"
+msgstr "对话"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Copy link"
+msgstr "复制链接"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Copy message"
+msgstr "复制消息"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Copy text"
+msgstr "复制文字"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Copy URL"
+msgstr "复制地址"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach {refused} files"
+msgstr "有 {refused} 个文件未能添加"
+
+#. placeholder {0}: files.length
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach {refused} of {0} files"
+msgstr "{0} 个文件中有 {refused} 个未能添加"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach file"
+msgstr "无法添加文件"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not attach files."
+msgstr "无法添加文件。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be confirmed as one person or agent"
+msgstr "无法确认为具体用户或智能体"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be tagged here"
+msgstr "无法在此处提及"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be tagged: a message can tag at most 32 recipients"
+msgstr "无法提及：每条消息最多提及 32 个接收方"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "could not be tagged: the message would be too long"
+msgstr "无法提及：消息将超出长度限制"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Could not confirm your status. Try again."
+msgstr "无法确认你的状态，请重试。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not delete this message. Try again."
+msgstr "无法删除此消息，请重试。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not dismiss the operation."
+msgstr "无法关闭该操作提示。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not read saved model and effort for this chat on this device. Retry before sending."
+msgstr "无法读取此设备上为该对话保存的模型和推理强度，请重试后再发送。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not restore unread state."
+msgstr "无法恢复未读状态。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not save model and effort for this chat on this device. The current choices remain until this composer closes."
+msgstr "无法在此设备上保存该对话的模型和推理强度，当前选择会保留到输入框关闭。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Could not save this draft on this device. Your edits are kept here."
+msgstr "无法在此设备上保存草稿，当前编辑已保留。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not save thread follow. Try again."
+msgstr "无法保存话题关注设置，请重试。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Could not update unread state. Try again."
+msgstr "无法更新未读状态，请重试。"
+
+#: src/app/PluginUpdates.tsx
+msgid "Couldn’t check for updates."
+msgstr "无法检查更新。"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Couldn’t check your latest status. Your draft is unchanged."
+msgstr "无法检查最新状态，草稿已保留。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Couldn’t copy text"
+msgstr "无法复制文字"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Couldn’t copy the URL. Select it and copy manually."
+msgstr "未能复制地址，请选中地址后手动复制。"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Couldn’t copy. Try again from the message menu."
+msgstr "复制失败，请在消息菜单中重试。"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Couldn’t read the repositories folder on this device. Try again."
+msgstr "无法读取此设备的仓库目录，请重试。"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Couldn’t save the display name. Try again."
+msgstr "未能保存显示名称，请重试。"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Couldn’t save this on this device. Try again."
+msgstr "无法保存到此设备，请重试。"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Couldn’t send to channel"
+msgstr "无法发送到频道"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Create this conversation before attaching files."
+msgstr "请先创建对话，再添加文件。"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Custom"
+msgstr "自定义"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Custom date and time"
+msgstr "自定义日期和时间"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Dark"
+msgstr "深色"
+
+#: src/app/settings-sections.ts
+msgid "Decisions API"
+msgstr "Decisions API"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Decrease interface size"
+msgstr "缩小界面"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Default"
+msgstr "默认"
+
+#: src/app/AppearancePreview.tsx
+msgid "Default bubble messages at {widthLabel} width."
+msgstr "采用{widthLabel}宽度的默认气泡消息。"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Default REPOS folder in each agent’s workspace"
+msgstr "各智能体工作区中的默认 REPOS 目录"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delete"
+msgstr "删除"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delete message"
+msgstr "删除消息"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delete message?"
+msgstr "删除消息？"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Deleting…"
+msgstr "正在删除…"
+
+#: src/app/NotificationSettings.tsx
+msgid "Delivery"
+msgstr "通知方式"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delivery could not be confirmed."
+msgstr "无法确认投递结果。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Delivery could not be confirmed. Retry sends the same operation."
+msgstr "无法确认投递结果，重试将再次发送同一操作。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Density"
+msgstr "密度"
+
+#: src/app/NotificationSettings.tsx
+msgid "Desktop alerts"
+msgstr "桌面提醒"
+
+#: src/app/NotificationSettings.tsx
+msgid "Desktop delivery"
+msgstr "桌面通知"
+
+#: src/app/PluginUpdates.tsx
+msgid "Details"
+msgstr "详情"
+
+#: src/app/settings-sections.ts
+msgid "Developer"
+msgstr "开发者"
+
+#: src/app/NotificationSettings.tsx
+msgid "Direct messages"
+msgstr "私聊"
+
+#: src/app/App.tsx
+msgid "Discard changes"
+msgstr "放弃修改"
+
+#: src/app/App.tsx
+msgid "Discard changes?"
+msgstr "放弃修改？"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Discard failed update"
+msgstr "放弃失败的更新"
+
+#: src/app/ProfileSettings.tsx
+#: src/features/messages/MessageActionBar.tsx
+#: src/features/messages/MessageComposer.tsx
+msgid "Dismiss notification"
+msgstr "关闭通知"
+
+#: src/app/PluginUpdates.tsx
+msgid "Dismiss plugin update notice"
+msgstr "关闭插件更新提示"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Dismiss unconfirmed update"
+msgstr "关闭未确认的更新"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/features/communities/ProfileFields.tsx
+msgid "Display name"
+msgstr "显示名称"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Display name saved on this device."
+msgstr "显示名称已保存到此设备。"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock badge unavailable"
+msgstr "Dock 角标不可用"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock badges are off. Turn them on in macOS System Settings."
+msgstr "Dock 角标已关闭，请在 macOS 系统设置中开启。"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock badges require a bundled macOS app and aren’t available from the development server."
+msgstr "Dock 角标需要打包后的 macOS 应用，开发服务器不支持此功能。"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Dock unread badge"
+msgstr "Dock 未读角标"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Don’t clear"
+msgstr "不自动清除"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Downloading update…"
+msgstr "正在下载更新…"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Drafts & sent"
+msgstr "草稿和已发送"
+
+#: src/features/messages/FileDropOverlay.tsx
+msgid "Drop files into this conversation"
+msgstr "将文件拖放到此对话"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Duration"
+msgstr "持续时间"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Duration: {durationLabel}"
+msgstr "持续时间：{durationLabel}"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Edit connection"
+msgstr "编辑连接"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Edit link"
+msgstr "编辑链接"
+
+#: src/features/messages/MessageComposer.tsx
+#: src/features/messages/MessageManagement.tsx
+msgid "Edit message"
+msgstr "编辑消息"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Editing message"
+msgstr "正在编辑消息"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Enable Messages to see conversations."
+msgstr "启用消息功能以查看对话。"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Expiration time"
+msgstr "到期时间"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Explicit mentions"
+msgstr "明确提及"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "Finish conversion"
+msgstr "完成转换"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Finish editing before attaching new files."
+msgstr "请完成编辑后再添加新文件。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Finish or cancel your current edit first."
+msgstr "请先完成或取消当前编辑。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Follow thread"
+msgstr "关注话题"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Follow-up behavior"
+msgstr "追加消息的发送方式"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Follow-up preference wasn’t saved"
+msgstr "未能保存追加消息设置"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Formatting"
+msgstr "文本格式"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Formatting options"
+msgstr "格式选项"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Forward message"
+msgstr "转发消息"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Full name"
+msgstr "全名"
+
+#: src/app/App.tsx
+#: src/app/shell/NavigationControls.tsx
+msgid "Go back"
+msgstr "后退"
+
+#: src/app/shell/NavigationControls.tsx
+msgid "Go forward"
+msgstr "前进"
+
+#: src/app/App.tsx
+msgid "Go to Messages"
+msgstr "前往消息"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Hidden times stay available to screen readers."
+msgstr "隐藏的时间仍可由屏幕阅读器读取。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Hide"
+msgstr "隐藏"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Hide in Solo chats"
+msgstr "在个人对话中隐藏"
+
+#: src/app/shell/AppShell.tsx
+msgid "Hide navigation"
+msgstr "隐藏导航"
+
+#: src/app/shell/AppShell.tsx
+msgid "Hide sidebar"
+msgstr "隐藏侧栏"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Honey"
+msgstr "蜂蜜色"
+
+#: src/app/AppearanceSettings.tsx
+msgid "How people with verified names appear to you. Search, profiles, and previews show both."
+msgstr "选择已验证用户的名称显示方式。搜索、个人资料和预览中仍会显示两种名称。"
+
+#: src/app/settings-sections.ts
+msgid "Identity"
+msgstr "身份"
+
+#: src/app/AppearancePreview.tsx
+msgid "Illustrated preview of your current mode, accent, contrast, and"
+msgstr "预览当前的模式、强调色、对比度，以及"
+
+#. placeholder {0}: region.title
+#: src/bundled/channels/SoloHeading.tsx
+msgid "In {0}"
+msgstr "位于 {0}"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "In a meeting"
+msgstr "开会中"
+
+#: src/app/AppearanceSettings.tsx
+msgid "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
+msgstr "在个人对话中，立即发送追加消息，或排队等待智能体完成上一条回复。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Include direct messages in the conversation you’re viewing."
+msgstr "正在查看的私聊也接收提醒。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Increase interface size"
+msgstr "放大界面"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Installing update…"
+msgstr "正在安装更新…"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Interface"
+msgstr "界面"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Interface size"
+msgstr "界面大小"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Interface size wasn’t saved"
+msgstr "未能保存界面大小"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Iris"
+msgstr "鸢尾紫"
+
+#: src/app/App.tsx
+msgid "It belongs to another account or a community you haven’t joined."
+msgstr "此内容属于其他账号或你尚未加入的社区。"
+
+#: src/app/App.tsx
+msgid "It didn’t load this time. Try again in a moment."
+msgstr "本次加载失败，请稍后重试。"
+
+#: src/app/App.tsx
+msgid "It may be incomplete or out of date. Ask whoever shared it for a new link."
+msgstr "链接可能不完整或已失效，请向分享者索取新链接。"
+
+#: src/app/App.tsx
+msgid "It may have been removed, or you may need to update Buzz."
+msgstr "页面可能已被移除，也可能需要更新 Buzz。"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Italic"
+msgstr "斜体"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Keep attachment links unchanged. To remove this message, use Delete message."
+msgstr "请勿修改附件链接。若要移除此消息，请使用“删除消息”。"
+
+#: src/app/App.tsx
+msgid "Keep editing"
+msgstr "继续编辑"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Keep my draft"
+msgstr "保留我的草稿"
+
+#: src/app/LanguageSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Language"
+msgstr "语言"
+
+#: src/app/LanguageSettings.tsx
+msgid "Language wasn’t saved"
+msgstr "未能保存语言设置"
+
+#: src/app/PluginUpdates.tsx
+msgid "Later"
+msgstr "稍后"
+
+#: src/app/settings-sections.ts
+msgid "Leave or remove"
+msgstr "退出或移除"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
+msgstr "允许 macOS 纠正消息中的拼写错误。可在消息输入框的“拼写和语法”菜单中开启或关闭。"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Light"
+msgstr "浅色"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+#: src/features/messages/MessageActionBar.tsx
+msgid "Link"
+msgstr "链接"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Link text must stay on one line."
+msgstr "链接文字必须在同一行。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Load saved draft"
+msgstr "加载已保存的草稿"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Loading saved model and effort…"
+msgstr "正在加载已保存的模型和推理强度…"
+
+#: src/app/ProfileSettings.tsx
+msgid "Loading your community profile…"
+msgstr "正在加载社区个人资料…"
+
+#. placeholder {0}: communityName(community)
+#: src/app/ProfileSettings.tsx
+msgid "Loading your profile in {0}…"
+msgstr "正在加载你在 {0} 的个人资料…"
+
+#: src/app/App.tsx
+msgid "Loading…"
+msgstr "正在加载…"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Local settings"
+msgstr "本地设置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Magenta"
+msgstr "洋红"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Main pane"
+msgstr "主面板"
+
+#: src/app/PluginUpdates.tsx
+msgid "Manage {name} update checks"
+msgstr "管理 {name} 的更新检查"
+
+#: src/app/App.tsx
+#: src/app/PluginUpdates.tsx
+#: src/app/settings-sections.ts
+msgid "Manage plugins"
+msgstr "管理插件"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Mark read"
+msgstr "标为已读"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Mark unread"
+msgstr "标为未读"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Maximize or restore window"
+msgstr "最大化或还原窗口"
+
+#: src/app/NotificationSettings.tsx
+msgid "Mentions"
+msgstr "提及我的"
+
+#: src/features/messages/MessageActionBar.tsx
+#: src/features/messages/MessageComposer.tsx
+msgid "Message"
+msgstr "消息"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message {channelDisplayName}"
+msgstr "发送消息到 {channelDisplayName}"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message accepted. Could not update the saved draft. Retry cleanup before sending again."
+msgstr "消息已接收，但未能更新已保存的草稿。请重试清理后再发送。"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Message actions"
+msgstr "消息操作"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Message deletion"
+msgstr "消息删除"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message density"
+msgstr "消息密度"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message density wasn’t saved"
+msgstr "未能保存消息密度"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Message edit"
+msgstr "消息编辑"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message is too long to attach this GIF"
+msgstr "消息过长，无法添加此 GIF"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Message is too long to insert text"
+msgstr "消息过长，无法插入文字"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Message link unavailable"
+msgstr "消息链接不可用"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Message search is unavailable while this community is disconnected."
+msgstr "社区断开连接时无法搜索消息。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message timestamps"
+msgstr "消息时间"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message width"
+msgstr "消息宽度"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Message width wasn’t saved"
+msgstr "未能保存消息宽度"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Messages"
+msgstr "消息"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Minimize window"
+msgstr "最小化窗口"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Mode"
+msgstr "模式"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Model and effort choices are still saving. Try sending again shortly."
+msgstr "模型和推理强度选项仍在保存，请稍后发送。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Mono"
+msgstr "单色"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "More message actions"
+msgstr "更多消息操作"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Most relevant"
+msgstr "最相关"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Name"
+msgstr "名称"
+
+#. placeholder {0}: verifiedName.issuerLabel
+#: src/features/communities/ProfileFields.tsx
+msgid "Name verified by {0}"
+msgstr "名称已由 {0} 验证"
+
+#: src/app/AppearancePreview.tsx
+msgid "narrow"
+msgstr "窄"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Narrow"
+msgstr "窄"
+
+#: src/app/shell/NavigationControls.tsx
+msgid "Navigation history"
+msgstr "导航历史"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New"
+msgstr "新建"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New channel"
+msgstr "新建频道"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New chat"
+msgstr "新建对话"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New DM"
+msgstr "新建私聊"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New section"
+msgstr "新建分组"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "New Solo chats"
+msgstr "新建个人对话"
+
+#: src/app/AppearanceSettings.tsx
+msgid "New threads open here. Already-open threads stay where you placed them."
+msgstr "新话题将在此打开，已打开的话题保留原来的位置。"
+
+#: src/app/shell/NewMenu.tsx
+msgid "New workspace"
+msgstr "新建工作区"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "No automatic archive."
+msgstr "不自动归档。"
+
+#: src/app/shell/PageSearch.tsx
+msgid "No matching pages."
+msgstr "没有匹配的页面。"
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "No matching time zones."
+msgstr "没有匹配的时区。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Notification choices weren’t saved"
+msgstr "未能保存通知设置"
+
+#: src/app/NotificationSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Notifications"
+msgstr "通知"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Notifications are off. Turn them on in macOS System Settings."
+msgstr "通知已关闭，请在 macOS 系统设置中开启。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Notifications are off. Turn them on in your browser or system settings."
+msgstr "通知已关闭，请在浏览器或系统设置中开启。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Notifications are paused by your local development setting. Remove BUZZ_DEV_NOTIFICATIONS=0 from .env.local and restart the dev server to resume normal behavior. Your saved alert choices are unchanged."
+msgstr "本地开发设置已暂停通知。请从 .env.local 中移除 BUZZ_DEV_NOTIFICATIONS=0 并重启开发服务器以恢复通知。已保存的提醒设置不受影响。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Notify me about"
+msgstr "提醒内容"
+
+#: src/app/NotificationSettings.tsx
+msgid "Notify while viewing"
+msgstr "查看对话时仍提醒"
+
+#. placeholder {0}: zoneLabel(renamed[zone])
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Now {0}"
+msgstr "现为 {0}"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "offline"
+msgstr "离线"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Offline"
+msgstr "离线"
+
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Ongoing"
+msgstr "长期保留"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "online"
+msgstr "在线"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Online"
+msgstr "在线"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Only saved conversations are searched until this community connects."
+msgstr "连接此社区前，仅搜索已保存的对话。"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Only saved conversations are searched while this community is disconnected."
+msgstr "此社区断开连接时，仅搜索已保存的对话。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
+msgstr "个人对话只能提及你可用的智能体，请移除不可用的接收方后重试。"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Open in main view"
+msgstr "在主视图打开"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Open tab pane"
+msgstr "打开标签面板"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Open the desktop app to choose a folder on this device."
+msgstr "请打开桌面应用，选择此设备上的目录。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Open threads in"
+msgstr "话题打开位置"
+
+#: src/app/App.tsx
+msgid "Opening Buzz"
+msgstr "正在打开 Buzz"
+
+#: src/app/ProfileSettings.tsx
+msgid "Opening your local identity…"
+msgstr "正在读取本地身份…"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Ordered list"
+msgstr "有序列表"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Out sick"
+msgstr "病假中"
+
+#: src/app/App.tsx
+msgid "Page navigation"
+msgstr "页面导航"
+
+#: src/app/shell/AppShell.tsx
+#: src/app/shell/PageSearch.tsx
+msgid "Pages"
+msgstr "页面"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Pane"
+msgstr "面板"
+
+#: src/app/settings-sections.ts
+msgid "Personal space"
+msgstr "个人空间"
+
+#: src/app/PluginUpdates.tsx
+msgid "Plugin recovery actions"
+msgstr "插件恢复操作"
+
+#: src/app/PluginUpdates.tsx
+#: src/app/settings-sections.ts
+msgid "Plugins"
+msgstr "插件"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Preparing update…"
+msgstr "正在准备更新…"
+
+#: src/app/ProfileSettings.tsx
+#: src/app/settings-sections.ts
+msgid "Profile"
+msgstr "个人资料"
+
+#: src/features/communities/ProfileFields.tsx
+msgid "Profile description (optional)"
+msgstr "个人简介（可选）"
+
+#: src/app/ProfileSettings.tsx
+msgid "Profile preview"
+msgstr "个人资料预览"
+
+#: src/app/ProfileSettings.tsx
+msgid "Profile updated"
+msgstr "个人资料已更新"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Queue"
+msgstr "排队发送"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Quick statuses"
+msgstr "快捷状态"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Quote"
+msgstr "引用"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Read state couldn’t be saved"
+msgstr "未能保存已读状态"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Ready to install. Buzz will restart."
+msgstr "准备安装更新，Buzz 将重新启动。"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Recent activity"
+msgstr "最近动态"
+
+#: src/app/NotificationSettings.tsx
+msgid "Reload saved choices"
+msgstr "重新加载已保存的设置"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Reminders"
+msgstr "提醒"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Remove"
+msgstr "移除"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey.slice(0, 8)
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove {0} ({1})"
+msgstr "移除 {0}（{1}）"
+
+#. placeholder {0}: scope.label
+#: src/app/shell/SearchChoices.tsx
+msgid "Remove {0} search scope"
+msgstr "移除 {0} 搜索范围"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove agent {0} {1}"
+msgstr "移除智能体 {0} {1}"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey.slice(0, 8)
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove explicit mention of {0} ({1})"
+msgstr "移除对 {0} 的明确提及（{1}）"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Remove from this device"
+msgstr "从此设备移除"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Remove link"
+msgstr "移除链接"
+
+#. placeholder {0}: recipient.name
+#. placeholder {1}: recipient.pubkey
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove mention {0} {1}"
+msgstr "移除提及 {0} {1}"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Remove message from this device?"
+msgstr "从此设备移除消息？"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Remove video time"
+msgstr "移除视频时间"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Removing…"
+msgstr "正在移除…"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Reply"
+msgstr "回复"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Reply to thread"
+msgstr "回复话题"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Reply unavailable for this message"
+msgstr "此消息暂不支持回复"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Repositories folder"
+msgstr "仓库目录"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Repositories folder saved on this device. Claude and Goose use it in new sessions; Codex uses it on future turns."
+msgstr "仓库目录已保存到此设备。Claude 和 Goose 将在新会话中使用它，Codex 将在后续轮次中使用。"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Repositories folders are configured in the desktop app."
+msgstr "请在桌面应用中设置仓库目录。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Reset interface size"
+msgstr "重置界面大小"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Reset name"
+msgstr "重置名称"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Restore default"
+msgstr "恢复默认"
+
+#: src/features/messages/MessageManagement.tsx
+#: src/features/updates/UpdateSettings.tsx
+#: src/features/user-status/StatusEditor.tsx
+msgid "Retry"
+msgstr "重试"
+
+#: src/app/PluginUpdates.tsx
+msgid "Retry activation"
+msgstr "重试启用"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Retry connection"
+msgstr "重新连接"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry draft cleanup"
+msgstr "重试清理草稿"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry draft save"
+msgstr "重试保存草稿"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry edit"
+msgstr "重试编辑"
+
+#: src/app/ProfileSettings.tsx
+msgid "Retry loading profile"
+msgstr "重新加载个人资料"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry message preparation"
+msgstr "重试准备消息"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Retry message update"
+msgstr "重试更新消息"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Retry saved choices"
+msgstr "重新读取已保存的选项"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving accent color"
+msgstr "重试保存强调色"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving appearance"
+msgstr "重试保存外观"
+
+#: src/app/NotificationSettings.tsx
+msgid "Retry saving choices"
+msgstr "重试保存设置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving clock preference"
+msgstr "重试保存时间设置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving follow-up behavior"
+msgstr "重试保存追加消息设置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving interface size"
+msgstr "重试保存界面大小"
+
+#: src/app/LanguageSettings.tsx
+msgid "Retry saving language"
+msgstr "重试保存语言"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving message density"
+msgstr "重试保存消息密度"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving message width"
+msgstr "重试保存消息宽度"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving search preference"
+msgstr "重试保存搜索设置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving spelling correction"
+msgstr "重试保存拼写纠正设置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving thread placement"
+msgstr "重试保存话题位置"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Retry saving vibe level"
+msgstr "重试保存色彩风格"
+
+#: src/app/PluginUpdates.tsx
+msgid "Review permissions"
+msgstr "审核权限"
+
+#: src/app/CommunityLocalSettings.tsx
+#: src/app/ProfileSettings.tsx
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Save"
+msgstr "保存"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Save changes"
+msgstr "保存修改"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "Save folder"
+msgstr "保存目录"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Save status"
+msgstr "保存状态"
+
+#: src/app/PluginUpdates.tsx
+msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
+msgstr "请先保存未完成的表单并停止运行中的插件任务。更新已启用的插件会立即重新加载它。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Saved model and effort choices are still loading. Try sending again shortly."
+msgstr "正在加载已保存的模型和推理强度选项，请稍后发送。"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "Saving…"
+msgstr "正在保存…"
+
+#: src/app/shell/PageSearch.tsx
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Search"
+msgstr "搜索"
+
+#: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchChoices.tsx
+#: src/app/shell/SearchResults.tsx
+msgid "Search Buzz"
+msgstr "搜索 Buzz"
+
+#. placeholder {0}: formatBinding(binding, apple).text
+#: src/app/shell/PageSearch.tsx
+msgid "Search Buzz ({0})"
+msgstr "搜索 Buzz（{0}）"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Search in"
+msgstr "搜索范围"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Search preference wasn’t saved"
+msgstr "未能保存搜索设置"
+
+#: src/app/shell/PageSearch.tsx
+msgid "Search results"
+msgstr "搜索结果"
+
+#: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
+msgid "Search this conversation"
+msgstr "搜索此对话"
+
+#: src/app/shell/SearchChoices.tsx
+msgid "Search..."
+msgstr "搜索..."
+
+#: src/app/settings-sections.ts
+msgid "Security"
+msgstr "安全"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send a message to {channelName}"
+msgstr "向 {channelName} 发送消息"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send again to send it as text."
+msgstr "再次发送将把它作为普通文字发送。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send again to send them as text."
+msgstr "再次发送将把它们作为普通文字发送。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send chips from the main window."
+msgstr "请在主窗口发送内容卡片。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Send immediately"
+msgstr "立即发送"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Send message"
+msgstr "发送消息"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Send to channel"
+msgstr "发送到频道"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Sending to"
+msgstr "发送给"
+
+#: src/features/messages/MessageActionBar.tsx
+msgid "Sending to channel"
+msgstr "正在发送到频道"
+
+#: src/app/shell/ProfileButton.tsx
+#: src/features/user-status/StatusEditor.tsx
+msgid "Set a status"
+msgstr "设置状态"
+
+#. placeholder {0}: [status.emoji, status.text].filter(Boolean).join(" ")
+#: src/app/shell/ProfileButton.tsx
+msgid "Set a status: {0}"
+msgstr "设置状态：{0}"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Set up Dock badges"
+msgstr "设置 Dock 角标"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Set up Dock badges to show the unread dot."
+msgstr "设置 Dock 角标以显示未读圆点。"
+
+#: src/app/App.tsx
+#: src/app/Settings.tsx
+#: src/app/shell/PageSearch.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Settings"
+msgstr "设置"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Settings only apply on this device."
+msgstr "这些设置仅对当前设备生效。"
+
+#: src/app/App.tsx
+#: src/app/Settings.tsx
+msgid "Settings sections"
+msgstr "设置分类"
+
+#: src/bundled/channels/SoloHeading.tsx
+msgid "Share access"
+msgstr "共享访问权限"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Shared notes"
+msgstr "共享笔记"
+
+#: src/app/settings-sections.ts
+msgid "Shortcuts"
+msgstr "快捷键"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Shorten it or attach the text as a file."
+msgstr "请缩短内容，或将文字作为文件添加。"
+
+#: src/features/communities/ProfileFields.tsx
+msgid "Shorten the description to {PROFILE_ABOUT_MAX_LENGTH} characters before saving."
+msgstr "请将简介缩短至 {PROFILE_ABOUT_MAX_LENGTH} 个字符以内再保存。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Shorten the text and try again."
+msgstr "请缩短文字后重试。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show"
+msgstr "显示"
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Show my local time on my profile"
+msgstr "在个人资料中显示我的当地时间"
+
+#: src/app/shell/AppShell.tsx
+msgid "Show navigation"
+msgstr "显示导航"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show people by"
+msgstr "用户名称显示方式"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show seconds"
+msgstr "显示秒数"
+
+#: src/app/shell/AppShell.tsx
+msgid "Show sidebar"
+msgstr "显示侧栏"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show time zone details on profiles"
+msgstr "在个人资料中显示时区详情"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Show unread first in search"
+msgstr "搜索时优先显示未读"
+
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
+msgstr "用圆点提示当前社区中的未读动态，不显示消息数量。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Side pane"
+msgstr "侧边面板"
+
+#: src/app/NotificationSettings.tsx
+msgid "Silent"
+msgstr "静音"
+
+#: src/app/shell/AppShell.tsx
+msgid "Skip to content"
+msgstr "跳转到内容"
+
+#: src/app/settings-sections.ts
+#: src/features/updates/UpdateSettings.tsx
+msgid "Software updates"
+msgstr "软件更新"
+
+#: src/app/shell/NewMenu.tsx
+msgid "Solo"
+msgstr "个人"
+
+#: src/app/NotificationSettings.tsx
+msgid "Solo chat completions"
+msgstr "个人对话完成"
+
+#: src/app/LanguageSettings.tsx
+msgid "Some parts of Buzz are not translated yet."
+msgstr "Buzz 的部分界面尚未完成翻译。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Someone joined this chat. Tag an agent to send."
+msgstr "有人加入了此对话，请提及智能体后发送。"
+
+#: src/app/NotificationSettings.tsx
+msgid "Sound"
+msgstr "声音"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Spelling preference wasn’t saved"
+msgstr "未能保存拼写设置"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Spoiler"
+msgstr "剧透内容"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Status expiration"
+msgstr "状态到期"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Status message"
+msgstr "状态说明"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Status unavailable"
+msgstr "状态不可用"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Status updates are unavailable in this community."
+msgstr "此社区暂不支持更新状态。"
+
+#: src/app/App.tsx
+msgid "Still can’t connect. Check your connection, then try again."
+msgstr "仍然无法连接，请检查网络后重试。"
+
+#: src/app/App.tsx
+msgid "Still can’t connect. We’ll keep trying."
+msgstr "仍然无法连接，我们会继续重试。"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Strikethrough"
+msgstr "删除线"
+
+#: src/app/AppearanceSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "System"
+msgstr "跟随系统"
+
+#: src/app/AppearanceSettings.tsx
+msgid "System uses your device’s time format."
+msgstr "“跟随系统”使用设备的时间格式。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag a person already in this chat or one of your available agents."
+msgstr "请提及此对话中的用户或你可用的智能体。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag a person or agent to send"
+msgstr "提及用户或智能体后发送"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag an agent to send"
+msgstr "提及智能体后发送"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Tag an agent to send."
+msgstr "请提及智能体后发送。"
+
+#: src/app/shell/NewMenu.tsx
+msgid "Team"
+msgstr "团队"
+
+#. placeholder {0}: channelDurationLabel(seconds, i18n.locale)
+#. placeholder {0}: channelDurationLabel(ttlSeconds, i18n.locale)
+#: src/features/solo/DefaultLifetimeSettings.tsx
+msgid "Temporary, {0}"
+msgstr "临时保留，{0}"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Text"
+msgstr "文字"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Text copied"
+msgstr "文字已复制"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "The draft changed or this link exceeds the message limit. Close and try again."
+msgstr "草稿已变化或此链接超出消息限制，请关闭后重试。"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "The draft changed. Close and try again."
+msgstr "草稿已变化，请关闭后重试。"
+
+#: src/app/PluginUpdates.tsx
+msgid "The installed plugin changed after this update was checked."
+msgstr "检查更新后，已安装的插件发生了变化。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "The message can't be edited right now"
+msgstr "当前无法编辑此消息"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "The session changed. Review its channel and retry."
+msgstr "会话已变化，请确认频道后重试。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "The team would exceed the message length or 32-recipient limit. Nothing was added."
+msgstr "添加该团队会超出消息长度或 32 个接收方的限制，未添加任何成员。"
+
+#: src/app/PluginUpdates.tsx
+msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
+msgstr "待更新版本已发生变化，请重新检查更新后再审核。"
+
+#: src/app/CommunityRepositoriesSettings.tsx
+msgid "This account or community changed. Open Local settings again."
+msgstr "账号或社区已变更，请重新打开本地设置。"
+
+#: src/app/NotificationSettings.tsx
+msgid "This build can’t show system notifications."
+msgstr "此版本无法显示系统通知。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "This choice is active, but could not be saved on this device."
+msgstr "此设置已生效，但未能保存到当前设备。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "This choice is active, but could not be saved on this device. Try again."
+msgstr "此设置已生效，但未能保存到当前设备，请重试。"
+
+#: src/app/shell/PageSearch.tsx
+msgid "This conversation"
+msgstr "此对话"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This conversation is no longer available for changes."
+msgstr "此对话已无法修改。"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "This conversation is no longer available."
+msgstr "此对话已不可用。"
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "This device’s time zone is shared by default. Uncheck and save to stop sharing it."
+msgstr "默认分享此设备的时区。取消勾选并保存即可停止分享。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This draft changed elsewhere. Your edits are kept here; choose which draft to keep."
+msgstr "草稿已在其他位置修改。已保留当前编辑，请选择要保留的草稿。"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "This is the relay URL you use to connect to this community."
+msgstr "这是用于连接此社区的中继服务器地址。"
+
+#: src/app/LanguageSettings.tsx
+msgid "This language is active, but could not be saved on this device. Try again."
+msgstr "此语言已生效，但未能保存到当前设备，请重试。"
+
+#: src/app/App.tsx
+msgid "This link doesn’t work"
+msgstr "此链接无法打开"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This may already have reached the conversation. Retry sends the same operation; dismissing does not undo it."
+msgstr "此操作可能已到达对话。重试将发送同一操作；关闭提示不会撤销操作。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This message is no longer available to edit."
+msgstr "此消息已无法编辑。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This message wasn’t sent. Deleting it removes it from this device. This cannot be undone."
+msgstr "此消息尚未发送。删除后将从此设备移除，操作无法撤销。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This message’s delivery changed. Cancel to see its current status."
+msgstr "消息投递状态已变化，请取消操作以查看当前状态。"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "This name is only visible to you. Other users can’t see your display name for this community."
+msgstr "此名称仅自己可见，其他用户看不到你为此社区设置的名称。"
+
+#: src/app/App.tsx
+msgid "This page isn’t available"
+msgstr "此页面不可用"
+
+#: src/app/App.tsx
+msgid "This page’s sidebar is unavailable."
+msgstr "此页面的侧栏不可用。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This paste would make your message too long."
+msgstr "粘贴此内容会超出消息长度限制。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This queued message is no longer available to edit."
+msgstr "此排队消息已无法编辑。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This recipient is no longer available. Remove it or refresh choices."
+msgstr "此接收方已不可用，请移除或刷新选项。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "This relay connection supports reading only."
+msgstr "当前中继连接仅支持读取。"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
+msgstr "这将请求 Buzz 中继服务器移除此消息，其他人可能仍保留副本。此操作无法撤销。"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "This week"
+msgstr "本周"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Thread preference wasn’t saved"
+msgstr "未能保存话题设置"
+
+#: src/app/NotificationSettings.tsx
+msgid "Thread replies"
+msgstr "话题回复"
+
+#: src/features/profiles/TimeZoneField.tsx
+msgid "Time zone"
+msgstr "时区"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Timestamps"
+msgstr "时间"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Today"
+msgstr "今天"
+
+#: src/features/messages/ComposerFormattingTools.tsx
+msgid "Toggle formatting"
+msgstr "切换格式工具"
+
+#: src/bundled/channels/PageTabs.tsx
+msgid "Toggle tab pane"
+msgstr "切换标签面板"
+
+#: src/app/App.tsx
+#: src/bundled/channels/ChannelsPage.tsx
+#: src/features/messages/MessageComposer.tsx
+msgid "Try again"
+msgstr "重试"
+
+#: src/features/messages/MessageManagement.tsx
+msgid "Unfollow thread"
+msgstr "取消关注话题"
+
+#: src/features/user-status/StatusExpiration.tsx
+msgid "Until"
+msgstr "截止时间"
+
+#. placeholder {0}: update.candidate?.manifest.name ?? update.id
+#: src/app/PluginUpdates.tsx
+msgid "Update {0}"
+msgstr "更新 {0}"
+
+#: src/app/PluginUpdates.tsx
+msgid "Update {name}"
+msgstr "更新 {name}"
+
+#: src/app/PluginUpdates.tsx
+msgid "Update and reload"
+msgstr "更新并重新加载"
+
+#. placeholder {0}: status.message
+#: src/features/updates/UpdateSettings.tsx
+msgid "Update failed: {0}"
+msgstr "更新失败：{0}"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Update now"
+msgstr "立即更新"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Update status"
+msgstr "更新状态"
+
+#: src/app/ProfileSettings.tsx
+msgid "Update this community’s profile. Other community profiles stay unchanged."
+msgstr "更新你在此社区的个人资料，其他社区的资料不受影响。"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Updating to {targetLabel}…"
+msgstr "正在切换为{targetLabel}…"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Uploads are unavailable on this connection."
+msgstr "当前连接不支持上传。"
+
+#: src/features/messages/ComposerLinkDialog.tsx
+msgid "Use an HTTP(S) URL or a valid buzz:// link."
+msgstr "请使用 HTTP(S) 地址或有效的 buzz:// 链接。"
+
+#: src/app/ProfileSettings.tsx
+msgid "Used for new communities. Existing community profiles stay unchanged."
+msgstr "用于新加入的社区，现有社区的个人资料不受影响。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Username"
+msgstr "用户名"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Vacationing"
+msgstr "休假中"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "Version {version}"
+msgstr "版本 {version}"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Vibe level"
+msgstr "色彩风格"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Vibe level wasn’t saved"
+msgstr "未能保存色彩风格"
+
+#: src/bundled/channels/ChannelHeaderMenu.tsx
+msgid "View channel details"
+msgstr "查看频道详情"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Wait for compaction to finish, or interrupt it."
+msgstr "请等待上下文压缩完成，或将其中断。"
+
+#: src/app/NotificationSettings.tsx
+#: src/app/UnreadIndicatorSettings.tsx
+msgid "Waiting for system permission…"
+msgstr "正在等待系统授权…"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "What's your status?"
+msgstr "你现在是什么状态？"
+
+#: src/app/AppearancePreview.tsx
+msgid "wide"
+msgstr "宽"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Wide"
+msgstr "宽"
+
+#: src/app/AppearanceSettings.tsx
+msgid "Width"
+msgstr "宽度"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Window action failed. Try again."
+msgstr "窗口操作失败，请重试。"
+
+#: src/app/shell/WindowControls.tsx
+msgid "Window controls"
+msgstr "窗口操作"
+
+#: src/app/AppearanceSettings.tsx
+msgid "With nothing typed, search leads with unread channels and DMs and selects the newest."
+msgstr "未输入搜索内容时，优先显示未读频道和私聊，并选中最新一项。"
+
+#: src/app/AppearanceSettings.tsx
+msgid "With someone’s local time, shows how far ahead or behind you they are and their time zone."
+msgstr "在当地时间旁显示对方与你的时差及其时区。"
+
+#: src/app/shell/BestieNavigation.tsx
+msgid "Workflows"
+msgstr "工作流"
+
+#: src/features/user-status/StatusEditor.tsx
+msgid "Working remotely"
+msgstr "远程办公"
+
+#: src/app/App.tsx
+msgid "You don’t have access to this"
+msgstr "你无权访问此内容"
+
+#: src/features/updates/UpdateSettings.tsx
+msgid "You're on the latest version."
+msgstr "当前已是最新版本。"
+
+#: src/app/CommunityLocalSettings.tsx
+msgid "Your account is unavailable. Open Local settings again."
+msgstr "账号不可用，请重新打开本地设置。"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Your avatar"
+msgstr "你的头像"
+
+#: src/bundled/channels/ChannelsPage.tsx
+msgid "Your channels, one conversation."
+msgstr "你的频道，尽在一个对话。"
+
+#: src/features/messages/MessageComposer.tsx
+msgid "Your edit is still in the outbox."
+msgstr "你的修改仍在发件箱中。"
+
+#: src/app/ProfileSettings.tsx
+msgid "Your local identity is unavailable. Connect your identity to edit your profile."
+msgstr "本地身份不可用，请连接身份后编辑个人资料。"
+
+#: src/app/ProfileSettings.tsx
+#: src/app/shell/ProfileButton.tsx
+msgid "Your profile"
+msgstr "你的个人资料"
+
+#: src/app/ProfileSettings.tsx
+msgid "Your profile change is not current. Your edits are retained; save again to retry."
+msgstr "个人资料更新尚未生效。已保留你的修改，请再次保存。"
+
+#: src/app/App.tsx
+msgid "Your profile has unsaved changes."
+msgstr "个人资料中有未保存的修改。"
+
+#. placeholder {0}: communityName(community)
+#: src/app/ProfileSettings.tsx
+msgid "Your profile in {0} couldn’t be loaded."
+msgstr "无法加载你在 {0} 的个人资料。"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Your status is unavailable"
+msgstr "你的状态不可用"
+
+#: src/app/shell/ProfileButton.tsx
+msgid "Your status: {label}"
+msgstr "你的状态：{label}"

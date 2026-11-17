@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../features/relay/react";
 import { ProfileBackdrop } from "../features/profiles/ProfileBackdrop";
 import hero from "../features/profiles/ProfileHero.module.css";
@@ -103,6 +104,7 @@ export function ProfileSettings({
   community?: Membership | undefined;
   onUnsavedChange?: ((unsaved: boolean) => void) | undefined;
 }) {
+  const { t, i18n } = useLingui();
   const client = useSyncExternalStore(
     communities.subscribe,
     communities.snapshot,
@@ -281,47 +283,42 @@ export function ProfileSettings({
     thumbnailMedia,
   );
   return (
-    <section aria-labelledby="profile-settings-title">
+    <section lang={i18n.locale} aria-labelledby="profile-settings-title">
       <Header
         id="profile-settings-title"
-        title="Profile"
+        title={t`Profile`}
         subtitle={
           community
-            ? "Update this community’s profile. Other community profiles stay unchanged."
-            : "Used for new communities. Existing community profiles stay unchanged."
+            ? t`Update this community’s profile. Other community profiles stay unchanged.`
+            : t`Used for new communities. Existing community profiles stay unchanged.`
         }
       />
       <div>
         {client.status === "unavailable" ? (
-          <p role="status">
-            Your local identity is unavailable. Connect your identity to edit
-            your profile.
-          </p>
+          <p role="status">{t`Your local identity is unavailable. Connect your identity to edit your profile.`}</p>
         ) : community && !client.relayAvailable ? (
-          <p role="status">
-            Community profiles are not available in this build yet.
-          </p>
+          <p role="status">{t`Community profiles are not available in this build yet.`}</p>
         ) : (
           <LoadingRegion
             pending={profilePending}
             label={
               client.status === "loading"
-                ? "Opening your local identity…"
-                : `Loading your profile in ${community ? communityName(community) : "this community"}…`
+                ? t`Opening your local identity…`
+                : community
+                  ? t`Loading your profile in ${communityName(community)}…`
+                  : t`Loading your community profile…`
             }
             feedback={
               loadStatus === "error" && community ? (
                 <div>
                   <p role="alert" className="error">
-                    Your profile in {communityName(community)} couldn’t be
-                    loaded. {loadError}
+                    {t`Your profile in ${communityName(community)} couldn’t be loaded.`}{" "}
+                    {loadError}
                   </p>
                   <Button
                     type="button"
                     onClick={() => setLoadAttempt((value) => value + 1)}
-                  >
-                    Retry loading profile
-                  </Button>
+                  >{t`Retry loading profile`}</Button>
                 </div>
               ) : undefined
             }
@@ -332,9 +329,9 @@ export function ProfileSettings({
               inert={!previewReady}
               aria-hidden={!previewReady || undefined}
             >
-              <section aria-label="Profile preview" className={hero.hero}>
+              <section aria-label={t`Profile preview`} className={hero.hero}>
                 <ProfileBackdrop src={backdrop} />
-                <div>
+                <div lang="en">
                   <AvatarEditor
                     personal
                     size="compact"
@@ -358,10 +355,13 @@ export function ProfileSettings({
                 <div className={styles.previewCopy}>
                   <h3 className="text-body-lg">
                     {verifiedName?.name ??
-                      (profile.name.trim() || "Your profile")}
+                      (profile.name.trim() || t`Your profile`)}
                   </h3>
                   {profile.about?.trim() ? (
-                    <p className={`${styles.about} text-body-sm text-muted`}>
+                    <p
+                      lang=""
+                      className={`${styles.about} text-body-sm text-muted`}
+                    >
                       {profile.about.trim()}
                     </p>
                   ) : null}
@@ -441,7 +441,7 @@ export function ProfileSettings({
                               profileTimeZone(confirmed.existing.tz) !== tz)
                           )
                             throw new Error(
-                              "Your profile change is not current. Your edits are retained; save again to retry.",
+                              t`Your profile change is not current. Your edits are retained; save again to retry.`,
                             );
                           setLoaded(confirmed);
                         }
@@ -516,9 +516,7 @@ export function ProfileSettings({
                           setSaved(false);
                           setError("");
                         }}
-                      >
-                        Cancel
-                      </Button>
+                      >{t`Cancel`}</Button>
                       <Button
                         type="submit"
                         loading={saving}
@@ -528,14 +526,14 @@ export function ProfileSettings({
                           (!!community && loadStatus !== "ready")
                         }
                         variant="primary"
-                      >
-                        Save
-                      </Button>
+                      >{t`Save`}</Button>
                     </div>
                   )}
                   {saved && (
                     <ToastNotice
-                      title="Profile updated"
+                      lang={i18n.locale}
+                      title={t`Profile updated`}
+                      closeLabel={t`Dismiss notification`}
                       tone="success"
                       timeout={5000}
                       onDismiss={() => setSaved(false)}

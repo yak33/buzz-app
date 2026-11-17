@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { matchRank } from "../../features/search/match";
 import {
   useLayoutEffect,
@@ -130,7 +131,7 @@ export function SearchChoices({
   displayQuery,
   onDisplayQueryChange,
   input,
-  label = "Search Buzz",
+  label: suppliedLabel,
   scope,
   scopeAction,
   children,
@@ -162,6 +163,8 @@ export function SearchChoices({
    * reading only for the rows someone can see. */
   onRowsShown?: ((keys: readonly string[]) => void) | undefined;
 }) {
+  const { t, i18n } = useLingui();
+  const label = suppliedLabel ?? t`Search Buzz`;
   const palette = useRef<HTMLDivElement>(null);
   const resultsViewport = useRef<HTMLDivElement>(null);
   const resultsContent = useRef<HTMLDivElement>(null);
@@ -415,7 +418,8 @@ export function SearchChoices({
             <button
               type="button"
               className="search-palette-scope"
-              aria-label={`Remove ${scope.label} search scope`}
+              lang={i18n.locale}
+              aria-label={t`Remove ${scope.label} search scope`}
               onClick={scope.onRemove}
             >
               {scope.label} <span aria-hidden="true">×</span>
@@ -452,7 +456,10 @@ export function SearchChoices({
         aria-haspopup={hasControls ? "grid" : "listbox"}
         {...highlight.fieldProps}
         label={label}
-        placeholder="Search..."
+        labelLang={i18n.locale}
+        lang=""
+        clearLabel={t`Clear ${label.toLowerCase()}`}
+        placeholder={t`Search...`}
         value={displayQuery ?? query}
         onValueChange={onDisplayQueryChange ?? onQueryChange}
         spellCheck={false}

@@ -1,3 +1,4 @@
+import { localizationPlugin } from "./scripts/localization-plugin.ts";
 import { configDefaults, defineConfig } from "vitest/config";
 import { fixtureAliases } from "./tests/relay-config.ts";
 const workerLimit = process.env.BUZZ_TEST_WORKERS;
@@ -14,6 +15,7 @@ if (
 process.env.LC_ALL = "C.UTF-8";
 
 export default defineConfig({
+  plugins: [localizationPlugin()],
   define: {
     "import.meta.env.VITE_BUZZ_COMMUNITY_ALIASES":
       JSON.stringify(fixtureAliases),

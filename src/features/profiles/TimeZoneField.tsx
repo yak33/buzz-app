@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useMemo, useState } from "react";
 import { Checkbox } from "../../shared/design-system/ui/Checkbox";
 import { Combobox } from "../../shared/design-system/ui/Combobox";
@@ -56,6 +57,7 @@ export function TimeZoneField({
   byDefault?: boolean;
   disabled?: boolean;
 }) {
+  const { t, i18n } = useLingui();
   const device = new Intl.DateTimeFormat().resolvedOptions().timeZone;
   const shown = value ?? fallback ?? device;
   const zones = useMemo(
@@ -72,18 +74,15 @@ export function TimeZoneField({
   );
   const [search, setSearch] = useState("");
   return (
-    <div className="grid gap-2">
+    <div lang={i18n.locale} className="grid gap-2">
       <Checkbox
-        label="Show my local time on my profile"
+        label={t`Show my local time on my profile`}
         checked={value !== undefined}
         disabled={disabled}
         onCheckedChange={(checked) => onChange(checked ? shown : undefined)}
       />
       {byDefault && value !== undefined && (
-        <p className="text-caption text-secondary">
-          This device’s time zone is shared by default. Uncheck and save to stop
-          sharing it.
-        </p>
+        <p className="text-caption text-secondary">{t`This device’s time zone is shared by default. Uncheck and save to stop sharing it.`}</p>
       )}
       <Combobox.Root
         items={zones}
@@ -102,17 +101,19 @@ export function TimeZoneField({
         }}
       >
         <Combobox.Trigger
-          label="Time zone"
+          label={t`Time zone`}
           disabled={disabled || value === undefined}
         >
           {zoneLabel(shown)}
         </Combobox.Trigger>
         <Combobox.Popup
+          lang={i18n.locale}
+          searchLabel={t`Search`}
           search
           size="compact"
           side="bottom"
           collisionAvoidance={{ side: "none", align: "shift" }}
-          empty="No matching time zones."
+          empty={t`No matching time zones.`}
         >
           <Combobox.List>
             {(zone: string) => (
@@ -120,7 +121,7 @@ export function TimeZoneField({
                 key={zone}
                 value={zone}
                 description={
-                  renamed[zone] ? `Now ${zoneLabel(renamed[zone])}` : undefined
+                  renamed[zone] ? t`Now ${zoneLabel(renamed[zone])}` : undefined
                 }
               >
                 {zoneLabel(zone)}

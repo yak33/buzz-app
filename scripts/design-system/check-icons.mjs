@@ -22,6 +22,12 @@ const nonIconDependencies = new Set([
   "@fontsource-variable/inter",
   "@fontsource/jetbrains-mono",
   "@hypothesi/tauri-mcp-server", // Native MCP client (docs/native-mcp.md).
+  // UI localization and catalog compilation; these packages do not supply icons.
+  "@lingui/cli",
+  "@lingui/core",
+  "@lingui/format-po",
+  "@lingui/react",
+  "@lingui/vite-plugin",
   "@jsquash/webp", // Lossless media encoder, not an icon catalog.
   "@modelcontextprotocol/server", // The standalone Buzz MCP server.
   "@noble/curves",

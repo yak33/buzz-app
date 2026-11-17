@@ -10,8 +10,8 @@ export const CHANNEL_DURATIONS = [86400, 604800, 1209600];
 const durations = CHANNEL_DURATIONS;
 
 /** Exact temporary lifetime in its largest whole unit, such as "7 days". */
-export function channelDurationLabel(ttlSeconds: number) {
-  const [duration, unit] =
+export function channelDurationLabel(ttlSeconds: number, locale?: string) {
+  const [duration, unit]: [number, string] =
     ttlSeconds === 1209600
       ? [2, "week"]
       : ttlSeconds % 86400 === 0
@@ -21,6 +21,13 @@ export function channelDurationLabel(ttlSeconds: number) {
           : ttlSeconds % 60 === 0
             ? [ttlSeconds / 60, "minute"]
             : [ttlSeconds, "second"];
+  if (locale) {
+    return new Intl.NumberFormat(locale, {
+      style: "unit",
+      unit,
+      unitDisplay: "long",
+    }).format(duration);
+  }
   return `${duration} ${unit}${duration === 1 ? "" : "s"}`;
 }
 

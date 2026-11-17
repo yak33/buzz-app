@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useChannelHistoryFocus } from "./useChannelHistoryFocus";
 import type { Conversation } from "../../features/conversation/service";
 import { StartLinkedChat, canStartLinkedChat } from "./StartLinkedChat";
@@ -180,6 +181,7 @@ export function ChannelsPage({
   read?: ReadShortcut | undefined;
   companion?: ReactNode;
 }) {
+  const { t, i18n } = useLingui();
   const session = useRelayConnection(relay);
   const openSwitcher = useContext(OpenCommunitySwitcher);
   const sessionNavigation = navigation?.forSession(relay, session);
@@ -244,22 +246,21 @@ export function ChannelsPage({
     session.denied,
   ]);
   return (
-    <section className={styles.root} aria-label="Channels">
+    <section className={styles.root} aria-label={t`Channels`}>
       {session.status !== "ready" && !session.cached ? (
         <PanelFrame scope={session.scope} companion={companion}>
           {session.status === "disconnected" ? (
-            <div className={styles.connect}>
+            <div lang={i18n.locale} className={styles.connect}>
               <div className={styles.connectIcon}>
                 <PlugIcon size={30} />
               </div>
-              <h1>Your channels, one conversation.</h1>
+              <h1>{t`Your channels, one conversation.`}</h1>
               <p>
-                Choose a community to see its channels, or join one. Your
-                profile and settings work without a community.
+                {t`Choose a community to see its channels, or join one. Your profile and settings work without a community.`}
               </p>
               {openSwitcher && (
                 <Button type="button" variant="primary" onClick={openSwitcher}>
-                  Choose a community
+                  {t`Choose a community`}
                 </Button>
               )}
             </div>
@@ -276,14 +277,14 @@ export function ChannelsPage({
             (!session.retrying || visitSettled) ? (
             // Usually a failed visit's card covers this page, but a visit that
             // already opened from cached content keeps it: say so plainly.
-            <div role="alert" className={styles.failed}>
+            <div lang={i18n.locale} role="alert" className={styles.failed}>
               <EmptyState
                 icon={<CloudOffIcon />}
-                title="Can’t connect"
+                title={t`Can’t connect`}
                 description={
                   session.retrying
-                    ? "Check your connection. We’ll keep trying."
-                    : "Check your connection, then try again."
+                    ? t`Check your connection. We’ll keep trying.`
+                    : t`Check your connection, then try again.`
                 }
                 action={
                   <Button
@@ -291,7 +292,7 @@ export function ChannelsPage({
                     variant="primary"
                     onClick={() => relay.tryAgain()}
                   >
-                    Try again
+                    {t`Try again`}
                   </Button>
                 }
               />

@@ -1,10 +1,11 @@
+import { localizationPlugin } from "./scripts/localization-plugin.ts";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 // Product specimens have their own document, CSS reset and bundle. The design
 // viewer's core-only import guard remains unchanged.
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), localizationPlugin()],
   // Keep simultaneous specimen and desktop servers from invalidating each other.
   cacheDir: "node_modules/.vite-message-gallery",
   publicDir: false,

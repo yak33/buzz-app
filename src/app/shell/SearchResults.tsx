@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { workflowLabel } from "../../features/relay/workflow-attribution";
 import {
   useIdentityNames,
@@ -220,6 +221,7 @@ export function SearchResults({
    * and open-channel lookups wait for the connection instead of failing. */
   offline?: ReactNode;
 } & SearchInputProps) {
+  const { t } = useLingui();
   const resolveName = useIdentityNames(session.names);
   const list = useChannelList(session.channels);
   const parsed = useMemo(() => parseSearchOperators(query.trim()), [query]);
@@ -1702,7 +1704,7 @@ export function SearchResults({
       displayQuery={displayQuery}
       onDisplayQueryChange={updateDisplayQuery}
       input={input}
-      label={scopedChannelId ? "Search this conversation" : "Search Buzz"}
+      label={scopedChannelId ? t`Search this conversation` : t`Search Buzz`}
       scopeAction={
         scopedChannelId && session.searchSort && parsed.text ? (
           <MenuRoot>

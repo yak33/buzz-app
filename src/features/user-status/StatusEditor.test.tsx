@@ -13,6 +13,7 @@ import { afterEach, expect, it, vi } from "vitest";
 import { createRelaySession } from "../relay/session";
 import type { UserStatus } from "../relay/user-status";
 import { StatusEditor } from "./StatusEditor";
+import { localization } from "../localization/service";
 
 const owners: ReturnType<typeof createRelaySession>[] = [];
 afterEach(() => {
@@ -622,3 +623,34 @@ it.each(["pending", "checking", "failed"] as const)(
     }
   },
 );
+
+it("keeps the focused quick status and authored draft across language changes", async () => {
+  localization.setLocale("en-US");
+  const { save } = setup();
+  const preset = screen.getByRole("button", { name: "In a meeting" });
+  preset.focus();
+  try {
+    await act(async () => {
+      localization.setLocale("zh-CN");
+    });
+    expect(screen.getByRole("button", { name: "开会中" })).toBe(preset);
+    expect(preset).toHaveFocus();
+    fireEvent.click(preset);
+    const input = screen.getByRole("textbox", { name: "状态说明" });
+    expect(input).toHaveValue("开会中");
+    fireEvent.change(input, { target: { value: "自定义 status" } });
+    await act(async () => {
+      localization.setLocale("en-US");
+    });
+    expect(screen.getByRole("textbox", { name: "Status message" })).toBe(input);
+    expect(input).toHaveValue("自定义 status");
+    fireEvent.click(screen.getByRole("button", { name: "Save status" }));
+    await waitFor(() => expect(save).toHaveBeenCalledOnce());
+    expect(save).toHaveBeenCalledWith(
+      expect.objectContaining({ text: "自定义 status", emoji: "🗣️" }),
+    );
+  } finally {
+    cleanup();
+    localization.setLocale("en-US");
+  }
+});

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { invoke, isTauri } from "@tauri-apps/api/core";
 import {
   useCallback,
@@ -27,6 +28,7 @@ export function CommunityRepositoriesSettings({
   community: string;
   viewer: string | undefined;
 }) {
+  const { t, i18n } = useLingui();
   const read = useCallback(() => {
     try {
       return {
@@ -36,11 +38,10 @@ export function CommunityRepositoriesSettings({
     } catch {
       return {
         value: "",
-        error:
-          "Couldn’t read the repositories folder on this device. Try again.",
+        error: t`Couldn’t read the repositories folder on this device. Try again.`,
       };
     }
-  }, [community, viewer]);
+  }, [community, viewer, t]);
   const [stored, setStored] = useState(read);
   const [draft, setDraft] = useState<string | null>(null);
   const [error, setError] = useState(stored.error);
@@ -89,7 +90,7 @@ export function CommunityRepositoriesSettings({
       !snapshot.memberships.some((entry) => entry.id === community)
     )
       throw new Error(
-        "This account or community changed. Open Local settings again.",
+        t`This account or community changed. Open Local settings again.`,
       );
     return viewer;
   };
@@ -102,7 +103,7 @@ export function CommunityRepositoriesSettings({
       current();
       if (!desktop)
         throw new Error(
-          "Repositories folders are configured in the desktop app.",
+          t`Repositories folders are configured in the desktop app.`,
         );
       const validated = path.trim()
         ? await invoke<string>("repositories_folder_validate", { path })
@@ -134,7 +135,7 @@ export function CommunityRepositoriesSettings({
     try {
       current();
       const path = await invoke<string | null>("workspace_pick_folder", {
-        title: "Choose repositories folder",
+        title: t`Choose repositories folder`,
         start: (draft ?? stored.value) || DEFAULT_REPOSITORIES_FOLDER,
       });
       current();
@@ -151,7 +152,7 @@ export function CommunityRepositoriesSettings({
   };
   const value = draft ?? stored.value;
   return (
-    <div className="mt-section-gap">
+    <div lang={i18n.locale} className="mt-section-gap">
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -160,19 +161,19 @@ export function CommunityRepositoriesSettings({
       >
         <SettingsGroup layout="form">
           <Field
-            label="Repositories folder"
+            label={t`Repositories folder`}
             error={error || undefined}
             description={
               desktop
-                ? "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
-                : "Open the desktop app to choose a folder on this device."
+                ? t`Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location.`
+                : t`Open the desktop app to choose a folder on this device.`
             }
           >
             <Input
               ref={input}
               value={value}
               readOnly={!desktop || busy}
-              placeholder="Default REPOS folder in each agent’s workspace"
+              placeholder={t`Default REPOS folder in each agent’s workspace`}
               maxLength={2048}
               autoCorrect="off"
               autoCapitalize="none"
@@ -192,18 +193,14 @@ export function CommunityRepositoriesSettings({
                 disabled={busy}
                 focusableWhenDisabled={busy}
                 onClick={() => void pick()}
-              >
-                Choose folder…
-              </Button>
+              >{t`Choose folder…`}</Button>
               <Button
                 type="button"
                 variant="ghost"
                 focusableWhenDisabled={busy}
                 disabled={busy || (!stored.value && !draft)}
                 onClick={() => void save("")}
-              >
-                Restore default
-              </Button>
+              >{t`Restore default`}</Button>
               <Button
                 type="button"
                 focusableWhenDisabled={busy}
@@ -214,25 +211,21 @@ export function CommunityRepositoriesSettings({
                   setSaved(false);
                   input.current?.focus();
                 }}
-              >
-                Cancel
-              </Button>
+              >{t`Cancel`}</Button>
               <Button
                 type="submit"
                 variant="primary"
                 loading={busy}
                 focusableWhenDisabled={busy}
                 disabled={busy || value.trim() === stored.value}
-              >
-                Save folder
-              </Button>
+              >{t`Save folder`}</Button>
             </div>
           )}
           {saved && (
-            <p role="status" className="m-0 text-body-sm text-muted">
-              Repositories folder saved on this device. Claude and Goose use it
-              in new sessions; Codex uses it on future turns.
-            </p>
+            <p
+              role="status"
+              className="m-0 text-body-sm text-muted"
+            >{t`Repositories folder saved on this device. Claude and Goose use it in new sessions; Codex uses it on future turns.`}</p>
           )}
         </SettingsGroup>
       </form>

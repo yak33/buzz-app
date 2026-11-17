@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { ActivityNavigationProvider } from "./ActivityNavigation";
 import { PageNavigation } from "./PageNavigation";
 import { navigationOwner, orderPages, pagePlacement } from "./presentation";
@@ -127,6 +128,7 @@ function AppShellContent({
   creationInSidebar?: boolean;
   children: ReactNode;
 }) {
+  const { t, i18n } = useLingui();
   const header = useRef<HTMLElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
@@ -234,9 +236,11 @@ function AppShellContent({
   );
   const toggleLabel = narrow
     ? navigationOpen
-      ? "Hide navigation"
-      : "Show navigation"
-    : `${sidebarOpen ? "Hide" : "Show"} sidebar`;
+      ? t`Hide navigation`
+      : t`Show navigation`
+    : sidebarOpen
+      ? t`Hide sidebar`
+      : t`Show sidebar`;
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only a navigation attempt closes the drawer.
   useEffect(() => {
     if (navigationOpen && navigationToggle.current?.getClientRects().length) {
@@ -254,7 +258,7 @@ function AppShellContent({
     // Sidebars retain their documented app-link and creation slots.
     const content = sidebar
       ? sidebar(
-          <nav aria-label="Pages" className="shell-pages">
+          <nav aria-label={t`Pages`} className="shell-pages">
             <PageNavigation
               pages={orderPages(
                 pages.filter((page) => pagePlacement(page) === "sidebar"),
@@ -274,7 +278,15 @@ function AppShellContent({
     ) : (
       content
     );
-  }, [pages, selected, sidebar, sidebarScope, onSelect, creationInNavigation]);
+  }, [
+    pages,
+    selected,
+    sidebar,
+    sidebarScope,
+    onSelect,
+    creationInNavigation,
+    t,
+  ]);
   const dockPages = orderPages(
     pages.filter((page) => page.primary && pagePlacement(page) !== "sidebar"),
     "dock",
@@ -288,6 +300,7 @@ function AppShellContent({
       {backdrop}
       {/* biome-ignore lint/a11y/useValidAnchor: A skip link navigates to a real fragment; enhance focus without replacing the app route hash. */}
       <a
+        lang={i18n.locale}
         href="#main-content"
         onClick={(event) => {
           // Focus intent is not a navigation visit and must not replace the route hash.
@@ -295,9 +308,7 @@ function AppShellContent({
           document.getElementById("main-content")?.focus();
         }}
         className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:rounded-lg focus:bg-surface focus:p-3"
-      >
-        Skip to content
-      </a>
+      >{t`Skip to content`}</a>
       <header
         ref={header}
         data-buzz-window-drag={
@@ -324,6 +335,7 @@ function AppShellContent({
               data-highlight-expanded="false"
               type="button"
               variant="ghost"
+              lang={i18n.locale}
               aria-label={toggleLabel}
               aria-expanded={visibleSidebar}
               aria-controls="shell-navigation"
@@ -359,8 +371,12 @@ function AppShellContent({
       </header>
 
       <div className="shell-workspace">
-        <nav className="shell-side-dock" aria-label="Apps dock">
-          <div className="shell-dock-pages">
+        <nav
+          lang={i18n.locale}
+          className="shell-side-dock"
+          aria-label={t`Apps dock`}
+        >
+          <div lang="en" className="shell-dock-pages">
             <PageNavigation
               pages={dockPages}
               selected={owner}
@@ -370,7 +386,7 @@ function AppShellContent({
               previews
             />
           </div>
-          <div className="shell-community-switcher">
+          <div lang="en" className="shell-community-switcher">
             <CommunityPicker
               communities={communities}
               invite={invite}

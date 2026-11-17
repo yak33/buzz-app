@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { MessageDensity, MessageWidth } from "../shared/theme/service";
 import styles from "./AppearancePreview.module.css";
 
@@ -12,12 +13,15 @@ export function AppearancePreview({
   /** Join the preview to the related preference group. */
   embedded?: boolean;
 }) {
+  const { t, i18n } = useLingui();
+  const widthLabel = messageWidth === "narrow" ? t`narrow` : t`wide`;
   const effectiveWidth = density === "compact" ? "wide" : messageWidth;
   return (
     <figure
+      lang={i18n.locale}
       className={styles.preview}
       data-embedded={embedded || undefined}
-      aria-label="Appearance preview"
+      aria-label={t`Appearance preview`}
     >
       <div className={styles.scene} inert aria-hidden="true">
         <div className={styles.sidebar}>
@@ -66,10 +70,10 @@ export function AppearancePreview({
         </div>
       </div>
       <figcaption className="sr-only">
-        Illustrated preview of your current mode, accent, contrast, and{" "}
+        {t`Illustrated preview of your current mode, accent, contrast, and`}{" "}
         {density === "compact"
-          ? "Compact flat-list messages use the full conversation width."
-          : `Default bubble messages at ${messageWidth} width.`}
+          ? t`Compact flat-list messages use the full conversation width.`
+          : t`Default bubble messages at ${widthLabel} width.`}
       </figcaption>
     </figure>
   );

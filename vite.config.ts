@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { defineConfig, loadEnv, type PluginOption } from "vite";
 import react from "@vitejs/plugin-react";
+import { localizationPlugin } from "./scripts/localization-plugin.ts";
 import { entityDecoderAlias } from "./scripts/entity-decoder-alias.mjs";
 import { worktreePort } from "./scripts/worktree-port.mjs";
 import {
@@ -170,7 +171,7 @@ export default defineConfig(async ({ command, mode }) => {
   const firstRunAccount =
     command === "serve" ? (env.BUZZ_DEV_FIRST_RUN_ACCOUNT ?? "") : "";
   parseFirstRunAccountSeed(firstRunAccount);
-  const plugins: PluginOption[] = [react()];
+  const plugins: PluginOption[] = [react(), localizationPlugin()];
   if (command === "serve")
     plugins.push(
       (await import("./scripts/developer-settings.ts")).developerSettingsPlugin(

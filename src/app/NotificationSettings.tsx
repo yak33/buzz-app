@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { SettingsGroup } from "../shared/design-system/ui/SettingsGroup";
 import { Header, InlineHeader } from "../shared/design-system/ui/Header";
 import { ToastNotice } from "../shared/design-system/ui/Toast";
@@ -11,7 +14,6 @@ import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import type { NotificationsService } from "../features/notifications/service";
 import type { NotificationCategory } from "../features/notifications/preferences";
 import {
-  CATEGORY_SOUND_LABELS,
   RECOMMENDED_SOUND_BY_CATEGORY,
   SOUND_NAMES,
   type SoundName,
@@ -19,6 +21,13 @@ import {
   createNotificationSoundPlayback,
 } from "../features/notifications/sound";
 import styles from "./NotificationSettings.module.css";
+
+const categoryLabels: Record<NotificationCategory, MessageDescriptor> = {
+  direct: msg`Direct messages`,
+  mention: msg`Mentions`,
+  thread: msg`Thread replies`,
+  agent: msg`Solo chat completions`,
+};
 
 // Reference row order: direct messages, mentions, thread replies.
 const SOUND_ROWS: readonly NotificationCategory[] = [
@@ -39,7 +48,10 @@ function AlertSoundRow({
   disabled: boolean;
   onChange: (next: SoundName) => void;
 }) {
+  const { t, i18n } = useLingui();
   const recommended = RECOMMENDED_SOUND_BY_CATEGORY[category];
+  const label =
+    category === "mention" ? t`@Mentions` : i18n._(categoryLabels[category]);
 
   const names = [
     "silent",
@@ -48,15 +60,16 @@ function AlertSoundRow({
   ];
   return (
     <PreferenceRow
-      title={CATEGORY_SOUND_LABELS[category]}
+      title={label}
       disabled={disabled}
       trailing={
         <Select
-          label={CATEGORY_SOUND_LABELS[category]}
+          lang={i18n.locale}
+          label={label}
           variant="compact"
           disabled={disabled}
           value={value}
-          valueLabel={value === "silent" ? "Silent" : value}
+          valueLabel={value === "silent" ? t`Silent` : value}
           groups={[
             {
               label: "",
@@ -64,9 +77,9 @@ function AlertSoundRow({
                 value: name,
                 label:
                   name === "silent"
-                    ? "Silent"
+                    ? t`Silent`
                     : name === recommended
-                      ? `${name} rec.`
+                      ? t`${name} rec.`
                       : name,
               })),
             },
@@ -85,6 +98,7 @@ export function NotificationSettings({
   notifications: NotificationsService;
   active?: boolean;
 }) {
+  const { t, i18n } = useLingui();
   const state = useSyncExternalStore(
     notifications.subscribe,
     notifications.snapshot,
@@ -130,33 +144,38 @@ export function NotificationSettings({
   }, [active, preferences, stopPreview]);
   const desktopAlertsEnabled = !state.developmentPaused && preferences.enabled;
   const permissionStatus = state.developmentPaused
-    ? "Notifications are paused by your local development setting. Remove BUZZ_DEV_NOTIFICATIONS=0 from .env.local and restart the dev server to resume normal behavior. Your saved alert choices are unchanged."
+    ? t`Notifications are paused by your local development setting. Remove BUZZ_DEV_NOTIFICATIONS=0 from .env.local and restart the dev server to resume normal behavior. Your saved alert choices are unchanged.`
     : state.requesting
-      ? "Waiting for system permission…"
+      ? t`Waiting for system permission…`
       : permission === "denied"
-        ? "Notifications are off. Turn them on in your browser or system settings."
+        ? t`Notifications are off. Turn them on in your browser or system settings.`
         : permission === "unsupported"
-          ? "This build can’t show system notifications."
+          ? t`This build can’t show system notifications.`
           : permission === "default"
-            ? "Allow notifications to receive alerts."
+            ? t`Allow notifications to receive alerts.`
             : null;
   return (
     <section
+      lang={i18n.locale}
       className={styles.root}
       aria-labelledby="notification-settings-title"
     >
-      <Header id="notification-settings-title" title="Notifications" />
+      <Header id="notification-settings-title" title={t`Notifications`} />
       <div className="grid grid-cols-1 gap-section-gap">
         <section aria-labelledby="notification-categories-title">
           <InlineHeader
             id="notification-categories-title"
-            title="Notify me about"
+            title={t`Notify me about`}
           />
           <SettingsGroup>
             {state.categories.map(({ key, label }) => (
               <SwitchPreferenceRow
                 key={key}
-                label={label}
+                label={
+                  categoryLabels[key as NotificationCategory]
+                    ? i18n._(categoryLabels[key as NotificationCategory])
+                    : label
+                }
                 checked={preferences.categories[key] !== false}
                 onCheckedChange={(enabled) =>
                   notifications.updatePreferences({
@@ -167,11 +186,11 @@ export function NotificationSettings({
             ))}
           </SettingsGroup>
         </section>
-        <section id="setting-delivery" aria-label="Desktop delivery">
-          <InlineHeader title="Delivery" />
+        <section id="setting-delivery" aria-label={t`Desktop delivery`}>
+          <InlineHeader title={t`Delivery`} />
           <SettingsGroup>
             <SwitchPreferenceRow
-              label="Desktop alerts"
+              label={t`Desktop alerts`}
               checked={desktopAlertsEnabled}
               disabled={state.developmentPaused}
               onCheckedChange={(enabled) =>
@@ -205,9 +224,7 @@ export function NotificationSettings({
                           variant="link"
                           disabled={state.requesting}
                           onClick={() => void notifications.requestPermission()}
-                        >
-                          Allow notifications
-                        </Button>
+                        >{t`Allow notifications`}</Button>
                       )}
                       <Button
                         type="button"
@@ -216,9 +233,7 @@ export function NotificationSettings({
                         disabled={state.requesting}
                         loading={checking}
                         onClick={checkPermission}
-                      >
-                        Check permission
-                      </Button>
+                      >{t`Check permission`}</Button>
                     </div>
                   )}
                 </div>
@@ -227,8 +242,8 @@ export function NotificationSettings({
               <div className={styles.nestedPreferences}>
                 <SwitchPreferenceRow
                   id="setting-viewing"
-                  label="Notify while viewing"
-                  description="Include direct messages in the conversation you’re viewing."
+                  label={t`Notify while viewing`}
+                  description={t`Include direct messages in the conversation you’re viewing.`}
                   checked={preferences.notifyWhileViewing}
                   onCheckedChange={(notifyWhileViewing) =>
                     notifications.updatePreferences({ notifyWhileViewing })
@@ -236,8 +251,8 @@ export function NotificationSettings({
                 />
                 <SwitchPreferenceRow
                   id="setting-sound"
-                  label="Sound"
-                  description="Choose a sound to preview it."
+                  label={t`Sound`}
+                  description={t`Choose a sound to preview it.`}
                   checked={preferences.sound}
                   onCheckedChange={(sound) =>
                     notifications.updatePreferences({ sound })
@@ -275,28 +290,26 @@ export function NotificationSettings({
         />
         {active && state.preferencesError && (
           <ToastNotice
-            title="Notification choices weren’t saved"
+            lang={i18n.locale}
+            title={t`Notification choices weren’t saved`}
             description={state.preferencesError}
           >
             <Button
               type="button"
               size="sm"
               onClick={() => notifications.updatePreferences({})}
-            >
-              Retry saving choices
-            </Button>{" "}
+            >{t`Retry saving choices`}</Button>{" "}
             <Button
               type="button"
               size="sm"
               onClick={() => notifications.reloadPreferences()}
-            >
-              Reload saved choices
-            </Button>
+            >{t`Reload saved choices`}</Button>
           </ToastNotice>
         )}
         {active && state.error && (
           <ToastNotice
-            title="Buzz couldn’t send the notification"
+            lang={i18n.locale}
+            title={t`Buzz couldn’t send the notification`}
             description={state.error}
           />
         )}

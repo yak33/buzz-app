@@ -142,6 +142,8 @@ type ToastCardProps = {
   tone: Tone;
   closeLabel?: string;
   onClose?: (() => void) | undefined;
+  /** Language of content rendered outside the originating region. */
+  lang?: string | undefined;
   navigation?: { label: string; open(): void } | undefined;
 };
 
@@ -153,6 +155,7 @@ function ToastCard({
   tone,
   closeLabel = "Dismiss notification",
   onClose,
+  lang,
   navigation,
 }: ToastCardProps) {
   const titleId = useId();
@@ -160,6 +163,7 @@ function ToastCard({
   return (
     <div
       role="dialog"
+      lang={lang}
       aria-labelledby={titleId}
       aria-describedby={description ? descriptionId : undefined}
       data-buzz-ui=""
@@ -246,6 +250,7 @@ export function ToastNotice({
   closeLabel = "Dismiss notification",
   timeout = 0,
   tone = "error",
+  lang,
   navigation,
 }: {
   title: string;
@@ -257,12 +262,13 @@ export function ToastNotice({
   /** Zero keeps recovery visible until its source resolves or explicitly dismisses. */
   timeout?: number;
   tone?: Tone;
+  lang?: string;
   navigation?: ToastCardProps["navigation"];
 }) {
   const id = useId();
   const toasterId = useContext(ToastHost);
   const [source] = useState(() =>
-    noticeContent({ title, description, details, tone, children }),
+    noticeContent({ title, description, details, tone, children, lang }),
   );
   const dismissed = useEffectEvent(() => onDismiss?.());
   const dismissible = timeout > 0 || !!onDismiss;
@@ -304,6 +310,7 @@ export function ToastNotice({
       tone,
       children,
       closeLabel,
+      lang,
       navigation,
       onClose: dismissible
         ? () => {
@@ -320,6 +327,7 @@ export function ToastNotice({
     tone,
     children,
     closeLabel,
+    lang,
     dismissible,
     navigation,
   ]);
@@ -332,7 +340,10 @@ export function useToastDismiss() {
 }
 
 /** Completed actions outlive their originating row. */
-export function useToastNotification() {
+export function useToastNotification(language?: {
+  lang: string;
+  closeLabel: string;
+}) {
   const toasterId = useContext(ToastHost);
   return (
     title: string,
@@ -343,6 +354,8 @@ export function useToastNotification() {
       toast.custom(
         (id) => (
           <ToastCard
+            lang={language?.lang}
+            {...(language ? { closeLabel: language.closeLabel } : {})}
             title={title}
             tone={tone}
             onClose={() => {

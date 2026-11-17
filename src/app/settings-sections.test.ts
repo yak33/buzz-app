@@ -44,6 +44,7 @@ const primary = { id: "primary", name: "Primary" };
 const app = [
   "identity",
   "appearance",
+  "language",
   "notifications",
   "shortcuts",
   "agents",

@@ -18,6 +18,8 @@ export type SelectGroup = {
   options: readonly {
     value: string;
     label: string;
+    /** Language of the option and its selected-value display. */
+    lang?: string;
     description?: ReactNode;
     /** Decorative 20px icon, avatar, or custom accessory shown before the option's text. */
     leading?: ReactNode;
@@ -28,6 +30,7 @@ export type SelectGroup = {
 /** A compact, labelled single-choice control with accessible option groups. */
 export function Select({
   label,
+  lang,
   value,
   groups,
   onValueChange,
@@ -49,6 +52,8 @@ export function Select({
   describedBy,
 }: {
   label: string;
+  /** Language of the control and its portaled popup. */
+  lang?: string;
   description?: ReactNode;
   error?: ReactNode;
   name?: string;
@@ -89,6 +94,7 @@ export function Select({
   const control = (
     <div
       data-buzz-ui=""
+      lang={lang}
       className="buzz-select text-body"
       data-variant={variant}
       data-appearance={appearance}
@@ -134,6 +140,7 @@ export function Select({
                 </span>
               )}
               <BaseSelect.Value
+                lang={items.find((item) => item.value === value)?.lang}
                 className="buzz-select-value"
                 placeholder={selectedValue === null ? placeholder : undefined}
                 data-placeholder={selectedValue === null ? "" : undefined}
@@ -178,6 +185,7 @@ export function Select({
                   )}
                   <span className="buzz-select-value-text">
                     <BaseSelect.Value
+                      lang={items.find((item) => item.value === value)?.lang}
                       className={
                         variant === "compact" ? "buzz-select-value" : undefined
                       }
@@ -220,6 +228,7 @@ export function Select({
             alignItemWithTrigger={false}
           >
             <BaseSelect.Popup
+              lang={lang}
               data-buzz-ui=""
               className="buzz-select-popup text-body"
               data-variant={variant}
@@ -242,6 +251,7 @@ export function Select({
                           <BaseSelect.Item
                             key={option.value}
                             value={option.value}
+                            lang={option.lang}
                             disabled={option.disabled}
                             aria-label={option.label}
                             aria-describedby={

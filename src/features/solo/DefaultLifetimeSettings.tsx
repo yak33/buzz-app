@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import {
   CHANNEL_DURATIONS,
@@ -10,49 +11,54 @@ import { useDefaultLifetime, writeDefaultLifetime } from "./default-lifetime";
 /** The lifetime New chat starts Solo chats with, saved as soon as it
  * changes. The same choices as a chat's own lifetime setting. */
 export function DefaultLifetimeSettings({ scope }: { scope: string }) {
+  const { t, i18n } = useLingui();
   const ttlSeconds = useDefaultLifetime(scope);
-  const [error, setError] = useState("");
+  const [saveFailed, setSaveFailed] = useState(false);
   return (
-    <SettingsGroup>
-      <Select
-        variant="preference"
-        label="New Solo chats"
-        description="Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings."
-        value={ttlSeconds === undefined ? "ongoing" : String(ttlSeconds)}
-        valueLabel={
-          ttlSeconds === undefined
-            ? "Ongoing"
-            : `Temporary, ${channelDurationLabel(ttlSeconds)}`
-        }
-        error={error || undefined}
-        groups={[
-          {
-            label: "",
-            options: [
-              {
-                value: "ongoing",
-                label: "Ongoing",
-                description: "No automatic archive.",
-              },
-              ...CHANNEL_DURATIONS.map((seconds) => ({
-                value: String(seconds),
-                label: `Temporary, ${channelDurationLabel(seconds)}`,
-                description: `Archives after ${channelDurationLabel(seconds)} without activity.`,
-              })),
-            ],
-          },
-        ]}
-        onValueChange={(value) => {
-          setError(
-            writeDefaultLifetime(
+    <div lang={i18n.locale}>
+      <SettingsGroup>
+        <Select
+          lang={i18n.locale}
+          variant="preference"
+          label={t`New Solo chats`}
+          description={t`Chats you start with New chat in this community begin with this lifetime. You can change it in a chat’s settings.`}
+          value={ttlSeconds === undefined ? "ongoing" : String(ttlSeconds)}
+          valueLabel={
+            ttlSeconds === undefined
+              ? t`Ongoing`
+              : t`Temporary, ${channelDurationLabel(ttlSeconds, i18n.locale)}`
+          }
+          error={
+            saveFailed
+              ? t`Couldn’t save this on this device. Try again.`
+              : undefined
+          }
+          groups={[
+            {
+              label: "",
+              options: [
+                {
+                  value: "ongoing",
+                  label: t`Ongoing`,
+                  description: t`No automatic archive.`,
+                },
+                ...CHANNEL_DURATIONS.map((seconds) => ({
+                  value: String(seconds),
+                  label: t`Temporary, ${channelDurationLabel(seconds, i18n.locale)}`,
+                  description: t`Archives after ${channelDurationLabel(seconds, i18n.locale)} without activity.`,
+                })),
+              ],
+            },
+          ]}
+          onValueChange={(value) => {
+            const saved = writeDefaultLifetime(
               scope,
               value === "ongoing" ? undefined : Number(value),
-            )
-              ? ""
-              : "Couldn’t save this on this device. Try again.",
-          );
-        }}
-      />
-    </SettingsGroup>
+            );
+            setSaveFailed(!saved);
+          }}
+        />
+      </SettingsGroup>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { Select } from "../shared/design-system/ui/Select";
 import { ACCENTS, accentButtonStyle } from "../shared/theme/accent";
 
@@ -76,6 +77,15 @@ export function AppearanceSettings({
   autocorrectAvailable?: boolean;
   communities?: Pick<Communities, "relay"> | undefined;
 }) {
+  const { t, i18n } = useLingui();
+  const accentLabels = {
+    bee: t`Honey`,
+    magenta: t`Magenta`,
+    iris: t`Iris`,
+    cobalt: t`Cobalt`,
+    citrus: t`Citrus`,
+    mono: t`Mono`,
+  };
   const followUp = useFollowUpBehaviorPreference();
   const autocorrect = useMessageAutocorrectPreference();
   const unreadFirst = useUnreadFirstPreference();
@@ -114,26 +124,27 @@ export function AppearanceSettings({
     densityError,
   } = useSyncExternalStore(appearance.subscribe, appearance.snapshot);
   return (
-    <section aria-labelledby="appearance-settings-title">
-      <Header id="appearance-settings-title" title="Appearance" />
+    <section lang={i18n.locale} aria-labelledby="appearance-settings-title">
+      <Header id="appearance-settings-title" title={t`Appearance`} />
       <div>
-        <InlineHeader title="Interface" />
+        <InlineHeader title={t`Interface`} />
         <SettingsGroup>
           <PreferenceRow
             id="setting-mode"
-            title="Mode"
+            title={t`Mode`}
             trailing={
               <Select
+                lang={i18n.locale}
                 variant="compact"
-                label="Mode"
+                label={t`Mode`}
                 value={preference}
                 groups={[
                   {
-                    label: "Mode",
+                    label: t`Mode`,
                     options: [
-                      { value: "system", label: "System" },
-                      { value: "light", label: "Light" },
-                      { value: "dark", label: "Dark" },
+                      { value: "system", label: t`System` },
+                      { value: "light", label: t`Light` },
+                      { value: "dark", label: t`Dark` },
                     ],
                   },
                 ]}
@@ -149,23 +160,23 @@ export function AppearanceSettings({
             }
           />
           <PreferenceRow
-            title="Interface size"
+            title={t`Interface size`}
             trailing={
               <fieldset
-                aria-label="Interface size"
+                aria-label={t`Interface size`}
                 className="m-0 flex min-w-0 flex-wrap items-center gap-3 border-0 p-0"
               >
                 <Button
                   type="button"
                   size="sm"
-                  aria-label="Decrease interface size"
+                  aria-label={t`Decrease interface size`}
                   disabled={fontScale <= 0.8}
                   onClick={() => appearance.setFontScale(fontScale - 0.1)}
                 >
                   −
                 </Button>
                 <output
-                  aria-label="Interface size"
+                  aria-label={t`Interface size`}
                   className="text-body-sm tabular-nums"
                 >
                   {Math.round(fontScale * 100)}%
@@ -174,7 +185,7 @@ export function AppearanceSettings({
                   type="button"
                   size="sm"
                   ref={increaseButton}
-                  aria-label="Increase interface size"
+                  aria-label={t`Increase interface size`}
                   disabled={fontScale >= 2}
                   onClick={() => appearance.setFontScale(fontScale + 0.1)}
                 >
@@ -183,11 +194,11 @@ export function AppearanceSettings({
                 {fontScale !== 1 && (
                   <IconButton
                     icon={<ArrowCounterClockwiseIcon aria-hidden="true" />}
-                    title="Reset interface size"
+                    title={t`Reset interface size`}
                     size="sm"
                     type="button"
                     ref={resetRef}
-                    aria-label="Reset interface size"
+                    aria-label={t`Reset interface size`}
                     onClick={() => appearance.setFontScale(1)}
                   />
                 )}
@@ -195,7 +206,7 @@ export function AppearanceSettings({
             }
           />
           <PreferenceRow
-            title="Accent color"
+            title={t`Accent color`}
             trailing={(label) => (
               <fieldset
                 {...label}
@@ -206,10 +217,7 @@ export function AppearanceSettings({
                   className="grid auto-cols-max grid-flow-col gap-2 overflow-x-auto p-1 scroll-p-1 [&>button]:scroll-m-1"
                 >
                   {ACCENTS.map((color) => {
-                    const colorLabel =
-                      color === "bee"
-                        ? "Honey"
-                        : `${color.charAt(0).toUpperCase()}${color.slice(1)}`;
+                    const colorLabel = accentLabels[color];
                     return (
                       <IconButton
                         key={color}
@@ -220,7 +228,7 @@ export function AppearanceSettings({
                         variant="primary"
                         size="sm"
                         shape="round"
-                        aria-label={`${colorLabel} accent color`}
+                        aria-label={t`${colorLabel} accent color`}
                         title={colorLabel}
                         aria-pressed={accent === color}
                         onFocus={(event) =>
@@ -248,18 +256,19 @@ export function AppearanceSettings({
             )}
           />
           <PreferenceRow
-            title="Vibe level"
+            title={t`Vibe level`}
             trailing={
               <Select
+                lang={i18n.locale}
                 variant="compact"
-                label="Vibe level"
+                label={t`Vibe level`}
                 value={contrast}
                 groups={[
                   {
-                    label: "Vibe level",
+                    label: t`Vibe level`,
                     options: [
-                      { value: "low", label: "Chillin’" },
-                      { value: "high", label: "Buzzin’" },
+                      { value: "low", label: t`Chillin’` },
+                      { value: "high", label: t`Buzzin’` },
                     ],
                   },
                 ]}
@@ -271,20 +280,21 @@ export function AppearanceSettings({
             }
           />
           <PreferenceRow
-            title="Clock"
-            subtitle="System uses your device’s time format."
+            title={t`Clock`}
+            subtitle={t`System uses your device’s time format.`}
             trailing={
               <Select
+                lang={i18n.locale}
                 variant="compact"
-                label="Clock"
+                label={t`Clock`}
                 value={clock.hourCycle}
                 groups={[
                   {
-                    label: "Clock",
+                    label: t`Clock`,
                     options: [
-                      { value: "system", label: "System" },
-                      { value: "h12", label: "12-hour" },
-                      { value: "h23", label: "24-hour" },
+                      { value: "system", label: t`System` },
+                      { value: "h12", label: t`12-hour` },
+                      { value: "h23", label: t`24-hour` },
                     ],
                   },
                 ]}
@@ -296,13 +306,13 @@ export function AppearanceSettings({
             }
           />
           <SwitchPreferenceRow
-            label="Show seconds"
+            label={t`Show seconds`}
             checked={clock.seconds}
             onCheckedChange={(seconds) => setClockPreference({ seconds })}
           />
           <SwitchPreferenceRow
-            label="Show time zone details on profiles"
-            description="With someone’s local time, shows how far ahead or behind you they are and their time zone."
+            label={t`Show time zone details on profiles`}
+            description={t`With someone’s local time, shows how far ahead or behind you they are and their time zone.`}
             checked={clock.localTimeDetails}
             onCheckedChange={(localTimeDetails) =>
               setClockPreference({ localTimeDetails })
@@ -311,22 +321,23 @@ export function AppearanceSettings({
         </SettingsGroup>
       </div>
       <div className="mt-section-gap">
-        <InlineHeader title="Conversations" />
+        <InlineHeader title={t`Conversations`} />
         <SettingsGroup>
           <PreferenceRow
-            title="Message density"
-            subtitle="Compact shows conversations as a flat list that fits more messages on screen."
+            title={t`Message density`}
+            subtitle={t`Compact shows conversations as a flat list that fits more messages on screen.`}
             trailing={
               <Select
+                lang={i18n.locale}
                 variant="compact"
-                label="Message density"
+                label={t`Message density`}
                 value={density}
                 groups={[
                   {
-                    label: "Density",
+                    label: t`Density`,
                     options: [
-                      { value: "default", label: "Default" },
-                      { value: "compact", label: "Compact" },
+                      { value: "default", label: t`Default` },
+                      { value: "compact", label: t`Compact` },
                     ],
                   },
                 ]}
@@ -339,18 +350,19 @@ export function AppearanceSettings({
           />
           {density === "default" && (
             <PreferenceRow
-              title="Message width"
+              title={t`Message width`}
               trailing={
                 <Select
+                  lang={i18n.locale}
                   variant="compact"
-                  label="Message width"
+                  label={t`Message width`}
                   value={messageWidth}
                   groups={[
                     {
-                      label: "Width",
+                      label: t`Width`,
                       options: [
-                        { value: "narrow", label: "Narrow" },
-                        { value: "wide", label: "Wide" },
+                        { value: "narrow", label: t`Narrow` },
+                        { value: "wide", label: t`Wide` },
                       ],
                     },
                   ]}
@@ -371,20 +383,21 @@ export function AppearanceSettings({
         <div className="mt-4">
           <SettingsGroup>
             <PreferenceRow
-              title="Message timestamps"
-              subtitle="Hidden times stay available to screen readers."
+              title={t`Message timestamps`}
+              subtitle={t`Hidden times stay available to screen readers.`}
               trailing={
                 <Select
+                  lang={i18n.locale}
                   variant="compact"
-                  label="Message timestamps"
+                  label={t`Message timestamps`}
                   value={clock.messageTimestamps}
                   groups={[
                     {
-                      label: "Timestamps",
+                      label: t`Timestamps`,
                       options: [
-                        { value: "show", label: "Show" },
-                        { value: "hide-solo", label: "Hide in Solo chats" },
-                        { value: "hide", label: "Hide" },
+                        { value: "show", label: t`Show` },
+                        { value: "hide-solo", label: t`Hide in Solo chats` },
+                        { value: "hide", label: t`Hide` },
                       ],
                     },
                   ]}
@@ -401,19 +414,20 @@ export function AppearanceSettings({
             />
             {verifiedCommunity && (
               <PreferenceRow
-                title="Show people by"
-                subtitle="How people with verified names appear to you. Search, profiles, and previews show both."
+                title={t`Show people by`}
+                subtitle={t`How people with verified names appear to you. Search, profiles, and previews show both.`}
                 trailing={
                   <Select
+                    lang={i18n.locale}
                     variant="compact"
-                    label="Show people by"
+                    label={t`Show people by`}
                     value={names}
                     groups={[
                       {
-                        label: "Name",
+                        label: t`Name`,
                         options: [
-                          { value: "username", label: "Username" },
-                          { value: "full-name", label: "Full name" },
+                          { value: "username", label: t`Username` },
+                          { value: "full-name", label: t`Full name` },
                         ],
                       },
                     ]}
@@ -426,19 +440,20 @@ export function AppearanceSettings({
               />
             )}
             <PreferenceRow
-              title="Follow-up behavior"
-              subtitle="In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
+              title={t`Follow-up behavior`}
+              subtitle={t`In Solo, send follow-ups immediately or queue them until the agent finishes its previous response.`}
               trailing={
                 <Select
+                  lang={i18n.locale}
                   variant="compact"
-                  label="Follow-up behavior"
+                  label={t`Follow-up behavior`}
                   value={followUp.behavior}
                   groups={[
                     {
-                      label: "Behavior",
+                      label: t`Behavior`,
                       options: [
-                        { value: "immediate", label: "Send immediately" },
-                        { value: "queue", label: "Queue" },
+                        { value: "immediate", label: t`Send immediately` },
+                        { value: "queue", label: t`Queue` },
                       ],
                     },
                   ]}
@@ -451,19 +466,20 @@ export function AppearanceSettings({
             />
 
             <PreferenceRow
-              title="Open threads in"
-              subtitle="New threads open here. Already-open threads stay where you placed them."
+              title={t`Open threads in`}
+              subtitle={t`New threads open here. Already-open threads stay where you placed them.`}
               trailing={
                 <Select
+                  lang={i18n.locale}
                   variant="compact"
-                  label="Open threads in"
+                  label={t`Open threads in`}
                   value={placement}
                   groups={[
                     {
-                      label: "Pane",
+                      label: t`Pane`,
                       options: [
-                        { value: "side", label: "Side pane" },
-                        { value: "main", label: "Main pane" },
+                        { value: "side", label: t`Side pane` },
+                        { value: "main", label: t`Main pane` },
                       ],
                     },
                   ]}
@@ -476,15 +492,15 @@ export function AppearanceSettings({
             />
             {autocorrectAvailable && (
               <SwitchPreferenceRow
-                label="Allow automatic spelling correction"
-                description="Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
+                label={t`Allow automatic spelling correction`}
+                description={t`Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu.`}
                 checked={autocorrect.enabled}
                 onCheckedChange={setMessageAutocorrectPreference}
               />
             )}
             <SwitchPreferenceRow
-              label="Show unread first in search"
-              description="With nothing typed, search leads with unread channels and DMs and selects the newest."
+              label={t`Show unread first in search`}
+              description={t`With nothing typed, search leads with unread channels and DMs and selects the newest.`}
               checked={unreadFirst.enabled}
               onCheckedChange={setUnreadFirstPreference}
             />
@@ -492,48 +508,46 @@ export function AppearanceSettings({
         </div>
         {active && messageWidthError && (
           <ToastNotice
-            title="Message width wasn’t saved"
+            lang={i18n.locale}
+            title={t`Message width wasn’t saved`}
             description={messageWidthError}
           >
             <Button
               size="sm"
               onClick={() => appearance.setMessageWidth(messageWidth)}
-            >
-              Retry saving message width
-            </Button>
+            >{t`Retry saving message width`}</Button>
           </ToastNotice>
         )}
         {active && followUp.unsaved && (
           <ToastNotice
-            title="Follow-up preference wasn’t saved"
-            description="This choice is active, but could not be saved on this device."
+            lang={i18n.locale}
+            title={t`Follow-up preference wasn’t saved`}
+            description={t`This choice is active, but could not be saved on this device.`}
           >
             <Button
               size="sm"
               onClick={() => setFollowUpBehaviorPreference(followUp.behavior)}
-            >
-              Retry saving follow-up behavior
-            </Button>
+            >{t`Retry saving follow-up behavior`}</Button>
           </ToastNotice>
         )}
         {active && clock.unsaved && (
           <ToastNotice
-            title="Clock preference wasn’t saved"
-            description="This choice is active, but could not be saved on this device. Try again."
+            lang={i18n.locale}
+            title={t`Clock preference wasn’t saved`}
+            description={t`This choice is active, but could not be saved on this device. Try again.`}
           >
             <Button
               type="button"
               size="sm"
               onClick={() => setClockPreference({})}
-            >
-              Retry saving clock preference
-            </Button>
+            >{t`Retry saving clock preference`}</Button>
           </ToastNotice>
         )}
         {active && autocorrect.unsaved && (
           <ToastNotice
-            title="Spelling preference wasn’t saved"
-            description="This choice is active, but could not be saved on this device. Try again."
+            lang={i18n.locale}
+            title={t`Spelling preference wasn’t saved`}
+            description={t`This choice is active, but could not be saved on this device. Try again.`}
           >
             <Button
               type="button"
@@ -541,93 +555,96 @@ export function AppearanceSettings({
               onClick={() =>
                 setMessageAutocorrectPreference(autocorrect.enabled)
               }
-            >
-              Retry saving spelling correction
-            </Button>
+            >{t`Retry saving spelling correction`}</Button>
           </ToastNotice>
         )}
         {active && unreadFirst.unsaved && (
           <ToastNotice
-            title="Search preference wasn’t saved"
-            description="This choice is active, but could not be saved on this device. Try again."
+            lang={i18n.locale}
+            title={t`Search preference wasn’t saved`}
+            description={t`This choice is active, but could not be saved on this device. Try again.`}
           >
             <Button
               type="button"
               size="sm"
               onClick={() => setUnreadFirstPreference(unreadFirst.enabled)}
-            >
-              Retry saving search preference
-            </Button>
+            >{t`Retry saving search preference`}</Button>
           </ToastNotice>
         )}
         {active && unsaved && (
           <ToastNotice
-            title="Thread preference wasn’t saved"
-            description="This choice is active, but could not be saved on this device. Try again."
+            lang={i18n.locale}
+            title={t`Thread preference wasn’t saved`}
+            description={t`This choice is active, but could not be saved on this device. Try again.`}
           >
             <Button
               type="button"
               size="sm"
               onClick={() => setThreadPlacementPreference(placement)}
-            >
-              Retry saving thread placement
-            </Button>
+            >{t`Retry saving thread placement`}</Button>
           </ToastNotice>
         )}
         {active && contrastError && (
           <ToastNotice
-            title="Vibe level wasn’t saved"
+            lang={i18n.locale}
+            title={t`Vibe level wasn’t saved`}
             description={contrastError}
           >
-            <Button size="sm" onClick={() => appearance.setContrast(contrast)}>
-              Retry saving vibe level
-            </Button>
+            <Button
+              size="sm"
+              onClick={() => appearance.setContrast(contrast)}
+            >{t`Retry saving vibe level`}</Button>
           </ToastNotice>
         )}
         {active && densityError && (
           <ToastNotice
-            title="Message density wasn’t saved"
+            lang={i18n.locale}
+            title={t`Message density wasn’t saved`}
             description={densityError}
           >
-            <Button size="sm" onClick={() => appearance.setDensity(density)}>
-              Retry saving message density
-            </Button>
+            <Button
+              size="sm"
+              onClick={() => appearance.setDensity(density)}
+            >{t`Retry saving message density`}</Button>
           </ToastNotice>
         )}
         {active && accentError && (
           <ToastNotice
-            title="Accent color wasn’t saved"
+            lang={i18n.locale}
+            title={t`Accent color wasn’t saved`}
             description={accentError}
           >
-            <Button size="sm" onClick={() => appearance.setAccent(accent)}>
-              Retry saving accent color
-            </Button>
+            <Button
+              size="sm"
+              onClick={() => appearance.setAccent(accent)}
+            >{t`Retry saving accent color`}</Button>
           </ToastNotice>
         )}
 
         {active && fontError && (
           <ToastNotice
-            title="Interface size wasn’t saved"
+            lang={i18n.locale}
+            title={t`Interface size wasn’t saved`}
             description={fontError}
           >
             <Button
               type="button"
               size="sm"
               onClick={() => appearance.setFontScale(fontScale)}
-            >
-              Retry saving interface size
-            </Button>
+            >{t`Retry saving interface size`}</Button>
           </ToastNotice>
         )}
         {active && error && (
-          <ToastNotice title="Appearance wasn’t saved" description={error}>
+          <ToastNotice
+            lang={i18n.locale}
+            title={t`Appearance wasn’t saved`}
+            description={error}
+          >
             <Button
               type="button"
               size="sm"
               onClick={() => appearance.setMode(preference)}
-            >
-              Retry saving appearance
-            </Button>
+            >{t`Retry saving appearance`}</Button>
           </ToastNotice>
         )}
       </div>

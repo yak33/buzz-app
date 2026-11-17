@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   BellIcon,
   BellSlashIcon,
@@ -10,6 +11,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useEffectEvent,
   useMemo,
   useRef,
   useState,
@@ -234,6 +236,7 @@ export function MessageManagement({
   active?: boolean | undefined;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const presented = useConversationPresentation();
   const [selection, setSelection] = useState<Deletion>();
   if (!presented && selection) setSelection(undefined);
@@ -378,6 +381,10 @@ export function MessageManagement({
     }),
     [visit, notice.visit, notice.entryReady, notice.entryFailed],
   );
+  // Locale changes refresh this message without restarting the unread visit.
+  const restoreUnreadError = useEffectEvent(
+    () => t`Could not restore unread state.`,
+  );
   useEffect(() => {
     const { session, visitChannelId } = visit;
     let active = true;
@@ -395,6 +402,8 @@ export function MessageManagement({
             );
         },
         (cause) => {
+          const error =
+            cause instanceof Error ? cause.message : restoreUnreadError();
           if (active)
             setNotice((current) =>
               current.visit === visit
@@ -402,10 +411,7 @@ export function MessageManagement({
                     ...current,
                     entryReady: true,
                     entryFailed: true,
-                    error:
-                      cause instanceof Error
-                        ? cause.message
-                        : "Could not restore unread state.",
+                    error,
                   }
                 : current,
             );
@@ -476,6 +482,7 @@ export function MessageReadStateItem({
   row: ChannelMessage;
   session: RelaySession;
 }) {
+  const { t } = useLingui();
   const management = useManagedMessage(row, session);
   const target = {
     kind: "message" as const,
@@ -502,13 +509,13 @@ export function MessageReadStateItem({
           management.report(
             cause instanceof Error
               ? cause.message
-              : "Could not update unread state. Try again.",
+              : t`Could not update unread state. Try again.`,
           ),
         );
       }}
     >
       <MenuIcon>{unread ? <EnvelopeOpenIcon /> : <EnvelopeIcon />}</MenuIcon>
-      {unread ? "Mark read" : "Mark unread"}
+      {unread ? t`Mark read` : t`Mark unread`}
     </MenuItem>
   );
 }
@@ -537,6 +544,7 @@ function UnsentMessageItems({
   row: ChannelMessage;
   session: RelaySession;
 }) {
+  const { t } = useLingui();
   const management = useContext(Management);
   const editor = useMessageEditScope();
   const afterClose = useAfterMessageMenuClose();
@@ -561,8 +569,8 @@ function UnsentMessageItems({
         <TrashIcon size={14} />
       </MenuIcon>
       {row.delivery === "unknown"
-        ? "Remove from this device"
-        : "Delete message"}
+        ? t`Remove from this device`
+        : t`Delete message`}
     </MenuItem>
   );
 }
@@ -574,6 +582,7 @@ function ManagedMessageItems({
   row: ChannelMessage;
   session: RelaySession;
 }) {
+  const { t } = useLingui();
   const management = useManagedMessage(row, session);
   const editor = useMessageEditScope();
   const afterClose = useAfterMessageMenuClose();
@@ -642,7 +651,7 @@ function ManagedMessageItems({
           <MenuIcon>
             <PencilSimpleIcon size={14} />
           </MenuIcon>
-          Edit message
+          {t`Edit message`}
         </MenuItem>
       )}
       {canDelete && (
@@ -671,7 +680,7 @@ function ManagedMessageItems({
           <MenuIcon>
             <TrashIcon size={14} />
           </MenuIcon>
-          Delete message
+          {t`Delete message`}
         </MenuItem>
       )}
       {!dm && (
@@ -684,13 +693,13 @@ function ManagedMessageItems({
               management.report(
                 cause instanceof Error
                   ? cause.message
-                  : "Could not save thread follow. Try again.",
+                  : t`Could not save thread follow. Try again.`,
               );
             }
           }}
         >
           <MenuIcon>{following ? <BellSlashIcon /> : <BellIcon />}</MenuIcon>
-          {following ? "Unfollow thread" : "Follow thread"}
+          {following ? t`Unfollow thread` : t`Follow thread`}
         </MenuItem>
       )}
     </>
@@ -710,6 +719,7 @@ function DeleteMessageDialog({
   dispatched(dialog: Element | null): void;
   close(): void;
 }) {
+  const { t, i18n } = useLingui();
   const { row, authorization } = selection;
   const [operationId, setOperationId] = useState(
     () =>
@@ -750,7 +760,7 @@ function DeleteMessageDialog({
           )
       )
         throw new Error(
-          "This conversation is no longer available for changes.",
+          t`This conversation is no longer available for changes.`,
         );
       if (local) {
         // dismiss() leaves a send that is retrying alone, without an error.
@@ -759,7 +769,7 @@ function DeleteMessageDialog({
           .find((item) => item.event.id === row.id);
         if (!session.outbox || !discardable(session, row, item))
           throw new Error(
-            "This message’s delivery changed. Cancel to see its current status.",
+            t`This message’s delivery changed. Cancel to see its current status.`,
           );
         setDiscarding(true);
         await (unconfirmed && item?.recovery
@@ -779,22 +789,24 @@ function DeleteMessageDialog({
       setError(
         cause instanceof Error
           ? cause.message
-          : "Could not delete this message. Try again.",
+          : t`Could not delete this message. Try again.`,
       );
     }
   };
   return (
     <AlertDialog
+      lang={i18n.locale}
+      closeLabel={t`Close`}
       title={
-        unconfirmed ? "Remove message from this device?" : "Delete message?"
+        unconfirmed ? t`Remove message from this device?` : t`Delete message?`
       }
       initialFocus={cancelAction}
       description={
         unconfirmed
-          ? "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
+          ? t`Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone.`
           : local
-            ? "This message wasn’t sent. Deleting it removes it from this device. This cannot be undone."
-            : "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
+            ? t`This message wasn’t sent. Deleting it removes it from this device. This cannot be undone.`
+            : t`This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone.`
       }
       pending={pending}
       finalFocus={() =>
@@ -804,18 +816,18 @@ function DeleteMessageDialog({
       actions={
         <>
           <Button ref={cancelAction} disabled={pending} onClick={close}>
-            {operationId ? "Close" : "Cancel"}
+            {operationId ? t`Close` : t`Cancel`}
           </Button>
           <Button variant="destructive" disabled={pending} onClick={run}>
             {pending
               ? unconfirmed
-                ? "Removing…"
-                : "Deleting…"
+                ? t`Removing…`
+                : t`Deleting…`
               : retryable
-                ? "Retry"
+                ? t`Retry`
                 : unconfirmed
-                  ? "Remove"
-                  : "Delete"}
+                  ? t`Remove`
+                  : t`Delete`}
           </Button>
         </>
       }
@@ -824,7 +836,7 @@ function DeleteMessageDialog({
         <p role="alert">
           {error ??
             operation?.error ??
-            "Delivery could not be confirmed. Retry sends the same operation."}
+            t`Delivery could not be confirmed. Retry sends the same operation.`}
         </p>
       )}
     </AlertDialog>
@@ -833,6 +845,7 @@ function DeleteMessageDialog({
 
 /** Recovery survives a removed row, closed dialog, navigation and restored outbox. */
 export function MessageManagementStatus() {
+  const { t, i18n } = useLingui();
   const management = useContext(Management);
   const [error, setError] = useState<string>();
   if (!management) return null;
@@ -852,20 +865,18 @@ export function MessageManagementStatus() {
     <>
       {pending.map((item) => (
         <div
+          lang={i18n.locale}
           key={item.event.id}
           className={styles.messageActionNotice}
           role="status"
         >
           <p>
-            {item.event.kind === 40003 ? "Message edit" : "Message deletion"}:{" "}
-            {item.error ?? "Delivery could not be confirmed."}
+            {item.event.kind === 40003 ? t`Message edit` : t`Message deletion`}:{" "}
+            {item.error ?? t`Delivery could not be confirmed.`}
           </p>
-          {item.event.kind === 40003 && <p>{item.event.content}</p>}
+          {item.event.kind === 40003 && <p lang="">{item.event.content}</p>}
           {item.delivery === "unknown" && (
-            <p>
-              This may already have reached the conversation. Retry sends the
-              same operation; dismissing does not undo it.
-            </p>
+            <p>{t`This may already have reached the conversation. Retry sends the same operation; dismissing does not undo it.`}</p>
           )}
           <RetryMessageUpdate session={session} event={item.event} />
           <Button
@@ -877,14 +888,14 @@ export function MessageManagementStatus() {
                 setError(
                   cause instanceof Error
                     ? cause.message
-                    : "Could not dismiss the operation.",
+                    : t`Could not dismiss the operation.`,
                 );
               }
             }}
           >
             {item.delivery === "failed"
-              ? "Discard failed update"
-              : "Dismiss unconfirmed update"}
+              ? t`Discard failed update`
+              : t`Dismiss unconfirmed update`}
           </Button>
         </div>
       ))}
@@ -900,6 +911,7 @@ function RetryMessageUpdate({
   session: RelaySession;
   event: OutgoingEvent["event"];
 }) {
+  const { t } = useLingui();
   const eligible = useSyncExternalStore(
     (listener) => {
       const offChannels = session.channels.subscribeList(listener);
@@ -915,8 +927,6 @@ function RetryMessageUpdate({
     <Button
       disabled={!eligible}
       onClick={() => session.outbox?.retry(event.id)}
-    >
-      Retry message update
-    </Button>
+    >{t`Retry message update`}</Button>
   );
 }

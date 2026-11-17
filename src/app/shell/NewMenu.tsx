@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { createPortal } from "react-dom";
 import { useRef, useState, useSyncExternalStore } from "react";
 import type { Agents } from "../../features/agents/service";
@@ -66,6 +67,7 @@ function ReadyNewMenu({
   open,
   onOpenChange,
 }: Props & { session: RelaySession; available: boolean }) {
+  const { t, i18n } = useLingui();
   useSyncExternalStore(
     session.soloPreferences.subscribe,
     session.soloPreferences.snapshot,
@@ -96,8 +98,9 @@ function ReadyNewMenu({
           hint="familiar"
           ref={trigger}
           disabled={!available}
-          aria-label="New"
-          title="New"
+          lang={i18n.locale}
+          aria-label={t`New`}
+          title={t`New`}
           variant="inset"
           shape="round"
           size="sm"
@@ -119,6 +122,7 @@ function ReadyNewMenu({
           ? menuTrigger
           : triggerContainer && createPortal(menuTrigger, triggerContainer)}
         <MenuPopup
+          lang={i18n.locale}
           finalFocus={
             draftFocus
               ? () => (draftFocus.isConnected ? draftFocus : false)
@@ -126,7 +130,7 @@ function ReadyNewMenu({
           }
         >
           <MenuGroup>
-            <MenuGroupLabel emphasis="quiet">Solo</MenuGroupLabel>
+            <MenuGroupLabel emphasis="quiet">{t`Solo`}</MenuGroupLabel>
             {!composing && (
               <MenuItem
                 onClick={() => {
@@ -144,22 +148,18 @@ function ReadyNewMenu({
                   }
                   void navigator.open(destination);
                 }}
-              >
-                New chat
-              </MenuItem>
+              >{t`New chat`}</MenuItem>
             )}
             <MenuItem
               disabled={!session.soloPreferences.sectionCreationWritable}
               onClick={() => {
                 if (current()) setCreatingProject(true);
               }}
-            >
-              New workspace
-            </MenuItem>
+            >{t`New workspace`}</MenuItem>
           </MenuGroup>
           <MenuSeparator />
           <MenuGroup>
-            <MenuGroupLabel emphasis="quiet">Team</MenuGroupLabel>
+            <MenuGroupLabel emphasis="quiet">{t`Team`}</MenuGroupLabel>
             <MenuItem
               disabled={!scope}
               onClick={() => {
@@ -173,25 +173,19 @@ function ReadyNewMenu({
                     route: { version: 1, params: "new-message" },
                   });
               }}
-            >
-              New DM
-            </MenuItem>
+            >{t`New DM`}</MenuItem>
             <MenuItem
               disabled={!session.channelCreation.available}
               onClick={() => {
                 if (current()) setCreatingChannel(true);
               }}
-            >
-              New channel
-            </MenuItem>
+            >{t`New channel`}</MenuItem>
             <MenuItem
               disabled={!preferences.sectionCreationWritable}
               onClick={() => {
                 if (current()) setCreatingSection(true);
               }}
-            >
-              New section
-            </MenuItem>
+            >{t`New section`}</MenuItem>
           </MenuGroup>
         </MenuPopup>
       </MenuRoot>

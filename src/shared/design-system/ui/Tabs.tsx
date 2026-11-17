@@ -27,6 +27,8 @@ export type TabAction = { label: string; run(): void };
 export type TabItem<Value extends string> = {
   value: Value;
   label: string;
+  /** Language of this tab label; user and plugin names may override the list. */
+  lang?: string;
   icon?: ReactNode;
   disabled?: boolean;
   trailing?: ReactNode;
@@ -78,6 +80,7 @@ export function Tabs<Value extends string>({
   value,
   items,
   label,
+  lang,
   onValueChange,
   onReselect,
   trailingAction,
@@ -104,6 +107,8 @@ export function Tabs<Value extends string>({
   value: Value | null;
   items: readonly TabItem<Value>[];
   label: string;
+  /** Language of the tab list’s accessible name. */
+  lang?: string;
   onValueChange: (value: Value) => void;
   /** Opt in when activating the selected tab returns from a nested view. */
   onReselect?: (value: Value) => void;
@@ -126,7 +131,12 @@ export function Tabs<Value extends string>({
   const list = useScrollEdges("inline");
   const strip = (
     <>
-      <BaseTabs.List ref={list} className="buzz-tabs-list" aria-label={label}>
+      <BaseTabs.List
+        lang={lang}
+        ref={list}
+        className="buzz-tabs-list"
+        aria-label={label}
+      >
         {showSelection && variant !== "navigation" && variant !== "dock" && (
           <BaseTabs.Indicator
             className="buzz-tabs-indicator"
@@ -147,6 +157,7 @@ export function Tabs<Value extends string>({
         {items.map((item) => {
           const tab = (
             <BaseTabs.Tab
+              lang={item.lang}
               value={item.value}
               title={variant === "dock" ? undefined : item.label}
               disabled={item.disabled}

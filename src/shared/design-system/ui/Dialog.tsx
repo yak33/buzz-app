@@ -20,6 +20,8 @@ export type DialogProps = {
     typeof BaseDialog.Root
   >["onOpenChangeComplete"];
   title: ReactNode;
+  /** Language of dialog chrome and content, including its portal. */
+  lang?: string;
   /** Artwork above a centered title lockup, with Close kept at the top right. */
   artwork?: ReactNode;
   /** Search palettes keep an accessible title without visible header chrome. */
@@ -70,6 +72,7 @@ export function Dialog({
   onOpenChange,
   onOpenChangeComplete,
   title,
+  lang,
   artwork,
   presentation = "default",
   description,
@@ -264,6 +267,7 @@ export function Dialog({
           className="buzz-dialog-backdrop"
         />
         <BaseDialog.Popup
+          lang={lang}
           data-buzz-ui=""
           className="buzz-dialog gap-0"
           data-placement={placement}
