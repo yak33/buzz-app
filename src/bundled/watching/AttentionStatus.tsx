@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { RefObject } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { CircleIcon } from "../../shared/design-system/icons";
@@ -36,6 +37,7 @@ export function AttentionStatus({
   pending: boolean;
   onChange(active: boolean): void;
 }) {
+  const { t } = useLingui();
   return (
     <MenuRoot>
       <MenuTrigger
@@ -59,7 +61,7 @@ export function AttentionStatus({
                   : "var(--text-subtle)",
               }}
             />
-            {active ? "Active" : "Paused"}
+            {active ? t`Active` : t`Paused`}
           </Button>
         }
       />
@@ -81,7 +83,7 @@ export function AttentionStatus({
             closeOnClick={false}
             onClick={() => onChange(!active)}
           >
-            {active ? "Pause" : "Resume"}
+            {active ? t`Pause` : t`Resume`}
           </MenuItem>
           {onDelete && <MenuSeparator />}
           {onDelete && (
@@ -91,7 +93,7 @@ export function AttentionStatus({
               closeOnClick={deleteConfirms}
               onClick={onDelete}
             >
-              Delete
+              {t`Delete`}
             </MenuItem>
           )}
         </MenuGroup>

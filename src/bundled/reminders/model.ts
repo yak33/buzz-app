@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import type { Reminder, RemindersState } from "../../features/relay/reminders";
+import { i18n } from "../../features/localization/service";
 import { relativeTimestamp } from "../../shared/relative-timestamp";
 
 export const nowSeconds = () => Math.floor(Date.now() / 1000);
@@ -58,6 +60,14 @@ export function pendingMessageIds(state: RemindersState) {
 
 export type ReminderGroup = Readonly<{ label: string; reminders: Reminder[] }>;
 
+/** Group keys stay English (sort and lookup); their display labels translate. */
+export const GROUP_LABELS = {
+  Overdue: msg`Overdue`,
+  Today: msg`Today`,
+  Upcoming: msg`Upcoming`,
+  Done: msg`Done`,
+} as const;
+
 /** Overdue, Today and Upcoming pending reminders, then Done newest first; cancelled is hidden. */
 export function groupReminders(
   reminders: readonly Reminder[],
@@ -72,16 +82,18 @@ export function groupReminders(
     const at = reminder.notBefore;
     if (reminder.status === "done") groups.Done?.push(reminder);
     if (reminder.status !== "pending" || at === undefined) continue;
-    const label =
+    const key =
       at <= now ? "Overdue" : at <= endOfToday ? "Today" : "Upcoming";
-    groups[label]?.push(reminder);
+    groups[key]?.push(reminder);
   }
   return Object.entries(groups)
     .filter(([, list]) => list.length)
-    .map(([label, list]) => ({
-      label,
+    .map(([key, list]) => ({
+      label: i18n._(
+        GROUP_LABELS[key as keyof typeof GROUP_LABELS] ?? GROUP_LABELS.Upcoming,
+      ),
       reminders: list.sort((a, b) =>
-        label === "Done"
+        key === "Done"
           ? b.createdAt - a.createdAt
           : (a.notBefore ?? 0) - (b.notBefore ?? 0),
       ),
@@ -106,12 +118,12 @@ function nextDayAt9am(dayOffset: number) {
 
 export type TimePreset = Readonly<{ label: string; at(): number }>;
 export const TIME_PRESETS: readonly TimePreset[] = [
-  { label: "In 30 minutes", at: () => nowSeconds() + 30 * 60 },
-  { label: "In 1 hour", at: () => nowSeconds() + 60 * 60 },
-  { label: "In 3 hours", at: () => nowSeconds() + 3 * 60 * 60 },
-  { label: "Tomorrow at 9am", at: () => nextDayAt9am(1) },
+  { label: i18n._(msg`In 30 minutes`), at: () => nowSeconds() + 30 * 60 },
+  { label: i18n._(msg`In 1 hour`), at: () => nowSeconds() + 60 * 60 },
+  { label: i18n._(msg`In 3 hours`), at: () => nowSeconds() + 3 * 60 * 60 },
+  { label: i18n._(msg`Tomorrow at 9am`), at: () => nextDayAt9am(1) },
   {
-    label: "Next Monday at 9am",
+    label: i18n._(msg`Next Monday at 9am`),
     at: () => nextDayAt9am((8 - new Date().getDay()) % 7 || 7),
   },
 ];

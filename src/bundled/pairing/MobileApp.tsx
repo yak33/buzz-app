@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   type ComponentProps,
   useEffect,
@@ -47,6 +48,7 @@ export function MobileSettings({
   phone?: BuilderlabPhone | undefined;
   stores?: readonly Store[];
 }) {
+  const { t } = useLingui();
   const session = useSyncExternalStore(
     federatedIdentity?.subscribe ?? noSubscription,
     () => federatedIdentity?.snapshot(),
@@ -120,10 +122,10 @@ export function MobileSettings({
   // Pairing starts a session as it mounts, so it waits for the answer; the
   // card's heading holds its place meanwhile.
   return (
-    <LoadingRegion pending label="Checking your Builderlab account…">
+    <LoadingRegion pending label={t`Checking your Builderlab account…`}>
       <section aria-labelledby="mobile-app-title" className="min-w-0">
         <h2 id="mobile-app-title" className="mt-0 mb-2 text-label">
-          Mobile app
+          {t`Mobile app`}
         </h2>
       </section>
     </LoadingRegion>
@@ -142,14 +144,21 @@ function GetTheApp({
   email: string | null;
   stores: readonly Store[];
 }) {
+  const { t } = useLingui();
+  // 四个完整模板，避免在插值里拼接条件短语。
+  const intro = !stores.length
+    ? email
+      ? t`Install Buzz on your phone from its app store, then sign in with Builderlab as ${email}.`
+      : t`Install Buzz on your phone from its app store, then sign in with Builderlab.`
+    : email
+      ? t`Install Buzz on your phone, then sign in with Builderlab as ${email}.`
+      : t`Install Buzz on your phone, then sign in with Builderlab.`;
   return (
     <section aria-labelledby="mobile-app-title" className="min-w-0">
       <h2 id="mobile-app-title" className="mt-0 mb-2 text-label">
-        Get Buzz on your phone
+        {t`Get Buzz on your phone`}
       </h2>
-      <p className="mt-0 mb-6 text-body-sm text-muted">
-        {`Install Buzz on your phone${stores.length ? "" : " from its app store"}, then sign in with Builderlab${email ? ` as ${email}` : ""}.`}
-      </p>
+      <p className="mt-0 mb-6 text-body-sm text-muted">{intro}</p>
       {stores.length > 0 && (
         <ul className="m-0 flex list-none flex-wrap gap-6 p-0">
           {stores.map((store) => (
@@ -166,6 +175,7 @@ function GetTheApp({
  * while it renders. Without the native renderer (the browser host) only the
  * link shows. */
 function StoreCode({ store }: { store: Store }) {
+  const { t } = useLingui();
   const variant = useQrVariant();
   const key = `${variant}:${store.url}`;
   const [drawn, setDrawn] = useState<{ key: string; svg?: string }>();
@@ -185,7 +195,7 @@ function StoreCode({ store }: { store: Store }) {
       {code?.svg ? (
         <QrCode
           svg={code.svg}
-          alt={`Scan with your phone to get Buzz from ${store.name}`}
+          alt={t`Scan with your phone to get Buzz from ${store.name}`}
         />
       ) : (
         !code && (
@@ -201,7 +211,7 @@ function StoreCode({ store }: { store: Store }) {
         target="_blank"
         rel="noreferrer"
       >
-        {`Get it on ${store.name}`}
+        {t`Get it on ${store.name}`}
       </a>
     </li>
   );

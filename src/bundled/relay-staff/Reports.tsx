@@ -1,3 +1,8 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
+// 全局单例供模块级 reasonAudience/resolutionLabel 使用（先例 src/shared/datetime.ts）。
+import { i18n as globalI18n } from "../../features/localization/service";
 import { useEffect, useState } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Field } from "../../shared/design-system/ui/Field";
@@ -39,22 +44,24 @@ import {
   time,
 } from "./ui";
 
-const LABELS: Record<ReportAction, string> = {
-  delete: "Delete",
-  kick: "Kick",
-  ban: "Ban",
-  timeout: "Timeout",
-  dismiss: "Dismiss",
-  escalate: "Escalate",
+const LABELS: Record<ReportAction, MessageDescriptor> = {
+  delete: msg`Delete`,
+  kick: msg`Kick`,
+  ban: msg`Ban`,
+  timeout: msg`Timeout`,
+  dismiss: msg`Dismiss`,
+  escalate: msg`Escalate`,
 };
 
 /** Where a reason is delivered, so staff know who reads it. */
 export function reasonAudience(action: ReportAction) {
   if (action === "delete")
-    return "Sent verbatim to the affected user and posted publicly in the room.";
+    return globalI18n._(
+      msg`Sent verbatim to the affected user and posted publicly in the room.`,
+    );
   if (action === "dismiss" || action === "escalate")
-    return "Sent verbatim to the reporter.";
-  return "Sent verbatim to the affected user.";
+    return globalI18n._(msg`Sent verbatim to the reporter.`);
+  return globalI18n._(msg`Sent verbatim to the affected user.`);
 }
 
 /** Kick needs the report's channel; a blob can only be dismissed or escalated. */
@@ -72,9 +79,10 @@ function allowedActions(report: ReportDto): ReportAction[] {
 }
 
 function resolutionLabel(resolution: ReportResolution) {
-  if (resolution.activeAction) return LABELS[resolution.activeAction.action];
-  if (resolution.status === "dismissed") return LABELS.dismiss;
-  if (resolution.status === "escalated") return LABELS.escalate;
+  if (resolution.activeAction)
+    return globalI18n._(LABELS[resolution.activeAction.action]);
+  if (resolution.status === "dismissed") return globalI18n._(LABELS.dismiss);
+  if (resolution.status === "escalated") return globalI18n._(LABELS.escalate);
   return resolution.status;
 }
 
@@ -101,6 +109,7 @@ export const REPORT_LIMIT = 200;
 const STATUSES = ["open", "processing", "resolved", "dismissed", "escalated"];
 
 export function Reports({ communityId }: { communityId?: string }) {
+  const { t } = useLingui();
   const { context } = useSession();
   const [selected, setSelected] = useState<string | null>(null);
   const [status, setStatus] = useState("");
@@ -142,14 +151,14 @@ export function Reports({ communityId }: { communityId?: string }) {
   return (
     <div className="flex flex-col gap-3">
       <Select
-        label="Status"
+        label={t`Status`}
         variant="compact"
         value={status}
         groups={[
           {
             label: "",
             options: [
-              { value: "", label: "All statuses" },
+              { value: "", label: t`All statuses` },
               ...STATUSES.map((value) => ({ value, label: value })),
             ],
           },
@@ -159,7 +168,9 @@ export function Reports({ communityId }: { communityId?: string }) {
       <Loaded read={list} onRetry={reload}>
         {(reports) =>
           reports.length === 0 ? (
-            <p className="text-body-sm text-secondary">No reports found.</p>
+            <p className="text-body-sm text-secondary">
+              {t`No reports found.`}
+            </p>
           ) : (
             <PeopleScope people={people}>
               <NamesSource />
@@ -175,11 +186,12 @@ export function Reports({ communityId }: { communityId?: string }) {
                       onClick={() => setSelected(report.id)}
                     >
                       <span className="block font-medium">
-                        {report.reportType || "Report"}
+                        {report.reportType || t`Report`}
                       </span>
                       <span className="block truncate text-caption text-secondary">
-                        reporter: <PersonName pubkey={report.reporterPubkey} />{" "}
-                        · target: <Target report={report} />
+                        {t`reporter:`}{" "}
+                        <PersonName pubkey={report.reporterPubkey} />{" "}
+                        {t`· target:`} <Target report={report} />
                       </span>
                       <span className="flex items-center gap-1.5 text-caption text-secondary">
                         {report.status}
@@ -215,6 +227,7 @@ function ReportDetail({
   onBack(): void;
   onChanged(): void;
 }) {
+  const { i18n, t } = useLingui();
   const { context, canMutate } = useSession();
   const [detail, reload] = useRead({ route: "getReport", id }, [context, id]);
   const notify = useToastNotification();
@@ -226,7 +239,10 @@ function ReportDetail({
   // gone once its action changes the report's status.
   const resolve = useWrite<ResolveRequest>(`resolve ${id}`, (outcome, sent) => {
     if (outcome.ok) {
-      notify(`Report resolved: ${resolutionLabel(outcome.value)}`, "success");
+      notify(
+        i18n._(msg`Report resolved: ${resolutionLabel(outcome.value)}`),
+        "success",
+      );
       return changed();
     }
     // Dismiss and Escalate carry no replay protection on the relay: a retry
@@ -235,7 +251,9 @@ function ReportDetail({
     if (decisionOnly(sent.action) && unresolved(outcome)) {
       resolve.discard();
       notify(
-        "The relay did not confirm the result. Check the report and decide again.",
+        i18n._(
+          msg`The relay did not confirm the result. Check the report and decide again.`,
+        ),
         "error",
       );
       return changed();
@@ -262,11 +280,13 @@ function ReportDetail({
     const now = detail.value.status;
     notify(
       now === "open" || now === "processing"
-        ? "Report reopened"
-        : `Your reopen went through, but the report has since been ${now}.`,
+        ? i18n._(msg`Report reopened`)
+        : i18n._(
+            msg`Your reopen went through, but the report has since been ${now}.`,
+          ),
       "success",
     );
-  }, [reopened, detail, notify]);
+  }, [reopened, detail, notify, i18n]);
   useWrite<CancelRequest>(`cancel ${id}`, (outcome) => {
     // A cancel proves the action it names landed and was undone; on `open`
     // the relay would reject that request id. Release the held resolve only
@@ -275,8 +295,8 @@ function ReportDetail({
     if (undone) resolve.release(undone);
     notify(
       outcome.ok
-        ? "Enforcement cancelled. The report is open again."
-        : `Cancel rejected: ${describe(outcome.failure)}`,
+        ? i18n._(msg`Enforcement cancelled. The report is open again.`)
+        : i18n._(msg`Cancel rejected: ${describe(outcome.failure)}`),
       outcome.ok ? "success" : "error",
     );
     changed();
@@ -305,7 +325,7 @@ function ReportDetail({
   return (
     <div className="flex flex-col gap-4">
       <Button size="sm" variant="ghost" onClick={onBack}>
-        <ArrowLeftIcon /> Back to reports
+        <ArrowLeftIcon /> {t`Back to reports`}
       </Button>
       <Loaded read={detail} onRetry={reload}>
         {(report) => (
@@ -330,6 +350,7 @@ function ReportDetail({
 }
 
 function ReportFields({ report }: { report: ReportDetailDto }) {
+  const { t } = useLingui();
   const people = usePeople([
     report.reporterPubkey,
     report.targetKind.toLowerCase() === "pubkey" ? report.target : null,
@@ -343,53 +364,53 @@ function ReportFields({ report }: { report: ReportDetailDto }) {
         <p className="mb-2 text-body-sm font-medium">
           {report.reportType} · {report.status}
         </p>
-        <Row label="ID" mono>
+        <Row label={t`ID`} mono>
           {report.id}
         </Row>
-        <Row label="Community">
+        <Row label={t`Community`}>
           <CommunityBadge id={report.communityId} host={report.communityHost} />
         </Row>
-        <Row label="Event ID" mono>
+        <Row label={t`Event ID`} mono>
           {report.reportEventId}
         </Row>
-        <Row label="Reporter">
+        <Row label={t`Reporter`}>
           <Person pubkey={report.reporterPubkey} />
         </Row>
-        <Row label="Target kind">{report.targetKind}</Row>
+        <Row label={t`Target kind`}>{report.targetKind}</Row>
         {report.targetKind.toLowerCase() === "pubkey" ? (
-          <Row label="Target">
+          <Row label={t`Target`}>
             <Person pubkey={report.target} />
           </Row>
         ) : (
-          <Row label="Target" mono>
+          <Row label={t`Target`} mono>
             {report.target}
           </Row>
         )}
-        <Row label="Channel" mono>
+        <Row label={t`Channel`} mono>
           {report.channelId}
         </Row>
-        <Row label="Note">{report.note}</Row>
-        <Row label="Resolved by">
+        <Row label={t`Note`}>{report.note}</Row>
+        <Row label={t`Resolved by`}>
           {report.resolvedBy && <Person pubkey={report.resolvedBy} />}
         </Row>
-        <Row label="Resolved at">{time(report.resolvedAt)}</Row>
-        <Row label="Action ID" mono>
+        <Row label={t`Resolved at`}>{time(report.resolvedAt)}</Row>
+        <Row label={t`Action ID`} mono>
           {report.actionId}
         </Row>
-        <Row label="Created">{time(report.createdAt)}</Row>
+        <Row label={t`Created`}>{time(report.createdAt)}</Row>
         {report.message && (
           <div className="mt-3 flex flex-col gap-1.5 rounded-md border px-3 py-2.5">
             <p className="text-caption font-semibold text-secondary">
-              Reported message
+              {t`Reported message`}
               {report.message.deletedAt && (
-                <span className="ml-1.5 text-danger">(deleted)</span>
+                <span className="ml-1.5 text-danger">{t`(deleted)`}</span>
               )}
             </p>
-            <Row label="Author">
+            <Row label={t`Author`}>
               <Person pubkey={report.message.authorPubkey} />
             </Row>
-            <Row label="Content">{report.message.content}</Row>
-            <Row label="Sent">{time(report.message.createdAt)}</Row>
+            <Row label={t`Content`}>{report.message.content}</Row>
+            <Row label={t`Sent`}>{time(report.message.createdAt)}</Row>
           </div>
         )}
         <NamesSource />
@@ -398,12 +419,12 @@ function ReportFields({ report }: { report: ReportDetailDto }) {
   );
 }
 
-const ENFORCEMENT: Record<ActionRecordDto["status"], string> = {
-  pending: "Enforcement pending…",
-  enforcing: "Enforcing…",
-  succeeded: "Enforcement succeeded",
-  failed: "Enforcement failed",
-  cancelled: "Enforcement cancelled",
+const ENFORCEMENT: Record<ActionRecordDto["status"], MessageDescriptor> = {
+  pending: msg`Enforcement pending…`,
+  enforcing: msg`Enforcing…`,
+  succeeded: msg`Enforcement succeeded`,
+  failed: msg`Enforcement failed`,
+  cancelled: msg`Enforcement cancelled`,
 };
 
 /**
@@ -417,14 +438,17 @@ function Enforcement({
   reportId: string;
   action: ActionRecordDto;
 }) {
+  const { i18n, t } = useLingui();
   const { canMutate } = useSession();
   const write = useWrite<CancelRequest>(`cancel ${reportId}`);
   const cancel = () =>
     write.run({ route: "cancelReport", id: reportId, actionId: action.id });
+  // The relay's own wording for an absent kick target is matched verbatim;
+  // only the friendlier replacement is translatable copy.
   const message = action.errorMessage?.includes(
     "kick target was already absent",
   )
-    ? "No channel membership to remove. Use Timeout or Ban for open channels."
+    ? t`No channel membership to remove. Use Timeout or Ban for open channels.`
     : action.errorMessage;
   return (
     <div className="flex flex-col gap-2 rounded-md border px-3 py-2.5 text-body-sm">
@@ -432,7 +456,7 @@ function Enforcement({
         {(action.status === "pending" || action.status === "enforcing") && (
           <CircleNotchIcon className="animate-spin" />
         )}
-        {ENFORCEMENT[action.status]}
+        {i18n._(ENFORCEMENT[action.status])}
         <span className="font-mono text-caption text-secondary">
           {action.action}
         </span>
@@ -440,7 +464,7 @@ function Enforcement({
       {message && <p className="text-caption text-secondary">{message}</p>}
       {action.status === "failed" && canMutate && (
         <Button size="sm" loading={write.busy} onClick={() => cancel()}>
-          Cancel and reopen
+          {t`Cancel and reopen`}
         </Button>
       )}
     </div>
@@ -448,6 +472,7 @@ function Enforcement({
 }
 
 function Resolve({ report }: { report: ReportDto }) {
+  const { i18n, t } = useLingui();
   const write = useWrite<ResolveRequest>(`resolve ${report.id}`);
   const [action, setAction] = useState<ReportAction | null>(null);
   const [reason, setReason] = useState("");
@@ -476,7 +501,7 @@ function Resolve({ report }: { report: ReportDto }) {
 
   return (
     <div className="flex flex-col gap-3 rounded-md border px-3 py-2.5">
-      <Field label="Resolve report" nativeLabel={false}>
+      <Field label={t`Resolve report`} nativeLabel={false}>
         <RadioGroup<ReportAction | null>
           name={`resolve-${report.id}`}
           value={shown}
@@ -484,14 +509,14 @@ function Resolve({ report }: { report: ReportDto }) {
           onValueChange={setAction}
         >
           {allowedActions(report).map((option) => (
-            <Radio key={option} value={option} label={LABELS[option]} />
+            <Radio key={option} value={option} label={i18n._(LABELS[option])} />
           ))}
         </RadioGroup>
       </Field>
       {shown === "timeout" && (
-        <Field label="Duration (seconds)">
+        <Field label={t`Duration (seconds)`}>
           <Input
-            placeholder="e.g. 3600"
+            placeholder={t`e.g. 3600`}
             type="number"
             min={1}
             disabled={locked}
@@ -501,9 +526,9 @@ function Resolve({ report }: { report: ReportDto }) {
         </Field>
       )}
       <Field
-        label="Reason (optional)"
+        label={t`Reason (optional)`}
         description={shown ? reasonAudience(shown) : undefined}
-        error={secret ? SECRET_KEY_WARNING : undefined}
+        error={secret ? i18n._(SECRET_KEY_WARNING) : undefined}
       >
         <Input
           disabled={locked}
@@ -514,7 +539,7 @@ function Resolve({ report }: { report: ReportDto }) {
       {shown && (
         <>
           <p className="flex flex-wrap items-center gap-1.5 text-caption text-secondary">
-            In{" "}
+            {t`In`}{" "}
             <CommunityBadge
               id={report.communityId}
               host={report.communityHost}
@@ -528,12 +553,14 @@ function Resolve({ report }: { report: ReportDto }) {
             disabled={!write.frozen && (secret || !validDuration)}
             onClick={() => submit()}
           >
-            {write.frozen ? "Retry" : "Confirm"}: {LABELS[shown]} in{" "}
+            {write.frozen ? t`Retry` : t`Confirm`}
+            {t`: `}
+            {i18n._(LABELS[shown])} {t`in`}{" "}
             {report.communityHost}
           </Button>
           {write.frozen && !write.busy && (
             <Button size="sm" variant="ghost" onClick={write.discard}>
-              Discard
+              {t`Discard`}
             </Button>
           )}
           <WriteError write={write} />
@@ -545,6 +572,7 @@ function Resolve({ report }: { report: ReportDto }) {
 
 /** Re-triage only: reopening never reverses enforcement already taken. */
 function Reopen({ report }: { report: ReportDto }) {
+  const { i18n, t } = useLingui();
   const write = useWrite<ReopenRequest>(`reopen ${report.id}`);
   const [reason, setReason] = useState("");
   const secret = containsSecretKey(reason);
@@ -557,16 +585,18 @@ function Reopen({ report }: { report: ReportDto }) {
     });
   return (
     <div className="flex flex-col gap-3 rounded-md border px-3 py-2.5">
-      <p className="text-caption font-medium text-secondary">Reopen report</p>
+      <p className="text-caption font-medium text-secondary">
+        {t`Reopen report`}
+      </p>
       <p className="text-caption text-secondary">
-        Moves this report back to the open queue for re-triage.{" "}
+        {t`Moves this report back to the open queue for re-triage.`}{" "}
         {report.actionId
-          ? "The enforcement action already taken is not reversed: reopening does not un-ban, un-timeout, or restore a deleted message."
-          : "Reopening does not reverse any enforcement action."}
+          ? t`The enforcement action already taken is not reversed: reopening does not un-ban, un-timeout, or restore a deleted message.`
+          : t`Reopening does not reverse any enforcement action.`}
       </p>
       <Field
-        label="Reopen reason (optional)"
-        error={secret ? SECRET_KEY_WARNING : undefined}
+        label={t`Reopen reason (optional)`}
+        error={secret ? i18n._(SECRET_KEY_WARNING) : undefined}
       >
         <Input
           disabled={write.frozen !== null}
@@ -580,11 +610,11 @@ function Reopen({ report }: { report: ReportDto }) {
         disabled={!write.frozen && secret}
         onClick={() => submit()}
       >
-        {write.frozen ? "Retry reopen" : "Reopen report"}
+        {write.frozen ? t`Retry reopen` : t`Reopen report`}
       </Button>
       {write.frozen && !write.busy && (
         <Button size="sm" variant="ghost" onClick={write.discard}>
-          Discard
+          {t`Discard`}
         </Button>
       )}
       <WriteError write={write} />

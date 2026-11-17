@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useMemo, useState } from "react";
 import type { PanelProps } from "../../features/panels/service";
 import {
@@ -14,7 +15,7 @@ import { parsePatch } from "../diffs/parse";
 import type { ChangedFile } from "./git";
 import { parseTarget } from "./target";
 import type { Turns } from "./turns";
-import { Counts, plural, totals } from "./Counts";
+import { Counts, totals } from "./Counts";
 import styles from "./Changesets.module.css";
 import { useLoaded } from "./useLoaded";
 
@@ -23,6 +24,7 @@ export function ChangesetPanel({
   target,
   turns,
 }: Pick<PanelProps, "target"> & { turns: Turns }) {
+  const { t } = useLingui();
   const link = useMemo(() => parseTarget(target), [target]);
   const found = link && turns.find(link.turn, link.checkout);
   const [chosen, setChosen] = useState(link?.file);
@@ -50,7 +52,9 @@ export function ChangesetPanel({
     [patch.value],
   );
   if (!link || !found)
-    return <p role="alert">This changeset was recorded in another Buzz.</p>;
+    return (
+      <p role="alert">{t`This changeset was recorded in another Buzz.`}</p>
+    );
   const pending = listed.error === undefined && !files;
   const step = (by: number) => files && setChosen(files[index + by]?.path);
   return (
@@ -61,7 +65,11 @@ export function ChangesetPanel({
         subtitle={
           files ? (
             <>
-              {plural(files.length, "file")} changed{" "}
+              {files.length === 1 ? (
+                t`1 file changed`
+              ) : (
+                t`${files.length} files changed`
+              )}{" "}
               <Counts {...totals(files)} />
             </>
           ) : undefined
@@ -69,15 +77,17 @@ export function ChangesetPanel({
       />
       <LoadingRegion
         pending={pending}
-        label="Reading the changes…"
+        label={t`Reading the changes…`}
         statusVisibility="screen-reader"
         feedback={
           listed.error !== undefined ? (
             <div role="alert">
-              <p>Couldn't read this changeset. {listed.error}</p>
+              <p>
+                {t`Couldn't read this changeset.`} {listed.error}
+              </p>
               {listed.retry && (
                 <Button size="sm" variant="ghost" onClick={listed.retry}>
-                  Try again
+                  {t`Try again`}
                 </Button>
               )}
             </div>
@@ -89,13 +99,13 @@ export function ChangesetPanel({
             {files.length > 1 && (
               <div className={styles.picker}>
                 <Select
-                  label="File"
+                  label={t`File`}
                   variant="compact"
                   value={file.path}
                   onValueChange={setChosen}
                   groups={[
                     {
-                      label: "Changed files",
+                      label: t`Changed files`,
                       options: files.map((each) => ({
                         value: each.path,
                         label: each.path,
@@ -104,13 +114,13 @@ export function ChangesetPanel({
                   ]}
                 />
                 <IconButton
-                  aria-label="Previous file"
+                  aria-label={t`Previous file`}
                   icon={<CaretLeftIcon size={16} aria-hidden="true" />}
                   disabled={index === 0}
                   onClick={() => step(-1)}
                 />
                 <IconButton
-                  aria-label="Next file"
+                  aria-label={t`Next file`}
                   icon={<CaretRightIcon size={16} aria-hidden="true" />}
                   disabled={index === files.length - 1}
                   onClick={() => step(1)}
@@ -138,21 +148,26 @@ function FileDiff({
   };
   parsed: ReturnType<typeof parsePatch>;
 }) {
+  const { t } = useLingui();
   if (file.binary)
-    return <p className="text-body-sm">Binary file: no text diff to show.</p>;
+    return (
+      <p className="text-body-sm">{t`Binary file: no text diff to show.`}</p>
+    );
   if (patch.error !== undefined)
     return (
       <div role="alert">
         <p className="text-body-sm">{patch.error}</p>
         {patch.retry && (
           <Button size="sm" variant="ghost" onClick={patch.retry}>
-            Try again
+            {t`Try again`}
           </Button>
         )}
       </div>
     );
   if (patch.value === undefined)
-    return <p className="text-body-sm">Reading {file.path}…</p>;
+    return (
+      <p className="text-body-sm">{t`Reading ${file.path}…`}</p>
+    );
   return (
     <DiffViewer content={patch.value} files={parsed} filePath={file.path} />
   );

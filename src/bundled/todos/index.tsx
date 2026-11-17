@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useCallback, useSyncExternalStore } from "react";
 import type { PluginModule } from "../../plugins/api";
 import type {
@@ -20,14 +21,15 @@ export const apply: PluginModule["apply"] = (ctx) => {
     pressed,
     available,
   }: ChannelLauncherProps) {
+    const { t } = useLingui();
     return (
       <IconButton
         size="sm"
         variant="ghost"
         data-channel-panel-toggle=""
         icon={<ListChecksIcon size={16} aria-hidden="true" />}
-        aria-label="Toggle channel todos"
-        title="Todos"
+        aria-label={t`Toggle channel todos`}
+        title={t`Todos`}
         aria-expanded={pressed}
         onClick={(event) => {
           event.currentTarget.focus();

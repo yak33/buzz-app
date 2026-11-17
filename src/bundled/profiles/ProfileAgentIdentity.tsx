@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../../features/relay/react";
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { useIdentityNames } from "../../features/identity-names/react";
@@ -20,9 +21,10 @@ export function ProfileAgentIdentity({
   viewer: string | undefined;
   context: PanelProps["context"];
 }) {
+  const { t } = useLingui();
   return (
-    <section aria-label="Agent identity" className={styles.agentIdentity}>
-      <h3 className="text-body">Managed by</h3>
+    <section aria-label={t`Agent identity`} className={styles.agentIdentity}>
+      <h3 className="text-body">{t`Managed by`}</h3>
       <OwnerLink
         session={session}
         owner={owner}
@@ -63,7 +65,8 @@ function OwnerLink({
     owner,
     profiles.get(owner)?.name ?? formatPublicKey(owner) ?? owner,
   );
-  const name = self ? `${shown} (you)` : shown;
+  const { t } = useLingui();
+  const name = self ? t`${shown} (you)` : shown;
   const target = profileTarget(owner);
   return (
     <div>
@@ -71,7 +74,7 @@ function OwnerLink({
         <Button
           size="compact"
           variant="ghost"
-          aria-label={`Open owner profile: ${name}`}
+          aria-label={t`Open owner profile: ${name}`}
           onClick={() => (context.push ?? context.open)(target)}
         >
           {name}

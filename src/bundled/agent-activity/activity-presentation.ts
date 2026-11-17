@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { ToolItem } from "../../features/agents/activity-transcript";
 const object = (value: unknown): Record<string, unknown> | undefined =>
   value !== null && typeof value === "object" && !Array.isArray(value)
@@ -29,7 +31,7 @@ export function activityPresentation(entry: ToolItem) {
   let title = entry.title,
     target: string | undefined;
   if (name === "buzz-dev-mcp__shell") {
-    title = "Run command";
+    title = i18n._(msg`Run command`);
     const line =
       typeof input?.command === "string"
         ? input.command
@@ -49,10 +51,10 @@ export function activityPresentation(entry: ToolItem) {
     target = basename(input?.path);
     title = target
       ? name.endsWith("read_file")
-        ? "Read file"
+        ? i18n._(msg`Read file`)
         : name.endsWith("str_replace")
-          ? "Edit file"
-          : "View image"
+          ? i18n._(msg`Edit file`)
+          : i18n._(msg`View image`)
       : entry.title;
   }
   // Only unwrap the observed shell wrapper. Missing/malformed fields retain the
@@ -72,10 +74,12 @@ export function activityPresentation(entry: ToolItem) {
           stderr: result.stderr,
           failed: result.exit_code !== 0 || result.timed_out,
           note: [
-            result.exit_code !== 0 ? `Exit code ${result.exit_code}` : "",
-            result.timed_out ? "Command timed out" : "",
+            result.exit_code !== 0
+              ? i18n._(msg`Exit code ${String(result.exit_code)}`)
+              : "",
+            result.timed_out ? i18n._(msg`Command timed out`) : "",
             result.stdout_truncated || result.stderr_truncated
-              ? "Output was truncated by the tool"
+              ? i18n._(msg`Output was truncated by the tool`)
               : "",
           ]
             .filter(Boolean)

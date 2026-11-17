@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../../features/relay/react";
 import Markdown from "react-markdown";
 import markdownStyles from "../../features/markdown/Markdown.module.css";
@@ -58,6 +60,7 @@ import {
   PanelHeaderLabel,
 } from "../../shared/design-system/ui/PanelHeader";
 import { publicKeyLabels } from "../../shared/identity/public-key";
+import type { MessageDescriptor } from "@lingui/core";
 import { readView, writeView } from "../../shared/view-state";
 import {
   todoLabelText,
@@ -87,10 +90,10 @@ type Draft = {
 };
 const noMembers: readonly string[] = [];
 const empty: Draft = { content: "", original: "", base: null, input: "" };
-const statuses: [Status, string][] = [
-  ["todo", "To do"],
-  ["doing", "In progress"],
-  ["done", "Done"],
+const statuses: [Status, MessageDescriptor][] = [
+  ["todo", msg`To do`],
+  ["doing", msg`In progress`],
+  ["done", msg`Done`],
 ];
 function StatusIcon({ status }: { status: Status }) {
   const Icon =
@@ -138,6 +141,7 @@ export function TodosPanel({
   active(): boolean;
   onOpenLink?(url: string): boolean;
 }) {
+  const { i18n, t } = useLingui();
   const list = useSyncExternalStore(
     people.channels.subscribeList,
     people.channels.list,
@@ -229,6 +233,7 @@ export function TodosPanel({
     },
     [context.scope, key],
   );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   const load = useCallback(
     async (replace = false) => {
       if (!active()) return;
@@ -249,7 +254,9 @@ export function TodosPanel({
         setConflict(changed);
         if (changed)
           setError(
-            "Canvas changed elsewhere. Refresh to load the latest todos. Your changes are kept until then.",
+            i18n._(
+              msg`Canvas changed elsewhere. Refresh to load the latest todos. Your changes are kept until then.`,
+            ),
           );
         if (replace) setCollapsed(new Set());
         if (replace || !savedDirty || alreadySaved)
@@ -330,10 +337,16 @@ export function TodosPanel({
       if (active() && generation === operation.current) {
         const hasConflict = reason instanceof CanvasConflictError;
         setConflict(hasConflict);
+        const failureText =
+          reason instanceof Error ? reason.message : String(reason);
         setError(
           hasConflict
-            ? "Canvas changed elsewhere. Refresh to load the latest todos. Your changes are kept until then."
-            : `Couldn’t save. Your changes are still here. ${reason instanceof Error ? reason.message : String(reason)}`,
+            ? i18n._(
+                msg`Canvas changed elsewhere. Refresh to load the latest todos. Your changes are kept until then.`,
+              )
+            : i18n._(
+                msg`Couldn’t save. Your changes are still here. ${failureText}`,
+              ),
         );
       }
     } finally {
@@ -367,7 +380,7 @@ export function TodosPanel({
     error ||
     parseError ||
     (restored && !readOnly
-      ? "Recovered unsaved changes. Retry to save them to Canvas."
+      ? t`Recovered unsaved changes. Retry to save them to Canvas.`
       : "");
   const items = parsed?.items ?? [];
   const peopleKey = [
@@ -411,7 +424,7 @@ export function TodosPanel({
     const name =
       resolveName(pubkey, fallback) ||
       keyLabels.get(pubkey) ||
-      "Unknown member";
+      t`Unknown member`;
     return (
       <Avatar
         size="small"
@@ -441,12 +454,12 @@ export function TodosPanel({
   };
   const saveStatus =
     busy === "save"
-      ? "Saving…"
+      ? t`Saving…`
       : dirty
-        ? "Unsaved changes"
+        ? t`Unsaved changes`
         : loaded
-          ? "Saved in Canvas"
-          : "Channel Canvas";
+          ? t`Saved in Canvas`
+          : t`Channel Canvas`;
   // Source order and ancestor depth keep descendants beside their root across statuses.
   const childrenByOffset = new Map<number | undefined, typeof items>();
   const ancestors: typeof items = [];
@@ -466,6 +479,9 @@ export function TodosPanel({
         ? resolveName(item.assignee.pubkey, item.assignee.name) ||
           keyLabels.get(item.assignee.pubkey)
         : item.namedAssignee?.name;
+      const memberNote = members
+        ? t`not in channel`
+        : t`membership unavailable`;
 
       return (
         <li key={item.offset}>
@@ -474,7 +490,11 @@ export function TodosPanel({
               {children.length > 0 && (
                 <IconButton
                   size="sm"
-                  aria-label={`${collapsed.has(item.offset) ? "Expand" : "Collapse"} ${taskLabel}`}
+                  aria-label={
+                    collapsed.has(item.offset)
+                      ? t`Expand ${taskLabel}`
+                      : t`Collapse ${taskLabel}`
+                  }
                   aria-expanded={!collapsed.has(item.offset)}
                   aria-controls={`${prefix}-${item.offset}-children`}
                   icon={
@@ -562,15 +582,15 @@ export function TodosPanel({
               >
                 <TodoChoice
                   id={`${prefix}-${item.offset}-status-control`}
-                  label={`Status for ${taskLabel}`}
-                  menuTitle="Change status"
-                  title="Status"
+                  label={t`Status for ${taskLabel}`}
+                  menuTitle={t`Change status`}
+                  title={t`Status`}
                   icon={<StatusIcon status={item.status} />}
                   value={item.status}
                   disabled={disabled}
                   options={statuses.map(([value, label]) => ({
                     value,
-                    label,
+                    label: i18n._(label),
                     icon: <StatusIcon status={value} />,
                   }))}
                   onValueChange={(value) => {
@@ -586,12 +606,16 @@ export function TodosPanel({
               <fieldset
                 id={`${prefix}-${item.offset}-assignee`}
                 className={styles.assignee}
-                aria-label={`Assignee for ${taskLabel}`}
+                aria-label={t`Assignee for ${taskLabel}`}
               >
                 <TodoChoice
                   id={`${prefix}-${item.offset}-assignee-control`}
-                  label={`Assignee for ${taskLabel}${assigneeName ? `: ${assigneeName}` : ""}`}
-                  menuTitle="Assign to"
+                  label={
+                    assigneeName
+                      ? t`Assignee for ${taskLabel}: ${assigneeName}`
+                      : t`Assignee for ${taskLabel}`
+                  }
+                  menuTitle={t`Assign to`}
                   text={
                     (item.assignee || item.namedAssignee) && (
                       <span className={styles.assigneeName}>
@@ -608,8 +632,8 @@ export function TodosPanel({
                     item.assignee
                       ? userLabel(item.assignee.pubkey, item.assignee.name)
                       : item.namedAssignee
-                        ? `${item.namedAssignee.name} (from Canvas; choose a member to link)`
-                        : "Assign task"
+                        ? t`${item.namedAssignee.name} (from Canvas; choose a member to link)`
+                        : t`Assign task`
                   }
                   icon={
                     item.assignee ? (
@@ -629,7 +653,7 @@ export function TodosPanel({
                       ? [
                           {
                             value: "canvas-name",
-                            label: `${item.namedAssignee.name} (from Canvas; not linked to a member)`,
+                            label: t`${item.namedAssignee.name} (from Canvas; not linked to a member)`,
                             icon: <UserIcon size="1rem" aria-hidden="true" />,
                             disabled: true,
                           },
@@ -637,7 +661,7 @@ export function TodosPanel({
                       : []),
                     {
                       value: "",
-                      label: "Unassigned",
+                      label: t`Unassigned`,
                       icon: <UserIcon size="1rem" aria-hidden="true" />,
                     },
                     ...choices.map((choice) => ({
@@ -655,7 +679,7 @@ export function TodosPanel({
                       ? [
                           {
                             value: item.assignee.pubkey,
-                            label: `${userLabel(item.assignee.pubkey, item.assignee.name)} (${members ? "not in channel" : "membership unavailable"})`,
+                            label: t`${userLabel(item.assignee.pubkey, item.assignee.name)} (${memberNote})`,
                             icon: personIcon(
                               item.assignee.pubkey,
                               item.assignee.name,
@@ -709,11 +733,15 @@ export function TodosPanel({
         </li>
       );
     });
+  const autoSaveNote = readOnly ? "" : t`Changes save automatically. `;
   return (
     <div data-buzz-ui="" className={styles.panel} aria-busy={!!busy}>
       <PanelHeader
         title={
-          <PanelHeaderLabel title="Todos" icon={<ListChecksIcon size="1rem" />}>
+          <PanelHeaderLabel
+            title={t`Todos`}
+            icon={<ListChecksIcon size="1rem" />}
+          >
             <span
               className={`${styles.channel} text-caption text-secondary`}
               title={context.channelName}
@@ -733,16 +761,16 @@ export function TodosPanel({
                   <IconButton
                     size="sm"
                     icon={<InfoIcon size="1rem" aria-hidden="true" />}
-                    aria-label="About todos"
+                    aria-label={t`About todos`}
                     aria-description={saveStatus}
-                    title="About todos"
+                    title={t`About todos`}
                   />
                 }
               />
               <PopoverPopup align="end">
                 <PopoverTitle>{saveStatus}</PopoverTitle>
                 <PopoverDescription>
-                  {`Todos are shared in this channel’s Canvas. ${readOnly ? "" : "Changes save automatically. "}Refresh to load others’ changes. On older relays, simultaneous saves can overwrite edits.`}
+                  {t`Todos are shared in this channel’s Canvas. ${autoSaveNote}Refresh to load others’ changes. On older relays, simultaneous saves can overwrite edits.`}
                 </PopoverDescription>
               </PopoverPopup>
             </PopoverRoot>
@@ -751,8 +779,8 @@ export function TodosPanel({
               ref={refreshRef}
               size="sm"
               icon={<ArrowsClockwiseIcon size="1rem" aria-hidden="true" />}
-              aria-label="Refresh"
-              title="Refresh todos"
+              aria-label={t`Refresh`}
+              title={t`Refresh todos`}
               loading={busy === "load"}
               disabled={!!busy}
               onClick={() => {
@@ -768,8 +796,8 @@ export function TodosPanel({
               size="sm"
               variant="ghost"
               icon={<XIcon size="1rem" aria-hidden="true" />}
-              aria-label="Hide todos"
-              title="Hide todos"
+              aria-label={t`Hide todos`}
+              title={t`Hide todos`}
               onClick={close}
             />
           </>
@@ -802,10 +830,10 @@ export function TodosPanel({
               }
             }}
           >
-            <Field label="New todo" labelVisibility="hidden">
+            <Field label={t`New todo`} labelVisibility="hidden">
               <Input
                 id={`${prefix}-new`}
-                placeholder="Add a todo…"
+                placeholder={t`Add a todo…`}
                 value={draft.input}
                 disabled={inputDisabled}
                 onChange={(event) =>
@@ -819,7 +847,7 @@ export function TodosPanel({
               variant="prominent"
               disabled={disabled || !draft.input.trim()}
             >
-              Add
+              {t`Add`}
             </Button>
           </form>
           {(error || parseError || (dirty && !busy)) && (
@@ -831,8 +859,7 @@ export function TodosPanel({
               )}
               {restored && readOnly && (
                 <p role="status" className="text-body-sm text-secondary">
-                  Showing your unsaved local draft. Refresh to see the saved
-                  list.
+                  {t`Showing your unsaved local draft. Refresh to see the saved list.`}
                 </p>
               )}
               {conflict && !busy && (
@@ -841,7 +868,7 @@ export function TodosPanel({
                   variant="outline"
                   onClick={() => setConfirmRefresh(true)}
                 >
-                  Refresh todos
+                  {t`Refresh todos`}
                 </Button>
               )}
               {retryable && !readOnly && (
@@ -851,7 +878,7 @@ export function TodosPanel({
                   disabled={disabled}
                   onClick={() => void save()}
                 >
-                  Retry
+                  {t`Retry`}
                 </Button>
               )}
             </div>
@@ -859,8 +886,8 @@ export function TodosPanel({
           {(namesError || list.error || !members) && (
             <div className="text-caption text-secondary">
               {!members || list.error
-                ? "Channel members unavailable or out of date."
-                : "Names unavailable; public keys still identify users."}
+                ? t`Channel members unavailable or out of date.`
+                : t`Names unavailable; public keys still identify users.`}
               <Button
                 size="sm"
                 variant="ghost"
@@ -870,23 +897,25 @@ export function TodosPanel({
                   setNamesRetry((value) => value + 1);
                 }}
               >
-                Retry users
+                {t`Retry users`}
               </Button>
             </div>
           )}
           {!canvas.available && (
             <p className="text-body-sm text-secondary">
-              This connection doesn’t support saving Canvas.
+              {t`This connection doesn’t support saving Canvas.`}
             </p>
           )}
           {readOnly && (
             <p role="status" className="text-body-sm text-secondary">
-              Todos are read-only.
+              {t`Todos are read-only.`}
             </p>
           )}
           {!loaded ? (
             <p role="status" className="text-body-sm text-secondary">
-              {busy ? "Loading todos…" : "Couldn’t load todos. Try Refresh."}
+              {busy
+                ? t`Loading todos…`
+                : t`Couldn’t load todos. Try Refresh.`}
             </p>
           ) : (
             !parseError && (
@@ -894,15 +923,16 @@ export function TodosPanel({
                 {items.length === 0 && (
                   <EmptyState
                     icon={<ListChecksIcon />}
-                    title="No todos yet"
+                    title={t`No todos yet`}
                     description={
                       readOnly
                         ? undefined
-                        : "Add a todo above to track work with this channel. Changes save automatically."
+                        : t`Add a todo above to track work with this channel. Changes save automatically.`
                     }
                   />
                 )}
                 {statuses.map(([status, title]) => {
+                  const groupTitle = i18n._(title);
                   const group = (childrenByOffset.get(undefined) ?? []).filter(
                     (item) => item.status === status,
                   );
@@ -911,10 +941,10 @@ export function TodosPanel({
                       <section
                         key={status}
                         className={styles.group}
-                        aria-label={title}
+                        aria-label={groupTitle}
                       >
                         <h3 className={`${styles.groupHeading} text-label-sm`}>
-                          {title}
+                          {groupTitle}
                           <span className={styles.groupCount}>
                             {group.length}
                           </span>
@@ -931,14 +961,14 @@ export function TodosPanel({
       </div>
       {confirmRefresh && (
         <AlertDialog
-          title="Discard unsaved changes?"
-          description="Refreshing replaces your local changes and new todo text with the saved channel Canvas."
+          title={t`Discard unsaved changes?`}
+          description={t`Refreshing replaces your local changes and new todo text with the saved channel Canvas.`}
           finalFocus={refreshRef}
           onClose={() => setConfirmRefresh(false)}
           actions={
             <>
               <Button onClick={() => setConfirmRefresh(false)}>
-                Keep editing
+                {t`Keep editing`}
               </Button>
               <Button
                 variant="destructive"
@@ -947,7 +977,7 @@ export function TodosPanel({
                   void load(true);
                 }}
               >
-                Discard and refresh
+                {t`Discard and refresh`}
               </Button>
             </>
           }

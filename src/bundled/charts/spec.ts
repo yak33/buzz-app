@@ -2,12 +2,16 @@
 // version 1 is a bounded bar/line/scatter plot and version 2 wraps an Apache
 // ECharts option that is copied through an allowlist. Nothing in a chart is
 // executed, fetched or parsed as HTML.
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import { type Obj, record } from "./json";
 import { harden, sanitizeOption } from "./sanitize";
 
 export const MAX_BYTES = 60_000;
 export const PALETTE_SIZE = 4;
-export const OTHER = "Other";
+/** 折叠系列在图例与数据表中显示的名称，MessageDescriptor 由渲染方求值。 */
+export const OTHER = msg`Other`;
 
 type Row = Record<string, string | number>;
 type XType = "nominal" | "quantitative" | "temporal";
@@ -213,8 +217,10 @@ function foldSeries(spec: PlotSpec): Row[] {
   const names = [...new Set(spec.data.map((r) => r[series]))];
   if (names.length <= PALETTE_SIZE) return spec.data;
   const kept = new Set(names.slice(0, PALETTE_SIZE - 1));
-  let other = OTHER;
-  for (let n = 2; kept.has(other); n++) other = `${OTHER} ${n}`;
+  // 求值一次，保证“Other 2”这类后备名与首个折叠名同语言。
+  const otherName = i18n._(OTHER);
+  let other = otherName;
+  for (let n = 2; kept.has(other); n++) other = `${otherName} ${n}`;
   if (spec.type === "scatter")
     return spec.data.map((r) =>
       kept.has(r[series] as string) ? r : { ...r, [series]: other },

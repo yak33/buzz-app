@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import { parseDocument, isMap } from "yaml";
+import { i18n } from "../../features/localization/service";
 import type {
   WorkflowDefinition,
   WorkflowDefinitions,
@@ -21,30 +23,35 @@ export type WorkflowDraftIssue = {
 /** Draft shape validation is not relay authorization or a promise of execution. */
 export function draftIssue(yaml: string): WorkflowDraftIssue | null {
   if (new TextEncoder().encode(yaml).length > 24_000)
-    return { message: "The draft is too large (24,000 bytes maximum)." };
+    return {
+      message: i18n._(msg`The draft is too large (24,000 bytes maximum).`),
+    };
   try {
     const doc = parseDocument(yaml);
     if (doc.errors.length)
       return {
-        message: "The YAML cannot be parsed. Correct it before saving.",
+        message: i18n._(
+          msg`The YAML cannot be parsed. Correct it before saving.`,
+        ),
       };
     if (!isMap(doc.contents))
-      return { message: "The definition must be a YAML object." };
+      return { message: i18n._(msg`The definition must be a YAML object.`) };
     const data = doc.toJS() as Record<string, unknown>;
     if (typeof data.name !== "string" || !data.name.trim())
-      return { field: "name", message: "Give this workflow a name." };
+      return { field: "name", message: i18n._(msg`Give this workflow a name.`) };
     if (data.enabled !== undefined && typeof data.enabled !== "boolean")
-      return { message: "enabled must be true or false." };
+      return { message: i18n._(msg`enabled must be true or false.`) };
     if (
       !data.trigger ||
       typeof data.trigger !== "object" ||
       Array.isArray(data.trigger) ||
       typeof (data.trigger as Record<string, unknown>).on !== "string"
     )
-      return { message: "Choose a trigger." };
+      return { message: i18n._(msg`Choose a trigger.`) };
     if (!Array.isArray(data.steps) || !data.steps.length)
-      return { message: "Add at least one step." };
-    if (data.steps.length > 100) return { message: "Use at most 100 steps." };
+      return { message: i18n._(msg`Add at least one step.`) };
+    if (data.steps.length > 100)
+      return { message: i18n._(msg`Use at most 100 steps.`) };
     const ids = new Set<string>();
     for (const [stepIndex, step] of data.steps.entries()) {
       if (
@@ -55,12 +62,13 @@ export function draftIssue(yaml: string): WorkflowDraftIssue | null {
         ids.has(step.id)
       )
         return {
-          message:
-            "Step IDs must be unique, with 1–64 letters, digits or underscores.",
+          message: i18n._(
+            msg`Step IDs must be unique, with 1–64 letters, digits or underscores.`,
+          ),
         };
       ids.add(step.id);
       if (typeof step.action !== "string")
-        return { message: "Each step needs an action." };
+        return { message: i18n._(msg`Each step needs an action.`) };
       if (
         step.timeout_secs !== undefined &&
         (!Number.isSafeInteger(step.timeout_secs) || step.timeout_secs <= 0)
@@ -68,8 +76,9 @@ export function draftIssue(yaml: string): WorkflowDraftIssue | null {
         return {
           field: "timeout",
           stepIndex,
-          message:
-            "Step timeout must be a positive whole number of seconds (for example, 30s in Form mode), or left blank.",
+          message: i18n._(
+            msg`Step timeout must be a positive whole number of seconds (for example, 30s in Form mode), or left blank.`,
+          ),
         };
       if (
         step.action === "send_message" &&
@@ -78,7 +87,9 @@ export function draftIssue(yaml: string): WorkflowDraftIssue | null {
         return {
           field: "text",
           stepIndex,
-          message: "Each Send Message step needs message text.",
+          message: i18n._(
+            msg`Each Send Message step needs message text.`,
+          ),
         };
       if (step.action === "call_webhook") {
         // The relay expands template expressions before validating the destination.
@@ -86,8 +97,9 @@ export function draftIssue(yaml: string): WorkflowDraftIssue | null {
           return {
             field: "url",
             stepIndex,
-            message:
-              "Enter a webhook URL or template. The relay checks destination safety and permission.",
+            message: i18n._(
+              msg`Enter a webhook URL or template. The relay checks destination safety and permission.`,
+            ),
           };
         }
         if (
@@ -97,7 +109,9 @@ export function draftIssue(yaml: string): WorkflowDraftIssue | null {
           return {
             field: "headers",
             stepIndex,
-            message: "Give every header a name or remove its row.",
+            message: i18n._(
+              msg`Give every header a name or remove its row.`,
+            ),
           };
         }
       }
@@ -108,12 +122,14 @@ export function draftIssue(yaml: string): WorkflowDraftIssue | null {
         return {
           field: "duration",
           stepIndex,
-          message: "Each Delay step needs a duration.",
+          message: i18n._(msg`Each Delay step needs a duration.`),
         };
     }
     return null;
   } catch {
-    return { message: "The YAML cannot be parsed. Correct it before saving." };
+    return {
+      message: i18n._(msg`The YAML cannot be parsed. Correct it before saving.`),
+    };
   }
 }
 
@@ -178,12 +194,16 @@ export function deletionStatus(
   operation: WorkflowOperation,
   snapshot: DefinitionSnapshot | undefined,
 ): string {
-  if (operation.outcome === "pending") return "Deleting…";
+  if (operation.outcome === "pending") return i18n._(msg`Deleting…`);
   if (operation.outcome === "rejected")
-    return "Couldn't delete this workflow. Review the delivery details.";
+    return i18n._(
+      msg`Couldn't delete this workflow. Review the delivery details.`,
+    );
   if (confirmedDeletion(operation, snapshot))
-    return "Saved workflow deleted. Work already running may continue.";
-  if (snapshot?.status === "loading") return "Checking deletion…";
+    return i18n._(
+      msg`Saved workflow deleted. Work already running may continue.`,
+    );
+  if (snapshot?.status === "loading") return i18n._(msg`Checking deletion…`);
   if (
     snapshot?.status === "ready" &&
     snapshot.data.items.some(
@@ -193,6 +213,10 @@ export function deletionStatus(
         row.channelId === operation.workflow.channelId,
     )
   )
-    return "This workflow is still in saved configuration. Check again before deleting.";
-  return "Couldn't confirm deletion. Check saved configuration before deleting again.";
+    return i18n._(
+      msg`This workflow is still in saved configuration. Check again before deleting.`,
+    );
+  return i18n._(
+    msg`Couldn't confirm deletion. Check saved configuration before deleting again.`,
+  );
 }

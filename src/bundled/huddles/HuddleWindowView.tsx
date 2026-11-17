@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { HuddleMinimizeIcon } from "./HuddleMinimizeIcon";
 import { isBuzzLink } from "../../features/navigation/buzz-links";
 import { useHuddleRequestFocus } from "./useHuddleRequestFocus";
@@ -33,6 +34,7 @@ export function HuddleWindowView(props: WindowProps) {
   );
 }
 function HuddleWindowContent({ view, act, error }: WindowProps) {
+  const { t } = useLingui();
   const focus = useHuddleRequestFocus(
     view.phase === "connected",
     view.error,
@@ -146,8 +148,8 @@ function HuddleWindowContent({ view, act, error }: WindowProps) {
         {view.phase !== "connected" && (
           <p role="status" className="text-body text-secondary">
             {view.phase === "connecting"
-              ? "Connecting your microphone…"
-              : "Leaving…"}
+              ? t`Connecting your microphone…`
+              : t`Leaving…`}
           </p>
         )}
         <HuddleAvatarCloud
@@ -176,8 +178,8 @@ function HuddleWindowContent({ view, act, error }: WindowProps) {
                 variant="glass"
                 shape="round"
                 ref={focus.mute}
-                aria-label={view.muted ? "Unmute" : "Mute"}
-                title={view.muted ? "Unmute" : "Mute"}
+                aria-label={view.muted ? t`Unmute` : t`Mute`}
+                title={view.muted ? t`Unmute` : t`Mute`}
                 aria-pressed={view.muted}
                 disabled={view.phase !== "connected"}
                 onClick={() => act("mute")}
@@ -187,8 +189,8 @@ function HuddleWindowContent({ view, act, error }: WindowProps) {
                 size="large"
                 variant="glass"
                 shape="round"
-                aria-label="Huddle chat"
-                title="Huddle chat"
+                aria-label={t`Huddle chat`}
+                title={t`Huddle chat`}
                 aria-expanded={open && !closing}
                 onClick={toggleChat}
                 icon={<ChatCircleIcon />}
@@ -199,8 +201,8 @@ function HuddleWindowContent({ view, act, error }: WindowProps) {
                 variant="glass"
                 shape="round"
                 data-huddle-leave=""
-                aria-label="Leave huddle"
-                title="Leave huddle"
+                aria-label={t`Leave huddle`}
+                title={t`Leave huddle`}
                 disabled={view.phase === "leaving"}
                 onClick={() => act("leave")}
                 icon={<PhoneEndIcon />}
@@ -210,8 +212,8 @@ function HuddleWindowContent({ view, act, error }: WindowProps) {
               size="large"
               variant="ghost"
               shape="round"
-              aria-label="Minimize Huddle to compact controls"
-              title="Minimize Huddle"
+              aria-label={t`Minimize Huddle to compact controls`}
+              title={t`Minimize Huddle`}
               onClick={() => act("minimize")}
               icon={<HuddleMinimizeIcon />}
             />
@@ -223,7 +225,7 @@ function HuddleWindowContent({ view, act, error }: WindowProps) {
           {view.discussion && (
             <aside
               className={styles.windowDiscussionBody}
-              aria-label="Huddle chat panel"
+              aria-label={t`Huddle chat panel`}
             >
               <HuddleDiscussionView
                 allowImageCopy={false}

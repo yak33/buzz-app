@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import type { HuddleDiscussion } from "../../features/huddle/discussion";
 import { Dialog } from "../../shared/design-system/ui/Dialog";
@@ -28,6 +29,7 @@ export function HuddleDiscussionView({
   retry(): void;
   recover(id: string, dismiss?: boolean): void;
 }) {
+  const { t } = useLingui();
   const panelId = useId();
   const [image, setImage] = useState<{ rowId: string; url: string }>();
   const imageRow = discussion.rows.find((row) => row.id === image?.rowId);
@@ -54,15 +56,19 @@ export function HuddleDiscussionView({
     <div className={styles.discussion}>
       <div className={styles.tabs}>
         <Tabs
-          label="Huddle conversation"
+          label={t`Huddle conversation`}
           variant="panel"
           value={tab}
           onValueChange={setTab}
           items={[
-            { value: "thread", label: "Thread", panelId: `${panelId}-thread` },
+            {
+              value: "thread",
+              label: t`Thread`,
+              panelId: `${panelId}-thread`,
+            },
             {
               value: "transcript",
-              label: "Live transcript",
+              label: t`Live transcript`,
               panelId: `${panelId}-transcript`,
             },
           ]}
@@ -75,7 +81,7 @@ export function HuddleDiscussionView({
         hidden={tab !== "transcript"}
         className={styles.messages}
       >
-        <EmptyState icon={<FileTextIcon />} title="No live transcript" />
+        <EmptyState icon={<FileTextIcon />} title={t`No live transcript`} />
       </div>
       <div
         role="tabpanel"
@@ -89,7 +95,7 @@ export function HuddleDiscussionView({
           tabIndex={-1}
           className={styles.messages}
           role="log"
-          aria-label="Huddle messages"
+          aria-label={t`Huddle messages`}
           onScroll={(e) => {
             const el = e.currentTarget;
             following.current =
@@ -97,20 +103,23 @@ export function HuddleDiscussionView({
           }}
         >
           {discussion.historyLimited && (
-            <p className={styles.notice}>Showing the latest 200 messages.</p>
+            <p className={styles.notice}>{t`Showing the latest 200 messages.`}</p>
           )}
           {discussion.hasMore && (
             <Button size="sm" onClick={older}>
-              Load earlier messages
+              {t`Load earlier messages`}
             </Button>
           )}
           {!discussion.rows.length &&
             (discussion.status === "loading" ? (
               <p className={styles.empty} role="status">
-                Loading conversation…
+                {t`Loading conversation…`}
               </p>
             ) : discussion.status === "ready" && !discussion.error ? (
-              <EmptyState icon={<ChatCircleIcon />} title="No messages yet" />
+              <EmptyState
+                icon={<ChatCircleIcon />}
+                title={t`No messages yet`}
+              />
             ) : null)}
           {discussion.rows.map((row) => (
             <div key={row.id}>
@@ -175,8 +184,8 @@ export function HuddleDiscussionView({
               {["failed", "unknown"].includes(row.delivery) && (
                 <p role="status" className="text-secondary">
                   {row.delivery === "unknown"
-                    ? "Delivery hasn’t been confirmed. Retry sends the same message."
-                    : "Message wasn’t delivered."}{" "}
+                    ? t`Delivery hasn’t been confirmed. Retry sends the same message.`
+                    : t`Message wasn’t delivered.`}{" "}
                   <Button
                     size="sm"
                     disabled={!discussion.writable}
@@ -185,7 +194,7 @@ export function HuddleDiscussionView({
                       recover(row.id);
                     }}
                   >
-                    Retry
+                    {t`Retry`}
                   </Button>{" "}
                   <Button
                     size="sm"
@@ -194,7 +203,7 @@ export function HuddleDiscussionView({
                       recover(row.id, true);
                     }}
                   >
-                    Discard
+                    {t`Discard`}
                   </Button>
                 </p>
               )}
@@ -212,7 +221,7 @@ export function HuddleDiscussionView({
                 retry();
               }}
             >
-              Retry
+              {t`Retry`}
             </Button>
           </div>
         )}
@@ -223,7 +232,7 @@ export function HuddleDiscussionView({
         ) : (
           discussion.status === "ready" && (
             <p className={styles.notice}>
-              This Huddle conversation is read-only.
+              {t`This Huddle conversation is read-only.`}
             </p>
           )
         )}
@@ -233,7 +242,7 @@ export function HuddleDiscussionView({
         onOpenChange={(open) => {
           if (!open) setImage(undefined);
         }}
-        title={selectedImage?.name ?? "Image attachment"}
+        title={selectedImage?.name ?? t`Image attachment`}
         size="expanded"
         height="stable"
         bodyLayout="flex"

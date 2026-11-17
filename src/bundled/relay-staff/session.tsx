@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+// 本地化全局单例：describe 在组件外被调用（先例 src/shared/datetime.ts）。
+import { i18n } from "../../features/localization/service";
 import {
   createContext,
   useCallback,
@@ -210,13 +213,19 @@ export function useRead<R extends StaffRequest>(
 export function describe(failure: StaffFailure) {
   switch (failure.category) {
     case "unauthorized":
-      return "The relay did not accept your signature.";
+      return i18n._(msg`The relay did not accept your signature.`);
     case "forbidden":
-      return failure.message || "You do not have permission to do that.";
+      return (
+        failure.message || i18n._(msg`You do not have permission to do that.`)
+      );
     case "intercepted":
-      return "A network gateway (such as VPN or SSO) intercepted the request.";
+      return i18n._(
+        msg`A network gateway (such as VPN or SSO) intercepted the request.`,
+      );
     case "ambiguous":
-      return `The relay did not confirm the result. ${failure.message}`.trim();
+      return i18n
+        ._(msg`The relay did not confirm the result. ${failure.message}`)
+        .trim();
     default:
       return failure.message;
   }

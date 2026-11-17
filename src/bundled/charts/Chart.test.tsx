@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
+import { msg } from "@lingui/core/macro";
 import { Context } from "@deepseek-ai/cordis";
 import {
   act,
@@ -12,6 +13,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { i18n } from "../../features/localization/service";
 import { ConversationService } from "../../features/conversation/service";
 import { MessageMarkdown } from "../../features/messages/MessageMarkdown";
 import { createPluginManager } from "../../plugins/manager";
@@ -158,7 +160,9 @@ it("draws the plot with its title, source link, note and data rows", async () =>
   expect(screen.getByText("Illustration only")).toBeVisible();
 
   expect(screen.queryByRole("table")).toBeNull();
-  await user.click(screen.getByRole("button", { name: "View 3 data rows" }));
+  await user.click(
+    screen.getByRole("button", { name: i18n._(msg`View 3 data rows`) }),
+  );
   const table = await screen.findByRole("table");
   expect(within(table).getAllByRole("row")).toHaveLength(4);
   expect(within(table).getByRole("cell", { name: "Relay" })).toBeVisible();
@@ -226,7 +230,7 @@ it("shows the source when the chart cannot be drawn", async () => {
   appearance.failing = true;
   const view = render(<Chart code={code} />);
   expect(await screen.findByRole("alert")).toHaveTextContent(
-    "This chart couldn't be drawn.",
+    i18n._(msg`This chart couldn't be drawn.`),
   );
   expect(screen.getByText(code)).toBeVisible();
   expect(view.container.querySelector("svg")).toBeNull();

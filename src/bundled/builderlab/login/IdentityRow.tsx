@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useSyncExternalStore } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { BuilderlabLogoIcon } from "../../../shared/design-system/icons";
@@ -14,6 +15,7 @@ export function BuilderlabIdentityRow({
   active(): boolean;
   openSettings(): void;
 }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(session.subscribe, session.snapshot);
   const reducedMotion = useReducedMotion();
   if (state.status === "pending") return null;
@@ -32,14 +34,14 @@ export function BuilderlabIdentityRow({
           size="inline"
           variant="link"
           style={{ maxWidth: "100%" }}
-          aria-label="Open Builderlab settings"
-          title={`Builderlab uses your ${session.providerName ?? "Builderlab"} sign-in. Manage remote agents and hosted communities in its settings.`}
+          aria-label={t`Open Builderlab settings`}
+          title={t`Builderlab uses your ${session.providerName ?? "Builderlab"} sign-in. Manage remote agents and hosted communities in its settings.`}
           onClick={() => {
             if (active()) openSettings();
           }}
         >
           <span className="whitespace-normal">
-            {state.status === "signed-in" ? "Connected to" : "Connect to"}{" "}
+            {state.status === "signed-in" ? t`Connected to` : t`Connect to`}{" "}
             <BuilderlabLogoIcon
               className="inline-block size-3 align-middle"
               aria-hidden="true"
@@ -49,7 +51,7 @@ export function BuilderlabIdentityRow({
         </Button>
         {state.error && (
           <span role="status" className="text-caption text-subtle">
-            Needs attention
+            {t`Needs attention`}
           </span>
         )}
       </span>

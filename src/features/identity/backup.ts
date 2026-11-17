@@ -1,5 +1,7 @@
 import { Channel, invoke } from "@tauri-apps/api/core";
 import { BACKUP_FAILURES, type BackupFailureKind } from "./backup-failure";
+// 错误文案在抛出时求值：本地化服务是全局单例（见 lingui.config.ts）。
+import { i18n } from "../localization/service";
 import type { Identity } from "./service";
 
 type Send = <T>(command: string, args?: Record<string, unknown>) => Promise<T>;
@@ -120,7 +122,7 @@ export class BackupError extends Error {
     kind: BackupFailureKind,
     retryable: boolean = BACKUP_FAILURES[kind].retryable,
   ) {
-    super(BACKUP_FAILURES[kind].message);
+    super(i18n._(BACKUP_FAILURES[kind].message));
     this.name = "BackupError";
     this.kind = kind;
     this.retryable = retryable;

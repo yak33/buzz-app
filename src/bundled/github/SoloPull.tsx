@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useCallback, useState, useSyncExternalStore } from "react";
 import { MenuItem, MenuIcon } from "../../shared/design-system/ui/Menu";
 import { LinkBreakIcon } from "../../shared/design-system/icons";
@@ -74,10 +76,11 @@ export function SessionPullLauncher({
   open(target: string): boolean;
   canOpen(target: string): boolean;
 }) {
+  const { t } = useLingui();
   const inBuzz = useOpenGitHubLinksInBuzz();
   const pull = useSoloPull(pulls, channelId);
   if (!pull) return null;
-  const label = `Open linked ${describePull(pull).toLowerCase()}`;
+  const label = t`Open linked ${describePull(pull).toLowerCase()}`;
   const Icon = stateIcons[pull.state?.state ?? "open"];
   return (
     <IconButton
@@ -149,6 +152,7 @@ function SessionPullLink({
   channelId: string;
   url: string;
 }) {
+  const { t } = useLingui();
   const list = useChannelList(session.channels);
   const linked = useSoloPull(pulls, channelId)?.url === url;
   const [busy, setBusy] = useState(false);
@@ -171,15 +175,15 @@ function SessionPullLink({
     <div className={styles.soloLink}>
       <span className={styles.pullActionNote}>
         {linked
-          ? "Shown in the sidebar for this chat."
-          : "Show this pull request’s state in the sidebar for this chat."}
+          ? t`Shown in the sidebar for this chat.`
+          : t`Show this pull request’s state in the sidebar for this chat.`}
       </span>
       <Button
         size="sm"
         loading={busy}
         onClick={() => void change(linked ? null : url)}
       >
-        {linked ? "Unlink" : "Link to this chat"}
+        {linked ? t`Unlink` : t`Link to this chat`}
       </Button>
       {error && (
         <p role="alert" className={styles.pullActionError}>
@@ -199,6 +203,7 @@ export function SoloPullMenu({
   pulls: SoloPulls;
   channelId: string;
 }) {
+  const { i18n, t } = useLingui();
   const pull = useSoloPull(pulls, channelId);
   const list = useChannelList(session.channels);
   const [busy, setBusy] = useState(false);
@@ -216,7 +221,7 @@ export function SoloPullMenu({
       disabled={busy || !session.configArtifactWriter || !session.snapshotRead}
       title={
         !session.configArtifactWriter || !session.snapshotRead
-          ? "Unlinking needs a native desktop relay connection."
+          ? t`Unlinking needs a native desktop relay connection.`
           : undefined
       }
       closeOnClick={false}
@@ -226,12 +231,12 @@ export function SoloPullMenu({
         try {
           await writeLink(session, channelId, null);
           pulls.linked(channelId, null);
-          notify("Pull request unlinked", "success");
+          notify(i18n._(msg`Pull request unlinked`), "success");
         } catch (error) {
           notify(
             error instanceof Error
               ? error.message
-              : "Couldn’t unlink pull request. Try again.",
+              : i18n._(msg`Couldn’t unlink pull request. Try again.`),
             "error",
           );
         } finally {
@@ -242,7 +247,7 @@ export function SoloPullMenu({
       <MenuIcon>
         <LinkBreakIcon size={16} />
       </MenuIcon>
-      {busy ? "Unlinking pull request…" : "Unlink pull request"}
+      {busy ? t`Unlinking pull request…` : t`Unlink pull request`}
     </MenuItem>
   );
 }

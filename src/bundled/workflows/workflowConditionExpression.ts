@@ -1,4 +1,7 @@
 // Adapted from block/buzz desktop workflow condition helpers.
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { TriggerType } from "./workflowFormTypes";
 
 export const CONDITION_OPERATORS = [
@@ -19,7 +22,7 @@ const EXACT_MATCH_OPERATORS = [
 ] as const satisfies readonly ConditionOperator[];
 const HEX_ID_PATTERN = /^[0-9a-fA-F]{64}$/;
 
-export type ConditionField = { label: string; value: string };
+export type ConditionField = { label: MessageDescriptor; value: string };
 export type ParsedConditionExpression = {
   field: string;
   operator: ConditionOperator;
@@ -28,19 +31,22 @@ export type ParsedConditionExpression = {
 };
 
 const AUTHOR_FIELD: ConditionField = {
-  label: "Author",
+  label: msg`Author`,
   value: "trigger_author",
 };
 const FIELDS_BY_TRIGGER: Record<TriggerType, ConditionField[]> = {
   message_posted: [
-    { label: "Message text", value: "trigger_text" },
+    { label: msg`Message text`, value: "trigger_text" },
     AUTHOR_FIELD,
   ],
-  diff_posted: [{ label: "Diff text", value: "trigger_text" }, AUTHOR_FIELD],
-  reaction_added: [
-    { label: "Reaction emoji", value: "trigger_emoji" },
+  diff_posted: [
+    { label: msg`Diff text`, value: "trigger_text" },
     AUTHOR_FIELD,
-    { label: "Message", value: "trigger_message_id" },
+  ],
+  reaction_added: [
+    { label: msg`Reaction emoji`, value: "trigger_emoji" },
+    AUTHOR_FIELD,
+    { label: msg`Message`, value: "trigger_message_id" },
   ],
   webhook: [],
   schedule: [],
@@ -81,10 +87,10 @@ export function conditionValueError(
   const trimmed = value.trim();
   if (!value) return null;
   if (field === "trigger_author" && !HEX_ID_PATTERN.test(trimmed)) {
-    return "Enter a 64-character hex pubkey.";
+    return i18n._(msg`Enter a 64-character hex pubkey.`);
   }
   if (field.endsWith("_id") && !HEX_ID_PATTERN.test(trimmed)) {
-    return "Enter a 64-character hex event ID.";
+    return i18n._(msg`Enter a 64-character hex event ID.`);
   }
   return null;
 }
@@ -94,7 +100,7 @@ export function conditionRowError(
   row: ParsedConditionExpression,
 ): string | null {
   if (!conditionOperatorNeedsValue(row.operator)) return null;
-  if (!row.value) return "Enter a value or remove this condition.";
+  if (!row.value) return i18n._(msg`Enter a value or remove this condition.`);
   return conditionValueError(row.field, row.value);
 }
 

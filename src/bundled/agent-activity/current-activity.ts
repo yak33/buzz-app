@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { ActivityRecord } from "../../features/agents/activity-records";
 import {
   activityTranscript,
@@ -29,20 +31,20 @@ export function currentActivity(
   const title =
     presentation?.title ??
     (latest.type === "thought"
-      ? "Thinking"
+      ? i18n._(msg`Thinking`)
       : latest.type === "plan"
-        ? "Plan"
-        : "Response");
+        ? i18n._(msg`Plan`)
+        : i18n._(msg`Response`));
   const status =
     latest.type === "tool"
       ? presentation?.shellOutput?.failed || latest.status === "failed"
-        ? " · Failed"
+        ? i18n._(msg` · Failed`)
         : latest.status === "completed"
-          ? " · Completed"
+          ? i18n._(msg` · Completed`)
           : latest.status === "pending"
-            ? " · Pending"
+            ? i18n._(msg` · Pending`)
             : latest.status === "in_progress"
-              ? " · Running"
+              ? i18n._(msg` · Running`)
               : ""
       : "";
   const detail = presentation?.target ?? text(latest);

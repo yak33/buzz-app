@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { AgentExecution } from "../../features/agents/execution";
 import type {
   Host,
@@ -64,7 +66,7 @@ export class CodexExecution {
     connection = process;
     this.process = process;
     void process.exited.then(() => {
-      failed(new Error("The guest Codex process stopped"));
+      failed(new Error(i18n._(msg`The guest Codex process stopped`)));
       if (this.process === process) this.callbacks.clear();
     });
     return process;
@@ -99,7 +101,8 @@ export class CodexExecution {
   serve: NonNullable<Host["serveMcp"]> = async (handler) => {
     const url = await this.address;
     this.execution.signal.throwIfAborted();
-    if (!url) throw new Error("The guest Codex process is not open");
+    if (!url)
+      throw new Error(i18n._(msg`The guest Codex process is not open`));
     const token = crypto.randomUUID();
     this.callbacks.set(token, handler);
     let closed!: () => void;

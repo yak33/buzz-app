@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { resolveModel } from "./config";
 import { AppServer, listModels } from "./rpc";
 import type {
@@ -32,7 +34,9 @@ async function worker(spawn: ProtectedSpawn, homes: ReviewHomes) {
   const { home, state, workspace } = await homes();
   if (!workspace || !/^[\w-]+$/.test(workspace))
     throw new Error(
-      "Codex security reviews need a ChatGPT sign-in made in Buzz, which Settings → Agent setup → Harness defaults → Codex offers while Codex is signed out. API key and keyring sign-ins can't run reviews.",
+      i18n._(
+        msg`Codex security reviews need a ChatGPT sign-in made in Buzz, which Settings → Agent setup → Harness defaults → Codex offers while Codex is signed out. API key and keyring sign-ins can't run reviews.`,
+      ),
     );
   const known = workers.get(spawn);
   if (known?.workspace === workspace) return known.ready;
@@ -144,7 +148,7 @@ export async function reviewModel(
           }
         | undefined;
       if (wire.method === "connection/closed")
-        fail(new Error("The security model connection closed"));
+        fail(new Error(i18n._(msg`The security model connection closed`)));
       if (!threadId || params?.threadId !== threadId) return;
       if (
         wire.method === "item/completed" &&
@@ -158,7 +162,7 @@ export async function reviewModel(
           fail(
             new Error(
               params.turn?.error?.message ??
-                "The security model did not complete",
+                i18n._(msg`The security model did not complete`),
             ),
           );
       }
@@ -171,7 +175,9 @@ export async function reviewModel(
         });
     const selected = model.provider ? model.id : resolveModel(model.id, models);
     if (!selected && !model.provider)
-      throw new Error("The recommended Codex review model is unavailable");
+      throw new Error(
+      i18n._(msg`The recommended Codex review model is unavailable`),
+    );
     const entry = models.find((entry) => entry.model === selected);
     const effort = entry?.supportedReasoningEfforts.some(
       (choice) => choice.reasoningEffort === "low",

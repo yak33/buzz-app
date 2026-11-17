@@ -1,4 +1,9 @@
 import { invoke } from "@tauri-apps/api/core";
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
+// 全局单例供模块级 fitLabel/optionDetail 使用（先例 src/shared/datetime.ts）。
+import { i18n as globalI18n } from "../../features/localization/service";
 import { type ReactNode, useEffect, useId, useState } from "react";
 import {
   CheckIcon,
@@ -27,11 +32,11 @@ type Catalog = {
 };
 const CUSTOM = "__custom__";
 const AUTO = "__auto__";
-const FIT_LABELS: Record<string, string> = {
-  comfortable: "fits comfortably",
-  tight: "fits, tight on memory",
-  tradeoff: "may be slow on this machine",
-  too_large: "too large for this machine",
+const FIT_LABELS: Record<string, MessageDescriptor> = {
+  comfortable: msg`fits comfortably`,
+  tight: msg`fits, tight on memory`,
+  tradeoff: msg`may be slow on this machine`,
+  too_large: msg`too large for this machine`,
 };
 
 export function ShareModelPicker({
@@ -60,6 +65,7 @@ export function ShareModelPicker({
   runningModel?: string | null;
   resetDisabled?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [custom, setCustom] = useState(false);
@@ -73,14 +79,16 @@ export function ShareModelPicker({
       if (active) {
         active = false;
         setError(
-          "Model choices took too long to load. Retry, or choose a custom model.",
+          i18n._(
+            msg`Model choices took too long to load. Retry, or choose a custom model.`,
+          ),
         );
       }
     }, 30000);
     void invoke<Catalog>("mesh_compute_catalog")
       .then((result) => {
         if (!Array.isArray(result.entries))
-          throw new Error("Invalid Mesh model catalog");
+          throw new Error(i18n._(msg`Invalid Mesh model catalog`));
         if (active) {
           clearTimeout(deadline);
           setCatalog(result);
@@ -110,6 +118,8 @@ export function ShareModelPicker({
     ? (catalog?.recommended ?? runningModel ?? model)
     : model;
   const entry = catalog?.entries.find((entry) => entry.model === displayModel);
+  // The badge's size hint, resolved before the label template (no nested t``).
+  const sizeText = entry?.size ?? t`required`;
   return (
     <div>
       <div className={styles.deviceOverview}>
@@ -117,13 +127,13 @@ export function ShareModelPicker({
         <dl className={styles.deviceTiles}>
           <div className={styles.deviceTile}>
             <dt>
-              <MonitorIcon size={18} /> Hardware
+              <MonitorIcon size={18} /> {t`Hardware`}
             </dt>
             <dd>{catalog?.gpuName ?? "—"}</dd>
           </div>
           <div className={styles.deviceTile}>
             <dt>
-              <CpuIcon size={18} /> AI memory{" "}
+              <CpuIcon size={18} /> {t`AI memory`}{" "}
             </dt>
             <dd className={styles.memoryValue}>
               <span
@@ -138,14 +148,14 @@ export function ShareModelPicker({
                   className={`${styles.headerStatus} ${styles.fit}`}
                   data-fit={entry.fit}
                 >
-                  Too large
+                  {t`Too large`}
                 </span>
               )}
             </dd>
           </div>
           <div className={`${styles.deviceTile} ${styles.modelTile}`}>
             <dt>
-              <RobotIcon size={18} /> Model{" "}
+              <RobotIcon size={18} /> {t`Model`}{" "}
               <span className={styles.headerStatus}>
                 {entry && (
                   <span>
@@ -153,8 +163,8 @@ export function ShareModelPicker({
                       className={styles.statusBadge}
                       title={
                         entry.installed
-                          ? "GGUF cached; additional serving files may download"
-                          : "Downloads when sharing starts"
+                          ? t`GGUF cached; additional serving files may download`
+                          : t`Downloads when sharing starts`
                       }
                     >
                       {entry.installed ? (
@@ -163,8 +173,8 @@ export function ShareModelPicker({
                         <DownloadIcon size={14} />
                       )}
                       {entry.installed
-                        ? "Cached"
-                        : `Download ${entry.size ?? "required"}`}
+                        ? t`Cached`
+                        : t`Download ${sizeText}`}
                     </span>
                   </span>
                 )}
@@ -172,15 +182,15 @@ export function ShareModelPicker({
             </dt>
             <dd className={styles.modelChoice}>
               <Select
-                label="Model to share"
+                label={t`Model to share`}
                 variant="compact"
                 value={auto ? AUTO : custom ? CUSTOM : displayModel}
                 valueLabel={
                   auto
-                    ? "Auto"
-                    : (entry?.name ?? (displayModel || "Select model"))
+                    ? t`Auto`
+                    : (entry?.name ?? (displayModel || t`Select model`))
                 }
-                valueTitle={displayModel || "Automatic model selection"}
+                valueTitle={displayModel || t`Automatic model selection`}
                 disabled={disabled && (resetDisabled ?? disabled)}
                 onValueChange={(value) => {
                   setCustom(value === CUSTOM);
@@ -193,23 +203,23 @@ export function ShareModelPicker({
                     options: [
                       {
                         value: AUTO,
-                        label: "Auto",
+                        label: t`Auto`,
                         disabled: resetDisabled ?? disabled,
                       },
                     ],
                   },
                   {
-                    label: "Recommended and curated",
+                    label: t`Recommended and curated`,
                     options: (catalog?.entries ?? [])
                       .filter((entry) => entry.curated)
                       .map((entry) => ({
                         value: entry.model,
-                        label: `${entry.name}${entry.model === catalog?.recommended ? " — recommended" : ""}${optionDetail(entry)}`,
+                        label: `${entry.name}${entry.model === catalog?.recommended ? t` — recommended` : ""}${optionDetail(entry)}`,
                         disabled: disabled || tooLarge(entry, displayModel),
                       })),
                   },
                   {
-                    label: "Other models",
+                    label: t`Other models`,
                     options: [
                       ...(!custom && !auto && displayModel && !entry
                         ? [
@@ -229,7 +239,7 @@ export function ShareModelPicker({
                         })),
                       {
                         value: CUSTOM,
-                        label: "Custom model or local GGUF",
+                        label: t`Custom model or local GGUF`,
                         disabled,
                       },
                     ],
@@ -238,7 +248,7 @@ export function ShareModelPicker({
               />
               {custom && (
                 <label htmlFor={id} className="text-body-sm">
-                  Model reference or local GGUF path
+                  {t`Model reference or local GGUF path`}
                   <Input
                     id={id}
                     value={model}
@@ -255,13 +265,13 @@ export function ShareModelPicker({
         <p role="alert">
           {error}{" "}
           <Button disabled={disabled} onClick={() => setAttempt(attempt + 1)}>
-            Retry model catalog
+            {t`Retry model catalog`}
           </Button>
         </p>
       ) : (
         !catalog && (
           <p role="status" className="sr-only">
-            Loading model choices…
+            {t`Loading model choices…`}
           </p>
         )
       )}
@@ -270,7 +280,7 @@ export function ShareModelPicker({
         catalog?.recommended &&
         runningModel !== catalog.recommended && (
           <p className="text-body-sm text-secondary">
-            Auto selection applies next time sharing starts.
+            {t`Auto selection applies next time sharing starts.`}
           </p>
         )}
       {children}
@@ -278,10 +288,16 @@ export function ShareModelPicker({
   );
 }
 
-const fitLabel = (fit: string) => FIT_LABELS[fit] ?? fit.replaceAll("_", " ");
+const fitLabel = (fit: string) => {
+  const label = FIT_LABELS[fit];
+  return label ? globalI18n._(label) : fit.replaceAll("_", " ");
+};
 
 function optionDetail(entry: Catalog["entries"][number]): string {
-  return `${entry.size ? ` · ${entry.size}` : ""}${entry.installed ? " · installed" : " · download"}${entry.fit === "unknown" ? "" : ` · ${fitLabel(entry.fit)}`}`;
+  const installed = entry.installed
+    ? globalI18n._(msg` · installed`)
+    : globalI18n._(msg` · download`);
+  return `${entry.size ? ` · ${entry.size}` : ""}${installed}${entry.fit === "unknown" ? "" : ` · ${fitLabel(entry.fit)}`}`;
 }
 
 /** A model this machine can't hold is not offered, unless it's already chosen. */

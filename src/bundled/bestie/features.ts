@@ -1,11 +1,14 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+
 /** What a local Bestie can have on. Each feature is a marked, versioned
  * section of the agent's instructions, so its state is whether the section
  * is there, and a later version can replace it. A check-in also has a timer
  * that wakes the agent in its DM with the owner, and needs memory on. */
 export type Feature = Readonly<{
   id: string;
-  title: string;
-  description: string;
+  title: MessageDescriptor;
+  description: MessageDescriptor;
   version: number;
   text: string;
   /** The feature that must be on for this one to be. */
@@ -25,9 +28,8 @@ export type Feature = Readonly<{
  * the memory tools an agent on this device has. */
 export const memory: Feature = {
   id: "memory",
-  title: "Remembers you",
-  description:
-    "Adds memory rules to Bestie's instructions. Off removes them. Nothing Bestie remembered is deleted, and its core memory still goes into every prompt. To clear a memory, ask Bestie to forget it.",
+  title: msg`Remembers you`,
+  description: msg`Adds memory rules to Bestie's instructions. Off removes them. Nothing Bestie remembered is deleted, and its core memory still goes into every prompt. To clear a memory, ask Bestie to forget it.`,
   version: 1,
   text: `# Memory
 Your owner turned on "Remembers you": keep memory about them, so your help gets better over time. That is their approval to save what they tell you by these rules; still ask before you change or remove something they told you before. Call mem_get mem/user when the answer depends on who the owner is or what they asked for before. Save only what will improve future help, and say something is saved only after the tool confirms it.
@@ -52,9 +54,8 @@ Rules:
  * has. */
 export const checkinHourly: Feature = {
   id: "checkin.hourly",
-  title: "Every hour",
-  description:
-    "Bestie wakes once an hour to tidy its memory and tell you only what matters. Runs while Buzz is open and the Watching plugin is on. Each wake uses your tokens. Turning this on also runs Bestie's other watches.",
+  title: msg`Every hour`,
+  description: msg`Bestie wakes once an hour to tidy its memory and tell you only what matters. Runs while Buzz is open and the Watching plugin is on. Each wake uses your tokens. Turning this on also runs Bestie's other watches.`,
   version: 1,
   requires: "memory",
   timer: {

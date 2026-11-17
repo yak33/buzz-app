@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useRef, useSyncExternalStore } from "react";
 import { Header, InlineHeader } from "../../shared/design-system/ui/Header";
 import { SettingsGroup } from "../../shared/design-system/ui/SettingsGroup";
@@ -50,6 +51,7 @@ export function TerminalSettings({
   drafts: ReturnType<typeof createTerminalSettingsDraft>;
   active(): boolean;
 }) {
+  const { t } = useLingui();
   const { family, size, error } = useSyncExternalStore(
     font.subscribe,
     font.snapshot,
@@ -81,10 +83,10 @@ export function TerminalSettings({
     <section aria-labelledby="terminal-settings-title">
       <Header
         id="terminal-settings-title"
-        title="Terminal"
-        subtitle="Customize your terminal."
+        title={t`Terminal`}
+        subtitle={t`Customize your terminal.`}
       />
-      <InlineHeader title="Font" />
+      <InlineHeader title={t`Font`} />
       <SettingsGroup layout="form">
         <form
           noValidate
@@ -98,13 +100,13 @@ export function TerminalSettings({
         >
           <div className="flex flex-col gap-4">
             <Field
-              label="Font family"
-              description="Type an installed font family name. For Nerd Fonts, use a Mono variant for cell alignment."
+              label={t`Font family`}
+              description={t`Type an installed font family name. For Nerd Fonts, use a Mono variant for cell alignment.`}
               error={
                 invalid
-                  ? "Enter one font family name, up to 64 characters, without quotes, commas, or CSS syntax. Use default to clear this choice."
+                  ? t`Enter one font family name, up to 64 characters, without quotes, commas, or CSS syntax. Use default to clear this choice.`
                   : unavailable
-                    ? `Couldn’t load “${parsed}”. Check the font name or install it, then try again.`
+                    ? t`Couldn’t load “${parsed}”. Check the font name or install it, then try again.`
                     : undefined
               }
             >
@@ -132,21 +134,20 @@ export function TerminalSettings({
                   availability.retry();
                 }}
               >
-                Retry font check
+                {t`Retry font check`}
               </Button>
             )}
             {family && savedStatus === "unavailable" && (
               <p role="status" className="text-body-sm text-subtle">
-                Couldn’t load your saved font “{family}”. The terminal is using
-                JetBrains Mono.
+                {t`Couldn’t load your saved font “${family}”. The terminal is using JetBrains Mono.`}
               </p>
             )}
             <Field
-              label="Font size (px)"
-              description={`Terminal text size, independent of interface text size. Default: ${DEFAULT_FONT_SIZE} px.`}
+              label={t`Font size (px)`}
+              description={t`Terminal text size, independent of interface text size. Default: ${DEFAULT_FONT_SIZE} px.`}
               error={
                 sizeInvalid
-                  ? `Enter a number from ${MIN_FONT_SIZE} to ${MAX_FONT_SIZE}.`
+                  ? t`Enter a number from ${MIN_FONT_SIZE} to ${MAX_FONT_SIZE}.`
                   : undefined
               }
             >
@@ -170,7 +171,7 @@ export function TerminalSettings({
                 : "var(--font-system-mono)",
             }}
           >
-            Preview: ABC 0123
+            {t`Preview: ABC 0123`}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
             <Button
@@ -181,7 +182,7 @@ export function TerminalSettings({
                 drafts.update({ family: null, size: null, blurredValue: null });
               }}
             >
-              Use default
+              {t`Use default`}
             </Button>
             <Button
               type="submit"
@@ -192,7 +193,7 @@ export function TerminalSettings({
                 (parsed === family && parsedSize === size)
               }
             >
-              Apply
+              {t`Apply`}
             </Button>
           </div>
         </form>
@@ -201,11 +202,11 @@ export function TerminalSettings({
       {isApplePlatform(navigator.platform) && <OptionMetaSetting />}
       {active() && error && (
         <ToastNotice
-          title="Terminal font preference needs attention"
+          title={t`Terminal font preference needs attention`}
           description={error}
         >
           <Button type="button" size="sm" onClick={font.retry}>
-            Retry terminal font preference
+            {t`Retry terminal font preference`}
           </Button>
         </ToastNotice>
       )}
@@ -214,15 +215,16 @@ export function TerminalSettings({
 }
 
 function OptionMetaSetting() {
+  const { t } = useLingui();
   const checked = optionMetaPreference.usePreference();
   const error = optionMetaPreference.useSaveError();
   return (
     <section className="mt-section-gap">
-      <InlineHeader title="Keyboard" />
+      <InlineHeader title={t`Keyboard`} />
       <SettingsGroup>
         <SwitchPreferenceRow
-          label="Use Option as Meta key"
-          description="Treat the Option key as the Meta key in the terminal."
+          label={t`Use Option as Meta key`}
+          description={t`Treat the Option key as the Meta key in the terminal.`}
           checked={checked}
           onCheckedChange={optionMetaPreference.set}
         />
@@ -235,7 +237,7 @@ function OptionMetaSetting() {
               type="button"
               onClick={() => optionMetaPreference.set(checked)}
             >
-              Retry saving
+              {t`Retry saving`}
             </Button>
           </div>
         </div>

@@ -1,9 +1,12 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { i18n } from "../../../features/localization/service";
 import type { AgentViewProps } from "../../../features/agents/service";
 import { AgentExecutionNote } from "../../../features/agents/AgentExecutionNote";
 import { executionCopy } from "../../../features/agents/execution-location";
@@ -54,9 +57,13 @@ export function createSettingsTab(
         if (session.credential() !== credential)
           throw new DOMException("Builderlab session changed.", "AbortError");
         if (!remote)
-          throw new Error("Agent not found in this Builderlab account.");
+          throw new Error(
+            i18n._(msg`Agent not found in this Builderlab account.`),
+          );
         if (remote.status !== "Active")
-          throw new Error("Only Active agents can have their settings edited.");
+          throw new Error(
+            i18n._(msg`Only Active agents can have their settings edited.`),
+          );
         setLoaded({
           agent: remote,
           subject: credential.account.subject,
@@ -94,6 +101,7 @@ export function createSettingsTab(
     settingsContent,
     settingsHost,
   }: AgentViewProps) {
+    const { t } = useLingui();
     const [revision, setRevision] = useState(0);
     const login = useSyncExternalStore(session.subscribe, session.snapshot);
     const signedIn = login.status === "signed-in";
@@ -104,14 +112,14 @@ export function createSettingsTab(
             runtime={agent.type}
             description={
               <>
-                Runs on a Builderlab machine.{" "}
+                {t`Runs on a Builderlab machine.`}{" "}
                 <a
                   className={inlineStyles.link}
                   href={import.meta.env.VITE_BUZZ_BUILDERLAB_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  See usage and billing
+                  {t`See usage and billing`}
                 </a>
                 .
               </>
@@ -132,10 +140,10 @@ export function createSettingsTab(
           <>
             <SettingsGroup>
               <PreferenceRow
-                title="Runtime"
+                title={t`Runtime`}
                 subtitle={
                   <>
-                    Hosted and managed by{" "}
+                    {t`Hosted and managed by`}{" "}
                     <a
                       className={inlineStyles.link}
                       href={import.meta.env.VITE_BUZZ_BUILDERLAB_URL}
@@ -150,13 +158,13 @@ export function createSettingsTab(
               />
               {signedIn && (
                 <PreferenceRow
-                  title="Workspace"
-                  subtitle={`Remote runtime shared with your other agents in this workspace by default. ${executionCopy.remote.description}`}
+                  title={t`Workspace`}
+                  subtitle={t`Remote runtime shared with your other agents in this workspace by default. ${executionCopy.remote.description}`}
                 />
               )}
               <PreferenceRow
-                title="Sessions"
-                subtitle="One session per thread"
+                title={t`Sessions`}
+                subtitle={t`One session per thread`}
               />
             </SettingsGroup>
             {settingsContent}

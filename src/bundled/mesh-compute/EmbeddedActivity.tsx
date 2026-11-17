@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
+import { useLingui } from "@lingui/react/macro";
 import type { ComputeActivityData } from "./ComputeActivity";
 import styles from "./Compute.module.css";
 
@@ -12,6 +13,7 @@ export function EmbeddedActivity({
   sharing: boolean;
   state: string;
 }) {
+  const { t } = useLingui();
   const frame = useRef<HTMLIFrameElement>(null);
   const send = useCallback(() => {
     const status = {
@@ -39,7 +41,7 @@ export function EmbeddedActivity({
     <iframe
       ref={frame}
       className={styles.embeddedWidget}
-      title="Live compute activity"
+      title={t`Live compute activity`}
       src="/compute-widget.html?embedded=true"
       onLoad={send}
     />

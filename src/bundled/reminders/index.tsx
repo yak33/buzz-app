@@ -1,4 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useSyncExternalStore } from "react";
+import { i18n } from "../../features/localization/service";
 import type { PluginModule } from "../../plugins/api";
 import type { RelaySession } from "../../features/relay/session";
 import type { Reminder, Reminders } from "../../features/relay/reminders";
@@ -148,15 +151,15 @@ export const apply: PluginModule["apply"] = (ctx) => {
               target: to,
               title:
                 channel && channel.channelType !== "dm" && channel.name
-                  ? `Reminder due · #${channel.name}`
-                  : "Reminder due",
+                  ? i18n._(msg`Reminder due · #${channel.name}`)
+                  : i18n._(msg`Reminder due`),
               body:
                 [
                   plainText(reminder.target?.preview ?? "", {
                     storedPreview: true,
                   }),
                   plainText(reminder.note ?? ""),
-                ].find(Boolean) || "A reminder is waiting",
+                ].find(Boolean) || i18n._(msg`A reminder is waiting`),
             });
           // Access refuses the message when the viewer isn't in its channel, so
           // that reminder opens Reminders instead of never alerting. The retry
@@ -231,10 +234,11 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
 
   function Badge() {
+    const { i18n } = useLingui();
     const { state } = useReminders(relay);
     const at = useSyncExternalStore(subscribeClock, readClock, readClock);
     const due = countDue(state.reminders, at);
-    return <CountBadge count={due} label={`${due} due`} />;
+    return <CountBadge count={due} label={i18n._(msg`${due} due`)} />;
   }
 
   ctx.pages.register({
@@ -259,6 +263,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     message: { id: string };
     session: RelaySession;
   }) {
+    const { t } = useLingui();
     const reminders = session.reminders;
     const state = useSyncExternalStore(
       reminders?.subscribe ?? noSubscribe,
@@ -269,8 +274,8 @@ export const apply: PluginModule["apply"] = (ctx) => {
       <span
         className={styles.marker}
         role="img"
-        title="Reminder set"
-        aria-label="Reminder set"
+        title={t`Reminder set`}
+        aria-label={t`Reminder set`}
       >
         <AlarmIcon size={14} aria-hidden="true" />
       </span>

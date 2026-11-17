@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { AgentsContext, useAgentsSnapshot } from "../../features/agents/react";
 import { visibleTeams } from "../../features/agents/visible-teams";
 import { splitPartition } from "../../features/relay/partition";
@@ -213,13 +215,13 @@ export function useTeamMentions(
           return person ? [{ pubkey: person.pubkey, name: person.name }] : [];
         });
         const disabled = !current()
-          ? "Team changed or unavailable. Reopen to refresh."
+          ? i18n._(msg`Team changed or unavailable. Reopen to refresh.`)
           : members.some((key) => !eligible.get(key)?.member)
-            ? "Channel membership changed. Reopen to review adding this team."
+            ? i18n._(msg`Channel membership changed. Reopen to review adding this team.`)
             : !value.agents.length
-              ? "This team has no agents."
+              ? i18n._(msg`This team has no agents.`)
               : value.agents.length > 32
-                ? "Teams can mention at most 32 agents."
+                ? i18n._(msg`Teams can mention at most 32 agents.`)
                 : recipients.length !== value.agents.length
                   ? "A team member is unavailable. Edit the team or refresh choices."
                   : undefined;
@@ -234,7 +236,7 @@ export function useTeamMentions(
           : channel?.channelType === "dm"
             ? `${outside} not in DM · Will not be notified`
             : inviteAgents
-              ? `Adds ${outside} to ${channel && channel.channelType !== "solo" ? "channel" : "chat"} when you send`
+              ? i18n._(msg`Adds ${outside} to ${channel && channel.channelType !== "solo" ? "channel" : "chat"} when you send`)
               : `${outside} not in channel`;
         return {
           id: `team:${value.id}`,
@@ -243,7 +245,7 @@ export function useTeamMentions(
           disabled,
           detail:
             disabled ??
-            [`Saved team · ${recipients.length} agents`, consequence]
+            [i18n._(msg`Saved team · ${recipients.length} agents`), consequence]
               .filter(Boolean)
               .join(" · "),
           canSelect: () => {
@@ -275,9 +277,9 @@ export function useTeamMentions(
       readNames: () => readSaved().map((team) => team.name),
       status:
         open && (catalog.status === "idle" || catalog.status === "loading")
-          ? "Loading legacy teams…"
+          ? i18n._(msg`Loading legacy teams…`)
           : open && catalog.status === "error"
-            ? "Could not load legacy teams. Retry to refresh."
+            ? i18n._(msg`Could not load legacy teams. Retry to refresh.`)
             : undefined,
       canRetry: open && catalog.status === "error",
       retry: () => void kit?.refresh(),

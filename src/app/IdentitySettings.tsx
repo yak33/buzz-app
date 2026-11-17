@@ -1144,7 +1144,7 @@ function BackupRecovery({
   onRetry(): void;
   finalFocus(): HTMLButtonElement | null;
 }) {
-  const { t } = useLingui();
+  const { i18n, t } = useLingui();
   const { backup } = identity;
   const [asking, setAsking] = useState(false);
   const action = useRef<HTMLButtonElement>(null);
@@ -1185,12 +1185,13 @@ function BackupRecovery({
       : status?.status === "waiting"
         ? status.reason === "no_session"
           ? t`Sign in to Builderlab to back up your key`
-          : BACKUP_FAILURES.not_linked.message.replace(/\.$/, "")
+          : i18n
+              ._(BACKUP_FAILURES.not_linked.message)
+              .replace(/[.。]$/, "")
         : problem &&
-          ("cause" in problem ? problem.cause : problem.message).replace(
-            /\.$/,
-            "",
-          );
+          i18n
+            ._("cause" in problem ? problem.cause : problem.message)
+            .replace(/[.。]$/, "");
   // These are the two waits whose next step is on Builderlab's Settings page.
   const onBuilderlab =
     (status?.status === "waiting" && status.reason === "not_linked") ||

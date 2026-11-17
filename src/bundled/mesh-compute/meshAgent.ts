@@ -2,6 +2,9 @@
 // bundled goose-acp on the leased Mesh route (`meshGoose.ts`); Chat uses one
 // leased completion. No alternate inference provider. Final prose is posted
 // unless a Buzz tool already answered in the conversation.
+import { msg } from "@lingui/core/macro";
+// 本地化全局单例：仅包裹面向用户的错误消息；发给模型的提示词保持原文。
+import { i18n } from "../../features/localization/service";
 import type { Delivery } from "../../features/agents/service";
 import type { Context } from "../../buzz-mcp/client";
 import type {
@@ -168,7 +171,7 @@ export async function resolveWorkspace(
   if (absoluteWorkspace(path)) return path.trim();
   const workspace = (await deps.resolveDirectory(path)).trim();
   if (!absoluteWorkspace(workspace))
-    throw new Error(`Could not resolve the agent workspace ${path}`);
+    throw new Error(i18n._(msg`Could not resolve the agent workspace ${path}`));
   return workspace;
 }
 
@@ -351,7 +354,7 @@ export class MeshAgentRuntime {
       )
         return;
       const origin = this.deps.origin(agent.key);
-      if (!origin) throw new Error("No community is connected");
+      if (!origin) throw new Error(i18n._(msg`No community is connected`));
       const inference = await untilAborted(this.deps.prepare(origin), signal);
       lease = inference.lease;
       const wholeChannel = dm || config.scope === "channel";
@@ -403,7 +406,8 @@ export class MeshAgentRuntime {
       }
       signal.throwIfAborted();
       if (this.disposed || (delivery.current && !delivery.current())) return;
-      if (!reply) throw new Error("The mesh model returned no text");
+      if (!reply)
+        throw new Error(i18n._(msg`The mesh model returned no text`));
       // Already-published tool sends are not undone by this freshness check.
       if (!(await this.deps.current(inference.lease))) {
         console.warn("Mesh agent reply dropped: community changed mid-turn");
@@ -415,11 +419,15 @@ export class MeshAgentRuntime {
       if (timedOut() && lease && !(await this.deps.current(lease))) return;
       reportingTimeout = timedOut();
       const reason = reportingTimeout
-        ? "The turn exceeded its five-minute deadline. Please try again."
+        ? i18n._(
+            msg`The turn exceeded its five-minute deadline. Please try again.`,
+          )
         : error instanceof Error
           ? error.message
           : String(error);
-      content = `⚠️ Mesh agent couldn't answer: ${reason.slice(0, 500)}`;
+      content = i18n._(
+        msg`⚠️ Mesh agent couldn't answer: ${reason.slice(0, 500)}`,
+      );
     }
     const live = () =>
       !(signal.aborted && !reportingTimeout) &&
@@ -428,7 +436,7 @@ export class MeshAgentRuntime {
     if (!live()) return;
     try {
       await agent.publish({ kind: 9, content, tags }, () => {
-        if (!live()) throw new Error("Agent turn ended");
+        if (!live()) throw new Error(i18n._(msg`Agent turn ended`));
       });
     } catch (error) {
       if (live()) throw error;

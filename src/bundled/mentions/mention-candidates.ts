@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { ChannelSummary } from "../../features/relay/contracts";
 import type { ComposerSession } from "../../features/messages/composer-session";
 import type { MentionRecipient } from "../../features/messages/mention-draft";
@@ -35,10 +37,10 @@ export function outsideMentionDetail(
   channel: Pick<ChannelSummary, "channelType"> | undefined,
   elsewhere?: string,
 ) {
-  if (elsewhere) return `In ${elsewhere}`;
+  if (elsewhere) return i18n._(msg`In ${elsewhere}`);
   return channel?.channelType === "dm"
-    ? "Not in DM · Will not be notified"
-    : "Not in channel";
+    ? i18n._(msg`Not in DM · Will not be notified`)
+    : i18n._(msg`Not in channel`);
 }
 
 /**
@@ -55,7 +57,7 @@ export function managedByDetail(
 ) {
   const profile = owner && owner !== viewer ? profiles.get(owner) : undefined;
   const name = profile && !profile.nameIsFallback && profile.name?.trim();
-  return name ? `Managed by ${name}` : undefined;
+  return name ? i18n._(msg`Managed by ${name}`) : undefined;
 }
 
 type DirectoryPerson = MentionRecipient & {

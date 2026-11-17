@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { ComposerAccessoryProps } from "../../features/conversation/contracts";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -5,7 +6,7 @@ import { InlineHeader } from "../../shared/design-system/ui/Header";
 import { NavigationItem } from "../../shared/design-system/ui/NavigationItem";
 import { targetFor } from "./target";
 import type { Turn, TurnCheckout, Turns } from "./turns";
-import { Counts, plural, totals } from "./Counts";
+import { Counts, totals } from "./Counts";
 import styles from "./Changesets.module.css";
 import { useLoaded } from "./useLoaded";
 
@@ -61,6 +62,7 @@ function ChangesetCard({
   canOpen(target: string): boolean;
   open(target: string): boolean;
 }) {
+  const { t } = useLingui();
   const [all, setAll] = useState(false);
   const {
     value: files,
@@ -73,7 +75,7 @@ function ChangesetCard({
   return (
     <section
       className={styles.card}
-      aria-label={`Changeset: ${checkout.label}`}
+      aria-label={t`Changeset: ${checkout.label}`}
     >
       <InlineHeader
         level={4}
@@ -81,37 +83,44 @@ function ChangesetCard({
         subtitle={
           files && sum ? (
             <>
-              {plural(files.length, "file")} changed <Counts {...sum} />
+              {files.length === 1 ? (
+                t`1 file changed`
+              ) : (
+                t`${files.length} files changed`
+              )}{" "}
+              <Counts {...sum} />
             </>
+          ) : checkout.files === 1 ? (
+            t`1 file`
           ) : (
-            plural(checkout.files ?? 0, "file")
+            t`${checkout.files ?? 0} files`
           )
         }
       />
       {checkout.late && (
         <p className={styles.note}>
-          Recording began a moment after the agent started, so its first edits
-          may be missing.
+          {t`Recording began a moment after the agent started, so its first edits may be missing.`}
         </p>
       )}
       {checkout.shared && (
         <p className={styles.note}>
-          Another agent was working here too, so some of this may not be this
-          turn's.
+          {t`Another agent was working here too, so some of this may not be this turn's.`}
         </p>
       )}
       {error && (
         <div role="alert" className={styles.note}>
-          <p>Couldn't read this changeset. {error}</p>
+          <p>
+            {t`Couldn't read this changeset.`} {error}
+          </p>
           {retry && (
             <Button size="sm" variant="ghost" onClick={retry}>
-              Try again
+              {t`Try again`}
             </Button>
           )}
         </div>
       )}
       {shown && (
-        <ul className={styles.files} aria-label="Changed files">
+        <ul className={styles.files} aria-label={t`Changed files`}>
           {shown.map((file) => (
             <li key={file.path}>
               <NavigationItem
@@ -120,7 +129,7 @@ function ChangesetCard({
                 title={file.from ? `${file.from} → ${file.path}` : file.path}
                 disabled={!opens}
                 onClick={() => open(targetFor(turn.id, index, file.path))}
-                trailing={file.binary ? "binary" : <Counts {...file} />}
+                trailing={file.binary ? t`binary` : <Counts {...file} />}
               />
             </li>
           ))}
@@ -128,7 +137,7 @@ function ChangesetCard({
       )}
       {files && files.length > FIRST && (
         <Button size="sm" variant="ghost" onClick={() => setAll(!all)}>
-          {all ? "Show fewer" : `Show all ${files.length} files`}
+          {all ? t`Show fewer` : t`Show all ${files.length} files`}
         </Button>
       )}
     </section>

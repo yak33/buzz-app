@@ -1,3 +1,8 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
+// 全局单例供模块级 directFailure/lookupFailure/validate 使用（先例 src/shared/datetime.ts）。
+import { i18n as globalI18n } from "../../features/localization/service";
 import {
   createContext,
   useContext,
@@ -50,30 +55,30 @@ import { typedPublicKey } from "../../shared/identity/public-key";
 type Action = "ban" | "timeout" | "delete";
 type Intent = Extract<StaffRequest, { route: "directAction" }>;
 
-const LABELS: Record<Action, string> = {
-  ban: "Ban member",
-  timeout: "Time out member",
-  delete: "Delete message",
+const LABELS: Record<Action, MessageDescriptor> = {
+  ban: msg`Ban member`,
+  timeout: msg`Time out member`,
+  delete: msg`Delete message`,
 };
 
-export const STAFF_COPY =
-  "Relay staff can't be banned or timed out. Remove their staff role first.";
-export const UNSUPPORTED_ACTIONS =
-  "This relay doesn't support direct actions yet.";
+export const STAFF_COPY = msg`Relay staff can't be banned or timed out. Remove their staff role first.`;
+export const UNSUPPORTED_ACTIONS = msg`This relay doesn't support direct actions yet.`;
 
 export function directFailure(failure: StaffFailure) {
-  if (failure.code === "target_is_staff") return STAFF_COPY;
+  if (failure.code === "target_is_staff") return globalI18n._(STAFF_COPY);
   if (failure.code === "request_id_conflict")
-    return "This request id was already used for a different action. Review again to send it with a new id.";
-  if (unsupported(failure)) return UNSUPPORTED_ACTIONS;
+    return globalI18n._(
+      msg`This request id was already used for a different action. Review again to send it with a new id.`,
+    );
+  if (unsupported(failure)) return globalI18n._(UNSUPPORTED_ACTIONS);
   return describe(failure);
 }
 
 /** Why a lookup failed; "not found" only when the relay said so. */
 function lookupFailure(failure: StaffFailure) {
-  if (unsupported(failure)) return UNSUPPORTED_BROWSING;
+  if (unsupported(failure)) return globalI18n._(UNSUPPORTED_BROWSING);
   if (failure.code === "event_not_found" || failure.code === "not_found")
-    return "Not found in this community.";
+    return globalI18n._(msg`Not found in this community.`);
   return describe(failure);
 }
 
@@ -144,6 +149,7 @@ function useController() {
  * losing then regaining access shows the same request and its real state.
  */
 export function DirectActionsProvider({ children }: { children: ReactNode }) {
+  const { i18n } = useLingui();
   const notify = useToastNotification();
   const [draft, setDraft] = useState<Draft | null>(null);
   const shownHost = useRef<string | null>(null);
@@ -151,15 +157,21 @@ export function DirectActionsProvider({ children }: { children: ReactNode }) {
     DIRECT,
     (outcome, intent) => {
       if (outcome.ok && outcome.value.state === "succeeded") {
-        notify(`${LABELS[intent.action]}: done`, "success");
+        const actionLabel = i18n._(LABELS[intent.action]);
+        notify(i18n._(msg`${actionLabel}: done`), "success");
         setDraft(emptyDraft(intent.communityHost));
         return;
       }
-      if (!outcome.ok && shownHost.current !== intent.communityHost)
+      if (!outcome.ok && shownHost.current !== intent.communityHost) {
+        const actionLabel = i18n._(LABELS[intent.action]);
+        const reason = directFailure(outcome.failure);
         notify(
-          `${LABELS[intent.action]} in ${intent.communityHost} failed: ${directFailure(outcome.failure)}`,
+          i18n._(
+            msg`${actionLabel} in ${intent.communityHost} failed: ${reason}`,
+          ),
           "error",
         );
+      }
     },
   );
   const { held } = write;
@@ -206,18 +218,29 @@ function validate(draft: Draft, eventId: string | null): Problems {
   const secs = Number(draft.secs);
   return {
     ...(draft.action === "delete" && !eventId
-      ? { target: "Enter a 64-hex event id, or a note1… or nevent1… link." }
+      ? {
+          target: globalI18n._(
+            msg`Enter a 64-hex event id, or a note1… or nevent1… link.`,
+          ),
+        }
       : {}),
     ...(draft.action !== "delete" && !draft.member
       ? {
-          member:
-            "Choose a member: search by name, or paste an npub or hex key.",
+          member: globalI18n._(
+            msg`Choose a member: search by name, or paste an npub or hex key.`,
+          ),
         }
       : {}),
     ...(draft.action === "timeout" && !(Number.isInteger(secs) && secs > 0)
-      ? { secs: "Duration must be a whole number of seconds above zero." }
+      ? {
+          secs: globalI18n._(
+            msg`Duration must be a whole number of seconds above zero.`,
+          ),
+        }
       : {}),
-    ...(containsSecretKey(draft.reason) ? { reason: SECRET_KEY_WARNING } : {}),
+    ...(containsSecretKey(draft.reason)
+      ? { reason: globalI18n._(SECRET_KEY_WARNING) }
+      : {}),
   };
 }
 
@@ -232,6 +255,7 @@ function LookupFailure({
   read: Tracked<unknown>;
   reload(): void;
 }) {
+  const { t } = useLingui();
   const retry = useRetry(
     read.state === "failed" ? read.failure : null,
     read.settled,
@@ -244,34 +268,36 @@ function LookupFailure({
         {lookupFailure(retry.failure)}
       </p>
       <Button size="sm" loading={retry.retrying} onClick={retry.retry}>
-        Retry
+        {t`Retry`}
       </Button>
     </div>
   );
 }
 
 function MemberState({ member }: { member: MemberDetailDto }) {
+  const { t } = useLingui();
   const facts = [
     member.role === null
-      ? "Not on the community roster"
-      : `Role: ${member.role}`,
-    member.banned ? "Currently banned" : null,
+      ? t`Not on the community roster`
+      : t`Role: ${member.role}`,
+    member.banned ? t`Currently banned` : null,
     member.mutedUntil
-      ? `Timed out until ${absoluteTime(member.mutedUntil)}`
+      ? t`Timed out until ${absoluteTime(member.mutedUntil)}`
       : null,
-    member.isStaff ? "Relay staff" : null,
+    member.isStaff ? t`Relay staff` : null,
   ].filter(Boolean);
   return <p className="text-caption text-secondary">{facts.join(" · ")}</p>;
 }
 
 function EventPreview({ event }: { event: EventPreviewDto }) {
+  const { t } = useLingui();
   return (
     <div className="flex flex-col gap-1 rounded-md border px-3 py-2 text-caption">
       <Person pubkey={event.authorPubkey} />
       <p className="whitespace-pre-wrap break-words">{event.content}</p>
       {event.deletedAt && (
         <p className="text-secondary">
-          Already deleted {time(event.deletedAt)}.
+          {t`Already deleted ${time(event.deletedAt)}.`}
         </p>
       )}
     </div>
@@ -288,6 +314,7 @@ function useLookup<R extends StaffRequest>(
 }
 
 export function ActionsSection({ community }: { community: CommunityRef }) {
+  const { i18n, t } = useLingui();
   const { context, canMutate } = useSession();
   const c = useController();
   const host = community.host;
@@ -322,14 +349,14 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
   const problems = draft.checked ? validate(draft, eventId) : {};
   const blocked =
     draft.action !== "delete" && member?.state === "ok" && member.value.isStaff
-      ? STAFF_COPY
+      ? i18n._(STAFF_COPY)
       : null;
 
   if (c.frozen && c.frozen.intent.communityHost !== host)
     return (
       <div className="flex flex-col gap-2 text-body-sm">
         <p>
-          Finish or discard the pending action in{" "}
+          {t`Finish or discard the pending action in`}{" "}
           <code>{c.frozen.intent.communityHost}</code>.
         </p>
         <ConfirmStep readOnly />
@@ -384,7 +411,7 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <Field label="Action" nativeLabel={false}>
+      <Field label={t`Action`} nativeLabel={false}>
         <RadioGroup<Action>
           name={`direct-action-${host}`}
           value={shown.action}
@@ -392,14 +419,14 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
           onValueChange={(action) => set({ action })}
         >
           {(Object.keys(LABELS) as Action[]).map((action) => (
-            <Radio key={action} value={action} label={LABELS[action]} />
+            <Radio key={action} value={action} label={i18n._(LABELS[action])} />
           ))}
         </RadioGroup>
       </Field>
       {shown.action === "delete" ? (
         <Field
-          label="Event id"
-          description="Hex, note1… or nevent1…"
+          label={t`Event id`}
+          description={t`Hex, note1… or nevent1…`}
           error={problems.target}
         >
           <Input
@@ -436,7 +463,7 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
         </p>
       )}
       {shown.action === "timeout" && (
-        <Field label="Duration (seconds)" error={problems.secs}>
+        <Field label={t`Duration (seconds)`} error={problems.secs}>
           <Input
             type="number"
             disabled={locked}
@@ -446,7 +473,7 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
         </Field>
       )}
       <Field
-        label="Reason (optional)"
+        label={t`Reason (optional)`}
         description={reasonAudience(shown.action)}
         error={problems.reason}
       >
@@ -475,7 +502,7 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
             }
             onClick={review}
           >
-            Review
+            {t`Review`}
           </Button>
         </div>
       )}
@@ -485,24 +512,26 @@ export function ActionsSection({ community }: { community: CommunityRef }) {
 
 /** The reviewed intent, leading with its community. */
 function ConfirmStep({ readOnly = false }: { readOnly?: boolean }) {
+  const { i18n, t } = useLingui();
   const { canMutate } = useSession();
   const c = useController();
   if (!c.frozen) return null;
   const { intent, community, name, keyLabel, member, preview } = c.frozen;
+  const reasonText = intent.reason ?? t`(none)`;
   return (
     <div className="flex flex-col gap-2 rounded-md border px-3 py-2 text-body-sm">
       <p className="flex flex-wrap items-center gap-1.5">
-        In <CommunityBadge id={community.id} host={community.host} />
+        {t`In`} <CommunityBadge id={community.id} host={community.host} />
         <NotConnected host={intent.communityHost} />
       </p>
       <p>
-        {LABELS[intent.action]}{" "}
+        {i18n._(LABELS[intent.action])}{" "}
         {intent.action === "delete" ? (
           <code className="break-all">{intent.target}</code>
         ) : (
           <PersonName pubkey={intent.target} name={name} label={keyLabel} />
         )}
-        {intent.expirationSecs ? ` for ${intent.expirationSecs}s` : ""}?
+        {intent.expirationSecs ? t` for ${intent.expirationSecs}s` : ""}?
       </p>
       {intent.action !== "delete" && (
         <code className="break-all font-mono text-caption text-secondary">
@@ -511,10 +540,12 @@ function ConfirmStep({ readOnly = false }: { readOnly?: boolean }) {
       )}
       {member && <MemberState member={member} />}
       {preview && <EventPreview event={preview} />}
-      <p>Reason: {intent.reason ?? "(none)"}</p>
+      <p>
+        {t`Reason:`} {reasonText}
+      </p>
       {c.pending && (
         <p className="text-secondary" role="status">
-          Accepted; the relay is still applying it. Retry to check.
+          {t`Accepted; the relay is still applying it. Retry to check.`}
         </p>
       )}
       <div className="flex gap-1.5">
@@ -527,8 +558,8 @@ function ConfirmStep({ readOnly = false }: { readOnly?: boolean }) {
             onClick={c.confirm}
           >
             {c.errorFor(intent.communityHost) || c.pending
-              ? "Retry"
-              : "Confirm"}
+              ? t`Retry`
+              : t`Confirm`}
           </Button>
         )}
         <Button
@@ -537,7 +568,7 @@ function ConfirmStep({ readOnly = false }: { readOnly?: boolean }) {
           disabled={c.submitting}
           onClick={c.discard}
         >
-          Discard
+          {t`Discard`}
         </Button>
       </div>
     </div>
@@ -564,6 +595,7 @@ export function MemberPicker({
   error?: string | undefined;
   onChange(member: Member | null): void;
 }) {
+  const { i18n, t } = useLingui();
   const { context } = useSession();
   const [query, setQuery] = useState("");
   /** Results open as they arrive; Escape or a click away closes them. */
@@ -605,7 +637,7 @@ export function MemberPicker({
           disabled={disabled}
           onClick={() => onChange(null)}
         >
-          Change
+          {t`Change`}
         </Button>
       </div>
     );
@@ -638,19 +670,19 @@ export function MemberPicker({
         }}
       >
         <Combobox.Control
-          label="Member"
-          triggerLabel="Show members"
+          label={t`Member`}
+          triggerLabel={t`Show members`}
           loading={searching && results.state === "loading"}
-          placeholder="Search by name, or paste an npub or hex key"
+          placeholder={t`Search by name, or paste an npub or hex key`}
           error={
             secret
-              ? SECRET_KEY_WARNING
+              ? i18n._(SECRET_KEY_WARNING)
               : searching && retry.failure
                 ? lookupFailure(retry.failure)
                 : error
           }
         />
-        <Combobox.Popup empty="No members found.">
+        <Combobox.Popup empty={t`No members found.`}>
           <Combobox.List>
             {(candidate: Member) => (
               <Combobox.Item key={candidate.pubkey} value={candidate}>
@@ -667,7 +699,7 @@ export function MemberPicker({
       {searching && retry.failure && (
         <div>
           <Button size="sm" loading={retry.retrying} onClick={retry.retry}>
-            Retry search
+            {t`Retry search`}
           </Button>
         </div>
       )}
@@ -683,6 +715,7 @@ export function MembersSection({
   communityHost: string;
   onAct(): void;
 }) {
+  const { t } = useLingui();
   const { canMutate } = useSession();
   const c = useController();
   const [member, setMember] = useState<Member | null>(null);
@@ -707,7 +740,7 @@ export function MembersSection({
                 onAct();
               }}
             >
-              {action === "ban" ? "Ban" : "Time out"}
+              {action === "ban" ? t`Ban` : t`Time out`}
             </Button>
           ))}
         </div>

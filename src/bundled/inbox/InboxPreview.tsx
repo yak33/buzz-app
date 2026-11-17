@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { reactionRows } from "./reaction-rows";
 import {
   useCallback,
@@ -65,6 +66,7 @@ export function InboxPreview({
   navigator,
   close,
 }: PagePreviewProps & { relay: RelayData; navigator: Navigation }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const { viewer, scope } = connection;
   if (connection.status === "ready" && viewer && scope?.endsWith(`:${viewer}`))
@@ -84,16 +86,17 @@ export function InboxPreview({
     <Card navigator={navigator} close={close}>
       <p className={`text-body text-subtle ${styles.notice}`} role="status">
         {connection.status === "connecting"
-          ? "Connecting to your activity…"
+          ? t`Connecting to your activity…`
           : connection.denied
             ? // Its notice, on every page, offers what fixes it.
               communityRefusalTitle(connection.refusal)
-            : (connection.error ?? "Choose a community to see your activity.")}
+            : (connection.error ??
+              t`Choose a community to see your activity.`)}
       </p>
       {connection.status === "error" && !connection.denied && (
         <div className={styles.notice}>
           <Button size="sm" onClick={relay.tryAgain}>
-            Retry connection
+            {t`Retry connection`}
           </Button>
         </div>
       )}
@@ -111,6 +114,7 @@ function InboxPreviewCard({
   scope: NavigationScope;
   navigator: Navigation;
 }) {
+  const { t } = useLingui();
   const list = useChannelList(session.channels);
   const inbox = useSyncExternalStore(
     session.unread.subscribeInbox,
@@ -270,16 +274,20 @@ function InboxPreviewCard({
     else if (item.thread) threads++;
   }
   const kinds = [
-    mentions && `${mentions} ${mentions === 1 ? "mention" : "mentions"}`,
-    threads && `${threads} ${threads === 1 ? "thread" : "threads"}`,
-    dms && `${dms} ${dms === 1 ? "DM" : "DMs"}`,
+    mentions &&
+      (mentions === 1
+        ? t`${mentions} mention`
+        : t`${mentions} mentions`),
+    threads &&
+      (threads === 1 ? t`${threads} thread` : t`${threads} threads`),
+    dms && (dms === 1 ? t`${dms} DM` : t`${dms} DMs`),
   ].filter(Boolean);
   const summary = loading
-    ? "Checking recent activity…"
+    ? t`Checking recent activity…`
     : unread.length
-      ? [`${unread.length} unread`, ...kinds].join(" · ")
+      ? [t`${unread.length} unread`, ...kinds].join(" · ")
       : checked
-        ? "Nothing unread"
+        ? t`Nothing unread`
         : undefined;
   const open = (row: (typeof rows)[number]) => {
     const item =
@@ -313,12 +321,12 @@ function InboxPreviewCard({
         <div className={styles.notice} role="alert">
           <p className="text-body">{failure}</p>
           <Button ref={retryButton} size="sm" onClick={() => void retry()}>
-            Retry activity
+            {t`Retry activity`}
           </Button>
         </div>
       )}
       {rows.length ? (
-        <ul className={styles.list} aria-label="Recent activity">
+        <ul className={styles.list} aria-label={t`Recent activity`}>
           {rows.map((row) => {
             const item = row.item;
             return (
@@ -370,8 +378,8 @@ function InboxPreviewCard({
               frame="none"
               level={4}
               icon={<ChecksIcon />}
-              title="You're all caught up"
-              description="No unread mentions, direct messages, or thread replies."
+              title={t`You're all caught up`}
+              description={t`No unread mentions, direct messages, or thread replies.`}
               action={
                 recent.length || reactions.items.length ? (
                   <Button
@@ -379,7 +387,7 @@ function InboxPreviewCard({
                     variant="ghost"
                     onClick={() => setUnreadOnly(false)}
                   >
-                    Show recent activity
+                    {t`Show recent activity`}
                   </Button>
                 ) : undefined
               }
@@ -389,8 +397,8 @@ function InboxPreviewCard({
               frame="none"
               level={4}
               icon={<ChecksIcon />}
-              title="No recent activity"
-              description="Mentions, direct messages, thread replies, and reactions to your messages appear here."
+              title={t`No recent activity`}
+              description={t`Mentions, direct messages, thread replies, and reactions to your messages appear here.`}
             />
           )}
         </div>
@@ -416,24 +424,25 @@ function Card({
   unreadOnlyRef?: RefObject<HTMLElement | null>;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const switchId = useId();
   return (
     <div className={styles.card}>
       <header className={styles.header}>
         <div className={styles.headerCopy}>
-          <h2 className={`text-label ${styles.title}`}>Activity</h2>
+          <h2 className={`text-label ${styles.title}`}>{t`Activity`}</h2>
           <p
             className={`text-caption text-subtle ${styles.summary}`}
             role="status"
           >
-            {summary ?? " "}
+            {summary ?? " "}
           </p>
         </div>
         <div className={styles.toggle}>
           <Switch
             ref={unreadOnlyRef}
             id={switchId}
-            aria-label="Unread only"
+            aria-label={t`Unread only`}
             checked={!!unreadOnly}
             onCheckedChange={onUnreadOnlyChange}
             disabled={!onUnreadOnlyChange}
@@ -442,14 +451,14 @@ function Card({
             htmlFor={switchId}
             className={`text-caption ${onUnreadOnlyChange ? "text-subtle" : "text-disabled"}`}
           >
-            Unread only
+            {t`Unread only`}
           </label>
         </div>
       </header>
       <div className={styles.body}>{children}</div>
       <footer className={styles.footer}>
         <NavigationItem
-          label="Open Activity"
+          label={t`Open Activity`}
           trailing={<ArrowRightIcon size="1rem" aria-hidden="true" />}
           onClick={() => {
             close();

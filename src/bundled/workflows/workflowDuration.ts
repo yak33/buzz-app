@@ -1,4 +1,7 @@
 // Adapted from block/buzz desktop workflow helpers at b9392d9d.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
+
 const DURATION_PARTS_PATTERN =
   /^\s*(?:(\d+)\s*w)?\s*(?:(\d+)\s*d)?\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?\s*(?:(\d+)\s*s)?\s*$/i;
 
@@ -58,14 +61,28 @@ export function formatDurationSeconds(totalSeconds: number): string {
   return parts.join(" ");
 }
 
-function verboseUnit(value: number, unit: string): string {
-  return `${value} ${unit}${value === 1 ? "" : "s"}`;
+// 单复数拆成两个完整模板，避免在插值里拼接英文复数后缀。
+const VERBOSE_UNITS = {
+  week: { one: msg`week`, other: msg`weeks` },
+  day: { one: msg`day`, other: msg`days` },
+  hour: { one: msg`hour`, other: msg`hours` },
+  minute: { one: msg`minute`, other: msg`minutes` },
+  second: { one: msg`second`, other: msg`seconds` },
+} as const;
+
+function verboseUnit(
+  value: number,
+  unit: keyof typeof VERBOSE_UNITS,
+): string {
+  const { one, other } = VERBOSE_UNITS[unit];
+  const word = value === 1 ? i18n._(one) : i18n._(other);
+  return i18n._(msg`${value} ${word}`);
 }
 
 /** Format whole seconds with fully spelled-out units for summary UI. */
 export function formatDurationSecondsVerbose(totalSeconds: number): string {
   if (!Number.isSafeInteger(totalSeconds) || totalSeconds < 0) return "";
-  if (totalSeconds === 0) return "0 seconds";
+  if (totalSeconds === 0) return i18n._(msg`0 seconds`);
 
   const weeks = Math.floor(totalSeconds / SECONDS_PER_WEEK);
   const days = Math.floor((totalSeconds % SECONDS_PER_WEEK) / SECONDS_PER_DAY);

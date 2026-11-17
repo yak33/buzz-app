@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+// 错误文案在抛出时求值：本地化服务是全局单例（见 lingui.config.ts）。
+import { i18n } from "../localization/service";
 import { decode, npubEncode } from "nostr-tools/nip19";
 import { getPublicKey } from "nostr-tools/pure";
 
@@ -38,7 +41,9 @@ export async function readKeyFile(
 ): Promise<string> {
   if (file.size > KEY_FILE_MAX_BYTES)
     throw new Error(
-      "That file is too large to be a private key. Choose a small text file whose first line is an nsec1 key.",
+      i18n._(
+        msg`That file is too large to be a private key. Choose a small text file whose first line is an nsec1 key.`,
+      ),
     );
   const text = await file.text();
   return (

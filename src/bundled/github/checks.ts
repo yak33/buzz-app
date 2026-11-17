@@ -1,3 +1,7 @@
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
+
 type CheckCounts = Record<
   | "failing"
   | "cancelled"
@@ -251,8 +255,8 @@ function summarizeChecks(
         typeof name === "string" && name.trim()
           ? name
           : isRun
-            ? "Unnamed check"
-            : "Unnamed status",
+            ? i18n._(msg`Unnamed check`)
+            : i18n._(msg`Unnamed status`),
       category,
       label:
         category !== "unknown" &&

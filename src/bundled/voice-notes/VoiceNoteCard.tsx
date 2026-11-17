@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useMediaReadRecovery } from "../../features/messages/use-media-read-recovery";
 import { useMediaElementSource } from "../../features/messages/use-media-element-source";
 import { MediaDownloadAction } from "../../features/messages/MediaDownloadAction";
@@ -61,6 +62,7 @@ function Player({
   downloadSource: string;
   unavailable: boolean;
 }) {
+  const { t } = useLingui();
   const audio = useRef<HTMLAudioElement>(null);
   const active = useConversationPresentation();
   useEffect(() => {
@@ -179,7 +181,7 @@ function Player({
   }
   return (
     <fieldset className={styles.card}>
-      <legend className="sr-only">Voice note</legend>
+      <legend className="sr-only">{t`Voice note`}</legend>
       <span className={styles.play}>
         <IconButton
           type="button"
@@ -189,12 +191,12 @@ function Player({
           style={{ width: "100%", height: "100%", borderRadius: "inherit" }}
           aria-label={
             error
-              ? "Retry voice note"
+              ? t`Retry voice note`
               : loading
-                ? "Cancel loading voice note"
+                ? t`Cancel loading voice note`
                 : playing
-                  ? "Pause voice note"
-                  : "Play voice note"
+                  ? t`Pause voice note`
+                  : t`Play voice note`
           }
           onClick={() => void toggle()}
           icon={
@@ -231,7 +233,7 @@ function Player({
           <input
             className={styles.seek}
             type="range"
-            aria-label="Seek voice note"
+            aria-label={t`Seek voice note`}
             min={0}
             max={duration || 1}
             step={0.01}
@@ -260,7 +262,7 @@ function Player({
             size="xs"
             style={{ width: "100%" }}
             type="button"
-            aria-label={`Playback speed ${rate} times; change to ${nextVoiceNotePlaybackRate(rate)} times`}
+            aria-label={t`Playback speed ${rate} times; change to ${nextVoiceNotePlaybackRate(rate)} times`}
             onClick={() => {
               const next = nextVoiceNotePlaybackRate(rate);
               if (audio.current)
@@ -275,8 +277,8 @@ function Player({
       {(error || unavailable) && (
         <span className={styles.error} role="alert">
           {unavailable
-            ? "Audio unavailable"
-            : "Audio unavailable. Retry playback."}
+            ? t`Audio unavailable`
+            : t`Audio unavailable. Retry playback.`}
         </span>
       )}
       {downloadName !== undefined && !onRemove && (
@@ -284,7 +286,7 @@ function Player({
           <MediaDownloadAction
             source={downloadSource}
             name={downloadName}
-            kind="voice note"
+            kind={t`voice note`}
             compact
             savedDuration={10000}
           />
@@ -297,7 +299,7 @@ function Player({
             shape="round"
             variant="media"
             type="button"
-            aria-label="Remove voice note"
+            aria-label={t`Remove voice note`}
             onClick={onRemove}
             icon={<X size={16} aria-hidden="true" />}
           />

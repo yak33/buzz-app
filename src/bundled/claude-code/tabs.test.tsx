@@ -47,6 +47,7 @@ import { apply, inject } from "./index";
 import { type Config, DEFAULT_CONFIG } from "./runtime";
 import { ClaudeSetup } from "./setup";
 import { ClaudeAuth, KEY_ONCE } from "./auth";
+import { i18n } from "../../features/localization/service";
 import { ClaudeDefaults } from "./defaults";
 
 const desktop = vi.hoisted(() => ({ tauri: true }));
@@ -1024,7 +1025,7 @@ it("asks for an API key and is ready once one is saved", async () => {
   render(<Setup onClose={onClose} />);
   const user = userEvent.setup();
   // The key's form takes the dialog over, saying once is enough.
-  expect(await screen.findByText(KEY_ONCE)).toBeVisible();
+  expect(await screen.findByText(i18n._(KEY_ONCE))).toBeVisible();
   expect(
     screen.queryByText("Claude 2.1.292 needs an Anthropic API key."),
   ).toBeNull();
@@ -1055,7 +1056,7 @@ it("refreshes to find a setup made with the Claude CLI instead of a key", async 
   const Setup = providerSetup(type);
   render(<Setup onClose={vi.fn()} />);
   const user = userEvent.setup();
-  expect(await screen.findByText(KEY_ONCE)).toBeVisible();
+  expect(await screen.findByText(i18n._(KEY_ONCE))).toBeVisible();
   own.status = { loggedIn: true, apiProvider: "bedrock" };
   await user.click(screen.getByRole("button", { name: "Refresh" }));
   await waitFor(() =>
@@ -1073,7 +1074,7 @@ it("keeps keyboard focus on Refresh while a held check finds no setup", async ()
   const Setup = providerSetup(type);
   render(<Setup onClose={vi.fn()} />);
   const user = userEvent.setup();
-  expect(await screen.findByText(KEY_ONCE)).toBeVisible();
+  expect(await screen.findByText(i18n._(KEY_ONCE))).toBeVisible();
   let release!: () => void;
   own.held = new Promise((resolve) => {
     release = resolve;
@@ -1097,7 +1098,7 @@ it("keeps keyboard focus in the dialog when Refresh finds a setup", async () => 
   const Setup = providerSetup(type);
   render(<Setup onClose={vi.fn()} />);
   const user = userEvent.setup();
-  expect(await screen.findByText(KEY_ONCE)).toBeVisible();
+  expect(await screen.findByText(i18n._(KEY_ONCE))).toBeVisible();
   own.status = { loggedIn: true };
   const refresh = screen.getByRole("button", { name: "Refresh" });
   // Clicking focuses it, as a keyboard user's focus would be.
@@ -1886,7 +1887,7 @@ it("offers Set up Claude beside Harness when Claude is picked, then its models",
 
   await user.click(screen.getByRole("button", { name: "Add Claude API key" }));
   const dialog = await screen.findByRole("dialog", { name: "Set up Claude" });
-  expect(within(dialog).getByText(KEY_ONCE)).toBeVisible();
+  expect(within(dialog).getByText(i18n._(KEY_ONCE))).toBeVisible();
   expect(within(dialog).queryByRole("button", { name: "Sign in" })).toBeNull();
   await user.type(
     within(dialog).getByLabelText("Anthropic API key"),

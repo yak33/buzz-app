@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { AudioSettingsState } from "../../features/huddle/audio-settings";
 import { GearIcon } from "../../shared/design-system/icons";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
@@ -22,6 +23,7 @@ export function HuddleAudioSettings({
   refresh(): void;
   select(kind: "input" | "output", id: string): void;
 }) {
+  const { t } = useLingui();
   return (
     <PopoverRoot
       onOpenChange={(open) => {
@@ -34,8 +36,8 @@ export function HuddleAudioSettings({
             size={compact ? "toolbar" : "large"}
             shape={compact ? "control" : "round"}
             variant={compact || quiet ? "ghost" : "subtle"}
-            aria-label="Audio settings"
-            title="Audio settings"
+            aria-label={t`Audio settings`}
+            title={t`Audio settings`}
             icon={
               <GearIcon
                 size={compact ? 16 : 22}
@@ -47,7 +49,7 @@ export function HuddleAudioSettings({
       />
       <PopoverPopup align="start" size="compact">
         <div className="flex flex-col gap-3">
-          <PopoverTitle>Audio settings</PopoverTitle>
+          <PopoverTitle>{t`Audio settings`}</PopoverTitle>
           {state ? (
             <>
               {(["input", "output"] as const).map((kind) => {
@@ -58,21 +60,21 @@ export function HuddleAudioSettings({
                 return (
                   <Select
                     key={kind}
-                    label={kind === "input" ? "Microphone" : "Speakers"}
+                    label={kind === "input" ? t`Microphone` : t`Speakers`}
                     variant="field"
                     value={selected}
                     readOnly={state.busy}
                     disabled={kind === "output" && !state.outputSupported}
                     description={
                       kind === "output" && !state.outputSupported
-                        ? "Uses your system’s selected speakers."
+                        ? t`Uses your system’s selected speakers.`
                         : undefined
                     }
                     groups={[
                       {
                         label: "",
                         options: [
-                          { value: "", label: "System default" },
+                          { value: "", label: t`System default` },
                           ...devices.map((device) => ({
                             value: device.id,
                             label: device.label,
@@ -81,7 +83,7 @@ export function HuddleAudioSettings({
                             ? [
                                 {
                                   value: selected,
-                                  label: "Unavailable device",
+                                  label: t`Unavailable device`,
                                   disabled: true,
                                 },
                               ]
@@ -95,7 +97,7 @@ export function HuddleAudioSettings({
               })}
               {state.busy && (
                 <p role="status" className="text-caption text-secondary">
-                  Switching device…
+                  {t`Switching device…`}
                 </p>
               )}
               {state.error && (
@@ -106,7 +108,7 @@ export function HuddleAudioSettings({
             </>
           ) : (
             <p role="status" className="text-body-sm text-secondary">
-              Audio settings aren’t available for this call.
+              {t`Audio settings aren’t available for this call.`}
             </p>
           )}
         </div>

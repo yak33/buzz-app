@@ -1,3 +1,7 @@
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：模块级辅助函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import {
   CaretDownIcon,
@@ -75,7 +79,9 @@ function Row({
 
 const names = (people: readonly string[]) =>
   people.length > 3
-    ? `${people.slice(0, 2).join(", ")} and ${people.length - 2} more`
+    ? i18n._(
+        msg`${people.slice(0, 2).join(", ")} and ${people.length - 2} more`,
+      )
     : people.join(", ");
 
 function ChecksRow({
@@ -87,6 +93,7 @@ function ChecksRow({
   url: string;
   action?: ReactNode;
 }) {
+  const { t } = useLingui();
   const count = (category: string) =>
     checks.checks?.filter((check) => check.category === category).length ?? 0;
   const failing =
@@ -104,21 +111,21 @@ function ChecksRow({
           ? "pending"
           : "neutral";
   const parts = [
-    running && `${running} running`,
-    passed && `${passed} passed`,
-    count("skipped") && `${count("skipped")} skipped`,
+    running && t`${running} running`,
+    passed && t`${passed} passed`,
+    count("skipped") && t`${count("skipped")} skipped`,
   ].filter(Boolean);
   const [expanded, setExpanded] = useState(false);
   const detailsId = useId();
   return (
     <Row
       tone={tone}
-      label="Checks"
+      label={t`Checks`}
       action={action}
       details={
         expanded && failing.length > 0 ? (
           <div id={detailsId} className={styles.checklistDetails}>
-            <ul aria-label="Failed checks">
+            <ul aria-label={t`Failed checks`}>
               {failing.map((check) => (
                 <li key={check.key}>
                   {check.url ? (
@@ -143,16 +150,16 @@ function ChecksRow({
               target="_blank"
               rel="noreferrer"
             >
-              View all checks
+              {t`View all checks`}
             </a>
           </div>
         ) : undefined
       }
     >
       {checks.state === "unavailable" && !failing.length ? (
-        "Couldn’t read every check"
+        t`Couldn’t read every check`
       ) : !checks.checks?.length ? (
-        "No checks"
+        t`No checks`
       ) : failing.length ? (
         <Button
           variant="plain"
@@ -161,7 +168,7 @@ function ChecksRow({
           aria-controls={expanded ? detailsId : undefined}
           onClick={() => setExpanded(!expanded)}
         >
-          {[`${failing.length} failed`, ...parts].join(" · ")}
+          {[t`${failing.length} failed`, ...parts].join(" · ")}
           {expanded ? (
             <CaretDownIcon size={14} />
           ) : (
@@ -169,7 +176,11 @@ function ChecksRow({
           )}
         </Button>
       ) : !running && passed ? (
-        `All ${passed} passed${count("skipped") ? ` · ${count("skipped")} skipped` : ""}`
+        count("skipped") ? (
+          t`All ${passed} passed · ${count("skipped")} skipped`
+        ) : (
+          t`All ${passed} passed`
+        )
       ) : (
         parts.join(" · ")
       )}
@@ -178,67 +189,100 @@ function ChecksRow({
 }
 
 function ReviewRow({ review }: { review: Checklist["review"] }) {
+  const { t } = useLingui();
   if (review.decision === "CHANGES_REQUESTED")
     return (
-      <Row tone="failure" label="Review">
-        Changes requested by {names(review.changes)}
+      <Row tone="failure" label={t`Review`}>
+        {t`Changes requested by ${names(review.changes)}`}
       </Row>
     );
   // GitHub's decision comes first: an approval can still leave a required
   // review (a code owner, or a second approver) outstanding.
   if (review.decision === "REVIEW_REQUIRED")
     return (
-      <Row tone="pending" label="Review">
-        Required
-        {!!review.approved.length && ` · approved by ${names(review.approved)}`}
-        {!!review.waiting.length && ` · waiting on ${names(review.waiting)}`}
+      <Row tone="pending" label={t`Review`}>
+        {t`Required`}
+        {!!review.approved.length &&
+          t` · approved by ${names(review.approved)}`}
+        {!!review.waiting.length && t` · waiting on ${names(review.waiting)}`}
       </Row>
     );
   if (review.decision === "APPROVED" || review.approved.length)
     return (
-      <Row tone="success" label="Review">
-        Approved by {names(review.approved)}
+      <Row tone="success" label={t`Review`}>
+        {t`Approved by ${names(review.approved)}`}
       </Row>
     );
   return (
-    <Row tone="neutral" label="Review">
+    <Row tone="neutral" label={t`Review`}>
       {review.waiting.length
-        ? `Waiting on ${names(review.waiting)}`
-        : "Not required"}
+        ? t`Waiting on ${names(review.waiting)}`
+        : t`Not required`}
     </Row>
   );
 }
 
 function MergeRow({ pull, action }: { pull: Checklist; action?: ReactNode }) {
+  const { t } = useLingui();
   const base = <span className={styles.branchLabel}>{pull.base}</span>;
   const [tone, text]: [Tone, ReactNode] = (() => {
-    if (pull.queued) return ["pending", <>Queued for merge into {base}</>];
+    if (pull.queued)
+      return [
+        "pending",
+        <>
+          {t`Queued for merge into`} {base}
+        </>,
+      ];
     switch (pull.merge) {
       case "CLEAN":
       case "HAS_HOOKS":
-        return ["success", <>Ready to merge into {base}</>];
+        return [
+          "success",
+          <>
+            {t`Ready to merge into`} {base}
+          </>,
+        ];
       case "UNSTABLE":
-        return ["success", <>Can merge into {base}; optional checks failed</>];
+        return [
+          "success",
+          <>
+            {t`Can merge into`} {base}
+            {t`; optional checks failed`}
+          </>,
+        ];
       case "BLOCKED":
         return [
           "pending",
           <>
-            Blocked by {base}’s rules
-            {pull.canBypass && !pull.queueRequired && " · you can bypass them"}
+            {t`Blocked by`} {base}
+            {t`’s rules`}
+            {pull.canBypass &&
+              !pull.queueRequired &&
+              t` · you can bypass them`}
           </>,
         ];
       case "BEHIND":
-        return ["pending", <>Behind {base}</>];
+        return [
+          "pending",
+          <>
+            {t`Behind`} {base}
+          </>,
+        ];
       case "DIRTY":
-        return ["failure", <>Conflicts with {base}</>];
+        return [
+          "failure",
+          <>
+            {t`Conflicts with`} {base}
+          </>,
+        ];
       case "DRAFT":
-        return ["neutral", "Draft, so it can’t merge yet"];
+        return ["neutral", t`Draft, so it can’t merge yet`];
       default:
-        return ["neutral", "GitHub is still checking"];
+        return ["neutral", t`GitHub is still checking`];
     }
   })();
   return (
-    <Row tone={tone} label="Merge" action={action}>
+    <Row tone={tone} label={t`Merge`} action={action}>
       {text}
     </Row>
   );
@@ -277,6 +321,7 @@ function Actions({
   gh: GitHubCli;
   refresh(): Promise<void>;
 }) {
+  const { i18n, t } = useLingui();
   const [busy, setBusy] = useState<PullAction["type"]>();
   const [error, setError] = useState<string>();
   // What the merge was confirmed against. A refresh that brings a newer push,
@@ -334,6 +379,12 @@ function Actions({
       : undefined;
   // Forgotten during render, so changing back does not reopen it.
   if (asked && !confirming) setConfirming(undefined);
+  // 先求标签再套模板：t`` 插值里不能嵌套 i18n._。
+  const confirmAction = confirming
+    ? confirming.queue
+      ? t`Queue for merge`
+      : i18n._(mergeLabels[confirming.method])
+    : undefined;
   const canAutoMerge =
     !pull.queueRequired &&
     !pull.queued &&
@@ -349,7 +400,7 @@ function Actions({
     ...(merge.now
       ? others.map((method) => (
           <MenuItem key={method} onClick={() => confirm(method)}>
-            {mergeLabels[method]}
+            {i18n._(mergeLabels[method])}
           </MenuItem>
         ))
       : []),
@@ -361,7 +412,7 @@ function Actions({
               void run({ type: "auto-merge", method: pull.method })
             }
           >
-            Merge automatically when ready
+            {t`Merge automatically when ready`}
           </MenuItem>,
         ]
       : []),
@@ -369,7 +420,7 @@ function Actions({
       ? [
           ...(merge.now || canAutoMerge ? [<MenuSeparator key="split" />] : []),
           <MenuItem key="draft" onClick={() => void run({ type: "draft" })}>
-            Convert to draft
+            {t`Convert to draft`}
           </MenuItem>,
         ]
       : []),
@@ -385,16 +436,16 @@ function Actions({
             disabled={!!busy}
             onClick={() => void run({ type: "ready" })}
           >
-            Ready for review
+            {t`Ready for review`}
           </Button>
         )}
         {pull.queued ? (
-          <span className={styles.pullActionNote}>Queued for merge</span>
+          <span className={styles.pullActionNote}>{t`Queued for merge`}</span>
         ) : pull.autoMerge ? (
           <>
             <span className={styles.pullActionNote}>
-              Merges automatically when ready
-              {pull.autoMerge.by && ` · set by ${pull.autoMerge.by}`}
+              {t`Merges automatically when ready`}
+              {pull.autoMerge.by && t` · set by ${pull.autoMerge.by}`}
             </span>
             {pull.canDisableAutoMerge && (
               <Button
@@ -403,7 +454,7 @@ function Actions({
                 disabled={!!busy}
                 onClick={() => void run({ type: "cancel-auto-merge" })}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
             )}
           </>
@@ -414,7 +465,9 @@ function Actions({
             disabled={!!busy}
             onClick={() => confirm(pull.method)}
           >
-            {pull.queueRequired ? "Queue for merge" : mergeLabels[pull.method]}
+            {pull.queueRequired
+              ? t`Queue for merge`
+              : i18n._(mergeLabels[pull.method])}
           </Button>
         ) : (
           canAutoMerge && (
@@ -427,7 +480,7 @@ function Actions({
                 void run({ type: "auto-merge", method: pull.method })
               }
             >
-              Merge when ready
+              {t`Merge when ready`}
             </Button>
           )
         )}
@@ -438,7 +491,7 @@ function Actions({
             disabled={!!busy}
             onClick={() => void run({ type: "update-branch" })}
           >
-            Update branch
+            {t`Update branch`}
           </Button>
         )}
         {!!menu.length && (
@@ -446,7 +499,7 @@ function Actions({
             <MenuTrigger
               render={
                 <IconButton
-                  aria-label="More pull request actions"
+                  aria-label={t`More pull request actions`}
                   size="sm"
                   icon={<DotsThreeIcon />}
                   disabled={!!busy}
@@ -464,13 +517,13 @@ function Actions({
       )}
       {confirming && (
         <AlertDialog
-          title={`${confirming.queue ? "Queue for merge" : mergeLabels[confirming.method]} #${number}?`}
+          title={t`${confirmAction} #${number}?`}
           description={
             confirming.queue
-              ? `${title}, into ${pull.base} at the commit shown here. GitHub will merge it through the queue once the required checks pass.`
+              ? t`${title}, into ${pull.base} at the commit shown here. GitHub will merge it through the queue once the required checks pass.`
               : confirming.bypass
-                ? `${title}. This bypasses ${pull.base}’s branch rules, which haven’t all passed.`
-                : `${title}, into ${pull.base} at the commit shown here.`
+                ? t`${title}. This bypasses ${pull.base}’s branch rules, which haven’t all passed.`
+                : t`${title}, into ${pull.base} at the commit shown here.`
           }
           pending={busy === "merge" || busy === "enqueue"}
           onClose={() => {
@@ -486,7 +539,7 @@ function Actions({
                   setError(undefined);
                 }}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant={confirming.bypass ? "attention" : "prominent"}
@@ -500,7 +553,7 @@ function Actions({
                   )
                 }
               >
-                {confirming.queue ? "Queue for merge" : "Merge"}
+                {confirming.queue ? t`Queue for merge` : t`Merge`}
               </Button>
             </>
           }
@@ -533,30 +586,31 @@ export function PullChecklist({
   refresh(): Promise<void>;
   resolveAction?: ((action: "failures" | "conflicts") => ReactNode) | undefined;
 }) {
+  const { t } = useLingui();
   if (checklist.state === "merged" || checklist.state === "closed")
     return (
-      <ul className={styles.checklist} aria-label="Pull request state">
+      <ul className={styles.checklist} aria-label={t`Pull request state`}>
         {checklist.state === "merged" ? (
           <li className={styles.checklistRow} data-tone="merged">
             <GitMergeIcon size={16} aria-hidden="true" />
             <span className={styles.checklistValue}>
-              Merged into{" "}
+              {t`Merged into`}{" "}
               <span className={styles.branchLabel}>{checklist.base}</span>
-              {details.mergedBy && ` by ${details.mergedBy}`}
+              {details.mergedBy && t` by ${details.mergedBy}`}
               {details.mergedAt &&
-                ` ${relativeTimestamp(Date.parse(details.mergedAt) / 1000)}`}
+                t` ${relativeTimestamp(Date.parse(details.mergedAt) / 1000)}`}
             </span>
           </li>
         ) : (
-          <Row tone="neutral" label="Closed">
-            Without merging
+          <Row tone="neutral" label={t`Closed`}>
+            {t`Without merging`}
           </Row>
         )}
       </ul>
     );
   return (
     <>
-      <ul className={styles.checklist} aria-label="Pull request checklist">
+      <ul className={styles.checklist} aria-label={t`Pull request checklist`}>
         <ChecksRow
           checks={checklist.checks}
           url={url}
@@ -576,7 +630,7 @@ export function PullChecklist({
               ? "pending"
               : "success"
           }
-          label="Threads"
+          label={t`Threads`}
         >
           {checklist.unresolved || checklist.moreThreads ? (
             <a
@@ -586,11 +640,11 @@ export function PullChecklist({
               rel="noreferrer"
             >
               {checklist.moreThreads
-                ? `${checklist.unresolved} unresolved in the latest 100`
-                : `${checklist.unresolved} unresolved`}
+                ? t`${checklist.unresolved} unresolved in the latest 100`
+                : t`${checklist.unresolved} unresolved`}
             </a>
           ) : (
-            "None unresolved"
+            t`None unresolved`
           )}
         </Row>
         <MergeRow
@@ -624,13 +678,14 @@ export function PublicChecklist({
   sha: string | undefined;
   checks: CheckSummary | undefined;
 }) {
+  const { t } = useLingui();
   return (
-    <ul className={styles.checklist} aria-label="Pull request checklist">
+    <ul className={styles.checklist} aria-label={t`Pull request checklist`}>
       {checks ? (
         <ChecksRow checks={checks} url={url} />
       ) : (
-        <Row tone="neutral" label="Checks">
-          {sha ? "Loading…" : "Unavailable"}
+        <Row tone="neutral" label={t`Checks`}>
+          {sha ? t`Loading…` : t`Unavailable`}
         </Row>
       )}
     </ul>

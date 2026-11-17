@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState } from "react";
 import type { AgentViewProps } from "../../features/agents/service";
 import { ActivityTranscript } from "../../features/agents/ActivityTranscript";
@@ -18,6 +19,7 @@ export function createMeshTranscriptTab(
     agent,
     conversation,
   }: AgentViewProps<MeshAgentConfig>) {
+    const { t } = useLingui();
     const workspace = meshAgentConfig(agent.config).workspace;
     const [rows, setRows] = useState<MeshHistoryRow[]>();
     const [selected, setSelected] = useState("");
@@ -88,21 +90,21 @@ export function createMeshTranscriptTab(
             loading={loading}
             onClick={() => setAttempt((value) => value + 1)}
           >
-            Refresh
+            {t`Refresh`}
           </Button>
         </div>
         {rows && rows.length > 0 && (
           <Select
-            label="Session"
+            label={t`Session`}
             variant="field"
             value={selected}
             onValueChange={setSelected}
             groups={[
               {
-                label: "Recent sessions",
+                label: t`Recent sessions`,
                 options: rows.map((row) => ({
                   value: row.sessionId,
-                  label: `${new Date(row.at).toLocaleString()} · ${row.root ? "Thread" : "Channel"} ${row.channelId.slice(0, 8)}`,
+                  label: `${new Date(row.at).toLocaleString()} · ${row.root ? t`Thread` : t`Channel`} ${row.channelId.slice(0, 8)}`,
                 })),
               },
             ]}
@@ -110,17 +112,15 @@ export function createMeshTranscriptTab(
         )}
         {error ? (
           <p role="alert" className="m-0 text-body-sm">
-            Could not read the transcript: {error}. Try Refresh.
+            {t`Could not read the transcript: ${error}. Try Refresh.`}
           </p>
         ) : loading ? (
           <p role="status" className="m-0 text-body-sm text-subtle">
-            Reading saved Mesh sessions…
+            {t`Reading saved Mesh sessions…`}
           </p>
         ) : rows?.length === 0 ? (
           <p className="m-0 text-body-sm text-subtle">
-            No matching Mesh sessions in recent history for this workspace. Chat
-            mode has no tool transcript. Sessions from older builds may not be
-            listed.
+            {t`No matching Mesh sessions in recent history for this workspace. Chat mode has no tool transcript. Sessions from older builds may not be listed.`}
           </p>
         ) : (
           transcript && (
@@ -130,8 +130,8 @@ export function createMeshTranscriptTab(
               state={() => "unknown"}
               before={
                 <p className="m-0 text-body-sm text-subtle">
-                  Saved snapshot; Refresh to see newer activity.
-                  {transcript.more ? " Showing the latest 50 turns." : ""}
+                  {t`Saved snapshot; Refresh to see newer activity.`}
+                  {transcript.more ? t` Showing the latest 50 turns.` : ""}
                 </p>
               }
             />

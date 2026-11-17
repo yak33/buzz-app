@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useState } from "react";
 import {
   CheckCircleIcon,
@@ -86,21 +87,22 @@ export function CommunityAddressField({
   refusal?: string | undefined;
   inputRef?: Ref<HTMLInputElement>;
 }) {
+  const { t } = useLingui();
   const suffixId = useId();
   const { name, enabled, valid, available, failed } = address;
   return (
     <>
       <Field
-        label="Community address"
+        label={t`Community address`}
         labelVisibility="hidden"
         invalid={Boolean(name) && !valid}
         error={
           name && !valid ? (
-            "Use lowercase letters, numbers, and single hyphens."
+            t`Use lowercase letters, numbers, and single hyphens.`
           ) : available === false ? (
             <span className="inline-flex items-center gap-1.5">
               <XCircleIcon size={16} aria-hidden="true" />
-              That address is already taken.
+              {t`That address is already taken.`}
             </span>
           ) : undefined
         }
@@ -136,7 +138,7 @@ export function CommunityAddressField({
         <div role="alert" className="text-body-sm">
           <p className="error m-0 break-words">{failed}</p>
           <div className="mt-2">
-            <Button onClick={address.retry}>Check again</Button>
+            <Button onClick={address.retry}>{t`Check again`}</Button>
           </div>
         </div>
       ) : (
@@ -150,11 +152,11 @@ export function CommunityAddressField({
         >
           {valid && enabled ? (
             available === null ? (
-              "Checking availability…"
+              t`Checking availability…`
             ) : available ? (
               <>
                 <CheckCircleIcon size={16} aria-hidden="true" />
-                That address is available.
+                {t`That address is available.`}
               </>
             ) : null
           ) : null}

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { activityTranscript } from "../../features/agents/activity-transcript";
 import { useRecordedActivityAgents } from "../../features/conversation/typing-presentation";
 import { useToastNotification } from "../../shared/design-system/ui/Toast";
@@ -109,6 +111,7 @@ function MessageActivity(
   props: ActivityProps & { stoppedAgent?: string; threadScoped?: boolean },
 ) {
   const { session, channelId, message, canOpen, stoppedAgent } = props;
+  const { t } = useLingui();
   const messageId = message?.id;
   const recorded = useRecordedActivityAgents(session, channelId, messageId);
   // Every row mounts this; only rows with work subscribe to each activity
@@ -165,11 +168,11 @@ function MessageActivity(
       profiles.get(key)?.name ??
         choices.identities.find((row) => row.pubkey === key)?.name ??
         suffixes.get(key) ??
-        "Agent",
+        t`Agent`,
     ),
   );
   const named = (agent: string) => {
-    const name = names[keys.indexOf(agent)] ?? "Agent";
+    const name = names[keys.indexOf(agent)] ?? t`Agent`;
     return names.filter((value) => value === name).length > 1
       ? `${name} · ${suffixes.get(agent)}`
       : name;
@@ -303,7 +306,7 @@ function MessageActivity(
       data-arrive="grow"
       data-leaving={shown.length ? undefined : ""}
       data-buzz-ui=""
-      aria-label="Agent activity on this message"
+      aria-label={t`Agent activity on this message`}
       aria-hidden={shown.length ? undefined : true}
     >
       <AgentResponsePreview
@@ -375,6 +378,7 @@ function ActivityBubble({
   compact?: boolean;
   onRetried: () => void;
 }) {
+  const { i18n, t } = useLingui();
   const [expanded, setExpanded] = useState(false);
   useLayoutEffect(() => {
     if (entries.length === 1 && !compact) setExpanded(false);
@@ -412,10 +416,8 @@ function ActivityBubble({
       // Retry replaces the compact failure trigger with the active work row.
       queueMicrotask(onRetried);
     } catch (error) {
-      notify(
-        `Couldn’t retry ${entry.name}. ${error instanceof Error ? error.message : String(error)}`,
-        "error",
-      );
+      const reason = error instanceof Error ? error.message : String(error);
+      notify(i18n._(msg`Couldn’t retry ${entry.name}. ${reason}`), "error");
     }
   };
   const trigger = useRef<HTMLButtonElement>(null);
@@ -508,12 +510,12 @@ function ActivityBubble({
           ...(entry.step ? { step: entry.step } : {}),
         })
       : entry.state === "error"
-        ? "failed"
+        ? t`failed`
         : entry.state === "stopped"
-          ? "Stopped"
+          ? t`Stopped`
           : entry.working
-            ? "working"
-            : "status unknown";
+            ? t`working`
+            : t`status unknown`;
   const failedEntries = entries.filter((entry) => entry.state === "error");
   const otherEntries = entries.filter(
     (entry) => !failedEntries.includes(entry),
@@ -576,7 +578,9 @@ function ActivityBubble({
           )}
           <WarningCircleIcon size={12} aria-hidden="true" />
           <span>
-            {failedCount === 1 ? "Couldn’t finish" : `${failedCount} failed`}
+            {failedCount === 1
+              ? t`Couldn’t finish`
+              : t`${failedCount} failed`}
           </span>
         </span>
       )}
@@ -591,7 +595,7 @@ function ActivityBubble({
       <Button
         size="sm"
         variant="plain"
-        aria-label={`Stop ${entry.name}`}
+        aria-label={t`Stop ${entry.name}`}
         loading={stopping}
         tabIndex={interactive ? undefined : -1}
         onClick={(event) => {
@@ -606,7 +610,7 @@ function ActivityBubble({
         }}
       >
         <OctagonIcon className={styles.stopIcon} aria-hidden="true" />
-        <span>Stop</span>
+        <span>{t`Stop`}</span>
       </Button>
     );
   };
@@ -641,7 +645,7 @@ function ActivityBubble({
             <NavigationCard>
               <NavigationItem
                 variant="option"
-                aria-label={`View activity for ${entry.name}`}
+                aria-label={t`View activity for ${entry.name}`}
                 disabled={!target || !props.canOpen(target)}
                 onClick={() => {
                   if (
@@ -668,16 +672,16 @@ function ActivityBubble({
                     <ShimmerText
                       active={stopping || entry.working || starting(entry)}
                     >
-                      {(stopping ? "Stopping…" : undefined) ??
+                      {(stopping ? t`Stopping…` : undefined) ??
                         (compact
-                          ? "View activity"
+                          ? t`View activity`
                           : entry.lifecycle || entry.state === "error"
                             ? label(entry)
                             : !entry.working
-                              ? "Activity interrupted or out of date"
+                              ? t`Activity interrupted or out of date`
                               : (preview?.title ??
                                 entry.remoteStatus ??
-                                "Waiting for activity details"))}
+                                t`Waiting for activity details`))}
                     </ShimmerText>
                     {preview?.detail && (
                       <span className={styles.detail}>
@@ -695,19 +699,19 @@ function ActivityBubble({
                     <Button
                       size="sm"
                       variant="subtle"
-                      aria-label={`Retry ${entry.name}`}
+                      aria-label={t`Retry ${entry.name}`}
                       onClick={(event) => {
                         event.stopPropagation();
                         retry(entry);
                       }}
                     >
-                      Retry
+                      {t`Retry`}
                     </Button>
                   )}
                   <IconButton
                     size="sm"
                     variant="ghost"
-                    aria-label={`Dismiss error from ${entry.name}`}
+                    aria-label={t`Dismiss error from ${entry.name}`}
                     icon={<XIcon />}
                     onClick={(event) => {
                       event.stopPropagation();
@@ -731,6 +735,9 @@ function ActivityBubble({
       })}
     </div>
   );
+  const historySummary = entries
+    .map((entry) => `${entry.name}, ${label(entry)}`)
+    .join("; ");
   if (compact)
     return (
       <ActivityDisclosure
@@ -739,7 +746,11 @@ function ActivityBubble({
         trigger={trigger}
         container={popup}
         interactive={interactive}
-        label={`${expanded ? "Collapse" : "Show"} activity history: ${entries.map((entry) => `${entry.name}, ${label(entry)}`).join("; ")}`}
+        label={
+          expanded
+            ? t`Collapse activity history: ${historySummary}`
+            : t`Show activity history: ${historySummary}`
+        }
         summary={content}
         expandedSummary={content}
       >
@@ -789,7 +800,7 @@ function ActivityBubble({
               {singleControl ? (
                 <span className={styles.overlayContent}>
                   {singleStopping ? (
-                    <ShimmerText active>Stopping…</ShimmerText>
+                    <ShimmerText active>{t`Stopping…`}</ShimmerText>
                   ) : (
                     content
                   )}
@@ -817,7 +828,7 @@ function ActivityBubble({
         }
         side="top"
         padding="list"
-        aria-label="Agent activity"
+        aria-label={t`Agent activity`}
       >
         {expanded && details}
       </PopoverPopup>

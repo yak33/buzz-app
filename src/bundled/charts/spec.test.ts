@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import { describe, expect, it } from "vitest";
+import { i18n } from "../../features/localization/service";
 import {
   type ChartSpec,
   chartHeight,
@@ -304,13 +306,23 @@ describe("series colors", () => {
   it("folds series past the third into Other, summing bars and lines per x", () => {
     const names = ["a", "b", "c", "d", "e"];
     const lines = series("line", names);
-    expect(lines.map((s) => s.name)).toEqual(["a", "b", "c", "Other"]);
+    expect(lines.map((s) => s.name)).toEqual([
+      "a",
+      "b",
+      "c",
+      i18n._(msg`Other`),
+    ]);
     expect(lines[3]?.data).toEqual([
       [1, 4 + 5],
       [2, 40 + 50],
     ]);
     const bars = series("bar", names);
-    expect(bars.map((s) => s.name)).toEqual(["a", "b", "c", "Other"]);
+    expect(bars.map((s) => s.name)).toEqual([
+      "a",
+      "b",
+      "c",
+      i18n._(msg`Other`),
+    ]);
     expect(bars[3]?.data).toEqual([
       { value: 9, label: { position: "right" } },
       { value: 90, label: { position: "right" } },
@@ -339,7 +351,12 @@ describe("series colors", () => {
 
   it("relabels scatter points without summing them", () => {
     const scatter = series("scatter", ["a", "b", "c", "d", "e"]);
-    expect(scatter.map((s) => s.name)).toEqual(["a", "b", "c", "Other"]);
+    expect(scatter.map((s) => s.name)).toEqual([
+      "a",
+      "b",
+      "c",
+      i18n._(msg`Other`),
+    ]);
     expect(scatter[3]?.data).toEqual([
       [1, 4],
       [2, 40],
@@ -897,7 +914,7 @@ describe("data tables", () => {
     expect(chartTables(validateChart(echart))).toEqual([
       {
         caption: "2026",
-        columns: ["Label", "Value"],
+        columns: [i18n._(msg`Label`), i18n._(msg`Value`)],
         rows: [
           ["A", "1"],
           ["B", "2"],
@@ -1071,7 +1088,10 @@ describe("data tables", () => {
       },
       series: [{ type: "pie" }],
     });
-    expect(headerless?.columns).toEqual(["Column 1", "Column 2"]);
+    expect(headerless?.columns).toEqual([
+      i18n._(msg`Column 1`),
+      i18n._(msg`Column 2`),
+    ]);
     expect(headerless?.rows).toHaveLength(2);
   });
 });

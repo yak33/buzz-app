@@ -1,3 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
+// 全局单例供 apply 闭包与模块级 shareStatus 使用（先例 src/shared/datetime.ts）。
+import { i18n as globalI18n } from "../../features/localization/service";
 import { pubkeyOf } from "../../features/agents/membership";
 import { ownerReads } from "../../features/agents/reads";
 import { MeshGoose } from "./meshGoose";
@@ -107,7 +111,8 @@ export const apply: PluginModule["apply"] = (ctx) => {
   // promise: retry the current community once, then surface the real error.
   const currentLease = async () => {
     const selected = lease;
-    if (!selected) throw new Error("Connect to a community first");
+    if (!selected)
+      throw new Error(globalI18n._(msg`Connect to a community first`));
     try {
       return { selected, id: await selected };
     } catch (error) {
@@ -176,12 +181,19 @@ export const apply: PluginModule["apply"] = (ctx) => {
     ) => {
       const snapshot = agents.relay(agent)?.snapshot();
       if (snapshot?.status !== "ready")
-        throw new Error("Buzz is not connected to this community");
+        throw new Error(
+          globalI18n._(msg`Buzz is not connected to this community`),
+        );
       const source = ownerReads(agents.relay(agent), pubkeyOf(agent));
-      if (!source) throw new Error("Buzz is not connected to this community");
+      if (!source)
+        throw new Error(
+          globalI18n._(msg`Buzz is not connected to this community`),
+        );
       const listing = await memoryReads.read(source, agent, signal, slug);
       if (agents.relay(agent)?.snapshot() !== snapshot)
-        throw new Error("Community changed during memory read");
+        throw new Error(
+          globalI18n._(msg`Community changed during memory read`),
+        );
       return listing;
     };
     const inline = new MeshGoose({
@@ -245,19 +257,20 @@ export const apply: PluginModule["apply"] = (ctx) => {
     ctx.effect(() => () => runtime.dispose());
     agents.register<MeshAgentConfig>({
       id: "mesh",
-      title: "Shared Compute",
-      description:
-        "Runs on this community's shared compute: plain chat, or goose with shell, file and Buzz tools.",
+      title: globalI18n._(msg`Shared Compute`),
+      description: globalI18n._(
+        msg`Runs on this community's shared compute: plain chat, or goose with shell, file and Buzz tools.`,
+      ),
       defaults: () => ({ config: DEFAULT_MESH_AGENT_CONFIG }),
-      summary: () => "Shared compute",
+      summary: () => globalI18n._(msg`Shared compute`),
       Create: ({ disabled }) => (
         <CommunityComputePage setupOnly disabled={disabled} />
       ),
       tabs: [
-        { id: "prompt", title: "Settings", component: MeshAgentTab },
+        { id: "prompt", title: globalI18n._(msg`Settings`), component: MeshAgentTab },
         {
           id: "transcript",
-          title: "Transcripts",
+          title: globalI18n._(msg`Transcripts`),
           component: createMeshTranscriptTab(inline),
         },
       ],
@@ -277,18 +290,22 @@ export const apply: PluginModule["apply"] = (ctx) => {
     setupOnly?: boolean;
     disabled?: boolean;
   }) {
+    const { i18n, t } = useLingui();
     const snapshot = useSyncExternalStore(
       ctx.relay.subscribe,
       ctx.relay.snapshot,
     );
     const [status, setStatus] = useState<MeshStatus | null>(null);
     const [error, setError] = useState<string | null>(null);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果不需随语言重建。
     useEffect(() => {
       let active = true;
       if (isTauri() && status?.sharing)
         void openWidget().catch((reason) => {
           if (active && !disposed)
-            setError(`Couldn’t open activity widget: ${String(reason)}`);
+            setError(
+              i18n._(msg`Couldn’t open activity widget: ${String(reason)}`),
+            );
         });
       return () => {
         active = false;
@@ -396,9 +413,10 @@ export const apply: PluginModule["apply"] = (ctx) => {
       setError(null);
       try {
         const { selected, id } = await currentLease();
-        if (!id) throw new Error("Mesh native runtime is unavailable");
+        if (!id)
+          throw new Error(i18n._(msg`Mesh native runtime is unavailable`));
         if (disposed || selected !== lease)
-          throw new Error("Community changed");
+          throw new Error(i18n._(msg`Community changed`));
         await invoke("mesh_compute_share", {
           lease: id,
           model: null,
@@ -459,16 +477,18 @@ export const apply: PluginModule["apply"] = (ctx) => {
           if (!disposed && snapshot === ctx.relay.snapshot()) setStatus(result);
           return;
         }
-        if (!id) throw new Error("Mesh native runtime is unavailable");
+        if (!id) throw new Error(i18n._(msg`Mesh native runtime is unavailable`));
         if (!current() || selected !== lease)
-          throw new Error("Community changed");
+          throw new Error(i18n._(msg`Community changed`));
         if (startAuto) {
           const latest = await invoke<MeshStatus>("mesh_compute_status");
           if (!current() || selected !== lease)
-            throw new Error("Community changed");
+            throw new Error(i18n._(msg`Community changed`));
           if (latest.boundCommunity !== viewedCommunity)
             throw new Error(
-              "Open Shared compute settings to switch communities first",
+              i18n._(
+                msg`Open Shared compute settings to switch communities first`,
+              ),
             );
           // A second creation view must not replace sharing started elsewhere.
           if (latest.sharing) {
@@ -521,6 +541,8 @@ export const apply: PluginModule["apply"] = (ctx) => {
     const phase = status?.lifecycle?.state;
     // Saved consent and live intent, not runtime health.
     const shareOn = Boolean(status?.sharing || status?.savedSharing?.enabled);
+    // Who the sharing notice addresses: the community's name, or a fallback.
+    const shareAudience = community?.name ?? t`this community`;
     useEffect(() => {
       if (
         busy ||
@@ -570,7 +592,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
           isTauri() && status && !otherCommunity ? (
             <div className={styles.sharingControl}>
               <Switch
-                aria-label="Share compute"
+                aria-label={t`Share compute`}
                 checked={shareOn}
                 onCheckedChange={(next) => {
                   if (next) void share();
@@ -591,12 +613,12 @@ export const apply: PluginModule["apply"] = (ctx) => {
         }
         status={
           !isTauri()
-            ? "Open Buzz desktop to use shared compute."
+            ? t`Open Buzz desktop to use shared compute.`
             : !status
-              ? "Checking shared compute…"
+              ? t`Checking shared compute…`
               : leaseReady
                 ? shareStatus(status, phase, community?.name, modelNames)
-                : "Checking shared compute…"
+                : t`Checking shared compute…`
         }
         error={error ?? status?.settingsError ?? status?.reason}
         attention={
@@ -614,54 +636,50 @@ export const apply: PluginModule["apply"] = (ctx) => {
         {community?.name &&
           (status?.sharing && !otherCommunity ? (
             <p className="m-0 text-body">
-              Sharing{" "}
+              {t`Sharing`}{" "}
               <strong title={status.sharing}>
                 {modelNames[status.sharing] ?? status.sharing}
               </strong>{" "}
-              with <strong>{community.name}</strong>
+              {t`with`} <strong>{community.name}</strong>
             </p>
           ) : (
             <p className="m-0 text-body-sm text-secondary">
-              Shared compute for <strong>{community.name}</strong>
+              {t`Shared compute for`} <strong>{community.name}</strong>
             </p>
           ))}
         {otherCommunity && (
-          <section aria-label="Bound compute community">
+          <section aria-label={t`Bound compute community`}>
             <p>
-              {status?.sharing ? "Sharing" : "Compute connected"} in{" "}
-              {boundCommunity}. Navigation does not move it.
+              {status?.sharing ? t`Sharing` : t`Compute connected`} {t`in`}{" "}
+              {boundCommunity}
+              {t`. Navigation does not move it.`}
             </p>
             {replaceConfirmed ? (
               <>
                 <p>
-                  Stop that community’s local Mesh agents and compute before
-                  switching to {viewedCommunity}?
+                  {t`Stop that community’s local Mesh agents and compute before switching to ${viewedCommunity}?`}
                 </p>
                 <Button disabled={busy} onClick={() => void replace()}>
-                  Stop agents and switch compute
+                  {t`Stop agents and switch compute`}
                 </Button>
                 <Button
                   disabled={busy}
                   onClick={() => setReplaceConfirmed(false)}
                 >
-                  Cancel
+                  {t`Cancel`}
                 </Button>
               </>
             ) : (
               <Button disabled={busy} onClick={() => setReplaceConfirmed(true)}>
-                Use compute in this community instead
+                {t`Use compute in this community instead`}
               </Button>
             )}
           </section>
         )}
         {isTauri() && status && !otherCommunity && (
-          <section aria-label="Share compute">
+          <section aria-label={t`Share compute`}>
             <p className="m-0 text-body-sm text-secondary">
-              Let {community?.name ?? "this community"} run prompts on this
-              machine. Auto picks the best model for your hardware; you can also
-              choose one. Members serving your helper’s model can read its
-              prompts, conversation history and, in Agent mode, tool output and
-              core memory. Sharing resumes when you reopen Buzz.
+              {t`Let ${shareAudience} run prompts on this machine. Auto picks the best model for your hardware; you can also choose one. Members serving your helper’s model can read its prompts, conversation history and, in Agent mode, tool output and core memory. Sharing resumes when you reopen Buzz.`}
             </p>
             {status.sharing && status.download && !status.download.done && (
               <DownloadProgress download={status.download} />
@@ -685,8 +703,8 @@ export const apply: PluginModule["apply"] = (ctx) => {
                     <div className={styles.widgetPopout}>
                       <IconButton
                         size="xs"
-                        aria-label="Open activity widget"
-                        title="Open activity widget"
+                        aria-label={t`Open activity widget`}
+                        title={t`Open activity widget`}
                         icon={<ArrowSquareOutIcon size={16} />}
                         variant="subtle"
                         disabled={!status.sharing}
@@ -695,7 +713,9 @@ export const apply: PluginModule["apply"] = (ctx) => {
                           void openWidget().catch((reason) => {
                             if (!disposed)
                               setError(
-                                `Couldn’t open activity widget: ${String(reason)}`,
+                                i18n._(
+                                  msg`Couldn’t open activity widget: ${String(reason)}`,
+                                ),
                               );
                           });
                         }}
@@ -743,7 +763,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
               items={[
                 {
                   value: "Community and activity",
-                  title: "Community and activity",
+                  title: t`Community and activity`,
                   content: (
                     <>
                       {phase === "ready" && !otherCommunity && (
@@ -768,7 +788,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   }
   ctx.settingsCards.register({
     id: "mesh",
-    title: "Shared compute",
+    title: globalI18n._(msg`Shared compute`),
     icon: CpuIcon,
     component: CommunityComputePage,
   });
@@ -781,7 +801,8 @@ function shareStatus(
   communityName: string | undefined,
   modelNames: Record<string, string> = {},
 ): string {
-  const where = communityName ?? "your community";
+  const i18n = globalI18n;
+  const where = communityName ?? i18n._(msg`your community`);
   const model =
     status.sharing && (modelNames[status.sharing] ?? status.sharing);
   const enabled = Boolean(model || status.savedSharing?.enabled);
@@ -790,29 +811,35 @@ function shareStatus(
       ? ` ${status.lifecycle.reason}.`
       : "";
     return enabled
-      ? `Mesh needs recovery.${cause} Sharing is still enabled for next launch; turn it off to disable automatic sharing. Restart Buzz before starting Mesh again.`
-      : `Mesh needs recovery.${cause} Shutdown could not be confirmed. Restart Buzz before starting Mesh again.`;
+      ? i18n._(
+          msg`Mesh needs recovery.${cause} Sharing is still enabled for next launch; turn it off to disable automatic sharing. Restart Buzz before starting Mesh again.`,
+        )
+      : i18n._(
+          msg`Mesh needs recovery.${cause} Shutdown could not be confirmed. Restart Buzz before starting Mesh again.`,
+        );
   }
   if (phase === "stopping")
     return status.finishingJoin
-      ? "Stopping, finishing a peer connection…"
-      : "Stopping…";
+      ? i18n._(msg`Stopping, finishing a peer connection…`)
+      : i18n._(msg`Stopping…`);
   if (!model) {
     if (status.savedSharing?.enabled)
-      return "Sharing is enabled but not running. Turn it off and on to start it again.";
+      return i18n._(
+        msg`Sharing is enabled but not running. Turn it off and on to start it again.`,
+      );
     // Consumer-only node (started for agents): Thomas's "connected" wording.
     if (phase === "starting")
-      return "Sharing is off. Connecting to community compute…";
+      return i18n._(msg`Sharing is off. Connecting to community compute…`);
     if (phase === "ready")
-      return "Sharing is off. Connected to community compute.";
-    return "Sharing is off.";
+      return i18n._(msg`Sharing is off. Connected to community compute.`);
+    return i18n._(msg`Sharing is off.`);
   }
-  if (phase === "starting") return `Starting ${model}…`;
+  if (phase === "starting") return i18n._(msg`Starting ${model}…`);
   if (phase === "ready")
     return status.modelReady
-      ? `Sharing ${model} with ${where}.`
-      : `Preparing ${model} — not serving yet.`;
-  return `Selected for sharing: ${model}`;
+      ? i18n._(msg`Sharing ${model} with ${where}.`)
+      : i18n._(msg`Preparing ${model} — not serving yet.`);
+  return i18n._(msg`Selected for sharing: ${model}`);
 }
 
 function DownloadProgress({
@@ -820,6 +847,7 @@ function DownloadProgress({
 }: {
   download: NonNullable<MeshStatus["download"]>;
 }) {
+  const { t } = useLingui();
   const received = download.downloadedBytes ?? 0;
   const total = download.totalBytes ?? 0;
   const percent =
@@ -827,13 +855,13 @@ function DownloadProgress({
   return (
     <div>
       <progress
-        aria-label="Model download"
+        aria-label={t`Model download`}
         max={100}
         value={percent}
         className="w-full"
       />
       <span className="text-body-sm text-secondary">
-        {`Downloading ${download.file ?? download.label}`}
+        {t`Downloading ${download.file ?? download.label}`}
         {percent === undefined
           ? "…"
           : ` · ${percent}% (${(received / 1e9).toFixed(2)} GB / ${(total / 1e9).toFixed(2)} GB)`}

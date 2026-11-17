@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { PreferenceRow } from "../../shared/design-system/ui/PreferenceRow";
@@ -24,6 +25,7 @@ export function MeshCreateSetup({
   share(): void;
   refresh(): void;
 }) {
+  const { t } = useLingui();
   const [choice, setChoice] = useState<"share" | "use" | null>(null);
   const confirmation = useRef<HTMLParagraphElement>(null);
   const phase = status?.lifecycle?.state;
@@ -35,7 +37,7 @@ export function MeshCreateSetup({
     error ??
     status?.settingsError ??
     (phase === "failed"
-      ? "Shared compute needs recovery. Open Settings → Shared compute."
+      ? t`Shared compute needs recovery. Open Settings → Shared compute.`
       : null);
   const confirmed =
     choice === "use" || (choice === "share" && sharing && !failure);
@@ -51,11 +53,9 @@ export function MeshCreateSetup({
     phase !== "failed" &&
     phase !== "stopping";
   return (
-    <section aria-label="Set up shared compute" className="grid gap-2">
+    <section aria-label={t`Set up shared compute`} className="grid gap-2">
       <p className="m-0 text-body-sm text-secondary">
-        Members serving your model can read the prompts and conversation history
-        sent to them. In Agent mode, this includes tool output and core memory;
-        their model directs tools on this computer.
+        {t`Members serving your model can read the prompts and conversation history sent to them. In Agent mode, this includes tool output and core memory; their model directs tools on this computer.`}
       </p>
       {confirmed ? (
         <div className="grid gap-2">
@@ -66,10 +66,10 @@ export function MeshCreateSetup({
             className="m-0 text-body"
           >
             {choice === "use"
-              ? "Using community compute. You can create your agent now."
+              ? t`Using community compute. You can create your agent now.`
               : phase === "ready"
-                ? "This computer is sharing. You can create your agent now."
-                : "Sharing is starting. Downloads continue in the background; you can create your agent now."}
+                ? t`This computer is sharing. You can create your agent now.`
+                : t`Sharing is starting. Downloads continue in the background; you can create your agent now.`}
           </p>
           {choice === "use" && (
             <Button
@@ -77,7 +77,7 @@ export function MeshCreateSetup({
               disabled={disabled || busy}
               onClick={() => setChoice(null)}
             >
-              Change
+              {t`Change`}
             </Button>
           )}
         </div>
@@ -85,13 +85,13 @@ export function MeshCreateSetup({
         <>
           <SettingsGroup>
             <PreferenceRow
-              title="Use this computer"
-              subtitle="Auto picks and downloads a model in the background. Create your agent while it starts."
+              title={t`Use this computer`}
+              subtitle={t`Auto picks and downloads a model in the background. Create your agent while it starts.`}
               trailing={
                 <Button
                   size="sm"
                   variant="primary"
-                  aria-label="Start sharing with Auto"
+                  aria-label={t`Start sharing with Auto`}
                   disabled={disabled || busy || !canShare}
                   loading={busy}
                   onClick={() => {
@@ -99,21 +99,21 @@ export function MeshCreateSetup({
                     share();
                   }}
                 >
-                  Start sharing
+                  {t`Start sharing`}
                 </Button>
               }
             />
             <PreferenceRow
-              title="Use community compute"
-              subtitle="No download. Needs someone in your community to be sharing."
+              title={t`Use community compute`}
+              subtitle={t`No download. Needs someone in your community to be sharing.`}
               trailing={
                 <Button
                   size="sm"
-                  aria-label="Continue without sharing"
+                  aria-label={t`Continue without sharing`}
                   disabled={disabled || busy}
                   onClick={() => setChoice("use")}
                 >
-                  Continue
+                  {t`Continue`}
                 </Button>
               }
             />
@@ -121,12 +121,12 @@ export function MeshCreateSetup({
           {(busy || !status || otherCommunity) && (
             <p role="status" className="m-0 text-body-sm text-secondary">
               {busy
-                ? "Starting shared compute. You can create your agent while setup continues."
+                ? t`Starting shared compute. You can create your agent while setup continues.`
                 : !status
-                  ? "Checking shared compute…"
+                  ? t`Checking shared compute…`
                   : otherCommunity
-                    ? "This computer is connected to another community. Switch communities in Settings → Shared compute to share here."
-                    : "You can change sharing in Settings → Shared compute."}
+                    ? t`This computer is connected to another community. Switch communities in Settings → Shared compute to share here.`
+                    : t`You can change sharing in Settings → Shared compute.`}
             </p>
           )}
         </>
@@ -137,7 +137,7 @@ export function MeshCreateSetup({
             {failure}
           </p>
           <Button size="sm" disabled={disabled || busy} onClick={refresh}>
-            Check again
+            {t`Check again`}
           </Button>
         </div>
       )}

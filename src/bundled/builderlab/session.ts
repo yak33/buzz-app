@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import {
   capabilitiesFrom,
   createPermissions,
@@ -5,6 +6,7 @@ import {
   type Capabilities,
   type Permissions,
 } from "./capabilities";
+import { i18n } from "../../features/localization/service";
 import type { BuilderlabViewerSession } from "../../features/browser/api";
 import type { FederatedIdentity } from "../../features/federated-identity/service";
 import type { HostResponse } from "../../features/host/service";
@@ -131,12 +133,14 @@ export async function federatedAccount(
   });
 }
 
-const ACCOUNT_FAILED = "Could not load your Builderlab account. Try again.";
+const ACCOUNT_FAILED = () =>
+  i18n._(msg`Could not load your Builderlab account. Try again.`);
 
 /** A Builderlab call refused with HTTP 401. Native rechecks the session on a
  * 401 and ends it, which shows sign-in, only when the issuer says it ended;
  * otherwise only that call was refused, so this claims no expiry. */
-export const UNAUTHORIZED = "Builderlab didn’t accept this request. Try again.";
+export const UNAUTHORIZED = () =>
+  i18n._(msg`Builderlab didn’t accept this request. Try again.`);
 
 /**
  * The FI build's Builderlab session over the shared native NIP-FI session.
@@ -258,12 +262,16 @@ export function createNativeSession(
             : current.status === "reauthentication-required"
               ? {
                   status: "signed-out",
-                  error: "Your Builderlab sign-in ended. Sign in again.",
+                  error: i18n._(
+                    msg`Your Builderlab sign-in ended. Sign in again.`,
+                  ),
                 }
               : current.failure && current.status !== "unconfigured"
                 ? {
                     status: "signed-out",
-                    error: "Builderlab sign-in did not finish. Try again.",
+                    error: i18n._(
+                      msg`Builderlab sign-in did not finish. Try again.`,
+                    ),
                   }
                 : { status: "signed-out" },
       );
@@ -272,7 +280,7 @@ export function createNativeSession(
       return signedIn(credential, state.checkingPermissions === true);
     replace(undefined);
     if (failed === current.revision)
-      return publish({ status: "signed-out", error: ACCOUNT_FAILED });
+      return publish({ status: "signed-out", error: ACCOUNT_FAILED() });
     failed = undefined;
     if (loading !== current.revision) void load(current.revision);
     publish({ status: "pending", checking: true });
@@ -308,7 +316,7 @@ export function createNativeSession(
     },
     credential() {
       if (disposed || !credential)
-        throw new Error("Sign in to Builderlab first.");
+        throw new Error(i18n._(msg`Sign in to Builderlab first.`));
       return credential;
     },
     async freshCredential(signal) {
@@ -330,7 +338,8 @@ export function createNativeSession(
       });
     },
     viewerSession() {
-      if (disposed || !viewer) throw new Error("Sign in to Builderlab first.");
+      if (disposed || !viewer)
+        throw new Error(i18n._(msg`Sign in to Builderlab first.`));
       return viewer;
     },
     async ensureSignedIn(signal) {
@@ -354,8 +363,8 @@ export function createNativeSession(
             reject(
               new Error(
                 disposed
-                  ? "Builderlab session is closed."
-                  : (state.error ?? "Sign-in canceled."),
+                  ? i18n._(msg`Builderlab session is closed.`)
+                  : (state.error ?? i18n._(msg`Sign-in canceled.`)),
               ),
             );
         };

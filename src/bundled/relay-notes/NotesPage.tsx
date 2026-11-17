@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   Fragment,
   useCallback,
@@ -97,13 +99,14 @@ function NotesPanel({
   refreshRef?: Ref<HTMLButtonElement>;
   loading?: boolean;
 }) {
+  const { t } = useLingui();
   return (
-    <Panel aria-label="Shared notes">
+    <Panel aria-label={t`Shared notes`}>
       <div className={styles.page}>
         <PanelHeader
           title={
             <PanelHeaderLabel
-              title="Shared notes"
+              title={t`Shared notes`}
               icon={<NoteIcon size="1rem" />}
             >
               <PopoverRoot>
@@ -113,27 +116,21 @@ function NotesPanel({
                       size="sm"
                       variant="ghost"
                       icon={<InfoIcon size="1rem" aria-hidden="true" />}
-                      aria-label="About shared notes"
-                      title="About shared notes"
+                      aria-label={t`About shared notes`}
+                      title={t`About shared notes`}
                     />
                   }
                 />
                 <PopoverPopup>
-                  <PopoverTitle>About shared notes</PopoverTitle>
+                  <PopoverTitle>{t`About shared notes`}</PopoverTitle>
                   <PopoverDescription
                     render={<div className={styles.description} />}
                   >
                     <p>
-                      Shared notes are reusable documents saved by your agents
-                      and other agents in this community—recipes, prompts,
-                      research and guides you can return to across
-                      conversations. Ask the agent who saved a note to update
-                      it, or ask your agent to save its own copy.
+                      {t`Shared notes are reusable documents saved by your agents and other agents in this community—recipes, prompts, research and guides you can return to across conversations. Ask the agent who saved a note to update it, or ask your agent to save its own copy.`}
                     </p>
                     <p>
-                      Anyone with access to this community’s relay can read
-                      shared notes. Don’t include secrets or private
-                      information.
+                      {t`Anyone with access to this community’s relay can read shared notes. Don’t include secrets or private information.`}
                     </p>
                   </PopoverDescription>
                 </PopoverPopup>
@@ -145,7 +142,7 @@ function NotesPanel({
               <>
                 {loading && (
                   <span role="status" className="text-caption text-subtle">
-                    Reading notes…
+                    {t`Reading notes…`}
                   </span>
                 )}
                 <IconButton
@@ -153,8 +150,8 @@ function NotesPanel({
                   ref={refreshRef}
                   size="sm"
                   variant="ghost"
-                  aria-label="Refresh notes"
-                  title="Refresh notes"
+                  aria-label={t`Refresh notes`}
+                  title={t`Refresh notes`}
                   icon={<ArrowsClockwiseIcon size="1rem" />}
                   onClick={refresh}
                 />
@@ -175,6 +172,7 @@ export function NotesPage({
   panels,
   codeBlocks,
 }: { relay: RelayData } & NotesNavigation) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const request = useMemo(
     () => navigation?.forSession(relay, connection),
@@ -219,13 +217,15 @@ export function NotesPage({
     <NotesPanel>
       <p role="status">
         {connection.status === "connecting"
-          ? "Connecting to your community…"
-          : "Connect to a community to read notes."}
+          ? t`Connecting to your community…`
+          : t`Connect to a community to read notes.`}
       </p>
       {connection.status === "error" && (
         <>
           <p role="alert">{connection.error}</p>
-          <Button onClick={() => relay.tryAgain()}>Retry connection</Button>
+          <Button onClick={() => relay.tryAgain()}>
+            {t`Retry connection`}
+          </Button>
         </>
       )}
     </NotesPanel>
@@ -312,6 +312,7 @@ function NoteCollection({
   inventoryError: string | undefined;
   refreshAgents(): void;
 }) {
+  const { i18n, t } = useLingui();
   const [request, setRequest] = useState({ version: 0, more: false });
   const pages = useRef({ owned: emptyNotePage(), shared: emptyNotePage() });
   const sharedAgents = useRef(new Map<string, Profile>());
@@ -389,6 +390,7 @@ function NoteCollection({
       ? profileKey
       : noteActive;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建；错误文案语言切换后随下次加载生效。
   useEffect(() => {
     const controller = new AbortController();
     setResult((old) => ({
@@ -464,11 +466,13 @@ function NoteCollection({
           partial: !pages.current.owned.done || !pages.current.shared.done,
           error:
             ownResult.status === "rejected"
-              ? "Couldn’t read notes. Try again."
+              ? i18n._(msg`Couldn’t read notes. Try again.`)
               : undefined,
           sharedError:
             sharedResult.status === "rejected"
-              ? "Other agents’ notes could not be checked. Refresh to try again."
+              ? i18n._(
+                  msg`Other agents’ notes could not be checked. Refresh to try again.`,
+                )
               : undefined,
         });
         setAuthor((current) =>
@@ -503,6 +507,7 @@ function NoteCollection({
       focus: "preserve",
     });
   };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建；路由错误文案语言切换后随下次路由恢复生效。
   useEffect(() => {
     if (
       !navigation ||
@@ -522,13 +527,13 @@ function NoteCollection({
       route?.author &&
       !agents.some((agent) => agent.pubkey === route.author)
     ) {
-      setRouteError("This agent folder is unavailable.");
+      setRouteError(i18n._(msg`This agent folder is unavailable.`));
       return;
     }
     setAuthor(route?.author ?? "");
     if (route?.profile) {
       if (!agents.some((agent) => agent.pubkey === route.profile)) {
-        setRouteError("This agent profile is unavailable.");
+        setRouteError(i18n._(msg`This agent profile is unavailable.`));
         return;
       }
       setProfile(route.profile);
@@ -550,7 +555,9 @@ function NoteCollection({
         setSelected(route.note);
       } else {
         setRouteError(
-          "This note isn’t in the loaded collection. Refresh to check again.",
+          i18n._(
+            msg`This note isn’t in the loaded collection. Refresh to check again.`,
+          ),
         );
         return;
       }
@@ -609,6 +616,9 @@ function NoteCollection({
   };
   const name = (note: EventData) =>
     agents.find((agent) => agent.pubkey === note.pubkey)?.name ?? note.pubkey;
+  // 先取名再套模板：t`` 插值里不能嵌套 t``。
+  const profileAgentName =
+    agents.find((agent) => agent.pubkey === profile)?.name ?? t`Agent`;
   const visible = result.notes.filter((note) => note.pubkey === author);
   const ownedNotes = result.notes.filter((note) =>
     ownedAgents.some((agent) => agent.pubkey === note.pubkey),
@@ -644,7 +654,7 @@ function NoteCollection({
         <article key={noteKey(note)} className={styles.noteItem}>
           <SurfaceButton
             className={styles.noteCard}
-            aria-label={`Open ${noteTitle(note)} by ${name(note)}`}
+            aria-label={t`Open ${noteTitle(note)} by ${name(note)}`}
             aria-current={active === noteKey(note) ? "true" : undefined}
             aria-pressed={opened.some(
               (item) => noteKey(item) === noteKey(note),
@@ -713,8 +723,8 @@ function NoteCollection({
               <IconButton
                 hint="familiar"
                 variant="ghost"
-                aria-label="Back to folders"
-                title="Back to folders"
+                aria-label={t`Back to folders`}
+                title={t`Back to folders`}
                 icon={<ArrowLeftIcon size="1rem" aria-hidden="true" />}
                 onClick={() => openFolder("")}
               />
@@ -724,20 +734,19 @@ function NoteCollection({
             </div>
           )}
           {routeError && <p role="alert">{routeError}</p>}
-          {pending && <p role="status">Loading your agents…</p>}
+          {pending && <p role="status">{t`Loading your agents…`}</p>}
           {!pending && !complete && !inventoryError && (
             <div role="status">
               <p>
-                Some agents could not be checked. Showing notes from available
-                agents.
+                {t`Some agents could not be checked. Showing notes from available agents.`}
               </p>
-              <Button onClick={refreshAgents}>Retry agents</Button>
+              <Button onClick={refreshAgents}>{t`Retry agents`}</Button>
             </div>
           )}
           {inventoryError && (
             <div role="alert">
               <p>{inventoryError}</p>
-              <Button onClick={refreshAgents}>Retry agents</Button>
+              <Button onClick={refreshAgents}>{t`Retry agents`}</Button>
             </div>
           )}
           {result.sharedError && (
@@ -748,14 +757,14 @@ function NoteCollection({
           {result.error && (
             <div role="alert">
               <p>{result.error}</p>
-              <Button
+                <Button
                 ref={preserveControlFocus}
                 loading={result.loading}
                 onClick={() =>
                   setRequest((old) => ({ ...old, version: old.version + 1 }))
                 }
               >
-                Retry notes
+                {t`Retry notes`}
               </Button>
             </div>
           )}
@@ -767,23 +776,23 @@ function NoteCollection({
             !(author ? visible.length : folders.length) && (
               <EmptyState
                 icon={<NoteIcon size="1.5rem" />}
-                title="No notes yet"
+                title={t`No notes yet`}
                 description={
                   author
-                    ? "This folder has no notes in the loaded collection. Go back to folders to browse another agent."
-                    : "Ask one of your agents to save a recipe or reference as a shared note, then refresh."
+                    ? t`This folder has no notes in the loaded collection. Go back to folders to browse another agent.`
+                    : t`Ask one of your agents to save a recipe or reference as a shared note, then refresh.`
                 }
               />
             )}
           {!author ? (
             <section
               className={styles.folderGroups}
-              aria-label="Agent folders"
+              aria-label={t`Agent folders`}
               ref={folderGrid}
             >
               {[
-                { owned: true, label: "Your agents" },
-                { owned: false, label: "Other agents" },
+                { owned: true, label: t`Your agents` },
+                { owned: false, label: t`Other agents` },
               ].map((group) => {
                 const items = folders.filter(
                   (agent) => agent.owned === group.owned,
@@ -799,7 +808,7 @@ function NoteCollection({
                           <SurfaceButton
                             key={agent.pubkey}
                             className={styles.folderCard}
-                            aria-label={`Open ${agent.name} folder`}
+                            aria-label={t`Open ${agent.name} folder`}
                             data-agent={agent.pubkey}
                             onClick={() => openFolder(agent.pubkey)}
                           >
@@ -818,8 +827,8 @@ function NoteCollection({
                             <span className="text-caption text-subtle">
                               {agent.count}{" "}
                               {agent.count === 1
-                                ? "shared note"
-                                : "shared notes"}
+                                ? t`shared note`
+                                : t`shared notes`}
                             </span>
                           </SurfaceButton>
                         ))}
@@ -846,18 +855,18 @@ function NoteCollection({
                   }))
                 }
               >
-                Load older notes
+                {t`Load older notes`}
               </Button>
             </div>
           )}
         </NotesPanel>
       </div>
       {readerOpen && (
-        <aside className={styles.side} aria-label="Note reader">
+        <aside className={styles.side} aria-label={t`Note reader`}>
           {split.handle}
-          <Panel aria-label="Note details">
+          <Panel aria-label={t`Note details`}>
             <PanelWorkspace
-              label="Open notes"
+              label={t`Open notes`}
               value={active}
               select={(key) => {
                 setSelected(key);
@@ -910,7 +919,7 @@ function NoteCollection({
                   ? [
                       {
                         id: profileKey,
-                        label: `${agents.find((agent) => agent.pubkey === profile)?.name ?? "Agent"} · Profile`,
+                        label: t`${profileAgentName} · Profile`,
                         close: closeProfile,
                         content: (
                           <profilePanel.component
@@ -940,13 +949,14 @@ function NoteIdentifier({
   note: EventData;
   separator?: boolean;
 }) {
+  const { t } = useLingui();
   const identifier = noteTag(note, "d");
   return identifier ? (
     <>
       {separator && " · "}
       <code
         className={`${styles.identifier} text-mono font-mono`}
-        title={`Saved as ${identifier}`}
+        title={t`Saved as ${identifier}`}
       >
         {identifier}
       </code>
@@ -996,6 +1006,7 @@ export function NoteBody({
   author: string;
   picture?: string | undefined;
 }) {
+  const { t } = useLingui();
   const plain = !guardDocument(note.content, DOCUMENT_PROFILE, {
     chars: MAX_MARKDOWN_LENGTH,
     cells: DOCUMENT_RENDER_CELLS,
@@ -1004,8 +1015,8 @@ export function NoteBody({
     <article className={styles.document}>
       <h2 className="text-heading">{noteTitle(note)}</h2>
       <p className={`${styles.byline} text-caption text-secondary`}>
-        <NoteAuthor name={author} picture={picture} open={openProfile} /> ·
-        Updated <NoteTime note={note} />
+        <NoteAuthor name={author} picture={picture} open={openProfile} /> ·{" "}
+        {t`Updated`} <NoteTime note={note} />
         <NoteIdentifier note={note} />
       </p>
       {plain ? (
@@ -1033,6 +1044,7 @@ function NoteAuthor({
   picture?: string | undefined;
   open?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const identity = (
     <>
       <Avatar
@@ -1049,7 +1061,7 @@ function NoteAuthor({
     <Button
       variant="plain"
       size="inline"
-      aria-label={`View ${name} profile`}
+      aria-label={t`View ${name} profile`}
       onClick={open}
     >
       {identity}

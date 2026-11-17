@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -63,6 +65,7 @@ import {
   PanelHeaderLabel,
 } from "../../shared/design-system/ui/PanelHeader";
 import {
+  GROUP_LABELS,
   TIME_PRESETS,
   dueDateLabel,
   dueLabel,
@@ -88,6 +91,7 @@ export function RemindersPage({
   navigator: Navigation;
   clock: Clock;
 }) {
+  const { i18n, t } = useLingui();
   const { connection, reminders, state } = useReminders(relay);
   const now = useSyncExternalStore(clock.subscribe, clock.read, clock.read);
   const [error, setError] = useState<string>();
@@ -104,12 +108,12 @@ export function RemindersPage({
   }, []);
   const scope = scopeOf(connection);
   const groups = groupReminders(state.reminders, now, endOfToday());
-  const done = groups.find((group) => group.label === "Done");
+  const done = groups.find((group) => group.label === i18n._(GROUP_LABELS.Done));
   const active = groups.filter((group) => group !== done);
   const run = (action: Promise<unknown>) => {
     setError(undefined);
     action.catch(() =>
-      setError("The reminder could not be updated. Try again."),
+      setError(i18n._(msg`The reminder could not be updated. Try again.`)),
     );
   };
   const open = (reminder: Reminder, conversation = false) => {
@@ -128,17 +132,17 @@ export function RemindersPage({
         if (result.status === "failed")
           setError(
             conversation
-              ? "This conversation could not be opened."
-              : "This message could not be opened.",
+              ? i18n._(msg`This conversation could not be opened.`)
+              : i18n._(msg`This message could not be opened.`),
           );
       });
   };
   const status = !reminders
     ? connection.status === "error"
-      ? (connection.error ?? "Could not connect.")
-      : "Connect to a community to see your reminders."
+      ? (connection.error ?? t`Could not connect.`)
+      : t`Connect to a community to see your reminders.`
     : state.status === "loading" && !state.hydrated
-      ? "Loading reminders…"
+      ? t`Loading reminders…`
       : undefined;
   // Any failed read, first or later, keeps Retry up beside whatever list we
   // have until a read succeeds; live arrivals never clear it.
@@ -165,12 +169,12 @@ export function RemindersPage({
   }, [showRetry]);
   return (
     <div className="h-full min-h-0">
-      <FullPageSurface aria-label="Reminders">
+      <FullPageSurface aria-label={t`Reminders`}>
         <div ref={page} tabIndex={-1} data-buzz-ui="" className={styles.page}>
           <PanelHeader
             title={
               <PanelHeaderLabel
-                title="Reminders"
+                title={t`Reminders`}
                 icon={<AlarmIcon size="1rem" />}
               />
             }
@@ -182,13 +186,13 @@ export function RemindersPage({
           )}
           {reminders && showRetry && (
             <div role="alert" className={styles.notice}>
-              <p>Some reminders could not be loaded.</p>
+              <p>{t`Some reminders could not be loaded.`}</p>
               <Button
                 ref={retryButton}
                 loading={busy}
                 onClick={() => retry(reminders)}
               >
-                Retry reminders
+                {t`Retry reminders`}
               </Button>
             </div>
           )}
@@ -231,12 +235,14 @@ function ReminderSections({
   open: ((reminder: Reminder, conversation?: boolean) => void) | undefined;
   run(action: Promise<unknown>): void;
 }) {
+  const { i18n, t } = useLingui();
   const reducedMotion = useReducedMotion();
   const [pointerMotion, setPointerMotion] = useState(false);
   const animate = pointerMotion && !reducedMotion;
   const sections = useRef<HTMLDivElement>(null);
   const keyboardCompletion = useRef<HTMLElement | undefined>(undefined);
   const completionKeyHeld = useRef(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   const restoreCompletionFocus = useCallback(() => {
     if (completionKeyHeld.current) return;
     const trigger = keyboardCompletion.current;
@@ -259,7 +265,7 @@ function ReminderSections({
       (
         next ??
         sections.current?.querySelector<HTMLElement>(
-          '[aria-label="Done"] button',
+          `[aria-label="${i18n._(GROUP_LABELS.Done)}"] button`,
         )
       )?.focus();
     }
@@ -303,13 +309,13 @@ function ReminderSections({
     const sender = author
       ? name(
           author,
-          profile?.name ?? formatPublicKey(author) ?? "Unknown sender",
+          profile?.name ?? formatPublicKey(author) ?? t`Unknown sender`,
           channel?.members,
         )
-      : "Reminder";
+      : t`Reminder`;
     const context =
       channel?.channelType === "dm"
-        ? "Direct message"
+        ? t`Direct message`
         : channel?.name
           ? channelText(channel)
           : undefined;
@@ -334,7 +340,7 @@ function ReminderSections({
             <Avatar
               size="small"
               alt=""
-              fallback="Reminder"
+              fallback={t`Reminder`}
               fallbackContent={<AlarmIcon size={18} />}
               shape="squircle"
             />
@@ -407,8 +413,8 @@ function ReminderSections({
               <motion.div key="empty" layout="position" initial={false}>
                 <EmptyState
                   icon={<AlarmIcon size={24} />}
-                  title={done ? "You're all caught up" : "No reminders yet"}
-                  description="Choose Remind me from any message's menu to bring it back here when it matters."
+                  title={done ? t`You're all caught up` : t`No reminders yet`}
+                  description={t`Choose Remind me from any message's menu to bring it back here when it matters.`}
                 />
               </motion.div>
             )}
@@ -417,7 +423,7 @@ function ReminderSections({
                 key="done"
                 layout="position"
                 initial={false}
-                aria-label="Done"
+                aria-label={i18n._(GROUP_LABELS.Done)}
                 className={styles.group}
               >
                 <Accordion
@@ -427,7 +433,7 @@ function ReminderSections({
                       value: "done",
                       title: (
                         <span className={styles.groupHeading}>
-                          Done{" "}
+                          {i18n._(GROUP_LABELS.Done)}{" "}
                           <span className="text-caption text-subtle">
                             {done.length}
                           </span>
@@ -494,6 +500,7 @@ function ReminderRow({
   openConversation: (() => void) | undefined;
   run(action: Promise<unknown>): void;
 }) {
+  const { t } = useLingui();
   const id = useId();
   const [busy, setBusy] = useState(false);
   const [completing, setCompleting] = useState(false);
@@ -521,7 +528,7 @@ function ReminderRow({
     isDisplayable(reminder.notBefore)
       ? dueLabel(reminder.notBefore, now)
       : reminder.status === "done"
-        ? `Done ${relativeTimestamp(reminder.createdAt, now)}`
+        ? t`Done ${relativeTimestamp(reminder.createdAt, now)}`
         : undefined;
   const due =
     pending &&
@@ -532,13 +539,13 @@ function ReminderRow({
         data-overdue={overdue || undefined}
         dateTime={new Date(reminder.notBefore * 1000).toISOString()}
       >
-        {`Due ${dueDateLabel(reminder.notBefore, now)
+        {t`Due ${dueDateLabel(reminder.notBefore, now)
           .replace(/^Today /, "")
           .replace(/^Tomorrow/, "tomorrow")
           .replace(/^Yesterday/, "yesterday")}`}
       </time>
     ) : reminder.status === "done" ? (
-      <span className="text-caption text-subtle">Done</span>
+      <span className="text-caption text-subtle">{t`Done`}</span>
     ) : null;
   const snoozeItems = TIME_PRESETS.map((preset) => (
     <MenuItem
@@ -590,7 +597,9 @@ function ReminderRow({
         <span className={styles.completion}>
           {pending ? (
             <Checkbox
-              label={<span className="sr-only">Mark done: {sender}</span>}
+              label={
+                <span className="sr-only">{t`Mark done: ${sender}`}</span>
+              }
               checked={completing}
               disabled={busy}
               onCheckedChange={() => {
@@ -601,14 +610,14 @@ function ReminderRow({
           ) : (
             <CheckIcon
               size={20}
-              aria-label="Completed"
+              aria-label={t`Completed`}
               className="text-subtle"
             />
           )}
         </span>
         {open ? (
           <NavigationItem
-            aria-label={`Open message from ${sender}`}
+            aria-label={t`Open message from ${sender}`}
             aria-describedby={[
               preview && `${id}-preview`,
               note && `${id}-note`,
@@ -630,8 +639,12 @@ function ReminderRow({
                   size="sm"
                   variant={overdue ? "attention" : "ghost"}
                   disabled={busy}
-                  aria-label={`${pending ? "Snooze" : "Remind me again"}: ${sender}`}
-                  title={pending ? "Snooze" : "Remind me again"}
+                  aria-label={
+                    pending
+                      ? t`Snooze: ${sender}`
+                      : t`Remind me again: ${sender}`
+                  }
+                  title={pending ? t`Snooze` : t`Remind me again`}
                 >
                   {due ?? <AlarmIcon size={16} aria-hidden="true" />}
                 </Button>
@@ -649,8 +662,12 @@ function ReminderRow({
           {openConversation ? (
             <IconButton
               variant="avatar"
-              aria-label={`Open conversation: ${context ?? sender}`}
-              title={`Open conversation${context ? ` · ${context}` : ""}`}
+              aria-label={t`Open conversation: ${context ?? sender}`}
+              title={
+                context
+                  ? t`Open conversation · ${context}`
+                  : t`Open conversation`
+              }
               icon={avatar}
               onClick={openConversation}
             />
@@ -668,8 +685,8 @@ function ReminderRow({
                   <IconButton
                     hint="familiar"
                     disabled={busy}
-                    aria-label={`More actions: ${sender}`}
-                    title="More actions"
+                    aria-label={t`More actions: ${sender}`}
+                    title={t`More actions`}
                     icon={<DotsThreeIcon size={16} />}
                   />
                 }
@@ -683,7 +700,7 @@ function ReminderRow({
                     <MenuIcon>
                       <ArrowSquareOutIcon size={16} />
                     </MenuIcon>
-                    Open message
+                    {t`Open message`}
                   </MenuItem>
                 )}
                 {open && pending && <MenuSeparator />}
@@ -696,7 +713,7 @@ function ReminderRow({
                     <MenuIcon>
                       <XIcon size={16} />
                     </MenuIcon>
-                    Cancel reminder
+                    {t`Cancel reminder`}
                   </MenuItem>
                 )}
               </MenuPopup>

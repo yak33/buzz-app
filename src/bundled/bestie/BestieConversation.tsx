@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -90,6 +91,7 @@ export function BestieConversation({
   community?: string | undefined;
   icon: ReactNode;
 }) {
+  const { t } = useLingui();
   const bestie = agent.name;
   const welcome = useFirstAgentWelcome(scope, agent.pubkey, channel.id);
   const settingsTrigger = useRef<HTMLButtonElement>(null);
@@ -388,7 +390,7 @@ export function BestieConversation({
       ? [
           {
             id: "settings",
-            label: "Channel settings",
+            label: t`Channel settings`,
             icon: <GearIcon size="1rem" />,
             close: closeSettings,
             content: (
@@ -467,8 +469,8 @@ export function BestieConversation({
       ref={secondary.splitTrigger}
       size="sm"
       variant="ghost"
-      aria-label="Toggle tab pane"
-      title={expanded ? "Close tab pane" : "Open tab pane"}
+      aria-label={t`Toggle tab pane`}
+      title={expanded ? t`Close tab pane` : t`Open tab pane`}
       aria-expanded={expanded}
       icon={<SidebarRightIcon size="1rem" />}
       onClick={() =>
@@ -500,7 +502,7 @@ export function BestieConversation({
         >
           <section
             className={styles.work}
-            aria-label={`Chat with ${bestie}`}
+            aria-label={t`Chat with ${bestie}`}
             ref={main}
             tabIndex={-1}
           >
@@ -511,9 +513,9 @@ export function BestieConversation({
             >
               <div className={panelStyles.page}>
                 <Panel>
-                  <PanelWorkspace
-                    main
-                    label="Bestie conversation tabs"
+                    <PanelWorkspace
+                      main
+                      label={t`Bestie conversation tabs`}
                     focusOnMount={false}
                     value={secondary.selectedMain}
                     select={(id) =>
@@ -611,7 +613,7 @@ export function BestieConversation({
                                 onOpenThread={openThread}
                               />
                               <ConversationComposer
-                                label={`Message ${bestie}`}
+                                label={t`Message ${bestie}`}
                                 shown={
                                   secondary.selectedMain === "conversation"
                                 }
@@ -640,7 +642,7 @@ export function BestieConversation({
                 {sideItems.length > 0 && (
                   <Panel>
                     <PanelWorkspace
-                      label="Bestie panel tabs"
+                      label={t`Bestie panel tabs`}
                       items={sideItems}
                       value={secondary.selectedTab}
                       select={secondary.selectPanelTab}

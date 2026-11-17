@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
 import { useReducedMotion } from "motion/react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -22,6 +23,7 @@ export function VoiceNoteRecorder({
   onCancel(): void;
   status: "requesting" | "recording" | "processing";
 }) {
+  const { t } = useLingui();
   const discard = useRef<HTMLButtonElement>(null);
   useLayoutEffect(() => {
     discard.current?.focus();
@@ -60,21 +62,21 @@ export function VoiceNoteRecorder({
   }, [count, levels.length, reducedMotion]);
   const label =
     status === "requesting"
-      ? "Waiting for microphone…"
+      ? t`Waiting for microphone…`
       : status === "processing"
-        ? "Preparing voice note…"
+        ? t`Preparing voice note…`
         : undefined;
   return (
     <fieldset className={styles.recorder}>
-      <legend className="sr-only">{label ?? "Recording voice note"}</legend>
+      <legend className="sr-only">{label ?? t`Recording voice note`}</legend>
       <IconButton
         hint="familiar"
         ref={discard}
         type="button"
         variant="subtle"
         size="sm"
-        aria-label="Discard voice note"
-        title="Discard voice note"
+        aria-label={t`Discard voice note`}
+        title={t`Discard voice note`}
         onClick={onCancel}
         icon={<X size={16} aria-hidden="true" />}
       />

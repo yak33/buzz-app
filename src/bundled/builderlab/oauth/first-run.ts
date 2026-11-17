@@ -1,5 +1,7 @@
+import { msg } from "@lingui/core/macro";
 import type { Context } from "@deepseek-ai/cordis";
 import { invoke } from "@tauri-apps/api/core";
+import { i18n } from "../../../features/localization/service";
 import { recoveryMessage } from "../../../features/federated-identity/CommunitySignIn";
 import type {
   FederatedIdentity,
@@ -73,7 +75,9 @@ export async function firstRunCredential(
   options: SignInOptions = {},
 ): Promise<Credential> {
   const result = await invoke<StorageResult>("plugin_catalog").catch(() => {
-    throw new Error("Could not complete Builderlab sign-in. Try again.");
+    throw new Error(
+      i18n._(msg`Could not complete Builderlab sign-in. Try again.`),
+    );
   });
   if (
     result.status !== "ready" ||
@@ -85,7 +89,9 @@ export async function firstRunCredential(
     )
   )
     throw new Error(
-      "Builderlab is turned off on this device, so you can't sign in with email. Enter a community address instead.",
+      i18n._(
+        msg`Builderlab is turned off on this device, so you can't sign in with email. Enter a community address instead.`,
+      ),
     );
   return federatedCredential(federated, signal, options);
 }
@@ -187,13 +193,17 @@ async function federatedCredential(
     const account = await federatedAccount(identity).catch(() => undefined);
     signal.throwIfAborted();
     if (!account || identity.snapshot().revision !== session.revision)
-      throw new Error("Could not load your Builderlab account. Try again.");
+      throw new Error(
+        i18n._(msg`Could not load your Builderlab account. Try again.`),
+      );
     return Object.freeze({ revision: session.revision, account });
   } catch (error) {
-    if (signal.aborted) throw new Error("Sign-in canceled.");
+    if (signal.aborted) throw new Error(i18n._(msg`Sign-in canceled.`));
     throw error instanceof Error
       ? error
-      : new Error("Could not complete Builderlab sign-in. Try again.");
+      : new Error(
+          i18n._(msg`Could not complete Builderlab sign-in. Try again.`),
+        );
   } finally {
     unsubscribe();
     signal.removeEventListener("abort", cancel);
@@ -235,7 +245,8 @@ export function createFirstRunLogin(
       };
     },
     credential() {
-      if (!credential) throw new Error("Sign in to Builderlab first.");
+      if (!credential)
+        throw new Error(i18n._(msg`Sign in to Builderlab first.`));
       return credential;
     },
     async signIn() {

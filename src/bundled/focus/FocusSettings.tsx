@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useSyncExternalStore } from "react";
 import { Header } from "../../shared/design-system/ui/Header";
 import { PreferenceRow } from "../../shared/design-system/ui/PreferenceRow";
@@ -53,6 +54,7 @@ export function FocusSettings({
   preferences: Preferences;
   active(): boolean;
 }) {
+  const { i18n, t } = useLingui();
   const current = useSyncExternalStore(
     preferences.subscribe,
     preferences.snapshot,
@@ -61,15 +63,19 @@ export function FocusSettings({
   const set = (change: Partial<FocusPreferences>) => {
     if (active()) preferences.set(change);
   };
+  // The presets resolve to strings once so the shared `Choice` stays as is.
+  const lengthOptions = focusLengths.map(
+    ([value, label]) => [value, i18n._(label)] as const,
+  );
   return (
-    <section aria-label="Focus settings">
-      <Header title="Focus" />
+    <section aria-label={t`Focus settings`}>
+      <Header title={t`Focus`} />
       <SettingsGroup>
         <Choice<FocusLength>
-          title="Default length"
-          subtitle="Used by the Focus shortcut, ⌥F by default, and selected when you open Focus from the profile menu."
+          title={t`Default length`}
+          subtitle={t`Used by the Focus shortcut, ⌥F by default, and selected when you open Focus from the profile menu.`}
           value={current.length}
-          options={focusLengths}
+          options={lengthOptions}
           onChange={(length) => set({ length })}
         />
       </SettingsGroup>

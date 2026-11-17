@@ -2,6 +2,8 @@
 // and keeping that copy on the latest release. Each step runs as a declared
 // process; the copy lives apart from any `claude` the user installed, and
 // shares their `~/.claude` settings.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { AgentProviderSnapshot } from "../../features/agents/service";
 import type { ReviewPrompt } from "../../features/agent-protection/models";
 import type {
@@ -161,7 +163,7 @@ export async function checkClaude(
     if (result.code !== 0)
       return {
         state: "error",
-        message: result.stderr.trim() || "Claude did not start",
+        message: result.stderr.trim() || i18n._(msg`Claude did not start`),
       };
     version = result.stdout.trim().split(/\s/)[0] ?? "";
   } catch (error) {
@@ -332,7 +334,7 @@ export class ClaudeSetup {
       this.set({
         status: {
           state: "error",
-          message: "Claude agents run only in the desktop app",
+          message: i18n._(msg`Claude agents run only in the desktop app`),
         },
       });
       return;
@@ -386,7 +388,8 @@ export class ClaudeSetup {
   ) {
     try {
       const models = await queryModels(spawn, request.signal);
-      if (!models.length) throw new Error("Claude did not list its models");
+      if (!models.length)
+        throw new Error(i18n._(msg`Claude did not list its models`));
       // The same listing keeps the list it has, so nothing keyed on it reruns.
       if (
         this.modelRequest === request &&
@@ -553,11 +556,15 @@ export class ClaudeSetup {
     if (this.cancelled) void this.process.kill();
     const code = await this.process.exited;
     this.process = undefined;
-    if (code !== 0) throw new Error(`${label} ended (${code ?? "stopped"}).`);
+    if (code !== 0)
+      throw new Error(
+        i18n._(msg`${label} ended (${code ?? "stopped"}).`),
+      );
   }
 
   private async fetch(path: string) {
-    if (!this.request) throw new Error("Claude downloads need the desktop app");
+    if (!this.request)
+      throw new Error(i18n._(msg`Claude downloads need the desktop app`));
     const response = await this.request({ url: `${RELEASES}/${path}` });
     if (response.status !== 200)
       throw new Error(`downloads.claude.ai answered ${response.status}`);
@@ -576,11 +583,12 @@ export class ClaudeSetup {
       return;
     if (compareVersions(latest, MIN_VERSION) < 0)
       throw new Error(
-        `Claude ${latest} is older than Buzz needs (${MIN_VERSION}).`,
+        i18n._(msg`Claude ${latest} is older than Buzz needs (${MIN_VERSION}).`),
       );
     const platform =
       PLATFORMS[(await collect(spawn, "platform", [])).stdout.trim()];
-    if (!platform) throw new Error("Claude is not available for this computer");
+    if (!platform)
+      throw new Error(i18n._(msg`Claude is not available for this computer`));
     const manifest = JSON.parse(
       await this.fetch(`${latest}/manifest.json`),
     ) as {
@@ -588,21 +596,32 @@ export class ClaudeSetup {
     };
     const checksum = manifest.platforms?.[platform]?.checksum;
     if (typeof checksum !== "string" || !/^[0-9a-f]{64}$/.test(checksum))
-      throw new Error(`Claude ${latest} lists no checksum for ${platform}`);
+      throw new Error(
+        i18n._(msg`Claude ${latest} lists no checksum for ${platform}`),
+      );
     this.log(`Downloading Claude ${latest}…\n`);
-    await this.step(spawn, "install", [latest, platform, checksum], "Download");
+    await this.step(
+      spawn,
+      "install",
+      [latest, platform, checksum],
+      i18n._(msg`Download`),
+    );
     this.log(`Testing Claude ${latest}…\n`);
     try {
       await testRelease(spawn, latest);
     } catch (error) {
       this.refused.add(latest);
-      const reason = `Claude ${latest} failed its test: ${message(error)}`;
+      const reason = i18n._(
+        msg`Claude ${latest} failed its test: ${message(error)}`,
+      );
       this.set({
-        notice: current ? `${reason}. Buzz keeps using ${current}.` : reason,
+        notice: current
+          ? i18n._(msg`${reason}. Buzz keeps using ${current}.`)
+          : reason,
       });
       throw new Error(reason);
     }
-    await this.step(spawn, "use", [latest], "Switching");
+    await this.step(spawn, "use", [latest], i18n._(msg`Switching`));
     this.set({ notice: undefined });
     this.log(`Claude ${latest} is installed.\n`);
   }
@@ -614,9 +633,12 @@ export class ClaudeSetup {
   ) {
     if (model.provider)
       throw new Error(
-        "Claude uses its configured native provider; choose another runtime for an explicit provider ID",
+        i18n._(
+          msg`Claude uses its configured native provider; choose another runtime for an explicit provider ID`,
+        ),
       );
-    if (!this.spawn) throw new Error("Claude review needs the desktop app");
+    if (!this.spawn)
+      throw new Error(i18n._(msg`Claude review needs the desktop app`));
     const timeout = AbortSignal.any([signal, AbortSignal.timeout(60_000)]);
     // Its own folder in place of `~/.claude`, which contained agents can
     // write; and without credentials, closed before any download or model.
@@ -642,7 +664,7 @@ export class ClaudeSetup {
         throw new Error(
           result.error
             ? this.auth.explain(result.error)
-            : "The security model did not complete",
+            : i18n._(msg`The security model did not complete`),
         );
       return {
         text: prompt.outputSchema ? worker.structuredResult : worker.result,
@@ -681,18 +703,22 @@ export class ClaudeSetup {
       const platform =
         PLATFORMS[(await collect(spawn, "platform", [])).stdout.trim()];
       if (!platform)
-        throw new Error("Claude is not available for this computer");
+        throw new Error(i18n._(msg`Claude is not available for this computer`));
       const manifest = JSON.parse(
         await this.fetch(`${PROTECTED_CLAUDE_VERSION}/manifest.json`),
       ) as { platforms?: Record<string, { checksum?: string }> };
       const checksum = manifest.platforms?.[platform]?.checksum;
       if (!checksum || !/^[a-f0-9]{64}$/.test(checksum))
-        throw new Error("The protected Claude release has no valid checksum");
+        throw new Error(
+          i18n._(msg`The protected Claude release has no valid checksum`),
+        );
       const process = await spawn("install", {
         args: [PROTECTED_CLAUDE_VERSION, platform, checksum],
       });
       if ((await process.exited) !== 0)
-        throw new Error("The protected Claude runtime could not be installed");
+        throw new Error(
+          i18n._(msg`The protected Claude runtime could not be installed`),
+        );
       await verified();
     })().finally(() => {
       this.protectedDownload = undefined;

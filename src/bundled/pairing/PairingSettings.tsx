@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { isTauri } from "@tauri-apps/api/core";
 import {
   useEffect,
@@ -36,6 +38,7 @@ export function PairingSettings({
   native = nativePairing,
   available = pairingAvailable(),
 }: PairingSettingsProps & { native?: PairingNative; available?: boolean }) {
+  const { i18n, t } = useLingui();
   const client = useSyncExternalStore(
     communities.subscribe,
     communities.snapshot,
@@ -85,7 +88,9 @@ export function PairingSettings({
       if (attempt !== lifetime.current) return;
       if (client.viewer && viewer !== client.viewer)
         throw new Error(
-          "Your saved Buzz account doesn’t match this account. Open the matching account before pairing.",
+          i18n._(
+            msg`Your saved Buzz account doesn’t match this account. Open the matching account before pairing.`,
+          ),
         );
       setAccount(viewer);
     } catch (error) {
@@ -110,7 +115,7 @@ export function PairingSettings({
       if (!client.selected) setManualOrigin(origin);
       void pairing.start(account, origin);
     } catch {
-      setError("Enter your community’s https:// or wss:// address.");
+      setError(i18n._(msg`Enter your community’s https:// or wss:// address.`));
     }
   }
   useEffect(() => {
@@ -143,50 +148,47 @@ export function PairingSettings({
   );
   const confirmed = ["transferring", "complete"].includes(state.phase);
   const done = state.phase === "complete";
-  const verificationInstructions =
-    "If your phone asks for a code, enter these digits and finish confirming on your phone. If it shows a code, check that the digits match. Then choose Codes match here to send your Buzz identity.";
+  const verificationInstructions = t`If your phone asks for a code, enter these digits and finish confirming on your phone. If it shows a code, check that the digits match. Then choose Codes match here to send your Buzz identity.`;
   const steps = [
     {
       id: "scan",
-      title: "Scan QR code",
-      detail:
-        "Open Buzz on your phone and choose Add community to scan the code shown here.",
+      title: t`Scan QR code`,
+      detail: t`Open Buzz on your phone and choose Add community to scan the code shown here.`,
       complete: scanned,
     },
     {
       id: "verify",
-      title: "Verify the code on your phone",
+      title: t`Verify the code on your phone`,
       detail: verificationInstructions,
       complete: confirmed,
     },
     {
       id: "finish",
-      title: done ? "Paired" : "Pair your mobile app",
+      title: done ? t`Paired` : t`Pair your mobile app`,
       detail: done
-        ? "Your account was sent. Check that it’s signed in on your phone."
-        : "Your mobile app will connect after you verify the code.",
+        ? t`Your account was sent. Check that it’s signed in on your phone.`
+        : t`Your mobile app will connect after you verify the code.`,
       complete: done,
     },
   ];
   return (
     <section aria-labelledby="pair-mobile-title" className="min-w-0">
       <h2 id="pair-mobile-title" className="mt-0 mb-2 text-label">
-        Pair mobile
+        {t`Pair mobile`}
       </h2>
       <p className="mt-0 mb-6 text-body-sm text-muted">
-        Connect the Buzz mobile app to this community. Pairing is secured with
-        end-to-end encryption and a verification code.
+        {t`Connect the Buzz mobile app to this community. Pairing is secured with end-to-end encryption and a verification code.`}
       </p>
       <div className="w-full [container-type:inline-size]">
         <p aria-live="polite" className="sr-only">
           {state.phase === "qr" && copied?.uri === state.uri
             ? copied.failed
-              ? "Couldn’t copy the pairing code."
-              : "Pairing code copied."
+              ? t`Couldn’t copy the pairing code.`
+              : t`Pairing code copied.`
             : state.phase === "code"
-              ? `Verification code ${state.code.split("").join(" ")}. ${verificationInstructions}`
+              ? t`Verification code ${state.code.split("").join(" ")}. ${verificationInstructions}`
               : done
-                ? "Your phone is paired."
+                ? t`Your phone is paired.`
                 : ""}
         </p>
         <div className="flex flex-col items-stretch gap-6 p-6 [@container(min-width:46rem)]:flex-row [@container(min-width:46rem)]:gap-6 [@container(min-width:46rem)]:p-12">
@@ -195,8 +197,8 @@ export function PairingSettings({
               {!available ? (
                 <p role="status" className="text-body-sm text-muted">
                   {isTauri()
-                    ? "Pairing uses this app’s native identity and is unavailable with the development broker. Restart with BUZZ_DEV_VIEWER empty to use native sign-in."
-                    : "Open the Buzz desktop app to pair your phone."}
+                    ? t`Pairing uses this app’s native identity and is unavailable with the development broker. Restart with BUZZ_DEV_VIEWER empty to use native sign-in.`
+                    : t`Open the Buzz desktop app to pair your phone.`}
                 </p>
               ) : (
                 <>
@@ -206,8 +208,8 @@ export function PairingSettings({
                     (!account ? (
                       <Button disabled={reading} onClick={() => void prepare()}>
                         {reading
-                          ? "Opening your account…"
-                          : "Use existing Buzz account"}
+                          ? t`Opening your account…`
+                          : t`Use existing Buzz account`}
                       </Button>
                     ) : (
                       <>
@@ -217,7 +219,7 @@ export function PairingSettings({
                               htmlFor="pair-community"
                               className="text-label-sm"
                             >
-                              Community address
+                              {t`Community address`}
                             </label>
                             <Input
                               id="pair-community"
@@ -237,7 +239,7 @@ export function PairingSettings({
                         )}
                         {["error", "cancelled"].includes(state.phase) && (
                           <Button variant="prominent" onClick={start}>
-                            Try again
+                            {t`Try again`}
                           </Button>
                         )}
                       </>
@@ -252,22 +254,22 @@ export function PairingSettings({
                         size={24}
                         className="motion-safe:animate-spin"
                       />
-                      Creating pairing code…
+                      {t`Creating pairing code…`}
                     </div>
                   )}
                   {state.phase === "qr" && (
                     <QrCode
                       svg={state.svg}
-                      alt="Scan this QR code with Buzz on your phone"
+                      alt={t`Scan this QR code with Buzz on your phone`}
                     />
                   )}
                   {state.phase === "code" && (
                     <div className="flex min-h-64 w-full flex-col justify-between gap-6">
                       <h3 className="m-0 text-label">
-                        Verify the code on your phone
+                        {t`Verify the code on your phone`}
                       </h3>
                       <fieldset className="m-0 w-full whitespace-nowrap rounded-xl border border-shell-edge bg-surface px-4 py-4">
-                        <legend className="sr-only">Pairing code</legend>
+                        <legend className="sr-only">{t`Pairing code`}</legend>
                         <span className="sr-only">
                           {state.code.split("").join(" ")}
                         </span>
@@ -283,22 +285,22 @@ export function PairingSettings({
                           variant="prominent"
                           onClick={() => void pairing.confirm()}
                         >
-                          Codes match
+                          {t`Codes match`}
                         </Button>
                         <Button onClick={() => void pairing.deny()}>
-                          Cancel
+                          {t`Cancel`}
                         </Button>
                       </div>
                     </div>
                   )}
                   {state.phase === "cancelling" && (
                     <p role="status" className="text-body-sm text-muted">
-                      Cancelling pairing…
+                      {t`Cancelling pairing…`}
                     </p>
                   )}
                   {state.phase === "cancelled" && (
                     <p role="status" className="text-body-sm text-muted">
-                      Pairing was canceled.
+                      {t`Pairing was canceled.`}
                     </p>
                   )}
                   {state.phase === "transferring" && (
@@ -311,7 +313,7 @@ export function PairingSettings({
                         size={24}
                         className="motion-safe:animate-spin"
                       />
-                      Finishing pairing on your phone…
+                      {t`Finishing pairing on your phone…`}
                     </div>
                   )}
                   {state.phase === "uncertain" && (
@@ -319,12 +321,11 @@ export function PairingSettings({
                       role="status"
                       className="flex flex-col items-center gap-3"
                     >
-                      <h3 className="m-0 text-label">Check your phone</h3>
+                      <h3 className="m-0 text-label">{t`Check your phone`}</h3>
                       <p className="m-0 text-body-sm text-muted">
-                        The account was sent, but your phone hasn’t confirmed.
-                        It may already be paired.
+                        {t`The account was sent, but your phone hasn’t confirmed. It may already be paired.`}
                       </p>
-                      <Button onClick={start}>Start a new pairing</Button>
+                      <Button onClick={start}>{t`Start a new pairing`}</Button>
                     </div>
                   )}
                   {done && (
@@ -337,8 +338,8 @@ export function PairingSettings({
                         size={40}
                         className="text-success"
                       />
-                      <h3 className="m-0 text-label">Phone paired</h3>
-                      <Button onClick={start}>Pair another phone</Button>
+                      <h3 className="m-0 text-label">{t`Phone paired`}</h3>
+                      <Button onClick={start}>{t`Pair another phone`}</Button>
                     </div>
                   )}
                   {(error || state.phase === "error") && (
@@ -358,17 +359,17 @@ export function PairingSettings({
                 {state.phase === "qr" && (
                   <Button onClick={() => void copy(state.uri)}>
                     {copied?.uri !== state.uri
-                      ? "Copy pairing code"
+                      ? t`Copy pairing code`
                       : copied.failed
-                        ? "Couldn’t copy. Try again"
-                        : "Copied"}
+                        ? t`Couldn’t copy. Try again`
+                        : t`Copied`}
                   </Button>
                 )}
               </div>
             )}
           </div>
           <ol
-            aria-label="Pairing steps"
+            aria-label={t`Pairing steps`}
             className="m-0 grid w-full min-w-0 flex-1 auto-rows-fr list-none self-center gap-3 p-0"
           >
             {steps.map((step, index) => (
@@ -386,7 +387,7 @@ export function PairingSettings({
                   <p className="m-0 text-label">
                     {step.title}
                     <span className="sr-only">
-                      {step.complete ? ", complete" : ""}
+                      {step.complete ? t`, complete` : ""}
                     </span>
                   </p>
                   <p className="mt-1 mb-0 text-body-sm text-muted">

@@ -2,8 +2,10 @@
 // models, saving a provider's key, and testing that a provider answers. Each
 // call runs a short-lived `goose-acp`; keys go to goose's secret store, never
 // into Buzz.
+import { msg } from "@lingui/core/macro";
 import type { ModelChoice } from "../../features/agents/ModelPicker";
 import { withProviderWords } from "../../features/agents/failure-words";
+import { i18n } from "../../features/localization/service";
 import type {
   ProtectedSpawn,
   ReviewPrompt,
@@ -129,8 +131,10 @@ export const REVIEW_REFUSED: ReadonlySet<string> = new Set([
 const refused = (provider = "") =>
   new Error(
     provider
-      ? `Goose reviews cannot use ${provider}, whose settings contained agents may be able to change`
-      : "Goose has no default provider and model to review with",
+      ? i18n._(
+          msg`Goose reviews cannot use ${provider}, whose settings contained agents may be able to change`,
+        )
+      : i18n._(msg`Goose has no default provider and model to review with`),
   );
 
 const TEST_PROMPT = "Reply with exactly: OK";
@@ -190,13 +194,16 @@ export class GooseSetup {
           this.update(
             ready
               ? { readiness: "ready" }
-              : { readiness: "attention", attentionLabel: "Set up Goose" },
+              : {
+                  readiness: "attention",
+                  attentionLabel: i18n._(msg`Set up Goose`),
+                },
           );
         },
         () =>
           this.update({
             readiness: "attention",
-            attentionLabel: "Check Goose setup",
+            attentionLabel: i18n._(msg`Check Goose setup`),
           }),
       )
       .finally(() => {
@@ -238,7 +245,9 @@ export class GooseSetup {
         }
         if (!modelId)
           throw new Error(
-            "Choose a default model with goose configure, then try again.",
+            i18n._(
+              msg`Choose a default model with goose configure, then try again.`,
+            ),
           );
         await goose.request("_goose/unstable/defaults/save", {
           providerId,
@@ -608,17 +617,23 @@ export class GooseSetup {
           session.send(TEST_PROMPT),
           new Promise<never>((_, reject) =>
             setTimeout(
-              () => reject(new Error("The provider did not answer in time")),
+              () =>
+                reject(
+                  new Error(i18n._(msg`The provider did not answer in time`)),
+                ),
               TEST_TIMEOUT_MS,
             ),
           ),
         ]);
         const reply = settled.text?.trim() ?? "";
         if (/^\W*ok\W*$/i.test(reply))
-          return { ok: true, message: "Connected" };
+          return { ok: true, message: i18n._(msg`Connected`) };
         return {
           ok: false,
-          message: reply || settled.error || "The provider sent no reply",
+          message:
+            reply ||
+            settled.error ||
+            i18n._(msg`The provider sent no reply`),
         };
       } finally {
         await goose.close(session);
@@ -700,11 +715,13 @@ function needs(provider: Omit<Provider, "needs">) {
     .filter((key) => key.required && !key.default)
     .map((key) => `${keyLabel(key.name)} (${key.name})`);
   const step = fields.length
-    ? `Add ${fields.join(", ")} in Edit configuration, or run goose configure.`
+    ? i18n._(
+        msg`Add ${fields.join(", ")} in Edit configuration, or run goose configure.`,
+      )
     : provider.signsIn
-      ? "Run goose configure to sign in."
+      ? i18n._(msg`Run goose configure to sign in.`)
       : "";
-  return step && `${provider.name} isn't set up in goose. ${step}`;
+  return step && i18n._(msg`${provider.name} isn't set up in goose. ${step}`);
 }
 
 /** A failed turn's error as its report in the conversation says it, in

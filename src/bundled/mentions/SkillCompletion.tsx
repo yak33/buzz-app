@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { invoke } from "@tauri-apps/api/core";
 import { useContext, useLayoutEffect } from "react";
 import { useAgentChoices } from "../../features/agents/use-choices";
@@ -50,6 +51,7 @@ export function SkillCompletion({
   query,
   publish,
 }: ComposerCompletionProps) {
+  const { t } = useLingui();
   const addressed = useContext(AddressedAgentsContext);
   const choices = useAgentChoices(session, false);
   const agents = choices.identities.filter((choice) =>
@@ -78,11 +80,12 @@ export function SkillCompletion({
   );
   const several = agents.length > 1;
   const target = folders && agent?.pubkey;
-  const group = agent && `Skills for ${agent.managedName ?? agent.name}`;
+  const group = agent && t`Skills for ${agent.managedName ?? agent.name}`;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useLayoutEffect(() => {
     let result: HostCompletionResult | undefined;
     if (several)
-      result = { items: [], status: "Mention one agent to choose a skill." };
+      result = { items: [], status: t`Mention one agent to choose a skill.` };
     else if (target && skills) {
       const needle = query.query.toLowerCase();
       const items = skills.rows

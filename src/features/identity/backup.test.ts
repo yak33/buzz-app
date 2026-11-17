@@ -1,4 +1,5 @@
 import { expect, it, vi } from "vitest";
+import { i18n } from "../localization/service";
 import {
   BackupError,
   type BackupStatus,
@@ -275,7 +276,7 @@ it.each([
     expect(error).toMatchObject({
       name: "BackupError",
       kind,
-      message: BACKUP_FAILURES[kind].message,
+      message: i18n._(BACKUP_FAILURES[kind].message),
       retryable: BACKUP_FAILURES[kind].retryable,
     });
     expect(commands(host).at(-1)).toBe("nsec_backup_session(null)");
@@ -373,7 +374,7 @@ it("never shows native text when the status cannot be read or consent written", 
   );
   expect(await backUp(unwritten).failed).toMatchObject({
     kind: "interrupted",
-    message: BACKUP_FAILURES.interrupted.message,
+    message: i18n._(BACKUP_FAILURES.interrupted.message),
   });
   // The credential is never handed over without consent.
   expect(commands(unwritten).at(-1)).toBe("nsec_backup_set_choice");

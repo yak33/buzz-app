@@ -1,5 +1,6 @@
 import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
+import { i18n } from "../localization/service";
 import { expect, it, vi } from "vitest";
 import type { FirstRunAccount } from "./builderlab-account";
 import { BackupError } from "./backup";
@@ -279,7 +280,7 @@ it("a refused save while keeping a listed backup fails setup as an interrupted b
   await setup.start([keepBackup(identity)]);
   expect(setup.snapshot()).toMatchObject({
     status: "failed",
-    error: BACKUP_FAILURES.interrupted.message,
+    error: i18n._(BACKUP_FAILURES.interrupted.message),
     retryable: true,
   });
 });

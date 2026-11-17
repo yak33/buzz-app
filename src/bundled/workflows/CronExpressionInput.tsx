@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useRef, useState } from "react";
 import { Input } from "../../shared/design-system/ui/Input";
 import {
@@ -26,6 +27,7 @@ export function CronExpressionInput({
   onChange: (value: string) => void;
   value: string;
 }) {
+  const { i18n, t } = useLingui();
   const id = useId();
   const [fields, setFields] = useState<CronFields>(() =>
     cronFieldsFromExpression(value),
@@ -64,13 +66,13 @@ export function CronExpressionInput({
 
   return (
     <fieldset className="workflow-cron">
-      <legend className="buzz-field-label">Cron expression</legend>
+      <legend className="buzz-field-label">{t`Cron expression`}</legend>
       <div className="workflow-cron-fields">
         {CRON_FIELD_DEFINITIONS.map((definition, index) => {
-          const fieldId = `${id}-${definition.label.toLowerCase()}`;
+          const fieldId = `${id}-${index}`;
           const error = validationErrors[index] ?? null;
           return (
-            <div key={definition.label} className="workflow-cron-field">
+            <div key={definition.id} className="workflow-cron-field">
               <label
                 htmlFor={fieldId}
                 className={
@@ -79,7 +81,7 @@ export function CronExpressionInput({
                     : "text-body-sm text-secondary"
                 }
               >
-                {definition.label}
+                {i18n._(definition.label)}
               </label>
               <Input
                 id={fieldId}
@@ -158,7 +160,7 @@ export function CronExpressionInput({
         }
       >
         {firstError ??
-          "UTC · Paste all 5 fields, or use wildcards, lists, ranges, and steps."}
+          t`UTC · Paste all 5 fields, or use wildcards, lists, ranges, and steps.`}
       </p>
     </fieldset>
   );

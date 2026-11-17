@@ -5,6 +5,8 @@
 // next new conversation, so that starts without a spawn. A one-off turn (a
 // watch or timer wake) gets a new session of its own, which is never saved,
 // resumed or shared.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { steerPrompt } from "./prompt";
 import {
   ClaudeProcess,
@@ -356,8 +358,9 @@ export class AgentSessions {
         )
           return {
             ...delivered,
-            error:
-              "The remote Claude session cannot be restored. Start a new session to continue.",
+            error: i18n._(
+              msg`The remote Claude session cannot be restored. Start a new session to continue.`,
+            ),
           };
         let retry: string;
         try {
@@ -416,8 +419,9 @@ export class AgentSessions {
       if (this.options.strictResume)
         return {
           ...settled,
-          error:
-            "The remote Claude session cannot be restored. Start a new session to continue.",
+          error: i18n._(
+            msg`The remote Claude session cannot be restored. Start a new session to continue.`,
+          ),
         };
       await this.options.store.delete(key);
       this.drop(key, live);

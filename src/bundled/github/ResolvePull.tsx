@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { RelayData } from "../../features/relay/service";
 import { useChannelList } from "../../features/relay/react";
@@ -54,6 +56,7 @@ function SessionResolve({
   pull: PullChecklist;
   action: Resolution;
 }) {
+  const { i18n, t } = useLingui();
   const list = useChannelList(session.channels);
   const choices = useAgentChoices(session, true, true);
   const channel = list.channels.find((item) => item.id === channelId);
@@ -123,7 +126,7 @@ function SessionResolve({
         (!selected && (!current.complete || available.length !== 1))
       )
         throw new Error(
-          "The chat’s agents changed. Choose an agent and try again.",
+          i18n._(msg`The chat’s agents changed. Choose an agent and try again.`),
         );
       const content = `[Resolve ${action}](${url})`;
       if (rootId && fresh.channelType !== "solo")
@@ -135,7 +138,7 @@ function SessionResolve({
         notify(
           error instanceof Error
             ? error.message
-            : "Couldn’t send the request. Try again.",
+            : i18n._(msg`Couldn’t send the request. Try again.`),
           "error",
         );
     } finally {
@@ -159,27 +162,27 @@ function SessionResolve({
                   notify(
                     error instanceof Error
                       ? error.message
-                      : "Couldn’t load agents. Try again.",
+                      : i18n._(msg`Couldn’t load agents. Try again.`),
                     "error",
                   ),
                 )
             }
           >
-            Retry agents
+            {t`Retry agents`}
           </Button>
         </span>
       )}
       {(agents.length > 1 || (!choices.complete && agents.length > 0)) && (
         <Select
-          label="Agent"
+          label={t`Agent`}
           variant="inline"
           size="sm"
           value={selected}
-          placeholder="Choose agent"
+          placeholder={t`Choose agent`}
           disabled={busy || sent}
           groups={[
             {
-              label: "Chat agents",
+              label: t`Chat agents`,
               options: agents.map((agent) => ({
                 value: agent.pubkey,
                 label: agent.name,
@@ -198,13 +201,13 @@ function SessionResolve({
         title={
           !recipient
             ? choices.pending
-              ? "Loading chat agents…"
-              : "Choose an available agent in this chat"
-            : "Send a resolution request to the selected chat agent"
+              ? t`Loading chat agents…`
+              : t`Choose an available agent in this chat`
+            : t`Send a resolution request to the selected chat agent`
         }
         onClick={() => void send()}
       >
-        {sent ? "Requested" : `Resolve ${action}`}
+        {sent ? t`Requested` : t`Resolve ${action}`}
       </Button>
     </span>
   );

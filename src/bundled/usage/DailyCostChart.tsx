@@ -1,4 +1,5 @@
 import { scaleBand, scaleLinear } from "d3-scale";
+import { useLingui } from "@lingui/react/macro";
 import { useId, useLayoutEffect, useRef, useState } from "react";
 import { CaretDownIcon } from "../../shared/design-system/icons";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -50,6 +51,7 @@ export function DailyCostChart({
   days: readonly Day[];
   series: readonly Series[];
 }) {
+  const { t } = useLingui();
   const frame = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [hovered, setHovered] = useState<number>();
@@ -101,7 +103,7 @@ export function DailyCostChart({
   return (
     <div className={styles.chart}>
       {stacked && (
-        <ul className={styles.legend} aria-label="Harnesses">
+        <ul className={styles.legend} aria-label={t`Harnesses`}>
           {series.map((line) => (
             <li key={line.key}>
               <span
@@ -115,7 +117,7 @@ export function DailyCostChart({
       )}
       <div ref={frame} className={styles.plot} style={{ blockSize: HEIGHT }}>
         {width > 0 && (
-          <svg width={width} height={HEIGHT} role="img" aria-label="Daily cost">
+          <svg width={width} height={HEIGHT} role="img" aria-label={t`Daily cost`}>
             {y.ticks(4).map((tick) => (
               <g key={tick}>
                 <line
@@ -212,7 +214,7 @@ export function DailyCostChart({
                       </span>
                     ))}
                   <span className={styles.tipRow}>
-                    {stacked ? "Total" : "Cost"}
+                    {stacked ? t`Total` : t`Cost`}
                     <span>{text(dayTotals[index])}</span>
                   </span>
                 </span>
@@ -240,23 +242,23 @@ export function DailyCostChart({
           aria-controls={table}
           onClick={() => setFigures((shown) => !shown)}
         >
-          {figures ? "Hide daily figures" : "Show daily figures"}
+          {figures ? t`Hide daily figures` : t`Show daily figures`}
           <CaretDownIcon aria-hidden="true" />
         </Button>
       </div>
       {/* Screen readers have the table either way. */}
       <table id={table} className={figures ? styles.figures : "sr-only"}>
-        <caption className="sr-only">Daily cost</caption>
+        <caption className="sr-only">{t`Daily cost`}</caption>
         <thead>
           <tr>
-            <th scope="col">Day</th>
+            <th scope="col">{t`Day`}</th>
             {stacked &&
               series.map((line) => (
                 <th key={line.key} scope="col">
                   {line.label}
                 </th>
               ))}
-            <th scope="col">{stacked ? "Total" : "Cost"}</th>
+            <th scope="col">{stacked ? t`Total` : t`Cost`}</th>
           </tr>
         </thead>
         <tbody>

@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import type { InboxItem } from "../../features/relay/inbox";
+import { i18n } from "../../features/localization/service";
 import { replaceView, viewRevision } from "../../shared/view-state";
 
 export const archiveKey = "inbox:archives";
@@ -132,14 +134,18 @@ export function updateArchive(
     });
   if (archives.length > 1000 || JSON.stringify(archives).length > maxBytes)
     throw new Error(
-      "Inbox archive storage is full. Restore some archived conversations first.",
+      i18n._(
+        msg`Inbox archive storage is full. Restore some archived conversations first.`,
+      ),
     );
   const result = replaceView(scope, archiveKey, revision, archives);
   if (result !== "saved")
     throw new Error(
       result === "changed"
-        ? "Inbox archive changed in another window. Try again."
-        : "Could not save the Inbox archive on this device. Try again.",
+        ? i18n._(msg`Inbox archive changed in another window. Try again.`)
+        : i18n._(
+            msg`Could not save the Inbox archive on this device. Try again.`,
+          ),
     );
 }
 
@@ -183,6 +189,8 @@ export function reopenArchives(
   // A newer revision is reconciled by the view subscription, not this stale effect.
   if (replaceView(scope, archiveKey, revision, retained) === "failed")
     throw new Error(
-      "Could not save the reopened Inbox conversation on this device. Try again.",
+      i18n._(
+        msg`Could not save the reopened Inbox conversation on this device. Try again.`,
+      ),
     );
 }

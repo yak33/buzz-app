@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useCallback, useState } from "react";
 import type {
   WorkflowCapability,
@@ -22,11 +23,12 @@ export function WorkflowRuns({
   workflow: WorkflowDefinition;
   heading?: boolean;
 }) {
+  const { t } = useLingui();
   const [cursor, setCursor] = useState<WorkflowRunCursor | undefined>();
   if (!capability.availability.history)
     return (
       <p className="text-secondary">
-        Run history is unavailable from this host.
+        {t`Run history is unavailable from this host.`}
       </p>
     );
   return (
@@ -53,6 +55,7 @@ function RunPage({
   onPage: (cursor: WorkflowRunCursor | undefined) => void;
   heading: boolean;
 }) {
+  const { t } = useLingui();
   useClockFormat();
   const { snapshot, refresh } = useWorkflowView(
     useCallback(
@@ -60,38 +63,37 @@ function RunPage({
       [capability, workflow, cursor],
     ),
   );
-  if (!snapshot) return <p role="status">Reading runs…</p>;
+  if (!snapshot) return <p role="status">{t`Reading runs…`}</p>;
   return (
-    <section aria-label="Workflow runs" className="workflow-runs">
+    <section aria-label={t`Workflow runs`} className="workflow-runs">
       <div className="workflow-toolbar">
-        {heading && <h3 className="text-heading">Runs</h3>}
+        {heading && <h3 className="text-heading">{t`Runs`}</h3>}
         <Button
           disabled={snapshot.status === "loading"}
           onClick={() => void refresh()}
         >
-          Refresh runs
+          {t`Refresh runs`}
         </Button>
       </div>
       {snapshot.status === "loading" && !snapshot.data.runs.length && (
-        <p role="status">Reading runs…</p>
+        <p role="status">{t`Reading runs…`}</p>
       )}
       {snapshot.status === "unavailable" && (
         <p role="status">
-          Run history is unavailable. This does not mean the workflow was
-          deleted.
+          {t`Run history is unavailable. This does not mean the workflow was deleted.`}
         </p>
       )}
       {snapshot.status === "idle" && (
-        <p role="status">History cleared. Refresh to read it again.</p>
+        <p role="status">{t`History cleared. Refresh to read it again.`}</p>
       )}
       {snapshot.status === "error" && (
         <p role="alert" className="text-danger">
           {snapshot.error ??
-            "Run history could not be read. Retry with Refresh runs."}
+            t`Run history could not be read. Retry with Refresh runs.`}
         </p>
       )}
       {snapshot.status === "ready" && !snapshot.data.runs.length && (
-        <p>No runs returned on this page.</p>
+        <p>{t`No runs returned on this page.`}</p>
       )}
       {snapshot.data.runs.map((run) => (
         <article key={run.id} className="workflow-step">
@@ -105,7 +107,7 @@ function RunPage({
             </time>
           </p>
           <p className="text-body-sm text-secondary">
-            Current step: {run.currentStep}
+            {t`Current step:`} {run.currentStep}
           </p>
           {(run.errorCode || run.errorMessage) && (
             <p className="text-danger">
@@ -113,8 +115,8 @@ function RunPage({
             </p>
           )}
           <details>
-            <summary>Run details and trace</summary>
-            <p className="text-mono-sm workflow-key">Run ID: {run.id}</p>
+            <summary>{t`Run details and trace`}</summary>
+            <p className="text-mono-sm workflow-key">{t`Run ID:`} {run.id}</p>
             <pre className="text-mono workflow-trace">
               {JSON.stringify(run.trace, null, 2)}
             </pre>
@@ -123,7 +125,7 @@ function RunPage({
       ))}
       <div className="workflow-toolbar">
         {cursor && (
-          <Button onClick={() => onPage(undefined)}>Newest runs</Button>
+          <Button onClick={() => onPage(undefined)}>{t`Newest runs`}</Button>
         )}
         {snapshot.status === "ready" && snapshot.data.next && (
           <Button
@@ -131,7 +133,7 @@ function RunPage({
               if (snapshot.data.next) onPage(snapshot.data.next);
             }}
           >
-            Older runs
+            {t`Older runs`}
           </Button>
         )}
       </div>

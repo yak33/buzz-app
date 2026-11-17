@@ -1,5 +1,7 @@
 // The turns a remote agent published to its owner over the relay this session:
 // the conversation it was opened from, or all of them.
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   type ComponentType,
   type ReactNode,
@@ -29,7 +31,7 @@ import { useIdentityNames } from "../../../features/identity-names/react";
 
 export type AgentActivity = RelaySession["agentActivity"];
 
-const UNAVAILABLE = "Activity isn't available here.";
+const UNAVAILABLE = msg`Activity isn't available here.`;
 
 export function createActivityTab(
   relay: RelayData,
@@ -82,7 +84,9 @@ export function ActivityPanel({
   /** Names the people whose messages prompted the turns. */
   names?: IdentityNameView | undefined;
 }) {
-  if (!activity) return <Note>Activity shows once Buzz is connected.</Note>;
+  const { t } = useLingui();
+  if (!activity)
+    return <Note>{t`Activity shows once Buzz is connected.`}</Note>;
   return (
     <ActivityFeed
       agent={agent}
@@ -125,6 +129,7 @@ function ActivityFeed({
   openConversation: AgentViewProps["openConversation"];
   names: IdentityNameView | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const resolve = useIdentityNames(names);
   const [everywhere, setEverywhere] = useState(false);
   // A new request for the opened conversation's transcript shows it again.
@@ -171,19 +176,20 @@ function ActivityFeed({
     channelId,
     rootId,
   ]);
-  if (snapshot.status === "unavailable") return <Note>{UNAVAILABLE}</Note>;
+  if (snapshot.status === "unavailable")
+    return <Note>{i18n._(UNAVAILABLE)}</Note>;
   if (snapshot.status === "disabled")
     return (
       <Note>
-        Turn on Agent Activity in{" "}
+        {t`Turn on Agent Activity in`}{" "}
         <SettingsSectionLink section="plugins" open={openSettings}>
-          Manage plugins
+          {t`Manage plugins`}
         </SettingsSectionLink>{" "}
-        to see activity.
+        {t`to see activity.`}
       </Note>
     );
   if (!transcript.turns.length && snapshot.status === "connecting")
-    return <Note>Connecting to the live feed…</Note>;
+    return <Note>{t`Connecting to the live feed…`}</Note>;
   const state = new Map(
     snapshot.turns
       .filter((turn) => turn.agent === agent.pubkey)
@@ -193,6 +199,9 @@ function ActivityFeed({
   // a thread, or a channel whose turns name no thread (its one session).
   const linked =
     !rootId && transcript.turns.some((turn) => !!turn.threadRootId);
+  // 先拆出范围文案，避免在 t`` 插值里嵌套 t``。
+  const scopeHere = t`this conversation`;
+  const scopeAll = t`all of this agent's conversations`;
   return (
     <ActivityTranscript
       transcript={transcript}
@@ -206,7 +215,7 @@ function ActivityFeed({
       before={
         <>
           <Note>
-            {`Turns from ${here ? "this conversation" : "all of this agent's conversations"}, captured while Buzz has been open. Earlier turns aren't shown.`}
+            {t`Turns from ${here ? scopeHere : scopeAll}, captured while Buzz has been open. Earlier turns aren't shown.`}
           </Note>
           {conversation && (
             // An inline link wraps in a narrow pane at large text sizes.
@@ -217,18 +226,18 @@ function ActivityFeed({
                 onClick={() => setEverywhere(!everywhere)}
               >
                 {everywhere
-                  ? "Show this conversation"
-                  : "Show all conversations"}
+                  ? t`Show this conversation`
+                  : t`Show all conversations`}
               </BaseButton>
             </p>
           )}
           {snapshot.status === "interrupted" && (
             <Note>
-              The live feed was interrupted; it reconnects on its own.
+              {t`The live feed was interrupted; it reconnects on its own.`}
             </Note>
           )}
           {snapshot.trimmed > 0 && (
-            <Note>Older activity was dropped to save memory.</Note>
+            <Note>{t`Older activity was dropped to save memory.`}</Note>
           )}
         </>
       }

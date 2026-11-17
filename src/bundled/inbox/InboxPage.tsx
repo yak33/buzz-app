@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   type ReactNode,
   useCallback,
@@ -193,11 +195,12 @@ export function InboxPage({
   /** The host tab workspace, `conversation.ui.Tabs`, while a plugin provides it. */
   tabs?: InboxPageTabs | undefined;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const { viewer, scope } = connection;
   return (
     <div className="h-full min-h-0">
-      <FullPageSurface aria-label="Activity">
+      <FullPageSurface aria-label={t`Activity`}>
         {connection.status === "ready" &&
         viewer &&
         scope?.endsWith(`:${viewer}`) ? (
@@ -217,7 +220,7 @@ export function InboxPage({
             <PanelHeader
               title={
                 <PanelHeaderLabel
-                  title="Activity"
+                  title={t`Activity`}
                   icon={<BellIcon size="1rem" />}
                 />
               }
@@ -225,15 +228,17 @@ export function InboxPage({
             <div className={styles.notice} role="status">
               <p className="text-body text-subtle">
                 {connection.status === "connecting"
-                  ? "Connecting to your activity…"
+                  ? t`Connecting to your activity…`
                   : connection.denied
                     ? // Its notice, on every page, offers what fixes it.
                       communityRefusalTitle(connection.refusal)
                     : (connection.error ??
-                      "Choose a community to see your activity.")}
+                      t`Choose a community to see your activity.`)}
               </p>
               {connection.status === "error" && !connection.denied && (
-                <Button onClick={relay.tryAgain}>Retry connection</Button>
+                <Button onClick={relay.tryAgain}>
+                  {t`Retry connection`}
+                </Button>
               )}
             </div>
           </div>
@@ -255,6 +260,7 @@ const never = () => false;
 
 /** The conversation list is Inbox's first tab; conversations open beside it. */
 export function InboxView({ tabs: Tabs, ...props }: InboxViewProps) {
+  const { t } = useLingui();
   const list = (
     open: (target: PageTabTarget) => boolean,
     close: (target: PageTabTarget) => boolean,
@@ -267,7 +273,7 @@ export function InboxView({ tabs: Tabs, ...props }: InboxViewProps) {
       id="inbox"
       session={props.session}
       scope={props.session.scope}
-      label="Activity"
+      label={t`Activity`}
       icon={<BellIcon size="1rem" />}
       // Opening reveals a conversation; reading is earned as it is seen.
       visits={false}
@@ -290,6 +296,7 @@ function InboxList({
   close(target: PageTabTarget): boolean;
   isOpen(target: PageTabTarget): boolean;
 }) {
+  const { i18n, t } = useLingui();
   const previewId = useId();
   const list = useChannelList(session.channels);
   const inbox = useSyncExternalStore(
@@ -710,7 +717,7 @@ function InboxList({
     try {
       if (valid && !valid())
         throw new Error(
-          "This action expired. Close and reopen the conversation.",
+          i18n._(msg`This action expired. Close and reopen the conversation.`),
         );
       await work();
       succeeded = true;
@@ -721,7 +728,7 @@ function InboxList({
         setError(
           cause instanceof Error
             ? cause.message
-            : "That action failed. Try again.",
+            : i18n._(msg`That action failed. Try again.`),
         );
         onFailure?.();
       }
@@ -798,8 +805,8 @@ function InboxList({
         if (held != null && listOwnsFocus())
           focusRow.current = leaves ? held : item.id;
         if (!leaves) return;
-        notify("Marked as read", "success", {
-          label: "Undo",
+        notify(i18n._(msg`Marked as read`), "success", {
+          label: i18n._(msg`Undo`),
           onClick: () => undoRead(item),
         });
       },
@@ -815,7 +822,7 @@ function InboxList({
       try {
         await session.unread.markUnreadLocal(item.target);
       } catch {
-        notify("Couldn't mark unread", "error");
+        notify(i18n._(msg`Couldn't mark unread`), "error");
       }
     })();
   }
@@ -893,7 +900,9 @@ function InboxList({
           if (intentRevision.current !== intent) return;
           if (!valid())
             throw new Error(
-              "This action expired. Close and reopen the conversation.",
+              i18n._(
+                msg`This action expired. Close and reopen the conversation.`,
+              ),
             );
           const step = remaining[0];
           if (!step) break;
@@ -972,7 +981,7 @@ function InboxList({
                 className={`${styles.refreshStatus} text-caption text-subtle`}
                 role="status"
               >
-                Checking recent activity…
+                {t`Checking recent activity…`}
               </span>
             )}
           </div>
@@ -986,7 +995,7 @@ function InboxList({
         <div className={styles.notice} role="alert">
           <p className="text-body">{failure}</p>
           <Button ref={retryButton} size="sm" loading={pending} onClick={retry}>
-            Retry activity
+            {t`Retry activity`}
           </Button>
         </div>
       )}
@@ -1013,7 +1022,7 @@ function InboxList({
             {inbox.freshness === "stale" && !failure && (
               <div className={styles.notice} role="status">
                 <span className="text-body text-subtle">
-                  Showing retained activity.
+                  {t`Showing retained activity.`}
                 </span>
                 <Button
                   size="sm"
@@ -1021,7 +1030,7 @@ function InboxList({
                   loading={pending}
                   onClick={() => refresh()}
                 >
-                  Refresh
+                  {t`Refresh`}
                 </Button>
               </div>
             )}
@@ -1030,7 +1039,7 @@ function InboxList({
               !failure && (
                 <div className={styles.notice} role="status">
                   <span className="text-body text-subtle">
-                    Check recent activity.
+                    {t`Check recent activity.`}
                   </span>
                   <Button
                     size="sm"
@@ -1038,7 +1047,7 @@ function InboxList({
                     loading={pending}
                     onClick={() => refresh()}
                   >
-                    Refresh
+                    {t`Refresh`}
                   </Button>
                 </div>
               )}
@@ -1051,19 +1060,19 @@ function InboxList({
                     icon={caughtUp ? <CheckIcon /> : <BellIcon />}
                     title={
                       activity === "reactions" && senderFilter === "everyone"
-                        ? "No reactions yet."
+                        ? t`No reactions yet.`
                         : caughtUp
-                          ? "All caught up"
+                          ? t`All caught up`
                           : unreadOnly
-                            ? "No unread activity in this view"
-                            : "No recent activity in this view"
+                            ? t`No unread activity in this view`
+                            : t`No recent activity in this view`
                     }
                     description={
                       activity === "reactions"
-                        ? "When someone reacts to your messages, you’ll see it here."
+                        ? t`When someone reacts to your messages, you’ll see it here.`
                         : caughtUp
-                          ? "New replies, mentions and DMs show up here."
-                          : "Mentions, direct messages, and replies in threads you participate in appear here."
+                          ? t`New replies, mentions and DMs show up here.`
+                          : t`Mentions, direct messages, and replies in threads you participate in appear here.`
                     }
                     action={
                       filtered ? (
@@ -1083,7 +1092,7 @@ function InboxList({
                             focusToolbar();
                           }}
                         >
-                          {caughtUp ? "Show all" : "Clear filters"}
+                          {caughtUp ? t`Show all` : t`Clear filters`}
                         </Button>
                       ) : undefined
                     }
@@ -1093,7 +1102,7 @@ function InboxList({
             <ul
               ref={listRef}
               className={styles.list}
-              aria-label="Activity"
+              aria-label={t`Activity`}
               aria-busy={pending}
             >
               {rows.map((row) => {
@@ -1254,8 +1263,8 @@ function InboxList({
                               size="sm"
                               variant="ghost"
                               disabled={pending}
-                              aria-label={`Mark as read ${sender} in ${context}`}
-                              title="Mark as read"
+                              aria-label={t`Mark as read ${sender} in ${context}`}
+                              title={t`Mark as read`}
                               onClick={() => markRead(item)}
                               icon={<CheckIcon size={16} aria-hidden="true" />}
                             />
@@ -1264,7 +1273,7 @@ function InboxList({
                       </ContextMenuTrigger>
                       <MenuPopup
                         size="compact"
-                        aria-label={`Actions for ${sender} in ${context}`}
+                        aria-label={t`Actions for ${sender} in ${context}`}
                         anchor={menu?.id === item.id ? menu.anchor : undefined}
                       >
                         {/* One action, for the row's read state when the menu
@@ -1280,7 +1289,7 @@ function InboxList({
                             menuUnread ? markRead(item) : mutate(item, true)
                           }
                         >
-                          {menuUnread ? "Mark as read" : "Mark unread"}
+                          {menuUnread ? t`Mark as read` : t`Mark unread`}
                         </MenuItem>
                       </MenuPopup>
                     </ContextMenuRoot>

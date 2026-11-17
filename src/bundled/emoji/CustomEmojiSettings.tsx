@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { SettingsGroup } from "../../shared/design-system/ui/SettingsGroup";
 import {
   useCallback,
@@ -26,6 +27,7 @@ import { Input } from "../../shared/design-system/ui/Input";
 import { InputGroup } from "../../shared/design-system/ui/InputGroup";
 import { Tabs } from "../../shared/design-system/ui/Tabs";
 import { ToastNotice } from "../../shared/design-system/ui/Toast";
+import { msg } from "@lingui/core/macro";
 import { CustomEmoji } from "./CustomEmoji";
 import styles from "./Emoji.module.css";
 
@@ -40,16 +42,17 @@ export function CustomEmojiSettings({
   relay: RelayData;
   active(): boolean;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   return (
     <section aria-labelledby="custom-emoji-settings-title">
       <Header
         id="custom-emoji-settings-title"
-        title="Custom emoji"
+        title={t`Custom emoji`}
         subtitle={
           <>
-            Share custom emoji on this relay. Use <code>:name:</code> in
-            messages and reactions.
+            {t`Share custom emoji on this relay. Use`} <code>:name:</code>{" "}
+            {t`in messages and reactions.`}
           </>
         }
       />
@@ -71,6 +74,7 @@ function Editor({
   session: RelaySession;
   active(): boolean;
 }) {
+  const { i18n, t } = useLingui();
   const catalog = useSyncExternalStore(
     session.emoji.subscribe,
     session.emoji.snapshot,
@@ -152,18 +156,18 @@ function Editor({
     setError("");
     try {
       if (!file.type.startsWith("image/"))
-        throw new Error("Choose an image file for custom emoji.");
+        throw new Error(i18n._(msg`Choose an image file for custom emoji.`));
       const prepared = await prepareAttachment(file, controller.signal);
       const result = await upload(prepared, controller.signal);
       if (!live()) return;
       if (!result.type.startsWith("image/"))
-        throw new Error("Choose an image file for custom emoji.");
+        throw new Error(i18n._(msg`Choose an image file for custom emoji.`));
       setImage({ url: result.url, filename: file.name });
       const suggested = suggestShortcode(file.name);
       if (suggested && !nameRef.current.trim()) setName(suggested);
     } catch (reason) {
       if (!controller.signal.aborted && live())
-        setError(message(reason, "Failed to upload emoji image."));
+        setError(message(reason, i18n._(msg`Failed to upload emoji image.`)));
     } finally {
       if (uploadController.current === controller)
         uploadController.current = null;
@@ -183,7 +187,7 @@ function Editor({
       setImage(undefined);
       setAdded(stored);
     } catch (reason) {
-      if (live()) setError(message(reason, "Failed to add emoji."));
+      if (live()) setError(message(reason, i18n._(msg`Failed to add emoji.`)));
     } finally {
       if (live()) setSaving(false);
     }
@@ -199,7 +203,8 @@ function Editor({
       await remove(shortcode);
       if (live()) setRemoved(shortcode);
     } catch (reason) {
-      if (live()) setRemoveError(message(reason, "Failed to remove emoji."));
+      if (live())
+        setRemoveError(message(reason, i18n._(msg`Failed to remove emoji.`)));
     } finally {
       if (live()) setRemoving(undefined);
     }
@@ -214,15 +219,15 @@ function Editor({
       onClick={() => input.current?.click()}
     >
       {uploading
-        ? "Uploading…"
+        ? t`Uploading…`
         : image
-          ? "Choose different image"
-          : "Upload image"}
+          ? t`Choose different image`
+          : t`Upload image`}
     </Button>
   );
   const addPanel = canAuthor ? (
     <form
-      aria-label="Add emoji"
+      aria-label={t`Add emoji`}
       className="grid gap-4"
       onSubmit={(event) => {
         event.preventDefault();
@@ -237,7 +242,7 @@ function Editor({
         type="file"
         className="sr-only"
         tabIndex={-1}
-        aria-label="Upload image"
+        aria-label={t`Upload image`}
         accept="image/gif,image/png,image/jpeg,image/webp"
         disabled={uploading || saving}
         onChange={(event) => {
@@ -249,12 +254,12 @@ function Editor({
       {image ? (
         <SettingsGroup layout="form">
           <div className="grid gap-2">
-            <InlineHeader title="Selected image" />
+            <InlineHeader title={t`Selected image`} />
             <div className="flex flex-wrap items-center gap-3">
               {preview && (
                 <span className={styles.emojiPreview}>
                   <img
-                    alt="Selected custom emoji preview"
+                    alt={t`Selected custom emoji preview`}
                     src={preview}
                     draggable={false}
                   />
@@ -267,11 +272,11 @@ function Editor({
             </div>
           </div>
           <Field
-            label="Give it a name"
-            description="Type this name between colons in messages and reactions."
+            label={t`Give it a name`}
+            description={t`Type this name between colons in messages and reactions.`}
             error={
               nameInvalid
-                ? "Use only letters, numbers, hyphen, or underscore."
+                ? t`Use only letters, numbers, hyphen, or underscore.`
                 : undefined
             }
           >
@@ -289,7 +294,7 @@ function Editor({
           </Field>
           {image && !nameInvalid && replacing && (
             <p className="text-body-sm text-muted">
-              You already have :{normalized}: — saving will replace its image.
+              {t`You already have :${normalized}: — saving will replace its image.`}
             </p>
           )}
           {error && (
@@ -310,7 +315,7 @@ function Editor({
                   setError("");
                 }}
               >
-                Clear
+                {t`Clear`}
               </Button>
               <Button
                 ref={saveButton}
@@ -319,7 +324,7 @@ function Editor({
                 loading={saving}
                 disabled={uploading || !!removing || !normalized}
               >
-                {saving ? "Saving…" : "Save emoji"}
+                {saving ? t`Saving…` : t`Save emoji`}
               </Button>
             </div>
           )}
@@ -327,8 +332,8 @@ function Editor({
       ) : (
         <EmptyState
           icon={<SmileyIcon />}
-          title="Upload an image"
-          description="Upload a GIF, PNG, JPEG, or WebP. Square images work best."
+          title={t`Upload an image`}
+          description={t`Upload a GIF, PNG, JPEG, or WebP. Square images work best.`}
           action={uploadAction}
         />
       )}
@@ -356,7 +361,7 @@ function Editor({
       <fieldset
         ref={showingCommunity ? undefined : browseRef}
         tabIndex={-1}
-        aria-label={showingCommunity ? "Community emoji" : "My emojis"}
+        aria-label={showingCommunity ? t`Community emoji` : t`My emojis`}
         className="grid min-w-0 gap-2"
       >
         {showingCommunity && (
@@ -373,24 +378,24 @@ function Editor({
           <>
             <p role="alert">{catalog.error}</p>
             <Button onClick={() => void session.emoji.refresh()}>
-              Retry emoji
+              {t`Retry emoji`}
             </Button>
           </>
         )}
         {catalog.status === "error" ? null : catalog.status !== "ready" ? (
-          <p className="text-body-sm text-muted">Loading…</p>
+          <p className="text-body-sm text-muted">{t`Loading…`}</p>
         ) : !entries.length ? (
           showingCommunity ? (
             <EmptyState
               icon={<SmileyIcon />}
-              title="No results"
+              title={t`No results`}
               description={null}
             />
           ) : (
             <EmptyState
               icon={<SmileyIcon />}
-              title="No emojis yet"
-              description="Add an image to use in messages and reactions."
+              title={t`No emojis yet`}
+              description={t`Add an image to use in messages and reactions.`}
               action={
                 canAuthor && (
                   <Button
@@ -399,7 +404,7 @@ function Editor({
                       setTab("add");
                     }}
                   >
-                    Add emoji
+                    {t`Add emoji`}
                   </Button>
                 )
               }
@@ -416,7 +421,7 @@ function Editor({
                   </span>
                   {!showingCommunity && remove && (
                     <IconButton
-                      aria-label={`Remove :${emoji.shortcode}:`}
+                      aria-label={t`Remove :${emoji.shortcode}:`}
                       icon={<TrashIcon aria-hidden="true" />}
                       loading={removing === emoji.shortcode}
                       disabled={!!removing || saving}
@@ -436,21 +441,23 @@ function Editor({
   return (
     <>
       <Tabs
-        label="Custom emoji"
+        label={t`Custom emoji`}
         variant="panel"
         value={tab}
         onValueChange={setTab}
         items={[
-          ...(canAuthor ? [{ value: "add" as const, label: "Add emoji" }] : []),
+          ...(canAuthor
+            ? [{ value: "add" as const, label: t`Add emoji` }]
+            : []),
           {
             value: "mine",
             label: catalog.mine.length
-              ? `My emojis (${catalog.mine.length})`
-              : "My emojis",
+              ? t`My emojis (${catalog.mine.length})`
+              : t`My emojis`,
           },
           {
             value: "community",
-            label: `Community emoji (${community.length})`,
+            label: t`Community emoji (${community.length})`,
           },
         ]}
         renderPanel={(value) =>
@@ -459,7 +466,7 @@ function Editor({
       />
       {added && (
         <ToastNotice
-          title={`Added :${added}:`}
+          title={t`Added :${added}:`}
           tone="success"
           timeout={5000}
           onDismiss={() => setAdded(undefined)}
@@ -467,7 +474,7 @@ function Editor({
       )}
       {removed && (
         <ToastNotice
-          title={`Removed :${removed}:`}
+          title={t`Removed :${removed}:`}
           tone="success"
           timeout={5000}
           onDismiss={() => setRemoved(undefined)}

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import { watchSlug } from "../../features/agents/attention";
 import type {
@@ -177,6 +178,7 @@ function BestieTab({
   agent: Agent;
   former?: boolean;
 }) {
+  const { t } = useLingui();
   const { session, scope } = useRelayConnection(relay);
   // A remote agent is asked about before it is made Bestie.
   const bestie = useBestieChoice(
@@ -190,7 +192,7 @@ function BestieTab({
   const others = bestie.choices.selectable.filter(
     (choice) => choice.pubkey !== agent.pubkey,
   );
-  const name = agent.name || "This agent";
+  const name = agent.name || t`This agent`;
   const switches = (features: readonly Feature[]) =>
     features.map((feature) => (
       <FeatureSwitch
@@ -213,7 +215,7 @@ function BestieTab({
         {former ? (
           <PreferenceRow
             icon={<BestieIcon size="1rem" />}
-            title={`${name} is no longer your Bestie. These are still on.`}
+            title={t`${name} is no longer your Bestie. These are still on.`}
             trailing={
               <Button
                 variant="outline"
@@ -224,24 +226,24 @@ function BestieTab({
                 }
                 onClick={() => bestie.make(agent.pubkey)}
               >
-                Make my Bestie again
+                {t`Make my Bestie again`}
               </Button>
             }
           />
         ) : (
           <PreferenceRow
             icon={<BestieIcon size="1rem" />}
-            title="This is your Bestie"
-            subtitle="It's pinned at the top of Buzz, with your DM as its home."
+            title={t`This is your Bestie`}
+            subtitle={t`It's pinned at the top of Buzz, with your DM as its home.`}
             trailing={
               <MenuRoot>
                 <MenuTrigger
                   disabled={!others.length}
-                  render={<Button variant="outline">Change</Button>}
+                  render={<Button variant="outline">{t`Change`}</Button>}
                 />
                 <MenuPopup align="end">
                   <MenuGroup>
-                    <MenuGroupLabel>Make your Bestie</MenuGroupLabel>
+                    <MenuGroupLabel>{t`Make your Bestie`}</MenuGroupLabel>
                     {others.map((choice) => (
                       <MenuItem
                         key={choice.pubkey}
@@ -258,25 +260,25 @@ function BestieTab({
         )}
         {!former && bestie.remove && (
           <PreferenceRow
-            title="Remove as Bestie"
-            subtitle="Have no Bestie until you make one again."
+            title={t`Remove as Bestie`}
+            subtitle={t`Have no Bestie until you make one again.`}
             trailing={(label) => (
               <Button
                 variant="outline"
                 aria-describedby={label["aria-labelledby"]}
                 onClick={() => bestie.remove?.(agent.pubkey, name)}
               >
-                Remove
+                {t`Remove`}
               </Button>
             )}
           />
         )}
       </SettingsGroup>
-      <InlineHeader title="Settings" />
+      <InlineHeader title={t`Settings`} />
       <SettingsGroup>
         {switches(FEATURES.filter((feature) => !feature.timer))}
       </SettingsGroup>
-      <InlineHeader title="Check-ins" />
+      <InlineHeader title={t`Check-ins`} />
       <SettingsGroup>
         {switches(FEATURES.filter((feature) => feature.timer))}
       </SettingsGroup>
@@ -314,19 +316,20 @@ function FeatureSwitch({
   saving: boolean;
   setSaving(saving: boolean): void;
 }) {
+  const { i18n, t } = useLingui();
   const [error, setError] = useState<string>();
   const problem = cannotEdit(agents, agent, feature);
   if (problem)
-    return <PreferenceRow title={feature.title} subtitle={problem} />;
+    return <PreferenceRow title={i18n._(feature.title)} subtitle={problem} />;
   if (hosted && !hosted.loaded)
     return (
       <PreferenceRow
-        title={feature.title}
-        subtitle={hosted.error ?? "Reading its instructions…"}
+        title={i18n._(feature.title)}
+        subtitle={hosted.error ?? t`Reading its instructions…`}
         trailing={
           hosted.error ? (
             <Button variant="outline" onClick={hosted.retry}>
-              Retry
+              {t`Retry`}
             </Button>
           ) : undefined
         }
@@ -338,6 +341,9 @@ function FeatureSwitch({
   const blocked = !!required && !featureOn(agent, required);
   const checked = featureOn(agent, feature);
   const formerCheckIn = former && !!feature.timer;
+  // Titles resolve once so each description below stays one template.
+  const featureTitle = i18n._(feature.title);
+  const requiredTitle = required ? i18n._(required.title) : "";
   const run = async (task: () => Promise<void>) => {
     setSaving(true);
     setError(undefined);
@@ -377,11 +383,11 @@ function FeatureSwitch({
     return (
       <>
         <PreferenceRow
-          title={feature.title}
+          title={i18n._(feature.title)}
           subtitle={
             restorable
-              ? "Its section in Instructions was edited where it starts or ends. Restore puts back the original section."
-              : "Its section in Instructions was edited where it starts or ends. Fix its start and end lines there."
+              ? t`Its section in Instructions was edited where it starts or ends. Restore puts back the original section.`
+              : t`Its section in Instructions was edited where it starts or ends. Fix its start and end lines there.`
           }
           trailing={
             restorable ? (
@@ -392,7 +398,7 @@ function FeatureSwitch({
                   void run(() => restoreFeature(agents, agent, feature))
                 }
               >
-                Restore
+                {t`Restore`}
               </Button>
             ) : undefined
           }
@@ -404,21 +410,21 @@ function FeatureSwitch({
   return (
     <>
       <SwitchPreferenceRow
-        label={feature.title}
+        label={i18n._(feature.title)}
         description={
           formerCheckIn
-            ? "Only your Bestie checks in."
+            ? t`Only your Bestie checks in.`
             : blocked && required && !checked
-              ? `Turn on ${required.title} first.`
+              ? t`Turn on ${requiredTitle} first.`
               : // Paused on its own in the Attention tab, which can't resume a
                 // timer: saving it again here does.
                 checked && timer?.value.type === "timer" && !timer.value.enabled
-                ? `Paused in Attention. Turn ${feature.title} off and on again to restart it.`
+                ? t`Paused in Attention. Turn ${featureTitle} off and on again to restart it.`
                 : // Attention reads off while no plugin shows it, as when the
                   // Watching plugin is off.
                   checked && feature.timer && !agent.attentionEnabled
-                  ? "Paused: watches aren't running on this device. Turn on the Attention plugin."
-                  : feature.description
+                  ? t`Paused: watches aren't running on this device. Turn on the Attention plugin.`
+                  : i18n._(feature.description)
         }
         checked={checked}
         // One left on can still be turned off.
@@ -429,8 +435,8 @@ function FeatureSwitch({
           failed too, still runs: Remove takes it away. */}
       {timer && !checked && (
         <PreferenceRow
-          title={`${feature.title}'s timer is still saved`}
-          subtitle="Its section in Instructions is missing, so it reads as off."
+          title={t`${featureTitle}'s timer is still saved`}
+          subtitle={t`Its section in Instructions is missing, so it reads as off.`}
           trailing={(label) => (
             <Button
               variant="outline"
@@ -438,7 +444,7 @@ function FeatureSwitch({
               disabled={saving}
               onClick={() => void save(false)}
             >
-              Remove
+              {t`Remove`}
             </Button>
           )}
         />

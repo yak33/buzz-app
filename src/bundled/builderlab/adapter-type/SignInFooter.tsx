@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useContext,
   useLayoutEffect,
@@ -176,24 +177,27 @@ export function AccountRecoverySheet({
   onSwitchAccount?: () => void;
   openIdentity?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   return (
     <SettingsErrorSheet
       active={active}
       accessRequired
       title={
-        mismatch ? "Different account needed" : "Try another Builderlab account"
+        mismatch
+          ? t`Different account needed`
+          : t`Try another Builderlab account`
       }
       message={
         mismatch
           ? email
-            ? `Sign in as ${email} to edit this agent.`
-            : "Sign in with another Builderlab account to edit this agent."
-          : (detail ?? "This account can’t access Builderlab agents.")
+            ? t`Sign in as ${email} to edit this agent.`
+            : t`Sign in with another Builderlab account to edit this agent.`
+          : (detail ?? t`This account can’t access Builderlab agents.`)
       }
       action={{
         label: brokerBuilderlab()
-          ? "Use another account"
-          : "Identity → Organization sign-in",
+          ? t`Use another account`
+          : t`Identity → Organization sign-in`,
         disabled: !brokerBuilderlab() && !openIdentity,
         href:
           active && brokerBuilderlab()

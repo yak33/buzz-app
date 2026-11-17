@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
+import { msg } from "@lingui/core/macro";
 import { Context } from "@deepseek-ai/cordis";
 import {
   act,
@@ -11,6 +12,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, expect, it, vi } from "vitest";
+import { i18n } from "../../features/localization/service";
 import { ConversationService } from "../../features/conversation/service";
 import { MessageMarkdown } from "../../features/messages/MessageMarkdown";
 import { createPluginManager } from "../../plugins/manager";
@@ -65,7 +67,7 @@ it("draws mermaid fences in messages while the bundled plugin is enabled", async
   expect(view.container.querySelector("pre")).toBeNull();
   expect(
     screen.getAllByRole("button").map((button) => button.ariaLabel),
-  ).toEqual(["Expand diagram", "Copy code block"]);
+  ).toEqual([i18n._(msg`Expand diagram`), "Copy code block"]);
 
   await act(() => plugins.change("disable", "buzz.mermaid"));
   expect(view.container.querySelector("svg.pele")).toBeNull();
@@ -130,15 +132,21 @@ it("expands the diagram in a dialog that copies its source and restores focus", 
   const write = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
   const code = "flowchart LR\n  A[Start] --> B[End]";
   render(<MermaidExpand code={code} />, { wrapper: ToastProvider });
-  const expand = screen.getByRole("button", { name: "Expand diagram" });
+  const expand = screen.getByRole("button", {
+    name: i18n._(msg`Expand diagram`),
+  });
   await user.click(expand);
-  const dialog = await screen.findByRole("dialog", { name: "Mermaid diagram" });
+  const dialog = await screen.findByRole("dialog", {
+    name: i18n._(msg`Mermaid diagram`),
+  });
   await waitFor(() =>
     expect(dialog.querySelector("svg.pele")).toHaveTextContent("Start"),
   );
-  await user.click(within(dialog).getByRole("button", { name: "Copy code" }));
+  await user.click(
+    within(dialog).getByRole("button", { name: i18n._(msg`Copy code`) }),
+  );
   expect(write).toHaveBeenCalledWith(code);
-  await screen.findByText("Copied code to clipboard");
+  await screen.findByText(i18n._(msg`Copied code to clipboard`));
   await user.click(
     within(dialog).getByRole("button", { name: "Close diagram" }),
   );

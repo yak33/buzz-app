@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import * as React from "react";
 import type { Context } from "../../plugins/author";
 import { relativeTimestamp } from "../../shared/relative-timestamp";
@@ -45,7 +46,7 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
     name,
     scope,
     summary,
-    prefix = "Runs in",
+    prefix,
     compact = false,
   }: {
     channel: string;
@@ -56,11 +57,13 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
     prefix?: string;
     compact?: boolean;
   }) {
+    const { t } = useLingui();
+    const shownPrefix = prefix ?? t`Runs in`;
     const text = (
       <span className="attention-destination-label">
-        {prefix}
+        {shownPrefix}
         {h(channelIcon(summary), { size: 16, "aria-hidden": true })}
-        <span className="attention-channel-name">{`${name}${root ? " thread" : ""}`}</span>
+        <span className="attention-channel-name">{`${name}${root ? t` thread` : ""}`}</span>
       </span>
     );
     const at = scope?.lastIndexOf(":") ?? -1;
@@ -68,7 +71,7 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
       return (
         <span
           className="text-caption text-subtle"
-          title={`Delivers to ${name}`}
+          title={t`Delivers to ${name}`}
         >
           {text}
         </span>
@@ -78,9 +81,9 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
         variant={compact ? "outline" : "link"}
         size={compact ? "xs" : "inline"}
         type="button"
-        title={`Delivers to ${name}`}
+        title={t`Delivers to ${name}`}
         aria-label={
-          compact ? `Open reference ${name}` : `Open destination ${name}`
+          compact ? t`Open reference ${name}` : t`Open destination ${name}`
         }
         onClick={() =>
           void navigation.open({
@@ -242,19 +245,20 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
     scope?: string | undefined;
     command: boolean;
   }) {
+    const { t } = useLingui();
     const [open, setOpen] = React.useState(false);
     // Command output is literal; anything else is Markdown, so its spoilers stay hidden.
     const summary =
       (command
         ? heading(entry.text.trim().split("\n")[0] ?? "").text
-        : plainText(entry.text)) || "Recorded event";
+        : plainText(entry.text)) || t`Recorded event`;
     return (
       <li className="attention-timeline-event">
         <details open={open}>
           {/* biome-ignore lint/a11y/noStaticElementInteractions: Native summary handles keyboard activation; the click controls lazy mounting. */}
           <summary
             className="attention-activity-row"
-            aria-label={`Open activity: ${summary}`}
+            aria-label={t`Open activity: ${summary}`}
             onClick={(event: React.MouseEvent) => {
               event.preventDefault();
               setOpen(!open);
@@ -310,26 +314,29 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
     command: boolean;
     messages: boolean;
   }) {
+    const { t } = useLingui();
     return (
       <details className="attention-watch-activity">
         <summary
           className="attention-disclosure text-body-sm text-subtle"
-          aria-label={`Show activity for ${label}`}
+          aria-label={t`Show activity for ${label}`}
         >
           <span className="attention-disclosure-icon">
             <ClockIcon size={16} aria-hidden={true} />
           </span>
-          {"Activity"}
+          {t`Activity`}
           <span className="attention-detail-preview">
             {history?.events?.length
-              ? `${history.events.length} event${history.events.length === 1 ? "" : "s"}`
+              ? history.events.length === 1
+                ? t`1 event`
+                : t`${history.events.length} events`
               : history?.output
-                ? "1 event"
-                : "No activity yet"}
+                ? t`1 event`
+                : t`No activity yet`}
           </span>
           <CaretRightIcon size={16} aria-hidden={true} />
         </summary>
-        <ol className="attention-timeline" aria-label={`Activity for ${label}`}>
+        <ol className="attention-timeline" aria-label={t`Activity for ${label}`}>
           {(history?.events?.length
             ? [...history.events].reverse()
             : history?.output
@@ -360,7 +367,7 @@ export function createAttentionActivity(navigation: Context["navigation"]) {
           ))}
           {!history?.events?.length && !history?.output && (
             <li>
-              <p className="text-body-sm text-subtle">{"No activity yet"}</p>
+              <p className="text-body-sm text-subtle">{t`No activity yet`}</p>
             </li>
           )}
         </ol>

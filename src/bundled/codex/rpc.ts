@@ -1,4 +1,6 @@
 import { writeJSON } from "../../features/agent-protection/json-stream";
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { Model } from "./config";
 import type {
   HostProcess,
@@ -37,7 +39,7 @@ export class Refused extends Error {}
 /** A line over the connection's frame, which closes it. */
 export class Oversized extends Error {
   constructor() {
-    super("Codex output frame is too large");
+    super(i18n._(msg`Codex output frame is too large`));
   }
 }
 
@@ -84,7 +86,10 @@ export class AppServer {
     void this.process.exited.then((code) => {
       this.gone = true;
       this.fail(
-        new Error(this.stderr.trim() || `Codex exited (${code ?? "signal"})`),
+        new Error(
+          this.stderr.trim() ||
+            i18n._(msg`Codex exited (${code ?? "signal"})`),
+        ),
       );
     });
     if (this.failure) {
@@ -124,7 +129,7 @@ export class AppServer {
   }
   /** Closes this connection and opens a fresh app-server as before. */
   async reopen() {
-    if (!this.opened) throw new Error("Codex is not connected");
+    if (!this.opened) throw new Error(i18n._(msg`Codex is not connected`));
     const [spawn, cwd, protectedRuntime] = this.opened;
     await this.close();
     delete this.process;
@@ -235,7 +240,7 @@ export class AppServer {
   send(message: Wire) {
     if (this.failure) return Promise.reject(this.failure);
     if (!this.process)
-      return Promise.reject(new Error("Codex is not connected"));
+      return Promise.reject(new Error(i18n._(msg`Codex is not connected`)));
     return writeJSON(this.process, message);
   }
   request<T = unknown>(method: string, params: unknown = {}): Promise<T> {
@@ -259,7 +264,7 @@ export class AppServer {
     });
   }
   close(): Promise<void> {
-    this.fail(new Error("Codex connection closed"));
+    this.fail(new Error(i18n._(msg`Codex connection closed`)));
     if (!this.process) return Promise.resolve();
     if (this.closing) return this.closing;
     const process = this.process;

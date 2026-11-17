@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
 import { StopIcon as Square } from "../../shared/design-system/icons";
@@ -8,6 +9,7 @@ import { VOICE_NOTE_MAX_DURATION_SECONDS } from "./audio";
 import styles from "./VoiceNotes.module.css";
 
 export function VoiceCapture({ accept, cancel }: ComposerCaptureProps) {
+  const { t } = useLingui();
   const recorder = useVoiceNoteRecorder();
   const current = useRef({ accept, cancel });
   current.current = { accept, cancel };
@@ -52,10 +54,10 @@ export function VoiceCapture({ accept, cancel }: ComposerCaptureProps) {
       <div className={styles.recorder}>
         <span role="alert" className={styles.error}>
           {recorder.error ??
-            "Could not attach this voice note. Close and try again."}
+            t`Could not attach this voice note. Close and try again.`}
         </span>
         <button ref={close} type="button" onClick={cancel}>
-          Close
+          {t`Close`}
         </button>
       </div>
     );
@@ -77,8 +79,8 @@ export function VoiceCapture({ accept, cancel }: ComposerCaptureProps) {
         variant="subtle"
         size="sm"
         disabled={!recording}
-        aria-label="Stop recording"
-        title="Stop recording"
+        aria-label={t`Stop recording`}
+        title={t`Stop recording`}
         onClick={() => void finish()}
         icon={<Square size={16} fill="currentColor" aria-hidden="true" />}
       />

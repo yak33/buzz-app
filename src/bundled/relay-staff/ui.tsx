@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { nip19 } from "nostr-tools";
 import { formatPublicKey } from "../../shared/identity/public-key";
@@ -10,8 +13,7 @@ import {
 } from "../../features/relay-staff/contract";
 import { describe, type Tracked } from "./session";
 
-export const UNSUPPORTED_BROWSING =
-  "This relay doesn't support community browsing yet.";
+export const UNSUPPORTED_BROWSING = msg`This relay doesn't support community browsing yet.`;
 
 /** A community as a row knows it. `id` is null when its source was removed. */
 export type CommunityRef = { id: string; host: string };
@@ -68,9 +70,10 @@ export function Row({
 }
 
 export function Loading() {
+  const { t } = useLingui();
   return (
     <p className="flex items-center gap-2 text-body-sm text-secondary">
-      <CircleNotchIcon className="animate-spin" /> Loading…
+      <CircleNotchIcon className="animate-spin" /> {t`Loading…`}
     </p>
   );
 }
@@ -83,21 +86,22 @@ export function Failure({
 }: {
   failure: StaffFailure;
   /** Copy for a relay that lacks the route (a complete, empty 404 or 405). */
-  unsupportedText?: string | undefined;
+  unsupportedText?: MessageDescriptor | undefined;
   /** Reruns the failed read; shown as Retry beside the error. */
   onRetry?: (() => void) | undefined;
   retrying?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   return (
     <div className="flex flex-wrap items-center gap-2">
       <p className="text-body-sm text-danger" role="alert">
         {unsupportedText && unsupported(failure)
-          ? unsupportedText
+          ? i18n._(unsupportedText)
           : describe(failure)}
       </p>
       {onRetry && (
         <Button size="sm" loading={retrying} onClick={onRetry}>
-          Retry
+          {t`Retry`}
         </Button>
       )}
     </div>
@@ -141,7 +145,7 @@ export function Loaded<T>({
   read: Tracked<T>;
   /** The read's reload, offered as Retry beside a failure. */
   onRetry?: (() => void) | undefined;
-  unsupportedText?: string | undefined;
+  unsupportedText?: MessageDescriptor | undefined;
   children(value: T): ReactNode;
 }) {
   const retry = useRetry(
@@ -168,37 +172,44 @@ export function CommunityBadge({
   host,
 }: {
   id: string | null;
-  host: string | null;
+  /** A host name, or the marker of a removed source community. */
+  host: string | MessageDescriptor | null;
 }) {
+  const { i18n, t } = useLingui();
   const { open } = useContext(NavContext);
   const base =
     "inline-flex max-w-full items-center rounded-full border px-2 py-0.5 text-caption";
   if (!id || !host)
-    return <span className={`${base} text-secondary`}>community removed</span>;
+    return (
+      <span className={`${base} text-secondary`}>{t`community removed`}</span>
+    );
+  // A severed group's "host" is the marker text, not a real host.
+  const hostText = typeof host === "string" ? host : i18n._(host);
   return (
     <button
       type="button"
       className={base}
-      title={`Open ${host}`}
-      onClick={() => open({ id, host })}
+      title={t`Open ${hostText}`}
+      onClick={() => open({ id, host: hostText })}
     >
-      <span className="truncate">{host}</span>
+      <span className="truncate">{hostText}</span>
     </button>
   );
 }
 
 export function NotConnected({ host }: { host: string }) {
+  const { t } = useLingui();
   const { connectedHost } = useContext(NavContext);
   if (!connectedHost || connectedHost === host) return null;
   return (
     <span className="text-caption text-warning">
-      Not the community you're connected to.
+      {t`Not the community you're connected to.`}
     </span>
   );
 }
 
 type Grouped = { communityId: string | null; communityHost: string | null };
-const SEVERED = "(source community removed)";
+const SEVERED = msg`(source community removed)`;
 
 /**
  * Deployment-wide rows grouped by community, in first-seen order. Rows whose
@@ -207,7 +218,7 @@ const SEVERED = "(source community removed)";
 export function groupByCommunity<T extends Grouped>(items: T[]) {
   const groups = new Map<
     string,
-    { host: string; id: string | null; items: T[] }
+    { host: string | MessageDescriptor; id: string | null; items: T[] }
   >();
   for (const item of items) {
     const key = item.communityId ?? "";
@@ -237,6 +248,7 @@ export function GroupedList<T extends Grouped>({
   limit: number;
   headings?: boolean;
 }) {
+  const { t } = useLingui();
   const capped = items.length >= limit;
   return (
     <div className="flex flex-col gap-4">
@@ -248,7 +260,7 @@ export function GroupedList<T extends Grouped>({
               className="rounded-full bg-secondary px-2 py-0.5 text-caption font-medium"
               title={
                 capped
-                  ? "The relay returned its maximum; there may be more"
+                  ? t`The relay returned its maximum; there may be more`
                   : undefined
               }
             >
@@ -271,8 +283,7 @@ export const containsSecretKey = (text: string) =>
   /nsec1[02-9ac-hj-np-z]{6,}/i.test(text);
 
 /** Shown wherever `containsSecretKey` refuses an input. */
-export const SECRET_KEY_WARNING =
-  "That looks like a private key. Never paste it here.";
+export const SECRET_KEY_WARNING = msg`That looks like a private key. Never paste it here.`;
 
 /** Hex, `note1…` or `nevent1…` (optionally `nostr:`-prefixed) as a hex event ID. */
 export function eventIdInput(text: string): string | null {

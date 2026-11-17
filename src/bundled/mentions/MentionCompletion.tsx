@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../../features/relay/react";
 import { TeamMentionAvatars } from "./TeamMentionAvatars";
 import {
@@ -70,6 +71,7 @@ export function MentionCompletion({
   query,
   publish,
 }: ComposerCompletionProps) {
+  const { t } = useLingui();
   // The host remounts this provider on every keystroke. One `@` token in one
   // composer is the chooser lifetime that keeps the last directory page.
   const model = useMentionChoices(
@@ -184,6 +186,7 @@ export function MentionCompletion({
         () => settle(session, current, ids, true),
       );
   }, [session, memberKey, attempt, draftRoster, profileGeneration, evictions]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useEffect(() => {
     const members = memberKey ? memberKey.split(":") : [];
     const admitted =
@@ -237,8 +240,8 @@ export function MentionCompletion({
                 ? undefined
                 : inviteAgents
                   ? parentAdmission
-                    ? "Adds to channel"
-                    : "Adds to chat"
+                    ? t`Adds to channel`
+                    : t`Adds to chat`
                   : outsideMentionDetail(channel, elsewhere),
             ]
               .filter(Boolean)
@@ -365,28 +368,27 @@ export function MentionCompletion({
         : {}),
       items: next.flatMap((id) => byId.get(id) ?? []),
       ...(model.pending
-        ? { status: "Loading recipients…" }
+        ? { status: t`Loading recipients…` }
         : model.directory.error
           ? { status: model.directory.error }
           : !admitted
             ? {}
             : model.archives.status === "error"
-              ? { status: "Archive information unavailable. Retry to refresh." }
+              ? { status: t`Archive information unavailable. Retry to refresh.` }
               : agents.status === "error" || agents.error
-                ? { status: "Could not load agents. Retry to refresh." }
+                ? { status: t`Could not load agents. Retry to refresh.` }
                 : admitted && membershipMissing
-                  ? { status: "Channel membership unavailable." }
+                  ? { status: t`Channel membership unavailable.` }
                   : admitted && membershipError
-                    ? { status: "Could not refresh channel membership." }
+                    ? { status: t`Could not refresh channel membership.` }
                     : // Only a failed read: a member who never set a name is
                       // a complete answer, not an error.
                       error
                       ? {
-                          status:
-                            "Could not load some names. Retry to refresh.",
+                          status: t`Could not load some names. Retry to refresh.`,
                         }
                       : model.directory.loading
-                        ? { status: "Searching community…" }
+                        ? { status: t`Searching community…` }
                         : teams.status
                           ? { status: teams.status }
                           : {}),

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useMemo, useState } from "react";
 import type { ChannelSummary } from "../../features/relay/contracts";
 import { matchName } from "../../features/search/match";
@@ -18,6 +19,7 @@ export function WorkflowChannelPicker({
   names?: IdentityNameView;
   onSelect: (id: string) => void;
 }) {
+  const { t } = useLingui();
   const [typed, setTyped] = useState("");
   const nameCandidates = useMemo(
     () =>
@@ -78,12 +80,12 @@ export function WorkflowChannelPicker({
         autoHighlight
       >
         <Combobox.Control
-          label="Choose a channel"
-          triggerLabel="Browse channels"
-          placeholder="Search channels…"
+          label={t`Choose a channel`}
+          triggerLabel={t`Browse channels`}
+          placeholder={t`Search channels…`}
           autoFocus
         />
-        <Combobox.Popup empty="No matching channels.">
+        <Combobox.Popup empty={t`No matching channels.`}>
           <Combobox.List>
             {(channel: ChannelSummary) => {
               const Icon = channelIcon(channel);

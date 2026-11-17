@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import { BuilderlabLogoIcon } from "../../../shared/design-system/icons";
+import { i18n } from "../../../features/localization/service";
 import { createActivityTab } from "./Activity";
 import { createSettingsTab } from "./Instructions";
 import { createProfileActions } from "./SignInFooter";
@@ -62,11 +64,13 @@ export function builderlabType(
       typeof value.id !== "string" ||
       !value.id.trim()
     )
-      throw new Error("Saved Builderlab agent identity is invalid.");
+      throw new Error(i18n._(msg`Saved Builderlab agent identity is invalid.`));
     const current = scope();
     if (value.target !== current.target || value.subject !== current.subject)
       throw new Error(
-        "Sign in to the Builderlab account that created this agent.",
+        i18n._(
+          msg`Sign in to the Builderlab account that created this agent.`,
+        ),
       );
     return value;
   }
@@ -80,7 +84,10 @@ export function builderlabType(
     );
     if (session.credential() !== credential)
       throw new DOMException("Builderlab session changed.", "AbortError");
-    if (!agent) throw new Error("Agent not found in this Builderlab account.");
+    if (!agent)
+      throw new Error(
+        i18n._(msg`Agent not found in this Builderlab account.`),
+      );
     return remember(pubkey, agent.id);
   }
   /** The signed-in account's listing of the agent, with its instructions.
@@ -93,7 +100,10 @@ export function builderlabType(
     );
     if (session.credential() !== credential)
       throw new DOMException("Builderlab session changed.", "AbortError");
-    if (!agent) throw new Error("Agent not found in this Builderlab account.");
+    if (!agent)
+      throw new Error(
+        i18n._(msg`Agent not found in this Builderlab account.`),
+      );
     return agent;
   }
   async function validateCreation(config: unknown, signal: AbortSignal) {
@@ -102,7 +112,9 @@ export function builderlabType(
     const draft = creationConfig(config);
     if (draft.subject !== session.credential().account.subject)
       throw new Error(
-        "Sign in to the Builderlab account that selected these model settings.",
+        i18n._(
+          msg`Sign in to the Builderlab account that selected these model settings.`,
+        ),
       );
     if (
       !catalog.models
@@ -110,7 +122,9 @@ export function builderlabType(
         ?.supportedReasoningEfforts.includes(draft.reasoningEffort)
     )
       throw new Error(
-        "Choose a model and thinking level offered in the model catalog.",
+        i18n._(
+          msg`Choose a model and thinking level offered in the model catalog.`,
+        ),
       );
     return draft;
   }

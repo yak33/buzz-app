@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { PRESET } from "../../features/agents/recommended";
 
 export type Config = {
@@ -50,8 +52,11 @@ export function config(raw: unknown): Config {
   };
 }
 export const effortName = (effort: string) =>
-  ({ xhigh: "Extra high", max: "Maximum", ultra: "Ultra" })[effort] ??
-  `${effort.charAt(0).toUpperCase()}${effort.slice(1)}`;
+  ({
+    xhigh: i18n._(msg`Extra high`),
+    max: i18n._(msg`Maximum`),
+    ultra: i18n._(msg`Ultra`),
+  })[effort] ?? `${effort.charAt(0).toUpperCase()}${effort.slice(1)}`;
 
 export const absoluteWorkspace = (path: string) =>
   path.trim().startsWith("/") || /^[A-Za-z]:[\\/]/.test(path.trim());

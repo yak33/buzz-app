@@ -1,6 +1,8 @@
 // A conversation's Claude Code session, read from the transcript Claude Code
 // keeps on this computer and shown in the host's turn-transcript model. Claude
 // Code owns the file; nothing here writes or keeps it.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { isMessageTool } from "../../buzz-mcp/session-tools";
 import { readEventBody } from "../../features/agent-harness/turn-records";
 import { readFile } from "../../buzz-mcp/app-client";
@@ -320,7 +322,8 @@ export async function workspaceProject(
     signal.removeEventListener("abort", stop);
   });
   signal.throwIfAborted();
-  if (code !== 0) throw new Error("Could not find the agent's workspace");
+  if (code !== 0)
+    throw new Error(i18n._(msg`Could not find the agent's workspace`));
   return limited(directory.trim());
 }
 const limited = (directory: string) => {

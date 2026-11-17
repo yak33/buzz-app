@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { isApplePlatform } from "../../features/shortcuts/format";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
@@ -42,6 +43,7 @@ export function ClaudeSettings({
   clearKey(): Promise<void>;
   connection?: ClaudeConnection | undefined;
 }) {
+  const { t } = useLingui();
   const [configured, setConfigured] = useState<boolean>();
   const [own, setOwn] = useState<Credentials["own"]>();
   const [checking, setChecking] = useState(true);
@@ -67,8 +69,8 @@ export function ClaudeSettings({
   const setButton = useRef<HTMLButtonElement>(null);
   const connectForm = useRef<HTMLDivElement>(null);
   const storage = isApplePlatform(navigator.platform)
-    ? "this Mac’s Keychain"
-    : "this device’s secure storage";
+    ? t`this Mac’s Keychain`
+    : t`this device’s secure storage`;
   const check = useCallback(async () => {
     const current = ++request.current;
     setChecking(true);
@@ -126,6 +128,7 @@ export function ClaudeSettings({
     }
   };
   const disabled = checking || saving || clearing || !!readError || !active();
+  const keyUser = own ? t`Security reviews` : t`New local Claude sessions`;
   const feedback = readError ? (
     <div className="flex flex-wrap items-center gap-3">
       <p role="alert" className="buzz-field-error m-0">
@@ -140,7 +143,7 @@ export function ClaudeSettings({
               ?.focus();
         }}
       >
-        Retry
+        {t`Retry`}
       </Button>
     </div>
   ) : undefined;
@@ -156,13 +159,13 @@ export function ClaudeSettings({
         subtitle={
           configured === false && !own && !checking && !readError
             ? connect
-            : "Manage Claude’s credentials on this computer."
+            : t`Manage Claude’s credentials on this computer.`
         }
       />
       <div className="mt-section-gap grid gap-section-gap">
         <LoadingRegion
           pending={checking}
-          label="Checking for a saved key…"
+          label={t`Checking for a saved key…`}
           statusVisibility="screen-reader"
           feedback={
             connectionOpen && configured === false ? undefined : feedback
@@ -171,7 +174,7 @@ export function ClaudeSettings({
           {configured === true ? (
             <SettingsGroup layout="form">
               <SavedApiKey
-                label="Anthropic API key"
+                label={t`Anthropic API key`}
                 labelVisibility="visible"
                 credential={setup.auth}
                 onSaved={() => setup.check()}
@@ -191,10 +194,10 @@ export function ClaudeSettings({
           ) : (
             <SettingsGroup>
               <PreferenceRow
-                title="Anthropic API key"
+                title={t`Anthropic API key`}
                 subtitle={
                   configured === false && !readError
-                    ? "No key saved."
+                    ? t`No key saved.`
                     : undefined
                 }
                 trailing={
@@ -206,7 +209,7 @@ export function ClaudeSettings({
                       if (active() && !disabled) changeConnection(true);
                     }}
                   >
-                    Set
+                    {t`Set`}
                   </Button>
                 }
               />
@@ -228,11 +231,11 @@ export function ClaudeSettings({
             <Dialog
               open={connectionOpen && active()}
               visit
-              title="Connect Claude"
+              title={t`Connect Claude`}
               description={
                 <>
                   {!own && <>{connect} </>}
-                  Create an API key at{" "}
+                  {t`Create an API key at`}{" "}
                   <Button
                     variant="link"
                     size="text"
@@ -248,7 +251,7 @@ export function ClaudeSettings({
                   >
                     console.anthropic.com
                   </Button>{" "}
-                  and paste it below.
+                  {t`and paste it below.`}
                 </>
               }
               headerGap="compact"
@@ -260,7 +263,7 @@ export function ClaudeSettings({
                     focusableWhenDisabled
                     onClick={() => void refresh()}
                   >
-                    Refresh
+                    {t`Refresh`}
                   </Button>
                 )
               }
@@ -275,7 +278,7 @@ export function ClaudeSettings({
             >
               <LoadingRegion
                 pending={checking}
-                label="Checking for a saved key…"
+                label={t`Checking for a saved key…`}
                 statusVisibility="screen-reader"
                 feedback={feedback}
               >
@@ -287,8 +290,8 @@ export function ClaudeSettings({
       )}
       {confirm && (
         <AlertDialog
-          title="Remove Claude API key?"
-          description={`This removes the key from ${storage}. ${own ? "Security reviews" : "New local Claude sessions"} will need a key. A turn already running can finish.`}
+          title={t`Remove Claude API key?`}
+          description={t`This removes the key from ${storage}. ${keyUser} will need a key. A turn already running can finish.`}
           pending={clearing}
           onClose={() => setConfirm(false)}
           finalFocus={() =>
@@ -300,14 +303,14 @@ export function ClaudeSettings({
           actions={
             <>
               <Button disabled={clearing} onClick={() => setConfirm(false)}>
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant="destructive"
                 loading={clearing}
                 onClick={() => void clear()}
               >
-                Remove key
+                {t`Remove key`}
               </Button>
             </>
           }

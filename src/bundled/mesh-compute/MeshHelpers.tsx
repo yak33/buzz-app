@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useId, useRef, useState, useSyncExternalStore } from "react";
 import { randomAgentAvatar } from "../../features/agents/avatar-packs";
 import type { Agents } from "../../features/agents/service";
@@ -10,6 +11,7 @@ import { MESH_AGENT_PRESETS, type MeshAgentPreset } from "./meshAgentPresets";
 
 /** Presets use the same creation service as Agents; editing stays in Settings. */
 export function MeshHelpers({ agents }: { agents: Agents }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(agents.subscribe, agents.snapshot);
   const title = useId();
   const busy = useRef(false);
@@ -66,19 +68,28 @@ export function MeshHelpers({ agents }: { agents: Agents }) {
     <section aria-labelledby={title} className="grid gap-3">
       <InlineHeader
         id={title}
-        title="Helpers"
-        subtitle="Create a helper, then add it to a conversation. Members serving its model can read the prompts and conversation history sent to them. Find your helpers in Agents."
+        title={t`Helpers`}
+        subtitle={t`Create a helper, then add it to a conversation. Members serving its model can read the prompts and conversation history sent to them. Find your helpers in Agents.`}
       />
       <SettingsGroup>
         {[...MESH_AGENT_PRESETS, null].map((preset) => {
+          // "Custom agent" is stored as the created agent's name and matched
+          // by `existing`, so it stays untranslated data.
           const name = preset?.name ?? "Custom agent";
           const made = existing(preset);
           const mode = preset?.mode ?? DEFAULT_MESH_AGENT_CONFIG.mode;
+          // Preset summaries are stored data; only the fallback note is copy.
+          const summary =
+            preset?.summary ?? t`Start with the default assistant instructions.`;
+          const modeNote =
+            mode === "chat"
+              ? t`Chat: no tools.`
+              : t`Agent: the serving member’s model directs shell and files on this machine, plus Buzz access; workspace ~/.buzz. Tool output and core memory may be sent to that member.`;
           return (
             <PreferenceRow
               key={preset?.id ?? "custom"}
-              title={made ? `${name} — Created` : name}
-              subtitle={`${preset?.summary ?? "Start with the default assistant instructions."} ${mode === "chat" ? "Chat: no tools." : "Agent: the serving member’s model directs shell and files on this machine, plus Buzz access; workspace ~/.buzz. Tool output and core memory may be sent to that member."}`}
+              title={made ? t`${name} — Created` : name}
+              subtitle={`${summary} ${modeNote}`}
               trailing={
                 <Button
                   size="sm"
@@ -90,11 +101,11 @@ export function MeshHelpers({ agents }: { agents: Agents }) {
                   }
                   loading={pending === name}
                   aria-label={
-                    made ? `${name} created as ${made.name}` : `Create ${name}`
+                    made ? t`${name} created as ${made.name}` : t`Create ${name}`
                   }
                   onClick={() => void create(preset)}
                 >
-                  {made ? "Created" : "Create"}
+                  {made ? t`Created` : t`Create`}
                 </Button>
               }
             />
@@ -104,7 +115,7 @@ export function MeshHelpers({ agents }: { agents: Agents }) {
       {state.status !== "ready" && (
         <p role="status" className="m-0 text-body-sm text-secondary">
           {state.error ??
-            "Waiting for agents to be available in this community."}
+            t`Waiting for agents to be available in this community.`}
         </p>
       )}
       {error && (
@@ -114,7 +125,7 @@ export function MeshHelpers({ agents }: { agents: Agents }) {
       )}
       {created && (
         <p role="status" className="m-0 text-body-sm text-secondary">
-          {created} created. Find it in Agents and add it to a conversation.
+          {t`${created} created. Find it in Agents and add it to a conversation.`}
         </p>
       )}
     </section>

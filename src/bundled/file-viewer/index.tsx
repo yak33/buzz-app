@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useCallback, useMemo } from "react";
 import type { AttachmentRendererProps } from "../../features/conversation/contracts";
 import {
@@ -44,9 +45,10 @@ export const apply: PluginModule["apply"] = (ctx) => {
     order: ORDER,
     matches: (target) => parseFileTarget(target) !== undefined,
     component: function FileViewerPanel({ target, context }) {
+      const { t } = useLingui();
       const connection = useRelayConnection(relay);
       const file = useMemo(() => parseFileTarget(target), [target]);
-      usePanelTabTitle(file?.name ?? "File viewer");
+      usePanelTabTitle(file?.name ?? t`File viewer`);
       const { origin, session } = connection;
       const media = useCallback(
         (url: string) => readableSource(url, origin, session),

@@ -1,4 +1,7 @@
 // Block-hosted community accounts through a Builderlab account backend.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../../features/localization/service";
+
 export const HOST_SUFFIX = "communities.buzz.xyz";
 export const VALID_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const ACKNOWLEDGEMENT_VERSION = 1;
@@ -104,10 +107,11 @@ export class ApiFailure extends Error {
 }
 
 export function quotaLimitMessage(limit?: number | null) {
-  if (limit === 0) return "You can't create more communities right now.";
+  if (limit === 0)
+    return i18n._(msg`You can't create more communities right now.`);
   return limit && Number.isSafeInteger(limit) && limit > 0
-    ? `You've reached your limit of ${limit} communities.`
-    : "You've reached your community limit.";
+    ? i18n._(msg`You've reached your limit of ${limit} communities.`)
+    : i18n._(msg`You've reached your community limit.`);
 }
 
 /** A Builderlab account backend: the development broker or the packaged-app adapter. */

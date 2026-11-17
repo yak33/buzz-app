@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
+import { msg } from "@lingui/core/macro";
 import {
   cleanup,
   fireEvent,
@@ -8,6 +9,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
+import { i18n } from "../../features/localization/service";
 import type { ComposerAccessoryProps } from "../../features/conversation/contracts";
 import { TurnCards } from "./Card";
 import { type ChangedFile, Unreadable } from "./git";
@@ -85,8 +87,8 @@ it("lists the files a turn changed and opens one's diff", async () => {
   const turns = fakeTurns();
   render(<TurnCards {...props(open)} turns={turns} />);
   await screen.findByText("a.txt");
-  expect(screen.getByText("2 files changed")).toBeInTheDocument();
-  expect(screen.getByText("binary")).toBeInTheDocument();
+  expect(screen.getByText(i18n._(msg`2 files changed`))).toBeInTheDocument();
+  expect(screen.getByText(i18n._(msg`binary`))).toBeInTheDocument();
   expect(turns.claim).toHaveBeenCalled();
   fireEvent.click(screen.getByRole("button", { name: /a\.txt/ }));
   expect(open).toHaveBeenCalledWith(targetFor("t1", 0, "a.txt"));
@@ -119,7 +121,9 @@ it("shows the first files and the rest on request", async () => {
   );
   await screen.findByText("f0.txt");
   expect(screen.queryByText("f11.txt")).toBeNull();
-  fireEvent.click(screen.getByRole("button", { name: "Show all 12 files" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: i18n._(msg`Show all 12 files`) }),
+  );
   expect(screen.getByText("f11.txt")).toBeInTheDocument();
 });
 
@@ -150,7 +154,9 @@ it("explains a changeset that cannot be read and tries again", async () => {
     .mockResolvedValue([file("a.txt")]);
   render(<TurnCards {...props()} turns={fakeTurns({ summary })} />);
   expect(await screen.findByRole("alert")).toHaveTextContent("cleaned up");
-  fireEvent.click(screen.getByRole("button", { name: "Try again" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: i18n._(msg`Try again`) }),
+  );
   expect(await screen.findByText("a.txt")).toBeInTheDocument();
 });
 
@@ -171,7 +177,9 @@ it("steps to a binary file and says there is no text diff", async () => {
   const turns = fakeTurns();
   render(<ChangesetPanel target={targetFor("t1", 0, "a.txt")} turns={turns} />);
   await screen.findByText("two");
-  fireEvent.click(screen.getByRole("button", { name: "Next file" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: i18n._(msg`Next file`) }),
+  );
   expect(await screen.findByText(/Binary file/)).toBeInTheDocument();
   expect(turns.patch).toHaveBeenCalledTimes(1);
 });
@@ -190,7 +198,9 @@ it("says a patch is too big and does not offer to try again", async () => {
   expect(
     await screen.findByText("This is too big to show here."),
   ).toBeInTheDocument();
-  expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: i18n._(msg`Try again`) }),
+  ).toBeNull();
 });
 
 it("offers to try again after a failure that may pass", async () => {
@@ -205,7 +215,9 @@ it("offers to try again after a failure that may pass", async () => {
     />,
   );
   expect(await screen.findByText("git took too long.")).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: "Try again" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: i18n._(msg`Try again`) }),
+  );
   expect(await screen.findByText("two")).toBeInTheDocument();
 });
 
@@ -217,7 +229,9 @@ it("does not offer to try again on a binary file or a snapshot git cleaned up", 
     <ChangesetPanel target={targetFor("t1", 0, "b.bin")} turns={turns} />,
   );
   expect(await screen.findByText(/Binary file/)).toBeInTheDocument();
-  expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: i18n._(msg`Try again`) }),
+  ).toBeNull();
   view.unmount();
   render(
     <TurnCards
@@ -232,7 +246,9 @@ it("does not offer to try again on a binary file or a snapshot git cleaned up", 
     />,
   );
   expect(await screen.findByRole("alert")).toHaveTextContent("cleaned up");
-  expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: i18n._(msg`Try again`) }),
+  ).toBeNull();
 });
 
 it("says so for a changeset another Buzz recorded", () => {

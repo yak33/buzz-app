@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import { writeClipboardText } from "../../shared/clipboard";
 import { CopyIcon } from "../../shared/design-system/icons";
@@ -15,13 +17,14 @@ export function CopyText({
   /** The most characters `read` gives; text that long says it was cut. */
   limit?: number;
 }) {
+  const { i18n, t } = useLingui();
   const notify = useToastNotification();
   const [busy, setBusy] = useState(false);
   const running = useRef<AbortController | null>(null);
   useEffect(() => () => running.current?.abort(), []);
   return (
     <IconButton
-      aria-label="Copy text"
+      aria-label={t`Copy text`}
       icon={<CopyIcon />}
       disabled={busy}
       onClick={() => {
@@ -33,20 +36,23 @@ export function CopyText({
           .then(() => read(controller.signal))
           .then((text) => {
             if (!live()) return;
-            if (!/\S/.test(text)) return notify("No text to copy", "info");
+            if (!/\S/.test(text))
+              return notify(i18n._(msg`No text to copy`), "info");
             return writeClipboardText(text).then(
               () =>
                 notify(
                   limit !== undefined && text.length >= limit
-                    ? `Copied the first ${limit.toLocaleString()} characters to clipboard`
-                    : "Copied text to clipboard",
+                    ? i18n._(
+                        msg`Copied the first ${limit.toLocaleString()} characters to clipboard`,
+                      )
+                    : i18n._(msg`Copied text to clipboard`),
                   "success",
                 ),
-              () => notify("Failed to copy text", "error"),
+              () => notify(i18n._(msg`Failed to copy text`), "error"),
             );
           })
           .catch(() => {
-            if (live()) notify("Failed to copy text", "error");
+            if (live()) notify(i18n._(msg`Failed to copy text`), "error");
           })
           .finally(() => {
             if (live()) setBusy(false);

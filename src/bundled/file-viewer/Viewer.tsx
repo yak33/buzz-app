@@ -1,4 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { i18n } from "../../features/localization/service";
 import { FileTextIcon } from "../../shared/design-system/icons";
 import { EmptyState } from "../../shared/design-system/ui/EmptyState";
 import { InlineHeader } from "../../shared/design-system/ui/Header";
@@ -33,10 +36,14 @@ type Loaded =
 function failureMessage(error: unknown, format: FileFormat): string {
   const limit = Math.round(maxBytes(format) / (1024 * 1024));
   if (error instanceof LoadError && error.reason === "too-large")
-    return `${formatLabel(format)} files open up to ${limit} MB. Download it to read it.`;
+    return i18n._(
+      msg`${formatLabel(format)} files open up to ${limit} MB. Download it to read it.`,
+    );
   if (error instanceof LoadError && error.reason === "not-text")
-    return "This file isn't text. Download it to open it in another app.";
-  return "This file couldn't be loaded. Check your connection and try again.";
+    return i18n._(msg`This file isn't text. Download it to open it in another app.`);
+  return i18n._(
+    msg`This file couldn't be loaded. Check your connection and try again.`,
+  );
 }
 
 function useBytes(
@@ -80,20 +87,24 @@ export function Viewer({
   media,
   fetcher,
 }: ViewerProps) {
+  const { t } = useLingui();
   const loaded = useBytes(file.format, source, fetcher);
   if (!source)
     return (
       <Unavailable
-        title="Can't open this file"
-        message="Only files shared in this community open here."
+        title={t`Can't open this file`}
+        message={t`Only files shared in this community open here.`}
       />
     );
   return (
     <div className={styles.viewer}>
       {loaded.state === "failed" ? (
-        <Unavailable title="Can't open this file" message={loaded.message} />
+        <Unavailable
+          title={t`Can't open this file`}
+          message={loaded.message}
+        />
       ) : loaded.state === "loading" ? (
-        <LoadingRegion pending label={`Loading ${file.name}`}>
+        <LoadingRegion pending label={t`Loading ${file.name}`}>
           {null}
         </LoadingRegion>
       ) : (
@@ -122,6 +133,7 @@ function Contents({
   openLink(url: string): boolean;
   media: MediaSource | undefined;
 }) {
+  const { t } = useLingui();
   const text = useMemo(() => {
     if (file.format === "pdf") return undefined;
     try {
@@ -134,7 +146,7 @@ function Contents({
     return (
       <Suspense
         fallback={
-          <LoadingRegion pending label={`Loading ${file.name}`}>
+          <LoadingRegion pending label={t`Loading ${file.name}`}>
             {null}
           </LoadingRegion>
         }
@@ -145,8 +157,8 @@ function Contents({
   if (text === null || text === undefined)
     return (
       <Unavailable
-        title="Can't open this file"
-        message="This file isn't text. Download it to open it in another app."
+        title={t`Can't open this file`}
+        message={t`This file isn't text. Download it to open it in another app.`}
       />
     );
   if (file.format !== "csv" && file.format !== "tsv")
@@ -185,12 +197,14 @@ function TableView({
   text: string;
   delimiter: "," | "\t";
 }) {
+  const { t } = useLingui();
   const table = useMemo(() => parseTable(text, delimiter), [text, delimiter]);
   const [head, ...body] = table.rows;
   const left = [
-    table.omittedRows > 0 && `${table.omittedRows.toLocaleString()} more rows`,
+    table.omittedRows > 0 &&
+      t`${table.omittedRows.toLocaleString()} more rows`,
     table.omittedColumns > 0 &&
-      `${table.omittedColumns.toLocaleString()} more columns`,
+      t`${table.omittedColumns.toLocaleString()} more columns`,
   ].filter(Boolean);
   return (
     <>
@@ -221,7 +235,7 @@ function TableView({
       </table>
       {left.length > 0 && (
         <p className={styles.note} role="note">
-          Not shown: {left.join(" and ")}. Download the file to see everything.
+          {t`Not shown: ${left.join(" and ")}. Download the file to see everything.`}
         </p>
       )}
     </>

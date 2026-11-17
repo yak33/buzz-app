@@ -1,5 +1,8 @@
 // Adapted from block/buzz desktop workflow helpers at b9392d9d.
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { stringify as yamlStringify, parse as yamlParse } from "yaml";
+import { i18n } from "../../features/localization/service";
 
 import type { ParsedConditionExpression } from "./workflowConditionExpression";
 import { cronExpressionError } from "./cronExpression";
@@ -75,10 +78,10 @@ export const DEFAULT_FORM_STATE: WorkflowFormState = {
   steps: [],
 };
 
-export const ACTION_LABELS: Record<ActionType, string> = {
-  delay: "Delay",
-  send_message: "Send Message",
-  call_webhook: "Call Webhook",
+export const ACTION_LABELS: Record<ActionType, MessageDescriptor> = {
+  delay: msg`Delay`,
+  send_message: msg`Send Message`,
+  call_webhook: msg`Call Webhook`,
 };
 
 function parseTimeoutSecs(
@@ -246,7 +249,7 @@ function requireNonEmptyString(
 ): string | { error: string } {
   const value = record[key];
   if (typeof value !== "string" || value.length === 0) {
-    return { error: `${label} must be a non-empty string` };
+    return { error: i18n._(msg`${label} must be a non-empty string`) };
   }
   return value;
 }
@@ -258,9 +261,12 @@ function optionalOwnedStringError(
 ): string | null {
   const value = record[key];
   if (value === undefined) return null;
-  if (typeof value !== "string") return `${label} must be a string`;
+  if (typeof value !== "string")
+    return i18n._(msg`${label} must be a string`);
   if (value.length === 0) {
-    return `${label} cannot be empty in Form mode — use the YAML editor`;
+    return i18n._(
+      msg`${label} cannot be empty in Form mode — use the YAML editor`,
+    );
   }
   return null;
 }
@@ -270,21 +276,27 @@ export function yamlToFormState(
 ): { ok: true; state: WorkflowFormState } | { ok: false; error: string } {
   try {
     const parsed = objectRecord(yamlParse(yaml));
-    if (!parsed) return { ok: false, error: "YAML must be an object" };
+    if (!parsed)
+      return { ok: false, error: i18n._(msg`YAML must be an object`) };
 
     const topUnknown = unknownKey(parsed, TOP_LEVEL_KEYS);
     if (topUnknown) {
       return {
         ok: false,
-        error: `Unsupported workflow field "${topUnknown}" — use the YAML editor`,
+        error: i18n._(
+          msg`Unsupported workflow field "${topUnknown}" — use the YAML editor`,
+        ),
       };
     }
     if (typeof parsed.name !== "string") {
-      return { ok: false, error: "name must be a string" };
+      return { ok: false, error: i18n._(msg`name must be a string`) };
     }
     if (parsed.description !== undefined) {
       if (typeof parsed.description !== "string") {
-        return { ok: false, error: "description must be a string" };
+        return {
+          ok: false,
+          error: i18n._(msg`description must be a string`),
+        };
       }
       if (
         parsed.description.length === 0 ||
@@ -292,23 +304,26 @@ export function yamlToFormState(
       ) {
         return {
           ok: false,
-          error:
-            "description cannot be empty or have surrounding whitespace in Form mode — use the YAML editor",
+          error: i18n._(
+            msg`description cannot be empty or have surrounding whitespace in Form mode — use the YAML editor`,
+          ),
         };
       }
     }
     if (parsed.enabled !== undefined && typeof parsed.enabled !== "boolean") {
-      return { ok: false, error: "enabled must be a boolean" };
+      return { ok: false, error: i18n._(msg`enabled must be a boolean`) };
     }
 
     const rawTrigger = objectRecord(parsed.trigger);
     if (!rawTrigger || typeof rawTrigger.on !== "string") {
-      return { ok: false, error: "trigger.on is required" };
+      return { ok: false, error: i18n._(msg`trigger.on is required`) };
     }
     if (!isTriggerType(rawTrigger.on)) {
       return {
         ok: false,
-        error: `Unsupported trigger type "${rawTrigger.on}" — use the YAML editor`,
+        error: i18n._(
+          msg`Unsupported trigger type "${rawTrigger.on}" — use the YAML editor`,
+        ),
       };
     }
     const triggerOn = rawTrigger.on;
@@ -316,7 +331,9 @@ export function yamlToFormState(
     if (triggerUnknown) {
       return {
         ok: false,
-        error: `Unsupported ${triggerOn} trigger field "${triggerUnknown}" — use the YAML editor`,
+        error: i18n._(
+          msg`Unsupported ${triggerOn} trigger field "${triggerUnknown}" — use the YAML editor`,
+        ),
       };
     }
     for (const key of ["filter", "emoji", "cron", "interval"] as const) {
@@ -327,7 +344,7 @@ export function yamlToFormState(
           // Schedule fields stay editable in YAML; say so for type errors too.
           error:
             triggerOn === "schedule" && !error.includes("YAML editor")
-              ? `${error} — use the YAML editor`
+              ? i18n._(msg`${error} — use the YAML editor`)
               : error,
         };
       }
@@ -339,8 +356,12 @@ export function yamlToFormState(
         return {
           ok: false,
           error: hasCron
-            ? "Schedule triggers cannot specify both cron and interval — use the YAML editor"
-            : "Schedule triggers require either cron or interval — use the YAML editor",
+            ? i18n._(
+                msg`Schedule triggers cannot specify both cron and interval — use the YAML editor`,
+              )
+            : i18n._(
+                msg`Schedule triggers require either cron or interval — use the YAML editor`,
+              ),
         };
       }
       if (typeof rawTrigger.cron === "string") {
@@ -348,7 +369,9 @@ export function yamlToFormState(
         if (error) {
           return {
             ok: false,
-            error: `Unsupported cron expression: ${error} Use the YAML editor`,
+            error: i18n._(
+              msg`Unsupported cron expression: ${error} Use the YAML editor`,
+            ),
           };
         }
       }
@@ -362,7 +385,7 @@ export function yamlToFormState(
     };
 
     if (!Array.isArray(parsed.steps)) {
-      return { ok: false, error: "steps must be a list" };
+      return { ok: false, error: i18n._(msg`steps must be a list`) };
     }
     const ids = new Set<string>();
     const steps: StepFormState[] = [];
@@ -370,20 +393,24 @@ export function yamlToFormState(
       const number = index + 1;
       const step = objectRecord(value);
       if (!step)
-        return { ok: false, error: `Step ${number} must be an object` };
+        return { ok: false, error: i18n._(msg`Step ${number} must be an object`) };
       if (
         typeof step.id !== "string" ||
         !STEP_ID_PATTERN_STRICT.test(step.id)
       ) {
         return {
           ok: false,
-          error: `Step ${number} requires a unique 1–64 character alphanumeric or underscore ID`,
+          error: i18n._(
+            msg`Step ${number} requires a unique 1–64 character alphanumeric or underscore ID`,
+          ),
         };
       }
       if (ids.has(step.id)) {
         return {
           ok: false,
-          error: `Duplicate step ID "${step.id}" — use the YAML editor`,
+          error: i18n._(
+            msg`Duplicate step ID "${step.id}" — use the YAML editor`,
+          ),
         };
       }
       ids.add(step.id);
@@ -394,7 +421,9 @@ export function yamlToFormState(
       ) {
         return {
           ok: false,
-          error: `Unsupported action type "${String(step.action)}" — use the YAML editor`,
+          error: i18n._(
+            msg`Unsupported action type "${String(step.action)}" — use the YAML editor`,
+          ),
         };
       }
       const action = step.action as ActionType;
@@ -402,13 +431,17 @@ export function yamlToFormState(
       if (stepUnknown) {
         return {
           ok: false,
-          error: `Unsupported ${action} step field "${stepUnknown}" — use the YAML editor`,
+          error: i18n._(
+            msg`Unsupported ${action} step field "${stepUnknown}" — use the YAML editor`,
+          ),
         };
       }
       if (step.if !== undefined && typeof step.if !== "string") {
         return {
           ok: false,
-          error: "Step conditions must be strings — use the YAML editor",
+          error: i18n._(
+            msg`Step conditions must be strings — use the YAML editor`,
+          ),
         };
       }
       const nameError = optionalOwnedStringError(
@@ -420,7 +453,9 @@ export function yamlToFormState(
       if (typeof step.name === "string" && step.name.trim() !== step.name) {
         return {
           ok: false,
-          error: `Step ${number} name has surrounding whitespace — use the YAML editor`,
+          error: i18n._(
+            msg`Step ${number} name has surrounding whitespace — use the YAML editor`,
+          ),
         };
       }
       if (
@@ -430,7 +465,9 @@ export function yamlToFormState(
       ) {
         return {
           ok: false,
-          error: `Step ${number} timeout_secs must be a positive integer`,
+          error: i18n._(
+            msg`Step ${number} timeout_secs must be a positive integer`,
+          ),
         };
       }
 
@@ -455,7 +492,9 @@ export function yamlToFormState(
         if (typeof step.reply_in_thread !== "boolean") {
           return {
             ok: false,
-            error: `Step ${number} reply_in_thread must be a boolean — use the YAML editor`,
+            error: i18n._(
+              msg`Step ${number} reply_in_thread must be a boolean — use the YAML editor`,
+            ),
           };
         }
         // The relay accepts an explicit false on any trigger, so only a true
@@ -463,7 +502,9 @@ export function yamlToFormState(
         if (step.reply_in_thread && !isThreadReplyEligibleTrigger(triggerOn)) {
           return {
             ok: false,
-            error: `reply_in_thread is not supported for ${triggerOn} triggers — use the YAML editor`,
+            error: i18n._(
+              msg`reply_in_thread is not supported for ${triggerOn} triggers — use the YAML editor`,
+            ),
           };
         }
       }
@@ -476,7 +517,9 @@ export function yamlToFormState(
         ) {
           return {
             ok: false,
-            error: "Webhook headers must be a string map — use the YAML editor",
+            error: i18n._(
+              msg`Webhook headers must be a string map — use the YAML editor`,
+            ),
           };
         }
       }
@@ -521,7 +564,7 @@ export function yamlToFormState(
   } catch (error) {
     return {
       ok: false,
-      error: error instanceof Error ? error.message : "Invalid YAML",
+      error: error instanceof Error ? error.message : i18n._(msg`Invalid YAML`),
     };
   }
 }

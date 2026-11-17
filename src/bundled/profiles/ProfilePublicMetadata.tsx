@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import { CheckIcon, CopyIcon } from "../../shared/design-system/icons";
 import { useToastNotification } from "../../shared/design-system/ui/Toast";
@@ -25,6 +27,7 @@ function ProfileCopyField({
   value: string;
   display?: string;
 }) {
+  const { i18n, t } = useLingui();
   const notify = useToastNotification();
   const [copied, setCopied] = useState(false);
   const generation = useRef(0);
@@ -48,8 +51,8 @@ function ProfileCopyField({
           <Button
             size="compact"
             variant="ghost"
-            aria-label={`Copy ${label}: ${display}`}
-            title={`Copy ${label}`}
+            aria-label={t`Copy ${label}: ${display}`}
+            title={t`Copy ${label}`}
             onClick={() => {
               const current = ++generation.current;
               setCopied(false);
@@ -59,11 +62,17 @@ function ProfileCopyField({
                   () => {
                     if (current !== generation.current) return;
                     setCopied(true);
-                    notify(`Copied ${label.toLowerCase()}`, "success");
+                    notify(
+                      i18n._(msg`Copied ${label.toLowerCase()}`),
+                      "success",
+                    );
                   },
                   () => {
                     if (current === generation.current)
-                      notify(`Couldn't copy ${label.toLowerCase()}.`, "error");
+                      notify(
+                        i18n._(msg`Couldn't copy ${label.toLowerCase()}.`),
+                        "error",
+                      );
                   },
                 );
             }}
@@ -73,7 +82,7 @@ function ProfileCopyField({
             ) : (
               <CopyIcon size={16} aria-hidden="true" />
             )}
-            {copied ? "Copied" : "Copy"}
+            {copied ? t`Copied` : t`Copy`}
           </Button>
         }
       />

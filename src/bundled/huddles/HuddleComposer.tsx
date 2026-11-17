@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { MentionModelsContext } from "../../features/agents/react";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { createHuddleComposerClient } from "../../features/huddle/composer-client";
@@ -23,6 +24,7 @@ function ConnectedComposer({
 }: {
   client: ReturnType<typeof createHuddleComposerClient>;
 }) {
+  const { t } = useLingui();
   useSyncExternalStore(client.subscribe, client.revision);
   const { session, data, error } = client.snapshot();
   const modelRevision = data?.modelRevision;
@@ -48,13 +50,13 @@ function ConnectedComposer({
         scope={data.scope}
         channelId={data.room}
         channelName="Huddle"
-        label="Message this Huddle"
-        placeholder="Message this Huddle"
+        label={t`Message this Huddle`}
+        placeholder={t`Message this Huddle`}
         disabled={!data.writable}
         editMessages={[]}
       />
     </MentionModelsContext.Provider>
   ) : (
-    <p role="status">Loading composer…</p>
+    <p role="status">{t`Loading composer…`}</p>
   );
 }

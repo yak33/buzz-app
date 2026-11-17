@@ -1,7 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
+import { msg as msgMacro } from "@lingui/core/macro";
 import { appClient } from "../../buzz-mcp/app-client";
 import { callSessionTool, type AddedTool } from "../../buzz-mcp/session-tools";
 import type { AgentHandle } from "../../features/agents/service";
+import { i18n } from "../../features/localization/service";
 import { ClaudeProcess, stepLabel } from "./claude";
 import {
   backgroundTasks,
@@ -1059,10 +1061,10 @@ describe("stepLabel", () => {
       stepLabel(msg([{ type: "tool_use", name: "mcp__buzz__send_message" }])),
     ).toEqual({ tool: "send_message" });
     expect(stepLabel(msg([{ type: "thinking" }]))).toEqual({
-      tool: "Thinking",
+      tool: i18n._(msgMacro`Thinking`),
     });
     expect(stepLabel(msg([{ type: "text", text: "hi" }]))).toEqual({
-      tool: "Writing reply",
+      tool: i18n._(msgMacro`Writing reply`),
     });
     expect(stepLabel(msg("text"))).toBeUndefined();
     expect(stepLabel({ type: "assistant" })).toBeUndefined();

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import * as React from "react";
 
 import { summarizeWaveform, VOICE_NOTE_WAVEFORM_INTERVAL_MS } from "./audio";
@@ -42,6 +44,7 @@ function releaseSessionAudio(session: RecordingSession) {
 }
 
 export function useVoiceNoteRecorder() {
+  const { i18n } = useLingui();
   const mountedRef = React.useRef(true);
   const sessionRef = React.useRef<RecordingSession | null>(null);
   const [status, setStatus] = React.useState<
@@ -71,7 +74,9 @@ export function useVoiceNoteRecorder() {
     if (sessionRef.current) return;
     setError(null);
     if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
-      setError("Voice recording is not available in this environment.");
+      setError(
+        i18n._(msg`Voice recording is not available in this environment.`),
+      );
       return;
     }
 
@@ -128,7 +133,7 @@ export function useVoiceNoteRecorder() {
           session.chunks.reduce((sum, chunk) => sum + chunk.size, 0) >
           32 * 1024 * 1024
         ) {
-          setError("Voice note exceeded the recording limit.");
+          setError(i18n._(msg`Voice note exceeded the recording limit.`));
           cancel();
         }
       });
@@ -139,7 +144,9 @@ export function useVoiceNoteRecorder() {
           mountedRef.current &&
           sessionRef.current === session
         ) {
-          setError("The voice recording was interrupted. Record it again.");
+          setError(
+            i18n._(msg`The voice recording was interrupted. Record it again.`),
+          );
         }
         void (async () => {
           const actualMime = recorder.mimeType || mimeType || "audio/webm";
@@ -182,7 +189,11 @@ export function useVoiceNoteRecorder() {
                 mountedRef.current &&
                 sessionRef.current === session
               ) {
-                setError("Buzz could not prepare this voice note for upload.");
+                setError(
+                  i18n._(
+                    msg`Buzz could not prepare this voice note for upload.`,
+                  ),
+                );
               }
             }
           }
@@ -200,7 +211,7 @@ export function useVoiceNoteRecorder() {
       });
       recorder.addEventListener("error", () => {
         if (mountedRef.current && sessionRef.current === session) {
-          setError("The voice recording was interrupted.");
+          setError(i18n._(msg`The voice recording was interrupted.`));
           cancel();
         }
       });
@@ -245,11 +256,13 @@ export function useVoiceNoteRecorder() {
         (cause.name === "NotAllowedError" || cause.name === "SecurityError");
       setError(
         denied
-          ? "Allow Buzz to access your microphone to record a voice note."
-          : "Buzz could not start the voice recorder.",
+          ? i18n._(
+              msg`Allow Buzz to access your microphone to record a voice note.`,
+            )
+          : i18n._(msg`Buzz could not start the voice recorder.`),
       );
     }
-  }, [cancel]);
+  }, [cancel, i18n]);
 
   const stop = React.useCallback(
     (discard = false): Promise<VoiceNoteRecording | null> => {

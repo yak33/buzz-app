@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import type { ReadOptions } from "../../features/relay/reader";
 import type { RelaySession } from "../../features/relay/session";
 import type { EventData, ReadFilter } from "../../features/relay/events";
@@ -8,7 +11,9 @@ export const noteTag = (event: EventData, tag: string) =>
 export const noteKey = (event: EventData) =>
   `30023:${event.pubkey}:${noteTag(event, "d")}`;
 export const noteTitle = (event: EventData) =>
-  noteTag(event, "title").trim() || noteTag(event, "d") || "Untitled note";
+  noteTag(event, "title").trim() ||
+  noteTag(event, "d") ||
+  i18n._(msg`Untitled note`);
 
 /** Retain one head per author/identifier, using NIP-01's timestamp/ID order. */
 export function noteHeads(

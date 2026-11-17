@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useRef } from "react";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -6,7 +7,7 @@ export function ConfirmAction({
   title,
   description,
   action,
-  cancel = "Keep editing",
+  cancel,
   onConfirm,
   onCancel,
   pending = false,
@@ -23,6 +24,8 @@ export function ConfirmAction({
   destructive?: boolean;
   error?: string | null;
 }) {
+  const { t } = useLingui();
+  const cancelLabel = cancel ?? t`Keep editing`;
   const cancelAction = useRef<HTMLButtonElement>(null);
   const confirmAction = useRef<HTMLButtonElement>(null);
   return (
@@ -35,7 +38,7 @@ export function ConfirmAction({
       actions={
         <>
           <Button ref={cancelAction} disabled={pending} onClick={onCancel}>
-            {cancel}
+            {cancelLabel}
           </Button>
           <Button
             ref={confirmAction}

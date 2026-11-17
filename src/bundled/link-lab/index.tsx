@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Field } from "../../shared/design-system/ui/Field";
 import { Input } from "../../shared/design-system/ui/Input";
 import { useState } from "react";
@@ -36,9 +38,10 @@ const serviceSamples = [
 ] as const;
 
 function LinkLab() {
+  const { i18n, t } = useLingui();
   const [url, setUrl] = useState("https://github.com/block/buzz/pull/1234");
   const [selected, setSelected] = useState(
-    "Select a sample to try its focus and hover states.",
+    t`Select a sample to try its focus and hover states.`,
   );
   const preview = (href: string, label?: string) => (
     <InlineLink
@@ -46,7 +49,9 @@ function LinkLab() {
       onClick={(event) => {
         event.preventDefault();
         setSelected(
-          `Selected: ${label ?? href}. This preview stays on the page.`,
+          i18n._(
+            msg`Selected: ${label ?? href}. This preview stays on the page.`,
+          ),
         );
       }}
     >
@@ -55,58 +60,58 @@ function LinkLab() {
   );
   return (
     <main className={styles.page}>
-      <h1 className="text-title">Link Lab</h1>
+      <h1 className="text-title">{t`Link Lab`}</h1>
       <p className={styles.intro}>
-        Blue text, a soft background on hover, and a little context from the
-        icon.
+        {t`Blue text, a soft background on hover, and a little context from the icon.`}
       </p>
       <div className={styles.samples}>
         <section>
-          <span className={styles.label}>Web</span>
+          <span className={styles.label}>{t`Web`}</span>
           <p>
-            The details are on {preview("https://example.com", "example.com")}{" "}
-            if you want to take a look.
+            {t`The details are on`}{" "}
+            {preview("https://example.com", "example.com")}{" "}
+            {t`if you want to take a look.`}
           </p>
         </section>
         <section>
-          <span className={styles.label}>GitHub</span>
+          <span className={styles.label}>{t`GitHub`}</span>
           <p>
-            Ready for a look at{" "}
+            {t`Ready for a look at`}{" "}
             {preview(
               "https://github.com/block/buzz/pull/1234",
               "block/buzz #1234",
             )}
-            ? The spacing is updated.
+            {t`? The spacing is updated.`}
           </p>
         </section>
         <section>
-          <span className={styles.label}>Google Drive</span>
+          <span className={styles.label}>{t`Google Drive`}</span>
           <p>
-            Files live in{" "}
+            {t`Files live in`}{" "}
             {preview(
               "https://drive.google.com/drive/folders/example",
-              "the shared folder",
+              t`the shared folder`,
             )}
-            , including{" "}
+            {t`, including`}{" "}
             {preview(
               "https://docs.google.com/document/d/example/edit",
-              "the project notes",
+              t`the project notes`,
             )}
-            ,{" "}
+            {t`,`}{" "}
             {preview(
               "https://docs.google.com/spreadsheets/d/example/edit",
-              "the tracker",
+              t`the tracker`,
             )}
-            , and{" "}
+            {t`, and`}{" "}
             {preview(
               "https://docs.google.com/presentation/d/example/edit",
-              "the slide deck",
+              t`the slide deck`,
             )}
-            .
+            {t`.`}
           </p>
         </section>
         <section>
-          <span className={styles.label}>More services</span>
+          <span className={styles.label}>{t`More services`}</span>
           <div className={styles.services}>
             {serviceSamples.map(([label, href]) => (
               <span key={href}>{preview(href, label)}</span>
@@ -115,34 +120,34 @@ function LinkLab() {
         </section>
         <section>
           <span className={styles.label}>
-            Buzz channels, messages and threads
+            {t`Buzz channels, messages and threads`}
           </span>
           <p>
-            Head back to {preview(general, "#general")} or pick up{" "}
-            {preview(thread, "the design discussion")}.
+            {t`Head back to`} {preview(general, "#general")} {t`or pick up`}{" "}
+            {preview(thread, t`the design discussion`)}.
           </p>
           <p>
-            Bare links show their kind: {preview(uuidChannel)},{" "}
-            {preview(uuidMessage)}, and{" "}
+            {t`Bare links show their kind:`} {preview(uuidChannel)},{" "}
+            {preview(uuidMessage)}, {t`and`}{" "}
             {preview(`${uuidMessage}&thread=${"2".repeat(64)}`)}.
           </p>
         </section>
         <section>
-          <span className={styles.label}>Full URLs and wrapping</span>
+          <span className={styles.label}>{t`Full URLs and wrapping`}</span>
           <p>
-            Here's the reference:{" "}
+            {t`Here's the reference:`}{" "}
             {preview(
               "https://github.com/block/buzz/issues/1234?view=conversation&filter=design-feedback",
             )}
-            . Let me know what you think.
+            {t`. Let me know what you think.`}
           </p>
         </section>
         <section>
           <Field
-            label="Try a URL"
+            label={t`Try a URL`}
             error={
               !linkKind(url)
-                ? "Enter an HTTP, HTTPS, or supported Buzz link."
+                ? t`Enter an HTTP, HTTPS, or supported Buzz link.`
                 : undefined
             }
           >
@@ -153,7 +158,9 @@ function LinkLab() {
               spellCheck={false}
             />
           </Field>
-          <p>Take a look at {preview(url)}.</p>
+          <p>
+            {t`Take a look at`} {preview(url)}.
+          </p>
         </section>
       </div>
       <p className={styles.status} role="status">

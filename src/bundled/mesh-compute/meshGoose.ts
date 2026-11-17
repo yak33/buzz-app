@@ -4,6 +4,9 @@
 // carries between turns. goose's built-in OpenAI provider talks to the loopback
 // lease route; the Buzz tools are the same in-process handlers the Goose plugin
 // serves over a loopback MCP server. No Buzz key reaches goose.
+import { msg } from "@lingui/core/macro";
+// 本地化全局单例：错误与会话文本显示在 transcript UI 中（先例 src/shared/datetime.ts）。
+import { i18n } from "../../features/localization/service";
 import type { AgentHandle } from "../../features/agents/service";
 import { appClient, readFile } from "../../buzz-mcp/app-client";
 import { errorText, respond } from "../../buzz-mcp/rpc";
@@ -88,12 +91,12 @@ export class MeshGoose {
     const live = () => {
       signal.throwIfAborted();
       if (delivery.current && !delivery.current())
-        throw new Error("Agent turn ended");
+        throw new Error(i18n._(msg`Agent turn ended`));
     };
     const check = async () => {
       live();
       if (!(await this.deps.current(inference.lease)))
-        throw new Error("Mesh selection retired");
+        throw new Error(i18n._(msg`Mesh selection retired`));
       live();
     };
     const guarded: AgentHandle = {
@@ -127,7 +130,7 @@ export class MeshGoose {
       signal,
       check: () => {
         if (delivery.current && !delivery.current())
-          throw new Error("Agent turn ended");
+          throw new Error(i18n._(msg`Agent turn ended`));
       },
       memories: (slug) =>
         this.deps.memories?.(delivery.agent.key, signal, slug) ??
@@ -185,7 +188,8 @@ export class MeshGoose {
       await check();
       const settled = await session.send(prompt);
       signal.throwIfAborted();
-      if (!settled.ok) throw new Error(settled.error || "goose ended the turn");
+      if (!settled.ok)
+        throw new Error(settled.error || i18n._(msg`goose ended the turn`));
       const text = settled.text?.trim() ?? "";
       saved.messages.push({
         role: "assistant",
@@ -193,7 +197,7 @@ export class MeshGoose {
         content: [
           {
             type: "text",
-            text: text || "(answered with Buzz tools)",
+            text: text || i18n._(msg`(answered with Buzz tools)`),
           },
         ],
       });
@@ -207,7 +211,9 @@ export class MeshGoose {
         content: [
           {
             type: "text",
-            text: `Turn ended: ${errorText(error)}. Earlier tool effects may have occurred; do not assume they were rolled back.`,
+            text: i18n._(
+              msg`Turn ended: ${errorText(error)}. Earlier tool effects may have occurred; do not assume they were rolled back.`,
+            ),
           },
         ],
       });
@@ -245,7 +251,9 @@ export class MeshGoose {
     signal.throwIfAborted();
     const saved = this.saved.get(row.sessionId);
     if (!saved || saved.agent !== agent)
-      throw new Error("This session transcript is no longer available");
+      throw new Error(
+        i18n._(msg`This session transcript is no longer available`),
+      );
     return {
       turns: gooseTurns(saved.messages, row, true),
       more: false,

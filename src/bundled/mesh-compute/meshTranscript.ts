@@ -1,5 +1,8 @@
 // Goose transcript projection adapted from Salman’s #1010 (9706e746).
 // Inline Mesh runs retain a volatile display trace.
+import { msg } from "@lingui/core/macro";
+// 本地化全局单例：状态文本显示在 transcript UI 中（先例 src/shared/datetime.ts）。
+import { i18n } from "../../features/localization/service";
 import {
   promptMessage,
   promptSections,
@@ -137,7 +140,7 @@ export function gooseTurns(
           id: `${id}:${callId}`,
           at,
           type: "status",
-          text: `The message above was not posted: ${text}`,
+          text: i18n._(msg`The message above was not posted: ${text}`),
         });
       const tool = tools.get(callId);
       if (!tool) continue;
@@ -185,7 +188,10 @@ export function gooseTurns(
           type: "tool",
           toolCallId: callId,
           // Extension tools as Codex names them: buzz.read, not buzz__read.
-          title: str(input.command) || name.replace("__", ".") || "Tool",
+          title:
+            str(input.command) ||
+            name.replace("__", ".") ||
+            i18n._(msg`Tool`),
           kind: KINDS[name.split("__").at(-1) ?? name] ?? "other",
           status: call?.status === "error" ? "failed" : "in_progress",
           input: JSON.stringify(input, null, 2),

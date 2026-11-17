@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { historyPresentation } from "../../features/agents/history-presentation";
 import {
   profileHistoryActive,
@@ -146,6 +148,7 @@ export function ProfilePanel({
     communities?: CommunityReader | undefined;
     linkRenderers?: ConversationExtensions["links"] | undefined;
   }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const activityKey = profileActivityViewKey(target);
   const opening = activityKey ? "activity" : "info";
@@ -178,9 +181,9 @@ export function ProfilePanel({
   );
   const pubkey = profilePanelKey(target) ?? activityKey;
   const owned = useAgent(agents, pubkey ?? "");
-  if (!pubkey) return <p>Unsupported profile.</p>;
+  if (!pubkey) return <p>{t`Unsupported profile.`}</p>;
   if (connection.status !== "ready")
-    return <p>Connect to a community to view this profile.</p>;
+    return <p>{t`Connect to a community to view this profile.`}</p>;
   // An agent's activity opens a turn's conversation in this community.
   const openConversation = conversationOpener(
     navigation,
@@ -264,6 +267,7 @@ function OwnedAgentProfile({
   openConversation: AgentViewProps["openConversation"];
   close(): void;
 }) {
+  const { t } = useLingui();
   const { types } = useAgents(agents);
   const owned = useAgent(agents, pubkey);
   const channels = useChannelChoices(session.channels);
@@ -346,7 +350,7 @@ function OwnedAgentProfile({
       />
       {leaving && (
         <DiscardChanges
-          description={`Your unsaved changes to ${owned.agent.name} will be lost.`}
+          description={t`Your unsaved changes to ${owned.agent.name} will be lost.`}
           onKeep={() => setLeaving(undefined)}
           onDiscard={() => {
             setLeaving(undefined);
@@ -390,6 +394,7 @@ function ProfileDetails({
   openConversation: AgentViewProps["openConversation"];
   close(): void;
 }) {
+  const { i18n, t } = useLingui();
   const selection = useMemo(
     () => selectProfiles(session.profiles, [pubkey]),
     [session.profiles, pubkey],
@@ -520,7 +525,7 @@ function ProfileDetails({
   const name = identityName(
     pubkey,
     profile?.name ??
-      (displayAgent ? "Unknown agent" : (formatPublicKey(pubkey) ?? pubkey)),
+      (displayAgent ? t`Unknown agent` : (formatPublicKey(pubkey) ?? pubkey)),
   );
   // The verification line carries the check, so it keeps the handle when the
   // name already is it.
@@ -587,7 +592,7 @@ function ProfileDetails({
     <section
       ref={region}
       data-buzz-ui=""
-      aria-label="Profile details"
+      aria-label={t`Profile details`}
       tabIndex={-1}
       className={styles.root}
     >
@@ -600,7 +605,7 @@ function ProfileDetails({
               agentPubkey={pubkey}
               channelId={context?.channelId}
               src={picture}
-              alt={`${name} avatar`}
+              alt={t`${name} avatar`}
               fallback={name}
               size="fill"
               shape={displayAgent ? "squircle" : "circle"}
@@ -625,8 +630,8 @@ function ProfileDetails({
             {profile?.verified && (
               <p className="text-body-sm text-secondary">
                 {profile.verified.status === "checked"
-                  ? `Name verified by ${profile.verified.issuerLabel}`
-                  : `Cached verification from ${profile.verified.issuerLabel}`}{" "}
+                  ? t`Name verified by ${profile.verified.issuerLabel}`
+                  : t`Cached verification from ${profile.verified.issuerLabel}`}{" "}
                 {otherName !== `@${profile.verified.username}` &&
                   `· @${profile.verified.username}`}
               </p>
@@ -634,9 +639,11 @@ function ProfileDetails({
             {presence !== "unknown" && (
               <p className="text-body-sm text-primary">
                 {
-                  { online: "Active", away: "Away", offline: "Offline" }[
-                    presence
-                  ]
+                  {
+                    online: t`Active`,
+                    away: t`Away`,
+                    offline: t`Offline`,
+                  }[presence]
                 }
               </p>
             )}
@@ -656,7 +663,7 @@ function ProfileDetails({
                   aria-haspopup="dialog"
                   onClick={() => statusEditor.open()}
                 >
-                  {userStatus ? "Update status" : "Set a status"}
+                  {userStatus ? t`Update status` : t`Set a status`}
                 </Button>
               )}
               {canMessage && (
@@ -666,7 +673,7 @@ function ProfileDetails({
                   loading={openingMessage}
                   onClick={() => void openMessage()}
                 >
-                  Message
+                  {t`Message`}
                 </Button>
               )}
               {canEdit && (
@@ -675,7 +682,7 @@ function ProfileDetails({
                   variant={picture ? "glass" : "subtle"}
                   onClick={editProfile}
                 >
-                  Edit profile
+                  {t`Edit profile`}
                 </Button>
               )}
             </div>
@@ -690,11 +697,11 @@ function ProfileDetails({
           value={selectedTab}
           onValueChange={setTab}
           items={[
-            { value: "info", label: "Info" },
+            { value: "info", label: t`Info` },
             ...sections.map(({ value, label }) => ({ value, label })),
-            { value: "channels", label: "Channels" },
+            { value: "channels", label: t`Channels` },
           ]}
-          label="Profile sections"
+          label={t`Profile sections`}
           variant="panel"
           renderPanel={(selected) => (
             <div className={styles.tabContent}>
@@ -706,22 +713,20 @@ function ProfileDetails({
                     {profile?.verified && (
                       <SettingsGroup>
                         <PreferenceRow
-                          title={`Name verified by ${profile.verified.issuerLabel}`}
+                          title={t`Name verified by ${profile.verified.issuerLabel}`}
                           subtitle={
                             <>
-                              Last verified{" "}
+                              {t`Last verified`}{" "}
                               <time dateTime={verificationIso}>
                                 {verificationIso
                                   ? verificationDate?.toLocaleString()
-                                  : `Unix time ${profile.verified.verifiedAt}`}
+                                  : t`Unix time ${profile.verified.verifiedAt}`}
                               </time>
-                              .{" "}
+                              {". "}
                               {profile.verified.status === "cached"
-                                ? "Cached evidence; reconnect to check for updates. "
+                                ? t`Cached evidence; reconnect to check for updates. `
                                 : ""}
-                              This verifies the name and public key at that
-                              time, and does not confirm current account access
-                              or current issuer endorsement.
+                              {t`This verifies the name and public key at that time, and does not confirm current account access or current issuer endorsement.`}
                             </>
                           }
                         />
@@ -744,7 +749,7 @@ function ProfileDetails({
                     <div className={styles.publicKey}>
                       <SettingsGroup>
                         <PreferenceRow
-                          title="Public key"
+                          title={t`Public key`}
                           subtitle={
                             <code className={styles.keyValue}>{npub}</code>
                           }
@@ -752,22 +757,27 @@ function ProfileDetails({
                             <Button
                               size="compact"
                               variant="ghost"
-                              aria-label="Copy npub"
+                              aria-label={t`Copy npub`}
                               onClick={() => {
                                 setCopyStatus("");
                                 void Promise.resolve()
                                   .then(() => writeClipboardText(npub))
                                   .then(
-                                    () => setCopyStatus("Public key copied."),
                                     () =>
                                       setCopyStatus(
-                                        "Could not copy. Select the public key above to copy it.",
+                                        i18n._(msg`Public key copied.`),
+                                      ),
+                                    () =>
+                                      setCopyStatus(
+                                        i18n._(
+                                          msg`Could not copy. Select the public key above to copy it.`,
+                                        ),
                                       ),
                                   );
                               }}
                             >
                               <CopyIcon size={16} aria-hidden="true" />
-                              Copy
+                              {t`Copy`}
                             </Button>
                           }
                         />
@@ -789,12 +799,12 @@ function ProfileDetails({
                     {(!profile ||
                       (profile.verified && (status === "error" || retrying))) &&
                       (status === "loading" ? (
-                        <p role="status">Loading profile…</p>
+                        <p role="status">{t`Loading profile…`}</p>
                       ) : (
                         <p role={status === "error" ? "alert" : undefined}>
                           {status === "error"
-                            ? "Could not load this profile."
-                            : "No profile metadata is available in this community."}
+                            ? t`Could not load this profile.`
+                            : t`No profile metadata is available in this community.`}
                         </p>
                       ))}
                     {((!profile && status !== "loading") ||
@@ -810,7 +820,7 @@ function ProfileDetails({
                           retry((value) => value + 1);
                         }}
                       >
-                        Retry profile
+                        {t`Retry profile`}
                       </Button>
                     )}
                   </>,

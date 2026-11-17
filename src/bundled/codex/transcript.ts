@@ -1,5 +1,7 @@
 // A conversation's Codex thread, read back through app-server and shown in the
 // host's turn-transcript model. Codex owns the history; nothing here is saved.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { isMessageTool } from "../../buzz-mcp/session-tools";
 import {
   promptSections,
@@ -136,7 +138,12 @@ function item(
     case "plan":
       return { id, at, type: "status", text: str(value.text) };
     case "contextCompaction":
-      return { id, at, type: "status", text: "Context compaction" };
+      return {
+        id,
+        at,
+        type: "status",
+        text: i18n._(msg`Context compaction`),
+      };
     case "commandExecution":
       return tool({
         title: shellCommand(str(value.command)),
@@ -148,7 +155,7 @@ function item(
         Array.isArray(value.changes) ? value.changes : []
       ) as Json[];
       return tool({
-        title: "Edit files",
+        title: i18n._(msg`Edit files`),
         kind: "edit",
         paths: changes.map((change) => str(change.path)),
         output: changes.map((change) => str(change.diff)).join("\n"),
@@ -186,7 +193,7 @@ function item(
     }
     case "webSearch":
       return tool({
-        title: "Web search",
+        title: i18n._(msg`Web search`),
         kind: "fetch",
         input: str(value.query),
       });
@@ -525,7 +532,7 @@ export async function readTranscript(
           thread?: { path: string | null };
         }>("thread/read", { threadId, includeTurns: false });
         if (!thread?.path)
-          throw new Error("The local session file is unavailable.");
+          throw new Error(i18n._(msg`The local session file is unavailable.`));
         paths.push(thread.path);
         // Codex supplies the rollout in Buzz's own home. Use its directory:
         // the desktop host rejects a relative process cwd, including ".".

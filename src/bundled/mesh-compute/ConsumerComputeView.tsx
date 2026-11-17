@@ -1,5 +1,6 @@
 // Consumer presentation adapted from feat/community-compute-plugin @ b4a910e.
 // Host lifecycle/leases remain owned by this plugin, not the donor's sharing service.
+import { useLingui } from "@lingui/react/macro";
 import type { ReactNode } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Header } from "../../shared/design-system/ui/Header";
@@ -22,12 +23,13 @@ export function ConsumerComputeView({
   refreshDisabled: boolean;
   refresh: () => void;
 }) {
+  const { t } = useLingui();
   return (
     <section
-      aria-label="Compute consumer"
+      aria-label={t`Compute consumer`}
       className={`${styles.content} text-body`}
     >
-      <Header title="Shared compute" actions={headerControl} />
+      <Header title={t`Shared compute`} actions={headerControl} />
       {children}
       <p
         role="status"
@@ -50,7 +52,7 @@ export function ConsumerComputeView({
             onClick={refresh}
             disabled={refreshDisabled}
           >
-            Retry
+            {t`Retry`}
           </Button>
         </div>
       )}

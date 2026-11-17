@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { ChangeEvent } from "react";
 import type { OutgoingEvent } from "../../features/relay/outbox";
@@ -17,9 +19,9 @@ import { Dialog } from "../../shared/design-system/ui/Dialog";
 import { Textarea } from "../../shared/design-system/ui/Textarea";
 
 const categories = [
-  ["bug", "Bug"],
-  ["praise", "Praise"],
-  ["needs-work", "Needs work"],
+  ["bug", msg`Bug`],
+  ["praise", msg`Praise`],
+  ["needs-work", msg`Needs work`],
 ] as const;
 const emptyItems: readonly OutgoingEvent[] = [];
 const emptyEntries = () => emptyItems;
@@ -69,6 +71,7 @@ function FeedbackForConnection({
   connection: RelaySnapshot;
   isCurrent(): boolean;
 }) {
+  const { i18n, t } = useLingui();
   const active = useRef(false);
   const attempt = useRef(0);
   useEffect(() => {
@@ -98,6 +101,7 @@ function FeedbackForConnection({
   // close and unmount invalidate the same async attempt, including dismissal.
   const uploadController = useRef<AbortController | null>(null);
   const [hydrated, setHydrated] = useState(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此挂载效果不需随语言重建。
   useEffect(() => {
     let active = true;
     setHydrated(false);
@@ -110,7 +114,7 @@ function FeedbackForConnection({
           setError(
             reason instanceof Error
               ? reason.message
-              : "Could not load saved feedback.",
+              : i18n._(msg`Could not load saved feedback.`),
           );
       },
     );
@@ -150,7 +154,7 @@ function FeedbackForConnection({
         currentAttempt === attempt.current
       )
         setError(
-          reason instanceof Error ? reason.message : "Image upload failed.",
+          reason instanceof Error ? reason.message : i18n._(msg`Image upload failed.`),
         );
     } finally {
       if (uploadController.current === controller)
@@ -223,7 +227,7 @@ function FeedbackForConnection({
         !uploadController.current?.signal.aborted
       )
         setError(
-          reason instanceof Error ? reason.message : "Could not send feedback.",
+          reason instanceof Error ? reason.message : i18n._(msg`Could not send feedback.`),
         );
     } finally {
       if (active.current && currentAttempt === attempt.current) {
@@ -249,7 +253,7 @@ function FeedbackForConnection({
     } catch (reason) {
       if (!active.current || !isCurrent() || epoch !== attempt.current) return;
       setError(
-        reason instanceof Error ? reason.message : "Could not clear feedback.",
+        reason instanceof Error ? reason.message : i18n._(msg`Could not clear feedback.`),
       );
     } finally {
       if (active.current && isCurrent() && epoch === attempt.current)
@@ -261,7 +265,9 @@ function FeedbackForConnection({
       !pending ||
       (pending.delivery !== "failed" && pending.delivery !== "unknown") ||
       !window.confirm(
-        "Discard this saved feedback locally? It may already have been delivered; discarding will not undo delivery or delete uploaded attachments.",
+        i18n._(
+          msg`Discard this saved feedback locally? It may already have been delivered; discarding will not undo delivery or delete uploaded attachments.`,
+        ),
       )
     )
       return;
@@ -274,7 +280,7 @@ function FeedbackForConnection({
       setError("");
     } catch (reason) {
       setError(
-        reason instanceof Error ? reason.message : "Could not retry feedback.",
+        reason instanceof Error ? reason.message : i18n._(msg`Could not retry feedback.`),
       );
     }
   }
@@ -287,6 +293,10 @@ function FeedbackForConnection({
   }
   const delivered =
     pending?.delivery === "accepted" || pending?.delivery === "seen";
+  // The failed branch shows the relay's error, or this hint when it gave none.
+  const retryNote = pending?.delivery === "failed"
+    ? (pending.error ?? t`Retry to send.`)
+    : undefined;
   return (
     <Dialog
       open={open}
@@ -295,31 +305,31 @@ function FeedbackForConnection({
         else onOpenChange(next);
       }}
       dismissOnOutsideClick={false}
-      title="Send feedback"
-      description="Feedback text goes to this Buzz deployment's feedback inbox, not a channel. Images and optional diagnostics use ordinary media storage, not inbox-only access; people allowed to read media on this deployment may access them if they have the link. Images upload when selected; diagnostics upload when you send. Removing an attachment or closing this form does not delete uploaded files."
+      title={t`Send feedback`}
+      description={t`Feedback text goes to this Buzz deployment's feedback inbox, not a channel. Images and optional diagnostics use ordinary media storage, not inbox-only access; people allowed to read media on this deployment may access them if they have the link. Images upload when selected; diagnostics upload when you send. Removing an attachment or closing this form does not delete uploaded files.`}
       actions={
         <>
-          <Button onClick={close}>Close</Button>
+          <Button onClick={close}>{t`Close`}</Button>
           {delivered ? (
             <Button
               variant="prominent"
               disabled={busy}
               onClick={() => void clearPending()}
             >
-              Done
+              {t`Done`}
             </Button>
           ) : pending?.delivery === "failed" ||
             pending?.delivery === "unknown" ? (
             <>
               <Button disabled={busy} onClick={discard}>
-                Discard locally
+                {t`Discard locally`}
               </Button>
               <Button
                 variant="prominent"
                 disabled={!available || busy}
                 onClick={retry}
               >
-                Retry same feedback
+                {t`Retry same feedback`}
               </Button>
             </>
           ) : !pending ? (
@@ -328,7 +338,7 @@ function FeedbackForConnection({
               disabled={!available || !message.trim() || busy}
               onClick={() => void submit()}
             >
-              Send feedback
+              {t`Send feedback`}
             </Button>
           ) : null}
         </>
@@ -339,18 +349,18 @@ function FeedbackForConnection({
           <p className="mb-4 whitespace-pre-wrap">{pending.event.content}</p>
           <p role="status">
             {delivered
-              ? "Feedback received by the relay."
+              ? t`Feedback received by the relay.`
               : pending.delivery === "unknown"
-                ? "Delivery could not be confirmed. Retry the same feedback; do not submit a duplicate."
+                ? t`Delivery could not be confirmed. Retry the same feedback; do not submit a duplicate.`
                 : pending.delivery === "failed"
-                  ? `Feedback was not delivered. ${pending.error ?? "Retry to send."}`
-                  : "Sending feedback…"}
+                  ? t`Feedback was not delivered. ${retryNote}`
+                  : t`Sending feedback…`}
           </p>
         </>
       ) : (
         <>
           <fieldset className="flex flex-wrap gap-2 mb-4">
-            <legend className="sr-only">Feedback category (optional)</legend>
+            <legend className="sr-only">{t`Feedback category (optional)`}</legend>
             {categories.map(([id, label]) => (
               <Button
                 key={id}
@@ -359,19 +369,19 @@ function FeedbackForConnection({
                 disabled={busy}
                 onClick={() => setCategory(category === id ? null : id)}
               >
-                {label}
+                {i18n._(label)}
               </Button>
             ))}
           </fieldset>
           <label htmlFor="feedback-message" className="text-label-sm">
-            Your feedback
+            {t`Your feedback`}
           </label>
           <Textarea
             id="feedback-message"
             value={message}
             disabled={busy}
             onChange={(event) => setMessage(event.target.value)}
-            placeholder="Tell us what went wrong, or share general feedback."
+            placeholder={t`Tell us what went wrong, or share general feedback.`}
           />
           {connection.session.feedbackUpload && (
             <>
@@ -379,7 +389,7 @@ function FeedbackForConnection({
                 htmlFor="feedback-image"
                 className="text-label-sm block mt-4"
               >
-                Attach image (optional)
+                {t`Attach image (optional)`}
               </label>
               <input
                 id="feedback-image"
@@ -390,9 +400,9 @@ function FeedbackForConnection({
               />
               {image && (
                 <p>
-                  Image uploaded: {image.name}{" "}
+                  {t`Image uploaded: ${image.name}`}{" "}
                   <Button disabled={busy} onClick={() => setImage(undefined)}>
-                    Remove image
+                    {t`Remove image`}
                   </Button>
                 </p>
               )}
@@ -405,11 +415,10 @@ function FeedbackForConnection({
                     setIncludeDiagnostics(event.target.checked)
                   }
                 />{" "}
-                Attach diagnostics
+                {t`Attach diagnostics`}
               </label>
               <p>
-                Includes capture time, app version when available, platform,
-                user agent, and language. No application logs.
+                {t`Includes capture time, app version when available, platform, user agent, and language. No application logs.`}
               </p>
             </>
           )}
@@ -417,7 +426,7 @@ function FeedbackForConnection({
       )}
       {!available && (
         <p role="status">
-          Connect to a Buzz deployment to send or retry feedback.
+          {t`Connect to a Buzz deployment to send or retry feedback.`}
         </p>
       )}
       {error && <p role="alert">{error}</p>}

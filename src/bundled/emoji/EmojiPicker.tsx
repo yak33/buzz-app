@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { createShortcutBindings } from "../../features/shortcuts/preferences";
 import { matches } from "../../features/shortcuts/bindings";
 import type { GifShortcut } from "./gif-shortcut";
@@ -67,6 +69,7 @@ export function EmojiPicker({
     finalFocus(): HTMLButtonElement | false;
   };
 }) {
+  const { i18n, t } = useLingui();
   const active = useConversationPresentation();
   const [colorMode, setColorMode] = useState<"light" | "dark">();
   const [open, setOpen] = useState(!!externalTrigger);
@@ -195,6 +198,7 @@ export function EmojiPicker({
       bindings.dispose();
     };
   }, [community, disabled, reaction, active, gifShortcut]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useEffect(() => {
     if (
       !community ||
@@ -215,7 +219,7 @@ export function EmojiPicker({
           setGifAvailability({
             community,
             supported: undefined,
-            error: "Could not check GIF availability.",
+            error: i18n._(msg`Could not check GIF availability.`),
           });
           setGifDiscoveryRequested(false);
         }
@@ -293,7 +297,7 @@ export function EmojiPicker({
       enabled={gifs === true}
       unavailable={
         gifs === false
-          ? "GIFs are not available in this community."
+          ? t`GIFs are not available in this community.`
           : gifAvailability?.community === community
             ? gifAvailability.error
             : undefined
@@ -324,21 +328,21 @@ export function EmojiPicker({
     <div className={styles.emojiContent} data-tabs={showGifTab || undefined}>
       <Tabs
         variant="panel"
-        label="Media type"
+        label={t`Media type`}
         value={tab}
         onValueChange={setTab}
         items={[
-          { value: "emoji", label: "Emoji" },
-          ...(showGifTab ? [{ value: "gifs" as const, label: "GIF" }] : []),
+          { value: "emoji", label: t`Emoji` },
+          ...(showGifTab ? [{ value: "gifs" as const, label: t`GIF` }] : []),
         ]}
         renderPanel={(value) => (value === "emoji" ? emojiContent : gifContent)}
       />
 
       {tab === "emoji" && error && (
         <div role="alert" className={styles.emojiStatus}>
-          Could not load emoji picker: {error}
+          {t`Could not load emoji picker: ${error}`}
           <Button type="button" onClick={() => retry(attempt + 1)}>
-            Retry picker
+            {t`Retry picker`}
           </Button>
         </div>
       )}
@@ -346,7 +350,7 @@ export function EmojiPicker({
       {tab === "emoji" &&
         (catalog.status === "loading" ||
           (catalog.status === "error" && catalog.transient)) && (
-          <LoadingRegion pending label="Loading community emoji…">
+          <LoadingRegion pending label={t`Loading community emoji…`}>
             {null}
           </LoadingRegion>
         )}
@@ -354,7 +358,7 @@ export function EmojiPicker({
         <div className={styles.emojiStatus}>
           <p role="alert">{catalog.error}</p>
           <Button type="button" onClick={() => void session.emoji.refresh()}>
-            Retry emoji
+            {t`Retry emoji`}
           </Button>
         </div>
       )}
@@ -367,8 +371,8 @@ export function EmojiPicker({
       shape={reaction ? "round" : "control"}
       ref={trigger}
       type="button"
-      aria-label={reaction ? "Add reaction" : "Emoji and GIFS"}
-      title={reaction ? "Add reaction" : "Emoji and GIFS"}
+      aria-label={reaction ? t`Add reaction` : t`Emoji and GIFS`}
+      title={reaction ? t`Add reaction` : t`Emoji and GIFS`}
       aria-busy={(gifDiscoveryRequested && gifs === undefined) || undefined}
       disabled={disabled}
       onPointerEnter={() => setGifDiscoveryRequested(true)}
@@ -387,7 +391,7 @@ export function EmojiPicker({
       ref={controls}
       data-external-trigger={!!externalTrigger || undefined}
       disabled={disabled}
-      aria-label="Emoji controls"
+      aria-label={t`Emoji controls`}
       className={styles.emojiPicker}
       onKeyDownCapture={(event) => {
         // Mart stops search key events before they bubble out of its shadow root.
@@ -425,7 +429,7 @@ export function EmojiPicker({
         initialFocus={false}
         padding="none"
         id={externalTrigger?.id}
-        aria-label="Emoji picker"
+        aria-label={t`Emoji picker`}
         style={{
           width: Math.min(
             availableWidth,

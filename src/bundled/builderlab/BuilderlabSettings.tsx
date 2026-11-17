@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   useLayoutEffect,
   useRef,
@@ -19,23 +20,7 @@ import { SettingsGroup } from "../../shared/design-system/ui/SettingsGroup";
 import type { OverviewSnapshot } from "./overview";
 import styles from "./BuilderlabSettings.module.css";
 
-const sections = [
-  {
-    id: "agents",
-    title: "Remote agents",
-    icon: RobotIcon,
-    description: "Agents take on work for you in Buzz.",
-    action: "Set up an agent",
-  },
-  {
-    id: "communities",
-    title: "Communities",
-    icon: GlobeIcon,
-    description: "Spaces where your team and agents talk.",
-    action: "Create a community",
-  },
-] as const;
-type Section = (typeof sections)[number]["id"];
+type Section = "agents" | "communities";
 
 /** A section keeps navigation beside its heading and outside the heading name. */
 export function ManagementHeader({
@@ -75,6 +60,24 @@ export function BuilderlabSettings({
   agents: ReactNode;
   summaries?: Record<Section, OverviewSnapshot>;
 }) {
+  const { t } = useLingui();
+  // 分区文案在组件内用 t`` 求值；id 保持稳定键。
+  const sections = [
+    {
+      id: "agents" as const,
+      title: t`Remote agents`,
+      icon: RobotIcon,
+      description: t`Agents take on work for you in Buzz.`,
+      action: t`Set up an agent`,
+    },
+    {
+      id: "communities" as const,
+      title: t`Communities`,
+      icon: GlobeIcon,
+      description: t`Spaces where your team and agents talk.`,
+      action: t`Create a community`,
+    },
+  ];
   const [selected, setSelected] = useState(initialSection);
   const triggers = useRef<Partial<Record<Section, HTMLElement | null>>>({});
   const back = useRef<HTMLButtonElement | null>(null);
@@ -98,8 +101,8 @@ export function BuilderlabSettings({
   const navigation = (
     <IconButton
       ref={back}
-      aria-label="Back to Builderlab"
-      title="Back to Builderlab"
+      aria-label={t`Back to Builderlab`}
+      title={t`Back to Builderlab`}
       hint="familiar"
       icon={<CaretLeftIcon />}
       onClick={() => {
@@ -129,7 +132,9 @@ export function BuilderlabSettings({
           id="builderlab-title"
           title={
             selected === "agents"
-              ? `Remote agents${agentCount === undefined ? "" : ` (${agentCount})`}`
+              ? agentCount === undefined
+                ? t`Remote agents`
+                : t`Remote agents (${agentCount})`
               : "Builderlab"
           }
         />
@@ -160,7 +165,7 @@ export function BuilderlabSettings({
                       }}
                       variant="prominent"
                       shape="round"
-                      aria-label={`Open ${title}`}
+                      aria-label={t`Open ${title}`}
                       icon={<ArrowUpRightIcon size={16} aria-hidden="true" />}
                       onClick={() => open(id)}
                     />
@@ -171,7 +176,7 @@ export function BuilderlabSettings({
                     <div className={styles.prompt}>
                       <p className="m-0 text-body-sm text-subtle">
                         {state.kind === "unavailable"
-                          ? "Not available for this account"
+                          ? t`Not available for this account`
                           : description}
                       </p>
                       <Button
@@ -179,7 +184,9 @@ export function BuilderlabSettings({
                         size="text"
                         onClick={() => open(id)}
                       >
-                        {state.kind === "unavailable" ? "Learn more" : action}{" "}
+                        {state.kind === "unavailable"
+                          ? t`Learn more`
+                          : action}{" "}
                         <ArrowRightIcon aria-hidden="true" />
                       </Button>
                     </div>
@@ -198,7 +205,7 @@ export function BuilderlabSettings({
                       </ul>
                       {state.items.length > 3 && (
                         <p className="m-0 text-caption text-subtle">
-                          +{state.items.length - 3} more
+                          {t`+${state.items.length - 3} more`}
                         </p>
                       )}
                     </>
@@ -207,7 +214,7 @@ export function BuilderlabSettings({
                       {state.kind === "pending" ? "…" : "—"}
                       {state.kind === "failed" && (
                         <span className="ml-1 text-caption text-subtle">
-                          Couldn’t load
+                          {t`Couldn’t load`}
                         </span>
                       )}
                     </p>

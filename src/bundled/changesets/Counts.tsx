@@ -15,9 +15,6 @@ export function Counts({
   );
 }
 
-export const plural = (count: number, noun: string) =>
-  `${count} ${noun}${count === 1 ? "" : "s"}`;
-
 export const totals = (
   files: readonly { additions: number; deletions: number }[],
 ) => ({

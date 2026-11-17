@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import { protectionTranscript } from "./protection-transcript";
+import { i18n } from "../../features/localization/service";
 import type { PRESET } from "../../features/agents/recommended";
 import { fileStore } from "../../features/agents/state";
 import type { AgentExecution } from "../../features/agents/execution";
@@ -671,7 +673,9 @@ export class ClaudeRuntime {
     signal: AbortSignal,
   ) {
     if (await this.inspect?.(conversation.agent))
-      throw new Error("Transcripts are unavailable for remote Claude agents.");
+      throw new Error(
+        i18n._(msg`Transcripts are unavailable for remote Claude agents.`),
+      );
     const prompts = this.prompts(conversation.agent);
     return readTranscript(
       this.spawn,
@@ -842,7 +846,7 @@ export class ClaudeRuntime {
       }
       const remoteKey = this.executionKey(agent.key, key);
       if (this.sessionState(agent, place) !== "idle")
-        throw new Error("Wait for the active turn to finish first.");
+        throw new Error(i18n._(msg`Wait for the active turn to finish first.`));
       return this.controls.run(
         `${agent.key}/${key}`,
         action,
@@ -891,7 +895,7 @@ export class ClaudeRuntime {
       return;
     }
     if (this.sessionState(agent, place) !== "idle")
-      throw new Error("Wait for the active turn to finish first.");
+      throw new Error(i18n._(msg`Wait for the active turn to finish first.`));
     return this.controls.run(control, action, async (signal) => {
       signal.throwIfAborted();
       if (action === "new") {

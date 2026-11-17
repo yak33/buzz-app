@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState, useSyncExternalStore } from "react";
 import { TelescopeIcon } from "../../shared/design-system/icons/index";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -20,10 +23,10 @@ import {
 import type { Focus } from "./state";
 import styles from "./Focus.module.css";
 
-const focusDurations: readonly (readonly [Duration, string])[] = [
-  ...focusLengths,
-  ["custom", "Custom"],
-];
+const focusDurations: readonly (readonly [
+  Duration,
+  MessageDescriptor,
+])[] = [...focusLengths, ["custom", msg`Custom`]];
 type Duration = FocusLength | "custom";
 /** Start Focus for a preset; the shortcut and the dialog share it. */
 export function startFocus(focus: Focus, length: FocusLength) {
@@ -48,16 +51,17 @@ export function focusUntilLabel(until: number, now = new Date()) {
 
 /** Sidebar banner while Focus is on: until when, and End. */
 export function FocusBanner({ focus }: { focus: Focus }) {
+  const { t } = useLingui();
   const { until } = useFocus(focus);
   if (until === undefined) return null;
   return (
     <div className={styles.banner}>
       <span className={`${styles.label} text-label-sm`}>
         <TelescopeIcon size={16} aria-hidden="true" />
-        Focusing until {focusUntilLabel(until)}
+        {t`Focusing until ${focusUntilLabel(until)}`}
       </span>
       <Button size="sm" variant="ghost" onClick={focus.end}>
-        End
+        {t`End`}
       </Button>
     </div>
   );
@@ -75,6 +79,7 @@ export function FocusDialog({
   focus: Focus;
   preferences: Preferences;
 }) {
+  const { i18n, t } = useLingui();
   const state = useFocus(focus);
   // Each opening starts from the default in Settings.
   const [duration, setDuration] = useState<Duration>(
@@ -99,18 +104,19 @@ export function FocusDialog({
     }
   };
   const durationLabel =
-    focusDurations.find(([value]) => value === duration)?.[1] ?? "";
+    focusDurations.find(([value]) => value === duration)?.[1] ?? undefined;
+  const durationText = durationLabel ? i18n._(durationLabel) : "";
   return (
     <Dialog
       size="compact"
       open={open}
       onOpenChange={onOpenChange}
-      title="Focus"
-      closeLabel="Close Focus"
+      title={t`Focus`}
+      closeLabel={t`Close Focus`}
       description={
         on
-          ? `Focusing until ${focusUntilLabel(state.until as number)}`
-          : "Only Solo chats show and alert you until Focus ends."
+          ? t`Focusing until ${focusUntilLabel(state.until as number)}`
+          : t`Only Solo chats show and alert you until Focus ends.`
       }
       actions={
         on ? (
@@ -121,11 +127,11 @@ export function FocusDialog({
               close();
             }}
           >
-            End focus
+            {t`End focus`}
           </Button>
         ) : (
           <Button variant="prominent" onClick={start}>
-            Start focus
+            {t`Start focus`}
           </Button>
         )
       }
@@ -133,13 +139,13 @@ export function FocusDialog({
       {!on && (
         <div className={styles.fields}>
           <div className={styles.section}>
-            <span className="text-label-sm text-subtle">Duration</span>
+            <span className="text-label-sm text-subtle">{t`Duration`}</span>
             <MenuRoot>
               <MenuTrigger
-                aria-label={`Duration: ${durationLabel}`}
+                aria-label={t`Duration: ${durationText}`}
                 render={<FieldButton />}
               >
-                {durationLabel}
+                {durationText}
               </MenuTrigger>
               <MenuPopup align="end">
                 <MenuRadioGroup
@@ -148,11 +154,11 @@ export function FocusDialog({
                     setDuration(value as Duration);
                     setError("");
                   }}
-                  aria-label="Duration"
+                  aria-label={t`Duration`}
                 >
                   {focusDurations.map(([value, label]) => (
                     <MenuRadioItem key={value} value={value} closeOnClick>
-                      {label}
+                      {i18n._(label)}
                     </MenuRadioItem>
                   ))}
                 </MenuRadioGroup>
@@ -161,7 +167,7 @@ export function FocusDialog({
           </div>
           {duration === "custom" && (
             <StatusExpiration
-              label="Focus end"
+              label={t`Focus end`}
               value={custom}
               disabled={false}
               onChange={(next) => {

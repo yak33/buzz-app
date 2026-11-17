@@ -7,9 +7,11 @@
 // Buzz tools, signed by the agent's native-held key. The runtime reports a
 // turn that fails; what Pi writes without `send` stays in local activity.
 import { isFinalMessage } from "../../buzz-mcp/session-tools";
+import { msg } from "@lingui/core/macro";
 import { appClient, readFile } from "../../buzz-mcp/app-client";
 import type { Context } from "../../buzz-mcp/client";
 import { content, errorText } from "../../buzz-mcp/rpc";
+import { i18n } from "../../features/localization/service";
 import {
   type AddedTool,
   callSessionTool,
@@ -243,7 +245,9 @@ export class PiRuntime {
         tool: (call, signal) => this.tool(call, signal),
         hook: (call) => {
           if (!this.agents.has(call.agent))
-            throw new Error("Pi hook agent is no longer active");
+            throw new Error(
+              i18n._(msg`Pi hook agent is no longer active`),
+            );
           return (
             this.hook?.(
               call.agent,
@@ -263,7 +267,9 @@ export class PiRuntime {
           this.agents.get(pubkey)?.handle ?? this.handle(pubkey)
         )?.protection;
         if (!protection && this.bound.has(pubkey))
-          throw new Error("The agent isn't connected yet. Try again shortly.");
+          throw new Error(
+            i18n._(msg`The agent isn't connected yet. Try again shortly.`),
+          );
         return protection;
       },
     );
@@ -476,7 +482,9 @@ export class PiRuntime {
       const handle =
         this.agents.get(agent.key)?.handle ?? this.handle(agent.key);
       if (!handle)
-        throw new Error("The agent isn't connected yet. Try again shortly.");
+        throw new Error(
+          i18n._(msg`The agent isn't connected yet. Try again shortly.`),
+        );
       const entry = this.entry(handle, config(agent.config));
       entry.handle ??= handle;
       await this.open(agent.key);
@@ -486,7 +494,9 @@ export class PiRuntime {
       if (signal) {
         signal.throwIfAborted();
         if ([...entry.receipts.values()].some((taken) => taken.key === key))
-          throw new Error("Wait for the active turn to finish first.");
+          throw new Error(
+            i18n._(msg`Wait for the active turn to finish first.`),
+          );
       }
       await this.pi.request("session", { agent: agent.key, key, action });
     };
@@ -497,7 +507,9 @@ export class PiRuntime {
       return act();
     }
     if (this.sessionState(agent, place) !== "idle")
-      throw new Error("Wait for the active turn to finish first.");
+      throw new Error(
+        i18n._(msg`Wait for the active turn to finish first.`),
+      );
     return this.controls.run(control, action, async (signal) => {
       signal.throwIfAborted();
       await act(signal);
@@ -920,7 +932,7 @@ export class PiRuntime {
     if (!entry.closed) return;
     if (!this.running.has(agent) && !this.agents.has(agent))
       void this.pi.request("close", { agent }).catch(() => undefined);
-    throw new Error("The agent was removed");
+    throw new Error(i18n._(msg`The agent was removed`));
   }
 
   /** Hands a turn to Pi. A host that stops before it answers may have taken
@@ -1366,7 +1378,8 @@ export class PiRuntime {
 
   private get spawn() {
     const spawn = this.host.spawn?.bind(this.host);
-    if (!spawn) throw new Error("Pi agents run only in the desktop app");
+    if (!spawn)
+      throw new Error(i18n._(msg`Pi agents run only in the desktop app`));
     return spawn;
   }
 
@@ -1377,7 +1390,8 @@ export class PiRuntime {
 
   private get readFile() {
     const readFile = this.host.readFile?.bind(this.host);
-    if (!readFile) throw new Error("Pi agents run only in the desktop app");
+    if (!readFile)
+      throw new Error(i18n._(msg`Pi agents run only in the desktop app`));
     return readFile;
   }
 
@@ -1412,7 +1426,8 @@ function unanswered({
   detail,
 }: Extract<Waited, { status: "unanswered" }>) {
   if (detail) return detail;
-  if (reason === "no_model") return "Pi has no model for this agent";
-  if (reason === "aborted") return "The turn was stopped";
-  return `Pi did not answer (${reason ?? "unknown"})`;
+  if (reason === "no_model")
+    return i18n._(msg`Pi has no model for this agent`);
+  if (reason === "aborted") return i18n._(msg`The turn was stopped`);
+  return i18n._(msg`Pi did not answer (${reason ?? "unknown"})`);
 }

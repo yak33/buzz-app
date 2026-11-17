@@ -1,5 +1,9 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { ModelDiscoveryRecovery } from "../../features/agents/ModelDiscoveryRecovery";
 import activityStyles from "../../features/agents/ActivityLayout.module.css";
+import { i18n } from "../../features/localization/service";
 import { formatItemTimestamp } from "../../shared/datetime";
 import { useClockFormat } from "../../shared/clock-preference";
 import { InlineHeader } from "../../shared/design-system/ui/Header";
@@ -76,7 +80,7 @@ const message = (error: unknown) =>
   error instanceof Error ? error.message : String(error);
 
 const label = ({ channelId, name, root }: SavedConversation) =>
-  `${name || channelId.slice(0, 8)} · ${root ? `thread ${root.slice(0, 8)}` : "channel"}`;
+  `${name || channelId.slice(0, 8)} · ${root ? i18n._(msg`thread ${root.slice(0, 8)}`) : i18n._(msg`channel`)}`;
 const CONVERSATION_LIMIT = 30;
 
 const options = (choices: readonly (readonly [string, string])[]) => [
@@ -133,7 +137,7 @@ const providerDefaultLabel = (
   const native = models.find((candidate) => candidate.value === "default");
   return native?.resolvedModel
     ? resolvedModelName(native.resolvedModel)
-    : "Model unavailable";
+    : i18n._(msg`Model unavailable`);
 };
 /** The effort levels of the model a run uses, `""` being Claude's default;
  * a model Claude does not list may run at any level a listed one has. */
@@ -160,13 +164,13 @@ const thinkingOptions = (
   effort: string,
 ) => {
   return [
-    { value: "", label: "Automatic · Default" },
+    { value: "", label: i18n._(msg`Automatic · Default`) },
     ...(effort && !efforts.some((level) => level.id === effort)
       ? [
           {
             value: effort,
             label: models.length
-              ? `${effortLabel(effort)} (unavailable)`
+              ? i18n._(msg`${effortLabel(effort)} (unavailable)`)
               : effortLabel(effort),
           },
         ]
@@ -174,10 +178,10 @@ const thinkingOptions = (
     ...efforts.map(({ id, label }) => ({ value: id, label })),
   ];
 };
-const SCOPES = options([
-  ["thread", "One session per thread"],
-  ["channel", "One session per channel"],
-]);
+const SCOPES: readonly (readonly [string, MessageDescriptor])[] = [
+  ["thread", msg`One session per thread`],
+  ["channel", msg`One session per channel`],
+];
 
 /** A model field's stand-in while Claude cannot run. `inline` asks for
  * sign-in in place; otherwise, as in a row, a button opens setup. */
@@ -190,6 +194,7 @@ function ClaudeSignIn({
   disabled: boolean;
   inline?: boolean;
 }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const state = useSyncExternalStore(setup.subscribe, setup.snapshot);
   const missing = state.status?.state === "missing";
@@ -211,16 +216,18 @@ function ClaudeSignIn({
         }}
       >
         {missing
-          ? "Install integration"
+          ? t`Install integration`
           : outdated
-            ? "Update Claude"
+            ? t`Update Claude`
             : signedOut
               ? setup.auth.attentionLabel
-              : "Set up"}
+              : t`Set up`}
       </Button>
       <Dialog
         open={open}
-        title={missing || outdated ? "Claude integration" : "Set up Claude"}
+        title={
+          missing || outdated ? t`Claude integration` : t`Set up Claude`
+        }
         headerGap={missing || outdated ? "default" : "compact"}
         onOpenChange={(next) => {
           setOpen(next);
@@ -250,6 +257,7 @@ function ClaudeSetupPanel({
   /** Follows saved credentials, so the panel's dialog can close. */
   onSaved?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const state = useSyncExternalStore(setup.subscribe, setup.snapshot);
   useEffect(() => {
     if (!setup.snapshot().status) void setup.check();
@@ -258,24 +266,25 @@ function ClaudeSetupPanel({
   const signingIn =
     state.running === "sign-in" ||
     (status?.state === "signed-out" && !state.running);
+  const account = status?.state === "ready" && status.account ? ` (${status.account})` : "";
   const line =
     !status || state.checking
-      ? "Checking Claude…"
+      ? t`Checking Claude…`
       : status.state === "missing"
-        ? "The Claude integration isn't installed yet."
+        ? t`The Claude integration isn't installed yet.`
         : status.state === "outdated"
-          ? `Claude ${status.version} is older than Buzz needs.`
+          ? t`Claude ${status.version} is older than Buzz needs.`
           : status.state === "signed-out"
-            ? `Claude ${status.version} ${setup.auth.needs}.`
+            ? t`Claude ${status.version} ${setup.auth.needs}.`
             : status.state === "ready"
-              ? `Claude ${status.version} is ready${status.account ? ` (${status.account})` : ""}.`
+              ? t`Claude ${status.version} is ready${account}.`
               : status.message;
   // One button per slot, so focus stays put as Install becomes Check again.
   const action =
     status?.state === "missing"
-      ? ({ step: "install", label: "Install integration" } as const)
+      ? ({ step: "install", label: t`Install integration` } as const)
       : status?.state === "outdated"
-        ? ({ step: "install", label: "Update Claude" } as const)
+        ? ({ step: "install", label: t`Update Claude` } as const)
         : undefined;
   return (
     <section className="grid gap-2">
@@ -319,15 +328,13 @@ function ClaudeSetupPanel({
                 void (state.running ? setup.cancel() : setup.check(true))
               }
             >
-              {state.running ? "Cancel" : "Check again"}
+              {state.running ? t`Cancel` : t`Check again`}
             </Button>
           )}
       </div>
       {status?.state === "missing" && (
         <p className="m-0 text-body-sm text-subtle">
-          Downloads Buzz's own copy of Claude (about 250 MB) and keeps it on the
-          latest release. Your own installation of Claude will be unaffected,
-          and uses the same settings.
+          {t`Downloads Buzz's own copy of Claude (about 250 MB) and keeps it on the latest release. Your own installation of Claude will be unaffected, and uses the same settings.`}
         </p>
       )}
       {state.output && (
@@ -335,11 +342,11 @@ function ClaudeSetupPanel({
           items={[
             {
               value: "details",
-              title: "Setup details",
+              title: t`Setup details`,
               content: (
                 <pre
                   role="log"
-                  aria-label="Setup output"
+                  aria-label={t`Setup output`}
                   className="m-0 max-h-60 overflow-auto whitespace-pre-wrap break-all text-caption"
                 >
                   {state.output}
@@ -440,6 +447,7 @@ export function createTabs({
   }: AgentCreateProps<Config>) {
     // A pick here takes the agent off Recommended, from what it runs on; a
     // remote target runs it on its own default.
+    const { t } = useLingui();
     const execution = useRemote(props.agent);
     const resolved = useRecommended(onRecommended(config));
     const current = offRecommended(
@@ -467,7 +475,7 @@ export function createTabs({
     if (!state.status)
       return (
         <span role="status" className="text-body-sm text-secondary">
-          Checking sign-in…
+          {t`Checking sign-in…`}
         </span>
       );
     // A library card is one agent's: the key is added once, in Settings.
@@ -498,7 +506,7 @@ export function createTabs({
           providerDefaults.model,
           state.models,
         )}
-        defaultDescription="Following the provider's model default"
+        defaultDescription={t`Following the provider's model default`}
         loading={state.modelsChecking}
         error={state.modelsError}
         retry={() => void setup.loadModels(true)}
@@ -527,6 +535,7 @@ export function createTabs({
     onChange,
     disabled,
   }: AgentCreateProps<Config>) {
+    const { t } = useLingui();
     const current = readConfig(config);
     const { effort, model } = current;
     const state = useSetupCatalog();
@@ -575,9 +584,9 @@ export function createTabs({
     );
     return (
       <Select
-        label="Thinking"
-        valueLabel={current.effort ? undefined : "Automatic"}
-        valueSuffix={current.effort ? undefined : " · Default"}
+        label={t`Thinking`}
+        valueLabel={current.effort ? undefined : t`Automatic`}
+        valueSuffix={current.effort ? undefined : t` · Default`}
         variant="compact"
         value={current.effort}
         groups={[{ label: "", options: effortOptions }]}
@@ -620,6 +629,7 @@ export function createTabs({
     agent?: AgentCreateProps<Config>["agent"];
     disabled: boolean;
   }) {
+    const { i18n, t } = useLingui();
     const { state, signedOut } = useCredentials(agent);
     const notify = useToastNotification();
     // Passive Back may have hidden the action while its provider kept working.
@@ -630,13 +640,17 @@ export function createTabs({
     openNow.current = open;
     const notifyNow = useRef(notify);
     notifyNow.current = notify;
+    // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
     useEffect(() => {
       if (signedOut || !openNow.current) return;
       setOpen(false);
       notifyNow.current(
-        "Claude is set up",
+        i18n._(msg`Claude is set up`),
         "success",
-        openSetup && { label: "Manage in Settings", onClick: openSetup },
+        openSetup && {
+          label: i18n._(msg`Manage in Settings`),
+          onClick: openSetup,
+        },
       );
     }, [signedOut]);
     const signingIn = state.running === "sign-in";
@@ -652,17 +666,17 @@ export function createTabs({
             title={setup.auth.attentionLabel}
             onClick={() => setOpen(true)}
           >
-            {setup.auth.signIn ? "Sign in" : "Add key"}
+            {setup.auth.signIn ? t`Sign in` : t`Add key`}
           </Button>
         )}
         <Dialog
           open={open && signedOut}
-          title="Set up Claude"
+          title={t`Set up Claude`}
           headerGap="compact"
           actions={
             signingIn && (
               <Button variant="ghost" onClick={() => void setup.cancel()}>
-                Cancel
+                {t`Cancel`}
               </Button>
             )
           }
@@ -684,7 +698,7 @@ export function createTabs({
                   disabled={disabled || !!state.running}
                   onClick={() => void setup.run("sign-in")}
                 >
-                  Sign in
+                  {t`Sign in`}
                 </Button>
               </div>
             )}
@@ -707,6 +721,7 @@ export function createTabs({
     harnessControl: ReactNode;
     onReadyChange?: (ready: boolean) => void;
   }) {
+    const { t } = useLingui();
     const { state, resolving, signedOut } = useCredentials(agent);
     // Only missing credentials hold creation: an agent made before Claude is
     // installed waits for the download, as it did with the Model row alone.
@@ -716,14 +731,16 @@ export function createTabs({
       <SettingsGroup>
         {harnessControl}
         <PreferenceRow
-          title="Model"
+          title={t`Model`}
           trailing={
             signedOut ? (
               <Select
-                label="Model"
+                label={t`Model`}
                 variant="compact"
                 value=""
-                groups={options([["", "Default"]])}
+                groups={[
+                  { label: "", options: [{ value: "", label: t`Default` }] },
+                ]}
                 disabled
                 onValueChange={() => {}}
               />
@@ -733,7 +750,7 @@ export function createTabs({
           }
         />
         <PreferenceRow
-          title="Thinking"
+          title={t`Thinking`}
           trailing={<CreateThinking {...(agent && { agent })} {...props} />}
         />
       </SettingsGroup>
@@ -755,6 +772,7 @@ export function createTabs({
 
   /** Claude Code installation and account readiness on this computer. */
   function DefaultControl({ onConfigure }: { onConfigure(): void }) {
+    const { t } = useLingui();
     const state = useSetupCatalog();
     const saved = useSyncExternalStore(
       defaults.subscribe,
@@ -771,10 +789,10 @@ export function createTabs({
         >
           <ModelPicker
             includeDefault={false}
-            resetLabel="Use Claude default"
+            resetLabel={t`Use Claude default`}
             compact
             groupByFamily
-            label="Claude default model"
+            label={t`Claude default model`}
             models={modelChoices(state.models).map((choice) => ({
               ...choice,
               efforts: (() => {
@@ -783,12 +801,12 @@ export function createTabs({
                 );
                 const levels = model ? effortChoices(effortLevels(model)) : [];
                 return levels.length
-                  ? [{ id: "", label: "Automatic" }, ...levels]
+                  ? [{ id: "", label: t`Automatic` }, ...levels]
                   : [];
               })(),
             }))}
             effort={saved.effort ?? ""}
-            effortLabel={saved.effort ? effortLabel(saved.effort) : "Automatic"}
+            effortLabel={saved.effort ? effortLabel(saved.effort) : t`Automatic`}
             onEffortChange={(model, effort) => {
               defaults.save({ model, effort }).then(
                 () => setError(""),
@@ -818,6 +836,7 @@ export function createTabs({
   }
 
   function ProviderDialogBody({ onClose }: { onClose(): void }) {
+    const { t } = useLingui();
     const state = useSetupCatalog();
     const status = state.status;
     const ready = status?.state === "ready" && !state.checking;
@@ -828,23 +847,23 @@ export function createTabs({
     const keyEntry = !setup.auth.signIn;
     const line =
       !status || state.checking
-        ? "Checking Claude…"
+        ? t`Checking Claude…`
         : status.state === "missing"
-          ? "The Claude integration isn't installed yet."
+          ? t`The Claude integration isn't installed yet.`
           : status.state === "outdated"
-            ? `Claude ${status.version} is older than Buzz needs.`
+            ? t`Claude ${status.version} is older than Buzz needs.`
             : status.state === "signed-out"
-              ? `Claude ${status.version} ${setup.auth.needs}.`
+              ? t`Claude ${status.version} ${setup.auth.needs}.`
               : status.state === "error"
                 ? status.message
                 : undefined;
     const action =
       status?.state === "missing"
-        ? ({ step: "install", label: "Install integration" } as const)
+        ? ({ step: "install", label: t`Install integration` } as const)
         : status?.state === "outdated"
-          ? ({ step: "install", label: "Update Claude" } as const)
+          ? ({ step: "install", label: t`Update Claude` } as const)
           : status?.state === "signed-out" && setup.auth.signIn
-            ? ({ step: "sign-in", label: "Sign in" } as const)
+            ? ({ step: "sign-in", label: t`Sign in` } as const)
             : undefined;
     // Looks again for a setup made with the Claude CLI meanwhile.
     const refreshing =
@@ -893,21 +912,19 @@ export function createTabs({
                   aria-hidden="true"
                   className="motion-safe:animate-spin"
                 />
-                {latestOutputLine ?? "Installing Claude Code…"}
+                {latestOutputLine ?? t`Installing Claude Code…`}
               </p>
             </div>
           )}
           {status?.state === "missing" && !state.running && (
             <p className="m-0 text-body-sm text-subtle">
-              Downloads Buzz's own copy of Claude (about 250 MB) and keeps it on
-              the latest release. Your own installation of Claude will be
-              unaffected, and uses the same settings.
+              {t`Downloads Buzz's own copy of Claude (about 250 MB) and keeps it on the latest release. Your own installation of Claude will be unaffected, and uses the same settings.`}
             </p>
           )}
           {state.output && state.running !== "install" && (
             <div
               role="log"
-              aria-label="Setup output"
+              aria-label={t`Setup output`}
               className="m-0 max-h-60 overflow-auto whitespace-pre-wrap text-body-sm text-subtle"
             >
               {state.output}
@@ -916,8 +933,7 @@ export function createTabs({
           {signingIn && <SignIn setup={setup} onSaved={onClose} />}
           {status?.state === "error" && (
             <p className="m-0 text-body-sm text-subtle">
-              Open Claude Code in a terminal for more details, then please try
-              again.
+              {t`Open Claude Code in a terminal for more details, then please try again.`}
             </p>
           )}
         </div>
@@ -942,7 +958,7 @@ export function createTabs({
               }}
               onClick={() => void setup.check()}
             >
-              Refresh
+              {t`Refresh`}
             </Button>
           )}
           <Button
@@ -951,7 +967,7 @@ export function createTabs({
               state.running && !ready ? void setup.cancel() : onClose()
             }
           >
-            {ready ? "Done" : "Cancel"}
+            {ready ? t`Done` : t`Cancel`}
           </Button>
           {!ready && action && !state.running && !state.checking && (
             <Button
@@ -977,6 +993,7 @@ export function createTabs({
     conversation: SavedConversation;
     working: boolean;
   }) {
+    const { t } = useLingui();
     const workspace = readConfig(agent.config).workspace;
     return (
       <TranscriptPanel
@@ -990,20 +1007,18 @@ export function createTabs({
         readKey={`${conversation.key}\u0000${workspace}`}
         readAgain={conversation.sessionId ?? ""}
         working={working}
-        reading="Reading the Claude session…"
-        failed="Could not read the Claude session"
+        reading={t`Reading the Claude session…`}
+        failed={t`Could not read the Claude session`}
         missing={
           <p className="m-0 text-body-sm text-subtle">
-            Claude has no transcript for this conversation on this computer. It
-            may have been deleted, or the session ran in a different workspace.
+            {t`Claude has no transcript for this conversation on this computer. It may have been deleted, or the session ran in a different workspace.`}
           </p>
         }
         notes={(transcript) => (
           <>
             {transcript.incomplete && (
               <p role="status" className="m-0 text-body-sm">
-                Some of this conversation’s sessions may be missing. Refresh to
-                try again.{" "}
+                {t`Some of this conversation’s sessions may be missing. Refresh to try again.`}{" "}
                 <span className="text-subtle">
                   ({transcript.incomplete.split("\n")[0]})
                 </span>
@@ -1012,8 +1027,10 @@ export function createTabs({
             {transcript.more && (
               <p className="m-0 text-body-sm text-subtle">
                 {transcript.turns.length
-                  ? `Showing the latest ${transcript.turns.length === 1 ? "turn" : `${transcript.turns.length} turns`}.`
-                  : "The latest turn is too large to show."}
+                  ? transcript.turns.length === 1
+                    ? t`Showing the latest turn.`
+                    : t`Showing the latest ${transcript.turns.length} turns.`
+                  : t`The latest turn is too large to show.`}
               </p>
             )}
           </>
@@ -1035,6 +1052,7 @@ export function createTabs({
     initialTranscript?: AgentViewProps<Config>["initialTranscript"];
     close?: AgentViewProps<Config>["close"];
   }) {
+    const { t } = useLingui();
     useClockFormat();
     const sessions = useSyncExternalStore(
       (listener) => runtime.subscribe(listener),
@@ -1066,7 +1084,11 @@ export function createTabs({
       .slice(0, CONVERSATION_LIMIT);
     const activity = (key: string) => {
       const running = busy.get(key);
-      return running === undefined ? undefined : running ? "Working" : "Idle";
+      return running === undefined
+        ? undefined
+        : running
+          ? t`Working`
+          : t`Idle`;
     };
     const { open, show, back } = useOpenTranscript(
       conversation,
@@ -1088,7 +1110,7 @@ export function createTabs({
           />
         )}
         <section className={activityStyles.section}>
-          <InlineHeader title="Recent conversations" />
+          <InlineHeader title={t`Recent conversations`} />
           <SettingsGroup layout="form">
             {recent.length ? (
               <ul className={activityStyles.list}>
@@ -1104,8 +1126,8 @@ export function createTabs({
                         <span className="block text-body-sm text-subtle">
                           {[
                             item.root
-                              ? `Thread ${item.root.slice(0, 8)}`
-                              : "Channel",
+                              ? t`Thread ${item.root.slice(0, 8)}`
+                              : t`Channel`,
                             activity(item.key),
                             formatItemTimestamp(item.at / 1000, {
                               withTime: true,
@@ -1119,10 +1141,10 @@ export function createTabs({
                         type="button"
                         variant="subtle"
                         size="sm"
-                        aria-label={`View transcript: ${label(item)}`}
+                        aria-label={t`View transcript: ${label(item)}`}
                         onClick={() => show(item)}
                       >
-                        View transcript
+                        {t`View transcript`}
                       </Button>
                     </div>
                   </li>
@@ -1130,7 +1152,7 @@ export function createTabs({
               </ul>
             ) : (
               <p className="m-0 text-body-sm text-subtle">
-                No other conversations saved in this app yet.
+                {t`No other conversations saved in this app yet.`}
               </p>
             )}
           </SettingsGroup>
@@ -1138,7 +1160,7 @@ export function createTabs({
         {open && (
           <PanelSubview
             title={label(open)}
-            backLabel="Back to profile"
+            backLabel={t`Back to profile`}
             onBack={back}
           >
             <TranscriptView
@@ -1163,6 +1185,7 @@ export function createTabs({
     settingsSection,
     settingsContent,
   }: AgentViewProps<Config>) {
+    const { i18n, t } = useLingui();
     const form = useId();
     const saved = readConfig(agent.config);
     const unavailable = !!agent.configProblem && !settingsHost?.pendingSave;
@@ -1231,35 +1254,40 @@ export function createTabs({
         const model = config.model
           ? modelName(config.model, setupState.models)
           : remote
-            ? "Target default"
-            : `${providerDefaultLabel(providerDefaults.model, setupState.models)} · Default`;
-        return `${model} · ${config.effort ? effortLabel(config.effort) : "Automatic"} thinking`;
+            ? t`Target default`
+            : t`${providerDefaultLabel(providerDefaults.model, setupState.models)} · Default`;
+        const thinking = config.effort
+          ? effortLabel(config.effort)
+          : t`Automatic`;
+        return t`${model} · ${thinking} thinking`;
       }
       if (group === "scope")
         return config.scope === "channel"
-          ? "One session per channel"
-          : "One session per thread";
+          ? t`One session per channel`
+          : t`One session per thread`;
       return config[group];
     };
-    const conflict = (group: SettingGroup) =>
-      conflicts.includes(group) ? (
+    const conflictLabel = (group: SettingGroup) =>
+      i18n._(settingLabels[group]);
+    const conflict = (group: SettingGroup) => {
+      const groupLabel = conflictLabel(group);
+      return conflicts.includes(group) ? (
         <fieldset
-          aria-label={`${settingLabels[group]} conflict`}
+          aria-label={t`${groupLabel} conflict`}
           className="m-0 grid min-w-0 gap-2 border-0 px-0 py-3"
         >
           <p role="alert" className="m-0 text-body-sm text-warning">
-            {settingLabels[group]} changed elsewhere. Choose which changes to
-            keep.
+            {t`${groupLabel} changed elsewhere. Choose which changes to keep.`}
           </p>
           {group === "instructions" ? (
             <Accordion
               items={[
                 {
                   value: "latest-instructions",
-                  title: "View latest instructions",
+                  title: t`View latest instructions`,
                   content: (
                     <p className="m-0 whitespace-pre-wrap break-words text-body-sm">
-                      {latest.instructions || "No instructions"}
+                      {latest.instructions || t`No instructions`}
                     </p>
                   ),
                 },
@@ -1267,8 +1295,8 @@ export function createTabs({
             />
           ) : (
             <div className="text-body-sm break-words">
-              <p className="m-0">Latest: {describe(latest, group)}</p>
-              <p className="m-0">Yours: {describe(draft, group)}</p>
+              <p className="m-0">{t`Latest: ${describe(latest, group)}`}</p>
+              <p className="m-0">{t`Yours: ${describe(draft, group)}`}</p>
             </div>
           )}
           <div className="flex flex-wrap gap-2">
@@ -1276,17 +1304,18 @@ export function createTabs({
               disabled={saving || unavailable}
               onClick={() => resolve(group, true)}
             >
-              Use latest
+              {t`Use latest`}
             </Button>
             <Button
               disabled={saving || unavailable}
               onClick={() => resolve(group, false)}
             >
-              Keep mine
+              {t`Keep mine`}
             </Button>
           </div>
         </fieldset>
       ) : null;
+    };
     const modelControl = (
       <>
         <ModelPicker
@@ -1300,13 +1329,13 @@ export function createTabs({
           }
           defaultLabel={
             remote
-              ? "Target default"
+              ? t`Target default`
               : providerDefaultLabel(providerDefaults.model, setupState.models)
           }
           defaultDescription={
             remote
-              ? "Use the model configured on the target"
-              : "Following the provider's model default"
+              ? t`Use the model configured on the target`
+              : t`Following the provider's model default`
           }
           loading={setupState.modelsChecking}
           onChange={(model) => {
@@ -1331,9 +1360,9 @@ export function createTabs({
           }}
         />
         <Select
-          label="Thinking"
-          valueLabel={draft.effort ? undefined : "Automatic"}
-          valueSuffix={draft.effort ? undefined : " · Default"}
+          label={t`Thinking`}
+          valueLabel={draft.effort ? undefined : t`Automatic`}
+          valueSuffix={draft.effort ? undefined : t` · Default`}
           variant="preference"
           value={draft.effort}
           groups={[{ label: "", options: effortOptions }]}
@@ -1359,8 +1388,7 @@ export function createTabs({
         )}
         {unavailable && (
           <p className="m-0 text-body-sm text-muted">
-            Your edits stay in this form. You can save them, including Workspace
-            changes, when configuration is available again.
+            {t`Your edits stay in this form. You can save them, including Workspace changes, when configuration is available again.`}
           </p>
         )}
         {error && (
@@ -1425,11 +1453,11 @@ export function createTabs({
             <div className="grid gap-2">
               {conflict("workspace")}
               <Field
-                label="Workspace"
+                label={t`Workspace`}
                 description={
                   remote
-                    ? "The execution provider sets the remote workspace."
-                    : "The folder Claude works in. Use ~/ for your home folder."
+                    ? t`The execution provider sets the remote workspace.`
+                    : t`The folder Claude works in. Use ~/ for your home folder.`
                 }
               >
                 <Input
@@ -1444,10 +1472,14 @@ export function createTabs({
             <div className="grid gap-2">
               {conflict("scope")}
               <Select
-                label="Sessions"
+                label={t`Sessions`}
                 variant="preference"
                 value={draft.scope}
-                groups={SCOPES}
+                groups={options(
+                  SCOPES.map(([value, descriptor]) => {
+                    return [value, i18n._(descriptor)] as const;
+                  }),
+                )}
                 onValueChange={(value) =>
                   setDraft({
                     ...draft,

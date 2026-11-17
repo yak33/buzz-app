@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { ManagementFacts } from "../ManagementSection";
 import { Header } from "../../../shared/design-system/ui/Header";
@@ -6,18 +7,13 @@ import { InfoIcon } from "../../../shared/design-system/icons";
 import { brokerBuilderlab } from "../dev-session";
 import { nativeBuilderlab, type BuilderlabSession } from "../session";
 
-const kept = () =>
-  brokerBuilderlab()
-    ? "Your sign-in stays on the development server through app reloads, until you sign out or the session expires."
-    : "Buzz keeps your sign-in in your system keychain until you sign out.";
-
 export function Login({
   session,
   available,
   active,
   showHeading = true,
   cancelOnUnmount = true,
-  unavailableReason = "Open the Buzz desktop app to sign in with Builderlab.",
+  unavailableReason,
   openIdentity,
   notice = false,
 }: {
@@ -33,6 +29,10 @@ export function Login({
   /** A small Settings hint without account fields; actions keep their owner. */
   notice?: boolean;
 }) {
+  const { t } = useLingui();
+  // 默认的不可用说明在组件内求值，语言切换后随下一次渲染生效。
+  const reason =
+    unavailableReason ?? t`Open the Buzz desktop app to sign in with Builderlab.`;
   const state = useSyncExternalStore(
     session.subscribe,
     session.snapshot,
@@ -58,15 +58,19 @@ export function Login({
     action.current = false;
     identityLink.current?.focus();
   }, [showsIdentity]);
+  const kept = () =>
+    brokerBuilderlab()
+      ? t`Your sign-in stays on the development server through app reloads, until you sign out or the session expires.`
+      : t`Buzz keeps your sign-in in your system keychain until you sign out.`;
   const intro =
     state.status === "signed-in"
       ? kept()
-      : `Connect your Builderlab account. ${kept()}`;
+      : t`Connect your Builderlab account. ${kept()}`;
   const accountAction = showsIdentity ? (
     // The native session is shared with community sign-in, so it
     // ends only where that sign-in is managed.
     <p className="m-0 flex flex-wrap items-baseline gap-2 text-body-sm text-secondary">
-      <span>Uses your {provider} sign-in.</span>
+      <span>{t`Uses your ${provider} sign-in.`}</span>
       {openIdentity ? (
         <Button
           ref={identityLink}
@@ -76,10 +80,10 @@ export function Login({
             if (active()) openIdentity();
           }}
         >
-          Manage account
+          {t`Manage account`}
         </Button>
       ) : (
-        "Manage account in Identity"
+        t`Manage account in Identity`
       )}
     </p>
   ) : (
@@ -108,12 +112,12 @@ export function Login({
       }}
     >
       {state.checking
-        ? "Checking sign-in"
+        ? t`Checking sign-in`
         : state.status === "pending"
-          ? "Cancel sign-in"
+          ? t`Cancel sign-in`
           : state.status === "signed-in"
-            ? "Sign out"
-            : `Sign in with ${provider}`}
+            ? t`Sign out`
+            : t`Sign in with ${provider}`}
     </Button>
   );
   if (notice)
@@ -125,19 +129,19 @@ export function Login({
         >
           <InfoIcon size={16} className="shrink-0" aria-hidden="true" />
           {!available ? (
-            <span role="status">{unavailableReason}</span>
+            <span role="status">{reason}</span>
           ) : showsIdentity ? (
             accountAction
           ) : (
             <span>
-              {state.status === "signed-in" && "Signed in to Builderlab. "}
+              {state.status === "signed-in" && t`Signed in to Builderlab. `}
               {accountAction}
             </span>
           )}
         </div>
         {available && state.status === "pending" && !state.checking && (
           <p role="status" className="m-0 text-body-sm text-secondary">
-            Finish sign-in in your browser, then return to Buzz.
+            {t`Finish sign-in in your browser, then return to Buzz.`}
           </p>
         )}
         {available && state.error && (
@@ -155,7 +159,7 @@ export function Login({
         <ManagementFacts
           items={[
             {
-              label: "Email",
+              label: t`Email`,
               value: state.account?.email || "—",
               action:
                 available && actionBesideEmail ? accountAction : undefined,
@@ -165,21 +169,21 @@ export function Login({
       ) : null}
       {!available ? (
         <p role="status" className="text-body-sm text-secondary">
-          {unavailableReason}
+          {reason}
         </p>
       ) : (
         <>
           {(showHeading || state.status !== "signed-in") && (
             <p role="status" className="text-body-sm text-secondary">
               {state.checking
-                ? "Checking your Builderlab sign-in…"
+                ? t`Checking your Builderlab sign-in…`
                 : state.status === "pending"
-                  ? "Finish sign-in in your browser, then return to Buzz."
+                  ? t`Finish sign-in in your browser, then return to Buzz.`
                   : state.account
                     ? state.account.email
-                      ? `Signed in as ${state.account.email}.`
-                      : "Signed in to Builderlab."
-                    : "Sign in securely in your browser."}
+                      ? t`Signed in as ${state.account.email}.`
+                      : t`Signed in to Builderlab.`
+                    : t`Sign in securely in your browser.`}
             </p>
           )}
           {state.error && (

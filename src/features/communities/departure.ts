@@ -1,5 +1,9 @@
+import type { I18n } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { requestLeave, type LeaveOutcome } from "./api";
 import type { PurgeFailure } from "./device-state";
+// 文案函数默认用全局单例（见 lingui.config.ts）；组件渲染期调用即当前语言。
+import { i18n as defaultI18n } from "../localization/service";
 import type { Communities, Membership } from "./service";
 
 export class CommunityDepartureError extends Error {
@@ -96,17 +100,20 @@ export async function departCommunity(
 export function departedText(
   name: string,
   departure: Departure,
+  i18n: I18n = defaultI18n,
 ): [string, "success" | "info"] {
   const residue = departure.residue.length > 0;
   if (departure.intent === "remove") {
-    const removed = `${name} was removed from this device. Its relay didn’t confirm the leave, so you may still be a member.`;
+    const removed = i18n._(
+      msg`${name} was removed from this device. Its relay didn’t confirm the leave, so you may still be a member.`,
+    );
     return [
-      residue ? `${removed} Some saved data couldn’t be cleared.` : removed,
+      residue ? `${removed}${i18n._(residueSuffix)}` : removed,
       "success",
     ];
   }
   return [
-    leftCommunityText(name, departure.outcome, residue),
+    leftCommunityText(name, departure.outcome, residue, i18n),
     departure.outcome === "left" ? "success" : "info",
   ];
 }
@@ -117,19 +124,31 @@ export function departureFailureText(
   name: string,
   intent: DepartureIntent,
   error: unknown,
+  i18n: I18n = defaultI18n,
 ) {
   const departure =
     error instanceof CommunityDepartureError ? error : undefined;
   if (intent === "remove")
-    return deviceRemovalFailureText(name, departure?.reason ?? error);
+    return deviceRemovalFailureText(name, departure?.reason ?? error, i18n);
   return departure?.phase === "device"
-    ? leaveCleanupFailureText(name, departure.reason, departure.outcome)
-    : leaveCommunityFailureText(name, departure?.reason ?? error);
+    ? leaveCleanupFailureText(
+        name,
+        departure.reason,
+        departure.outcome,
+        i18n,
+      )
+    : leaveCommunityFailureText(name, departure?.reason ?? error, i18n);
 }
 
-export function removedFromDeviceText(name: string, residue: boolean) {
-  const result = `${name} was removed from this device. Your membership wasn’t changed. You can add it again later.`;
-  return residue ? `${result} Some saved data couldn’t be cleared.` : result;
+export function removedFromDeviceText(
+  name: string,
+  residue: boolean,
+  i18n: I18n = defaultI18n,
+) {
+  const result = i18n._(
+    msg`${name} was removed from this device. Your membership wasn’t changed. You can add it again later.`,
+  );
+  return residue ? `${result}${i18n._(residueSuffix)}` : result;
 }
 
 /** What the relay settled, plus whether any saved data outlived the purge. */
@@ -137,20 +156,30 @@ export function leftCommunityText(
   name: string,
   outcome: LeaveOutcome,
   residue: boolean,
+  i18n: I18n = defaultI18n,
 ) {
   const settled =
     outcome === "already-absent"
-      ? `You were no longer a member of ${name}, so it was removed from this device.`
+      ? i18n._(
+          msg`You were no longer a member of ${name}, so it was removed from this device.`,
+        )
       : outcome === "access-revoked"
-        ? `You’re currently banned from ${name}, so the leave was refused. It was removed from this device and can be added again by its URL if access is restored.`
-        : `Left ${name}.`;
-  return residue ? `${settled} Some saved data couldn’t be cleared.` : settled;
+        ? i18n._(
+            msg`You’re currently banned from ${name}, so the leave was refused. It was removed from this device and can be added again by its URL if access is restored.`,
+          )
+        : i18n._(msg`Left ${name}.`);
+  return residue ? `${settled}${i18n._(residueSuffix)}` : settled;
 }
 
-export function deviceRemovalFailureText(name: string, error: unknown) {
+export function deviceRemovalFailureText(
+  name: string,
+  error: unknown,
+  i18n: I18n = defaultI18n,
+) {
   const reason =
     wordsOf(error instanceof Error ? error.cause : undefined) || wordsOf(error);
-  return `Couldn’t remove ${name} from this device${reason ? ` (${reason.replace(/\.$/, "")})` : ""}. Try again.`;
+  const details = reason ? ` (${reason.replace(/[.。]$/, "")})` : "";
+  return `${i18n._(msg`Couldn’t remove ${name} from this device`)}${details}.${i18n._(retrySuffix)}`;
 }
 
 /** The relay has answered; only the device record failed before it changed. */
@@ -158,16 +187,17 @@ export function leaveCleanupFailureText(
   name: string,
   error: unknown,
   outcome: LeaveOutcome = "left",
+  i18n: I18n = defaultI18n,
 ) {
   const reason = (
     wordsOf(error instanceof Error ? error.cause : undefined) || wordsOf(error)
-  ).replace(/\.$/, "");
+  ).replace(/[.。]$/, "");
   const details = reason ? ` (${reason})` : "";
   if (outcome === "already-absent")
-    return `The relay no longer had a membership for ${name}, but this device couldn’t finish removing it${details}. Try again.`;
+    return `${i18n._(msg`The relay no longer had a membership for ${name}, but this device couldn’t finish removing it`)}${details}.${i18n._(retrySuffix)}`;
   if (outcome === "access-revoked")
-    return `The leave was refused because you’re currently banned from ${name}, and this device couldn’t finish removing it${details}. Try again.`;
-  return `Left ${name}, but this device couldn’t finish cleaning up${details}. Leave it again to finish.`;
+    return `${i18n._(msg`The leave was refused because you’re currently banned from ${name}, and this device couldn’t finish removing it`)}${details}.${i18n._(retrySuffix)}`;
+  return `${i18n._(msg`Left ${name}, but this device couldn’t finish cleaning up`)}${details}.${i18n._(msg` Leave it again to finish.`)}`;
 }
 
 const OWNER_REFUSAL = "invalid: relay owner cannot leave";
@@ -182,10 +212,17 @@ export function leaveUnsettled(error: unknown) {
   );
 }
 
-export function leaveCommunityFailureText(name: string, error: unknown) {
+export function leaveCommunityFailureText(
+  name: string,
+  error: unknown,
+  i18n: I18n = defaultI18n,
+) {
   const reason = error instanceof Error ? error.message : "";
-  if (reason === OWNER_REFUSAL) return `The relay owner can’t leave ${name}.`;
-  return `Couldn’t leave ${name}. Check your connection and try again.`;
+  if (reason === OWNER_REFUSAL)
+    return i18n._(msg`The relay owner can’t leave ${name}.`);
+  return i18n._(
+    msg`Couldn’t leave ${name}. Check your connection and try again.`,
+  );
 }
 
 const wordsOf = (error: unknown) =>
@@ -194,3 +231,8 @@ const wordsOf = (error: unknown) =>
     : typeof error === "string"
       ? error
       : "";
+
+/** 残留数据后缀：与各主句拼接，单独成条便于翻译。 */
+const residueSuffix = msg` Some saved data couldn’t be cleared.`;
+/** 重试后缀：拼接在失败主句后。 */
+const retrySuffix = msg` Try again.`;

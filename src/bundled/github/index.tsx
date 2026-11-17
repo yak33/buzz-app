@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { ResolvePull } from "./ResolvePull";
 import type { PullChecklist as Checklist } from "./pull";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -311,11 +314,12 @@ function usePullPanel(states: PullStates, url: string, enabled: boolean) {
   return { loaded, load };
 }
 
-const labels = {
-  repository: "Repository",
-  pull: "Pull request",
-  issue: "Issue",
-  commit: "Commit",
+/** 面板身份标签是 Lingui descriptor，由渲染处求值（见 Settings.tsx 先例）。 */
+const labels: Record<GitHubReference["kind"], MessageDescriptor> = {
+  repository: msg`Repository`,
+  pull: msg`Pull request`,
+  issue: msg`Issue`,
+  commit: msg`Commit`,
 };
 const icons = {
   repository: FolderSimpleIcon,
@@ -351,6 +355,7 @@ export function GitHubPanel({
   /** Links a pull request to the chat the panel was opened from. */
   chatLink?: ((url: string) => ReactNode) | undefined;
 }) {
+  const { t } = useLingui();
   const [attempt, retry] = useState(0);
   const reference = useMemo(() => parseGitHubReference(target), [target]);
   const own = useMemo(
@@ -374,7 +379,7 @@ export function GitHubPanel({
       retry={() => retry(attempt + 1)}
     />
   ) : (
-    <p className="notice">Unsupported GitHub link.</p>
+    <p className="notice">{t`Unsupported GitHub link.`}</p>
   );
 }
 
@@ -406,6 +411,7 @@ function ObjectPanel({
     | undefined;
   retry(): void;
 }) {
+  const { i18n, t } = useLingui();
   const isPull = reference.kind === "pull";
   const pull = usePullPanel(states, reference.url, isPull);
   const [view, setView] = useState(
@@ -458,7 +464,7 @@ function ObjectPanel({
           target="_blank"
           rel="noreferrer"
         >
-          {typeof result === "object" ? result.title : labels.pull}{" "}
+          {typeof result === "object" ? result.title : i18n._(labels.pull)}{" "}
           <span className={styles.titleNumber}>{reference.label}</span>
         </a>
       ) : (
@@ -494,13 +500,13 @@ function ObjectPanel({
                   {repositoryName}
                 </a>
               </div>
-              <small>{labels[reference.kind]}</small>
+              <small>{i18n._(labels[reference.kind])}</small>
             </>
           ) : (
             <>
               <small>{reference.repository}</small>
               <strong>
-                {labels[reference.kind]} {reference.label}
+                {i18n._(labels[reference.kind])} {reference.label}
               </strong>
             </>
           )}
@@ -524,15 +530,15 @@ function ObjectPanel({
       {files && (
         <div className={styles.views}>
           <Tabs
-            label="Pull request view"
+            label={t`Pull request view`}
             variant="segmented"
             size="sm"
             value={view}
             items={[
-              { value: "summary", label: "Summary" },
+              { value: "summary", label: t`Summary` },
               {
                 value: "changes",
-                label: "Changes",
+                label: t`Changes`,
                 trailing: counts && (
                   <span className={styles.tabCounts}>
                     <span className={styles.additions}>
@@ -570,14 +576,14 @@ function ObjectPanel({
           target="_blank"
           rel="noreferrer"
         >
-          Open on GitHub <ArrowSquareOutIcon size={14} />
+          {t`Open on GitHub`} <ArrowSquareOutIcon size={14} />
         </a>
       )}
       {!showChanges && (
         <>
           {reference.kind === "pull" && typeof result !== "object" && title}
           {result === undefined ? (
-            <p role="status">Loading from GitHub…</p>
+            <p role="status">{t`Loading from GitHub…`}</p>
           ) : typeof result === "string" ? (
             <div role="alert">
               <p>{result}</p>
@@ -596,11 +602,11 @@ function ObjectPanel({
                   }
                 >
                   <span className={styles.errorActionLabel}>
-                    Open on Github
+                    {t`Open on Github`}
                   </span>
                 </Button>
                 <Button type="button" onClick={retry}>
-                  Retry
+                  {t`Retry`}
                 </Button>
               </div>
             </div>
@@ -623,7 +629,7 @@ function ObjectPanel({
                 )}
                 {result.author && (
                   <span>
-                    by{" "}
+                    {t`by`}{" "}
                     {result.authorUrl ? (
                       <a
                         className={inlineStyles.link}
@@ -696,7 +702,7 @@ function ObjectPanel({
                   ))}
                   {reference.kind === "pull" && (
                     <div>
-                      <dt>Last updated</dt>
+                      <dt>{t`Last updated`}</dt>
                       <dd>
                         {result.updatedAt ? (
                           <time
@@ -708,7 +714,7 @@ function ObjectPanel({
                             )}
                           </time>
                         ) : (
-                          "Unavailable"
+                          t`Unavailable`
                         )}
                       </dd>
                     </div>
@@ -774,8 +780,8 @@ function ObjectPanel({
       {typeof loaded === "object" && (
         <p className={styles.note}>
           {loaded.signedIn
-            ? "Read with your gh sign-in."
-            : "Public GitHub data · Sign in to the gh CLI to see private repositories and merge from here."}
+            ? t`Read with your gh sign-in.`
+            : t`Public GitHub data · Sign in to the gh CLI to see private repositories and merge from here.`}
         </p>
       )}
     </div>

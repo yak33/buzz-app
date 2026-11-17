@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../../features/relay/react";
 import { TeamMentionAvatars } from "./TeamMentionAvatars";
 import {
@@ -56,6 +58,7 @@ export function MentionPicker({
   /** Return typing to the draft when the agent menu closes. */
   focusDraft?: ComposerToolProps["focus"];
 }) {
+  const { i18n, t } = useLingui();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string>();
@@ -100,6 +103,7 @@ export function MentionPicker({
   // Only an open chooser demands names; typing must not join every member.
   const memberKey = open && !draftRoster ? (members?.join(":") ?? "") : "";
   const profileGeneration = useProfileGeneration(session.profiles);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useEffect(() => {
     void profileGeneration;
     if (draftRoster || !open || !memberKey) return;
@@ -109,7 +113,9 @@ export function MentionPicker({
       .catch(() => {
         if (current)
           setError(
-            "Names unavailable. Exact public keys still identify recipients.",
+            i18n._(
+              msg`Names unavailable. Exact public keys still identify recipients.`,
+            ),
           );
       });
     return () => {
@@ -183,6 +189,9 @@ export function MentionPicker({
   // Underline with the same rule that ranks mentions.
   const matched = (label: string) =>
     search.trim() ? matchPerson(label, search)?.positions : undefined;
+  const audienceNames = audience?.recipients
+    .map((person) => person.name)
+    .join(", ");
   return (
     <PopoverRoot
       open={open && !disabled}
@@ -210,7 +219,7 @@ export function MentionPicker({
         ref={controls}
         disabled={disabled}
         className={styles.pickerControls}
-        aria-label="Mention controls"
+        aria-label={t`Mention controls`}
       >
         <PopoverTrigger
           disabled={disabled}
@@ -223,10 +232,8 @@ export function MentionPicker({
                 size="toolbar"
                 ref={trigger}
                 type="button"
-                aria-label={`Sending to ${audience.recipients
-                  .map((person) => person.name)
-                  .join(", ")}. Change agents`}
-                title="Change agents"
+                aria-label={t`Sending to ${audienceNames}. Change agents`}
+                title={t`Change agents`}
                 icon={<CaretDownIcon size={16} aria-hidden="true" />}
               />
             ) : audience ? (
@@ -238,10 +245,8 @@ export function MentionPicker({
                 type="button"
                 aria-label={
                   audience.recipients.length
-                    ? `Sending to ${audience.recipients
-                        .map((person) => person.name)
-                        .join(", ")}. Change agents`
-                    : "Choose agent"
+                    ? t`Sending to ${audienceNames}. Change agents`
+                    : t`Choose agent`
                 }
               >
                 <AvatarStack
@@ -256,7 +261,7 @@ export function MentionPicker({
                     shape: "squircle",
                   }))}
                 />
-                {audience.recipients[0]?.name ?? "Choose agent"}
+                {audience.recipients[0]?.name ?? t`Choose agent`}
                 <CaretDownIcon size={12} aria-hidden="true" />
               </Button>
             ) : (
@@ -266,8 +271,8 @@ export function MentionPicker({
                 size="toolbar"
                 ref={trigger}
                 type="button"
-                aria-label="Mention a member"
-                title="Mention a member"
+                aria-label={t`Mention a member`}
+                title={t`Mention a member`}
                 icon={<AtIcon size={20} aria-hidden="true" />}
               />
             )
@@ -285,7 +290,7 @@ export function MentionPicker({
             overflow: "hidden",
             display: "flex",
           }}
-          aria-label="Mention a member or agent"
+          aria-label={t`Mention a member or agent`}
           finalFocus={
             // The agent menu stays open across picks; closing it resumes
             // typing in the draft, unless focus went somewhere else. The
@@ -304,10 +309,10 @@ export function MentionPicker({
               inputRef={searchInput}
               label={
                 draftRoster
-                  ? "Search recipients"
+                  ? t`Search recipients`
                   : inviteAgents
-                    ? "Search members and agents"
-                    : "Search community people and agents"
+                    ? t`Search members and agents`
+                    : t`Search community people and agents`
               }
               value={search}
               onValueChange={setSearch}
@@ -325,23 +330,23 @@ export function MentionPicker({
             {!draftRoster && inviteAgents && (
               <p>
                 {parentAdmission
-                  ? "Agents you mention join this channel when you send, with access to its history."
-                  : "Agents you mention join this chat when you send, with access to its history."}
+                  ? t`Agents you mention join this channel when you send, with access to its history.`
+                  : t`Agents you mention join this chat when you send, with access to its history.`}
               </p>
             )}
             {model.directory.loading && (
-              <p role="status">Searching community…</p>
+              <p role="status">{t`Searching community…`}</p>
             )}
             {model.directory.error && (
               <>
                 <p role="status">{model.directory.error}</p>
                 <Button type="button" onClick={model.directory.retry}>
-                  Retry community search
+                  {t`Retry community search`}
                 </Button>
               </>
             )}
             {agents.status === "loading" && !candidates.length && (
-              <p role="status">Loading agents…</p>
+              <p role="status">{t`Loading agents…`}</p>
             )}
             {(agents.status === "error" || !!agents.error) && (
               <Button
@@ -352,7 +357,7 @@ export function MentionPicker({
                   )
                 }
               >
-                Retry agent list
+                {t`Retry agent list`}
               </Button>
             )}
             {model.archives.status === "error" && (
@@ -360,32 +365,34 @@ export function MentionPicker({
                 type="button"
                 onClick={() => void session.archives?.refresh()}
               >
-                Retry archive information
+                {t`Retry archive information`}
               </Button>
             )}
             {teams.status && (
               <p role="status">
                 {teams.status}{" "}
                 {teams.canRetry && (
-                  <Button onClick={teams.retry}>Retry legacy teams</Button>
+                  <Button onClick={teams.retry}>
+                    {t`Retry legacy teams`}
+                  </Button>
                 )}
               </p>
             )}
             {error && <p role="status">{error}</p>}
             {!draftRoster && list.error && (
               <>
-                <p role="alert">Could not refresh channel membership.</p>
+                <p role="alert">{t`Could not refresh channel membership.`}</p>
                 <Button
                   disabled={disabled}
                   type="button"
                   onClick={() => session.channels.refreshList?.()}
                 >
-                  Retry channel membership
+                  {t`Retry channel membership`}
                 </Button>
               </>
             )}
             {!draftRoster && (!inviteAgents || !!channel) && !members && (
-              <p role="status">Channel membership unavailable.</p>
+              <p role="status">{t`Channel membership unavailable.`}</p>
             )}
             <div
               className={`${styles.mentionChoices} buzz-thin-scrollbar`}
@@ -442,7 +449,9 @@ export function MentionPicker({
                                 <RobotIcon />
                               </span>
                             )}
-                            {agent && <span className="sr-only"> Agent</span>}
+                            {agent && (
+                              <span className="sr-only"> {t`Agent`}</span>
+                            )}
                           </span>
                           {reason && <small>{reason}</small>}
                           {(remoteDetail ||
@@ -459,8 +468,8 @@ export function MentionPicker({
                                   ? undefined
                                   : inviteAgents
                                     ? parentAdmission
-                                      ? "Adds to channel when you send"
-                                      : "Adds to chat when you send"
+                                      ? t`Adds to channel when you send`
+                                      : t`Adds to chat when you send`
                                     : outsideMentionDetail(channel, elsewhere),
                               ]
                                 .filter(Boolean)
@@ -527,19 +536,18 @@ export function MentionPicker({
                 />
               ))}
               {members && !candidates.length && !teams.choices.length && (
-                <p>No matching channel members.</p>
+                <p>{t`No matching channel members.`}</p>
               )}
               {audience?.named && (
                 <p className="text-caption text-subtle">
-                  Your message tags{" "}
-                  {audience.recipients.map((person) => person.name).join(", ")},
-                  so picks here add or remove tags.
+                  {t`Your message tags ${audienceNames}, so picks here add or remove tags.`}
                 </p>
               )}
               <p role="status" className="sr-only">
-                {highlightedLabel
-                  ? `${highlightedLabel}. Press Enter to ${audience ? "add or remove this agent" : "mention"}.`
-                  : ""}
+                {highlightedLabel &&
+                  (audience
+                    ? t`${highlightedLabel}. Press Enter to add or remove this agent.`
+                    : t`${highlightedLabel}. Press Enter to mention.`)}
               </p>
             </div>
           </div>

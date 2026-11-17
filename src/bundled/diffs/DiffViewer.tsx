@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { Diff, Hunk, type FileData } from "react-diff-view";
 import "react-diff-view/style/index.css";
 import { diffType, fileLabel, labels } from "./parse";
@@ -14,20 +15,21 @@ export function DiffViewer({
   filePath?: string | undefined;
   viewType?: "unified" | "split";
 }) {
+  const { i18n, t } = useLingui();
   if (!files)
     return (
       // biome-ignore lint/a11y/useSemanticElements: The raw scroll region preserves preformatted text and needs keyboard access.
       <pre
         className={styles.raw}
-        // biome-ignore lint/a11y/noNoninteractiveTabindex: The scroll owner must support keyboard panning.
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: The scroll owner supports keyboard panning.
         tabIndex={0}
         role="region"
-        aria-label="Raw diff"
+        aria-label={t`Raw diff`}
       >
         {content}
       </pre>
     );
-  if (!files.length) return <p className="text-body-sm">No diff content</p>;
+  if (!files.length) return <p className="text-body-sm">{t`No diff content`}</p>;
   return (
     <div className={styles.viewer}>
       {files.map((file) => {
@@ -51,7 +53,7 @@ export function DiffViewer({
             {(files.length > 1 || label !== filePath || type !== "modify") && (
               <header className={styles.fileHeader}>
                 <span className={styles.filename}>{label}</span>
-                <span>{labels[type]}</span>
+                <span>{i18n._(labels[type])}</span>
                 <span className={styles.added}>+{additions}</span>
                 <span className={styles.removed}>−{deletions}</span>
               </header>
@@ -75,7 +77,9 @@ export function DiffViewer({
                 }
               </Diff>
             ) : (
-              <p className={styles.notice}>No textual hunks in this diff.</p>
+              <p className={styles.notice}>
+                {t`No textual hunks in this diff.`}
+              </p>
             )}
           </section>
         );

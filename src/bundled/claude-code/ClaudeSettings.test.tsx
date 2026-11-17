@@ -14,6 +14,7 @@ import { StrictMode, useState } from "react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import type { Spawn } from "./claude";
 import { CONNECT } from "./auth";
+import { i18n } from "../../features/localization/service";
 import { ClaudeSettings } from "./ClaudeSettings";
 import { ClaudeSetup } from "./setup";
 
@@ -148,12 +149,12 @@ it("adds, confirms removal, and adds again without an installed runtime", async 
   const { spawn } = fixture();
   await screen.findByRole("button", { name: "Set" });
   expect(screen.getAllByText("Anthropic API key")).toHaveLength(1);
-  expect(screen.getByText(CONNECT)).toBeVisible();
+  expect(screen.getByText(i18n._(CONNECT))).toBeVisible();
   expect(screen.queryByLabelText("Anthropic API key")).toBeNull();
   const add = await connectKey(user);
   const dialog = screen.getByRole("dialog", { name: "Connect Claude" });
   expect(dialog).toHaveAccessibleDescription(
-    `${CONNECT} Create an API key at console.anthropic.com and paste it below.`,
+    `${i18n._(CONNECT)} Create an API key at console.anthropic.com and paste it below.`,
   );
   expect(
     within(dialog).getByRole("link", { name: "console.anthropic.com" }),
@@ -447,12 +448,12 @@ it("treats a credential read failure as unknown and offers retry", async () => {
   native.invoke.mockImplementationOnce(() => pending);
   native.invoke.mockImplementationOnce(() => pending);
   fixture();
-  expect(screen.queryByText(CONNECT)).toBeNull();
+  expect(screen.queryByText(i18n._(CONNECT))).toBeNull();
   await act(async () => reject("Secure storage is unavailable"));
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Secure storage is unavailable",
   );
-  expect(screen.queryByText(CONNECT)).toBeNull();
+  expect(screen.queryByText(i18n._(CONNECT))).toBeNull();
   expect(
     screen.queryByRole("button", { name: "API key actions" }),
   ).not.toBeInTheDocument();
@@ -619,7 +620,7 @@ it("discards replacement drafts when the page closes", async () => {
         own: false,
         key: (await setup.auth.check()) !== undefined,
       })}
-      connect={CONNECT}
+      connect={i18n._(CONNECT)}
       clearKey={() => setup.auth.clear()}
     />,
   );
@@ -708,7 +709,7 @@ it("asks for no key over the person's own setup, and never names it", async () =
   expect(
     screen.getByText("Manage Claude’s credentials on this computer."),
   ).toBeVisible();
-  expect(screen.queryByText(CONNECT)).toBeNull();
+  expect(screen.queryByText(i18n._(CONNECT))).toBeNull();
   expect(screen.queryByText(/Vertex/)).toBeNull();
   await connectKey();
   const dialog = screen.getByRole("dialog", { name: "Connect Claude" });
@@ -755,7 +756,7 @@ it("refreshes to find a setup made with the Claude CLI, closing key entry", asyn
   own.status = { loggedIn: true, apiProvider: "bedrock" };
   await user.click(within(dialog).getByRole("button", { name: "Refresh" }));
   await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-  expect(screen.queryByText(CONNECT)).toBeNull();
+  expect(screen.queryByText(i18n._(CONNECT))).toBeNull();
   expect(screen.queryByText(/Bedrock/)).toBeNull();
   expect(setup.auth.usesOwnSetup).toBe(true);
 });

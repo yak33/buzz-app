@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useLayoutEffect,
@@ -108,6 +110,7 @@ export function EmojiCompletion({
   query,
   publish,
 }: ComposerCompletionProps) {
+  const { i18n } = useLingui();
   const catalog = useSyncExternalStore(
     session.emoji.subscribe,
     session.emoji.snapshot,
@@ -117,6 +120,7 @@ export function EmojiCompletion({
   useEffect(() => {
     void session.emoji.ensure("foreground");
   }, [session]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useEffect(() => {
     void attempt; // Explicit retry repeats this query even when catalog data is unchanged.
     let live = true;
@@ -130,7 +134,11 @@ export function EmojiCompletion({
         id: item.id,
         label: `:${item.shortcode}:`,
         ...((counts.get(item.shortcode) ?? 0) > 1
-          ? { detail: item.url ? "Community emoji" : "Unicode emoji" }
+          ? {
+              detail: item.url
+                ? i18n._(msg`Community emoji`)
+                : i18n._(msg`Unicode emoji`),
+            }
           : {}),
         preview: item.url ? (
           <CustomEmoji
@@ -150,7 +158,7 @@ export function EmojiCompletion({
     };
     withdraw = publish({
       items: items(searchCustomEmoji(query.query, custom)),
-      status: "Searching emoji…",
+      status: i18n._(msg`Searching emoji…`),
     });
     void searchEmoji(query.query, custom)
       .then((matches) => {
@@ -163,7 +171,9 @@ export function EmojiCompletion({
             : {}),
           ...(catalog.status === "error"
             ? {
-                status: "Community emoji unavailable; Unicode results shown.",
+                status: i18n._(
+                  msg`Community emoji unavailable; Unicode results shown.`,
+                ),
                 retry: retrySearch,
               }
             : {}),
@@ -174,7 +184,7 @@ export function EmojiCompletion({
         if (withdraw) withdraw();
         withdraw = publish({
           items: items(searchCustomEmoji(query.query, custom)),
-          status: "Unicode emoji unavailable. Custom matches shown.",
+          status: i18n._(msg`Unicode emoji unavailable. Custom matches shown.`),
           retry: retrySearch,
         });
       });

@@ -1,4 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { BuilderlabIdentityRow } from "./login/IdentityRow";
+import { i18n } from "../../features/localization/service";
 import {
   useLayoutEffect,
   useState,
@@ -60,7 +63,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     unavailable =
       error instanceof Error
         ? error.message
-        : "Builderlab sign-in is unavailable.";
+        : i18n._(msg`Builderlab sign-in is unavailable.`);
   }
   const session = dev?.session ?? createNativeSession(ctx.federatedIdentity);
   ctx.effect(() => () => session.dispose());
@@ -120,7 +123,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   if (!unavailable) {
     let providerState: AgentProviderSnapshot = {
       readiness: "attention",
-      attentionLabel: "Log in to Builderlab",
+      attentionLabel: i18n._(msg`Log in to Builderlab`),
     };
     const providerListeners = new Set<() => void>();
     const updateProvider = () => {
@@ -132,13 +135,15 @@ export const apply: PluginModule["apply"] = (ctx) => {
             : {
                 readiness: "attention",
                 attentionLabel: null,
-                attentionDescription: "Unavailable for this account",
+                attentionDescription: i18n._(
+                  msg`Unavailable for this account`,
+                ),
               }
           : state.status === "pending"
             ? { readiness: "checking", blocking: true }
             : {
                 readiness: "attention",
-                attentionLabel: "Log in to Builderlab",
+                attentionLabel: i18n._(msg`Log in to Builderlab`),
               },
       );
       for (const listener of providerListeners) listener();
@@ -277,6 +282,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     active(): boolean;
     navigation?: PageNavigation | undefined;
   }) => {
+    const { t } = useLingui();
     const state = useSyncExternalStore(session.subscribe, session.snapshot);
     const route =
       navigation?.target.kind === "settings"
@@ -306,7 +312,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
             unavailableReason={
               dev || browserLoginAvailable()
                 ? unavailable
-                : "Open the Buzz desktop app to sign in with Builderlab."
+                : t`Open the Buzz desktop app to sign in with Builderlab.`
             }
             active={active}
             openIdentity={openIdentity}

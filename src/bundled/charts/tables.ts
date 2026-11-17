@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import { type Obj, list, record } from "./json";
 import type { ChartSpec } from "./spec";
 
@@ -57,7 +60,7 @@ function datasetTable(dataset: Obj, caption: string): RawTable {
     caption,
     columns: headerRows
       ? (pad([rows[headerRows - 1] ?? []], width)[0] ?? [])
-      : Array.from({ length: width }, (_, i) => `Column ${i + 1}`),
+      : Array.from({ length: width }, (_, i) => i18n._(msg`Column ${i + 1}`)),
     rows: pad(rows.slice(headerRows), width),
   };
 }
@@ -89,17 +92,23 @@ function seriesLabels(option: Obj, s: Obj): string[] | null {
 }
 function seriesTable(option: Obj, s: Obj, i: number): RawTable {
   const count = list(option.series).length;
-  const caption = cell(s.name ?? (count > 1 ? `Series ${i + 1}` : ""));
+  const caption = cell(
+    s.name ?? (count > 1 ? i18n._(msg`Series ${i + 1}`) : ""),
+  );
   if (s.type === "sankey")
     return {
       caption,
-      columns: ["Source", "Target", "Value"],
+      columns: [i18n._(msg`Source`), i18n._(msg`Target`), i18n._(msg`Value`)],
       rows: list(s.links ?? s.edges)
         .filter(record)
         .map((l) => [cell(l.source), cell(l.target), cell(l.value)]),
     };
   if (s.type === "treemap")
-    return { caption, columns: ["Name", "Value"], rows: treemapRows(s.data) };
+    return {
+      caption,
+      columns: [i18n._(msg`Name`), i18n._(msg`Value`)],
+      rows: treemapRows(s.data),
+    };
   const labels = seriesLabels(option, s);
   const rows = (Array.isArray(s.data) ? s.data : []).map(
     (d: unknown, j: number) => {
@@ -125,12 +134,12 @@ function seriesTable(option: Obj, s: Obj, i: number): RawTable {
       : null;
   const width = Math.max(2, ...rows.map((r) => r.length));
   const columns = indicator
-    ? ["Name", ...indicator]
+    ? [i18n._(msg`Name`), ...indicator]
     : [
-        "Label",
+        i18n._(msg`Label`),
         ...(width > 2
-          ? Array.from({ length: width - 1 }, (_, k) => `Value ${k + 1}`)
-          : ["Value"]),
+          ? Array.from({ length: width - 1 }, (_, k) => i18n._(msg`Value ${k + 1}`))
+          : [i18n._(msg`Value`)]),
       ];
   return { caption, columns, rows: pad(rows, columns.length) };
 }
@@ -178,7 +187,7 @@ export function chartTables(spec: ChartSpec): Table[] {
   );
   return budget([
     ...datasets.map((d, i) =>
-      datasetTable(d, datasets.length > 1 ? `Dataset ${i + 1}` : ""),
+      datasetTable(d, datasets.length > 1 ? i18n._(msg`Dataset ${i + 1}`) : ""),
     ),
     // Series with their own data plot alongside any dataset, so list them too.
     ...series

@@ -29,6 +29,13 @@ export function BackgroundUploadStatus({
   const uploads = useBackgroundUploads(session);
   const focusedCancel = useRef(false);
   const phase = useId();
+  // uploads.phase 是状态机值（英文），仅显示层翻译。
+  const phaseText =
+    uploads.phase === "Uploading"
+      ? t`Uploading`
+      : uploads.phase === "Finishing upload"
+        ? t`Finishing upload`
+        : t`Preparing upload`;
   useLayoutEffect(() => {
     if (uploads.uploading || !focusedCancel.current) return;
     focusedCancel.current = false;
@@ -48,7 +55,7 @@ export function BackgroundUploadStatus({
           {/* The text takes the spare width, so the bar and Cancel stay put
               as it changes. */}
           <span id={phase} role="status" className="min-w-0 flex-1 truncate">
-            {t`${uploads.phase} to ${uploads.destination.name}`}
+            {t`${phaseText} to ${uploads.destination.name}`}
             {uploads.others > 0 && t` and ${uploads.others} more`}
           </span>
           {/* Desktop's bar: measured bytes, or an indeterminate sweep while

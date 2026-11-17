@@ -1,5 +1,6 @@
 // Pi's New agent choices and agent settings. Providers, their keys and their
 // models are Pi's own: listed from it, and keys saved with its login.
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useId,
@@ -64,16 +65,6 @@ import {
 } from "./setup";
 import { TURN_LIMIT } from "./transcript";
 
-const SCOPES = [
-  {
-    label: "",
-    options: [
-      { value: "thread", label: "One conversation per thread" },
-      { value: "channel", label: "One conversation per channel" },
-    ],
-  },
-];
-
 type Choice = Readonly<{ provider: string; model: string }>;
 
 /** Marks for the providers Buzz has one for, by Pi's provider ID. */
@@ -87,8 +78,6 @@ const providerIcon = (id: string | undefined) => {
   return Icon && <Icon size={18} aria-hidden="true" />;
 };
 const CONVERSATION_LIMIT = 30;
-const label = ({ channelId, name, root }: Place) =>
-  `${name || channelId.slice(0, 8)} · ${root ? `thread ${root.slice(0, 8)}` : "channel"}`;
 type Read<T> = (
   | { status: "loading"; value?: T }
   | { status: "ready"; value: T }
@@ -226,6 +215,7 @@ export function createTabs({
     reload(): void;
     rows?: boolean;
   }>) {
+    const { t } = useLingui();
     const providers = listing.value;
     const fallback = providers?.defaults.provider;
     const id = value.provider || fallback || "";
@@ -242,7 +232,7 @@ export function createTabs({
     return (
       <>
         <Select
-          label="Provider"
+          label={t`Provider`}
           variant={rows ? "preference" : "field"}
           value={value.provider}
           leading={providerIcon(id)}
@@ -254,17 +244,18 @@ export function createTabs({
             ? { error: listing.error }
             : unknown
               ? {
-                  error: `${unknown} isn't one of Pi's built-in providers, and no Pi package Buzz loaded adds it. Choose another.`,
+                  error: t`${unknown} isn't one of Pi's built-in providers, and no Pi package Buzz loaded adds it. Choose another.`,
                 }
               : listing.status === "loading" && !providers
-                ? { description: "Loading Pi's providers…" }
+                ? { description: t`Loading Pi's providers…` }
                 : !id
                   ? {
-                      description:
-                        "Pi's settings name no provider. Choose one.",
+                      description: t`Pi's settings name no provider. Choose one.`,
                     }
                   : rows && provider && !provider.configured
-                    ? { description: `Set up ${provider.name} in Settings.` }
+                    ? {
+                        description: t`Set up ${provider.name} in Settings.`,
+                      }
                     : {})}
           groups={[
             {
@@ -273,14 +264,14 @@ export function createTabs({
                 {
                   value: "",
                   label: fallback
-                    ? `From Pi settings (${named(fallback)})`
-                    : "From Pi settings",
+                    ? t`From Pi settings (${named(fallback)})`
+                    : t`From Pi settings`,
                 },
                 ...(providers?.providers ?? []).map((item) => ({
                   value: item.id,
                   label: item.name,
                   leading: providerIcon(item.id),
-                  ...(item.configured ? { description: "Set up" } : {}),
+                  ...(item.configured ? { description: t`Set up` } : {}),
                 })),
               ],
             },
@@ -289,7 +280,7 @@ export function createTabs({
         />
         {listing.status === "error" && (
           <div>
-            <Button onClick={reload}>Try again</Button>
+            <Button onClick={reload}>{t`Try again`}</Button>
           </div>
         )}
         {!rows && provider && (
@@ -301,13 +292,13 @@ export function createTabs({
           loading={models.status === "loading"}
           value={value.model}
           defaultLabel={
-            modelDefault ? `Pi default (${modelDefault})` : "Pi default"
+            modelDefault ? t`Pi default (${modelDefault})` : t`Pi default`
           }
           {...(models.status === "error"
-            ? { description: `Could not list models: ${models.error}` }
+            ? { description: t`Could not list models: ${models.error}` }
             : missing && id && !unknown
               ? {
-                  description: `Pi's settings name no model for ${named(id)}. Choose one.`,
+                  description: t`Pi's settings name no model for ${named(id)}. Choose one.`,
                 }
               : {})}
           disabled={Boolean(unknown)}
@@ -333,13 +324,14 @@ export function createTabs({
     listing: Read<Providers>;
     reload(): void;
   }>) {
+    const { t } = useLingui();
     const id = choice.provider || listing.value?.defaults.provider;
     const provider = listing.value?.providers.find((item) => item.id === id);
     return (
       <>
         {listing.status === "error" && (
           <div className="flex flex-wrap items-center gap-3">
-            <Button onClick={reload}>Try again</Button>
+            <Button onClick={reload}>{t`Try again`}</Button>
             <p role="alert" className="buzz-field-error m-0">
               {listing.error}
             </p>
@@ -361,6 +353,7 @@ export function createTabs({
     choice,
     disabled,
   }: Readonly<{ choice: Choice; disabled: boolean }>) {
+    const { t } = useLingui();
     // A result belongs to the choice it tested.
     const key = `${choice.provider}\u0000${choice.model}`;
     const [result, setResult] = useState<{
@@ -384,7 +377,7 @@ export function createTabs({
             });
           }}
         >
-          Test connection
+          {t`Test connection`}
         </Button>
         {tested && tested !== "testing" && (
           <p
@@ -404,6 +397,7 @@ export function createTabs({
     provider,
     onSaved,
   }: Readonly<{ provider: Provider; onSaved(): void }>) {
+    const { t } = useLingui();
     const [key, setKey] = useState("");
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
@@ -426,25 +420,30 @@ export function createTabs({
       return (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="m-0 text-body-sm text-subtle">
-            {provider.name} is set up in Pi.
+            {t`${provider.name} is set up in Pi.`}
           </p>
           {provider.key && (
-            <Button onClick={() => setChanging(true)}>Change</Button>
+            <Button onClick={() => setChanging(true)}>{t`Change`}</Button>
           )}
         </div>
       );
     if (!provider.key)
       return (
         <p className="m-0 text-body-sm">
-          {provider.name} signs in through Pi. Run <code>pi</code>, then{" "}
-          <code>/login</code>, to set it up, then choose it here.
+          {t`${provider.name} signs in through Pi. Run`} <code>pi</code>
+          {t`, then`} <code>/login</code>
+          {t`, to set it up, then choose it here.`}
         </p>
       );
     return (
       <>
         <Field
-          label="API key"
-          description={`Saved in ~/.pi/agent/auth.json, for every Pi agent and the pi command.${provider.signsIn ? " Or sign in with the pi command's /login." : ""}`}
+          label={t`API key`}
+          description={
+            provider.signsIn
+              ? t`Saved in ~/.pi/agent/auth.json, for every Pi agent and the pi command. Or sign in with the pi command's /login.`
+              : t`Saved in ~/.pi/agent/auth.json, for every Pi agent and the pi command.`
+          }
         >
           <Input
             type="password"
@@ -463,7 +462,7 @@ export function createTabs({
         </Field>
         <div className="flex flex-wrap items-center gap-3">
           <Button disabled={!key.trim()} loading={saving} onClick={saveKey}>
-            Save to Pi
+            {t`Save to Pi`}
           </Button>
           {error && (
             <p role="alert" className="buzz-field-error m-0">
@@ -507,24 +506,25 @@ export function createTabs({
       provider: value.provider,
       model: value.model,
     });
+    const { t } = useLingui();
     return (
       <Dialog
         open
         onOpenChange={(open) => {
           if (!open) onClose();
         }}
-        title="Provider and model"
-        description="Pi's own settings are the default. Keys are saved in Pi, for every Pi agent and the pi command."
+        title={t`Provider and model`}
+        description={t`Pi's own settings are the default. Keys are saved in Pi, for every Pi agent and the pi command.`}
         actions={
           <>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>{t`Cancel`}</Button>
             <Button
               variant="prominent"
               disabled={unusable(draft, listing.value)}
               focusableWhenDisabled
               onClick={() => onChange(draft)}
             >
-              Use
+              {t`Use`}
             </Button>
           </>
         }
@@ -551,6 +551,7 @@ export function createTabs({
     disabled,
     modelAppearance,
   }: AgentCreateProps<Config>) {
+    const { t } = useLingui();
     const current = readConfig(config);
     const [listing, reload] = useRead(
       () => setup.providers(),
@@ -581,17 +582,17 @@ export function createTabs({
     const label = current.model
       ? named(current.model)
       : fallback
-        ? `Pi default (${provider} · ${named(fallback)})`
+        ? t`Pi default (${provider} · ${named(fallback)})`
         : !providers
-          ? "Pi default"
+          ? t`Pi default`
           : id
-            ? "Choose a model"
-            : "Choose a provider";
+            ? t`Choose a model`
+            : t`Choose a provider`;
     const mark = providerIcon(id);
     const error =
       listing.status === "error"
         ? listing.error
-        : unknown && `Pi has no provider ${unknown}`;
+        : unknown && t`Pi has no provider ${unknown}`;
     return (
       <>
         {/* The compact select recipe ellipsizes long model names in cards. */}
@@ -600,7 +601,7 @@ export function createTabs({
             size="sm"
             variant={modelAppearance ?? "outline"}
             disabled={disabled}
-            aria-label={`Model: ${label}`}
+            aria-label={t`Model: ${label}`}
             aria-haspopup="dialog"
             onClick={() => setChoosing(true)}
           >
@@ -626,7 +627,7 @@ export function createTabs({
         )}
         {listing.status === "error" && (
           <Button size="sm" disabled={disabled} onClick={reload}>
-            Try again
+            {t`Try again`}
           </Button>
         )}
         {choosing && (
@@ -664,6 +665,7 @@ export function createTabs({
     place: Place;
     working: boolean;
   }) {
+    const { t } = useLingui();
     return (
       <TranscriptPanel
         agent={agent}
@@ -682,13 +684,13 @@ export function createTabs({
         }}
         readKey={`${agent.key}\u0000${place.key}\u0000${place.conversation}`}
         working={working}
-        reading="Reading the Pi conversation…"
-        failed="Could not read the Pi conversation"
+        reading={t`Reading the Pi conversation…`}
+        failed={t`Could not read the Pi conversation`}
         missing={null}
         notes={(transcript) =>
           transcript.more && (
             <p className="m-0 text-body-sm text-subtle">
-              Showing the latest {TURN_LIMIT} turns.
+              {t`Showing the latest ${TURN_LIMIT} turns.`}
             </p>
           )
         }
@@ -708,6 +710,7 @@ export function createTabs({
     conversation?: AgentViewProps<Config>["conversation"];
     initialTranscript?: AgentViewProps<Config>["initialTranscript"];
   }) {
+    const { t } = useLingui();
     const working = useSyncExternalStore(
       (listener) => runtime.subscribe(listener),
       () => runtime.working(agent.key),
@@ -737,17 +740,17 @@ export function createTabs({
       return listing.status === "error" ? (
         <div className="grid gap-2">
           <p role="alert" className="buzz-field-error m-0">
-            Could not list Pi's conversations: {listing.error}
+            {t`Could not list Pi's conversations: ${listing.error}`}
           </p>
           <div>
             <Button type="button" onClick={reload}>
-              Try again
+              {t`Try again`}
             </Button>
           </div>
         </div>
       ) : (
         <p role="status" className="m-0 text-body-sm text-subtle">
-          Reading Pi's conversations…
+          {t`Reading Pi's conversations…`}
         </p>
       );
     return (
@@ -771,14 +774,20 @@ export function createTabs({
     places: readonly Place[];
     working: readonly number[];
   }) {
+    const { t } = useLingui();
     useClockFormat();
     const { session: here } = useOpenedSession(
       places,
       conversation,
       async () => undefined,
     );
+    const label = ({ channelId, name, root }: Place) => {
+      // 先拆出会话种类，避免在 t`` 插值里嵌套 t``。
+      const kind = root ? t`thread ${root.slice(0, 8)}` : t`channel`;
+      return t`${name || channelId.slice(0, 8)} · ${kind}`;
+    };
     const status = (place: Place) =>
-      working.includes(place.conversation) ? "Working" : undefined;
+      working.includes(place.conversation) ? t`Working` : undefined;
     const { open, show, back } = useOpenTranscript(conversation, label);
     const recent = places
       .filter((place) => place.key !== here?.key)
@@ -795,7 +804,7 @@ export function createTabs({
           />
         )}
         <section className={activityStyles.section}>
-          <InlineHeader title="Recent conversations" />
+          <InlineHeader title={t`Recent conversations`} />
           {recent.length ? (
             <SettingsGroup layout="form">
               <ul className={activityStyles.list}>
@@ -811,8 +820,8 @@ export function createTabs({
                         <span className="block text-body-sm text-subtle">
                           {[
                             place.root
-                              ? `Thread ${place.root.slice(0, 8)}`
-                              : "Channel",
+                              ? t`Thread ${place.root.slice(0, 8)}`
+                              : t`Channel`,
                             status(place),
                             formatItemTimestamp(place.at / 1000, {
                               withTime: true,
@@ -826,10 +835,10 @@ export function createTabs({
                         type="button"
                         variant="subtle"
                         size="sm"
-                        aria-label={`View transcript: ${label(place)}`}
+                        aria-label={t`View transcript: ${label(place)}`}
                         onClick={() => show(place)}
                       >
-                        View transcript
+                        {t`View transcript`}
                       </Button>
                     </div>
                   </li>
@@ -838,14 +847,14 @@ export function createTabs({
             </SettingsGroup>
           ) : (
             <p className="m-0 text-body-sm text-subtle">
-              None. A conversation starts when the agent is mentioned.
+              {t`None. A conversation starts when the agent is mentioned.`}
             </p>
           )}
         </section>
         {open && (
           <PanelSubview
             title={label(open)}
-            backLabel="Back to profile"
+            backLabel={t`Back to profile`}
             onBack={back}
           >
             <TranscriptView
@@ -867,6 +876,7 @@ export function createTabs({
     settingsSection,
     settingsContent,
   }: AgentViewProps<Config>) {
+    const { t } = useLingui();
     const form = useId();
     const saved = readConfig(agent.config);
     const [draft, setDraft] = useState(saved);
@@ -910,19 +920,28 @@ export function createTabs({
     const level = defaults?.thinking ?? DEFAULT_THINKING;
     const resting = effortLabel(levels ? runsAt(levels, level) : level);
     const efforts = [
-      { value: "", label: `${resting} · Default` },
+      { value: "", label: t`${resting} · Default` },
       // A saved level the model doesn't have, or not yet read.
       ...(draft.effort && !levels?.includes(draft.effort)
         ? [
             {
               value: draft.effort,
               label: levels
-                ? `${effortLabel(draft.effort)} (unavailable)`
+                ? t`${effortLabel(draft.effort)} (unavailable)`
                 : effortLabel(draft.effort),
             },
           ]
         : []),
       ...(levels ?? []).map((id) => ({ value: id, label: effortLabel(id) })),
+    ];
+    const scopes = [
+      {
+        label: "",
+        options: [
+          { value: "thread", label: t`One conversation per thread` },
+          { value: "channel", label: t`One conversation per channel` },
+        ],
+      },
     ];
     return (
       <form
@@ -961,7 +980,7 @@ export function createTabs({
                 reload={reload}
               />
               <Select
-                label="Thinking"
+                label={t`Thinking`}
                 variant="preference"
                 value={draft.effort}
                 {...(!draft.effort ? { valueLabel: resting } : {})}
@@ -980,8 +999,8 @@ export function createTabs({
           <>
             <ProviderSetup choice={draft} listing={listing} reload={reload} />
             <Field
-              label="Workspace"
-              description="The folder Pi works in. Use ~/ for your home folder."
+              label={t`Workspace`}
+              description={t`The folder Pi works in. Use ~/ for your home folder.`}
             >
               <Input
                 value={draft.workspace}
@@ -989,10 +1008,10 @@ export function createTabs({
               />
             </Field>
             <Select
-              label="Conversations"
+              label={t`Conversations`}
               variant="preference"
               value={draft.scope}
-              groups={SCOPES}
+              groups={scopes}
               onValueChange={(value) =>
                 setDraft({
                   ...draft,

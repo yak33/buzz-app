@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { ModelDiscoveryRecovery } from "../../features/agents/ModelDiscoveryRecovery";
 // goose's New agent choices and agent settings. Providers, their keys and
 // their models are goose's own: listed from it, and saved into its config.
@@ -72,16 +74,6 @@ import {
 
 const message = (error: unknown) =>
   error instanceof Error ? error.message : String(error);
-
-const SCOPES = [
-  {
-    label: "",
-    options: [
-      { value: "thread", label: "One session per thread" },
-      { value: "channel", label: "One session per channel" },
-    ],
-  },
-];
 
 type Choice = Readonly<{ provider: string; model: string }>;
 
@@ -244,6 +236,7 @@ export function createTabs({
   }
 
   function DefaultControl({ onConfigure }: { onConfigure(): void }) {
+    const { t } = useLingui();
     const state = useSyncExternalStore(setup.subscribe, setup.snapshot);
     const [listing, reload] = useRead(
       () => setup.providers(),
@@ -272,7 +265,7 @@ export function createTabs({
             includeDefault={false}
             compact
             groupByFamily
-            label="Goose default model"
+            label={t`Goose default model`}
             models={models.value ?? []}
             value={
               current?.model ||
@@ -285,7 +278,7 @@ export function createTabs({
                 ? ["databricks-", "goose-"]
                 : undefined
             }
-            defaultLabel="Provider default"
+            defaultLabel={t`Provider default`}
             disabled={!id}
             loading={models.status === "loading"}
             pending={saving || !!state.blocking}
@@ -311,6 +304,7 @@ export function createTabs({
   }
 
   function ProviderDialogBody({ onClose }: { onClose(): void }) {
+    const { t } = useLingui();
     const [listing, reload] = useRead(() => setup.providers(), "defaults");
     const [draft, setDraft] = useState<Choice>();
     const state = useSyncExternalStore(setup.subscribe, setup.snapshot);
@@ -327,14 +321,14 @@ export function createTabs({
           <>
             <p role="alert">{listing.error}</p>
             <p className="m-0 text-body-sm">
-              Run <code>goose configure</code> to set up Goose.
+              {t`Run`} <code>goose configure</code> {t`to set up Goose.`}
             </p>
             <Button
               onClick={() => {
                 void setup.check().then(reload);
               }}
             >
-              Try again
+              {t`Try again`}
             </Button>
           </>
         ) : listing.value ? (
@@ -349,12 +343,12 @@ export function createTabs({
             disabled={!!state.blocking || saving}
           />
         ) : (
-          <p role="status">Loading Goose defaults…</p>
+          <p role="status">{t`Loading Goose defaults…`}</p>
         )}
         {error && <p role="alert">{error}</p>}
         <ProviderDialogActions>
           <Button disabled={!!state.blocking || saving} onClick={onClose}>
-            Close
+            {t`Close`}
           </Button>
           <Button
             variant="primary"
@@ -378,7 +372,7 @@ export function createTabs({
               }
             }}
           >
-            Save defaults
+            {t`Save defaults`}
           </Button>
         </ProviderDialogActions>
       </div>
@@ -408,6 +402,7 @@ export function createTabs({
     rows?: boolean;
     revision?: number;
   }>) {
+    const { t } = useLingui();
     const [listing, reload] = useRead(
       () => setup.providers(),
       `providers:${revision}`,
@@ -439,8 +434,8 @@ export function createTabs({
             {
               id: "",
               name: fallback
-                ? `From goose config (${named(fallback)})`
-                : "From goose config",
+                ? t`From goose config (${named(fallback)})`
+                : t`From goose config`,
             },
           ]
         : []),
@@ -450,7 +445,7 @@ export function createTabs({
       <>
         {rows ? (
           <Select
-            label="Provider"
+            label={t`Provider`}
             variant={rows ? "preference" : "field"}
             value={value.provider}
             {...(rows && !value.provider && fallback
@@ -460,10 +455,10 @@ export function createTabs({
             {...(listing.status === "error"
               ? { error: listing.error }
               : listing.status === "loading" && !providers
-                ? { description: "Loading goose's providers…" }
+                ? { description: t`Loading goose's providers…` }
                 : rows && provider && !provider.configured
                   ? {
-                      description: `Set up ${provider.name} on the Settings tab.`,
+                      description: t`Set up ${provider.name} on the Settings tab.`,
                     }
                   : {})}
             groups={[
@@ -473,8 +468,8 @@ export function createTabs({
                   {
                     value: "",
                     label: fallback
-                      ? `From goose config (${named(fallback)})`
-                      : "From goose config",
+                      ? t`From goose config (${named(fallback)})`
+                      : t`From goose config`,
                   },
                   ...(providers?.providers ?? []).map((item) => ({
                     value: item.id,
@@ -505,14 +500,14 @@ export function createTabs({
             }}
           >
             <Combobox.Trigger
-              label="Provider"
+              label={t`Provider`}
               disabled={disabled || !providers}
               {...(listing.status === "error" ? { error: listing.error } : {})}
             >
               {providerChoices.find((item) => item.id === value.provider)
-                ?.name ?? "Choose a provider"}
+                ?.name ?? t`Choose a provider`}
             </Combobox.Trigger>
-            <Combobox.Popup search empty="No matching providers.">
+            <Combobox.Popup search empty={t`No matching providers.`}>
               <Combobox.List>
                 {(item: { id: string; name: string }) => (
                   <Combobox.Item key={item.id} value={item}>
@@ -525,7 +520,7 @@ export function createTabs({
         )}
         {listing.status === "error" && (
           <div>
-            <Button onClick={reload}>Try again</Button>
+            <Button onClick={reload}>{t`Try again`}</Button>
           </div>
         )}
         {!rows && provider && (
@@ -550,16 +545,16 @@ export function createTabs({
                 ? ["databricks-", "goose-"]
                 : undefined
             }
-            label="Model"
+            label={t`Model`}
             allowCustomModel
             models={models.value ?? []}
             loading={models.status === "loading"}
             value={value.model}
-            defaultLabel={modelDefault || "Provider model"}
+            defaultLabel={modelDefault || t`Provider model`}
             {...(!provider.configured
-              ? { description: `Available once ${provider.name} is set up.` }
+              ? { description: t`Available once ${provider.name} is set up.` }
               : models.status === "error"
-                ? { description: `Could not list models: ${models.error}` }
+                ? { description: t`Could not list models: ${models.error}` }
                 : {})}
             disabled={disabled || !provider.configured}
             onChange={(model) => onChange({ ...value, model })}
@@ -574,6 +569,7 @@ export function createTabs({
     choice,
     onSaved,
   }: Readonly<{ choice: Choice; onSaved(): void }>) {
+    const { t } = useLingui();
     const [listing, reload] = useRead(() => setup.providers(), "providers");
     const id = choice.provider || listing.value?.defaults.provider;
     const provider = listing.value?.providers.find((item) => item.id === id);
@@ -581,7 +577,7 @@ export function createTabs({
       <>
         {listing.status === "error" && (
           <div className="flex flex-wrap items-center gap-3">
-            <Button onClick={reload}>Try again</Button>
+            <Button onClick={reload}>{t`Try again`}</Button>
             <p role="alert" className="buzz-field-error m-0">
               {listing.error}
             </p>
@@ -608,6 +604,7 @@ export function createTabs({
     choice,
     disabled,
   }: Readonly<{ choice: Choice; disabled: boolean }>) {
+    const { t } = useLingui();
     // A result belongs to the choice it tested.
     const key = `${choice.provider}\u0000${choice.model}`;
     const [result, setResult] = useState<{
@@ -625,7 +622,7 @@ export function createTabs({
             setResult({ key, tested: await setup.test(choice) });
           }}
         >
-          Test connection
+          {t`Test connection`}
         </Button>
         {tested && tested !== "testing" && (
           <p
@@ -657,13 +654,14 @@ export function createTabs({
     disabled?: boolean;
     onChange(effort: string): void;
   }>) {
+    const { t } = useLingui();
     const [efforts, retry] = useRead(
       () => setup.efforts(choice),
       `${choice.provider}\u0000${choice.model.trim()}:${revision}`,
     );
     const failed =
       efforts.status === "error"
-        ? `Could not read goose's levels: ${efforts.error}`
+        ? t`Could not read goose's levels: ${efforts.error}`
         : undefined;
     const levels = efforts.value?.levels ?? [];
     const named = (level: string) =>
@@ -675,14 +673,14 @@ export function createTabs({
     const fallback = current && current !== "off" ? named(current) : undefined;
     const select = (
       <Select
-        label="Thinking"
+        label={t`Thinking`}
         variant={compact ? "compact" : "preference"}
         {...(compact && { align: "end" as const })}
         value={value}
         {...(!value
           ? {
-              valueLabel: fallback ?? "Default",
-              ...(compact && fallback ? { valueSuffix: " · Default" } : {}),
+              valueLabel: fallback ?? t`Default`,
+              ...(compact && fallback ? { valueSuffix: t` · Default` } : {}),
             }
           : {})}
         disabled={disabled}
@@ -693,7 +691,7 @@ export function createTabs({
             options: [
               {
                 value: "",
-                label: fallback ? `${fallback} · Default` : "Default",
+                label: fallback ? t`${fallback} · Default` : t`Default`,
               },
               // A saved level the model does not offer, or not yet read.
               ...(value && !levels.includes(value)
@@ -702,7 +700,7 @@ export function createTabs({
                       value,
                       label:
                         efforts.status === "ready"
-                          ? `${named(value)} (unavailable)`
+                          ? t`${named(value)} (unavailable)`
                           : named(value),
                     },
                   ]
@@ -746,8 +744,9 @@ export function createTabs({
           value: Record<string, string>;
           onChange(value: Record<string, string>): void;
         }
-      | undefined;
+        | undefined;
   }>) {
+    const { t } = useLingui();
     const [saved, reread] = useRead(
       () => setup.saved(provider.id),
       provider.id,
@@ -779,8 +778,8 @@ export function createTabs({
       <>
         {provider.signsIn && !provider.configured && (
           <p className="m-0 text-body-sm">
-            {provider.name} signs in through goose. Run{" "}
-            <code>goose configure</code> to sign in.
+            {t`${provider.name} signs in through goose. Run`}{" "}
+            <code>goose configure</code> {t`to sign in.`}
           </p>
         )}
         {provider.keys.map((key) => {
@@ -791,13 +790,13 @@ export function createTabs({
               label={
                 key.required
                   ? keyLabel(key.name)
-                  : `${keyLabel(key.name)} (optional)`
+                  : t`${keyLabel(key.name)} (optional)`
               }
               description={
                 isSet
                   ? undefined
                   : key.default
-                    ? `Default: ${key.default}`
+                    ? t`Default: ${key.default}`
                     : key.secret
                       ? provider.steps.join(" · ") || undefined
                       : undefined
@@ -810,7 +809,7 @@ export function createTabs({
                 disabled={disabled || saving}
                 placeholder={
                   isSet
-                    ? "Saved in goose. Enter a new value to replace it."
+                    ? t`Saved in goose. Enter a new value to replace it.`
                     : (key.default ?? undefined)
                 }
                 onValueChange={(text) =>
@@ -829,7 +828,7 @@ export function createTabs({
         {!keyDraft && provider.keys.length > 0 && (
           <div className="flex flex-wrap items-center gap-3">
             <Button disabled={!ready} loading={saving} onClick={submit}>
-              Save to goose
+              {t`Save to goose`}
             </Button>
             {error && (
               <p role="alert" className="buzz-field-error m-0">
@@ -853,6 +852,7 @@ export function createTabs({
     row: Row;
     working?: string | undefined;
   }) {
+    const { t } = useLingui();
     const workspace = readConfig(agent.config).workspace;
     // Read again when the conversation saves or opens another session.
     const ids = [row.sessionId, ...(row.sessions ?? [])].join(" ");
@@ -888,18 +888,17 @@ export function createTabs({
         readKey={`${row.key}\u0000${workspace}`}
         readAgain={ids}
         working={Boolean(working)}
-        reading="Reading the goose session…"
-        failed="Could not read the goose session"
+        reading={t`Reading the goose session…`}
+        failed={t`Could not read the goose session`}
         missing={
           <p className="m-0 text-body-sm text-subtle">
-            goose has no session for this conversation on this computer. It may
-            have been deleted, or it ran in a different workspace.
+            {t`goose has no session for this conversation on this computer. It may have been deleted, or it ran in a different workspace.`}
           </p>
         }
         notes={(transcript) =>
           transcript.more && (
             <p className="m-0 text-body-sm text-subtle">
-              Showing the latest {TURN_LIMIT} turns.
+              {t`Showing the latest ${TURN_LIMIT} turns.`}
             </p>
           )
         }
@@ -920,6 +919,7 @@ export function createTabs({
     initialTranscript?: AgentViewProps<Config>["initialTranscript"];
     close?: AgentViewProps<Config>["close"];
   }) {
+    const { t } = useLingui();
     useClockFormat();
     const live = useSyncExternalStore(
       (listener) => runtime.subscribe(listener),
@@ -972,12 +972,20 @@ export function createTabs({
       live.find((session) => session.sessionId === sessionId)?.busy;
     const status = (sessionId: string) => {
       const working = busy(sessionId);
-      return working === undefined ? undefined : working ? "Working" : "Idle";
+      return working === undefined
+        ? undefined
+        : working
+          ? t`Working`
+          : t`Idle`;
     };
-    const label = (row: Row) =>
-      row.title
-        ? titled(agent.name, row.title)
-        : `${row.name || row.channelId.slice(0, 8)} · ${row.root ? `thread ${row.root.slice(0, 8)}` : "channel"}`;
+    const label = (row: Row) => {
+      if (row.title) return titled(agent.name, row.title);
+      // 先拆出会话种类，避免在 t`` 插值里嵌套 t``。
+      const kind = row.root
+        ? t`thread ${row.root.slice(0, 8)}`
+        : t`channel`;
+      return t`${row.name || row.channelId.slice(0, 8)} · ${kind}`;
+    };
     const { open, show, back } = useOpenTranscript(
       conversation,
       label,
@@ -1008,7 +1016,7 @@ export function createTabs({
           />
         )}
         <section className={activityStyles.section}>
-          <InlineHeader title="Recent sessions" />
+          <InlineHeader title={t`Recent sessions`} />
           {rows.length ? (
             <SettingsGroup layout="form">
               <ul className={activityStyles.list}>
@@ -1038,10 +1046,10 @@ export function createTabs({
                         type="button"
                         variant="subtle"
                         size="sm"
-                        aria-label={`View transcript: ${label(row)}`}
+                        aria-label={t`View transcript: ${label(row)}`}
                         onClick={() => show(row)}
                       >
-                        View transcript
+                        {t`View transcript`}
                       </Button>
                     </div>
                   </li>
@@ -1050,14 +1058,14 @@ export function createTabs({
             </SettingsGroup>
           ) : (
             <p className="m-0 text-body-sm text-subtle">
-              None. A conversation's session starts when the agent is mentioned.
+              {t`None. A conversation's session starts when the agent is mentioned.`}
             </p>
           )}
         </section>
         {shown && (
           <PanelSubview
             title={label(shown)}
-            backLabel="Back to profile"
+            backLabel={t`Back to profile`}
             onBack={back}
           >
             <TranscriptView
@@ -1095,6 +1103,7 @@ export function createTabs({
     onChange(choice: Choice): void;
     onClose(): void;
   }>) {
+    const { t } = useLingui();
     const [draft, setDraft] = useState<Choice>({
       provider: value.provider,
       model: value.model,
@@ -1109,11 +1118,11 @@ export function createTabs({
           if (!open && !saving) onClose();
         }}
         height="stable"
-        title="Edit configuration"
+        title={t`Edit configuration`}
         actions={
           <>
             <Button disabled={saving} onClick={onClose}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="prominent"
@@ -1137,7 +1146,7 @@ export function createTabs({
                 }
               }}
             >
-              Save
+              {t`Save`}
             </Button>
           </>
         }
@@ -1167,6 +1176,7 @@ export function createTabs({
     modelAppearance,
     showEffort = true,
   }: AgentCreateProps<Config>) {
+    const { i18n, t } = useLingui();
     // A pick here takes the agent off Recommended, from what it runs on.
     const resolved = useRecommended(onRecommended(config));
     const current = offRecommended(running(config, resolved));
@@ -1206,7 +1216,7 @@ export function createTabs({
         const offered = await setup.efforts({ provider, model: model.id });
         if (!offered.levels.length) return [];
         return [
-          { id: "", label: "Automatic" },
+          { id: "", label: i18n._(msg`Automatic`) },
           ...offered.levels.map((id) => ({
             id,
             label: id.charAt(0).toUpperCase() + id.slice(1),
@@ -1231,9 +1241,9 @@ export function createTabs({
             compact
             groupByFamily
             includeDefault={false}
-            resetLabel="Use Goose default"
+            resetLabel={t`Use Goose default`}
             allowCustomModel
-            label="Goose model"
+            label={t`Goose model`}
             appearance={modelAppearance ?? "outlined"}
             // A card names its harness before the model, as Pi's does.
             {...(modelAppearance === "glass-ghost" && {
@@ -1242,7 +1252,7 @@ export function createTabs({
             models={choices}
             value={current.model}
             defaultModel={fallback}
-            defaultLabel={fallback || "Choose model"}
+            defaultLabel={fallback || t`Choose model`}
             effort={current.effort}
             // A card's chip keeps its room for the model name; its menu
             // still shows and sets the level.
@@ -1253,7 +1263,7 @@ export function createTabs({
                 ? current.effort
                   ? current.effort.charAt(0).toUpperCase() +
                     current.effort.slice(1)
-                  : "Automatic"
+                  : t`Automatic`
                 : undefined
             }
             modelLabelPrefixes={
@@ -1329,6 +1339,7 @@ export function createTabs({
     settingsSection,
     settingsContent,
   }: AgentViewProps<Config>) {
+    const { i18n, t } = useLingui();
     const form = useId();
     const [providerRevision, setProviderRevision] = useState(0);
     const saved = readConfig(agent.config);
@@ -1370,7 +1381,7 @@ export function createTabs({
       try {
         const workspace = draft.workspace.trim() || DEFAULT_CONFIG.workspace;
         if (!validWorkspace(workspace))
-          throw new Error("Enter an absolute or ~/… workspace path.");
+          throw new Error(i18n._(msg`Enter an absolute or ~/… workspace path.`));
         const next = { ...draft, model: draft.model.trim(), workspace };
         // A Custom agent's save drops a mark left from before, which a later
         // blank synced model would otherwise turn back on.
@@ -1440,8 +1451,8 @@ export function createTabs({
               onSaved={() => setProviderRevision((value) => value + 1)}
             />
             <Field
-              label="Workspace"
-              description="The folder goose works in. Use ~/ for your home folder."
+              label={t`Workspace`}
+              description={t`The folder goose works in. Use ~/ for your home folder.`}
             >
               <Input
                 value={draft.workspace}
@@ -1449,10 +1460,18 @@ export function createTabs({
               />
             </Field>
             <Select
-              label="Sessions"
+              label={t`Sessions`}
               variant="preference"
               value={draft.scope}
-              groups={SCOPES}
+              groups={[
+                {
+                  label: "",
+                  options: [
+                    { value: "thread", label: t`One session per thread` },
+                    { value: "channel", label: t`One session per channel` },
+                  ],
+                },
+              ]}
               onValueChange={(value) =>
                 setDraft({
                   ...draft,

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { openVoice } from "./voice";
 import { isHuddleRoom } from "../../features/huddle/lifecycle";
 import type {
@@ -618,7 +620,7 @@ export class CodexRuntime {
         return;
       }
       if (this.sessionState(agent, place) !== "idle")
-        throw new Error("Wait for the active turn to finish first.");
+        throw new Error(i18n._(msg`Wait for the active turn to finish first.`));
       if (action === "new")
         return this.controls.run(
           `${agent.key}/${conversation}`,
@@ -678,7 +680,7 @@ export class CodexRuntime {
       return;
     }
     if (this.sessionState(agent, place) !== "idle")
-      throw new Error("Wait for the active turn to finish first.");
+      throw new Error(i18n._(msg`Wait for the active turn to finish first.`));
     return this.controls.run(control, action, async (cancel) => {
       const signal = AbortSignal.any([entry.abort.signal, cancel, lifetime]);
       signal.throwIfAborted();
@@ -743,12 +745,14 @@ export class CodexRuntime {
         });
         signal.throwIfAborted();
         await this.compact(rpc, signal, thread.threadId, agent.key, key);
-        this.status(agent.key, key, "Idle");
+        this.status(agent.key, key, i18n._(msg`Idle`));
       } catch (error) {
         this.status(
           agent.key,
           key,
-          signal.aborted ? "Interrupted" : "Needs attention",
+          signal.aborted
+            ? i18n._(msg`Interrupted`)
+            : i18n._(msg`Needs attention`),
           message(error),
         );
         throw error;
@@ -1498,7 +1502,7 @@ export class CodexRuntime {
       },
       answered() {},
       failActivity: (reason) =>
-        this.status(agent.key, key, "Needs attention", reason),
+        this.status(agent.key, key, i18n._(msg`Needs attention`), reason),
     };
     const server = this.open(agent);
     let loaded: Loaded | undefined;
@@ -2094,10 +2098,10 @@ export class CodexRuntime {
         },
       );
       once.turnId ??= turnStarted.turn.id;
-      this.status(agent.key, key, "Working");
+      this.status(agent.key, key, i18n._(msg`Working`));
       const status = await followed.completed;
       if (status === "interrupted") {
-        this.status(agent.key, key, "Interrupted");
+        this.status(agent.key, key, i18n._(msg`Interrupted`));
         return { ok: false, error: "Codex’s turn was interrupted" };
       }
       // A finished wake leaves nothing to show; a failed one stays listed.
@@ -2111,7 +2115,7 @@ export class CodexRuntime {
             turnId: once.turnId,
           })
           .catch(() => server.rpc.close());
-      this.status(agent.key, key, "Needs attention", message(error));
+      this.status(agent.key, key, i18n._(msg`Needs attention`), message(error));
       return { ok: false, error: message(error) };
     } finally {
       await hookBridge?.close();
@@ -2211,11 +2215,11 @@ export class CodexRuntime {
     signal.addEventListener("abort", interrupt);
     try {
       signal.throwIfAborted();
-      this.status(agent, key, "Compacting");
+      this.status(agent, key, i18n._(msg`Compacting`));
       await rpc.request("thread/compact/start", { threadId });
       const status = await followed.completed;
       signal.throwIfAborted();
-      if (status !== "completed") throw new Error("Compaction was interrupted");
+      if (status !== "completed") throw new Error(i18n._(msg`Compaction was interrupted`));
     } catch (error) {
       await rpc
         .request("thread/unsubscribe", { threadId })
@@ -2261,13 +2265,13 @@ export class CodexRuntime {
         }
       });
     lane.tail = job;
-    this.status(request.agent.key, key, "Starting");
+    this.status(request.agent.key, key, i18n._(msg`Starting`));
     // Agents can deliver follow-ups and other conversations immediately.
     void job
       .catch(async (error) => {
         request.failActivity(message(error));
         const reason = `Codex could not start: ${message(error)}.`;
-        this.status(request.agent.key, key, "Needs attention", reason);
+        this.status(request.agent.key, key, i18n._(msg`Needs attention`), reason);
         await this.publish(request, reason).catch((failure) =>
           console.error("Codex could not publish its failure", failure),
         );
@@ -2784,7 +2788,9 @@ export class CodexRuntime {
           if (this.target)
             throw Object.assign(
               new Error(
-                "The remote Codex session cannot be restored. Start a new session to continue.",
+                i18n._(
+                  msg`The remote Codex session cannot be restored. Start a new session to continue.`,
+                ),
               ),
               { code: "EXECUTION_SESSION_RESET_REQUIRED" },
             );
@@ -2886,12 +2892,17 @@ export class CodexRuntime {
         for (const taken of active.activity.values())
           taken.step?.(step.tool, step.target);
       if (method === "item/started" && item.command)
-        this.status(agent.key, key, "Working", item.command);
+        this.status(
+          agent.key,
+          key,
+          i18n._(msg`Working`),
+          item.command,
+        );
       if (method === "item/completed" && item.type === "commandExecution")
         this.status(
           agent.key,
           key,
-          "Working",
+          i18n._(msg`Working`),
           `${item.command ?? ""}\n${item.aggregatedOutput ?? ""}`,
         );
     });
@@ -2943,7 +2954,7 @@ export class CodexRuntime {
         if (request.current && !request.current()) {
           restoreNotes(request);
           request.answered();
-          this.status(agent.key, key, "Idle");
+          this.status(agent.key, key, i18n._(msg`Idle`));
           active.finished = true;
           ready();
           return;
@@ -3026,7 +3037,7 @@ export class CodexRuntime {
             : {}),
         });
         ready();
-        this.status(agent.key, key, "Working");
+        this.status(agent.key, key, i18n._(msg`Working`));
       }
       const status = await followed.completed;
       await active.steering;
@@ -3034,16 +3045,16 @@ export class CodexRuntime {
       if (status === "interrupted" && active.stopped) {
         for (const taken of active.requests) taken.answered(true);
         await this.terminals(rpc, active.threadId, STOP_LINGER_MS);
-        this.status(agent.key, key, "Stopped");
+        this.status(agent.key, key, i18n._(msg`Stopped`));
       } else if (status === "interrupted") {
         for (const taken of active.requests)
-          taken.failActivity("Codex’s turn was interrupted");
+          taken.failActivity(i18n._(msg`Codex’s turn was interrupted`));
         await this.terminals(rpc, active.threadId);
         await this.publish(
           active.reply,
           "Codex’s turn was interrupted. Send another mention to continue.",
         );
-        this.status(agent.key, key, "Interrupted");
+        this.status(agent.key, key, i18n._(msg`Interrupted`));
       } else {
         const failed = active.requests.find(
           (taken) => taken.finalDelivery instanceof Error,
@@ -3051,7 +3062,7 @@ export class CodexRuntime {
         if (failed instanceof Error) throw failed;
         // A turn may end without a reply when there is nothing new to say.
         for (const taken of active.requests) taken.answered();
-        this.status(agent.key, key, "Idle");
+        this.status(agent.key, key, i18n._(msg`Idle`));
       }
     } catch (error) {
       // Refused before any turn began, it took nothing in.
@@ -3085,8 +3096,10 @@ export class CodexRuntime {
         this.status(
           agent.key,
           key,
-          "Needs attention",
-          why ? `${reason} Reason: ${why}` : reason,
+          i18n._(msg`Needs attention`),
+          why
+            ? i18n._(msg`${reason} Reason: ${why}`)
+            : reason,
         );
       }
     } finally {
@@ -3231,11 +3244,11 @@ export function codexStep(
     case "plan":
       return step("TodoWrite");
     case "contextCompaction":
-      return step("Compacting");
+      return step(i18n._(msg`Compacting`));
     case "reasoning":
-      return step("Thinking");
+      return step(i18n._(msg`Thinking`));
     case "agentMessage":
-      return step("Writing reply");
+      return step(i18n._(msg`Writing reply`));
     default:
       return undefined;
   }

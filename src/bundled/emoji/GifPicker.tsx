@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { SearchField } from "../../shared/design-system/ui/SearchField";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -36,6 +37,7 @@ export function GifPicker({
   onQueryChange(query: string): void;
   select(gif: KlipyGif): void;
 }) {
+  const { t } = useLingui();
   const [query, setQuery] = useState(initialQuery);
   const [gifs, setGifs] = useState<KlipyGif[]>();
   const [error, setError] = useState<string>();
@@ -72,8 +74,8 @@ export function GifPicker({
           variant="capsule"
           inputRef={input}
           aria-describedby={unavailable ? unavailableId : undefined}
-          label="Search GIFs"
-          placeholder="Search GIFs"
+          label={t`Search GIFs`}
+          placeholder={t`Search GIFs`}
           spellCheck={false}
           autoCorrect="off"
           autoCapitalize="off"
@@ -102,7 +104,7 @@ export function GifPicker({
                   retryDiscovery();
                 }}
               >
-                Retry GIF availability
+                {t`Retry GIF availability`}
               </Button>
             )}
           </div>
@@ -110,7 +112,7 @@ export function GifPicker({
           <div
             className={styles.gifLoading}
             role="status"
-            aria-label="Loading GIFs"
+            aria-label={t`Loading GIFs`}
           >
             {LOADING_TILES.map((tile) => (
               <span key={tile} />
@@ -125,9 +127,9 @@ export function GifPicker({
                 input.current?.focus();
                 retry(attempt + 1);
               }}
-            >
-              Try again
-            </Button>
+              >
+                {t`Try again`}
+              </Button>
           </div>
         ) : gifs?.length ? (
           <div className={styles.gifGrid} data-testid="klipy-gif-grid">
@@ -135,7 +137,7 @@ export function GifPicker({
               <button
                 key={`${gif.id}-${gif.slug}`}
                 type="button"
-                aria-label={`Choose ${gif.title}`}
+                aria-label={t`Choose ${gif.title}`}
                 title={gif.title}
                 onClick={() => select(gif)}
               >
@@ -150,7 +152,7 @@ export function GifPicker({
             ))}
           </div>
         ) : (
-          <div className={styles.gifEmpty}>No GIFs found.</div>
+          <div className={styles.gifEmpty}>{t`No GIFs found.`}</div>
         )}
       </div>
       <div className={styles.gifAttribution}>Powered by KLIPY</div>

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import captureUrl from "../../features/huddle/capture.worklet.js?url&no-inline";
 import { createPlayout } from "../../features/huddle/playout";
 import type { AppServer } from "./rpc";
@@ -42,8 +44,8 @@ export async function openVoice(
     closed = true;
     signal.removeEventListener("abort", close);
     off();
-    cancel(new Error("Voice connection closed"));
-    rejectConnected(new Error("Voice connection closed"));
+    cancel(new Error(i18n._(msg`Voice connection closed`)));
+    rejectConnected(new Error(i18n._(msg`Voice connection closed`)));
     peer.close();
     remote?.disconnect();
     if (capture) {
@@ -74,22 +76,25 @@ export async function openVoice(
     peer.onconnectionstatechange = () => {
       if (peer.connectionState === "connected") resolve();
       if (["failed", "disconnected"].includes(peer.connectionState))
-        fail(new Error("Codex voice disconnected"));
+        fail(new Error(i18n._(msg`Codex voice disconnected`)));
     };
   });
   void connected.catch(() => {});
   signal.addEventListener("abort", close, { once: true });
   const timeout = setTimeout(
-    () => fail(new Error("Codex voice connection timed out")),
+    () =>
+      fail(new Error(i18n._(msg`Codex voice connection timed out`))),
     30_000,
   );
   try {
     await wait(context.resume());
     await wait(context.audioWorklet.addModule(captureUrl));
     signal.throwIfAborted();
-    if (closed) throw new Error("Voice connection closed");
+    if (closed) throw new Error(i18n._(msg`Voice connection closed`));
     if (context.sampleRate !== 48000)
-      throw new Error("Agent voice requires 48 kHz audio");
+      throw new Error(
+        i18n._(msg`Agent voice requires 48 kHz audio`),
+      );
     capture = new AudioWorkletNode(context, "buzz-huddle-capture");
     capture.port.onmessage = ({ data }: MessageEvent<Float32Array>) => {
       if (closed) return;
@@ -126,7 +131,9 @@ export async function openVoice(
         | { threadId?: string; sdp?: string; message?: string }
         | undefined;
       if (method === "connection/closed")
-        return fail(new Error(p?.message ?? "Codex closed"));
+        return fail(
+        new Error(p?.message ?? i18n._(msg`Codex closed`)),
+      );
       if (p?.threadId !== threadId || closed) return;
       if (method === "thread/realtime/sdp" && p.sdp)
         void peer
@@ -136,12 +143,13 @@ export async function openVoice(
         method === "thread/realtime/error" ||
         method === "thread/realtime/closed"
       )
-        fail(new Error(p.message ?? "Codex voice ended"));
+        fail(new Error(p.message ?? i18n._(msg`Codex voice ended`)));
     });
     await wait(peer.setLocalDescription(await wait(peer.createOffer())));
     signal.throwIfAborted();
     const sdp = peer.localDescription?.sdp;
-    if (!sdp) throw new Error("Codex voice offer is missing");
+    if (!sdp)
+      throw new Error(i18n._(msg`Codex voice offer is missing`));
     starting = rpc.request("thread/realtime/start", {
       threadId,
       transport: { type: "webrtc", sdp },

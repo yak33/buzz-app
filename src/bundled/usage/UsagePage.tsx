@@ -1,3 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
+// 全局单例供模块级 partly/costLabel 使用（与 useLingui 返回的是同一实例）。
+import { i18n as globalI18n } from "../../features/localization/service";
 import {
   type ReactNode,
   useEffect,
@@ -102,6 +106,7 @@ const scopeOf = (agent: Agent) => ({
  * earlier ones found, so a slow harness holds up only its own agents; an agent
  * that cannot be read keeps what was found before. */
 function useUsage(agents: Agents, keys: string, reload: number) {
+  const { i18n } = useLingui();
   const [load, setLoad] = useState<Load>();
   // biome-ignore lint/correctness/useExhaustiveDependencies: Refresh reads the same agents again.
   useEffect(() => {
@@ -192,7 +197,7 @@ function useUsage(agents: Agents, keys: string, reload: number) {
       const read = types.find((type) => type.key === agent.type)?.usage;
       (read
         ? read(agent, { since: since(now), signal: controller.signal })
-        : Promise.reject(new Error("No usage"))
+        : Promise.reject(new Error(i18n._(msg`No usage`)))
       ).then(
         (sessions) => settle(agent, sessions),
         (error: unknown) => {
@@ -209,7 +214,7 @@ function useUsage(agents: Agents, keys: string, reload: number) {
     };
     for (const agent of targets) attempt(agent, true);
     return () => controller.abort();
-  }, [agents, keys, reload]);
+  }, [agents, i18n, keys, reload]);
   return load;
 }
 
@@ -236,6 +241,7 @@ export function UsagePage({
   /** Where the filters are kept, per viewer and community. */
   viewScope?: string | undefined;
 }) {
+  const { t } = useLingui();
   const snapshot = useSyncExternalStore(
     agents.subscribe,
     agents.snapshot,
@@ -297,7 +303,7 @@ export function UsagePage({
       ? [
           {
             key: "other",
-            label: "Other",
+            label: t`Other`,
             color: `var(--chart-series-${SERIES})`,
             harnesses: rest.map((type) => type.key),
           },
@@ -371,22 +377,24 @@ export function UsagePage({
     failed.length === 1 && failed[0]
       ? load?.reasons.get(keyOf(failed[0]))
       : undefined;
+  // The reason's trailing period is dropped so this sentence can add its own.
+  const reasonText = reason ? reason.replace(/\.$/, "") : undefined;
   const failure =
     failed.length || load?.unpriced ? (
       <p className={styles.notice} role="status">
         {failed.length > 0 && (
           <>
-            Couldn’t read the sessions of{" "}
+            {t`Couldn’t read the sessions of`}{" "}
             {failed.length > 3
-              ? `${failed.length} agents`
+              ? t`${failed.length} agents`
               : failed.map((agent) => agent.name).join(", ")}
-            {reason ? `: ${reason.replace(/\.$/, "")}. ` : ". "}
+            {reasonText ? t`: ${reasonText}. ` : t`. `}
             {failed.some((agent) =>
               load?.usage.some((entry) => keyOf(entry.agent) === keyOf(agent)),
-            ) && "Showing what was read before. "}
+            ) && t`Showing what was read before. `}
           </>
         )}
-        {load?.unpriced && "Couldn’t load prices to estimate costs. "}
+        {load?.unpriced && t`Couldn’t load prices to estimate costs. `}
         <Button
           size="sm"
           variant="ghost"
@@ -396,7 +404,7 @@ export function UsagePage({
             setReload((value) => value + 1);
           }}
         >
-          Try again
+          {t`Try again`}
         </Button>
       </p>
     ) : undefined;
@@ -407,26 +415,28 @@ export function UsagePage({
     body = (
       <EmptyState
         icon={<ChartBarIcon size="1.5rem" />}
-        title="Usage runs in the desktop app"
-        description="It reads the sessions your agents run on your computer."
+        title={t`Usage runs in the desktop app`}
+        description={t`It reads the sessions your agents run on your computer.`}
       />
     );
   else if (snapshot.status === "error")
     body = (
       <EmptyState
         icon={<ChartBarIcon size="1.5rem" />}
-        title="Agents aren’t available"
-        description={snapshot.error || "Try again in a moment."}
+        title={t`Agents aren’t available`}
+        description={snapshot.error || t`Try again in a moment.`}
       />
     );
   else if (snapshot.status !== "ready" || (targets.length && !ready))
-    body = <p className={styles.status}>Reading your agents’ sessions…</p>;
+    body = (
+      <p className={styles.status}>{t`Reading your agents’ sessions…`}</p>
+    );
   else if (!targets.length || !result)
     body = (
       <EmptyState
         icon={<ChartBarIcon size="1.5rem" />}
-        title="No agent usage to show"
-        description="Usage reads the sessions your Claude Code, Codex and goose agents run on this computer. Add one from Agents to see what it spends."
+        title={t`No agent usage to show`}
+        description={t`Usage reads the sessions your Claude Code, Codex and goose agents run on this computer. Add one from Agents to see what it spends.`}
         action={
           <Button
             onClick={() =>
@@ -438,7 +448,7 @@ export function UsagePage({
               })
             }
           >
-            Open Agents
+            {t`Open Agents`}
           </Button>
         }
       />
@@ -460,15 +470,15 @@ export function UsagePage({
         filters={
           <div className={styles.filters}>
             <Select
-              label="Period"
+              label={t`Period`}
               size="sm"
               value={String(days)}
               groups={[
                 {
-                  label: "Period",
+                  label: t`Period`,
                   options: RANGES.map((range) => ({
                     value: String(range),
-                    label: `Last ${range} days`,
+                    label: t`Last ${range} days`,
                   })),
                 },
               ]}
@@ -476,14 +486,14 @@ export function UsagePage({
             />
             {targets.length > 1 && (
               <Select
-                label="Agent"
+                label={t`Agent`}
                 size="sm"
                 value={agentFilter}
                 groups={[
                   {
-                    label: "Agent",
+                    label: t`Agent`,
                     options: [
-                      { value: ALL, label: "All agents" },
+                      { value: ALL, label: t`All agents` },
                       ...targets.map((agent) => ({
                         value: agent.pubkey,
                         label: agent.name,
@@ -496,14 +506,14 @@ export function UsagePage({
             )}
             {usedHarnesses.length > 1 && (
               <Select
-                label="Harness"
+                label={t`Harness`}
                 size="sm"
                 value={harnessFilter}
                 groups={[
                   {
-                    label: "Harness",
+                    label: t`Harness`,
                     options: [
-                      { value: ALL, label: "All harnesses" },
+                      { value: ALL, label: t`All harnesses` },
                       ...usedHarnesses.map((type) => ({
                         value: type.key,
                         label: type.title,
@@ -523,10 +533,10 @@ export function UsagePage({
     );
 
   return (
-    <section aria-label="Usage">
+    <section aria-label={t`Usage`}>
       <Header
-        title="Usage"
-        subtitle="Estimated cost of your agents’ sessions on this computer."
+        title={t`Usage`}
+        subtitle={t`Estimated cost of your agents’ sessions on this computer.`}
         actions={
           targets.length > 0 && (
             <IconButton
@@ -535,8 +545,8 @@ export function UsagePage({
               size="sm"
               variant="ghost"
               icon={<ArrowsClockwiseIcon size="1rem" aria-hidden="true" />}
-              aria-label="Refresh usage"
-              title="Refresh usage"
+              aria-label={t`Refresh usage`}
+              title={t`Refresh usage`}
               loading={loading}
               onClick={() => setReload((value) => value + 1)}
             />
@@ -577,7 +587,13 @@ function Dashboard({
   /** The agents still read, with nothing to show yet. */
   waiting: readonly Agent[];
 }) {
-  const period = `last ${days} days`;
+  const { t } = useLingui();
+  const period = t`last ${days} days`;
+  // The session count's noun: one complete template per plural form.
+  const sessionsText =
+    result.sessions === 1
+      ? t`${count(result.sessions)} session`
+      : t`${count(result.sessions)} sessions`;
   const top = result.agents[0];
   const spent = result.cost.value ?? 0;
   const before = result.previousCost?.value ?? 0;
@@ -599,51 +615,52 @@ function Dashboard({
       {!result.sessions && !progress && unread ? (
         <EmptyState
           icon={<ChartBarIcon size="1.5rem" />}
-          title="No sessions read"
-          description="The sessions that couldn’t be read may include some from this period. Try again to read them."
+          title={t`No sessions read`}
+          description={t`The sessions that couldn’t be read may include some from this period. Try again to read them.`}
         />
       ) : !result.sessions && !progress ? (
         <EmptyState
           icon={<ChartBarIcon size="1.5rem" />}
-          title="No sessions in this period"
-          description="Your agents ran no sessions here in the selected period. Choose a longer period or another agent."
+          title={t`No sessions in this period`}
+          description={t`Your agents ran no sessions here in the selected period. Choose a longer period or another agent.`}
         />
       ) : (
         <>
           {progress ? (
             <p className={styles.summary} role="status">
-              Reading your agents’ sessions: {progress.done} of {progress.total}{" "}
-              done…
+              {t`Reading your agents’ sessions: ${progress.done} of ${progress.total}`}{" "}
+              {t`done…`}
             </p>
           ) : (
             <p className={styles.summary}>
               {result.agents.length === 1 && top ? (
                 <>
-                  <b>{top.agent.name}</b> ran{" "}
-                  <b>{count(result.sessions, "session")}</b>
+                  <b>{top.agent.name}</b> {t`ran`}{" "}
+                  <b>{sessionsText}</b>
                 </>
               ) : (
                 <>
-                  Your <b>{result.agents.length} agents</b> ran{" "}
-                  <b>{count(result.sessions, "session")}</b>
+                  {t`Your`} <b>{result.agents.length} {t`agents`}</b> {t`ran`}{" "}
+                  <b>{sessionsText}</b>
                 </>
               )}
               {harnessCount > 1 && (
                 <>
                   {" "}
-                  across <b>{harnessCount} harnesses</b>
+                  {t`across`} <b>{harnessCount} {t`harnesses`}</b>
                 </>
               )}{" "}
-              in the {period}.
+              {t`in the ${period}.`}
               {top && result.agents.length > 1 && spent > 0 && (
                 <>
                   {" "}
-                  <b>{top.agent.name}</b> accounts for{" "}
-                  <b>{percent((top.cost.value ?? 0) / spent)}</b> of the{" "}
-                  {result.cost.partial ? "counted cost" : "cost"}
+                  <b>{top.agent.name}</b> {t`accounts for`}{" "}
+                  <b>{percent((top.cost.value ?? 0) / spent)}</b> {t`of the`}{" "}
+                  {result.cost.partial ? t`counted cost` : t`cost`}
                   {top.model && (
                     <>
-                      , mostly on <b>{modelName(top.model)}</b>
+                      {t`, mostly on `}
+                      <b>{modelName(top.model)}</b>
                     </>
                   )}
                   .
@@ -651,16 +668,16 @@ function Dashboard({
               )}
             </p>
           )}
-          <section className={styles.hero} aria-label="Estimated cost">
-            <p className={styles.label}>Estimated cost · {period}</p>
+          <section className={styles.hero} aria-label={t`Estimated cost`}>
+            <p className={styles.label}>{t`Estimated cost · ${period}`}</p>
             <p className={styles.heroValue}>
               {progress ? "—" : amount(result.cost, cost)}
             </p>
             <p className={styles.meta}>
               {progress ? (
-                <span>Waiting for every agent</span>
+                <span>{t`Waiting for every agent`}</span>
               ) : change === undefined ? null : Math.abs(change) < 0.005 ? (
-                <span>No change from the previous {days} days</span>
+                <span>{t`No change from the previous ${days} days`}</span>
               ) : (
                 <span className={styles.delta}>
                   {change > 0 ? (
@@ -668,36 +685,35 @@ function Dashboard({
                   ) : (
                     <ArrowDownIcon size="0.875rem" aria-hidden="true" />
                   )}
-                  {percent(Math.abs(change))} {change > 0 ? "more" : "less"}{" "}
-                  than the previous {days} days
+                  {percent(Math.abs(change))} {change > 0 ? t`more` : t`less`}{" "}
+                  {t`than the previous ${days} days`}
                 </span>
               )}
               {!progress && result.cost.value !== undefined && (
-                <span>{cost(spent / days)} a day</span>
+                <span>{t`${cost(spent / days)} a day`}</span>
               )}
-              {!progress && result.cost.partial && <span>Partial</span>}
+              {!progress && result.cost.partial && <span>{t`Partial`}</span>}
             </p>
             <p className={styles.footnote} role="note">
               <InfoIcon size="0.875rem" aria-hidden="true" />
-              Best-effort estimate from local session files at published API
-              prices, not your bill.
+              {t`Best-effort estimate from local session files at published API prices, not your bill.`}
             </p>
           </section>
           <div className={styles.tiles}>
             <Tile
-              label="Tokens"
+              label={t`Tokens`}
               value={progress ? "—" : amount(result.tokens, count)}
               detail={
                 progress
-                  ? "Reading…"
+                  ? t`Reading…`
                   : partly(
                       result.tokens,
-                      `${amount(result.output, count)} output`,
+                      t`${amount(result.output, count)} output`,
                     )
               }
             />
             <Tile
-              label="Cache hit rate"
+              label={t`Cache hit rate`}
               value={
                 !progress && result.cacheHit
                   ? amount(result.cacheHit, percent)
@@ -705,34 +721,36 @@ function Dashboard({
               }
               detail={
                 progress
-                  ? "Reading…"
+                  ? t`Reading…`
                   : result.cacheHit?.partial
-                    ? "Of the prompts with cache counts"
-                    : "Prompt tokens read from cache"
+                    ? t`Of the prompts with cache counts`
+                    : t`Prompt tokens read from cache`
               }
             />
             <Tile
-              label="Sessions"
+              label={t`Sessions`}
               value={progress ? "—" : String(result.sessions)}
               detail={
                 progress
-                  ? "Reading…"
-                  : `By ${count(result.agents.length, "agent")}`
+                  ? t`Reading…`
+                  : result.agents.length === 1
+                    ? t`By ${count(result.agents.length)} agent`
+                    : t`By ${count(result.agents.length)} agents`
               }
             />
           </div>
           <section className={styles.section}>
             <InlineHeader
-              title="Daily cost"
+              title={t`Daily cost`}
               {...(progress && {
-                subtitle: `Filling in as agents finish: ${progress.done} of ${progress.total}`,
+                subtitle: t`Filling in as agents finish: ${progress.done} of ${progress.total}`,
               })}
             />
             <DailyCostChart days={result.days} series={series} />
           </section>
           <div className={styles.columns}>
             <section className={styles.section}>
-              <InlineHeader title="By agent" />
+              <InlineHeader title={t`By agent`} />
               <ul className={styles.list}>
                 {result.agents.map((entry) => (
                   <li key={entry.agent.pubkey}>
@@ -770,7 +788,7 @@ function Dashboard({
                         </span>
                       }
                       trailing={<Amount total={entry.cost} />}
-                      aria-label={`${entry.agent.name}, ${titleOf(entry.harness)}, ${costLabel(entry.cost)}. Open in Agents`}
+                      aria-label={t`${entry.agent.name}, ${titleOf(entry.harness)}, ${costLabel(entry.cost)}. Open in Agents`}
                       onClick={() =>
                         void open({
                           ...agentTarget(entry.agent.pubkey),
@@ -791,7 +809,7 @@ function Dashboard({
                     <div className={styles.agentText}>
                       <span className={styles.name}>{agent.name}</span>
                       <span className={styles.label}>
-                        {titleOf(agent.type)} · Reading…
+                        {titleOf(agent.type)} · {t`Reading…`}
                       </span>
                       <span className={styles.track} aria-hidden="true" />
                     </div>
@@ -801,17 +819,21 @@ function Dashboard({
               </ul>
             </section>
             <section className={styles.section}>
-              <InlineHeader title="Costliest sessions" />
+              <InlineHeader title={t`Costliest sessions`} />
               {progress ? (
-                <p className={styles.label}>Shown once every agent is read.</p>
+                <p className={styles.label}>
+                  {t`Shown once every agent is read.`}
+                </p>
               ) : (
                 <ul className={styles.list}>
                   {result.costliest.map(({ agent, session, cost: total }) => {
+                    // The session's title, or a shared fallback outside the
+                    // aria-label template (no nested t`` interpolations).
+                    const sessionTitle =
+                      session.title ?? t`Untitled session`;
                     const label = (
                       <span className={styles.sessionText}>
-                        <span className={styles.name}>
-                          {session.title ?? "Untitled session"}
-                        </span>
+                        <span className={styles.name}>{sessionTitle}</span>
                         <span className={styles.label}>
                           {[
                             agent.name,
@@ -819,7 +841,7 @@ function Dashboard({
                               undefined,
                               { month: "short", day: "numeric" },
                             ),
-                            session.gaps.length > 0 && "partly read",
+                            session.gaps.length > 0 && t`partly read`,
                           ]
                             .filter(Boolean)
                             .join(" · ")}
@@ -833,7 +855,7 @@ function Dashboard({
                           <NavigationItem
                             label={label}
                             trailing={<Amount total={total} />}
-                            aria-label={`${session.title ?? "Untitled session"}, ${agent.name}, ${costLabel(total)}. Open conversation`}
+                            aria-label={t`${sessionTitle}, ${agent.name}, ${costLabel(total)}. Open conversation`}
                             onClick={() =>
                               void open({
                                 version: 1,
@@ -869,10 +891,10 @@ function Dashboard({
 }
 
 const partly = (total: Total, text: string) =>
-  total.partial ? `${text} · partial` : text;
+  total.partial ? `${text} ${globalI18n._(msg`· partial`)}` : text;
 const costLabel = (total: Total) =>
   total.value === undefined
-    ? "cost unavailable"
+    ? globalI18n._(msg`cost unavailable`)
     : partly(total, cost(total.value));
 
 /** A cost in a list row: `—` when unknown, marked when partial. */

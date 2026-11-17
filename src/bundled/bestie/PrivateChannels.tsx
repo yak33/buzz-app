@@ -1,4 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { i18n } from "../../features/localization/service";
 import { administerMember } from "../../features/channel-members/administration";
 import { canAddMembers } from "../../features/channel-members/members";
 import type { ChannelSummary } from "../../features/relay/contracts";
@@ -54,10 +57,12 @@ async function removeMember(
     pubkey,
     // Already gone: nothing to send.
     (role) => (role ? { expectedRole: role, role: "remove" } : undefined),
-    "Member roles are unavailable. Try again.",
+    i18n._(msg`Member roles are unavailable. Try again.`),
   );
   if (result.status !== "confirmed")
-    throw new Error(result.error ?? "The removal isn't confirmed. Try again.");
+    throw new Error(
+      result.error ?? i18n._(msg`The removal isn't confirmed. Try again.`),
+    );
 }
 
 const message = (error: unknown) =>
@@ -81,6 +86,7 @@ export function PrivateChannels({
   bestie: string;
   former?: string;
 }) {
+  const { t } = useLingui();
   const list = useChannelList(session.channels);
   const { joined, others } = privateChannels(
     list.channels,
@@ -206,6 +212,11 @@ export function PrivateChannels({
   const name = former ?? "Bestie";
   const removable = joined.filter((channel) => !channel.cached);
   const adding = addable.some((channel) => busy.has(channel.id));
+  // The plural noun resolves first so the count sentence stays one template.
+  const channelsNoun =
+    addable.length === 1 ? t`channel` : t`channels`;
+  const confirmingNoun =
+    confirming?.length === 1 ? t`channel` : t`channels`;
   // A failure stops showing once the channel is as the change wanted anyway.
   const inBestie = new Set(joined.map((channel) => channel.id));
   const problems = Object.entries(failed).filter(
@@ -216,11 +227,11 @@ export function PrivateChannels({
     <div ref={section} className="contents">
       <InlineHeader
         id={headingId}
-        title={`Private channels ${name} can read`}
+        title={t`Private channels ${name} can read`}
         subtitle={
           former
-            ? "Leaving it in a channel is fine: it reads along as a guest and can't post there."
-            : "Bestie already reads every public channel. In a channel you add it to, it reads along as a guest and can't post there."
+            ? t`Leaving it in a channel is fine: it reads along as a guest and can't post there.`
+            : t`Bestie already reads every public channel. In a channel you add it to, it reads along as a guest and can't post there.`
         }
       />
       <SettingsGroup>
@@ -233,20 +244,20 @@ export function PrivateChannels({
                 variant="outline"
                 loading={busy.has(channel.id)}
                 disabled={channel.cached}
-                aria-label={`Remove ${name} from #${channel.name}`}
+                aria-label={t`Remove ${name} from #${channel.name}`}
                 onClick={() => setRemoving(channel)}
               >
-                Remove
+                {t`Remove`}
               </Button>
             }
           />
         ))}
         {list.status === "error" ? (
           <PreferenceRow
-            title="Couldn't load your private channels"
+            title={t`Couldn't load your private channels`}
             subtitle={
               list.error ??
-              `${name} may be in channels that aren't shown here. Try again.`
+              t`${name} may be in channels that aren't shown here. Try again.`
             }
             trailing={(label) => (
               <Button
@@ -254,27 +265,27 @@ export function PrivateChannels({
                 aria-describedby={label["aria-labelledby"]}
                 onClick={retry}
               >
-                Retry
+                {t`Retry`}
               </Button>
             )}
           />
         ) : list.coverage === "partial" ? (
           <PreferenceRow
-            title="Only some of your private channels are loaded"
-            subtitle={`${name} may be in channels that aren't shown here.`}
+            title={t`Only some of your private channels are loaded`}
+            subtitle={t`${name} may be in channels that aren't shown here.`}
           />
         ) : list.status !== "ready" ? (
           !joined.length && (
-            <PreferenceRow title="Loading your private channels…" />
+            <PreferenceRow title={t`Loading your private channels…`} />
           )
         ) : (
           !joined.length &&
           (former ? (
-            <PreferenceRow title="Not in any of your private channels" />
+            <PreferenceRow title={t`Not in any of your private channels`} />
           ) : (
             <PreferenceRow
-              title="Not in any of your private channels yet"
-              subtitle="Add Bestie to the ones you want it to catch you up on."
+              title={t`Not in any of your private channels yet`}
+              subtitle={t`Add Bestie to the ones you want it to catch you up on.`}
             />
           ))
         )}
@@ -299,8 +310,8 @@ export function PrivateChannels({
           : addable.length > 0 && (
               <>
                 <PreferenceRow
-                  title="Add to a channel"
-                  subtitle="Pick one of your private channels."
+                  title={t`Add to a channel`}
+                  subtitle={t`Pick one of your private channels.`}
                   trailing={(label) => (
                     <MenuRoot>
                       <MenuTrigger
@@ -309,7 +320,7 @@ export function PrivateChannels({
                             variant="outline"
                             aria-describedby={label["aria-labelledby"]}
                           >
-                            Choose…
+                            {t`Choose…`}
                           </Button>
                         }
                       />
@@ -328,11 +339,11 @@ export function PrivateChannels({
                   )}
                 />
                 <PreferenceRow
-                  title="Add to all my private channels"
+                  title={t`Add to all my private channels`}
                   subtitle={
                     complete
-                      ? `${addable.length} ${addable.length === 1 ? "channel" : "channels"} without Bestie. Each channel's members see that you added it.`
-                      : "Available once all your private channels have loaded."
+                      ? t`${addable.length} ${channelsNoun} without Bestie. Each channel's members see that you added it.`
+                      : t`Available once all your private channels have loaded.`
                   }
                   trailing={(label) => (
                     <Button
@@ -342,7 +353,7 @@ export function PrivateChannels({
                       disabled={!complete}
                       onClick={() => setConfirming(addable)}
                     >
-                      Add to all
+                      {t`Add to all`}
                     </Button>
                   )}
                 />
@@ -360,8 +371,8 @@ export function PrivateChannels({
       )}
       {removing && (
         <AlertDialog
-          title={`Remove ${name} from #${removing.name}?`}
-          description={`${name} stops reading this channel. Its members see that you removed it.`}
+          title={t`Remove ${name} from #${removing.name}?`}
+          description={t`${name} stops reading this channel. Its members see that you removed it.`}
           initialFocus={cancelRemove}
           onClose={() => setRemoving(undefined)}
           actions={
@@ -371,7 +382,7 @@ export function PrivateChannels({
                 ref={cancelRemove}
                 onClick={() => setRemoving(undefined)}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant="destructive"
@@ -380,7 +391,7 @@ export function PrivateChannels({
                   void remove([removing]);
                 }}
               >
-                {`Remove ${name}`}
+                {t`Remove ${name}`}
               </Button>
             </>
           }
@@ -388,17 +399,23 @@ export function PrivateChannels({
       )}
       {confirming && (
         <AlertDialog
-          title={`${former ? `Remove ${name} from` : "Add Bestie to"} ${confirming.length} private ${confirming.length === 1 ? "channel" : "channels"}?`}
+          title={
+            former
+              ? t`Remove ${name} from ${confirming.length} private ${confirmingNoun}?`
+              : t`Add Bestie to ${confirming.length} private ${confirmingNoun}?`
+          }
           description={
             former
-              ? `Members of each channel will see that you removed ${name}.`
-              : "Members of each channel will see that you added Bestie."
+              ? t`Members of each channel will see that you removed ${name}.`
+              : t`Members of each channel will see that you added Bestie.`
           }
           initialFocus={former ? undefined : proceed}
           onClose={() => setConfirming(undefined)}
           actions={
             <>
-              <Button onClick={() => setConfirming(undefined)}>Cancel</Button>
+              <Button onClick={() => setConfirming(undefined)}>
+                {t`Cancel`}
+              </Button>
               <Button
                 ref={proceed}
                 variant={former ? "destructive" : "prominent"}
@@ -407,7 +424,7 @@ export function PrivateChannels({
                   void (former ? remove : add)(confirming);
                 }}
               >
-                {former ? "Remove from all" : "Add to all"}
+                {former ? t`Remove from all` : t`Add to all`}
               </Button>
             </>
           }

@@ -161,7 +161,7 @@ export function createAgentClient(
   }
   function refuseUnauthorized(response: HostResponse) {
     if (response.status !== 401) return;
-    throw Object.assign(new Error(UNAUTHORIZED), { status: 401 });
+    throw Object.assign(new Error(UNAUTHORIZED()), { status: 401 });
   }
   async function request(
     path: string,

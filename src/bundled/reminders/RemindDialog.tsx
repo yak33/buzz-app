@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useRef, useState } from "react";
 import type { ChannelMessage } from "../../features/relay/contracts";
 import type { RelaySession } from "../../features/relay/session";
@@ -27,6 +29,7 @@ export function RemindDialog({
   session: RelaySession;
   close(): void;
 }) {
+  const { i18n, t } = useLingui();
   const fields = useRef<HTMLDivElement>(null);
   const [when, setWhen] = useState(TIME_PRESETS[0]?.label ?? "custom");
   const [note, setNote] = useState("");
@@ -54,7 +57,7 @@ export function RemindDialog({
       );
       close();
     } catch {
-      setError("The reminder could not be saved. Try again.");
+      setError(i18n._(msg`The reminder could not be saved. Try again.`));
       setPending(false);
     }
   };
@@ -71,12 +74,12 @@ export function RemindDialog({
           : (fields.current?.querySelector<HTMLElement>('[role="combobox"]') ??
             null)
       }
-      title="Remind me"
-      description="Choose when to be reminded about this message."
+      title={t`Remind me`}
+      description={t`Choose when to be reminded about this message.`}
       actions={
         <>
           <Button disabled={pending} onClick={close}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             variant="prominent"
@@ -87,14 +90,14 @@ export function RemindDialog({
               if (at !== null) void submit(at);
             }}
           >
-            Set reminder
+            {t`Set reminder`}
           </Button>
         </>
       }
     >
       <div ref={fields} className={styles.form}>
         <Select
-          label="When"
+          label={t`When`}
           variant="field"
           value={when}
           disabled={pending}
@@ -107,7 +110,7 @@ export function RemindDialog({
                   value: item.label,
                   label: item.label,
                 })),
-                { value: "custom", label: "Custom date & time" },
+                { value: "custom", label: t`Custom date & time` },
               ],
             },
           ]}
@@ -115,7 +118,7 @@ export function RemindDialog({
         {when === "custom" && (
           <>
             <div className={styles.custom}>
-              <Field label="Reminder date">
+              <Field label={t`Reminder date`}>
                 <Input
                   type="date"
                   min={todayDateString()}
@@ -124,7 +127,7 @@ export function RemindDialog({
                   onChange={(event) => setDate(event.target.value)}
                 />
               </Field>
-              <Field label="Reminder time">
+              <Field label={t`Reminder time`}>
                 <Input
                   type="time"
                   value={time}
@@ -135,20 +138,19 @@ export function RemindDialog({
             </div>
             {custom === null && (
               <p role="status" className="text-body-sm text-subtle">
-                Choose a date and time in the future.
+                {t`Choose a date and time in the future.`}
               </p>
             )}
             {custom !== null && shiftedFrom(time, custom) && (
               <p role="status" className="text-body-sm text-subtle">
-                That time is skipped by daylight saving. The reminder will be
-                set for {formatDue(custom)}.
+                {t`That time is skipped by daylight saving. The reminder will be set for ${formatDue(custom)}.`}
               </p>
             )}
           </>
         )}
-        <Field label="Note (optional)">
+        <Field label={t`Note (optional)`}>
           <Textarea
-            placeholder="What do you want to follow up on?"
+            placeholder={t`What do you want to follow up on?`}
             rows={2}
             maxLength={4096}
             value={note}

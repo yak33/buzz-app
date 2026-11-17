@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
+import { msg } from "@lingui/core/macro";
 import { Context } from "@deepseek-ai/cordis";
 import { act, cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, expect, it, vi } from "vitest";
+import { i18n } from "../../features/localization/service";
 import { createPluginManager } from "../../plugins/manager";
 import { ConversationService } from "../../features/conversation/service";
 import { MessageRow } from "../../features/messages/MessageRow";
@@ -63,7 +65,7 @@ function mount(
 }
 it("renders a signed patch, removes its renderer on disable and restores it on re-enable", async () => {
   const h = mount();
-  await screen.findByRole("button", { name: "Expand diff" });
+  await screen.findByRole("button", { name: i18n._(msg`Expand diff`) });
   expect(h.container.querySelector(".diff-unified")).not.toBeNull();
   expect(h.container.querySelector("img, script")).toBeNull();
   expect(
@@ -71,9 +73,11 @@ it("renders a signed patch, removes its renderer on disable and restores it on r
   ).toBe("https://example.com/repo/commit/abcdef0");
   await act(() => h.plugins.change("disable", "buzz.diffs"));
   expect(h.container.querySelector("pre")?.textContent).toBe(content);
-  expect(screen.queryByRole("button", { name: "Expand diff" })).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: i18n._(msg`Expand diff`) }),
+  ).toBeNull();
   await act(() => h.plugins.change("enable", "buzz.diffs"));
-  await screen.findByRole("button", { name: "Expand diff" });
+  await screen.findByRole("button", { name: i18n._(msg`Expand diff`) });
   expect(h.container.querySelector(".diff-unified")).not.toBeNull();
 });
 it.each([
@@ -84,7 +88,7 @@ it.each([
   async (_name, oldPath, newPath, range, line, type) => {
     const patch = `diff --git a/a.ts b/a.ts\n--- ${oldPath}\n+++ ${newPath}\n@@ ${range} @@\n${line}\n`;
     const h = mount(diffs, patch);
-    await screen.findByRole("button", { name: "Expand diff" });
+    await screen.findByRole("button", { name: i18n._(msg`Expand diff`) });
     expect(h.container.querySelector("table.diff-unified")).not.toBeNull();
     expect(h.container.querySelector(`.diff-code-${type}`)?.textContent).toBe(
       line.slice(1),
@@ -96,10 +100,10 @@ it("retains raw malformed content and rejects unsafe repository URLs", async () 
   const patch =
     "<script>alert(1)</script> ![image](https://example.com/no.png)\n";
   const h = mount(diffs, patch, "javascript:alert(1)");
-  await screen.findByRole("button", { name: "Expand diff" });
+  await screen.findByRole("button", { name: i18n._(msg`Expand diff`) });
   expect(h.container.querySelector("pre")?.textContent).toBe(patch);
   expect(h.container.querySelector("a, img, script")).toBeNull();
-  expect(h.container.textContent).toContain("Diff truncated.");
+  expect(h.container.textContent).toContain(i18n._(msg`Diff truncated.`));
 });
 it("keeps the host raw patch fallback after renderer failure, and removal", async () => {
   vi.spyOn(console, "error").mockImplementation(() => {});
@@ -126,15 +130,18 @@ it("keeps the host raw patch fallback after renderer failure, and removal", asyn
 it("preserves unparsed trailing content as escaped raw text inline and expanded", async () => {
   const patch = `${content}UNPARSED_TRAILER <img src=x onerror=alert(1)>\n`;
   const h = mount(diffs, patch);
-  const expand = await screen.findByRole("button", { name: "Expand diff" });
-  expect(screen.getByRole("region", { name: "Raw diff" }).textContent).toBe(
-    patch,
-  );
+  const expand = await screen.findByRole("button", {
+    name: i18n._(msg`Expand diff`),
+  });
+  expect(
+    screen.getByRole("region", { name: i18n._(msg`Raw diff`) }).textContent,
+  ).toBe(patch);
   expect(h.container.querySelector("table, img, script")).toBeNull();
   await userEvent.setup().click(expand);
   const dialog = await screen.findByRole("dialog");
   expect(
-    within(dialog).getByRole("region", { name: "Raw diff" }).textContent,
+    within(dialog).getByRole("region", { name: i18n._(msg`Raw diff`) })
+      .textContent,
   ).toBe(patch);
   expect(dialog.querySelector("table, img, script")).toBeNull();
 });

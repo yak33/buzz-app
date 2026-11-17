@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { Navigation } from "../../features/navigation/controller";
 import { useChannelList } from "../../features/relay/react";
 import type { RelaySession } from "../../features/relay/session";
@@ -20,6 +21,7 @@ export function ProfileChannels({
   viewer: string | undefined;
   navigation: Navigation | undefined;
 }) {
+  const { t } = useLingui();
   const list = useChannelList(session.channels);
   const channels = (
     list.status === "ready" || list.status === "error" ? list.channels : []
@@ -35,34 +37,43 @@ export function ProfileChannels({
   const unclassifiedMembership =
     (list.status === "ready" || list.status === "error") &&
     list.channels.some(
-      (channel) =>
+        (channel) =>
         !channel.huddle &&
         !channel.archived &&
         !channel.hidden &&
         !channel.channelType &&
         channel.members?.includes(pubkey),
     );
+  // 空列表说明按来源组合成四个完整模板，避免在插值里拼接翻译串。
+  let emptyNote: string;
+  if (unclassifiedMembership && list.coverage === "partial")
+    emptyNote = t`No matching channels with a known visible type; other memberships could not be classified. More channels may exist outside the loaded list.`;
+  else if (unclassifiedMembership)
+    emptyNote = t`No matching channels with a known visible type; other memberships could not be classified.`;
+  else if (list.coverage === "partial")
+    emptyNote = t`No matching channels in the loaded list; more channels may exist.`;
+  else emptyNote = t`No visible channels with verified membership for this identity.`;
   return (
-    <section aria-label="Channels" className="flex flex-col gap-2">
+    <section aria-label={t`Channels`} className="flex flex-col gap-2">
       <div className={styles.channelList}>
         {(list.status === "idle" || list.status === "loading") && (
           <p className={styles.channelNote} role="status">
-            Loading channels…
+            {t`Loading channels…`}
           </p>
         )}
         {list.status === "unavailable" && (
           <p className={styles.channelNote}>
-            Channel membership is unavailable.
+            {t`Channel membership is unavailable.`}
           </p>
         )}
         {list.status === "error" && (
           <div className={styles.channelNote}>
-            <p role="alert">Could not finish loading channels.</p>
+            <p role="alert">{t`Could not finish loading channels.`}</p>
             <Button
               size="compact"
               onClick={() => session.channels.refreshList?.()}
             >
-              Retry channels
+              {t`Retry channels`}
             </Button>
           </div>
         )}
@@ -70,17 +81,11 @@ export function ProfileChannels({
           <p
             className={`${styles.channelNote} m-0 text-body-sm text-secondary`}
           >
-            Some memberships for this identity are unclassified and omitted.
+            {t`Some memberships for this identity are unclassified and omitted.`}
           </p>
         )}
         {list.status === "ready" && !channels.length && (
-          <p className={styles.channelNote}>
-            {unclassifiedMembership
-              ? `No matching channels with a known visible type; other memberships could not be classified.${list.coverage === "partial" ? " More channels may exist outside the loaded list." : ""}`
-              : list.coverage === "partial"
-                ? "No matching channels in the loaded list; more channels may exist."
-                : "No visible channels with verified membership for this identity."}
-          </p>
+          <p className={styles.channelNote}>{emptyNote}</p>
         )}
         {!!channels.length && (
           <ul className="m-0 flex list-none flex-col gap-1 p-0">
@@ -112,12 +117,12 @@ export function ProfileChannels({
       </div>
       {list.coverage === "partial" && !!channels.length && (
         <p className="text-body-sm text-secondary">
-          More channels may exist outside the loaded list.
+          {t`More channels may exist outside the loaded list.`}
         </p>
       )}
       {channels.length > 0 && (!communityOrigin || !navigation) && (
         <p className="text-body-sm text-secondary">
-          Channel navigation is unavailable here.
+          {t`Channel navigation is unavailable here.`}
         </p>
       )}
     </section>

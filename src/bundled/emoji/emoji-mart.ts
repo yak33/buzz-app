@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { forwardTerminalKey as forwardHostKey } from "../../features/shortcuts/terminal-key-event";
 import scrollbarStyles from "../../shared/design-system/styles/scrollbars.css?raw";
 import searchFieldStyles from "../../shared/design-system/styles/search-field.css?raw";
@@ -105,7 +107,7 @@ export function mountEmojiMart({
   const picker = new Picker({
     data,
     custom: emojis.length
-      ? [{ id: "buzz-custom", name: "Custom", emojis }]
+      ? [{ id: "buzz-custom", name: i18n._(msg`Custom`), emojis }]
       : [],
     autoFocus: false,
     categoryIcons,
@@ -363,7 +365,7 @@ export function mountEmojiMart({
     button.className = "buzz-skin-tone-nav-button flex flex-center flex-middle";
     button.setAttribute(
       "aria-label",
-      source.getAttribute("aria-label") ?? "Choose skin tone",
+      source.getAttribute("aria-label") ?? i18n._(msg`Choose skin tone`),
     );
     button.title = source.title;
     const tone = host.ownerDocument.createElement("span");
@@ -495,8 +497,9 @@ export function mountEmojiMart({
       true,
     );
     input.spellcheck = false;
-    input.placeholder = "Search emoji";
-    input.setAttribute("aria-label", "Search emoji");
+    const searchLabel = i18n._(msg`Search emoji`);
+    input.placeholder = searchLabel;
+    input.setAttribute("aria-label", searchLabel);
     input.setAttribute("autocorrect", "off");
     input.setAttribute("autocapitalize", "off");
     if (search) {

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -40,6 +42,7 @@ const configBacked = (operator: OperatorDto) =>
   operator.sources.some((source) => source !== "db");
 
 export function Operators() {
+  const { i18n, t } = useLingui();
   const { context, staff, canMutate } = useSession();
   const [list, reload] = useRead({ route: "listOperators" }, [context]);
   const [input, setInput] = useState("");
@@ -70,7 +73,9 @@ export function Operators() {
     const existing = operators.find((operator) => operator.pubkey === pubkey);
     if (existing)
       return setError(
-        `Already staff as ${existing.effectiveRole}. Change their role on their row.`,
+        i18n._(
+          msg`Already staff as ${existing.effectiveRole}. Change their role on their row.`,
+        ),
       );
     after({ route: "putOperator", pubkey, role });
   };
@@ -82,22 +87,22 @@ export function Operators() {
           {canMutate && (
             <div className="flex flex-col gap-2 rounded-md border px-3 py-2.5">
               <p className="text-caption font-medium text-secondary">
-                Add staff
+                {t`Add staff`}
               </p>
               <div className="flex items-end gap-2">
                 <Field
-                  label="Public key"
-                  error={secret ? SECRET_KEY_WARNING : undefined}
+                  label={t`Public key`}
+                  error={secret ? i18n._(SECRET_KEY_WARNING) : undefined}
                 >
                   <Input
-                    placeholder="npub or 64-hex public key"
+                    placeholder={t`npub or 64-hex public key`}
                     value={input}
                     disabled={busy}
                     onChange={(event) => setInput(event.target.value)}
                   />
                 </Field>
                 <Select
-                  label="Role"
+                  label={t`Role`}
                   variant="compact"
                   value={role}
                   groups={ROLES}
@@ -110,7 +115,7 @@ export function Operators() {
                   disabled={!pubkey || busy}
                   onClick={() => add(operators)}
                 >
-                  Add
+                  {t`Add`}
                 </Button>
               </div>
             </div>
@@ -121,7 +126,9 @@ export function Operators() {
             </p>
           )}
           {operators.length === 0 ? (
-            <p className="text-body-sm text-secondary">No staff configured.</p>
+            <p className="text-body-sm text-secondary">
+              {t`No staff configured.`}
+            </p>
           ) : (
             <PeopleScope people={names}>
               <NamesSource />
@@ -139,7 +146,7 @@ export function Operators() {
                           pubkey={operator.pubkey}
                           detail={
                             operator.pubkey === context.signer
-                              ? "you"
+                              ? t`you`
                               : undefined
                           }
                         />
@@ -155,7 +162,7 @@ export function Operators() {
                         </span>
                       ) : (
                         <Select
-                          label={`Role for ${name}`}
+                          label={t`Role for ${name}`}
                           variant="compact"
                           value={operator.effectiveRole}
                           groups={ROLES}
@@ -177,12 +184,12 @@ export function Operators() {
                           disabled={fixed || busy}
                           title={
                             fixed
-                              ? "Set in relay configuration; cannot be removed here"
+                              ? t`Set in relay configuration; cannot be removed here`
                               : undefined
                           }
                           onClick={() => setRemoving(operator)}
                         >
-                          Remove
+                          {t`Remove`}
                         </Button>
                       )}
                     </li>
@@ -193,16 +200,18 @@ export function Operators() {
           )}
           {removing && (
             <AlertDialog
-              title="Remove staff?"
+              title={t`Remove staff?`}
               description={
                 removing.pubkey === context.signer
-                  ? "You are removing your own staff access. You may not be able to undo this."
-                  : `${names.text(removing.pubkey)} (${removing.effectiveRole}) loses relay staff access.`
+                  ? t`You are removing your own staff access. You may not be able to undo this.`
+                  : t`${names.text(removing.pubkey)} (${removing.effectiveRole}) loses relay staff access.`
               }
               onClose={() => setRemoving(null)}
               actions={
                 <>
-                  <Button onClick={() => setRemoving(null)}>Cancel</Button>
+                  <Button onClick={() => setRemoving(null)}>
+                    {t`Cancel`}
+                  </Button>
                   <Button
                     variant="destructive"
                     onClick={() => {
@@ -211,7 +220,7 @@ export function Operators() {
                       after({ route: "deleteOperator", pubkey: target });
                     }}
                   >
-                    Remove
+                    {t`Remove`}
                   </Button>
                 </>
               }

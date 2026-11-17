@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { HuddleAvatarToss } from "./HuddleAvatarToss";
 import { HuddleAvatarMotion } from "./HuddleAvatarMotion";
 import {
@@ -196,6 +197,7 @@ export function HuddleAvatarCloud({
   participants,
   muted,
 }: Pick<HuddleView, "participants" | "muted">) {
+  const { t } = useLingui();
   const stage = useRef<HTMLElement>(null);
   const [active, setActive] = useState<ActiveName>();
   const activeKey = active?.key;
@@ -296,7 +298,7 @@ export function HuddleAvatarCloud({
     <section
       ref={stage}
       className={styles.avatarStage}
-      aria-label="Huddle participants"
+      aria-label={t`Huddle participants`}
       data-has-peers={hasPeers}
       data-duet={peers.length === 1 || undefined}
       data-centered={centered || undefined}
@@ -337,7 +339,7 @@ export function HuddleAvatarCloud({
               className={`${styles.cloudBubble} ${styles.cloudOverflow}`}
               style={positions[visible.length]}
               role="img"
-              aria-label={`${hidden} more participants: ${peers
+              aria-label={t`${hidden} more participants: ${peers
                 .slice(slots.length)
                 .map((person) => person.name)
                 .join(", ")}`}
@@ -352,7 +354,7 @@ export function HuddleAvatarCloud({
         </div>
       )}
       {!participants.length && (
-        <p className="text-body text-secondary">Getting your huddle ready</p>
+        <p className="text-body text-secondary">{t`Getting your huddle ready`}</p>
       )}
     </section>
   );
@@ -369,11 +371,18 @@ function Bubble({
   listening?: boolean;
   stage: RefObject<HTMLElement | null>;
 }) {
+  const { t } = useLingui();
   const level = muted ? 0 : Math.max(0, Math.min(1, person.level));
   // The ready seat is not active listening: shrink only while its owner talks.
   const quiet = level === 0 && (listening || !!person.thinking);
   const thinking = level === 0 && !!person.thinking;
-  const label = `${person.name}${person.own ? (muted ? " (you, muted)" : " (you)") : ""}${level > 0 ? ", speaking" : ""}${thinking ? ", thinking" : ""}${listening && level === 0 && !thinking ? ", listening to you" : ""}`;
+  // The state suffixes are appended after the name, as the original did.
+  const label =
+    person.name +
+    (person.own ? (muted ? t` (you, muted)` : t` (you)`) : "") +
+    (level > 0 ? t`, speaking` : "") +
+    (thinking ? t`, thinking` : "") +
+    (listening && level === 0 && !thinking ? t`, listening to you` : "");
   return (
     <HuddleAvatarToss stage={stage}>
       <span

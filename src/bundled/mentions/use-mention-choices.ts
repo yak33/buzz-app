@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { useNamePreference } from "../../features/profiles/name-preference";
 import { useMentionDirectory } from "./useMentionDirectory";
 import { useMentionArchives } from "../../features/messages/use-mention-archives";
@@ -533,11 +535,11 @@ export function useMentionChoices(
       const now = live.get(row.recipient.pubkey);
       const reason = now
         ? row.member && !now.member
-          ? "Channel membership changed. Reopen to review adding this recipient."
+          ? i18n._(msg`Channel membership changed. Reopen to review adding this recipient.`)
           : undefined
         : archivedMention(session, row.recipient.pubkey)
           ? "Archived"
-          : "No longer available. Change your search to refresh choices.";
+          : i18n._(msg`No longer available. Change your search to refresh choices.`);
       return {
         ...(now ?? row),
         disabled: reason,

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useHuddleRequestFocus } from "./useHuddleRequestFocus";
 import { HuddleAudioSettings } from "./HuddleAudioSettings";
 import { LayoutGroup } from "motion/react";
@@ -67,28 +68,32 @@ function HuddleCapsuleContent({
     companion.subscribe,
     companion.snapshot,
   );
+  const { t } = useLingui();
   const [error, setError] = useState<string>();
   const focus = useHuddleRequestFocus(call.phase === "connected", call.error);
   const audioUnavailable = call.error
     ?.toLowerCase()
     .includes("huddle audio unavailable in this deployment");
-  if (call.phase === "error")
+  if (call.phase === "error") {
+    // The fallback keeps the sentence structure intact for translation.
+    const failure = call.error || t`The connection failed.`;
     return (
       <ToastNotice
         title={
           audioUnavailable
-            ? "Huddle audio unavailable"
-            : "Couldn’t connect to Huddle"
+            ? t`Huddle audio unavailable`
+            : t`Couldn’t connect to Huddle`
         }
         description={
           audioUnavailable
-            ? "Huddle audio isn’t available on this server. A relay administrator needs to check its configuration."
-            : `${call.error || "The connection failed."} Try the headphone button again.`
+            ? t`Huddle audio isn’t available on this server. A relay administrator needs to check its configuration.`
+            : t`${failure} Try the headphone button again.`
         }
-        closeLabel="Dismiss Huddle error"
+        closeLabel={t`Dismiss Huddle error`}
         onDismiss={() => void huddles.leave()}
       />
     );
+  }
   if (
     (call.phase === "incoming" ||
       (call.phase === "connecting" && call.requester)) &&
@@ -99,19 +104,19 @@ function HuddleCapsuleContent({
     const caller =
       profiles.get(call.requester ?? "")?.name ||
       formatPublicKey(call.requester ?? "") ||
-      "Someone";
+      t`Someone`;
     return (
       <fieldset
         id="huddle-capsule"
         tabIndex={-1}
         className={`${styles.capsule} glass-primary`}
         ref={focus.requestRef}
-        aria-label="Huddle request"
+        aria-label={t`Huddle request`}
       >
         <Button
           size="sm"
           variant="ghost"
-          aria-label="Open Huddle request"
+          aria-label={t`Open Huddle request`}
           style={{ padding: "var(--space-1)" }}
           onClick={() => {
             void companion.open().catch(() => {});
@@ -126,7 +131,7 @@ function HuddleCapsuleContent({
               transition
             />
             <span className={styles.callerName}>
-              {Array.from(caller).slice(0, 80).join("")} calling
+              {t`${Array.from(caller).slice(0, 80).join("")} calling`}
             </span>
           </span>
         </Button>
@@ -146,7 +151,7 @@ function HuddleCapsuleContent({
               void huddles.join(destination, room);
             }}
           >
-            Join
+            {t`Join`}
           </Button>
           <Button
             size="sm"
@@ -156,7 +161,7 @@ function HuddleCapsuleContent({
               void huddles.leave();
             }}
           >
-            {call.phase === "connecting" ? "Cancel" : "Decline"}
+            {call.phase === "connecting" ? t`Cancel` : t`Decline`}
           </Button>
         </span>
       </fieldset>
@@ -169,27 +174,28 @@ function HuddleCapsuleContent({
         tabIndex={-1}
         className={`${styles.capsule} glass-primary`}
         ref={focus.requestRef}
-        aria-label="Connecting to Huddle"
+        aria-label={t`Connecting to Huddle`}
       >
-        <span className={styles.callerName}>Connecting to Huddle…</span>
+        <span className={styles.callerName}>{t`Connecting to Huddle…`}</span>
         <Button
           size="sm"
           variant="destructive"
           ref={focus.cancel}
           onClick={() => void huddles.leave()}
         >
-          Cancel
+          {t`Cancel`}
         </Button>
       </fieldset>
     );
   if (call.phase !== "connected") return null;
+  const destinationName = call.destination?.channelName ?? t`conversation`;
   return (
     <div className={styles.capsuleWrap}>
       {call.error && (
         <ToastNotice
-          title="Agent voice stopped"
+          title={t`Agent voice stopped`}
           description={call.error}
-          closeLabel="Dismiss agent voice error"
+          closeLabel={t`Dismiss agent voice error`}
           onDismiss={() => {
             if (call.id) huddles.voiceError(call.id);
           }}
@@ -197,9 +203,9 @@ function HuddleCapsuleContent({
       )}
       {presentation.error && (
         <ToastNotice
-          title="Couldn’t update Huddle"
+          title={t`Couldn’t update Huddle`}
           description={presentation.error}
-          closeLabel="Dismiss Huddle window error"
+          closeLabel={t`Dismiss Huddle window error`}
           onDismiss={companion.dismissError}
         />
       )}
@@ -207,14 +213,14 @@ function HuddleCapsuleContent({
         id="huddle-capsule"
         tabIndex={-1}
         className={`${styles.capsule} glass-primary`}
-        aria-label="Active Huddle"
+        aria-label={t`Active Huddle`}
       >
         <Button
           variant="ghost"
           size="sm"
           style={{ padding: "var(--space-1)", paddingLeft: "var(--space-2)" }}
-          aria-label={`Open Huddle window for ${call.destination?.channelName ?? "conversation"}`}
-          title="Open Huddle window"
+          aria-label={t`Open Huddle window for ${destinationName}`}
+          title={t`Open Huddle window`}
           onClick={() => {
             setError(undefined);
             void companion.open().catch((e) => setError(String(e)));
@@ -236,8 +242,8 @@ function HuddleCapsuleContent({
           size="toolbar"
           variant="ghost"
           ref={focus.mute}
-          aria-label={call.muted ? "Unmute" : "Mute"}
-          title={call.muted ? "Unmute" : "Mute"}
+          aria-label={call.muted ? t`Unmute` : t`Mute`}
+          title={call.muted ? t`Unmute` : t`Mute`}
           aria-pressed={call.muted}
           onClick={() => huddles.mute()}
           icon={
@@ -260,15 +266,15 @@ function HuddleCapsuleContent({
           variant="destructive"
           data-huddle-leave=""
           style={{ alignSelf: "stretch" }}
-          aria-label="Leave huddle"
+          aria-label={t`Leave huddle`}
           onClick={() => void huddles.leave()}
         >
-          Leave
+          {t`Leave`}
         </Button>
       </fieldset>
       {(error || presentation.failed) && (
         <span role="alert" className={styles.capsuleError}>
-          Couldn’t open Huddle window. Try again.
+          {t`Couldn’t open Huddle window. Try again.`}
         </span>
       )}
     </div>

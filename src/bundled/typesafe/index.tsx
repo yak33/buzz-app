@@ -1,6 +1,8 @@
 // TypeSafe as a decision provider: the user's own TypeSafe key, kept and sent
 // by native code. Settings > Decisions API shows its key form while it is
 // selected.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { DecisionProvider } from "../../features/decisions/service";
 import type { PluginModule } from "../../plugins/api";
 import { nativeTypeSafe, TypeSafeKey, type TypeSafeNative } from "./key";
@@ -13,7 +15,7 @@ export const typesafeProvider = (typesafe: TypeSafeKey): DecisionProvider => ({
   id: "typesafe",
   label: "TypeSafe",
   showSettingsHeading: false,
-  description: "Use your own TypeSafe API key.",
+  description: i18n._(msg`Use your own TypeSafe API key.`),
   status: typesafe.status,
   subscribe: typesafe.subscribe,
   decide: typesafe.decide,

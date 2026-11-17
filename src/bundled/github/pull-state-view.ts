@@ -1,5 +1,8 @@
 // How a pull request's state looks and reads, the same in the sidebar, the
 // panel and links in messages, and an issue's in links.
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import {
   CheckCircleIcon,
   CircleDashedIcon,
@@ -33,15 +36,19 @@ type Read = Readonly<{
 
 /** The words for what the icon shows. */
 export function describePull({ state, failed }: Read) {
-  if (failed) return "Pull request, unavailable";
-  if (!state) return "Pull request";
-  const notes = [state.state === "draft" ? "draft" : state.state];
+  if (failed) return i18n._(msg`Pull request, unavailable`);
+  if (!state) return i18n._(msg`Pull request`);
+  const notes = [
+    state.state === "draft"
+      ? i18n._(msg`draft`)
+      : i18n._(msg`${state.state}`),
+  ];
   if (state.state === "open" || state.state === "draft") {
-    if (state.checks === "failure") notes.push("checks failing");
-    if (state.checks === "pending") notes.push("checks running");
-    if (state.conflicts) notes.push("conflicts");
+    if (state.checks === "failure") notes.push(i18n._(msg`checks failing`));
+    if (state.checks === "pending") notes.push(i18n._(msg`checks running`));
+    if (state.conflicts) notes.push(i18n._(msg`conflicts`));
   }
-  return `Pull request, ${notes.join(", ")}`;
+  return i18n._(msg`Pull request, ${notes.join(", ")}`);
 }
 
 /** The tone a pull request shows: its state, or whether an open one needs
@@ -59,8 +66,10 @@ export const issueState = (state: PullState) =>
 
 /** The words for what an issue's icon shows. */
 export function describeIssue({ state, failed }: Read) {
-  if (failed) return "Issue, unavailable";
-  if (!state) return "Issue";
+  if (failed) return i18n._(msg`Issue, unavailable`);
+  if (!state) return i18n._(msg`Issue`);
   const shown = issueState(state);
-  return shown === "open" ? "Issue, open" : `Issue, closed as ${shown}`;
+  return shown === "open"
+    ? i18n._(msg`Issue, open`)
+    : i18n._(msg`Issue, closed as ${shown}`);
 }

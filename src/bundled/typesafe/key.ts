@@ -1,6 +1,9 @@
 // The saved TypeSafe key and what is known about it. Native code reads and
 // sends the key; the app only learns whether one is saved.
 import { invoke, isTauri } from "@tauri-apps/api/core";
+import { msg } from "@lingui/core/macro";
+// 本地化全局单例：错误消息在 throw 时求值，由调用方的表单展示（先例 src/shared/datetime.ts）。
+import { i18n } from "../../features/localization/service";
 import type {
   DecisionProvider,
   DecisionProviderStatus,
@@ -78,13 +81,15 @@ export class TypeSafeKey {
   };
   async save(key: string) {
     const native = this.native;
-    if (!native) throw new Error("TypeSafe runs only in the desktop app");
+    if (!native)
+      throw new Error(i18n._(msg`TypeSafe runs only in the desktop app`));
     await this.change(() => native.setKey(key));
     this.set("saved");
   }
   async clear() {
     const native = this.native;
-    if (!native) throw new Error("TypeSafe runs only in the desktop app");
+    if (!native)
+      throw new Error(i18n._(msg`TypeSafe runs only in the desktop app`));
     await this.change(() => native.clearKey());
     this.set("missing");
   }

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   Children,
   createContext,
@@ -307,6 +308,7 @@ export const GitHubBody = memo(function GitHubBody({
   url: string;
   refresh?: (() => Promise<unknown>) | undefined;
 }) {
+  const { t } = useLingui();
   const bounded = useMemo(
     () => body.length <= MAX_MARKDOWN_LENGTH && !scanMarkdown(body).tooDeep,
     [body],
@@ -396,7 +398,7 @@ export const GitHubBody = memo(function GitHubBody({
     const signed = signedUrl(source, metadata);
     const link = (
       <a href={source} target="_blank" rel="noreferrer">
-        {label || attachment?.name || "Open attachment"}
+        {label || attachment?.name || t`Open attachment`}
       </a>
     );
     if (!attachment) return link;

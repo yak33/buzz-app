@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useLayoutEffect,
@@ -6,6 +8,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { i18n } from "../../../features/localization/service";
 import { AgentInstructions } from "../../../features/agents/AgentInstructions";
 import { ModelFamilyMenu } from "../../../features/agents/ModelFamilyMenu";
 import type { AgentCreateProps } from "../../../features/agents/service";
@@ -49,8 +52,8 @@ export function creationConfig(value: unknown): CreationConfig {
     typeof config.subject !== "string"
   )
     throw new Error(
-      "Choose a model and thinking level and check the instructions.",
-    );
+    i18n._(msg`Choose a model and thinking level and check the instructions.`),
+  );
   return config as CreationConfig;
 }
 
@@ -74,6 +77,7 @@ export function createCreationFields(
     harnessControl: ReactNode;
     onReadyChange?: (ready: boolean) => void;
   }) {
+    const { t } = useLingui();
     const draft = config as CreationConfig;
     const login = useSyncExternalStore(session.subscribe, session.snapshot);
     const [catalog, setCatalog] = useState<
@@ -103,7 +107,7 @@ export function createCreationFields(
             setError(
               reason instanceof Error
                 ? reason.message
-                : "Could not load models.",
+                : i18n._(msg`Could not load models.`),
             );
         },
       );
@@ -173,10 +177,12 @@ export function createCreationFields(
         <SettingsGroup>
           {harnessControl}
           <ModelFamilyMenu
-            label="Model"
+            label={t`Model`}
             align="end"
             selected={
-              model ? modelChoice(model) : { id: "", label: "Choose a model" }
+              model
+                ? modelChoice(model)
+                : { id: "", label: t`Choose a model` }
             }
             models={(models ?? []).map(modelChoice)}
             disabled={choicesDisabled}
@@ -191,13 +197,13 @@ export function createCreationFields(
             }}
           />
           <Select
-            label="Thinking"
+            label={t`Thinking`}
             variant="preference"
             align="end"
             name="builderlab-effort"
             required
             value={supported ? draft.reasoningEffort : ""}
-            placeholder="Choose thinking"
+            placeholder={t`Choose thinking`}
             disabled={choicesDisabled || !model || !!wrongAccount}
             groups={[
               {
@@ -214,7 +220,7 @@ export function createCreationFields(
           />
         </SettingsGroup>
         <p className="m-0 text-body-sm text-secondary">
-          Runs on your Builderlab account. Usage and billing are at{" "}
+          {t`Runs on your Builderlab account. Usage and billing are at`}{" "}
           <a
             className={inlineStyles.link}
             href={portal.href}
@@ -227,8 +233,7 @@ export function createCreationFields(
         </p>
         {signedIn && wrongAccount && (
           <p role="status" className="m-0 text-body-sm text-secondary">
-            These choices belong to another Builderlab account. Choose a model
-            and thinking level again.
+            {t`These choices belong to another Builderlab account. Choose a model and thinking level again.`}
           </p>
         )}
         {signedIn && !models?.length && (
@@ -237,8 +242,8 @@ export function createCreationFields(
             className={`m-0 text-body-sm ${error ? "text-danger" : "text-secondary"}`}
           >
             {models
-              ? "No models are available. Retry when the catalog is available."
-              : error || "Loading models…"}
+              ? t`No models are available. Retry when the catalog is available.`
+              : error || t`Loading models…`}
           </p>
         )}
         {login.status === "signed-in" && (error || models?.length === 0) && (
@@ -247,7 +252,7 @@ export function createCreationFields(
               disabled={disabled}
               onClick={() => setRevision((value) => value + 1)}
             >
-              Retry models
+              {t`Retry models`}
             </Button>
           </div>
         )}
@@ -256,11 +261,12 @@ export function createCreationFields(
   }
 
   function Create({ config, onChange, disabled }: AgentCreateProps) {
+    const { t } = useLingui();
     const draft = config as CreationConfig;
     return (
       <AgentInstructions
         creation
-        description={`Up to ${MAX_INSTRUCTIONS_LENGTH.toLocaleString("en-US")} characters.`}
+        description={t`Up to ${MAX_INSTRUCTIONS_LENGTH.toLocaleString("en-US")} characters.`}
         value={draft.instructions}
         disabled={disabled}
         onChange={(instructions) => onChange({ ...draft, instructions })}

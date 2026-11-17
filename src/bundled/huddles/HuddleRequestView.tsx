@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { ProfileBackdrop } from "../../features/profiles/ProfileBackdrop";
 import { PhoneIcon, PhoneEndIcon } from "../../shared/design-system/icons";
 import { HuddleMinimizeIcon } from "./HuddleMinimizeIcon";
@@ -19,12 +20,14 @@ export function HuddleRequestView({
   act(action: HuddleAction): void;
   error?: string | undefined;
 }) {
+  const { t } = useLingui();
   const caller = view.participants[0];
+  const callerName = caller?.name ?? t`Someone`;
   return (
     <main
       ref={focus.requestRef}
       className={`${styles.window} ${styles.requestWindow}`}
-      aria-label="Incoming Huddle request"
+      aria-label={t`Incoming Huddle request`}
     >
       <ProfileBackdrop src={caller?.picture} />
       <header className={styles.windowHeader}>
@@ -33,7 +36,7 @@ export function HuddleRequestView({
             size="large"
             shape="round"
             variant="ghost"
-            aria-label="Minimize Huddle request"
+            aria-label={t`Minimize Huddle request`}
             onClick={() => act("minimize")}
             icon={<HuddleMinimizeIcon />}
           />
@@ -83,29 +86,26 @@ export function HuddleRequestView({
               size="large"
               shape="round"
               variant="glass"
-              aria-label={view.phase === "connecting" ? "Cancel" : "Decline"}
-              title={view.phase === "connecting" ? "Cancel" : "Decline"}
+              aria-label={view.phase === "connecting" ? t`Cancel` : t`Decline`}
+              title={view.phase === "connecting" ? t`Cancel` : t`Decline`}
               ref={focus.cancel}
               onClick={() => act("decline")}
               icon={<PhoneEndIcon className="text-call-leave" />}
             />
           </div>
           <p className={`${styles.requestTitle} text-body-strong text-primary`}>
-            <span
-              className={styles.requestName}
-              title={caller?.name ?? "Someone"}
-            >
-              {caller?.name ?? "Someone"}
+            <span className={styles.requestName} title={callerName}>
+              {callerName}
             </span>{" "}
-            <span>is calling</span>
+            <span>{t`is calling`}</span>
           </p>
           <div className={styles.requestAction}>
             <IconButton
               size="large"
               shape="round"
               variant="glass"
-              aria-label="Join"
-              title="Join"
+              aria-label={t`Join`}
+              title={t`Join`}
               data-huddle-join=""
               disabled={view.phase === "connecting"}
               onClick={() => {

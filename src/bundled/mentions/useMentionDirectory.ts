@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ComposerSession } from "../../features/messages/composer-session";
 import type { ChannelSummary } from "../../features/relay/contracts";
@@ -211,7 +213,9 @@ export function useMentionDirectory(
           if (!controller.signal.aborted)
             setState({
               ...current,
-              error: "Could not search community people. Retry to refresh.",
+              error: i18n._(
+                msg`Could not search community people. Retry to refresh.`,
+              ),
             });
         },
       );

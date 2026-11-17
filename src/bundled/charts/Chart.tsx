@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import type { EChartsCoreOption } from "echarts/core";
 import {
   type CSSProperties,
@@ -16,6 +18,7 @@ import { hostTheme } from "./theme";
 const SOURCE_PREVIEW = 2000;
 
 function DataTable({ caption, columns, rows, omitted }: Table) {
+  const { t } = useLingui();
   return (
     <div className={styles.tableWrap}>
       <table className={`${styles.table} text-body-sm`}>
@@ -44,7 +47,7 @@ function DataTable({ caption, columns, rows, omitted }: Table) {
       </table>
       {omitted > 0 && (
         <p className="text-body-sm text-subtle">
-          {omitted} more rows not shown.
+          {t`${omitted} more rows not shown.`}
         </p>
       )}
     </div>
@@ -58,6 +61,7 @@ export function Chart({
   code: string;
   expanded?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const plot = useRef<HTMLDivElement>(null);
   const [failure, setFailure] = useState<{ code: string; message: string }>();
   const parsed = useMemo(() => {
@@ -70,6 +74,7 @@ export function Chart({
   }, [code]);
   const option = "option" in parsed ? parsed.option : undefined;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建；错误文案语言切换后随下次绘制生效。
   useEffect(() => {
     const node = plot.current;
     if (!node || !option) return;
@@ -77,7 +82,11 @@ export function Chart({
     let stop = () => {};
     const fail = () => {
       stop();
-      if (live) setFailure({ code, message: "This chart couldn't be drawn." });
+      if (live)
+        setFailure({
+          code,
+          message: i18n._(msg`This chart couldn't be drawn.`),
+        });
     };
     void import("./echarts").then(({ echarts }) => {
       if (!live) return;
@@ -148,9 +157,15 @@ export function Chart({
           {message}
         </div>
         <div className={styles.source}>
-          {code.length > SOURCE_PREVIEW
-            ? `${code.slice(0, SOURCE_PREVIEW)}\n… (source truncated)`
-            : code}
+          {code.length > SOURCE_PREVIEW ? (
+            <>
+              {code.slice(0, SOURCE_PREVIEW)}
+              {"\n"}
+              {t`… (source truncated)`}
+            </>
+          ) : (
+            code
+          )}
         </div>
       </>
     );
@@ -169,12 +184,12 @@ export function Chart({
         ref={plot}
         className={styles.plot}
         role="img"
-        aria-label={`Chart: ${spec.title}`}
+        aria-label={t`Chart: ${spec.title}`}
         style={{ "--chart-height": `${chartHeight(spec)}px` } as CSSProperties}
       />
       {spec.source && (
         <p className={styles.meta}>
-          Source:{" "}
+          {t`Source:`}{" "}
           {url ? (
             <Button
               variant="link"
@@ -204,7 +219,7 @@ export function Chart({
           items={[
             {
               value: "rows",
-              title: `View ${rowCount}${more} data rows`,
+              title: t`View ${rowCount}${more} data rows`,
               content: tables.map((table, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: static snapshot
                 <DataTable key={i} {...table} />

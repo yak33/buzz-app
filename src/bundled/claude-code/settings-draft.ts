@@ -1,3 +1,5 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { useState } from "react";
 import type { Config } from "./runtime";
 
@@ -9,11 +11,11 @@ const groups = {
   scope: ["scope"],
 } as const;
 export type SettingGroup = keyof typeof groups;
-export const settingLabels: Record<SettingGroup, string> = {
-  model: "Model and thinking",
-  instructions: "Instructions",
-  workspace: "Workspace",
-  scope: "Sessions",
+export const settingLabels: Record<SettingGroup, MessageDescriptor> = {
+  model: msg`Model and thinking`,
+  instructions: msg`Instructions`,
+  workspace: msg`Workspace`,
+  scope: msg`Sessions`,
 };
 const names = Object.keys(groups) as SettingGroup[];
 const same = (a: Config, b: Config, group: SettingGroup) =>

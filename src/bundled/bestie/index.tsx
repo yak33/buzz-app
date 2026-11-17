@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { ReactNode } from "react";
 import type { PluginModule } from "../../plugins/api";
 import type { Navigation } from "../../features/navigation/controller";
@@ -107,6 +108,7 @@ function BestieDestination({
   agents: Agents;
   pageNavigation?: PageNavigation | undefined;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const saved = useSavedAgentState(connection.session, connection.scope ?? "");
   const established =
@@ -120,20 +122,20 @@ function BestieDestination({
           icon={<BestieIcon />}
           title={
             connection.status === "connecting"
-              ? "Connecting…"
+              ? t`Connecting…`
               : connection.status === "error"
-                ? "This community is unavailable"
-                : "No community selected"
+                ? t`This community is unavailable`
+                : t`No community selected`
           }
           description={
             connection.status === "connecting"
-              ? "Your Bestie opens once this community is connected."
+              ? t`Your Bestie opens once this community is connected.`
               : (connection.error ??
-                "Choose a community to continue with your Bestie.")
+                t`Choose a community to continue with your Bestie.`)
           }
           action={
             connection.status === "error" ? (
-              <Button onClick={relay.tryAgain}>Retry connection</Button>
+              <Button onClick={relay.tryAgain}>{t`Retry connection`}</Button>
             ) : undefined
           }
         />
@@ -145,18 +147,20 @@ function BestieDestination({
         <EmptyState
           icon={<BestieIcon />}
           title={
-            saved.error ? "Your Bestie is unavailable" : "Loading your Bestie…"
+            saved.error
+              ? t`Your Bestie is unavailable`
+              : t`Loading your Bestie…`
           }
           description={
             saved.error ? (
               <span role="alert">{saved.error}</span>
             ) : (
-              <span role="status">Reading your saved choice.</span>
+              <span role="status">{t`Reading your saved choice.`}</span>
             )
           }
           action={
             saved.error ? (
-              <Button onClick={saved.retry}>Try again</Button>
+              <Button onClick={saved.retry}>{t`Try again`}</Button>
             ) : undefined
           }
         />

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useRef, useState } from "react";
 import { AlertDialog } from "../../shared/design-system/ui/AlertDialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -22,6 +23,7 @@ function active(row: RestrictionDto, now = new Date()) {
 }
 
 export function Restrictions({ communityHost }: { communityHost: string }) {
+  const { t } = useLingui();
   const { context, canMutate } = useSession();
   const pages = usePages(
     (cursor) => ({
@@ -58,7 +60,7 @@ export function Restrictions({ communityHost }: { communityHost: string }) {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-caption font-medium text-secondary">
-        Active restrictions
+        {t`Active restrictions`}
       </p>
       {retry.failure && (
         <Failure
@@ -75,7 +77,7 @@ export function Restrictions({ communityHost }: { communityHost: string }) {
       )}
       {!pages.loading && !pages.failure && pages.items.length === 0 && (
         <p className="text-body-sm text-secondary">
-          No active bans or timeouts.
+          {t`No active bans or timeouts.`}
         </p>
       )}
       <PeopleScope people={names}>
@@ -92,10 +94,12 @@ export function Restrictions({ communityHost }: { communityHost: string }) {
                   <Person pubkey={row.pubkey} />
                 </span>
                 {banned && (
-                  <span className="text-caption text-danger">banned</span>
+                  <span className="text-caption text-danger">{t`banned`}</span>
                 )}
                 {timedOut && (
-                  <span className="text-caption text-secondary">timeout</span>
+                  <span className="text-caption text-secondary">
+                    {t`timeout`}
+                  </span>
                 )}
                 {banned && (
                   <Button
@@ -106,7 +110,7 @@ export function Restrictions({ communityHost }: { communityHost: string }) {
                       setLifting({ pubkey: row.pubkey, kind: "ban" })
                     }
                   >
-                    Lift ban
+                    {t`Lift ban`}
                   </Button>
                 )}
                 {timedOut && (
@@ -118,7 +122,7 @@ export function Restrictions({ communityHost }: { communityHost: string }) {
                       setLifting({ pubkey: row.pubkey, kind: "timeout" })
                     }
                   >
-                    Clear timeout
+                    {t`Clear timeout`}
                   </Button>
                 )}
               </li>
@@ -129,24 +133,24 @@ export function Restrictions({ communityHost }: { communityHost: string }) {
       {pages.loading && !retry.retrying && <Loading />}
       {pages.next && !pages.loading && (
         <Button size="sm" onClick={pages.more}>
-          Load more
+          {t`Load more`}
         </Button>
       )}
       {lifting && (
         <AlertDialog
-          title={lifting.kind === "ban" ? "Lift ban?" : "Clear timeout?"}
-          description={`${names.text(lifting.pubkey)} will be able to post in ${communityHost} again.`}
+          title={lifting.kind === "ban" ? t`Lift ban?` : t`Clear timeout?`}
+          description={t`${names.text(lifting.pubkey)} will be able to post in ${communityHost} again.`}
           initialFocus={proceed}
           onClose={() => setLifting(null)}
           actions={
             <>
-              <Button onClick={() => setLifting(null)}>Cancel</Button>
+              <Button onClick={() => setLifting(null)}>{t`Cancel`}</Button>
               <Button
                 ref={proceed}
                 variant="prominent"
                 onClick={() => lift(lifting)}
               >
-                {lifting.kind === "ban" ? "Lift ban" : "Clear timeout"}
+                {lifting.kind === "ban" ? t`Lift ban` : t`Clear timeout`}
               </Button>
             </>
           }

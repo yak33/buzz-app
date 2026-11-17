@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { useEffect, useMemo, useState } from "react";
 import {
   type IndexData,
@@ -42,11 +44,11 @@ export function indexInWorker(
     ) => {
       cleanup();
       if (event.data.data) resolve(event.data.data);
-      else reject(new Error(event.data.error || "Indexing failed."));
+      else reject(new Error(event.data.error || i18n._(msg`Indexing failed.`)));
     };
     worker.onerror = () => {
       cleanup();
-      reject(new Error("The indexer could not load."));
+      reject(new Error(i18n._(msg`The indexer could not load.`)));
     };
     worker.postMessage({ text, kind });
   });

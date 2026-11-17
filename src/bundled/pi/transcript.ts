@@ -1,7 +1,9 @@
 // A Buzz conversation's Pi conversation, read from the agent's Pi durable
 // storage through the host and shown in the host's turn-transcript model. Pi
 // owns the entries; nothing here writes or keeps them.
+import { msg } from "@lingui/core/macro";
 import { isMessageTool } from "../../buzz-mcp/session-tools";
+import { i18n } from "../../features/localization/service";
 import { readEventBody } from "../../features/agent-harness/turn-records";
 import {
   promptMessage,
@@ -205,7 +207,8 @@ export function piTurns(
         current.config.push(message.model);
       // Pi keeps each failed attempt it retried: only the last one counts.
       if (message.stopReason === "error")
-        current.error = message.errorMessage || "The model did not answer";
+        current.error =
+          message.errorMessage || i18n._(msg`The model did not answer`);
       else delete current.error;
       // Pi saves an interrupted run's partial answer as aborted, then
       // continues the turn: a later answer replaces it. A Stop ends the run,

@@ -1,3 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import { parseDiff, type FileData, type DiffType } from "react-diff-view";
 
 export function parsePatch(content: string): FileData[] | undefined {
@@ -87,17 +91,18 @@ export function fileLabel(file: FileData, fallback?: string): string {
   const newPath = file.newPath === "/dev/null" ? undefined : file.newPath;
   return oldPath && newPath && oldPath !== newPath
     ? `${oldPath} → ${newPath}`
-    : newPath || oldPath || fallback || "diff";
+    : newPath || oldPath || fallback || i18n._(msg`diff`);
 }
 export function diffType(file: FileData): DiffType {
   return ["add", "copy", "delete", "rename"].includes(file.type)
     ? file.type
     : "modify";
 }
-export const labels: Record<DiffType, string> = {
-  add: "New file",
-  copy: "Copied",
-  delete: "Deleted",
-  modify: "Modified",
-  rename: "Renamed",
+/** 变更类型标签是 Lingui descriptor，由渲染处求值（见 Settings.tsx 先例）。 */
+export const labels: Record<DiffType, MessageDescriptor> = {
+  add: msg`New file`,
+  copy: msg`Copied`,
+  delete: msg`Deleted`,
+  modify: msg`Modified`,
+  rename: msg`Renamed`,
 };

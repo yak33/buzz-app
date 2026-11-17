@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { relativeTimestamp } from "../../shared/relative-timestamp";
 import {
   ChatCircleIcon,
@@ -42,13 +44,18 @@ export function describe(
     const next = new Date(nextAt * 1000);
     const date = next.toLocaleDateString();
     const day =
-      date === new Date(now * 1000).toLocaleDateString() ? "today" : date;
+      date === new Date(now * 1000).toLocaleDateString()
+        ? i18n._(msg`today`)
+        : date;
     const time = next.toLocaleTimeString([], {
       hour: "numeric",
       minute: "2-digit",
     });
     const minutes = Math.ceil(Math.abs(nextAt - now) / 60);
-    const relative = nextAt > now ? `in ${minutes}m` : `${minutes}m ago`;
+    const relative =
+      nextAt > now
+        ? i18n._(msg`in ${minutes}m`)
+        : i18n._(msg`${minutes}m ago`);
     const interval =
       watch.interval_secs % 3600 === 0
         ? `${watch.interval_secs / 3600}h`
@@ -56,11 +63,13 @@ export function describe(
           ? `${watch.interval_secs / 60}m`
           : `${watch.interval_secs}s`;
     const runs =
-      watch.max_occurrences === null ? "" : ` · ${watch.max_occurrences} runs`;
+      watch.max_occurrences === null
+        ? ""
+        : i18n._(msg` · ${watch.max_occurrences} runs`);
     const schedule =
       watch.max_occurrences === 1
-        ? `Once · ${day} ${time} (${relative})`
-        : `Every ${interval}${runs}`;
+        ? i18n._(msg`Once · ${day} ${time} (${relative})`)
+        : i18n._(msg`Every ${interval}${runs}`);
     return {
       title: schedule,
       spent:
@@ -73,7 +82,7 @@ export function describe(
       title: watch.name || watch.provider,
     };
   return {
-    title: watch.name || "Messages",
+    title: watch.name || i18n._(msg`Messages`),
   };
 }
 export type Channel = {

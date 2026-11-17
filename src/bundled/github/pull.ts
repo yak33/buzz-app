@@ -1,6 +1,8 @@
 // A pull request as one checklist, read and changed through `gh`: the state
 // someone needs to decide whether to merge, without the comments and logs
 // their agents read for them.
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
 import {
   summarizeRollup,
   type CheckSummary,
@@ -11,10 +13,11 @@ import type { GitHubCli } from "./gh";
 import type { GitHubReference } from "./references";
 
 export type MergeMethod = "SQUASH" | "MERGE" | "REBASE";
-export const mergeLabels: Record<MergeMethod, string> = {
-  SQUASH: "Squash and merge",
-  MERGE: "Create a merge commit",
-  REBASE: "Rebase and merge",
+/** 合并方式标签是 Lingui descriptor，由渲染处求值（见 Settings.tsx 先例）。 */
+export const mergeLabels: Record<MergeMethod, MessageDescriptor> = {
+  SQUASH: msg`Squash and merge`,
+  MERGE: msg`Create a merge commit`,
+  REBASE: msg`Rebase and merge`,
 };
 
 export type PullChecklist = Readonly<{

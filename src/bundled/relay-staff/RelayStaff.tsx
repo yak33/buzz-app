@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Header } from "../../shared/design-system/ui/Header";
@@ -19,6 +20,7 @@ export function RelayStaff({
   screen: Screen;
   active(): boolean;
 }) {
+  const { i18n, t } = useLingui();
   useSyncExternalStore(staff.subscribe, () => staff.visible());
   const contextKey = useSyncExternalStore(staff.subscribe, staff.contextKey);
   const context = staff.context();
@@ -35,15 +37,15 @@ export function RelayStaff({
   return (
     <div className="flex flex-col gap-4">
       <Header
-        title={SCREENS[screen].title}
-        subtitle={`${SCREENS[screen].subtitle} ${new URL(context.origin).host}.`}
+        title={i18n._(SCREENS[screen].title)}
+        subtitle={`${i18n._(SCREENS[screen].subtitle)} ${new URL(context.origin).host}.`}
         actions={
           <Button
             size="sm"
             loading={access?.state === "probing"}
             onClick={() => void staff.probe(context, true)}
           >
-            Check again
+            {t`Check again`}
           </Button>
         }
       />
@@ -84,10 +86,11 @@ function Authorized({
 }
 
 function AccessStatus({ access }: { access: Access | null }) {
+  const { t } = useLingui();
   if (access?.state !== "authorized")
     return (
       <p className="flex items-center gap-2 text-body-sm text-secondary">
-        <CircleNotchIcon className="animate-spin" /> Checking your access…
+        <CircleNotchIcon className="animate-spin" /> {t`Checking your access…`}
       </p>
     );
   const { role, authMode } = access.probe;
@@ -97,16 +100,18 @@ function AccessStatus({ access }: { access: Access | null }) {
         className="flex items-center gap-2 text-body-sm text-warning"
         role="status"
       >
-        <WarningCircleIcon /> Admin auth is disabled on this relay. The console
-        is read-only; taking action requires BUZZ_ADMIN_AUTH=nip98.
+        <WarningCircleIcon />{" "}
+        {t`Admin auth is disabled on this relay. The console is read-only; taking action requires BUZZ_ADMIN_AUTH=nip98.`}
       </p>
     );
+  // The role comes from the relay; only the fallback word is ours to translate.
+  const shownRole = role ?? t`staff`;
   return (
     <p
       className="flex items-center gap-2 text-body-sm text-success"
       role="status"
     >
-      <CheckCircleIcon /> Connected as {role ?? "staff"}
+      <CheckCircleIcon /> {t`Connected as ${shownRole}`}
     </p>
   );
 }

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { MicrophoneIcon } from "../../shared/design-system/icons";
 import type { PluginModule } from "../../plugins/api";
 import { VoiceCapture } from "./VoiceCapture";
@@ -11,13 +12,15 @@ export const apply: PluginModule["apply"] = (ctx) => {
     id: "recorder",
     title: "Voice Notes",
     order: 10,
-    component: ({ session, disabled, capture, focus }) =>
-      session.attachments && capture ? (
+    component: ({ session, disabled, capture, focus }) => {
+      // An inline component: the hook runs in the composer's tool render.
+      const { t } = useLingui();
+      return session.attachments && capture ? (
         <IconButton
           type="button"
           size="sm"
-          aria-label="Record voice note"
-          title="Record voice note"
+          aria-label={t`Record voice note`}
+          title={t`Record voice note`}
           disabled={disabled}
           onClick={() =>
             capture(({ accept, cancel }) => (
@@ -36,7 +39,8 @@ export const apply: PluginModule["apply"] = (ctx) => {
           }
           icon={<MicrophoneIcon size={16} aria-hidden="true" />}
         />
-      ) : null,
+      ) : null;
+    },
   });
   ctx.conversation.registerAttachment({
     id: "player",

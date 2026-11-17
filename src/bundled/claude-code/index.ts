@@ -1,6 +1,8 @@
+import { msg } from "@lingui/core/macro";
 import { nativeHookOutput } from "../hook-output";
 import { CLAUDE_HOOK_EVENTS } from "./hooks";
 import { repositoriesContext } from "../../features/communities/repositories";
+import { i18n } from "../../features/localization/service";
 // Claude agents: an agent type whose agents are Claude sessions on
 // this computer. Each conversation the agent is in is one continuing session;
 // Claude answers with the in-process Buzz tools.
@@ -251,11 +253,19 @@ export const apply: PluginModule["apply"] = (ctx) => {
     describeMigration: (saved) => {
       const { model, effort, scope } = config(saved);
       return [
-        { id: "model", label: "Model", isOverride: Boolean(model.trim()) },
-        { id: "thinking", label: "Thinking", isOverride: Boolean(effort) },
+        {
+          id: "model",
+          label: i18n._(msg`Model`),
+          isOverride: Boolean(model.trim()),
+        },
+        {
+          id: "thinking",
+          label: i18n._(msg`Thinking`),
+          isOverride: Boolean(effort),
+        },
         {
           id: "sessions",
-          label: "Sessions",
+          label: i18n._(msg`Sessions`),
           isOverride: scope !== DEFAULT_CONFIG.scope,
           unchangedKey: scope,
         },
@@ -271,7 +281,9 @@ export const apply: PluginModule["apply"] = (ctx) => {
       readFile && {
         usage: async (agent, { since, signal }) => {
           if (await agents.inspectExecution(agent.key))
-            throw new Error("Usage is unavailable for remote Claude agents.");
+            throw new Error(
+              i18n._(msg`Usage is unavailable for remote Claude agents.`),
+            );
           // Its workspace's sessions, and those of each conversation folder.
           const found = await Promise.all(
             runtime
@@ -323,7 +335,9 @@ export const apply: PluginModule["apply"] = (ctx) => {
               ...(root && { root }),
               at,
               ...(working !== undefined && {
-                status: working ? "Working" : "Idle",
+                status: working
+                  ? i18n._(msg`Working`)
+                  : i18n._(msg`Idle`),
               }),
             };
           });

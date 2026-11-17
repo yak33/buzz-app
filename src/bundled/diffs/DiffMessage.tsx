@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useMemo, useRef, useState } from "react";
 import type { ChannelMessage } from "../../features/relay/contracts";
 import { safeMessageUrl } from "../../features/relay/message-content";
@@ -10,6 +11,7 @@ import { parsePatch } from "./parse";
 import styles from "./Diffs.module.css";
 
 export function DiffMessage({ message }: { message: ChannelMessage }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const [viewType, setViewType] = useState<"unified" | "split">("unified");
   const expand = useRef<HTMLButtonElement>(null);
@@ -23,23 +25,23 @@ export function DiffMessage({ message }: { message: ChannelMessage }) {
       ? `${repoUrl.replace(/\/$/, "")}/commit/${commit}`
       : undefined;
   const source = commitUrl || repoUrl;
-  const title = meta.filePath || "Diff";
+  const title = meta.filePath || t`Diff`;
   const viewer = { content: message.content, files, filePath: meta.filePath };
   const warning = meta.truncated && (
     <p className={styles.notice}>
-      Diff truncated.{" "}
+      {t`Diff truncated.`}{" "}
       {source ? (
         <a href={source} target="_blank" rel="noreferrer noopener">
-          View full diff at the source repository
+          {t`View full diff at the source repository`}
         </a>
       ) : (
-        "View the full diff at the source repository."
+        t`View the full diff at the source repository.`
       )}
     </p>
   );
   return (
     <>
-      <section className={styles.card} aria-label={`Diff: ${title}`}>
+      <section className={styles.card} aria-label={t`Diff: ${title}`}>
         <header className={styles.header}>
           <span className={styles.filename} title={title}>
             {title}
@@ -47,7 +49,7 @@ export function DiffMessage({ message }: { message: ChannelMessage }) {
           <span className={styles.source}>
             {source ? (
               <a href={source} target="_blank" rel="noreferrer noopener">
-                {commit?.slice(0, 7) || "Source"}
+                {commit?.slice(0, 7) || t`Source`}
               </a>
             ) : (
               commit?.slice(0, 7)
@@ -56,7 +58,7 @@ export function DiffMessage({ message }: { message: ChannelMessage }) {
           <IconButton
             ref={expand}
             size="sm"
-            aria-label="Expand diff"
+            aria-label={t`Expand diff`}
             icon={<ArrowsOutIcon size={16} aria-hidden="true" />}
             onClick={() => {
               setViewType("unified");
@@ -71,7 +73,7 @@ export function DiffMessage({ message }: { message: ChannelMessage }) {
           className={styles.preview}
           // biome-ignore lint/a11y/noNoninteractiveTabindex: The preview scroll owner must support keyboard scrolling.
           tabIndex={0}
-          aria-label={`Diff preview: ${title}`}
+          aria-label={t`Diff preview: ${title}`}
         >
           <DiffViewer {...viewer} />
         </section>
@@ -82,17 +84,17 @@ export function DiffMessage({ message }: { message: ChannelMessage }) {
         onOpenChange={setOpen}
         title={title}
         size="expanded"
-        closeLabel="Close diff"
+        closeLabel={t`Close diff`}
         finalFocus={expand}
       >
-        <fieldset className={styles.toolbar} aria-label="Diff layout">
+        <fieldset className={styles.toolbar} aria-label={t`Diff layout`}>
           <Button
             size="sm"
             aria-pressed={viewType === "unified"}
             variant={viewType === "unified" ? "subtle" : "ghost"}
             onClick={() => setViewType("unified")}
           >
-            Unified
+            {t`Unified`}
           </Button>
           <Button
             size="sm"
@@ -100,7 +102,7 @@ export function DiffMessage({ message }: { message: ChannelMessage }) {
             variant={viewType === "split" ? "subtle" : "ghost"}
             onClick={() => setViewType("split")}
           >
-            Split
+            {t`Split`}
           </Button>
         </fieldset>
         {warning}

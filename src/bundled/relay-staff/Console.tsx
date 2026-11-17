@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useState } from "react";
 import {
   ChatCircleIcon,
@@ -15,24 +16,24 @@ import { NavContext, type CommunityRef } from "./ui";
 
 export const SCREENS = {
   reports: {
-    title: "Reports",
+    title: msg`Reports`,
     icon: FlagIcon,
-    subtitle: "Triage reports from every community on",
+    subtitle: msg`Triage reports from every community on`,
   },
   feedback: {
-    title: "Feedback",
+    title: msg`Feedback`,
     icon: ChatCircleIcon,
-    subtitle: "Review feedback sent to",
+    subtitle: msg`Review feedback sent to`,
   },
   communities: {
-    title: "Communities",
+    title: msg`Communities`,
     icon: GlobeIcon,
-    subtitle: "Browse and moderate every community on",
+    subtitle: msg`Browse and moderate every community on`,
   },
   staff: {
-    title: "Staff",
+    title: msg`Staff`,
     icon: ShieldIcon,
-    subtitle: "Add, change and remove operators and moderators on",
+    subtitle: msg`Add, change and remove operators and moderators on`,
   },
 };
 export type Screen = keyof typeof SCREENS;

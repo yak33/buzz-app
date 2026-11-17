@@ -2,7 +2,9 @@
 // sign-in as `bl apps` calls it (block/builderlab-cli `src/bl/apps.rs`): the
 // transport sends the session as `Authorization: BBIdentity <session>`, and
 // the gateway exchanges it for the control plane's own token.
+import { msg } from "@lingui/core/macro";
 import type { FederatedIdentity } from "../../../features/federated-identity/service";
+import { i18n } from "../../../features/localization/service";
 import type { Host, HostResponse } from "../../../features/host/service";
 import type { BuilderlabSession } from "../session";
 
@@ -15,12 +17,16 @@ const VISIBILITY: Record<Audience, string> = {
   workspace: "organization",
   only_you: "restricted",
 };
-export const SIGN_IN =
-  "Ask your owner to sign in at Settings → Plugins → Builderlab, then try again.";
+export const SIGN_IN = () =>
+  i18n._(
+    msg`Ask your owner to sign in at Settings → Plugins → Builderlab, then try again.`,
+  );
 /** A 401 refuses only the call unless native ends the session, so a signed-in
  * owner may have no sign-in to do. */
-const REFUSED =
-  "Try again. If it keeps happening, ask your owner to check their Builderlab sign-in at Settings → Plugins → Builderlab.";
+const REFUSED = () =>
+  i18n._(
+    msg`Try again. If it keeps happening, ask your owner to check their Builderlab sign-in at Settings → Plugins → Builderlab.`,
+  );
 
 type Json = Record<string, unknown>;
 const object = (value: unknown): Json =>
@@ -82,10 +88,14 @@ export function createAppsClient(
   let owner: ReturnType<BuilderlabSession["credential"]> | undefined;
   const signedIn = () => {
     if (session.snapshot().status !== "signed-in")
-      throw new Error(`Builderlab is not signed in. ${SIGN_IN}`);
+      throw new Error(
+        i18n._(msg`Builderlab is not signed in. ${SIGN_IN()}`),
+      );
     const current = session.credential();
     if (owner && current !== owner)
-      throw new Error("Builderlab sign-in changed. Start a new Apps request.");
+      throw new Error(
+        i18n._(msg`Builderlab sign-in changed. Start a new Apps request.`),
+      );
     owner = current;
   };
   const headers = {
@@ -102,7 +112,9 @@ export function createAppsClient(
     }
     if (response.status === 401)
       throw new Error(
-        `Builderlab refused the sign-in for ${what} (HTTP ${response.status}). ${REFUSED}`,
+        i18n._(
+          msg`Builderlab refused the sign-in for ${what} (HTTP ${response.status}). ${REFUSED()}`,
+        ),
       );
     if (response.status < 200 || response.status >= 300) {
       const error = object(body.error);

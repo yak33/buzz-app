@@ -1,5 +1,7 @@
 // Adapted from block/buzz desktop workflow helpers at b9392d9d.
+import { msg } from "@lingui/core/macro";
 import { parse as yamlParse } from "yaml";
+import { i18n } from "../../features/localization/service";
 
 import {
   formatDurationSecondsVerbose,
@@ -32,7 +34,10 @@ function frequentIntervalDescription(interval: string): string | null {
   ) {
     return null;
   }
-  return `It is scheduled to run every ${formatDurationSecondsVerbose(seconds)}. Review the schedule before turning it on.`;
+  const every = formatDurationSecondsVerbose(seconds);
+  return i18n._(
+    msg`It is scheduled to run every ${every}. Review the schedule before turning it on.`,
+  );
 }
 
 /** Mirrors the relay's normalization of 5- and 6-field cron to 7 fields. */
@@ -107,21 +112,36 @@ function frequentCronDescription(cron: string): string | null {
   if (!matchesEveryHour(hour)) return null;
 
   if (secondRuns > 1) {
-    return "It is scheduled to run multiple times a minute. Review the schedule before turning it on.";
+    return i18n._(
+      msg`It is scheduled to run multiple times a minute. Review the schedule before turning it on.`,
+    );
   }
   if (minute === "*") {
-    return "It is scheduled to run every minute. Review the schedule before turning it on.";
+    return i18n._(
+      msg`It is scheduled to run every minute. Review the schedule before turning it on.`,
+    );
   }
   const steppedMinute = /^\*\/(\d+)$/.exec(minute);
   if (steppedMinute) {
     const minutes = Number(steppedMinute[1]);
-    return `It is scheduled to run every ${minutes} minute${minutes === 1 ? "" : "s"}. Review the schedule before turning it on.`;
+    // 复数拆成两个完整模板。
+    return minutes === 1
+      ? i18n._(
+          msg`It is scheduled to run every 1 minute. Review the schedule before turning it on.`,
+        )
+      : i18n._(
+          msg`It is scheduled to run every ${minutes} minutes. Review the schedule before turning it on.`,
+        );
   }
   if (minuteRuns === 1) {
-    return "It is scheduled to run every hour. Review the schedule before turning it on.";
+    return i18n._(
+      msg`It is scheduled to run every hour. Review the schedule before turning it on.`,
+    );
   }
   if (minuteRuns > 1) {
-    return "It is scheduled to run multiple times an hour. Review the schedule before turning it on.";
+    return i18n._(
+      msg`It is scheduled to run multiple times an hour. Review the schedule before turning it on.`,
+    );
   }
   return null;
 }
@@ -145,9 +165,10 @@ export function getWorkflowActivationWarning(
 
   if (triggerType === "message_posted" && !nonEmptyString(trigger?.filter)) {
     return {
-      description:
-        "It will run for every new message in this channel. Review the trigger before turning it on.",
-      title: "This workflow may run often",
+      description: i18n._(
+        msg`It will run for every new message in this channel. Review the trigger before turning it on.`,
+      ),
+      title: i18n._(msg`This workflow may run often`),
     };
   }
 
@@ -160,7 +181,7 @@ export function getWorkflowActivationWarning(
         ? frequentCronDescription(cron)
         : null;
     if (description) {
-      return { description, title: "This workflow may run often" };
+      return { description, title: i18n._(msg`This workflow may run often`) };
     }
   }
 

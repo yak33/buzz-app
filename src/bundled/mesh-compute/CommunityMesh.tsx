@@ -1,4 +1,8 @@
 import { invoke, isTauri } from "@tauri-apps/api/core";
+import { msg } from "@lingui/core/macro";
+// 全局单例供导出的 modelLabel 使用（先例 src/shared/datetime.ts）。
+import { i18n as globalI18n } from "../../features/localization/service";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useId, useState, useSyncExternalStore } from "react";
 import { communityDestination } from "../../features/communities/destination";
 import type { RelayData } from "../../features/relay/service";
@@ -30,6 +34,7 @@ export function CommunityMesh({
   relay: RelayData;
   refreshKey?: number;
 }) {
+  const { t } = useLingui();
   const snapshot = useSyncExternalStore(relay.subscribe, relay.snapshot);
   const directory = snapshot.session.profiles;
   const profiles = useSyncExternalStore(
@@ -93,10 +98,10 @@ export function CommunityMesh({
   const memberName = (pubkey: string) =>
     resolveName(
       pubkey,
-      profiles.get(pubkey)?.name || "Unnamed member",
+      profiles.get(pubkey)?.name || t`Unnamed member`,
       memberKeys,
     );
-  const shared = groupDevices(entries, snapshot.viewer, memberName);
+  const shared = groupDevices(entries, snapshot.viewer, memberName, t`You`);
   const sharedGb =
     devices.size && !unknownCapacity
       ? [...devices.values()].reduce((total, gb) => total + gb, 0)
@@ -107,44 +112,42 @@ export function CommunityMesh({
         id={titleId}
         level={2}
         icon={<UsersIcon size={20} />}
-        title="Community mesh"
+        title={t`Community mesh`}
         subtitle={
           !inventory?.entries.length
-            ? "Devices members are sharing with this community."
+            ? t`Devices members are sharing with this community.`
             : contributors === 1
-              ? "1 person is contributing compute."
-              : `${contributors} people are contributing compute.`
+              ? t`1 person is contributing compute.`
+              : t`${contributors} people are contributing compute.`
         }
       />
       {!isTauri() ? (
-        <p role="status">Open Buzz desktop to see community mesh.</p>
+        <p role="status">{t`Open Buzz desktop to see community mesh.`}</p>
       ) : error ? (
         <p role="alert">{error}</p>
       ) : !inventory ? (
-        <p role="status">Loading community mesh…</p>
+        <p role="status">{t`Loading community mesh…`}</p>
       ) : inventory.entries.length === 0 ? (
-        <p role="status">No one is sharing compute yet.</p>
+        <p role="status">{t`No one is sharing compute yet.`}</p>
       ) : (
         <>
           <dl className={styles.metrics}>
             <div>
-              <dt className="text-metadata">Shared memory</dt>
+              <dt className="text-metadata">{t`Shared memory`}</dt>
               <dd className="m-0 text-heading tabular-nums">
-                {sharedGb == null
-                  ? "Not reported"
-                  : `${Math.round(sharedGb)} GB`}
+                {sharedGb == null ? t`Not reported` : `${Math.round(sharedGb)} GB`}
               </dd>
             </div>
             <div>
-              <dt className="text-metadata">Devices</dt>
+              <dt className="text-metadata">{t`Devices`}</dt>
               <dd className="m-0 text-heading tabular-nums">{shared.length}</dd>
             </div>
             <div>
-              <dt className="text-metadata">Models available</dt>
+              <dt className="text-metadata">{t`Models available`}</dt>
               <dd className="m-0 text-heading tabular-nums">{modelCount}</dd>
             </div>
           </dl>
-          <ul aria-label="Shared devices" className={styles.devices}>
+          <ul aria-label={t`Shared devices`} className={styles.devices}>
             {shared.map((device) => {
               const picture = profiles.get(device.memberPubkey)?.picture;
               return (
@@ -157,7 +160,7 @@ export function CommunityMesh({
                   />
                   <div className={styles.deviceBody}>
                     <p className="m-0 text-body">
-                      {device.name ?? "Unnamed device"}
+                      {device.name ?? t`Unnamed device`}
                       <span className="text-secondary">
                         {" · "}
                         {device.owner}
@@ -176,7 +179,7 @@ export function CommunityMesh({
                     className={`m-0 text-body-sm text-secondary ${styles.deviceMemory}`}
                   >
                     {device.vramGb == null
-                      ? "Not reported"
+                      ? t`Not reported`
                       : `${Math.round(device.vramGb)} GB`}
                   </p>
                 </li>
@@ -208,6 +211,7 @@ function groupDevices(
   entries: Inventory["entries"],
   viewer: string | undefined,
   memberName: (pubkey: string) => string,
+  you: string,
 ): SharedDevice[] {
   const devices = new Map<string, SharedDevice>();
   for (const entry of entries) {
@@ -216,8 +220,7 @@ function groupDevices(
       key,
       memberPubkey: entry.memberPubkey,
       self: entry.memberPubkey === viewer,
-      owner:
-        entry.memberPubkey === viewer ? "You" : memberName(entry.memberPubkey),
+      owner: entry.memberPubkey === viewer ? you : memberName(entry.memberPubkey),
       name: entry.deviceName,
       vramGb: entry.vramGb,
       models: [],
@@ -246,6 +249,7 @@ export function modelLabel(ref: string): string {
   const name = (path.split("/").at(-1) ?? path)
     .replace(/[-_.]gguf$/i, "")
     .replace(/@[\w.-]+$/, "");
-  if (/^sha256-[0-9a-f]+$/i.test(name)) return "Local model";
+  if (/^sha256-[0-9a-f]+$/i.test(name))
+    return globalI18n._(msg`Local model`);
   return quant ? `${name} · ${quant}` : name;
 }

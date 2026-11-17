@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import type { MountOptions } from "pele/lazy";
 import styles from "./Mermaid.module.css";
@@ -28,14 +30,16 @@ export function MermaidDiagram({
   code: string;
   expanded?: boolean;
 }) {
+  const { i18n } = useLingui();
   const container = useRef<HTMLDivElement>(null);
   const [failure, setFailure] = useState<{ code: string; message: string }>();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建；错误文案语言切换后随下次绘制生效。
   useEffect(() => {
     const element = container.current;
     if (!element) return;
     let live = true;
     let diagram: { destroy(): void } | undefined;
-    const fail = (message = "This diagram couldn't be drawn.") => {
+    const fail = (message = i18n._(msg`This diagram couldn't be drawn.`)) => {
       if (!live) return;
       element.replaceChildren();
       setFailure({ code, message });

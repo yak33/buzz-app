@@ -1,4 +1,7 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
+import { i18n } from "../../features/localization/service";
 import type { InboxReaction } from "../../features/relay/inbox-reactions";
 import { groupReactions } from "../../features/relay/fold";
 import { useReactionEmoji } from "../../features/messages/reaction-emoji";
@@ -40,8 +43,8 @@ export const incompletePreview = (
 ) =>
   ids.some((id) => id !== undefined && feed.incomplete.includes(id))
     ? feed.status === "error"
-      ? "Preview unavailable. Retry activity."
-      : "Preview updating…"
+      ? i18n._(msg`Preview unavailable. Retry activity.`)
+      : i18n._(msg`Preview updating…`)
     : undefined;
 
 /** Who sent a row and where, as the Inbox page and its sidebar preview name it. */
@@ -55,16 +58,20 @@ export function rowIdentity(
   const profile = profiles.get(displayId);
   const resolved = name(
     displayId,
-    profile?.name ?? formatPublicKey(displayId) ?? "Unknown sender",
+    profile?.name ?? formatPublicKey(displayId) ?? i18n._(msg`Unknown sender`),
     channel?.members,
   );
   const sender = item.workflowOwnerId ? workflowLabel(resolved) : resolved;
+  const dmName =
+    channel?.name ?? i18n._(msg`Direct message`);
   const context =
     channel?.channelType === "dm"
-      ? `DM · ${dmLabel(channel.participants, profiles, name, channel.name ?? "Direct message")}`
+      ? i18n._(
+          msg`DM · ${dmLabel(channel.participants, profiles, name, dmName)}`,
+        )
       : channel
         ? channelText(channel)
-        : "Conversation";
+        : i18n._(msg`Conversation`);
   return { sender, context, profile };
 }
 
@@ -99,11 +106,12 @@ export function InboxRowButton({
   ComponentProps<typeof NavigationItem>,
   "icon" | "label" | "trailing" | "aria-label"
 >) {
+  const { t } = useLingui();
   const unread = hasUnread(item);
   return (
     <MessageListRow
       {...props}
-      aria-label={`Open ${sender} in ${context}`}
+      aria-label={t`Open ${sender} in ${context}`}
       aria-describedby={previewId}
       avatar={
         <Avatar
@@ -157,6 +165,7 @@ export function ReactionRowButton({
   name: ResolveName;
   channel: ChannelSummary | undefined;
 } & Pick<ComponentProps<typeof NavigationItem>, "selected" | "onClick">) {
+  const { t } = useLingui();
   const reactionName = useReactionName();
   const authors = [...new Set(item.events.map((event) => event.pubkey))];
   const names = authors
@@ -164,23 +173,24 @@ export function ReactionRowButton({
     .map((id) =>
       name(
         id,
-        profiles.get(id)?.name ?? formatPublicKey(id) ?? "Someone",
+        profiles.get(id)?.name ?? formatPublicKey(id) ?? t`Someone`,
         channel?.members,
       ),
     );
   const sender =
     authors.length > 3
-      ? `${names.join(", ")} and ${authors.length - 2} others`
+      ? t`${names.join(", ")} and ${authors.length - 2} others`
       : authors.length === 3
-        ? `${names[0]}, ${names[1]} and ${names[2]}`
+        ? t`${names[0]}, ${names[1]} and ${names[2]}`
         : names.join(" and ");
   const profile = profiles.get(authors[0] ?? "");
+  const dmName = channel?.name ?? t`Direct message`;
   const context =
     channel?.channelType === "dm"
-      ? `DM with ${dmLabel(channel.participants, profiles, name, channel.name ?? "Direct message")}`
+      ? t`DM with ${dmLabel(channel.participants, profiles, name, dmName)}`
       : channel
         ? channelText(channel)
-        : "Conversation";
+        : t`Conversation`;
   const reactions = groupReactions(item.events);
   const preview = messagePreview(item.message.content);
   const emojiNames = reactions
@@ -195,7 +205,7 @@ export function ReactionRowButton({
   return (
     <NavigationItem
       {...props}
-      aria-label={`${sender} reacted with ${emojiNames} to your message: ${preview}`}
+      aria-label={t`${sender} reacted with ${emojiNames} to your message: ${preview}`}
       icon={
         <Avatar
           size="default"
@@ -219,7 +229,8 @@ export function ReactionRowButton({
                 <span
                   className={`text-body-sm text-standard ${styles.reactionTail}`}
                 >
-                  {"\u00a0reacted "}
+                  {"\u00a0"}
+                  {t`reacted`}{" "}
                   {reactions.map((reaction) => (
                     <ActivityReactionGlyph
                       key={JSON.stringify([
@@ -245,7 +256,7 @@ export function ReactionRowButton({
             {preview}
           </span>
           <span className={`text-caption ${rowStyles.source}`}>
-            in {context}
+            {t`in ${context}`}
           </span>
         </span>
       }

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { Agent, Agents } from "../../features/agents/service";
 import { randomAgentAvatar } from "../../features/agents/avatar-packs";
 import type { RelayData, RelaySnapshot } from "../../features/relay/service";
@@ -64,7 +66,7 @@ function read(key: string, owner: string): Record | undefined {
     record = JSON.parse(raw);
   } catch {
     throw new Error(
-      "Saved Bestie setup is unreadable. No new agent was created.",
+      i18n._(msg`Saved Bestie setup is unreadable. No new agent was created.`),
     );
   }
   if (
@@ -79,7 +81,7 @@ function read(key: string, owner: string): Record | undefined {
     )
   )
     throw new Error(
-      "Saved Bestie setup is invalid. Review it before retrying.",
+      i18n._(msg`Saved Bestie setup is invalid. Review it before retrying.`),
     );
   return record;
 }
@@ -99,10 +101,12 @@ function explain(error: unknown) {
   // Owner actions need the Buzz or Builderlab capability, which account
   // screening withholds until the owner's details pass.
   if (status === 403)
-    return "Builderlab won't let this account run remote agents yet. If Builderlab asks you to finish your account details, complete them there, then retry setup.";
+    return i18n._(
+      msg`Builderlab won't let this account run remote agents yet. If Builderlab asks you to finish your account details, complete them there, then retry setup.`,
+    );
   return error instanceof Error
     ? error.message
-    : "Bestie setup failed. Retry to continue.";
+    : i18n._(msg`Bestie setup failed. Retry to continue.`);
 }
 
 /** Setup coordinates existing owners: Agents makes and lists Bestie,
@@ -142,7 +146,9 @@ export function createRemoteBestie(
       if (!current) {
         publish({
           status: "unavailable",
-          message: "Sign in to Buzz and choose a community to set up Bestie.",
+          message: i18n._(
+            msg`Sign in to Buzz and choose a community to set up Bestie.`,
+          ),
         });
         return;
       }
@@ -152,8 +158,9 @@ export function createRemoteBestie(
           status: inventory.status === "error" ? "error" : "unavailable",
           message:
             inventory.status === "error"
-              ? (inventory.error ?? "Your agents could not be loaded.")
-              : "Loading your agents…",
+              ? (inventory.error ??
+                i18n._(msg`Your agents could not be loaded.`))
+              : i18n._(msg`Loading your agents…`),
         });
         return;
       }
@@ -161,8 +168,8 @@ export function createRemoteBestie(
       publish({
         status: record?.complete ? "ready" : "idle",
         message: record?.complete
-          ? "Your Bestie is set up."
-          : "Set up Bestie in this community.",
+          ? i18n._(msg`Your Bestie is set up.`)
+          : i18n._(msg`Set up Bestie in this community.`),
         record,
         connection: current.connection,
         instructionsChanged: !!record?.complete && changed(record),
@@ -191,7 +198,8 @@ export function createRemoteBestie(
     options: SetupOptions = {},
   ) {
     const context = scope();
-    if (!context) throw new Error("Connect to a community first.");
+    if (!context)
+      throw new Error(i18n._(msg`Connect to a community first.`));
     const { key, owner, connection } = context;
     const session = connection.session;
     const active = () =>
@@ -199,7 +207,10 @@ export function createRemoteBestie(
     const check = () => {
       signal.throwIfAborted();
       if (!active())
-        throw new DOMException("Account or community changed.", "AbortError");
+        throw new DOMException(
+          i18n._(msg`Account or community changed.`),
+          "AbortError",
+        );
     };
     const saved = read(key, owner);
     const record: Record = saved ?? {
@@ -226,7 +237,9 @@ export function createRemoteBestie(
       check();
       if (!models.length)
         throw new Error(
-          "Builderlab has no models available for Bestie. Retry setup later.",
+          i18n._(
+            msg`Builderlab has no models available for Bestie. Retry setup later.`,
+          ),
         );
       held = true;
       awaitingModel = { ...(selected ? { selected } : {}), options };
@@ -240,25 +253,31 @@ export function createRemoteBestie(
     };
     save();
 
-    progress("Signing in to Builderlab…");
+    progress(i18n._(msg`Signing in to Builderlab…`));
     try {
       await builderlab.ensureSignedIn(signal);
     } catch (error) {
       check();
+      const why = explain(error);
       throw new Error(
-        `Sign in to Builderlab to set up Bestie. ${explain(error)}`,
+        i18n._(msg`Sign in to Builderlab to set up Bestie. ${why}`),
       );
     }
     check();
 
     if (agents.snapshot().status !== "ready")
-      throw new Error("Your agents are still loading. Retry in a moment.");
+      throw new Error(
+        i18n._(msg`Your agents are still loading. Retry in a moment.`),
+      );
     const account = builderlab.account();
     const remoteAgents = async () => {
       const rows = await builderlab.list(signal);
       check();
       if (builderlab.account() !== account)
-        throw new DOMException("Builderlab session changed.", "AbortError");
+        throw new DOMException(
+          i18n._(msg`Builderlab session changed.`),
+          "AbortError",
+        );
       return rows;
     };
     // Builderlab says which agents exist; Agents says which are listed in
@@ -288,11 +307,15 @@ export function createRemoteBestie(
       agent = agents.find(chosen);
       if (agent && agent.place !== "hosted")
         throw new Error(
-          "Your saved Bestie no longer runs on Builderlab. Review Agents before retrying.",
+          i18n._(
+            msg`Your saved Bestie no longer runs on Builderlab. Review Agents before retrying.`,
+          ),
         );
       if (!inAccount(chosen))
         throw new CreateNewError(
-          "Your saved Bestie isn't in this Builderlab account. Sign in to the account that created it and retry, or create a new Bestie.",
+          i18n._(
+            msg`Your saved Bestie isn't in this Builderlab account. Sign in to the account that created it and retry, or create a new Bestie.`,
+          ),
         );
     } else {
       const candidates = agents
@@ -306,13 +329,16 @@ export function createRemoteBestie(
             (!options.createNew || inAccount(row.pubkey)),
         );
       if (selected && !candidates.some((row) => row.pubkey === selected))
-        throw new Error("That Bestie is no longer available. Retry setup.");
+        throw new Error(
+          i18n._(msg`That Bestie is no longer available. Retry setup.`),
+        );
       if (candidates.length > 1 && !selected) {
         held = true;
         publish({
           status: "choose-agent",
-          message:
-            "You already have several Besties. Choose one to use for this channel.",
+          message: i18n._(
+            msg`You already have several Besties. Choose one to use for this channel.`,
+          ),
           candidates,
           record,
           connection,
@@ -333,7 +359,9 @@ export function createRemoteBestie(
           )
         )
           throw new CreateNewError(
-            "Your Builderlab account already has a Bestie that isn't listed in this community yet. Wait for your agents to load, then retry, or create a new Bestie for this community.",
+            i18n._(
+              msg`Your Builderlab account already has a Bestie that isn't listed in this community yet. Wait for your agents to load, then retry, or create a new Bestie for this community.`,
+            ),
           );
         // Agents resumes an unfinished agent of the same name rather than
         // making another, and this one can no longer finish.
@@ -350,15 +378,19 @@ export function createRemoteBestie(
             )
         )
           throw new Error(
-            "An unfinished Bestie that this Builderlab account no longer has is still in Agents. Delete it in Agents, then create a new Bestie.",
+            i18n._(
+              msg`An unfinished Bestie that this Builderlab account no longer has is still in Agents. Delete it in Agents, then create a new Bestie.`,
+            ),
           );
         if (!options.model) {
           await askForModel(
-            "Choose the model and reasoning effort Bestie runs on.",
+            i18n._(
+              msg`Choose the model and reasoning effort Bestie runs on.`,
+            ),
           );
           return;
         }
-        progress("Creating Bestie…");
+        progress(i18n._(msg`Creating Bestie…`));
         const instructions = bestieInstructions(owner, record.channelId);
         // A failure after Builderlab made the agent leaves it unfinished in
         // Agents; the next attempt finds and finishes it instead.
@@ -382,7 +414,7 @@ export function createRemoteBestie(
       check();
     }
     if (agent?.unfinished) {
-      progress("Finishing Bestie's setup…");
+      progress(i18n._(msg`Finishing Bestie's setup…`));
       await agents.finish(agent.pubkey);
       check();
       remote = await remoteAgents();
@@ -397,11 +429,13 @@ export function createRemoteBestie(
     ) {
       if (!options.model) {
         await askForModel(
-          "Bestie needs a model and reasoning effort before it can reply. Choose one to continue.",
+          i18n._(
+            msg`Bestie needs a model and reasoning effort before it can reply. Choose one to continue.`,
+          ),
         );
         return;
       }
-      progress("Choosing Bestie's model…");
+      progress(i18n._(msg`Choosing Bestie's model…`));
       await builderlab.updateModel(
         listed,
         options.model.modelId,
@@ -414,14 +448,18 @@ export function createRemoteBestie(
     const instructions = bestieInstructions(owner, record.channelId);
     if (instructions.length > MAX_INSTRUCTIONS_LENGTH)
       throw new Error(
-        `Bestie's instructions are ${instructions.length} characters; Builderlab allows ${MAX_INSTRUCTIONS_LENGTH}. Shorten prompt.ts and retry.`,
+        i18n._(
+          msg`Bestie's instructions are ${instructions.length} characters; Builderlab allows ${MAX_INSTRUCTIONS_LENGTH}. Shorten prompt.ts and retry.`,
+        ),
       );
     if (record.promptVersion !== promptVersion(instructions)) {
-      progress("Updating Bestie's instructions…");
+      progress(i18n._(msg`Updating Bestie's instructions…`));
       const row = remote.find((item) => item.pubkey === pubkey);
       if (!row)
         throw new Error(
-          "Sign in to the Builderlab account that created Bestie, then retry setup.",
+          i18n._(
+            msg`Sign in to the Builderlab account that created Bestie, then retry setup.`,
+          ),
         );
       await builderlab.updateInstructions(row, instructions, signal);
       check();
@@ -429,9 +467,12 @@ export function createRemoteBestie(
       save();
     }
 
-    progress("Opening your private Bestie channel…");
+    progress(i18n._(msg`Opening your private Bestie channel…`));
     const outbox = session.outbox;
-    if (!outbox) throw new Error("This community cannot save Bestie setup.");
+    if (!outbox)
+      throw new Error(
+        i18n._(msg`This community cannot save Bestie setup.`),
+      );
     await outbox.ready();
     check();
     const verifyHome = async () => {
@@ -447,7 +488,9 @@ export function createRemoteBestie(
         home.members.some((member) => member !== owner && member !== pubkey)
       )
         throw new Error(
-          "Bestie's channel must be private and contain only you and Bestie. Review its members before continuing.",
+          i18n._(
+            msg`Bestie's channel must be private and contain only you and Bestie. Review its members before continuing.`,
+          ),
         );
       return home;
     };
@@ -533,7 +576,7 @@ export function createRemoteBestie(
     }
     const home = await verifyHome();
     if (!home.members?.includes(pubkey)) {
-      progress("Inviting Bestie to the channel…");
+      progress(i18n._(msg`Inviting Bestie to the channel…`));
       // Agents join a Solo chat through the agent path, not member additions.
       // That path admits only listed agents, so read the new listing first.
       await session.agentChoices.refresh(true, { fresh: true });
@@ -544,7 +587,7 @@ export function createRemoteBestie(
     const confirmed = await verifyHome();
     if (!confirmed.members?.includes(pubkey))
       throw new Error(
-        "Bestie's invitation has not been confirmed. Retry setup.",
+        i18n._(msg`Bestie's invitation has not been confirmed. Retry setup.`),
       );
 
     await recoverMissing("welcomeId", "welcomeFailed");
@@ -568,7 +611,7 @@ export function createRemoteBestie(
     save();
     publish({
       status: "ready",
-      message: "Your Bestie is set up.",
+      message: i18n._(msg`Your Bestie is set up.`),
       record,
       connection,
     });
@@ -581,7 +624,8 @@ export function createRemoteBestie(
     held = false;
     const task = async () => {
       const current = scope();
-      if (!current) throw new Error("Connect to a community first.");
+      if (!current)
+        throw new Error(i18n._(msg`Connect to a community first.`));
       // One setup per owner and community across this app's windows.
       if (typeof navigator !== "undefined" && navigator.locks)
         await navigator.locks.request(

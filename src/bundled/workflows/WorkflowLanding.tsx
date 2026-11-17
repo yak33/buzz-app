@@ -1,4 +1,8 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useProfileGeneration } from "../../features/relay/react";
+import { i18n } from "../../features/localization/service";
 import {
   AnimatePresence,
   motion,
@@ -145,8 +149,7 @@ export function workflowOperationLocked(
 }
 
 /** The relay still accepts saves and runs there, but every run fails. */
-export const ARCHIVED_REASON =
-  "This channel is archived, so its workflows can't run.";
+export const ARCHIVED_REASON = msg`This channel is archived, so its workflows can't run.`;
 
 /** A save is resolved once its exact revision, or a newer head, is read. */
 export function saveAwaitsReadback(
@@ -221,7 +224,9 @@ function useLandingDefinitions(
     const failure = (id: string) => ({
       status: "error" as const,
       data: snapshots[id]?.data ?? EMPTY_DEFINITIONS,
-      error: "Workflow read unavailable. Retry; this is not proof of deletion.",
+      error: i18n._(
+        msg`Workflow read unavailable. Retry; this is not proof of deletion.`,
+      ),
     });
     const definitionsFor = (id: string, data: WorkflowDefinitions) => ({
       items: data.items.filter((row) => row.channelId === id),
@@ -456,6 +461,7 @@ function WorkflowOwner({
   channelId: string;
   keyLabel: string;
 }) {
+  const { t } = useLingui();
   const selection = useMemo(
     () => selectProfiles(session.profiles, [owner]),
     [session, owner],
@@ -468,7 +474,11 @@ function WorkflowOwner({
   const name = useChannelIdentityNames(session, channelId);
   const profile = profiles.get(owner);
   const fallback = profile && !profile.nameIsFallback ? profile.name : keyLabel;
-  return <>Owner: {name(owner, fallback)}</>;
+  return (
+    <>
+      {t`Owner:`}{" "}{name(owner, fallback)}
+    </>
+  );
 }
 
 function WorkflowCard({
@@ -506,6 +516,7 @@ function WorkflowCard({
   onDelete: (definition: WorkflowDefinition) => void;
   onOpen: (definition: WorkflowDefinition, channel: ChannelSummary) => void;
 }) {
+  const { i18n, t } = useLingui();
   const present = useIsPresent();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const deletion = [...operations]
@@ -563,15 +574,15 @@ function WorkflowCard({
   // An enabled workflow can still be turned off, so it stops failing.
   const archivedOff = !!channel.archived && !enabled;
   const toggleReason = archivedOff
-    ? ARCHIVED_REASON
+    ? i18n._(ARCHIVED_REASON)
     : readonly
-      ? "Only the author can change this workflow."
+      ? t`Only the author can change this workflow.`
       : locked || awaitingReadback
-        ? "Waiting for the submitted change to be resolved."
+        ? t`Waiting for the submitted change to be resolved.`
         : !fields.editable
-          ? "Correct the YAML before changing the configured state."
+          ? t`Correct the YAML before changing the configured state.`
           : !capability.availability.save
-            ? "Saving is unavailable from this host."
+            ? t`Saving is unavailable from this host.`
             : undefined;
   const reasonId = useId();
   const archivedReasonId = useId();
@@ -579,9 +590,9 @@ function WorkflowCard({
   const descriptionId = useId();
   const statusId = useId();
   const warning = getWorkflowActivationWarning(definition.yaml);
-  const name = fields.name || "Unnamed or malformed workflow";
+  const name = fields.name || t`Unnamed or malformed workflow`;
   const keyLabel =
-    ownerKeyLabels.get(definition.owner.toLowerCase()) ?? "Unknown owner";
+    ownerKeyLabels.get(definition.owner.toLowerCase()) ?? t`Unknown owner`;
   const owner = session ? (
     <WorkflowOwner
       session={session}
@@ -590,7 +601,9 @@ function WorkflowCard({
       keyLabel={keyLabel}
     />
   ) : (
-    <>Owner: {keyLabel}</>
+    <>
+      {t`Owner:`}{" "}{keyLabel}
+    </>
   );
   const runDisabled =
     !!channel.archived ||
@@ -606,7 +619,9 @@ function WorkflowCard({
       onError(null);
     } catch (cause) {
       onError(
-        cause instanceof Error ? cause.message : "Run could not be submitted.",
+        cause instanceof Error
+          ? cause.message
+          : i18n._(msg`Run could not be submitted.`),
       );
     }
   };
@@ -618,7 +633,9 @@ function WorkflowCard({
     }
     const yaml = yamlWithWorkflowEnabled(definition.yaml, next);
     if (yaml === null) {
-      onError("This workflow cannot be changed from the landing page.");
+      onError(
+        i18n._(msg`This workflow cannot be changed from the landing page.`),
+      );
       return;
     }
     try {
@@ -633,7 +650,7 @@ function WorkflowCard({
       onError(
         cause instanceof Error
           ? cause.message
-          : "The workflow status could not be submitted.",
+          : i18n._(msg`The workflow status could not be submitted.`),
       );
     }
   };
@@ -650,8 +667,8 @@ function WorkflowCard({
       <IconButton
         size="sm"
         variant="ghost"
-        aria-label={`Run now: ${name}`}
-        title={channel.archived ? ARCHIVED_REASON : "Run now"}
+        aria-label={t`Run now: ${name}`}
+        title={channel.archived ? i18n._(ARCHIVED_REASON) : t`Run now`}
         aria-describedby={channel.archived ? archivedReasonId : undefined}
         disabled={runDisabled}
         // A natively disabled button gets no hover, so its reason would never show.
@@ -662,12 +679,12 @@ function WorkflowCard({
       {fields.editable && (
         // Like Run now, the archived reason shows on hover and keyboard focus.
         <Tooltip
-          content={ARCHIVED_REASON}
+          content={i18n._(ARCHIVED_REASON)}
           {...(archivedOff ? {} : { open: false })}
           disableHoverablePopup
         >
           <Switch
-            aria-label={`Enabled in configuration: ${name}`}
+            aria-label={t`Enabled in configuration: ${name}`}
             aria-describedby={toggleReason ? reasonId : undefined}
             checked={enabled}
             disabled={!!toggleReason}
@@ -695,7 +712,7 @@ function WorkflowCard({
         <MenuTrigger
           render={
             <IconButton
-              aria-label={`Actions for ${name}`}
+              aria-label={t`Actions for ${name}`}
               size="sm"
               variant="ghost"
               icon={<DotsThreeIcon size="1rem" aria-hidden="true" />}
@@ -714,7 +731,7 @@ function WorkflowCard({
                 <PencilSimpleIcon size={14} />
               )}
             </MenuIcon>
-            {readonly ? "View workflow" : "Edit workflow"}
+            {readonly ? t`View workflow` : t`Edit workflow`}
           </MenuItem>
           <MenuItem
             tone="danger"
@@ -730,12 +747,11 @@ function WorkflowCard({
             <MenuIcon>
               <TrashIcon size={14} />
             </MenuIcon>
-            Delete workflow
+            {t`Delete workflow`}
           </MenuItem>
           {!canDelete && (
             <MenuNote id={`${deleteReasonId}-row`}>
-              Only the author or their verified agent owner can delete this
-              workflow.
+              {t`Only the author or their verified agent owner can delete this workflow.`}
             </MenuNote>
           )}
         </MenuPopup>
@@ -747,11 +763,11 @@ function WorkflowCard({
       {deletion && (
         <span role="status">
           {deletion.outcome === "pending"
-            ? "Deleting…"
-            : "Deletion unconfirmed"}
+            ? t`Deleting…`
+            : t`Deletion unconfirmed`}
         </span>
       )}
-      {!fields.editable && <span>Unreadable configuration</span>}
+      {!fields.editable && <span>{t`Unreadable configuration`}</span>}
       {toggleReason && (
         <span id={reasonId} hidden>
           {toggleReason}
@@ -759,7 +775,7 @@ function WorkflowCard({
       )}
       {channel.archived && (
         <span id={archivedReasonId} hidden>
-          {ARCHIVED_REASON}
+          {i18n._(ARCHIVED_REASON)}
         </span>
       )}
     </>
@@ -788,21 +804,21 @@ function WorkflowCard({
           {presentation.description}
         </p>
         <p className="text-caption text-subtle">
-          #{channel.name} · {channel.archived && "Archived · "}
+          #{channel.name} · {channel.archived && t`Archived · `}
           {updated}
         </p>
         <p className="text-caption text-subtle">{owner}</p>
         <div className="workflow-detail-actions">
           <Button
             variant="primary"
-            title={channel.archived ? ARCHIVED_REASON : undefined}
+            title={channel.archived ? i18n._(ARCHIVED_REASON) : undefined}
             aria-describedby={channel.archived ? archivedReasonId : undefined}
             disabled={runDisabled}
             focusableWhenDisabled={channel.archived}
             onClick={runNow}
           >
             <PlayIcon size="1rem" aria-hidden="true" />
-            Run now
+            {t`Run now`}
           </Button>
           <Button
             variant="outline"
@@ -814,13 +830,13 @@ function WorkflowCard({
             ) : (
               <PencilSimpleIcon size="1rem" aria-hidden="true" />
             )}
-            {readonly ? "View workflow" : "Edit workflow"}
+            {readonly ? t`View workflow` : t`Edit workflow`}
           </Button>
           <MenuRoot>
             <MenuTrigger
               render={
                 <IconButton
-                  aria-label={`Actions for ${name}`}
+                  aria-label={t`Actions for ${name}`}
                   size="md"
                   variant="outline"
                   icon={<DotsThreeIcon size="1rem" aria-hidden="true" />}
@@ -844,12 +860,11 @@ function WorkflowCard({
                 <MenuIcon>
                   <TrashIcon size={14} />
                 </MenuIcon>
-                Delete workflow
+                {t`Delete workflow`}
               </MenuItem>
               {!canDelete && (
                 <MenuNote id={`${deleteReasonId}-detail`}>
-                  Only the author or their verified agent owner can delete this
-                  workflow.
+                  {t`Only the author or their verified agent owner can delete this workflow.`}
                 </MenuNote>
               )}
             </MenuPopup>
@@ -859,10 +874,10 @@ function WorkflowCard({
       {fields.editable && (
         <SettingsGroup>
           <SwitchPreferenceRow
-            label="Enabled in configuration"
+            label={t`Enabled in configuration`}
             description={
               toggleReason ??
-              "Saved configuration only. Turning off does not confirm runs have stopped or cancel active runs."
+              t`Saved configuration only. Turning off does not confirm runs have stopped or cancel active runs.`
             }
             checked={enabled}
             disabled={!!toggleReason}
@@ -892,7 +907,7 @@ function WorkflowCard({
           <NavigationItem
             multiline
             ref={openRef}
-            aria-label={`Open ${name}: ${presentation.description}`}
+            aria-label={t`Open ${name}: ${presentation.description}`}
             aria-describedby={`${descriptionId} ${statusId}`}
             aria-current={false}
             aria-pressed={selected}
@@ -938,7 +953,7 @@ function WorkflowCard({
                       <span aria-hidden="true">·</span>
                       {channel.archived && (
                         <>
-                          <span>Archived</span>
+                          <span>{t`Archived`}</span>
                           <span aria-hidden="true">·</span>
                         </>
                       )}
@@ -963,10 +978,10 @@ function WorkflowCard({
       </article>
       {present && confirmDelete && (
         <ConfirmAction
-          title="Delete this workflow?"
-          description="The saved workflow may remain visible. Work already running may continue."
-          action="Delete workflow"
-          cancel="Cancel"
+          title={t`Delete this workflow?`}
+          description={t`The saved workflow may remain visible. Work already running may continue.`}
+          action={t`Delete workflow`}
+          cancel={t`Cancel`}
           destructive
           onCancel={() => setConfirmDelete(false)}
           onConfirm={() => {
@@ -977,13 +992,13 @@ function WorkflowCard({
       )}
       {present && confirmEnable && (
         <ConfirmAction
-          title={warning?.title ?? "Turn on this workflow?"}
+          title={warning?.title ?? t`Turn on this workflow?`}
           description={
             warning?.description ??
-            "The relay may run this workflow as soon as its trigger matches."
+            t`The relay may run this workflow as soon as its trigger matches.`
           }
-          action="Turn on"
-          cancel="Keep off"
+          action={t`Turn on`}
+          cancel={t`Keep off`}
           onCancel={() => setConfirmEnable(false)}
           onConfirm={() => {
             setConfirmEnable(false);
@@ -1063,6 +1078,7 @@ function WorkflowCards({
   onOpen: (definition: WorkflowDefinition, channel: ChannelSummary) => void;
 }) {
   // Present groups receive current props; presence data updates retained exits.
+  const { t } = useLingui();
   const present = useIsPresent();
   const channelIds: ReadonlySet<string> = usePresenceData();
   const headingId = useId();
@@ -1078,7 +1094,7 @@ function WorkflowCards({
     <section
       className="workflow-channel-group"
       aria-labelledby={channel ? headingId : undefined}
-      aria-label={channel ? undefined : "Recent workflows"}
+      aria-label={channel ? undefined : t`Recent workflows`}
     >
       {Icon && channel && (
         <Header
@@ -1086,7 +1102,7 @@ function WorkflowCards({
           level={2}
           icon={<Icon size={24} />}
           title={channel.name}
-          subtitle={channel.archived && "Archived"}
+          subtitle={channel.archived && t`Archived`}
         />
       )}
       <SettingsGroup>
@@ -1119,7 +1135,7 @@ function WorkflowCards({
             key={partialChannel.id}
             className="workflow-state-card text-body-sm text-secondary"
           >
-            #{partialChannel.name} returned a partial workflow list.
+            #{partialChannel.name} {t`returned a partial workflow list.`}
           </div>
         ))}
       </SettingsGroup>
@@ -1131,20 +1147,20 @@ const workflowKey = (definition: WorkflowDefinition) =>
   `${definition.channelId}:${definition.owner}:${definition.id}`;
 
 const OWNER_OPTIONS = [
-  { value: "all", label: "All channel workflows" },
-  { value: "mine", label: "My workflows" },
+  { value: "all", label: msg`All channel workflows` },
+  { value: "mine", label: msg`My workflows` },
 ] as const;
 const STATUS_OPTIONS = [
-  { value: "all", label: "Any status" },
-  { value: "enabled", label: "Enabled" },
-  { value: "disabled", label: "Disabled" },
+  { value: "all", label: msg`Any status` },
+  { value: "enabled", label: msg`Enabled` },
+  { value: "disabled", label: msg`Disabled` },
 ] as const;
 const TRIGGER_OPTIONS = [
-  { value: "message", label: "Message" },
-  { value: "reaction", label: "Reaction" },
-  { value: "diff", label: "Diff" },
-  { value: "schedule", label: "Schedule" },
-  { value: "webhook", label: "Webhook" },
+  { value: "message", label: msg`Message` },
+  { value: "reaction", label: msg`Reaction` },
+  { value: "diff", label: msg`Diff` },
+  { value: "schedule", label: msg`Schedule` },
+  { value: "webhook", label: msg`Webhook` },
 ] as const;
 
 function WorkflowFilterMenu<Value extends string>({
@@ -1159,8 +1175,8 @@ function WorkflowFilterMenu<Value extends string>({
   label: string;
   value: Value;
   options: readonly [
-    { value: Value; label: string },
-    ...{ value: Value; label: string }[],
+    { value: Value; label: MessageDescriptor },
+    ...{ value: Value; label: MessageDescriptor }[],
   ];
   onChange: (value: Value) => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
@@ -1168,11 +1184,12 @@ function WorkflowFilterMenu<Value extends string>({
   /** Name the default option on the trigger instead of the bare filter label. */
   showDefault?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const [open, setOpen] = useState(false);
   const active = value !== options[0].value;
   const named = active || showDefault;
-  const selectedLabel =
-    options.find((option) => option.value === value)?.label ?? label;
+  const selected = options.find((option) => option.value === value);
+  const selectedLabel = selected ? i18n._(selected.label) : label;
   return (
     <div className="workflow-filter-control">
       <PopoverRoot open={open} onOpenChange={setOpen}>
@@ -1199,7 +1216,9 @@ function WorkflowFilterMenu<Value extends string>({
                     size="sm"
                     key={option.value}
                     value={option.value}
-                    label={<span className="text-body-sm">{option.label}</span>}
+                    label={
+                      <span className="text-body-sm">{i18n._(option.label)}</span>
+                    }
                     onClick={() => setOpen(false)}
                   />
                 ))}
@@ -1212,8 +1231,8 @@ function WorkflowFilterMenu<Value extends string>({
         <IconButton
           size="sm"
           variant="ghost"
-          aria-label={`Clear ${label.toLowerCase()} filter`}
-          title={`Clear ${label.toLowerCase()} filter`}
+          aria-label={t`Clear ${label.toLowerCase()} filter`}
+          title={t`Clear ${label.toLowerCase()} filter`}
           icon={<XIcon size={16} aria-hidden="true" />}
           onClick={() => {
             onChange(options[0].value);
@@ -1246,13 +1265,14 @@ function WorkflowMultiFilterMenu<Value extends string>({
   pluralLabel: string;
   emptyMessage: string;
 }) {
+  const { t } = useLingui();
   const selected = options.filter((option) => value.includes(option.value));
   const active = selected.length > 0;
   const shownText =
     selected.length === 1
       ? (selected[0]?.label ?? label)
       : active
-        ? `${selected.length} ${pluralLabel}`
+        ? t`${selected.length} ${pluralLabel}`
         : label;
   return (
     <div className="workflow-filter-control">
@@ -1319,8 +1339,8 @@ function WorkflowMultiFilterMenu<Value extends string>({
         <IconButton
           size="sm"
           variant="ghost"
-          aria-label={`Clear ${label.toLowerCase()} filter`}
-          title={`Clear ${label.toLowerCase()} filter`}
+          aria-label={t`Clear ${label.toLowerCase()} filter`}
+          title={t`Clear ${label.toLowerCase()} filter`}
           icon={<XIcon size={16} aria-hidden="true" />}
           onClick={() => {
             onChange([]);
@@ -1368,6 +1388,7 @@ export function WorkflowLanding({
   onDelete: (definition: WorkflowDefinition) => void;
   onOpen: (definition: WorkflowDefinition, channel: ChannelSummary) => void;
 }) {
+  const { i18n, t } = useLingui();
   const operations = useSyncExternalStore(
     capability.operations.subscribe,
     capability.operations.snapshot,
@@ -1400,7 +1421,7 @@ export function WorkflowLanding({
       setError(
         cause instanceof Error
           ? cause.message
-          : "Couldn't dismiss this notice. Try again.",
+          : i18n._(msg`Couldn't dismiss this notice. Try again.`),
       );
     } finally {
       setDismissingRun(false);
@@ -1506,7 +1527,7 @@ export function WorkflowLanding({
     );
   const selectedName = selectedItem
     ? readWorkflowDocumentFields(selectedItem.yaml).name ||
-      "Unnamed or malformed workflow"
+      t`Unnamed or malformed workflow`
     : undefined;
   useEffect(() => {
     // Filtering is definitive; disappearance waits for pending reads to settle.
@@ -1601,11 +1622,11 @@ export function WorkflowLanding({
     <>
       <fieldset
         className="workflow-filter-toolbar"
-        aria-label="Workflow filters"
+        aria-label={t`Workflow filters`}
       >
         <div className="workflow-filter-controls">
           <WorkflowFilterMenu
-            label="Owner"
+            label={t`Owner`}
             triggerRef={ownerTriggerRef}
             value={mineOnly ? "mine" : "all"}
             options={OWNER_OPTIONS}
@@ -1614,7 +1635,7 @@ export function WorkflowLanding({
             onChange={(value) => setMineOnly(value === "mine")}
           />
           <WorkflowFilterMenu
-            label="Status"
+            label={t`Status`}
             triggerRef={statusTriggerRef}
             value={status}
             options={STATUS_OPTIONS}
@@ -1628,9 +1649,9 @@ export function WorkflowLanding({
             onChange={setStatus}
           />
           <WorkflowMultiFilterMenu
-            label="Trigger"
-            pluralLabel="triggers"
-            emptyMessage="No trigger types available."
+            label={t`Trigger`}
+            pluralLabel={t`triggers`}
+            emptyMessage={t`No trigger types available.`}
             triggerRef={triggerTypeRef}
             value={triggers}
             onChange={setTriggers}
@@ -1640,6 +1661,7 @@ export function WorkflowLanding({
               const Icon = ICONS[option.value];
               return {
                 ...option,
+                label: i18n._(option.label),
                 icon: (
                   <Icon
                     className="workflow-filter-channel-icon"
@@ -1651,9 +1673,9 @@ export function WorkflowLanding({
             })}
           />
           <WorkflowMultiFilterMenu
-            label="Channels"
-            pluralLabel="channels"
-            emptyMessage="No channels with workflows yet."
+            label={t`Channels`}
+            pluralLabel={t`channels`}
+            emptyMessage={t`No channels with workflows yet.`}
             triggerRef={channelsTriggerRef}
             value={filter}
             onChange={onFilterChange}
@@ -1673,7 +1695,7 @@ export function WorkflowLanding({
           />
           {filtered && (
             <Button size="sm" variant="ghost" onClick={resetFilters}>
-              Clear all
+              {t`Clear all`}
             </Button>
           )}
         </div>
@@ -1684,14 +1706,16 @@ export function WorkflowLanding({
                 <Button
                   size="sm"
                   variant="ghost"
-                  aria-label="Sort workflows"
+                  aria-label={t`Sort workflows`}
                   aria-description={
-                    sort === "recent" ? "Recently updated" : "By channel"
+                    sort === "recent"
+                      ? t`Recently updated`
+                      : t`By channel`
                   }
                   title={
                     sort === "recent"
-                      ? "Sort: Recently updated"
-                      : "Sort: By channel"
+                      ? t`Sort: Recently updated`
+                      : t`Sort: By channel`
                   }
                 >
                   {sort === "recent" ? (
@@ -1703,7 +1727,11 @@ export function WorkflowLanding({
                 </Button>
               }
             />
-            <MenuPopup size="compact" align="end" aria-label="Sort workflows">
+            <MenuPopup
+              size="compact"
+              align="end"
+              aria-label={t`Sort workflows`}
+            >
               <MenuRadioGroup
                 value={sort}
                 onValueChange={(value) => {
@@ -1711,10 +1739,10 @@ export function WorkflowLanding({
                 }}
               >
                 <MenuRadioItem value="channel" closeOnClick>
-                  By channel
+                  {t`By channel`}
                 </MenuRadioItem>
                 <MenuRadioItem value="recent" closeOnClick>
-                  Recently updated
+                  {t`Recently updated`}
                 </MenuRadioItem>
               </MenuRadioGroup>
             </MenuPopup>
@@ -1734,17 +1762,17 @@ export function WorkflowLanding({
           icon={<LightningIcon size="1.5rem" aria-hidden="true" />}
           title={
             emptyFromOwnership
-              ? "You don’t have any workflows yet"
+              ? t`You don’t have any workflows yet`
               : emptyFromFilters
-                ? "No matching workflows"
-                : "Workflows"
+                ? t`No matching workflows`
+                : t`Workflows`
           }
           description={
             emptyFromOwnership
-              ? "Workflows you authored appear here. Other authors’ workflows are in All channel workflows."
+              ? t`Workflows you authored appear here. Other authors’ workflows are in All channel workflows.`
               : emptyFromFilters
-                ? "Try changing or clearing your filters."
-                : "Automations that keep your community moving."
+                ? t`Try changing or clearing your filters.`
+                : t`Automations that keep your community moving.`
           }
           action={
             emptyFromOwnership ? (
@@ -1754,15 +1782,15 @@ export function WorkflowLanding({
                   ownerTriggerRef.current?.focus();
                 }}
               >
-                Show all channel workflows
+                {t`Show all channel workflows`}
               </Button>
             ) : emptyFromFilters ? (
-              <Button onClick={resetFilters}>Clear filters</Button>
+              <Button onClick={resetFilters}>{t`Clear filters`}</Button>
             ) : (
               onCreate && (
                 <Button onClick={onCreate}>
                   <PlusIcon size="1rem" aria-hidden="true" />
-                  New workflow
+                  {t`New workflow`}
                 </Button>
               )
             )
@@ -1822,18 +1850,18 @@ export function WorkflowLanding({
         role="status"
       >
         {paused
-          ? "Workflow discovery paused. Some channels could not be checked. Loaded workflows are still shown."
+          ? t`Workflow discovery paused. Some channels could not be checked. Loaded workflows are still shown.`
           : reading
-            ? "Reading workflows…"
+            ? t`Reading workflows…`
             : cleared
-              ? "Workflow data cleared or unavailable. Refresh to check access."
+              ? t`Workflow data cleared or unavailable. Refresh to check access.`
               : null}
         {paused && (
           <Button
             size="sm"
             onClick={() => setRetryRequest((request) => request + 1)}
           >
-            Retry
+            {t`Retry`}
           </Button>
         )}
       </p>
@@ -1845,11 +1873,11 @@ export function WorkflowLanding({
         .map((run) => (
           <ToastNotice
             key={run.eventId}
-            title={messages.trigger[run.outcome]}
+            title={i18n._(messages.trigger[run.outcome])}
             {...(run.outcome === "rejected"
               ? {
                   description:
-                    run.error || "The relay did not create a workflow run.",
+                    run.error || t`The relay did not create a workflow run.`,
                 }
               : {})}
             tone={
@@ -1875,7 +1903,7 @@ export function WorkflowLanding({
                 disabled={dismissingRun}
                 onClick={() => void dismissRun(run.eventId)}
               >
-                Dismiss notice
+                {t`Dismiss notice`}
               </Button>
             )}
           </ToastNotice>
@@ -1888,8 +1916,7 @@ export function WorkflowLanding({
         />
       )}
       <p className="workflow-page-footnote text-caption text-subtle">
-        Saved configuration only. Turning off does not confirm runs have stopped
-        or cancel active runs.
+        {t`Saved configuration only. Turning off does not confirm runs have stopped or cancel active runs.`}
       </p>
     </>
   );

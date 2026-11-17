@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import {
   type AttentionValue,
   interestSlug,
@@ -41,10 +43,10 @@ export function cannotEdit(
       !feature.timer &&
       agents.hostedInstructions?.(agent.pubkey)
       ? undefined
-      : "Not available with remote agents yet.";
+      : i18n._(msg`Not available with remote agents yet.`);
   // A type without `adopt` has no instructions, as `updateKind` says.
   if (!agents.types().find(({ key }) => key === agent.type)?.adopt)
-    return "This agent's type has no instructions to add this to.";
+    return i18n._(msg`This agent's type has no instructions to add this to.`);
   // Without a confirmed copy its instructions aren't shown, so a save here
   // would replace them.
   return agent.configProblem;
@@ -88,10 +90,12 @@ export async function saveFeature(
     signal,
   }: { channel?: string; timerOnly?: boolean; signal?: AbortSignal } = {},
 ) {
-  if (on && featureState(instructionsOf(agent), feature) === "edited")
+  if (on && featureState(instructionsOf(agent), feature) === "edited") {
+    const title = i18n._(feature.title);
     throw new Error(
-      `${feature.title} was edited in Instructions; restore it first.`,
+      i18n._(msg`${title} was edited in Instructions; restore it first.`),
     );
+  }
   const off = on
     ? []
     : [feature, ...FEATURES.filter(({ requires }) => requires === feature.id)];
@@ -103,7 +107,8 @@ export async function saveFeature(
       if (agent.attention[slug]) attention[slug] = null;
   const timer = on && feature.timer;
   if (timer) {
-    if (!channel) throw new Error("A check-in needs your DM with the agent.");
+    if (!channel)
+      throw new Error(i18n._(msg`A check-in needs your DM with the agent.`));
     attention[interestSlug(timer.id)] = {
       type: "interest",
       instructions: timer.interest,
@@ -146,8 +151,11 @@ export async function saveFeature(
           ),
         })
         .catch(() => {
+          const reason = cause instanceof Error ? cause.message : String(cause);
           throw new Error(
-            `${cause instanceof Error ? cause.message : String(cause)} Its timer may still be saved; remove it below.`,
+            i18n._(
+              msg`${reason} Its timer may still be saved; remove it below.`,
+            ),
           );
         });
     throw cause;
@@ -162,8 +170,10 @@ export async function restoreFeature(
   feature: Feature,
 ) {
   const next = restoredFeature(instructionsOf(agent), feature);
-  if (next === undefined)
-    throw new Error(`Fix ${feature.title}'s markers in Instructions.`);
+  if (next === undefined) {
+    const title = i18n._(feature.title);
+    throw new Error(i18n._(msg`Fix ${title}'s markers in Instructions.`));
+  }
   await saveInstructions(agents, agent, next);
 }
 
@@ -176,7 +186,8 @@ function saveInstructions(
 ) {
   if (agent.place === "hosted") {
     const hosted = agents.hostedInstructions?.(agent.pubkey);
-    if (!hosted) throw new Error("Not available with remote agents yet.");
+    if (!hosted)
+      throw new Error(i18n._(msg`Not available with remote agents yet.`));
     // Its provider replaces the copy this switch shows, never a newer one.
     return hosted.set(instructions, instructionsOf(agent));
   }

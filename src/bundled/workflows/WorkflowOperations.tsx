@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import type {
@@ -11,18 +13,16 @@ import { confirmedDeletion, deletionStatus } from "./editor-model";
 
 export const messages = {
   save: {
-    pending: "Saving configuration…",
-    succeeded: "Configuration saved.",
-    rejected: "Configuration was not saved.",
-    unknown:
-      "Save response was lost. Check the saved configuration before trying again.",
+    pending: msg`Saving configuration…`,
+    succeeded: msg`Configuration saved.`,
+    rejected: msg`Configuration was not saved.`,
+    unknown: msg`Save response was lost. Check the saved configuration before trying again.`,
   },
   trigger: {
-    pending: "Requesting a run…",
-    succeeded: "Run requested. Inspect run history for its result.",
-    rejected: "Failed to trigger workflow",
-    unknown:
-      "The run may have started, but its response was lost. Checking configuration or dismissing this notice cannot confirm a run.",
+    pending: msg`Requesting a run…`,
+    succeeded: msg`Run requested. Inspect run history for its result.`,
+    rejected: msg`Failed to trigger workflow`,
+    unknown: msg`The run may have started, but its response was lost. Checking configuration or dismissing this notice cannot confirm a run.`,
   },
 } as const;
 
@@ -39,6 +39,7 @@ export function WorkflowOperations({
   onReviewSaved: (definition: WorkflowDefinition) => void;
   onDismiss: (eventId: string) => Promise<void>;
 }) {
+  const { i18n, t } = useLingui();
   const [error, setError] = useState<string | null>(null);
   const [acknowledge, setAcknowledge] = useState<WorkflowOperation | null>(
     null,
@@ -54,7 +55,7 @@ export function WorkflowOperations({
       setError(
         cause instanceof Error
           ? cause.message
-          : "The request could not be completed. Try again.",
+          : i18n._(msg`The request could not be completed. Try again.`),
       );
     } finally {
       setWorking(false);
@@ -62,8 +63,8 @@ export function WorkflowOperations({
   };
   if (!operations.length && !acknowledge) return null;
   return (
-    <section aria-label="Workflow operations" className="workflow-operations">
-      <h3 className="text-heading">Recent activity</h3>
+    <section aria-label={t`Workflow operations`} className="workflow-operations">
+      <h3 className="text-heading">{t`Recent activity`}</h3>
       {error && !acknowledge && <p role="alert">{error}</p>}
       {operations.map((operation) => {
         const current = (
@@ -79,12 +80,12 @@ export function WorkflowOperations({
             <p role="status">
               {operation.action === "delete"
                 ? deletionStatus(operation, snapshot)
-                : messages[operation.action][operation.outcome]}
+                : i18n._(messages[operation.action][operation.outcome])}
             </p>
             {operation.action === "trigger" &&
             operation.outcome === "rejected" ? (
               <p className="text-danger">
-                {operation.error || "The relay did not create a workflow run."}
+                {operation.error || t`The relay did not create a workflow run.`}
               </p>
             ) : (
               operation.action !== "delete" &&
@@ -103,7 +104,7 @@ export function WorkflowOperations({
                       disabled={working || snapshot.status === "loading"}
                       onClick={() => void perform(onCheckSaved)}
                     >
-                      Check saved configuration
+                      {t`Check saved configuration`}
                     </Button>
                     {current && current.revision !== operation.eventId && (
                       <Button
@@ -111,7 +112,7 @@ export function WorkflowOperations({
                         disabled={working}
                         onClick={() => onReviewSaved(current)}
                       >
-                        Review current configuration
+                        {t`Review current configuration`}
                       </Button>
                     )}
                   </>
@@ -122,25 +123,25 @@ export function WorkflowOperations({
                   disabled={working}
                   onClick={() => setAcknowledge(operation)}
                 >
-                  Dismiss notice
+                  {t`Dismiss notice`}
                 </Button>
               )}
             </div>
             <details>
-              <summary>Delivery details</summary>
+              <summary>{t`Delivery details`}</summary>
               {operation.action === "delete" && operation.error && (
                 <p className="text-danger">{operation.error}</p>
               )}
               <p className="text-body-sm">
-                {operation.action}: {operation.outcome} · delivery{" "}
+                {operation.action}: {operation.outcome} · {t`delivery`}{" "}
                 {operation.delivery}
               </p>
               <p className="text-mono-sm workflow-key">
-                Event ID: {operation.eventId}
+                {t`Event ID:`} {operation.eventId}
               </p>
               {operation.runId && (
                 <p className="text-mono-sm workflow-key">
-                  Returned run ID: {operation.runId}
+                  {t`Returned run ID:`} {operation.runId}
                 </p>
               )}
             </details>
@@ -149,15 +150,17 @@ export function WorkflowOperations({
       })}
       {acknowledge && (
         <ConfirmAction
-          title="Dismiss this notice?"
+          title={t`Dismiss this notice?`}
           pending={working}
           error={error}
           description={
             acknowledge.action === "delete"
-              ? "Your draft is kept and editing is unlocked. Dismissing this notice does not confirm, cancel, or repeat deletion. Check saved configuration before deleting again."
-              : "Dismissal only clears this notice and its editor lock. It does not undo, cancel, or repeat a command, or confirm its outcome. Review the saved configuration before saving again; a new run request may run the workflow again. Your unsaved draft is kept."
+              ? t`Your draft is kept and editing is unlocked. Dismissing this notice does not confirm, cancel, or repeat deletion. Check saved configuration before deleting again.`
+              : t`Dismissal only clears this notice and its editor lock. It does not undo, cancel, or repeat a command, or confirm its outcome. Review the saved configuration before saving again; a new run request may run the workflow again. Your unsaved draft is kept.`
           }
-          action={working ? "Dismissing…" : "Dismiss notice and continue"}
+          action={
+            working ? t`Dismissing…` : t`Dismiss notice and continue`
+          }
           onConfirm={() => {
             if (!working) void perform(() => onDismiss(acknowledge.eventId));
           }}

@@ -2,6 +2,9 @@
 // with the person's `gh` sign-in when there is one, so private repositories
 // work, else from the public API. Pull requests are the store's
 // (`pull-states`).
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import { isRetryableRead, retryRead } from "../../features/relay/read-retry";
 import { loadGitHubDetails, type GitHubDetails } from "./data";
 import { GhUnavailable, GitHubError, type GitHubCli } from "./gh";
@@ -54,7 +57,7 @@ async function readGitHubObject(
 export function readable(error: unknown) {
   if (error instanceof GitHubError && error.type === "NOT_FOUND")
     return new Error(
-      "GitHub couldn’t find this, or your GitHub account can’t see it.",
+      i18n._(msg`GitHub couldn’t find this, or your GitHub account can’t see it.`),
     );
   return error instanceof Error ? error : new Error(String(error));
 }
@@ -122,11 +125,14 @@ async function loadSignedIn(
   if (kind === "repository") {
     const facts: GitHubDetails["facts"] = [];
     if (repository.stargazerCount !== undefined)
-      facts.push(["Stars", repository.stargazerCount]);
+      facts.push([i18n._(msg`Stars`), repository.stargazerCount]);
     if (repository.primaryLanguage)
-      facts.push(["Language", repository.primaryLanguage.name]);
+      facts.push([i18n._(msg`Language`), repository.primaryLanguage.name]);
     if (repository.defaultBranchRef)
-      facts.push(["Default branch", repository.defaultBranchRef.name]);
+      facts.push([
+        i18n._(msg`Default branch`),
+        repository.defaultBranchRef.name,
+      ]);
     const author = repository.owner?.login ?? "";
     return {
       title: reference.repository,
@@ -175,6 +181,8 @@ async function loadSignedIn(
       )
         ? issue.author.avatarUrl
         : undefined,
-    facts: issue.comments ? [["Comments", issue.comments.totalCount]] : [],
+    facts: issue.comments
+      ? [[i18n._(msg`Comments`), issue.comments.totalCount]]
+      : [],
   };
 }

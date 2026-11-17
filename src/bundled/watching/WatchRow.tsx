@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { interestPaused } from "../../features/agents/attention";
 import * as React from "react";
 import type { Context } from "../../plugins/author";
@@ -69,6 +71,7 @@ export function createWatchComponents({
     session?: RelaySession | undefined;
     returnFocus: React.RefObject<HTMLElement | null>;
   }) {
+    const { i18n, t } = useLingui();
     const row = React.useRef<HTMLLIElement>(null);
     const popup = React.useRef<HTMLDivElement>(null);
     React.useLayoutEffect(
@@ -113,13 +116,13 @@ export function createWatchComponents({
     const ownName = "name" in watch && watch.name;
     const label = heading(ownName || title(watch.interest_id ?? slug.slice(6)));
     const completed = sourceCompleted(agent.sourceRuns, agent.attention[slug]);
-    const state =
+    // running 是比较用布尔；state 只负责显示文案。
+    const running =
       watch.enabled &&
       !interestPaused(agent.attention, watch.interest_id) &&
       !completed &&
-      !description.spent
-        ? "Active"
-        : "Paused";
+      !description.spent;
+    const state = running ? t`Active` : t`Paused`;
     const section = (label: string, content: React.ReactNode) => (
       <dl key={label} className="attention-expanded-meta text-body-sm">
         <div>
@@ -140,16 +143,16 @@ export function createWatchComponents({
       switch (watch.type) {
         case "event":
           return {
-            type: "Messages",
+            type: t`Messages`,
             icon: ChatCircleIcon,
             target:
               watch.channels === "all"
-                ? "All joined channels"
+                ? t`All joined channels`
                 : watch.channels.map(name).join(", "),
           };
         case "timer":
           return {
-            type: "Schedule",
+            type: t`Schedule`,
             icon: ClockIcon,
             target: description.title,
           };
@@ -166,7 +169,7 @@ export function createWatchComponents({
                   .join(" ")
               : label.text;
           return {
-            type: command ? "Command" : (shown?.type ?? "Function"),
+            type: command ? t`Command` : (shown?.type ?? t`Function`),
             icon: command ? TerminalWindowIcon : (shown?.icon ?? CodeIcon),
             target: shown?.target || commandTitle,
           };
@@ -182,7 +185,31 @@ export function createWatchComponents({
           watch.kinds?.length !== 1 ||
           watch.kinds[0] !== 9,
       );
-    const destination = "Independent turn";
+    const destination = t`Independent turn`;
+    // 先拆出 thread 后缀词，避免在 t`` 插值里嵌套 t``。
+    const threadWord = watch.root ? t` thread` : "";
+    // 详情预览的范围词也先拆出，同一原因。
+    const scopePreview =
+      watch.type === "event"
+        ? watch.classifier
+          ? t`Filtered messages`
+          : t`All messages`
+        : watch.type === "timer"
+          ? description.title
+          : target;
+    // 消息触发器的说明：频道范围与相关性过滤先拆变量再合成完整模板。
+    const eventChannels =
+      watch.type === "event"
+        ? watch.channels === "all"
+          ? t`all joined channels`
+          : watch.type === "event"
+            ? watch.channels.map(name).join(", ")
+            : ""
+        : "";
+    const eventTrigger =
+      watch.type === "event" && watch.classifier
+        ? t`New messages in ${eventChannels}, filtered for relevance.`
+        : t`New messages in ${eventChannels}.`;
     return (
       <li
         ref={row}
@@ -197,7 +224,7 @@ export function createWatchComponents({
           <button
             className="attention-heading"
             type="button"
-            aria-label={`Details for ${label.text}`}
+            aria-label={t`Details for ${label.text}`}
             aria-expanded={open}
             aria-controls={detailsId}
             onClick={() => setOpen(!open)}
@@ -222,7 +249,7 @@ export function createWatchComponents({
                         style={{
                           paddingInlineStart: "var(--space-2)",
                         }}
-                        aria-label={`Source details for ${label.text}`}
+                        aria-label={t`Source details for ${label.text}`}
                       >
                         <span className="attention-pill-icon">
                           {h(watch.type === "event" ? HashIcon : TypeIcon, {
@@ -233,10 +260,10 @@ export function createWatchComponents({
                         <span className="attention-reference-label">
                           {watch.type === "event"
                             ? watch.channels === "all"
-                              ? "All channels"
+                              ? t`All channels`
                               : watch.channels.length === 1
                                 ? name(watch.channels[0] ?? "")
-                                : `${watch.channels.length} channels`
+                                : t`${watch.channels.length} channels`
                             : (shown?.target ?? type)}
                         </span>
                       </Button>
@@ -244,7 +271,7 @@ export function createWatchComponents({
                   />
                   <PopoverPopup
                     align="end"
-                    aria-label={`Source details for ${label.text}`}
+                    aria-label={t`Source details for ${label.text}`}
                     finalFocus={() =>
                       row.current?.isConnected
                         ? true
@@ -255,10 +282,10 @@ export function createWatchComponents({
                       {watch.type === "event" ? (
                         <dl className="attention-expanded-meta attention-channel-table text-body-sm">
                           <div>
-                            <dt className="text-subtle">Watches</dt>
+                            <dt className="text-subtle">{t`Watches`}</dt>
                             <dd>
                               {watch.channels === "all"
-                                ? "All joined channels"
+                                ? t`All joined channels`
                                 : watch.channels.map((channel) => (
                                     <div
                                       key={channel}
@@ -274,11 +301,11 @@ export function createWatchComponents({
                             </dd>
                           </div>
                           <div>
-                            <dt className="text-subtle">Delivers to</dt>
+                            <dt className="text-subtle">{t`Delivers to`}</dt>
                             <dd>
                               {watch.channel
-                                ? `${name(watch.channel)}${watch.root ? " thread" : ""}`
-                                : "Independent turn"}
+                                ? t`${name(watch.channel)}${watch.root ? threadWord : ""}`
+                                : t`Independent turn`}
                             </dd>
                           </div>
                         </dl>
@@ -302,7 +329,7 @@ export function createWatchComponents({
                           size="inline"
                           nativeButton={false}
                           role="link"
-                          aria-label={`Open ${target}`}
+                          aria-label={t`Open ${target}`}
                           render={(props) => (
                             <a
                               {...props}
@@ -335,7 +362,9 @@ export function createWatchComponents({
                 compact={true}
               />
             ) : (
-              <span className="text-caption text-subtle">Independent turn</span>
+              <span className="text-caption text-subtle">
+                {t`Independent turn`}
+              </span>
             )}
           </div>
           <div className="attention-status">
@@ -347,26 +376,22 @@ export function createWatchComponents({
                     variant="subtle"
                     size="xs"
                     style={{ paddingInlineStart: "var(--space-2)" }}
-                    aria-label={`Watch status for ${label.text}`}
+                    aria-label={t`Watch status for ${label.text}`}
                   >
                     <span className="attention-pill-icon">
                       <CircleIcon
-                        data-accent={state === "Active" ? "citrus" : undefined}
-                        data-color-mode={
-                          state === "Active" ? "light" : undefined
-                        }
+                        data-accent={running ? "citrus" : undefined}
+                        data-color-mode={running ? "light" : undefined}
                         size={12}
                         aria-hidden={true}
                         fill="currentColor"
                         strokeWidth={0}
                         style={
-                          state === "Active"
+                          running
                             ? { color: "var(--affordance-accent-prominent)" }
                             : undefined
                         }
-                        className={
-                          state === "Active" ? undefined : "text-subtle"
-                        }
+                        className={running ? undefined : "text-subtle"}
                       />
                     </span>
                     <span>{state}</span>
@@ -377,7 +402,7 @@ export function createWatchComponents({
                 size="compact"
                 align="end"
                 ref={popup}
-                aria-label={`Watch status for ${label.text}`}
+                aria-label={t`Watch status for ${label.text}`}
                 finalFocus={() =>
                   row.current?.isConnected
                     ? true
@@ -385,7 +410,7 @@ export function createWatchComponents({
                 }
               >
                 <MenuGroup>
-                  <MenuGroupLabel>Trigger</MenuGroupLabel>
+                  <MenuGroupLabel>{t`Trigger`}</MenuGroupLabel>
                   <MenuItem
                     disabled={
                       action.pending ||
@@ -396,7 +421,9 @@ export function createWatchComponents({
                       void action.run(async () => {
                         const expected = agent.attention[slug];
                         if (!expected)
-                          throw new Error("This watch no longer exists.");
+                          throw new Error(
+                            i18n._(msg`This watch no longer exists.`),
+                          );
                         return agents.save(agent.key, {
                           watchEnabled: {
                             [slug]: { enabled: !watch.enabled, expected },
@@ -405,13 +432,13 @@ export function createWatchComponents({
                       })
                     }
                   >
-                    {watch.enabled ? "Pause" : "Resume"}
+                    {watch.enabled ? t`Pause` : t`Resume`}
                   </MenuItem>
                   <MenuSeparator />
                   <MenuItem
                     tone="danger"
                     disabled={action.pending}
-                    aria-label={`Delete ${label.text}`}
+                    aria-label={t`Delete ${label.text}`}
                     onClick={() => {
                       // Pause/Resume share this action; a refused Pause's
                       // error must not open inside the dialog.
@@ -419,15 +446,17 @@ export function createWatchComponents({
                       setConfirming(agent.attention[slug]);
                     }}
                   >
-                    {"Delete"}
+                    {t`Delete`}
                   </MenuItem>
                   {interestPaused(agent.attention, watch.interest_id) && (
                     <MenuNote>
-                      This interest is paused. Resume it to run enabled watches.
+                      {t`This interest is paused. Resume it to run enabled watches.`}
                     </MenuNote>
                   )}
                   {watch.type === "timer" && !watch.enabled && (
-                    <MenuNote>{`Ask ${agent.name} to set this timer’s next run.`}</MenuNote>
+                    <MenuNote>
+                      {t`Ask ${agent.name} to set this timer’s next run.`}
+                    </MenuNote>
                   )}
                 </MenuGroup>
               </MenuPopup>
@@ -440,14 +469,16 @@ export function createWatchComponents({
             // own dialog is a few pixels away, so name the kind instead.
             title={
               ownName
-                ? `Delete ${label.text}?`
+                ? t`Delete ${label.text}?`
                 : watch.type === "timer"
-                  ? "Delete this timer?"
-                  : "Delete this watch?"
+                  ? t`Delete this timer?`
+                  : t`Delete this watch?`
             }
-            description={`This deletes the ${
-              watch.type === "timer" ? "timer" : "watch"
-            }. The agent will stop watching for this trigger. This cannot be undone.`}
+            description={
+              watch.type === "timer"
+                ? t`This deletes the timer. The agent will stop watching for this trigger. This cannot be undone.`
+                : t`This deletes the watch. The agent will stop watching for this trigger. This cannot be undone.`
+            }
             pending={action.pending}
             initialFocus={cancel}
             finalFocus={() =>
@@ -463,14 +494,14 @@ export function createWatchComponents({
                   disabled={action.pending}
                   onClick={() => setConfirming(undefined)}
                 >
-                  Cancel
+                  {t`Cancel`}
                 </Button>
                 <Button
                   variant="destructive"
                   loading={action.pending}
                   onClick={() => void remove(confirming)}
                 >
-                  Delete
+                  {t`Delete`}
                 </Button>
               </>
             }
@@ -484,23 +515,23 @@ export function createWatchComponents({
             <details className="attention-watch-details">
               <summary
                 className="attention-disclosure text-body-sm text-subtle"
-                aria-label={`Watch details for ${label.text}`}
+                aria-label={t`Watch details for ${label.text}`}
               >
                 <span className="attention-disclosure-icon">
                   <GearIcon size={16} aria-hidden={true} />
                 </span>
-                <span className="whitespace-nowrap">{"Watch details"}</span>
-                <span className="attention-detail-preview">{`${type} · ${watch.type === "event" ? (watch.classifier ? "Filtered messages" : "All messages") : watch.type === "timer" ? description.title : target}`}</span>
+                <span className="whitespace-nowrap">{t`Watch details`}</span>
+                <span className="attention-detail-preview">{t`${type} · ${scopePreview}`}</span>
                 <CaretRightIcon size={16} aria-hidden={true} />
               </summary>
               <div className="attention-configuration">
                 <dl className="attention-expanded-meta text-body-sm">
                   <div>
-                    <dt className="text-subtle">{"Source"}</dt>
+                    <dt className="text-subtle">{t`Source`}</dt>
                     <dd>{type}</dd>
                   </div>
                   <div>
-                    <dt className="text-subtle">{"Runs in"}</dt>
+                    <dt className="text-subtle">{t`Runs in`}</dt>
                     <dd>
                       {watch.channel ? (
                         <Destination
@@ -518,7 +549,7 @@ export function createWatchComponents({
                   </div>
                   {history?.lastWokeAt && (
                     <div>
-                      <dt className="text-subtle">{"Last woke"}</dt>
+                      <dt className="text-subtle">{t`Last woke`}</dt>
                       <dd>{relativeTimestamp(history.lastWokeAt)}</dd>
                     </div>
                   )}
@@ -526,7 +557,7 @@ export function createWatchComponents({
                 {watch.type === "source" &&
                 watch.provider === "attention/command"
                   ? section(
-                      "Command",
+                      t`Command`,
                       <pre className="text-caption text-standard">
                         <code>
                           {Array.isArray(watch.config.command)
@@ -536,12 +567,12 @@ export function createWatchComponents({
                       </pre>,
                     )
                   : section(
-                      "Trigger",
+                      t`Trigger`,
                       watch.type === "source"
                         ? label.text
                         : watch.type === "event"
-                          ? `New messages in ${watch.channels === "all" ? "all joined channels" : watch.channels.map(name).join(", ")}${watch.classifier ? ", filtered for relevance" : ""}.`
-                          : `${description.title}. ${watch.prompt}`,
+                          ? eventTrigger
+                          : t`${description.title}. ${watch.prompt}`,
                     )}
                 {!shown?.details && label.url && (
                   <a
@@ -549,20 +580,22 @@ export function createWatchComponents({
                     target="_blank"
                     rel="noreferrer"
                     className="text-body-sm"
-                  >{`Open ${label.text}`}</a>
+                  >
+                    {t`Open ${label.text}`}
+                  </a>
                 )}
                 {watch.type === "event" &&
                   (technicalFilters ||
                     watch.classifier ||
                     watch.is_reply !== undefined) &&
                   section(
-                    "Filters",
+                    t`Filters`,
                     <div className="text-body-sm">
                       {watch.is_reply !== undefined && (
                         <p>
                           {watch.is_reply
-                            ? "Replies only"
-                            : "Top-level messages only"}
+                            ? t`Replies only`
+                            : t`Top-level messages only`}
                         </p>
                       )}
                       {Object.entries(watch.classifier?.questions ?? {}).map(
@@ -577,7 +610,7 @@ export function createWatchComponents({
                               "attention-disclosure text-body-sm text-subtle"
                             }
                           >
-                            {"Technical filters"}
+                            {t`Technical filters`}
                             <CaretRightIcon size={16} aria-hidden={true} />
                           </summary>
                           <pre className="text-caption text-standard">

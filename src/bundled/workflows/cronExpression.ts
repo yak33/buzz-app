@@ -1,9 +1,14 @@
 // Adapted from block/buzz desktop workflow helpers at b9392d9d.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
+
 export const CRON_FIELD_DEFINITIONS = [
-  { label: "Minute", max: 59, min: 0 },
-  { label: "Hour", max: 23, min: 0 },
-  { label: "Day", max: 31, min: 1 },
+  // id 是稳定的 React key 与字段标识：label 已本地化为描述符，不再适合作 key。
+  { id: "minute", label: msg`Minute`, max: 59, min: 0 },
+  { id: "hour", label: msg`Hour`, max: 23, min: 0 },
+  { id: "day", label: msg`Day`, max: 31, min: 1 },
   {
+    id: "month",
     aliases: [
       "JAN",
       "FEB",
@@ -18,13 +23,14 @@ export const CRON_FIELD_DEFINITIONS = [
       "NOV",
       "DEC",
     ],
-    label: "Month",
+    label: msg`Month`,
     max: 12,
     min: 1,
   },
   {
+    id: "weekday",
     aliases: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
-    label: "Weekday",
+    label: msg`Weekday`,
     max: 7,
     min: 1,
   },
@@ -61,10 +67,12 @@ export function cronFieldsFromPaste(
 ): { fields: CronFields; ok: true } | { error: string; ok: false } {
   const values = pastedValue.trim().split(/\s+/);
   if (values.length !== CRON_FIELD_DEFINITIONS.length) {
-    return {
-      error: `Paste a 5-field cron expression. Found ${values.length} field${values.length === 1 ? "" : "s"}.`,
-      ok: false,
-    };
+    // 复数拆成两个完整模板，避免在插值里拼接复数后缀。
+    const error =
+      values.length === 1
+        ? i18n._(msg`Paste a 5-field cron expression. Found 1 field.`)
+        : i18n._(msg`Paste a 5-field cron expression. Found ${values.length} fields.`);
+    return { error, ok: false };
   }
   return { fields: values as CronFields, ok: true };
 }
@@ -80,13 +88,18 @@ function atomError(
   ) {
     return null;
   }
+  const label = i18n._(definition.label);
   if (!/^\d+$/.test(atom)) {
-    return `${definition.label} contains “${atom}”, which is not a supported value.`;
+    return i18n._(
+      msg`${label} contains “${atom}”, which is not a supported value.`,
+    );
   }
 
   const value = Number(atom);
   if (value < definition.min || value > definition.max) {
-    return `${definition.label} must be between ${definition.min} and ${definition.max}.`;
+    return i18n._(
+      msg`${label} must be between ${definition.min} and ${definition.max}.`,
+    );
   }
   return null;
 }
@@ -95,15 +108,16 @@ function segmentError(
   segment: string,
   definition: CronFieldDefinition,
 ): string | null {
+  const label = i18n._(definition.label);
   const stepParts = segment.split("/");
   if (stepParts.length > 2 || stepParts.some((part) => !part)) {
-    return `${definition.label} has an invalid step.`;
+    return i18n._(msg`${label} has an invalid step.`);
   }
 
   const [base = "", step] = stepParts;
   if (step !== undefined) {
     if (!/^\d+$/.test(step) || Number(step) < 1) {
-      return `${definition.label} step must be a positive whole number.`;
+      return i18n._(msg`${label} step must be a positive whole number.`);
     }
   }
 
@@ -111,7 +125,7 @@ function segmentError(
 
   const rangeParts = base.split("-");
   if (rangeParts.length > 2 || rangeParts.some((part) => !part)) {
-    return `${definition.label} has an invalid range.`;
+    return i18n._(msg`${label} has an invalid range.`);
   }
 
   const [rangeStart = "", rangeEnd] = rangeParts;
@@ -125,7 +139,7 @@ function segmentError(
   const start = Number(rangeStart);
   const end = Number(rangeEnd);
   if (Number.isFinite(start) && Number.isFinite(end) && start > end) {
-    return `${definition.label} range must go from lower to higher.`;
+    return i18n._(msg`${label} range must go from lower to higher.`);
   }
   return null;
 }
@@ -134,11 +148,12 @@ export function validateCronField(
   value: string,
   definition: CronFieldDefinition,
 ): string | null {
-  if (!value) return `${definition.label} is required.`;
+  const label = i18n._(definition.label);
+  if (!value) return i18n._(msg`${label} is required.`);
 
   const segments = value.split(",");
   if (segments.some((segment) => !segment)) {
-    return `${definition.label} has an empty list item.`;
+    return i18n._(msg`${label} has an empty list item.`);
   }
 
   for (const segment of segments) {

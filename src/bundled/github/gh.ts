@@ -5,6 +5,9 @@
 // reads GitHub's answer back. A process rather than a host command because
 // `gh` exits non-zero on a GraphQL error, and the answer it still prints is
 // the only place the reason is.
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：错误文案在构造时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import type { Host } from "../../features/host/service";
 
 /** `gh` cannot be used here: no desktop, not installed, or not signed in. */
@@ -111,7 +114,7 @@ export function gitHubCli(host: Pick<Host, "spawn">): GitHubCli | undefined {
 /** The diff is more than the panel shows. */
 export class OutputTooLarge extends Error {
   constructor() {
-    super("This diff is too large to show here.");
+    super(i18n._(msg`This diff is too large to show here.`));
   }
 }
 
@@ -161,7 +164,9 @@ export function gitHubDiff(host: Pick<Host, "spawn">): GitHubDiff | undefined {
     // one is too new to rely on every installed gh having.
     if (/escape sequences/.test(reason))
       throw new GitHubError(
-        "This diff contains terminal control characters, so it can’t be shown here.",
+        i18n._(
+          msg`This diff contains terminal control characters, so it can’t be shown here.`,
+        ),
       );
     if (!stdout.trim()) throw new GhUnavailable(reason || "gh did not answer");
     throw new GitHubError(reason || "GitHub did not answer");

@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import { formatPublicKey } from "../../shared/identity/public-key";
+import { i18n } from "../../features/localization/service";
 import { sortParticipantNames } from "../../features/identity-names/participant-order";
 
 /** One label recipe for Activity rows and details; callers own profile reads. */
@@ -10,16 +12,18 @@ export function dmLabel(
     fallback: string,
     candidates?: readonly string[],
   ) => string,
-  missing = "Notes to self",
+  missing = i18n._(msg`Notes to self`),
 ) {
   if (!participants) return missing;
-  if (!participants.length) return "Notes to self";
+  if (!participants.length) return i18n._(msg`Notes to self`);
   // Sort every name before bounding, so the shown three match other surfaces.
   const names = sortParticipantNames(
     participants.map((key) =>
       resolve(
         key,
-        profiles.get(key)?.name ?? formatPublicKey(key) ?? "Unknown person",
+        profiles.get(key)?.name ??
+          formatPublicKey(key) ??
+          i18n._(msg`Unknown person`),
         participants,
       ),
     ),

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useLayoutEffect,
@@ -27,6 +29,7 @@ import agentsHero from "../assets/agents-hero.png";
 import type { OverviewObserver } from "../overview";
 import type { BuilderlabSession } from "../session";
 import type { AgentClient, RemoteAgent } from "./client";
+import { i18n } from "../../../features/localization/service";
 
 export function RemoteAgents({
   client,
@@ -47,6 +50,7 @@ export function RemoteAgents({
   savedAgents?: readonly Pick<Agent, "pubkey" | "picture">[];
   openAgent?: ((pubkey: string) => void) | undefined;
 }) {
+  const { t } = useLingui();
   const login = useSyncExternalStore(session.subscribe, session.snapshot);
   useLayoutEffect(() => {
     if (
@@ -62,12 +66,12 @@ export function RemoteAgents({
       <AgentSection>
         {showHeading ? (
           <InlineHeader
-            title="Remote agents"
-            subtitle="Unavailable for this account"
+            title={t`Remote agents`}
+            subtitle={t`Unavailable for this account`}
           />
         ) : (
           <p className="text-body-sm text-secondary">
-            Unavailable for this account
+            {t`Unavailable for this account`}
           </p>
         )}
       </AgentSection>
@@ -112,6 +116,7 @@ function AgentList({
   savedAgents: readonly Pick<Agent, "pubkey" | "picture">[];
   openAgent?: ((pubkey: string) => void) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const [agents, setAgents] = useState<readonly RemoteAgent[]>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(true);
@@ -119,6 +124,7 @@ function AgentList({
   const activeRef = useRef(active);
   activeRef.current = active;
   const refresh = useRef(() => {});
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useLayoutEffect(() => {
     if (!active() || !onOverview) return;
     onOverview(
@@ -132,7 +138,7 @@ function AgentList({
                   key: agent.id,
                   label: agent.name,
                   ...(agentState(agent) === "Needs setup"
-                    ? { note: "Needs setup" }
+                    ? { note: i18n._(msg`Needs setup`) }
                     : {}),
                 })),
               }
@@ -140,6 +146,7 @@ function AgentList({
           : { kind: "failed" },
     );
   }, [active, onOverview, agents, loading]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useEffect(() => {
     let request: AbortController | undefined;
     let loaded = false;
@@ -175,7 +182,7 @@ function AgentList({
                 setError(
                   reason instanceof Error
                     ? reason.message
-                    : "Could not load agents.",
+                    : i18n._(msg`Could not load agents.`),
                 );
               setLoading(false);
               setRetrying(false);
@@ -200,20 +207,20 @@ function AgentList({
     <section
       data-buzz-ui=""
       className="flex flex-col gap-3"
-      aria-label="Remote agents"
+      aria-label={t`Remote agents`}
     >
-      {showHeading && <InlineHeader title="Remote agents" />}
+      {showHeading && <InlineHeader title={t`Remote agents`} />}
       <AgentSection>
         {loading && (
           <p role="status" className="text-body-sm text-secondary">
-            Loading agents…
+            {t`Loading agents…`}
           </p>
         )}
         {error && (
           <div role="alert">
             <EmptyState
               icon={<RobotIcon />}
-              title="Couldn’t load agents"
+              title={t`Couldn’t load agents`}
               description={error}
               action={
                 <Button
@@ -221,7 +228,7 @@ function AgentList({
                   loading={retrying}
                   onClick={() => refresh.current()}
                 >
-                  Try again
+                  {t`Try again`}
                 </Button>
               }
             />
@@ -230,8 +237,8 @@ function AgentList({
         {agents?.length === 0 && (
           <EmptyState
             icon={<RobotIcon />}
-            title="No agents yet"
-            description="Create agents in the Agents tab. They’ll show up here."
+            title={t`No agents yet`}
+            description={t`Create agents in the Agents tab. They’ll show up here.`}
             action={
               openAgents && (
                 <Button
@@ -240,7 +247,7 @@ function AgentList({
                     if (active()) openAgents();
                   }}
                 >
-                  Open Agents
+                  {t`Open Agents`}
                 </Button>
               )
             }
@@ -248,7 +255,7 @@ function AgentList({
           />
         )}
         {agents && agents.length > 0 && (
-          <ul className="m-0 list-none p-0" aria-label="Your remote agents">
+          <ul className="m-0 list-none p-0" aria-label={t`Your remote agents`}>
             {agents.map((agent) => (
               <AgentRow
                 key={agent.id}
@@ -286,15 +293,16 @@ function AgentRow({
   saved?: Pick<Agent, "pubkey" | "picture"> | undefined;
   openAgent?: ((pubkey: string) => void) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const notify = useToastNotification();
   const state = agentState(agent);
   const copy = async () => {
     if (!active()) return;
     try {
       await writeClipboardText(agent.pubkey);
-      if (active()) notify("Key copied", "success");
+      if (active()) notify(i18n._(msg`Key copied`), "success");
     } catch {
-      if (active()) notify("Couldn’t copy the key", "error");
+      if (active()) notify(i18n._(msg`Couldn’t copy the key`), "error");
     }
   };
   return (
@@ -320,10 +328,11 @@ function AgentRow({
         }
         detail={
           <>
-            {agent.modelId ?? "No model selected"} · {state}
+            {agent.modelId ?? i18n._(msg`No model selected`)} ·{" "}
+            {agentStateLabel(state)}
           </>
         }
-        status={saved ? "In Agents" : undefined}
+        status={saved ? i18n._(msg`In Agents`) : undefined}
         actions={
           <MenuRoot>
             <MenuTrigger
@@ -332,14 +341,14 @@ function AgentRow({
                   variant="bare"
                   size="sm"
                   shape="row-end"
-                  aria-label={`More actions for ${agent.name}`}
+                  aria-label={t`More actions for ${agent.name}`}
                   icon={<DotsThreeIcon size={18} />}
                 />
               }
             />
             <MenuPopup
               align="end"
-              aria-label={`More actions for ${agent.name}`}
+              aria-label={t`More actions for ${agent.name}`}
             >
               {saved && openAgent && (
                 <MenuItem
@@ -347,10 +356,10 @@ function AgentRow({
                     if (active()) openAgent(agent.pubkey);
                   }}
                 >
-                  View Agent
+                  {t`View Agent`}
                 </MenuItem>
               )}
-              <MenuItem onClick={() => void copy()}>Copy key</MenuItem>
+              <MenuItem onClick={() => void copy()}>{t`Copy key`}</MenuItem>
             </MenuPopup>
           </MenuRoot>
         }
@@ -367,4 +376,15 @@ function agentState(agent: RemoteAgent) {
       : agent.status === "Active" && agent.modelSelectionStatus === "valid"
         ? "Configured"
         : "Needs setup";
+}
+
+/** 显示用状态文案；agentState 的键保持英文以供比较。 */
+function agentStateLabel(state: string) {
+  const labels = {
+    Revoked: msg`Revoked`,
+    Unknown: msg`Unknown`,
+    Configured: msg`Configured`,
+    "Needs setup": msg`Needs setup`,
+  } as const;
+  return i18n._(labels[state as keyof typeof labels]);
 }

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -37,6 +39,7 @@ import { usePanelSplit } from "../../features/panels/usePanelSplit";
 import "./workflows.css";
 
 export function WorkflowsPage({ relay }: { relay: RelayData }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   return connection.status === "ready" ? (
     <WorkflowCommunity
@@ -50,13 +53,15 @@ export function WorkflowsPage({ relay }: { relay: RelayData }) {
       <div className="workflow-page-state">
         <p>
           {connection.status === "connecting"
-            ? "Connecting to your community…"
-            : "Connect to a community to browse workflows."}
+            ? t`Connecting to your community…`
+            : t`Connect to a community to browse workflows.`}
         </p>
         {connection.status === "error" && (
           <>
             <p role="alert">{connection.error}</p>
-            <Button onClick={() => relay.tryAgain()}>Retry connection</Button>
+            <Button onClick={() => relay.tryAgain()}>
+              {t`Retry connection`}
+            </Button>
           </>
         )}
       </div>
@@ -65,8 +70,9 @@ export function WorkflowsPage({ relay }: { relay: RelayData }) {
 }
 
 function WorkflowsPanel({ children }: { children: ReactNode }) {
+  const { t } = useLingui();
   return (
-    <Panel aria-label="Workflows">
+    <Panel aria-label={t`Workflows`}>
       <div className="workflows-page text-body">{children}</div>
     </Panel>
   );
@@ -78,6 +84,7 @@ export function WorkflowCommunity({
   session: RelaySession;
   viewer: string;
 }) {
+  const { i18n, t } = useLingui();
   const capability = session.workflows;
   const channels = useChannelList(session.channels);
   const eligible = channels.channels.filter(
@@ -150,7 +157,7 @@ export function WorkflowCommunity({
         <WorkflowPageHeader />
         <div className="workflows-body">
           <p role="status">
-            Workflow operations are unavailable from this host.
+            {t`Workflow operations are unavailable from this host.`}
           </p>
         </div>
       </WorkflowsPanel>
@@ -178,7 +185,9 @@ export function WorkflowCommunity({
     );
     if (locked) {
       setDeleteError(
-        "Another workflow change is still being confirmed. Refresh and try again.",
+        i18n._(
+          msg`Another workflow change is still being confirmed. Refresh and try again.`,
+        ),
       );
       openChannel("");
       return;
@@ -187,17 +196,21 @@ export function WorkflowCommunity({
     try {
       if (!capability.permissions.canDelete(definition))
         throw new Error(
-          "You no longer have permission to delete this workflow. Refresh and try again.",
+          i18n._(
+            msg`You no longer have permission to delete this workflow. Refresh and try again.`,
+          ),
         );
       if (!capability.availability.delete)
-        throw new Error("Workflow deletion is unavailable on this connection.");
+        throw new Error(
+          i18n._(msg`Workflow deletion is unavailable on this connection.`),
+        );
       capability.delete(definition);
       setDeleteError(undefined);
     } catch (cause) {
       setDeleteError(
         cause instanceof Error
           ? cause.message
-          : "Try again from the workflow menu.",
+          : i18n._(msg`Try again from the workflow menu.`),
       );
     } finally {
       deleting.current = false;
@@ -222,8 +235,8 @@ export function WorkflowCommunity({
                     hint="familiar"
                     size="sm"
                     variant="ghost"
-                    aria-label="New workflow"
-                    title="New workflow"
+                    aria-label={t`New workflow`}
+                    title={t`New workflow`}
                     aria-haspopup="dialog"
                     disabled={!beginCreate}
                     icon={<PlusIcon size="1rem" aria-hidden="true" />}
@@ -233,8 +246,8 @@ export function WorkflowCommunity({
                     hint="familiar"
                     size="sm"
                     variant="ghost"
-                    aria-label="Refresh workflows"
-                    title="Refresh workflows"
+                    aria-label={t`Refresh workflows`}
+                    title={t`Refresh workflows`}
                     icon={
                       <ArrowsClockwiseIcon size="1rem" aria-hidden="true" />
                     }
@@ -245,25 +258,25 @@ export function WorkflowCommunity({
             />
             <div className="workflows-body">
               {channels.status === "loading" && !eligible.length && (
-                <p role="status">Reading channels…</p>
+                <p role="status">{t`Reading channels…`}</p>
               )}
               {channels.status === "error" && (
                 <div className="workflow-page-state">
                   <p role="alert" className="text-danger">
-                    {channels.error ?? "Channels could not be read."}
+                    {channels.error ?? t`Channels could not be read.`}
                   </p>
                   <Button onClick={() => session.channels.refreshList?.()}>
-                    Retry channels
+                    {t`Retry channels`}
                   </Button>
                 </div>
               )}
               {channels.status === "ready" && !eligible.length && (
                 <div className="workflow-page-state">
-                  <p>No channels are available in this community.</p>
+                  <p>{t`No channels are available in this community.`}</p>
                 </div>
               )}
               {channels.coverage === "partial" && (
-                <p className="text-secondary">The channel list is partial.</p>
+                <p className="text-secondary">{t`The channel list is partial.`}</p>
               )}
               {eligible.length > 0 && (
                 <WorkflowLanding
@@ -291,7 +304,7 @@ export function WorkflowCommunity({
         {detail && (
           <aside className="workflows-side">
             {split.handle}
-            <Panel aria-label="Workflow details">
+            <Panel aria-label={t`Workflow details`}>
               <PanelWorkspace
                 focusOnMount={false}
                 adoptSelection={detail.key}
@@ -306,7 +319,7 @@ export function WorkflowCommunity({
                       <section
                         className="workflow-detail-host"
                         ref={setDetailTarget}
-                        aria-label={`${detail.name} details`}
+                        aria-label={t`${detail.name} details`}
                         tabIndex={-1}
                       />
                     ),
@@ -320,7 +333,7 @@ export function WorkflowCommunity({
       </div>
       {deleteError && (
         <ToastNotice
-          title="Couldn't start deletion"
+          title={t`Couldn't start deletion`}
           description={deleteError}
           onDismiss={() => setDeleteError(undefined)}
         />
@@ -374,11 +387,12 @@ export function WorkflowCommunity({
 }
 
 function WorkflowPageHeader({ actions }: { actions?: ReactNode }) {
+  const { t } = useLingui();
   return (
     <PanelHeader
       title={
         <PanelHeaderLabel
-          title="Workflows"
+          title={t`Workflows`}
           icon={<LightningIcon size="1rem" />}
         />
       }

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { RelayData } from "../../features/relay/service";
 import { communityFromScope } from "../../features/relay/gifs";
 import {
@@ -92,9 +94,11 @@ export function createCommunityMembership(relay: RelayData) {
     });
     try {
       const community = communityFromScope(connection.scope);
-      if (!community) throw new Error("Choose a connected community");
+      if (!community)
+        throw new Error(i18n._(msg`Choose a connected community`));
       const author = connection.session.relayAuthor;
-      if (!author) throw new Error("Community authority unavailable");
+      if (!author)
+        throw new Error(i18n._(msg`Community authority unavailable`));
       const events = await connection.session.read(
         [{ kinds: [MEMBERSHIP_KIND], authors: [author], limit: 1 }],
         { fresh: true, signal: owner.signal },
@@ -129,7 +133,7 @@ export function createCommunityMembership(relay: RelayData) {
         members: retained,
         ...(value.role ? { role: value.role } : {}),
         refreshing: false,
-        error: `Could not load members: ${message(reason)}`,
+        error: i18n._(msg`Could not load members: ${message(reason)}`),
       });
     }
   };

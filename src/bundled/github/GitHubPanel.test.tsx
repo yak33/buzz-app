@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
+import { msg } from "@lingui/core/macro";
 import {
   cleanup,
   fireEvent,
@@ -10,6 +11,7 @@ import {
 } from "@testing-library/react";
 import { StrictMode } from "react";
 import { afterEach, expect, it, vi } from "vitest";
+import { i18n } from "../../features/localization/service";
 import userEvent from "@testing-library/user-event";
 import {
   GhUnavailable,
@@ -67,7 +69,7 @@ it.each([
       "aria-hidden",
       "true",
     );
-    const changes = screen.getByText("Changes").parentElement;
+    const changes = screen.getByText(i18n._(msg`Changes`)).parentElement;
     if (!changes) throw new Error("Missing Changes row");
     expect(changes.querySelector("dd")).toHaveTextContent("+174 / −28");
   },
@@ -271,7 +273,7 @@ it("links the PR owner and repository and moves its number to the title", async 
   expect(titleLink).toHaveAttribute("target", "_blank");
   expect(titleLink).toHaveAttribute("rel", "noreferrer");
   expect(
-    screen.queryByRole("link", { name: "Open on GitHub" }),
+    screen.queryByRole("link", { name: i18n._(msg`Open on GitHub`) }),
   ).not.toBeInTheDocument();
 });
 
@@ -298,7 +300,7 @@ it.each([
     ).not.toBeInTheDocument();
     await screen.findByRole("heading", { name: "GitHub object" });
     expect(
-      screen.getByRole("link", { name: "Open on GitHub" }),
+      screen.getByRole("link", { name: i18n._(msg`Open on GitHub`) }),
     ).toHaveAttribute("href", target);
   },
 );
@@ -338,7 +340,7 @@ it.each([400])(
     const external = within(alert).getByRole("link", {
       name: "Open on Github",
     });
-    const retry = within(alert).getByRole("button", { name: "Retry" });
+    const retry = within(alert).getByRole("button", { name: i18n._(msg`Retry`) });
     expect(external).toHaveAttribute("href", target);
     expect(external).toHaveAttribute("target", "_blank");
     expect(external).toHaveAttribute("rel", "noreferrer");
@@ -488,29 +490,29 @@ it("reads a private pull request with gh as one checklist, without the public AP
   ) as unknown as GitHubCli;
   render(<GitHubPanel target={pull} close={() => {}} gh={gh} />);
   await screen.findByRole("heading", { name: "Private change #9" });
-  expect(row("Checks")).toHaveTextContent("1 failed · 1 running · 1 passed");
-  expect(row("Checks")).toHaveAttribute("data-tone", "failure");
+  expect(row(i18n._(msg`Checks`))).toHaveTextContent("1 failed · 1 running · 1 passed");
+  expect(row(i18n._(msg`Checks`))).toHaveAttribute("data-tone", "failure");
   expect(
-    within(row("Checks")).queryByRole("link", { name: "e2e" }),
+    within(row(i18n._(msg`Checks`))).queryByRole("link", { name: "e2e" }),
   ).not.toBeInTheDocument();
   await userEvent.click(
-    within(row("Checks")).getByRole("button", {
+    within(row(i18n._(msg`Checks`))).getByRole("button", {
       name: "1 failed · 1 running · 1 passed",
     }),
   );
   expect(
-    within(row("Checks")).getByRole("link", { name: "e2e" }),
+    within(row(i18n._(msg`Checks`))).getByRole("link", { name: "e2e" }),
   ).toHaveAttribute("href", "https://github.com/block/private/runs/1");
-  expect(row("Review")).toHaveTextContent("Changes requested by wes");
-  expect(row("Threads")).toHaveTextContent("2 unresolved");
-  expect(row("Merge")).toHaveTextContent("Blocked by main’s rules");
-  expect(row("Merge")).not.toHaveTextContent("bypass");
+  expect(row(i18n._(msg`Review`))).toHaveTextContent("Changes requested by wes");
+  expect(row(i18n._(msg`Threads`))).toHaveTextContent("2 unresolved");
+  expect(row(i18n._(msg`Merge`))).toHaveTextContent("Blocked by main’s rules");
+  expect(row(i18n._(msg`Merge`))).not.toHaveTextContent("bypass");
   // Blocked, and this viewer cannot bypass: nothing to merge with.
   expect(
     screen.queryByRole("button", { name: /merge/i }),
   ).not.toBeInTheDocument();
-  expect(screen.getByText("Read with your gh sign-in.")).toBeInTheDocument();
-  expect(screen.getByText("Changes").parentElement).toHaveTextContent(
+  expect(screen.getByText(i18n._(msg`Read with your gh sign-in.`))).toBeInTheDocument();
+  expect(screen.getByText(i18n._(msg`Changes`)).parentElement).toHaveTextContent(
     "+3 / −1",
   );
   expect(fetch).not.toHaveBeenCalled();
@@ -571,14 +573,14 @@ it("merges after confirming, at the head it showed, then shows it merged", async
     />,
   );
   await screen.findByRole("heading", { name: "Private change #9" });
-  expect(row("Checks")).toHaveTextContent("All 2 passed");
-  expect(row("Review")).toHaveTextContent("Approved by wes");
-  expect(row("Threads")).toHaveTextContent("None unresolved");
-  expect(row("Merge")).toHaveTextContent("Ready to merge into main");
-  await user.click(screen.getByRole("button", { name: "Squash and merge" }));
+  expect(row(i18n._(msg`Checks`))).toHaveTextContent("All 2 passed");
+  expect(row(i18n._(msg`Review`))).toHaveTextContent("Approved by wes");
+  expect(row(i18n._(msg`Threads`))).toHaveTextContent("None unresolved");
+  expect(row(i18n._(msg`Merge`))).toHaveTextContent("Ready to merge into main");
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Squash and merge`) }));
   const dialog = await screen.findByRole("alertdialog");
   expect(gh).toHaveBeenCalledTimes(1);
-  await user.click(within(dialog).getByRole("button", { name: "Merge" }));
+  await user.click(within(dialog).getByRole("button", { name: i18n._(msg`Merge`) }));
   await screen.findByText(/Merged into/);
   expect(screen.getByText(/Merged into/)).toHaveTextContent(
     "Merged into main by baxen",
@@ -596,7 +598,7 @@ it("merges after confirming, at the head it showed, then shows it merged", async
   ]);
   expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
   expect(
-    screen.queryByRole("button", { name: "Submit review" }),
+    screen.queryByRole("button", { name: i18n._(msg`Submit review`) }),
   ).not.toBeInTheDocument();
 });
 
@@ -626,28 +628,28 @@ it.each(["CLEAN", "BLOCKED", "BEHIND"])(
       />,
     );
     const button = await screen.findByRole("button", {
-      name: "Queue for merge",
+      name: i18n._(msg`Queue for merge`),
     });
     expect(button).toHaveAttribute("data-variant", "prominent");
     expect(
-      screen.queryByRole("button", { name: "Squash and merge" }),
+      screen.queryByRole("button", { name: i18n._(msg`Squash and merge`) }),
     ).not.toBeInTheDocument();
     await user.click(
       screen.getByRole("button", { name: "More pull request actions" }),
     );
     expect(
       (await screen.findAllByRole("menuitem")).map((item) => item.textContent),
-    ).toEqual(["Convert to draft"]);
+    ).toEqual([i18n._(msg`Convert to draft`)]);
     await user.keyboard("{Escape}");
     await user.click(button);
     const dialog = await screen.findByRole("alertdialog");
     expect(dialog).toHaveAccessibleName("Queue for merge #9?");
     expect(gh).toHaveBeenCalledTimes(1);
     await user.click(
-      within(dialog).getByRole("button", { name: "Queue for merge" }),
+      within(dialog).getByRole("button", { name: i18n._(msg`Queue for merge`) }),
     );
     await screen.findByText("Queued for merge");
-    expect(row("Merge")).toHaveTextContent("Queued for merge into main");
+    expect(row(i18n._(msg`Merge`))).toHaveTextContent("Queued for merge into main");
     expect(gh.mock.calls[0]?.[0]).toContain(
       "isMergeQueueEnabled isInMergeQueue",
     );
@@ -658,10 +660,10 @@ it.each(["CLEAN", "BLOCKED", "BEHIND"])(
     ]);
     expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Queue for merge" }),
+      screen.queryByRole("button", { name: i18n._(msg`Queue for merge`) }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Merge when ready" }),
+      screen.queryByRole("button", { name: i18n._(msg`Merge when ready`) }),
     ).not.toBeInTheDocument();
   },
 );
@@ -690,10 +692,10 @@ it.each([
     );
     await screen.findByRole("heading", { name: "Private change #9" });
     expect(
-      screen.queryByRole("button", { name: "Queue for merge" }),
+      screen.queryByRole("button", { name: i18n._(msg`Queue for merge`) }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Merge when ready" }),
+      screen.queryByRole("button", { name: i18n._(msg`Merge when ready`) }),
     ).not.toBeInTheDocument();
   },
 );
@@ -713,17 +715,17 @@ it("shows GitHub's queue rejection and allows retrying the confirmed head", asyn
     />,
   );
   await user.click(
-    await screen.findByRole("button", { name: "Queue for merge" }),
+    await screen.findByRole("button", { name: i18n._(msg`Queue for merge`) }),
   );
   const dialog = await screen.findByRole("alertdialog");
   await user.click(
-    within(dialog).getByRole("button", { name: "Queue for merge" }),
+    within(dialog).getByRole("button", { name: i18n._(msg`Queue for merge`) }),
   );
   expect(await within(dialog).findByRole("alert")).toHaveTextContent(
     "Required approvals are missing",
   );
   expect(
-    within(dialog).getByRole("button", { name: "Queue for merge" }),
+    within(dialog).getByRole("button", { name: i18n._(msg`Queue for merge`) }),
   ).toBeEnabled();
 });
 
@@ -746,7 +748,7 @@ it("closes a merge confirmation if the branch starts requiring a queue", async (
       />,
     );
     await user.click(
-      await screen.findByRole("button", { name: "Squash and merge" }),
+      await screen.findByRole("button", { name: i18n._(msg`Squash and merge`) }),
     );
     const dialog = await screen.findByRole("alertdialog");
     queue = true;
@@ -754,7 +756,7 @@ it("closes a merge confirmation if the branch starts requiring a queue", async (
     await screen.findByRole("heading", { name: "Queue required #9" });
     expect(dialog).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Queue for merge" }),
+      screen.getByRole("button", { name: i18n._(msg`Queue for merge`) }),
     ).toBeInTheDocument();
   } finally {
     vi.useRealTimers();
@@ -787,7 +789,7 @@ it.each([false, true])(
       await screen.findByRole("heading", { name: "Private change #9" });
       await user.click(
         screen.getByRole("button", {
-          name: queue ? "Queue for merge" : "Squash and merge",
+          name: queue ? i18n._(msg`Queue for merge`) : i18n._(msg`Squash and merge`),
         }),
       );
       const dialog = await screen.findByRole("alertdialog");
@@ -798,12 +800,12 @@ it.each([false, true])(
       // Confirming again names the head now shown.
       await user.click(
         screen.getByRole("button", {
-          name: queue ? "Queue for merge" : "Squash and merge",
+          name: queue ? i18n._(msg`Queue for merge`) : i18n._(msg`Squash and merge`),
         }),
       );
       await user.click(
         within(await screen.findByRole("alertdialog")).getByRole("button", {
-          name: queue ? "Queue for merge" : "Merge",
+          name: queue ? i18n._(msg`Queue for merge`) : i18n._(msg`Merge`),
         }),
       );
       await vi.waitFor(() => expect(gh).toHaveBeenCalledTimes(4));
@@ -844,7 +846,7 @@ it.each([false, true])(
       await screen.findByRole("heading", { name: "Private change #9" });
       await user.click(
         screen.getByRole("button", {
-          name: queue ? "Queue for merge" : "Squash and merge",
+          name: queue ? i18n._(msg`Queue for merge`) : i18n._(msg`Squash and merge`),
         }),
       );
       const dialog = await screen.findByRole("alertdialog");
@@ -879,9 +881,9 @@ it("says when threads beyond the latest 100 went unread, and gates actions on Gi
     />,
   );
   await screen.findByRole("heading", { name: "Private change #9" });
-  expect(row("Threads")).toHaveTextContent("0 unresolved in the latest 100");
+  expect(row(i18n._(msg`Threads`))).toHaveTextContent("0 unresolved in the latest 100");
   expect(
-    screen.queryByRole("button", { name: "Update branch" }),
+    screen.queryByRole("button", { name: i18n._(msg`Update branch`) }),
   ).not.toBeInTheDocument();
 });
 
@@ -905,10 +907,10 @@ it("keeps the confirmation open with GitHub's reason when a merge fails, under S
     </StrictMode>,
   );
   await user.click(
-    await screen.findByRole("button", { name: "Squash and merge" }),
+    await screen.findByRole("button", { name: i18n._(msg`Squash and merge`) }),
   );
   const dialog = await screen.findByRole("alertdialog");
-  await user.click(within(dialog).getByRole("button", { name: "Merge" }));
+  await user.click(within(dialog).getByRole("button", { name: i18n._(msg`Merge`) }));
   expect(await within(dialog).findByRole("alert")).toHaveTextContent(
     "Head branch was modified",
   );
@@ -926,17 +928,17 @@ it("offers a bypass merge to admins, and other methods and drafting in the menu"
       gh={gh as unknown as GitHubCli}
     />,
   );
-  const merge = await screen.findByRole("button", { name: "Squash and merge" });
+  const merge = await screen.findByRole("button", { name: i18n._(msg`Squash and merge`) });
   expect(merge).toHaveAttribute("data-variant", "attention");
-  expect(row("Merge")).toHaveTextContent("you can bypass them");
+  expect(row(i18n._(msg`Merge`))).toHaveTextContent("you can bypass them");
   await user.click(
     screen.getByRole("button", { name: "More pull request actions" }),
   );
   expect(
     (await screen.findAllByRole("menuitem")).map((item) => item.textContent),
-  ).toEqual(["Create a merge commit", "Convert to draft"]);
+  ).toEqual([i18n._(msg`Create a merge commit`), i18n._(msg`Convert to draft`)]);
   await user.click(
-    screen.getByRole("menuitem", { name: "Create a merge commit" }),
+    screen.getByRole("menuitem", { name: i18n._(msg`Create a merge commit`) }),
   );
   expect(await screen.findByRole("alertdialog")).toHaveTextContent(
     "This bypasses main’s branch rules",
@@ -961,12 +963,12 @@ it("opens the merge confirmation without an earlier action's error", async () =>
     await screen.findByRole("button", { name: "More pull request actions" }),
   );
   await user.click(
-    await screen.findByRole("menuitem", { name: "Convert to draft" }),
+    await screen.findByRole("menuitem", { name: i18n._(msg`Convert to draft`) }),
   );
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Could not convert to draft",
   );
-  await user.click(screen.getByRole("button", { name: "Squash and merge" }));
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Squash and merge`) }));
   const dialog = await screen.findByRole("alertdialog");
   expect(within(dialog).queryByRole("alert")).not.toBeInTheDocument();
 });
@@ -997,20 +999,20 @@ it("marks a draft ready for review, and offers auto-merge while blocked", async 
     />,
   );
   await user.click(
-    await screen.findByRole("button", { name: "Ready for review" }),
+    await screen.findByRole("button", { name: i18n._(msg`Ready for review`) }),
   );
   expect(
-    screen.getByRole("button", { name: "Submit review" }),
+    screen.getByRole("button", { name: i18n._(msg`Submit review`) }),
   ).toBeInTheDocument();
   await waitFor(() =>
     expect(
-      screen.queryByRole("button", { name: "Ready for review" }),
+      screen.queryByRole("button", { name: i18n._(msg`Ready for review`) }),
     ).not.toBeInTheDocument(),
   );
   expect(gh.mock.calls[1]?.[0]).toContain("markPullRequestReadyForReview");
-  expect(row("Review")).toHaveTextContent("Required · waiting on wes");
+  expect(row(i18n._(msg`Review`))).toHaveTextContent("Required · waiting on wes");
   expect(
-    screen.queryByRole("button", { name: "Merge when ready" }),
+    screen.queryByRole("button", { name: i18n._(msg`Merge when ready`) }),
   ).not.toBeInTheDocument();
   // Where the repository allows it, a blocked pull request can merge itself.
   gh.mockImplementation(async () =>
@@ -1024,7 +1026,7 @@ it("marks a draft ready for review, and offers auto-merge while blocked", async 
     />,
   );
   expect(
-    await screen.findByRole("button", { name: "Merge when ready" }),
+    await screen.findByRole("button", { name: i18n._(msg`Merge when ready`) }),
   ).toBeInTheDocument();
 });
 
@@ -1073,7 +1075,7 @@ it("keeps a required review pending while an approval is in", async () => {
     />,
   );
   await screen.findByRole("heading", { name: "Private change #9" });
-  expect(row("Review")).toHaveTextContent(
+  expect(row(i18n._(msg`Review`))).toHaveTextContent(
     "Required · approved by wes · waiting on kalvin",
   );
 });
@@ -1098,13 +1100,13 @@ it("places each resolution action in its matching checklist row", async () => {
   );
   await screen.findByRole("button", { name: "Resolve failures" });
   expect(
-    within(row("Checks")).getByRole("button", { name: "Resolve failures" }),
+    within(row(i18n._(msg`Checks`))).getByRole("button", { name: "Resolve failures" }),
   ).toBeInTheDocument();
   expect(
-    within(row("Merge")).getByRole("button", { name: "Resolve conflicts" }),
+    within(row(i18n._(msg`Merge`))).getByRole("button", { name: "Resolve conflicts" }),
   ).toBeInTheDocument();
-  expect(within(row("Review")).queryByRole("button")).not.toBeInTheDocument();
-  expect(within(row("Threads")).queryByRole("button")).not.toBeInTheDocument();
+  expect(within(row(i18n._(msg`Review`))).queryByRole("button")).not.toBeInTheDocument();
+  expect(within(row(i18n._(msg`Threads`))).queryByRole("button")).not.toBeInTheDocument();
 });
 
 const reviewMutation =
@@ -1151,9 +1153,9 @@ it("approves someone else's pull request without a comment, at the head it showe
     { wrapper: ToastProvider },
   );
   await screen.findByRole("heading", { name: "Private change #9" });
-  await user.click(screen.getByRole("button", { name: "Submit review" }));
-  const popup = await screen.findByRole("dialog", { name: "Submit review" });
-  const submit = within(popup).getByRole("button", { name: "Submit review" });
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+  const popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
+  const submit = within(popup).getByRole("button", { name: i18n._(msg`Submit review`) });
   // A comment, or a change request, needs something to say. The field says
   // so, and Submit stays reachable from the keyboard.
   expect(within(popup).getByRole("radio", { name: /^Comment/ })).toBeChecked();
@@ -1174,10 +1176,10 @@ it("approves someone else's pull request without a comment, at the head it showe
   await user.click(submit);
   await waitFor(() =>
     expect(
-      screen.queryByRole("dialog", { name: "Submit review" }),
+      screen.queryByRole("dialog", { name: i18n._(msg`Submit review`) }),
     ).not.toBeInTheDocument(),
   );
-  expect(row("Review")).toHaveTextContent("Approved by me");
+  expect(row(i18n._(msg`Review`))).toHaveTextContent("Approved by me");
   expect(await screen.findByText("Review submitted")).toBeInTheDocument();
   expect(gh.mock.calls[1]).toEqual([
     reviewMutation,
@@ -1219,7 +1221,7 @@ it("shows a pull request's changes under Changes, with its line counts", async (
   ).not.toBeInTheDocument();
   // Reviewing stays a click away while reading the changes.
   expect(
-    screen.getByRole("button", { name: "Submit review" }),
+    screen.getByRole("button", { name: i18n._(msg`Submit review`) }),
   ).toBeInTheDocument();
   expect(diff).toHaveBeenCalledWith(
     {
@@ -1261,8 +1263,8 @@ it("opens a pull request again on the view and unsent review it was left with", 
   );
   const first = render(panel(), { wrapper: ToastProvider });
   await screen.findByRole("heading", { name: "Private change #9" });
-  await user.click(screen.getByRole("button", { name: "Submit review" }));
-  let popup = await screen.findByRole("dialog", { name: "Submit review" });
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+  let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   await user.click(within(popup).getByRole("radio", { name: /^Request/ }));
   await user.type(within(popup).getByRole("textbox"), "Needs a test");
   await user.keyboard("{Escape}");
@@ -1284,12 +1286,12 @@ it("opens a pull request again on the view and unsent review it was left with", 
   expect(
     screen.queryByRole("heading", { name: "Private change #9" }),
   ).not.toBeInTheDocument();
-  await user.click(screen.getByRole("button", { name: "Submit review" }));
-  popup = await screen.findByRole("dialog", { name: "Submit review" });
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+  popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   expect(within(popup).getByRole("radio", { name: /^Request/ })).toBeChecked();
   expect(within(popup).getByRole("textbox")).toHaveValue("Needs a test");
   await user.click(
-    within(popup).getByRole("button", { name: "Submit review" }),
+    within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
   );
   await waitFor(() => expect(popup).not.toBeInTheDocument());
   expect(
@@ -1323,8 +1325,8 @@ it("starts on Summary in another channel, with the pull request's unsent review"
   const alpha = render(panel("alpha"), { wrapper: ToastProvider });
   await screen.findByRole("heading", { name: "Private change #9" });
   await user.click(screen.getByRole("tab", { name: /^Changes/ }));
-  await user.click(screen.getByRole("button", { name: "Submit review" }));
-  let popup = await screen.findByRole("dialog", { name: "Submit review" });
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+  let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   await user.type(within(popup).getByRole("textbox"), "Looks right");
   await user.keyboard("{Escape}");
   await waitFor(() => expect(popup).not.toBeInTheDocument());
@@ -1339,8 +1341,8 @@ it("starts on Summary in another channel, with the pull request's unsent review"
   expect(
     screen.getByRole("heading", { name: "Private change #9" }),
   ).toBeInTheDocument();
-  await user.click(screen.getByRole("button", { name: "Submit review" }));
-  popup = await screen.findByRole("dialog", { name: "Submit review" });
+  await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+  popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   expect(within(popup).getByRole("textbox")).toHaveValue("Looks right");
   beta.unmount();
 
@@ -1378,11 +1380,11 @@ it.each([
     );
     const first = render(panel(), { wrapper: ToastProvider });
     await screen.findByRole("heading", { name: "Private change #9" });
-    await user.click(screen.getByRole("button", { name: "Submit review" }));
-    let popup = await screen.findByRole("dialog", { name: "Submit review" });
+    await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+    let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     await user.type(within(popup).getByRole("textbox"), "Looks right");
     await user.click(
-      within(popup).getByRole("button", { name: "Submit review" }),
+      within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
     );
     await waitFor(() => expect(gh).toHaveBeenCalledTimes(2));
     // Leaving the channel and coming back before GitHub answers doesn't
@@ -1390,9 +1392,9 @@ it.each([
     first.unmount();
     render(panel(), { wrapper: ToastProvider });
     await screen.findByRole("heading", { name: "Private change #9" });
-    const trigger = screen.getByRole("button", { name: "Submit review" });
+    const trigger = screen.getByRole("button", { name: i18n._(msg`Submit review`) });
     await user.click(trigger);
-    popup = await screen.findByRole("dialog", { name: "Submit review" });
+    popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     expect(within(popup).getByRole("textbox")).toHaveValue("");
     await user.keyboard("{Escape}");
     await waitFor(() => expect(popup).not.toBeInTheDocument());
@@ -1401,7 +1403,7 @@ it.each([
       expect(memory.get(pull).review?.body ?? "").toBe(offered),
     );
     await user.click(trigger);
-    popup = await screen.findByRole("dialog", { name: "Submit review" });
+    popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     expect(
       within(popup).getByRole("radio", { name: /^Comment/ }),
     ).toBeChecked();
@@ -1428,8 +1430,8 @@ it("drops a review another panel on the pull request sent", async () => {
   const second = within(render(panel(), { wrapper: ToastProvider }).container);
   const review = async (view: typeof first) => {
     await view.findByRole("heading", { name: "Private change #9" });
-    await user.click(view.getByRole("button", { name: "Submit review" }));
-    return screen.findByRole("dialog", { name: "Submit review" });
+    await user.click(view.getByRole("button", { name: i18n._(msg`Submit review`) }));
+    return screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   };
   const dismiss = async (popup: HTMLElement) => {
     await user.keyboard("{Escape}");
@@ -1443,7 +1445,7 @@ it("drops a review another panel on the pull request sent", async () => {
   await dismiss(popup);
   popup = await review(first);
   await user.click(
-    within(popup).getByRole("button", { name: "Submit review" }),
+    within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
   );
   await waitFor(() => expect(popup).not.toBeInTheDocument());
   popup = await review(second);
@@ -1485,27 +1487,27 @@ it.each([
     );
     await first.findByRole("heading", { name: "Private change #9" });
     await second.findByRole("heading", { name: "Private change #9" });
-    await user.click(first.getByRole("button", { name: "Submit review" }));
+    await user.click(first.getByRole("button", { name: i18n._(msg`Submit review`) }));
     const sending = await screen.findByRole("dialog", {
-      name: "Submit review",
+      name: i18n._(msg`Submit review`),
     });
     await user.type(within(sending).getByRole("textbox"), "Looks right");
     await user.click(
-      within(sending).getByRole("button", { name: "Submit review" }),
+      within(sending).getByRole("button", { name: i18n._(msg`Submit review`) }),
     );
     await waitFor(() =>
       expect(within(sending).getByRole("textbox")).toBeDisabled(),
     );
     // While it goes in, the other tab writes a new review and puts it away.
-    await user.click(second.getByRole("button", { name: "Submit review" }));
+    await user.click(second.getByRole("button", { name: i18n._(msg`Submit review`) }));
     const popups = await screen.findAllByRole("dialog", {
-      name: "Submit review",
+      name: i18n._(msg`Submit review`),
     });
     const drafting = popups.find((popup) => popup !== sending);
     if (!drafting) throw new Error("Missing the second tab's popover");
     await user.click(within(drafting).getByRole("radio", { name: /^Request/ }));
     await user.type(within(drafting).getByRole("textbox"), "Needs a test");
-    await user.click(within(drafting).getByRole("button", { name: "Cancel" }));
+    await user.click(within(drafting).getByRole("button", { name: i18n._(msg`Cancel`) }));
     await waitFor(() => expect(drafting).not.toBeInTheDocument());
     release();
     if (refuse) {
@@ -1527,7 +1529,7 @@ it.each([
       // clear, however the retry ends.
       refuseNext = retryRefused;
       await user.click(
-        within(sending).getByRole("button", { name: "Submit review" }),
+        within(sending).getByRole("button", { name: i18n._(msg`Submit review`) }),
       );
       await waitFor(() =>
         expect(within(sending).getByRole("textbox")).toBeDisabled(),
@@ -1540,9 +1542,9 @@ it.each([
       } else await waitFor(() => expect(sending).not.toBeInTheDocument());
       expect(memory.get(pull).review).toEqual(drafted);
     }
-    await user.click(second.getByRole("button", { name: "Submit review" }));
+    await user.click(second.getByRole("button", { name: i18n._(msg`Submit review`) }));
     const popup = (
-      await screen.findAllByRole("dialog", { name: "Submit review" })
+      await screen.findAllByRole("dialog", { name: i18n._(msg`Submit review`) })
     ).find((candidate) => candidate !== sending);
     if (!popup) throw new Error("Missing the second tab's popover");
     expect(
@@ -1579,11 +1581,11 @@ it("keeps a review going in out of memory when a push lands meanwhile", async ()
     );
     const first = render(panel(), { wrapper: ToastProvider });
     await screen.findByRole("heading", { name: "Private change #9" });
-    await user.click(screen.getByRole("button", { name: "Submit review" }));
-    let popup = await screen.findByRole("dialog", { name: "Submit review" });
+    await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+    let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     await user.type(within(popup).getByRole("textbox"), "Looks right");
     await user.click(
-      within(popup).getByRole("button", { name: "Submit review" }),
+      within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
     );
     await vi.waitFor(() => expect(gh).toHaveBeenCalledTimes(2));
     // A push lands while it goes in. Taking it then changes nothing, so the
@@ -1597,8 +1599,8 @@ it("keeps a review going in out of memory when a push lands meanwhile", async ()
     first.unmount();
     render(panel(), { wrapper: ToastProvider });
     await screen.findByRole("heading", { name: "Pushed again #9" });
-    await user.click(screen.getByRole("button", { name: "Submit review" }));
-    popup = await screen.findByRole("dialog", { name: "Submit review" });
+    await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+    popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     expect(
       within(popup).getByRole("radio", { name: /^Comment/ }),
     ).toBeChecked();
@@ -1626,8 +1628,8 @@ it("asks about a newer push only for a remembered review with text", async () =>
       { wrapper: ToastProvider },
     );
     await screen.findByRole("heading", { name: "Private change #9" });
-    await user.click(screen.getByRole("button", { name: "Submit review" }));
-    return screen.findByRole("dialog", { name: "Submit review" });
+    await user.click(screen.getByRole("button", { name: i18n._(msg`Submit review`) }));
+    return screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   };
   let popup = await reopen();
   // A decision with only spaces is no draft, so it waits on no push.
@@ -1646,7 +1648,7 @@ it("asks about a newer push only for a remembered review with text", async () =>
     "New commits were pushed after you started this review.",
   );
   expect(
-    within(popup).getByRole("button", { name: "Submit review" }),
+    within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
   ).toHaveAttribute("aria-disabled", "true");
 });
 
@@ -1692,7 +1694,7 @@ it("points to GitHub when the changes cannot be shown", async () => {
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "This diff is too large to show here.",
   );
-  expect(screen.getByRole("link", { name: "Open on GitHub" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: i18n._(msg`Open on GitHub`) })).toHaveAttribute(
     "href",
     `${pull}/files`,
   );
@@ -1717,7 +1719,7 @@ Ic${"$"}@
   await screen.findByRole("heading", { name: "Private change #9" });
   // The viewer's own pull request takes no review, but its changes show.
   expect(
-    screen.queryByRole("button", { name: "Submit review" }),
+    screen.queryByRole("button", { name: i18n._(msg`Submit review`) }),
   ).not.toBeInTheDocument();
   await user.click(screen.getByRole("tab", { name: /^Changes/ }));
   expect(
@@ -1750,13 +1752,13 @@ it("keeps a refused review's draft with GitHub's reason, and clears it once it i
     />,
   );
   await screen.findByRole("heading", { name: "Private change #9" });
-  const trigger = screen.getByRole("button", { name: "Submit review" });
+  const trigger = screen.getByRole("button", { name: i18n._(msg`Submit review`) });
   await user.click(trigger);
-  let popup = await screen.findByRole("dialog", { name: "Submit review" });
+  let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   await user.click(within(popup).getByRole("radio", { name: /^Request/ }));
   await user.type(within(popup).getByRole("textbox"), "Needs a test");
   await user.click(
-    within(popup).getByRole("button", { name: "Submit review" }),
+    within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
   );
   await waitFor(() => expect(gh).toHaveBeenCalledTimes(2));
   // Pending, it holds: no edits, and no dismissing it.
@@ -1775,13 +1777,13 @@ it("keeps a refused review's draft with GitHub's reason, and clears it once it i
   await user.keyboard("{Escape}");
   await waitFor(() => expect(popup).not.toBeInTheDocument());
   await user.click(trigger);
-  popup = await screen.findByRole("dialog", { name: "Submit review" });
+  popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   expect(within(popup).getByRole("radio", { name: /^Request/ })).toBeChecked();
   expect(within(popup).getByRole("textbox")).toHaveValue("Needs a test");
   expect(within(popup).queryByRole("alert")).not.toBeInTheDocument();
   refuse = false;
   await user.click(
-    within(popup).getByRole("button", { name: "Submit review" }),
+    within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
   );
   await waitFor(() => expect(popup).not.toBeInTheDocument());
   expect(gh.mock.calls.at(-2)?.[1]).toEqual({
@@ -1793,7 +1795,7 @@ it("keeps a refused review's draft with GitHub's reason, and clears it once it i
     },
   });
   await user.click(trigger);
-  popup = await screen.findByRole("dialog", { name: "Submit review" });
+  popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
   expect(within(popup).getByRole("radio", { name: /^Comment/ })).toBeChecked();
   expect(within(popup).getByRole("textbox")).toHaveValue("");
 });
@@ -1826,9 +1828,9 @@ it("asks before a review goes in against a push that arrived mid-draft", async (
       />,
     );
     await screen.findByRole("heading", { name: "Private change #9" });
-    const trigger = screen.getByRole("button", { name: "Submit review" });
+    const trigger = screen.getByRole("button", { name: i18n._(msg`Submit review`) });
     await user.click(trigger);
-    let popup = await screen.findByRole("dialog", { name: "Submit review" });
+    let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     await user.type(within(popup).getByRole("textbox"), "Looks right");
     read = 1;
     await vi.advanceTimersByTimeAsync(REFRESH_MS);
@@ -1837,13 +1839,13 @@ it("asks before a review goes in against a push that arrived mid-draft", async (
       "New commits were pushed after you started this review.",
     );
     expect(
-      within(popup).getByRole("button", { name: "Submit review" }),
+      within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
     ).toHaveAttribute("aria-disabled", "true");
     // Dismissed and reopened, the draft still waits on that choice.
     await user.keyboard("{Escape}");
     await vi.waitFor(() => expect(popup).not.toBeInTheDocument());
     await user.click(trigger);
-    popup = await screen.findByRole("dialog", { name: "Submit review" });
+    popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     expect(within(popup).getByRole("textbox")).toHaveValue("Looks right");
     await user.click(
       within(popup).getByRole("button", { name: "Use latest commit" }),
@@ -1858,7 +1860,7 @@ it("asks before a review goes in against a push that arrived mid-draft", async (
     );
     expect(within(popup).getByRole("textbox")).toHaveValue("Looks right");
     await user.click(
-      within(popup).getByRole("button", { name: "Submit review" }),
+      within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
     );
     await vi.waitFor(() => expect(popup).not.toBeInTheDocument());
     expect(gh.mock.calls[3]?.[1]).toEqual({
@@ -1870,7 +1872,7 @@ it("asks before a review goes in against a push that arrived mid-draft", async (
       },
     });
     expect(
-      screen.queryByRole("button", { name: "Submit review" }),
+      screen.queryByRole("button", { name: i18n._(msg`Submit review`) }),
     ).not.toBeInTheDocument();
   } finally {
     vi.useRealTimers();
@@ -1897,9 +1899,9 @@ it("asks before an approval without text goes in against a push since it was cho
       />,
     );
     await screen.findByRole("heading", { name: "Private change #9" });
-    const trigger = screen.getByRole("button", { name: "Submit review" });
+    const trigger = screen.getByRole("button", { name: i18n._(msg`Submit review`) });
     await user.click(trigger);
-    let popup = await screen.findByRole("dialog", { name: "Submit review" });
+    let popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     await user.click(within(popup).getByRole("radio", { name: /^Approve/ }));
     await user.keyboard("{Escape}");
     await vi.waitFor(() => expect(popup).not.toBeInTheDocument());
@@ -1907,7 +1909,7 @@ it("asks before an approval without text goes in against a push since it was cho
     await vi.advanceTimersByTimeAsync(REFRESH_MS);
     await screen.findByRole("heading", { name: "Pushed again #9" });
     await user.click(trigger);
-    popup = await screen.findByRole("dialog", { name: "Submit review" });
+    popup = await screen.findByRole("dialog", { name: i18n._(msg`Submit review`) });
     expect(
       within(popup).getByRole("radio", { name: /^Approve/ }),
     ).toBeChecked();
@@ -1915,7 +1917,7 @@ it("asks before an approval without text goes in against a push since it was cho
       "New commits were pushed after you started this review.",
     );
     expect(
-      within(popup).getByRole("button", { name: "Submit review" }),
+      within(popup).getByRole("button", { name: i18n._(msg`Submit review`) }),
     ).toHaveAttribute("aria-disabled", "true");
   } finally {
     vi.useRealTimers();
@@ -1933,7 +1935,7 @@ it("offers no review on the viewer's own pull request", async () => {
   );
   await screen.findByRole("heading", { name: "Private change #9" });
   expect(
-    screen.queryByRole("button", { name: "Submit review" }),
+    screen.queryByRole("button", { name: i18n._(msg`Submit review`) }),
   ).not.toBeInTheDocument();
 });
 
@@ -2030,7 +2032,7 @@ it("shows public checks the store read for the head, without gh", async () => {
     />,
   );
   await screen.findByRole("heading", { name: "Public change #3" });
-  await waitFor(() => expect(row("Checks")).toHaveTextContent("1 failed"));
+  await waitFor(() => expect(row(i18n._(msg`Checks`))).toHaveTextContent("1 failed"));
   expect(
     fetch.mock.calls.filter(([input]) => input.includes("/commits/f00d/")),
   ).toHaveLength(2);

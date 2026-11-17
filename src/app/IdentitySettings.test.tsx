@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { i18n } from "../features/localization/service";
 import "@testing-library/jest-dom/vitest";
 import {
   act,
@@ -561,7 +562,7 @@ it.each([
     const openBuilderlab = vi.fn();
     await renderBackup(at(1, progress), openBuilderlab).settled();
     await showKeyDetails();
-    const message = BACKUP_FAILURES[kind].message.replace(/\.$/, "");
+    const message = i18n._(BACKUP_FAILURES[kind].message).replace(/[.。]$/, "");
     const sentence = screen.getByText(
       (_, el) => el?.tagName === "P" && el.textContent === message,
     );
@@ -609,7 +610,9 @@ it("names Builderlab as plain text where Settings can't open it", async () => {
     at(1, { status: "waiting", reason: "not_linked" }),
   ).settled();
   await showKeyDetails();
-  const message = BACKUP_FAILURES.not_linked.message.replace(/\.$/, "");
+  const message = i18n
+    ._(BACKUP_FAILURES.not_linked.message)
+    .replace(/[.。]$/, "");
   const sentence = screen.getByText(
     (_, el) => el?.tagName === "P" && el.textContent === message,
   );
@@ -891,7 +894,8 @@ it.each([
     (kind) =>
       [
         { status: "failed", kind },
-        BACKUP_FAILURES[kind].message.replace(/\.$/, ""),
+        // 模块级构造 it.each 数据：en-US 下与原文一致。
+        i18n._(BACKUP_FAILURES[kind].message).replace(/[.。]$/, ""),
       ] as const,
   ),
 ] as const)("offers no Retry backup for %o", async (progress, copy) => {

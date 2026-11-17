@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { invoke } from "@tauri-apps/api/core";
 import { useLayoutEffect } from "react";
 import {
@@ -74,7 +76,7 @@ export function FolderCompletion({
       .map((folder) => ({
         id: `folder:${folder.path}`,
         label: folder.name,
-        detail: `Local folder · ${folder.displayPath}`,
+        detail: i18n._(msg`Local folder · ${folder.displayPath}`),
         edit: {
           token: {
             kind: "folder" as const,

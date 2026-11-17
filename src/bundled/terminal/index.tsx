@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useLayoutEffect } from "react";
 import { TerminalWindowIcon } from "../../shared/design-system/icons/index";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
@@ -70,12 +71,13 @@ export const apply: PluginModule["apply"] = (ctx) => {
         if (binding === current) binding = undefined;
       };
     }, [toggle, target, available]);
+    const { t } = useLingui();
     return (
       <IconButton
         size="toolbar"
         icon={<TerminalWindowIcon size={16} aria-hidden="true" />}
-        aria-label="Toggle channel terminal"
-        title={`Terminal (${formatBinding(TOGGLE_BINDING, isApplePlatform(navigator.platform)).text})`}
+        aria-label={t`Toggle channel terminal`}
+        title={t`Terminal (${formatBinding(TOGGLE_BINDING, isApplePlatform(navigator.platform)).text})`}
         aria-expanded={pressed}
         onClick={(event) => {
           event.currentTarget.focus();

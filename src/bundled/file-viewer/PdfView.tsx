@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   type KeyboardEvent,
   useEffect,
@@ -58,7 +60,9 @@ export default function PdfView({
   bytes: Uint8Array;
   name: string;
 }) {
+  const { i18n, t } = useLingui();
   const [opened, setOpened] = useState<Opened>({ state: "loading" });
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此效果/回调不需随语言重建。
   useEffect(() => {
     const controller = new AbortController();
     let pdf: PdfDocument | undefined;
@@ -76,8 +80,12 @@ export default function PdfView({
           state: "failed",
           message:
             error instanceof PdfError && error.reason === "password"
-              ? "This PDF is protected with a password. Download it to open it in another app."
-              : "This file isn't a PDF that can be shown. Download it to open it in another app.",
+              ? i18n._(
+                  msg`This PDF is protected with a password. Download it to open it in another app.`,
+                )
+              : i18n._(
+                  msg`This file isn't a PDF that can be shown. Download it to open it in another app.`,
+                ),
         });
       },
     );
@@ -91,14 +99,14 @@ export default function PdfView({
       <div className={styles.status}>
         <EmptyState
           icon={<FileTextIcon />}
-          title="Can't open this PDF"
+          title={t`Can't open this PDF`}
           description={opened.message}
         />
       </div>
     );
   if (opened.state === "loading")
     return (
-      <LoadingRegion pending label={`Opening ${name}`}>
+      <LoadingRegion pending label={t`Opening ${name}`}>
         {null}
       </LoadingRegion>
     );
@@ -155,6 +163,7 @@ function Page({
   root: HTMLElement | null;
   screen: number;
 }) {
+  const { t } = useLingui();
   const [node, setNode] = useState<HTMLDivElement | null>(null);
   const near = useNear(node, root, Math.max(screen, MIN_DRAW_REACH));
   return (
@@ -163,7 +172,7 @@ function Page({
       className={styles.page}
       data-page={page}
       role="img"
-      aria-label={`Page ${page} of ${pdf.sizes.length}`}
+      aria-label={t`Page ${page} of ${pdf.sizes.length}`}
       style={{
         width: Math.floor(size.width * scale),
         height: Math.floor(size.height * scale),
@@ -235,6 +244,7 @@ function usePageTracking(
 }
 
 function Pages({ pdf, name }: { pdf: PdfDocument; name: string }) {
+  const { t } = useLingui();
   const pages = pdf.sizes.length;
   const [page, setPage] = useState(1);
   const [zoom, setZoom] = useState<number | "fit">("fit");
@@ -264,19 +274,19 @@ function Pages({ pdf, name }: { pdf: PdfDocument; name: string }) {
   };
   return (
     <div className={styles.pdf}>
-      <div className={styles.toolbar} role="toolbar" aria-label="PDF controls">
+      <div className={styles.toolbar} role="toolbar" aria-label={t`PDF controls`}>
         <span className={styles.group}>
           <IconButton
-            aria-label="Previous page"
+            aria-label={t`Previous page`}
             icon={<CaretLeftIcon />}
             disabled={page <= 1}
             onClick={() => go(page - 1)}
           />
           <output className={styles.count}>
-            Page {page} of {pages}
+            {t`Page ${page} of ${pages}`}
           </output>
           <IconButton
-            aria-label="Next page"
+            aria-label={t`Next page`}
             icon={<CaretRightIcon />}
             disabled={page >= pages}
             onClick={() => go(page + 1)}
@@ -284,16 +294,16 @@ function Pages({ pdf, name }: { pdf: PdfDocument; name: string }) {
         </span>
         <span className={styles.group}>
           <IconButton
-            aria-label="Zoom out"
+            aria-label={t`Zoom out`}
             icon={<MinusIcon />}
             disabled={scale <= ZOOMS[0]}
             onClick={() => setZoom(nextZoom(scale, -1))}
           />
-          <output className={styles.count} aria-label="Zoom level">
+          <output className={styles.count} aria-label={t`Zoom level`}>
             {Math.round(scale * 100)}%
           </output>
           <IconButton
-            aria-label="Zoom in"
+            aria-label={t`Zoom in`}
             icon={<PlusIcon />}
             disabled={scale >= MAX_ZOOM}
             onClick={() => setZoom(nextZoom(scale, 1))}

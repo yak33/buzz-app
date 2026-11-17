@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState } from "react";
 import { AgentPortrait } from "../agents/AgentCard";
 import type { ConversationExtensions } from "../../features/conversation/contracts";
@@ -42,6 +44,7 @@ export function PinnedBestie({
   agents: Agents;
   navigation?: PageNavigation | undefined;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const { session, scope, viewer } = connection;
   const saved = useSavedAgent(session, scope ?? "");
@@ -83,20 +86,20 @@ export function PinnedBestie({
       <Notice
         title={
           connection.status === "connecting"
-            ? "Connecting…"
+            ? t`Connecting…`
             : connection.status === "error"
-              ? "This community is unavailable"
-              : "No community selected"
+              ? t`This community is unavailable`
+              : t`No community selected`
         }
         description={
           connection.status === "connecting"
-            ? "Your bestie conversation opens once this community is connected."
+            ? t`Your bestie conversation opens once this community is connected.`
             : (connection.error ??
-              "Choose a community to chat with your bestie.")
+              t`Choose a community to chat with your bestie.`)
         }
         action={
           connection.status === "error" ? (
-            <Button onClick={relay.tryAgain}>Retry connection</Button>
+            <Button onClick={relay.tryAgain}>{t`Retry connection`}</Button>
           ) : undefined
         }
       />
@@ -124,17 +127,17 @@ export function PinnedBestie({
       choices.archives.status === "loading";
     content =
       pending && !choices.error ? (
-        <LoadingRegion pending label="Loading your Bestie…">
+        <LoadingRegion pending label={t`Loading your Bestie…`}>
           <Notice
-            title="Loading your Bestie…"
-            description="Reading the agents available in this community."
+            title={t`Loading your Bestie…`}
+            description={t`Reading the agents available in this community.`}
           />
         </LoadingRegion>
       ) : choices.error || !choices.complete ? (
         <Notice
-          title="Your agents are unavailable"
+          title={t`Your agents are unavailable`}
           description={
-            choices.error ?? "Buzz couldn’t finish reading your agents."
+            choices.error ?? t`Buzz couldn’t finish reading your agents.`
           }
           action={
             <Button
@@ -142,7 +145,7 @@ export function PinnedBestie({
                 void session.agentChoices.refresh(true, { fresh: true })
               }
             >
-              Try again
+              {t`Try again`}
             </Button>
           }
         />
@@ -155,8 +158,8 @@ export function PinnedBestie({
               scope={scope}
               community={connection.origin}
               agents={agents}
-              title={`${name} is no longer here`}
-              description="Choose an eligible agent, or create one to make your new Bestie."
+              title={t`${name} is no longer here`}
+              description={t`Choose an eligible agent, or create one to make your new Bestie.`}
             />
           </div>
         </div>
@@ -165,10 +168,10 @@ export function PinnedBestie({
     content =
       channels.status === "error" || channels.status === "unavailable" ? (
         <Notice
-          title="Your chats are unavailable"
+          title={t`Your chats are unavailable`}
           description={
             channels.error ??
-            "Buzz couldn’t read your chats, so this one can’t be opened."
+            t`Buzz couldn’t read your chats, so this one can’t be opened.`
           }
           action={
             <Button
@@ -178,15 +181,15 @@ export function PinnedBestie({
                   : session.channels.ensureList()
               }
             >
-              Try again
+              {t`Try again`}
             </Button>
           }
         />
       ) : channels.status !== "ready" ? (
-        <LoadingRegion pending label="Loading your chats…">
+        <LoadingRegion pending label={t`Loading your chats…`}>
           <Notice
-            title="Loading your conversation…"
-            description={`Looking for your DM with ${name}.`}
+            title={t`Loading your conversation…`}
+            description={t`Looking for your DM with ${name}.`}
           />
         </LoadingRegion>
       ) : (
@@ -241,6 +244,7 @@ function DirectMessage({
   icon: React.ReactNode;
   channel: ChannelSummary | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const [attempt, retry] = useState(0);
   const [error, setError] = useState<string>();
   // biome-ignore lint/correctness/useExhaustiveDependencies: Retry deliberately starts a fresh open attempt.
@@ -256,7 +260,7 @@ function DirectMessage({
             .selectable.some((choice) => choice.pubkey === agent.pubkey)
         )
           throw new Error(
-            "This agent is no longer available in this community.",
+            i18n._(msg`This agent is no longer available in this community.`),
           );
         await session.directMessages.open([agent.pubkey], controller.signal);
       } catch (reason) {
@@ -264,12 +268,12 @@ function DirectMessage({
           setError(
             reason instanceof Error
               ? reason.message
-              : "Buzz couldn’t open this conversation.",
+              : i18n._(msg`Buzz couldn’t open this conversation.`),
           );
       }
     })();
     return () => controller.abort();
-  }, [session, agent.pubkey, channel, attempt]);
+  }, [session, agent.pubkey, channel, attempt, i18n]);
   if (channel)
     return (
       <BestieConversation
@@ -289,12 +293,12 @@ function DirectMessage({
   if (error || attempt > 0)
     return (
       <Notice
-        title="Couldn’t open this conversation"
-        description={error ?? `Trying your DM with ${agent.name} again…`}
+        title={t`Couldn’t open this conversation`}
+        description={error ?? t`Trying your DM with ${agent.name} again…`}
         announce={error ? "alert" : "status"}
         action={
           <Button loading={!error} onClick={() => retry((value) => value + 1)}>
-            Try again
+            {t`Try again`}
           </Button>
         }
       />
@@ -302,11 +306,11 @@ function DirectMessage({
   return (
     <LoadingRegion
       pending
-      label={`Opening your conversation with ${agent.name}…`}
+      label={t`Opening your conversation with ${agent.name}…`}
     >
       <Notice
-        title="Opening your conversation…"
-        description={`Connecting to your DM with ${agent.name}.`}
+        title={t`Opening your conversation…`}
+        description={t`Connecting to your DM with ${agent.name}.`}
       />
     </LoadingRegion>
   );

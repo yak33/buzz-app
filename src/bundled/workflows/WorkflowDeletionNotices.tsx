@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState } from "react";
 import type {
   WorkflowDefinitions,
@@ -24,6 +26,7 @@ export function WorkflowDeletionNotices({
   onCheck: (channelIds: readonly string[]) => void;
   onDismiss: (operation: WorkflowOperation) => Promise<void>;
 }) {
+  const { i18n, t } = useLingui();
   const [acknowledge, setAcknowledge] = useState<WorkflowOperation>();
   const [working, setWorking] = useState(false);
   const [error, setError] = useState<string>();
@@ -38,7 +41,7 @@ export function WorkflowDeletionNotices({
       setError(
         cause instanceof Error
           ? cause.message
-          : "Couldn't dismiss this notice. Try again.",
+          : i18n._(msg`Couldn't dismiss this notice. Try again.`),
       );
     } finally {
       setWorking(false);
@@ -86,8 +89,8 @@ export function WorkflowDeletionNotices({
             return (
               <ToastNotice
                 key={operation.eventId}
-                title="Deleting workflow…"
-                description="Waiting for deletion confirmation."
+                title={t`Deleting workflow…`}
+                description={t`Waiting for deletion confirmation.`}
                 tone="info"
               />
             );
@@ -106,13 +109,15 @@ export function WorkflowDeletionNotices({
               key={operation.eventId}
               title={
                 rejected
-                  ? `Couldn't delete ${name || "workflow"}`
-                  : `Couldn't confirm deletion${name ? ` of ${name}` : ""}`
+                  ? t`Couldn't delete ${name || "workflow"}`
+                  : name
+                    ? t`Couldn't confirm deletion of ${name}`
+                    : t`Couldn't confirm deletion`
               }
               description={
                 rejected
-                  ? "Check the workflow and try again from its menu."
-                  : "Check saved configuration before deleting again. Work already running may continue."
+                  ? t`Check the workflow and try again from its menu.`
+                  : t`Check saved configuration before deleting again. Work already running may continue.`
               }
             >
               <Button
@@ -121,8 +126,8 @@ export function WorkflowDeletionNotices({
                 onClick={() => onCheck([operation.workflow.channelId])}
               >
                 {snapshot.status === "loading"
-                  ? "Checking deletion…"
-                  : "Check saved configuration"}
+                  ? t`Checking deletion…`
+                  : t`Check saved configuration`}
               </Button>
               <Button
                 size="compact"
@@ -132,11 +137,11 @@ export function WorkflowDeletionNotices({
                   setAcknowledge(operation);
                 }}
               >
-                Dismiss notice
+                {t`Dismiss notice`}
               </Button>
               {operation.error && (
                 <details>
-                  <summary>Delivery details</summary>
+                  <summary>{t`Delivery details`}</summary>
                   {operation.error}
                 </details>
               )}
@@ -148,11 +153,13 @@ export function WorkflowDeletionNotices({
         acknowledgeSnapshot.status !== "idle" &&
         acknowledgeSnapshot.status !== "unavailable" && (
           <ConfirmAction
-            title="Dismiss this notice?"
+            title={t`Dismiss this notice?`}
             pending={working}
             error={error ?? null}
-            description="Dismissing this notice unlocks the workflow. It does not confirm, cancel, or repeat deletion. Check saved configuration before deleting again."
-            action={working ? "Dismissing…" : "Dismiss notice and continue"}
+            description={t`Dismissing this notice unlocks the workflow. It does not confirm, cancel, or repeat deletion. Check saved configuration before deleting again.`}
+            action={
+              working ? t`Dismissing…` : t`Dismiss notice and continue`
+            }
             onConfirm={() => void dismiss()}
             onCancel={() => {
               if (!working) setAcknowledge(undefined);

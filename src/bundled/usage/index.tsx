@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { useSyncExternalStore } from "react";
 import type { PluginModule } from "../../plugins/api";
 import type { Agents } from "../../features/agents/service";
@@ -11,8 +13,9 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const { agents, navigation, relay } = ctx;
   ctx.settingsCards.register({
     id: "usage",
-    title: "Usage",
+    title: i18n._(msg`Usage`),
     icon: ChartBarIcon,
+    // "Plugins" 是宿主 Settings 的分组匹配键（settings-sections.ts），保持原文。
     group: "Plugins",
     component: () => (
       <UsageCard agents={agents} relay={relay} open={navigation.open} />

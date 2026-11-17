@@ -1,8 +1,10 @@
+import { msg } from "@lingui/core/macro";
 import {
   isTextSource,
   snapshotJSON,
   writeJSON,
 } from "../../features/agent-protection/json-stream";
+import { i18n } from "../../features/localization/service";
 import { CLAUDE_HOOK_EVENTS, type ClaudeHook } from "./hooks";
 // One `claude` process driven over its stream-json protocol: the protocol the
 // Claude Agent SDK speaks to the same binary, so no Node runtime is needed. The
@@ -151,7 +153,9 @@ export class ClaudeProcess {
   }
   get structuredResult() {
     if (this.reviewOutput === undefined)
-      throw new Error("The security model returned no structured result");
+      throw new Error(
+        i18n._(msg`The security model returned no structured result`),
+      );
     return JSON.stringify(this.reviewOutput);
   }
   captureProtectionContext() {
@@ -231,12 +235,12 @@ export class ClaudeProcess {
       this.protectionLifetime.abort();
       this.alive = false;
       for (const resolve of this.calls.values())
-        resolve({ subtype: "error", error: "Claude exited" });
+        resolve({ subtype: "error", error: i18n._(msg`Claude exited`) });
       this.calls.clear();
       const error =
         this.lastError ??
         (this.stderr.trim().split("\n").at(-1) ||
-          `Claude exited (${code ?? "signal"})`);
+          i18n._(msg`Claude exited (${code ?? "signal"})`));
       this.settle(
         this.stopped && !this.lastError
           ? { ok: true, stopped: true }
@@ -575,7 +579,7 @@ export class ClaudeProcess {
     if (!this.alive)
       return Promise.resolve({
         ok: false,
-        error: "Claude is not running",
+        error: i18n._(msg`Claude is not running`),
       });
     // The model first: effort applies to whichever model runs.
     this.setModel(model !== undefined || !this.busy ? model : this.pickedModel);
@@ -622,7 +626,7 @@ export class ClaudeProcess {
     this.stopping = true;
     const work = this.workLifetime;
     const fresh = !work.signal.aborted;
-    work.abort(new Error("The owner stopped the turn"));
+    work.abort(new Error(i18n._(msg`The owner stopped the turn`)));
     if (this.protection) {
       this.protectionLifetime.abort();
       this.stopped = true;
@@ -830,7 +834,7 @@ export class ClaudeProcess {
       this.lastError =
         typeof message.compact_error === "string" && message.compact_error
           ? message.compact_error
-          : "Claude could not compact the session";
+          : i18n._(msg`Claude could not compact the session`);
       return;
     }
     if (
@@ -990,7 +994,9 @@ export class ClaudeProcess {
           });
         }
         if (typeof input.transcript_path !== "string")
-          throw new Error("Claude omitted the protected conversation");
+          throw new Error(
+            i18n._(msg`Claude omitted the protected conversation`),
+          );
         const history = await this.protection
           .history(input.transcript_path, this.protectionLifetime.signal)
           .catch((error) => {
@@ -1092,7 +1098,9 @@ export class ClaudeProcess {
       } catch (error) {
         this.protectionLifetime.abort();
         this.lastError =
-          error instanceof Error ? error.message : "Security review failed";
+          error instanceof Error
+            ? error.message
+            : i18n._(msg`Security review failed`);
         await this.process.kill();
         await this.exited;
         return;
@@ -1177,8 +1185,8 @@ export function stepLabel(
       .find((value): value is string => typeof value === "string" && !!value);
     return target ? { tool, target: shortTarget(target) } : { tool };
   }
-  if (block?.type === "thinking") return { tool: "Thinking" };
-  if (block?.type === "text") return { tool: "Writing reply" };
+  if (block?.type === "thinking") return { tool: i18n._(msg`Thinking`) };
+  if (block?.type === "text") return { tool: i18n._(msg`Writing reply`) };
   return undefined;
 }
 

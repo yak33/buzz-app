@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   createContext,
   useContext,
@@ -65,15 +68,16 @@ import "./repos.css";
 import { writeClipboardText } from "../../shared/clipboard";
 
 type Open = Navigation["open"];
+// 仓库页签文案表：模块级 msg 描述符，渲染处用 i18n._ 求值。
 const labels = {
-  overview: "Overview",
-  files: "Files",
-  commits: "Commits",
-  prs: "Pull requests",
-  issues: "Issues",
-  contributors: "Contributors",
-  channels: "Channels",
-};
+  overview: msg`Overview`,
+  files: msg`Files`,
+  commits: msg`Commits`,
+  prs: msg`Pull requests`,
+  issues: msg`Issues`,
+  contributors: msg`Contributors`,
+  channels: msg`Channels`,
+} as const satisfies Record<string, MessageDescriptor>;
 const tabs = ["overview", ...entityTabs].map((value) => ({
   value,
   label: labels[value as keyof typeof labels],
@@ -96,6 +100,7 @@ export function RepoPage({
   /** Plugin code-block renderers for README and description bodies. */
   codeBlocks?: ContributionReader<CodeBlockRenderer> | undefined;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const request = useMemo(
     () => navigation?.forSession(relay, connection),
@@ -137,7 +142,7 @@ export function RepoPage({
   }, [request, connection, scope, target]);
   return (
     <RepoCodeBlocks value={codeBlocks}>
-      <FullPageSurface aria-label="Repository">
+      <FullPageSurface aria-label={t`Repository`}>
         <div className="repos-page text-body">
           {connection.status === "ready" && request && scope ? (
             <Destination
@@ -149,11 +154,11 @@ export function RepoPage({
             />
           ) : (
             <>
-              <h1 className="text-title">Repository</h1>
+              <h1 className="text-title">{t`Repository`}</h1>
               <p role="status">
                 {connection.status === "connecting"
-                  ? "Connecting to your community..."
-                  : "Select a community to open a repository."}
+                  ? t`Connecting to your community...`
+                  : t`Select a community to open a repository.`}
               </p>
             </>
           )}
@@ -174,6 +179,11 @@ function Destination({
   open: Open;
   scope: NavigationScope;
 }) {
+  const { i18n, t } = useLingui();
+  const tabItems = tabs.map((tab) => ({
+    value: tab.value,
+    label: i18n._(labels[tab.value as keyof typeof labels]),
+  }));
   const target = request.target;
   const route = useMemo(
     () =>
@@ -322,26 +332,25 @@ function Destination({
   if (failure)
     return (
       <div role="alert">
-        <h1 className="text-title">This destination couldn’t open</h1>
+        <h1 className="text-title">{t`This destination couldn’t open`}</h1>
         <p>
           {failure === "not-found"
-            ? "The requested entity was not found in this community."
-            : "Repository content is unavailable."}
+            ? t`The requested entity was not found in this community.`
+            : t`Repository content is unavailable.`}
         </p>
-        <Button onClick={() => setRefresh((n) => n + 1)}>Retry</Button>
+        <Button onClick={() => setRefresh((n) => n + 1)}>{t`Retry`}</Button>
       </div>
     );
-  if (!data) return <p role="status">Loading repository...</p>;
+  if (!data) return <p role="status">{t`Loading repository...`}</p>;
   const detail = data.detail;
   if (!detail)
     return (
       <>
         <h1 ref={heading} tabIndex={-1} className="text-title">
-          Destination no longer available
+          {t`Destination no longer available`}
         </h1>
         <p role="status">
-          Project containers are no longer available. Open a repository, issue
-          or pull request link instead.
+          {t`Project containers are no longer available. Open a repository, issue or pull request link instead.`}
         </p>
       </>
     );
@@ -368,7 +377,7 @@ function Destination({
       <header className="repo-heading">
         <div>
           <p className="text-secondary">
-            Repository · {formatPublicKey(detail.entity.owner)}
+            {t`Repository · ${formatPublicKey(detail.entity.owner)}`}
           </p>
           <h1 ref={heading} tabIndex={-1} className="text-title">
             {detail.item
@@ -386,8 +395,8 @@ function Destination({
       )}
       <Tabs
         variant="panel"
-        label="Repository sections"
-        items={tabs}
+        label={t`Repository sections`}
+        items={tabItems}
         value={active}
         onValueChange={(tab) =>
           go({
@@ -398,7 +407,10 @@ function Destination({
           })
         }
       />
-      <section className="repo-content" aria-label={labels[active]}>
+      <section
+        className="repo-content"
+        aria-label={i18n._(labels[active as keyof typeof labels])}
+      >
         {detail.item ? (
           <>
             <p>
@@ -410,7 +422,7 @@ function Destination({
             <Body text={detail.item.content} open={open} scope={scope} />
             {commit && (
               <p>
-                Look up commit in the base repository:{" "}
+                {t`Look up commit in the base repository:`}{" "}
                 <Button
                   variant="link"
                   disabled={!session.projectGit}
@@ -420,11 +432,10 @@ function Destination({
                 >
                   <code>{commit}</code>
                 </Button>{" "}
-                Exact PR diffs from external forks are unavailable. This lookup
-                only works if the commit is readable from the base repository.
+                {t`Exact PR diffs from external forks are unavailable. This lookup only works if the commit is readable from the base repository.`}
               </p>
             )}
-            <h2 className="text-heading">Discussion</h2>
+            <h2 className="text-heading">{t`Discussion`}</h2>
             {detail.activity.length ? (
               detail.activity.map((event) => (
                 <article className="repo-comment" key={event.id}>
@@ -436,7 +447,7 @@ function Destination({
                 </article>
               ))
             ) : (
-              <p>No comments.</p>
+              <p>{t`No comments.`}</p>
             )}
           </>
         ) : active === "overview" ? (
@@ -445,16 +456,16 @@ function Destination({
             {data.gitError ? (
               <p role="status">
                 {data.gitError === "denied"
-                  ? "Repository files require access to the linked channel."
-                  : "Repository files are unavailable."}{" "}
+                  ? t`Repository files require access to the linked channel.`
+                  : t`Repository files are unavailable.`}{" "}
                 <Button variant="link" onClick={() => setRefresh((n) => n + 1)}>
-                  Retry files
+                  {t`Retry files`}
                 </Button>
               </p>
             ) : data.git?.readme ? (
               <Body text={data.git.readme} open={open} scope={scope} />
             ) : (
-              <p>No README in this repository.</p>
+              <p>{t`No README in this repository.`}</p>
             )}
           </>
         ) : active === "prs" || active === "issues" ? (
@@ -484,7 +495,11 @@ function Destination({
               })}
             </ul>
             {!detail.items.length && (
-              <p>No {labels[active].toLowerCase()} found.</p>
+              <p>
+                {active === "prs"
+                  ? t`No pull requests found.`
+                  : t`No issues found.`}
+              </p>
             )}
           </>
         ) : active === "channels" ? (
@@ -506,7 +521,7 @@ function Destination({
                 </Button>
               </li>
             ))}
-            {!channels.length && <li>No accessible linked channels.</li>}
+            {!channels.length && <li>{t`No accessible linked channels.`}</li>}
           </ul>
         ) : data.git ? (
           <GitContent
@@ -525,7 +540,7 @@ function Destination({
             }}
           />
         ) : (
-          <p>No repository linked.</p>
+          <p>{t`No repository linked.`}</p>
         )}
       </section>
     </>
@@ -543,17 +558,20 @@ function GitContent({
   selectFile(path: string | undefined): void;
   selectCommit(hash: string): void;
 }) {
+  const { t } = useLingui();
   if (active === "files")
     return git.file ? (
       <>
         <Button variant="link" onClick={() => selectFile(undefined)}>
-          All files
+          {t`All files`}
         </Button>
         <h2 className="text-heading">{git.file.path}</h2>
         {git.file.content !== null ? (
           <pre className="repo-code text-code">{git.file.content}</pre>
         ) : (
-          <p>Binary file or text larger than 1 MiB ({git.file.size} bytes).</p>
+          <p>
+            {t`Binary file or text larger than 1 MiB (${git.file.size} bytes).`}
+          </p>
         )}
       </>
     ) : (
@@ -564,23 +582,25 @@ function GitContent({
             <Button variant="link" onClick={() => selectFile(file.path)}>
               {file.path}
             </Button>
-            <small>{file.size} bytes</small>
+            <small>{t`${file.size} bytes`}</small>
           </li>
         ))}
-        {!git.files.length && <li>No files.</li>}
+        {!git.files.length && <li>{t`No files.`}</li>}
       </ul>
     );
   if (active === "commits")
     return git.diff !== null ? (
       <>
-        <h2 className="text-heading">Commit {git.head}</h2>
-        <section aria-label="Commit changes">
+        <h2 className="text-heading">{t`Commit ${git.head}`}</h2>
+        <section aria-label={t`Commit changes`}>
           <pre className="repo-code text-code">{git.diff}</pre>
         </section>
       </>
     ) : (
       <>
-        <p className="text-secondary">Latest {git.commits.length} commits</p>
+        <p className="text-secondary">
+          {t`Latest ${git.commits.length} commits`}
+        </p>
         <ul className="repo-list">
           {git.commits.map((commit) => (
             <li key={commit.hash}>
@@ -601,7 +621,7 @@ function GitContent({
   return (
     <>
       <p className="text-secondary">
-        Contributors in the latest {git.commits.length} commits
+        {t`Contributors in the latest ${git.commits.length} commits`}
       </p>
       <ul className="repo-list">
         {[...counts]
@@ -609,7 +629,7 @@ function GitContent({
           .map(([name, count]) => (
             <li key={name}>
               <span>{name}</span>
-              <small>{count} commits</small>
+              <small>{t`${count} commits`}</small>
             </li>
           ))}
       </ul>
@@ -617,18 +637,19 @@ function GitContent({
   );
 }
 function CopyLink({ route }: { route: EntityRoute }) {
+  const { i18n, t } = useLingui();
   const [status, setStatus] = useState("");
   return (
     <div>
       <IconButton
         hint="familiar"
-        aria-label="Copy link"
-        title="Copy link"
+        aria-label={t`Copy link`}
+        title={t`Copy link`}
         icon={<CopyIcon size={18} />}
         onClick={() =>
           void writeClipboardText(entityHref(route)).then(
-            () => setStatus("Link copied"),
-            () => setStatus("Could not copy link"),
+            () => setStatus(i18n._(msg`Link copied`)),
+            () => setStatus(i18n._(msg`Could not copy link`)),
           )
         }
       />

@@ -1,12 +1,13 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+
 /**
  * A failure Try again may clear: its `cause`, which Settings shows alone (it
  * has no Try again), then what first run's failed page says to do.
+ * `message` 是失败页的完整句（含“请重试”后缀），`cause` 是设置页单独显示的首句。
  */
-const retry = <Cause extends string>(cause: Cause, then = "Try again.") =>
-  ({ cause, message: `${cause} ${then}`, retryable: true }) as const;
-
-const SIGNED_OUT =
-  "Your Builderlab sign-in is no longer valid, so your key wasn’t backed up.";
+const retry = (message: MessageDescriptor, cause: MessageDescriptor) =>
+  ({ cause, message, retryable: true }) as const;
 
 /**
  * Why "Backing up your key…" did not complete: the copy the failed page shows
@@ -23,48 +24,70 @@ const SIGNED_OUT =
  */
 export const BACKUP_FAILURES = {
   unavailable: {
-    message:
-      "Key backup isn’t configured for this build. You can continue without a backup.",
+    message: msg`Key backup isn’t configured for this build. You can continue without a backup.`,
     retryable: false,
   },
   busy: retry(
-    "Another backup of this key is in progress.",
-    "Try again in a moment.",
+    msg`Another backup of this key is in progress. Try again in a moment.`,
+    msg`Another backup of this key is in progress.`,
   ),
-  interrupted: retry("The backup was interrupted."),
-  timeout: retry("Builderlab is taking too long to confirm your backup."),
-  signed_out: { cause: SIGNED_OUT, message: SIGNED_OUT, retryable: false },
+  interrupted: retry(
+    msg`The backup was interrupted. Try again.`,
+    msg`The backup was interrupted.`,
+  ),
+  timeout: retry(
+    msg`Builderlab is taking too long to confirm your backup. Try again.`,
+    msg`Builderlab is taking too long to confirm your backup.`,
+  ),
+  signed_out: {
+    cause: msg`Your Builderlab sign-in is no longer valid, so your key wasn’t backed up.`,
+    message: msg`Your Builderlab sign-in is no longer valid, so your key wasn’t backed up.`,
+    retryable: false,
+  },
   not_offered: {
-    message: "Builderlab doesn’t offer key backup for this account yet.",
+    message: msg`Builderlab doesn’t offer key backup for this account yet.`,
     retryable: false,
   },
   not_linked: {
-    message:
-      "This key isn’t linked to your Builderlab account yet, so it can’t be backed up.",
+    message: msg`This key isn’t linked to your Builderlab account yet, so it can’t be backed up.`,
     retryable: false,
   },
   other_key_linked: {
-    message:
-      "Your Builderlab account is linked to a different key, so this one can’t be backed up. This key may also be refused when you use this Builderlab account to sign in to a community.",
+    message: msg`Your Builderlab account is linked to a different key, so this one can’t be backed up. This key may also be refused when you use this Builderlab account to sign in to a community.`,
     retryable: false,
   },
   invalid_service: {
-    message:
-      "Buzz couldn’t verify Builderlab’s backup service, so your key wasn’t sent.",
+    message: msg`Buzz couldn’t verify Builderlab’s backup service, so your key wasn’t sent.`,
     retryable: false,
   },
-  refused: { message: "Builderlab refused this backup.", retryable: false },
+  refused: {
+    message: msg`Builderlab refused this backup.`,
+    retryable: false,
+  },
   unreachable: retry(
-    "Couldn’t reach Builderlab to back up your key.",
-    "Check your connection and try again.",
+    msg`Couldn’t reach Builderlab to back up your key. Check your connection and try again.`,
+    msg`Couldn’t reach Builderlab to back up your key.`,
   ),
   // A retry re-sends the same encrypted bytes, which kgoose treats as stored.
-  unconfirmed: retry("Builderlab couldn’t confirm your backup."),
-  storage: retry("Buzz couldn’t save backup progress on this device."),
-  unknown: { message: "Your key wasn’t backed up.", retryable: false },
+  unconfirmed: retry(
+    msg`Builderlab couldn’t confirm your backup. Try again.`,
+    msg`Builderlab couldn’t confirm your backup.`,
+  ),
+  storage: retry(
+    msg`Buzz couldn’t save backup progress on this device. Try again.`,
+    msg`Buzz couldn’t save backup progress on this device.`,
+  ),
+  unknown: {
+    message: msg`Your key wasn’t backed up.`,
+    retryable: false,
+  },
 } as const satisfies Record<
   string,
-  Readonly<{ cause?: string; message: string; retryable: boolean }>
+  Readonly<{
+    cause?: MessageDescriptor;
+    message: MessageDescriptor;
+    retryable: boolean;
+  }>
 >;
 
 export type BackupFailureKind = keyof typeof BACKUP_FAILURES;

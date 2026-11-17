@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import {
   CaretDownIcon,
   StopIcon,
@@ -35,6 +36,7 @@ function Content({
   close(): void;
   sessions: TerminalSessions;
 }) {
+  const { t } = useLingui();
   const version = useSyncExternalStore(
     sessions.subscribe,
     sessions.snapshot,
@@ -65,6 +67,19 @@ function Content({
   useEffect(() => {
     if (entry?.screen && host.current) return entry.screen.mount(host.current);
   }, [entry?.screen]);
+  // 会话状态与无会话时的说明都走翻译；原始枚举不直接展示给用户。
+  const statusLabels = {
+    starting: t`starting`,
+    running: t`running`,
+    exited: t`exited`,
+    error: t`error`,
+    ended: t`ended`,
+  } as const;
+  const statusLabel = entry
+    ? statusLabels[entry.status]
+    : sessions.available
+      ? t`ended`
+      : t`desktop only`;
   const end = async (restart: boolean) => {
     if (busy) return;
     setBusy(true);
@@ -102,12 +117,11 @@ function Content({
                   className="text-mono-sm text-secondary font-mono"
                   title={entry.context.threadId}
                 >
-                  Thread {entry.context.threadId.slice(0, 8)}
+                  {t`Thread ${entry.context.threadId.slice(0, 8)}`}
                 </span>
               )}
               <span className="text-body-sm text-secondary">
-                {entry?.status ??
-                  (sessions.available ? "ended" : "desktop only")}
+                {statusLabel}
               </span>
             </div>
           </PanelHeaderLabel>
@@ -120,8 +134,8 @@ function Content({
                   size="toolbar"
                   disabled={busy}
                   onClick={() => void end(true)}
-                  aria-label="Restart"
-                  title="Restart terminal"
+                  aria-label={t`Restart`}
+                  title={t`Restart terminal`}
                   icon={<ArrowsClockwiseIcon size={16} aria-hidden="true" />}
                 />
               ) : (
@@ -130,7 +144,7 @@ function Content({
                   disabled={busy}
                   onClick={() => void end(true)}
                 >
-                  Start session
+                  {t`Start session`}
                 </Button>
               ))}
             {entry && (
@@ -144,8 +158,8 @@ function Content({
                     hide.current?.focus();
                   void end(false);
                 }}
-                aria-label="End session"
-                title="End session"
+                aria-label={t`End session`}
+                title={t`End session`}
                 icon={<StopIcon size={16} aria-hidden="true" />}
               />
             )}
@@ -154,8 +168,8 @@ function Content({
               size="toolbar"
               ref={hide}
               onClick={close}
-              aria-label="Hide terminal"
-              title="Hide terminal (Cmd/Ctrl+J)"
+              aria-label={t`Hide terminal`}
+              title={t`Hide terminal (Cmd/Ctrl+J)`}
               icon={<CaretDownIcon size={16} aria-hidden="true" />}
             />
           </>
@@ -163,8 +177,7 @@ function Content({
       />
       {!sessions.available ? (
         <p className={`${styles.notice} text-body`}>
-          Open Buzz Desktop to use your local shell. The browser cannot start a
-          terminal on your computer.
+          {t`Open Buzz Desktop to use your local shell. The browser cannot start a terminal on your computer.`}
         </p>
       ) : (
         <>
@@ -178,13 +191,12 @@ function Content({
           )}
           {entry?.status === "starting" && (
             <p className={`${styles.notice} text-body`} role="status">
-              Starting your login shell…
+              {t`Starting your login shell…`}
             </p>
           )}
           {!entry && (
             <p className={`${styles.notice} text-body`}>
-              Session ended. Start a new shell to use this channel’s current
-              context.
+              {t`Session ended. Start a new shell to use this channel’s current context.`}
             </p>
           )}
           {/* Escape belongs to the shell while its input has focus. */}

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { ChannelMessage } from "../../features/relay/contracts";
 import type { RelayData } from "../../features/relay/service";
@@ -45,6 +46,7 @@ export function HuddleCard({
   huddles: Huddles;
   showWindow(): Promise<void>;
 }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   const call = useSyncExternalStore(huddles.subscribe, huddles.snapshot);
   const [history, setHistory] = useState<ReturnType<typeof huddleLifecycle>>({
@@ -111,7 +113,7 @@ export function HuddleCard({
   return (
     <section
       className={styles.card}
-      aria-label={finished ? "Huddle ended" : "Huddle"}
+      aria-label={finished ? t`Huddle ended` : t`Huddle`}
     >
       <div
         className={styles.status}
@@ -134,7 +136,11 @@ export function HuddleCard({
       </div>
       <div className={styles.details}>
         <strong>
-          {finished ? "Huddle ended" : active ? "Huddle in progress" : "Huddle"}
+          {finished
+            ? t`Huddle ended`
+            : active
+              ? t`Huddle in progress`
+              : t`Huddle`}
         </strong>
         <div className={`${styles.summary} text-secondary`}>
           {(active || endedAt !== undefined) && (
@@ -178,7 +184,7 @@ export function HuddleCard({
               );
             }}
           >
-            {current ? "Open" : "Join"}
+            {current ? t`Open` : t`Join`}
           </Button>
         )}
         {finished && open && (
@@ -187,7 +193,7 @@ export function HuddleCard({
             variant="subtle"
             onClick={() => open(huddleTarget(message.channelId, room))}
           >
-            View
+            {t`View`}
           </Button>
         )}
       </div>

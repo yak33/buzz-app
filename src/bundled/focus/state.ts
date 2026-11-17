@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { StatusInput } from "../../features/relay/user-status";
 
 /** Device-local and app-wide: Focus survives restarts and community switches. */
@@ -93,7 +95,10 @@ export function createFocus(
         host?.localStorage.removeItem(FOCUS_KEY);
       else host?.localStorage.setItem(FOCUS_KEY, JSON.stringify(next));
     } catch {
-      state = { ...state, error: "Focus could not be saved on this device." };
+      state = {
+        ...state,
+        error: i18n._(msg`Focus could not be saved on this device.`),
+      };
     }
     arm();
     for (const listener of listeners) listener();
@@ -131,7 +136,7 @@ export function createFocus(
     /** Starts Focus; the deadline must be in the future. */
     start(until: number) {
       if (!Number.isSafeInteger(until) || until <= seconds())
-        throw new Error("Choose a time in the future.");
+        throw new Error(i18n._(msg`Choose a time in the future.`));
       set({ until, status: state.status });
     },
     end,

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { CircleNotchIcon } from "../../../shared/design-system/icons";
 import { Button } from "../../../shared/design-system/ui/Button";
@@ -17,6 +18,7 @@ export function SignInAction({
   retry?: { waiting: boolean; cancel(): void } | undefined;
   render?: (action: ReactNode, feedback: ReactNode) => ReactNode;
 }) {
+  const { t } = useLingui();
   const login = useSyncExternalStore(session.subscribe, session.snapshot);
   const attempted = useRef(false);
   useEffect(() => {
@@ -39,17 +41,17 @@ export function SignInAction({
       aria-busy={busy}
       title={
         cancellable
-          ? "Cancel sign-in"
+          ? t`Cancel sign-in`
           : retry
-            ? "Retry"
-            : "Sign in to edit settings"
+            ? t`Retry`
+            : t`Sign in to edit settings`
       }
       aria-label={
         cancellable
-          ? "Cancel sign-in"
+          ? t`Cancel sign-in`
           : retry
-            ? "Retry"
-            : "Sign in to Builderlab"
+            ? t`Retry`
+            : t`Sign in to Builderlab`
       }
       onClick={() => {
         if (pending && cancellable) session.cancel();
@@ -60,9 +62,9 @@ export function SignInAction({
       {busy ? (
         <CircleNotchIcon size={18} className="motion-safe:animate-spin" />
       ) : retry ? (
-        "Retry"
+        t`Retry`
       ) : (
-        "Sign in"
+        t`Sign in`
       )}
     </Button>
   );
@@ -74,7 +76,7 @@ export function SignInAction({
             role="status"
             className="m-0 basis-full text-right text-body-sm text-secondary"
           >
-            Checking your Builderlab sign-in…
+            {t`Checking your Builderlab sign-in…`}
           </p>
         )}
         {login.error && (

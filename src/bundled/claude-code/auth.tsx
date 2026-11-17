@@ -10,22 +10,22 @@
 // names and shapes when changing it. The optional ClaudeAuth.Settings surface
 // belongs to this authentication method; other implementations may omit it.
 import { invoke, isTauri } from "@tauri-apps/api/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { type ComponentType, type ReactNode, useEffect, useState } from "react";
 import { ClaudeSettings, type ClaudeConnection } from "./ClaudeSettings";
 import { ApiKeyForm } from "../../features/settings/ApiKeyForm";
 import inlineStyles from "../../shared/InlineReference.module.css";
+import { i18n } from "../../features/localization/service";
 import { ENV, type Spawn } from "./claude";
 import type { ClaudeSetup } from "./setup";
 
-const NO_KEY =
-  "Claude needs an Anthropic API key. Add one in Settings → Claude.";
+const NO_KEY = msg`Claude needs an Anthropic API key. Add one in Settings → Claude.`;
 /** What setup says while Claude has no working setup: either way works. */
-export const CONNECT =
-  "Buzz can help you configure your Claude setup with an API key, or use the Claude CLI to configure your own connection and refresh Buzz.";
+export const CONNECT = msg`Buzz can help you configure your Claude setup with an API key, or use the Claude CLI to configure your own connection and refresh Buzz.`;
 /** What setup says first: the key is one for all of Claude, not per agent. */
-export const KEY_ONCE = `${CONNECT} Create a key at console.anthropic.com and paste it below.`;
-const REJECTED_KEY =
-  "Anthropic rejected the Claude API key. It may have been revoked or run out of credit. Paste a working key in Settings → Claude.";
+export const KEY_ONCE = msg`Buzz can help you configure your Claude setup with an API key, or use the Claude CLI to configure your own connection and refresh Buzz. Create a key at console.anthropic.com and paste it below.`;
+const REJECTED_KEY = msg`Anthropic rejected the Claude API key. It may have been revoked or run out of credit. Paste a working key in Settings → Claude.`;
 
 /** Runs one process as a setup step, its output shown; throws unless it
  * succeeds. */
@@ -118,10 +118,15 @@ export const leadsHarnesses = false;
 export class ClaudeAuth {
   /** Which way this build authenticates. */
   readonly id = "buzz-claude-auth:api-key";
-  /** What the agent type's row asks for while Claude cannot run. */
-  readonly attentionLabel = "Add Claude API key";
+  /** What the agent type's row asks for while Claude cannot run. Read at
+   * render time, so it follows the active language. */
+  get attentionLabel() {
+    return i18n._(msg`Add Claude API key`);
+  }
   /** Ends "Claude 2.1.0 …" while Claude cannot run. */
-  readonly needs = "needs an Anthropic API key";
+  get needs() {
+    return i18n._(msg`needs an Anthropic API key`);
+  }
   /** An interactive sign-in setup runs as its step, when there is one. */
   readonly signIn: ((step: Step) => Promise<void>) | undefined = undefined;
   private saved: Promise<boolean> | undefined;
@@ -151,7 +156,7 @@ export class ClaudeAuth {
         setup={setup}
         active={active}
         read={this.credentials}
-        connect={CONNECT}
+        connect={i18n._(CONNECT)}
         clearKey={() => this.clear()}
         connection={connection}
       />
@@ -245,7 +250,7 @@ export class ClaudeAuth {
    * stops one that hasn't. */
   async save(key: string, signal?: AbortSignal) {
     const store = this.store;
-    if (!store) throw new Error("Claude runs only in the desktop app");
+    if (!store) throw new Error(i18n._(msg`Claude runs only in the desktop app`));
     signal?.throwIfAborted();
     try {
       await store.save(key);
@@ -255,14 +260,14 @@ export class ClaudeAuth {
       this.saved = undefined;
     }
     for (const listener of this.listeners) listener();
-    return "Saved the Anthropic API key.";
+    return i18n._(msg`Saved the Anthropic API key.`);
   }
 
   /** Removes the saved key and retires sessions using it through the same
    * credential-change notification as replacement. */
   async clear() {
     const store = this.store;
-    if (!store) throw new Error("Claude runs only in the desktop app");
+    if (!store) throw new Error(i18n._(msg`Claude runs only in the desktop app`));
     try {
       await store.clear();
       this.keySaved = false;
@@ -294,7 +299,8 @@ export class ClaudeAuth {
         (!args.includes("--setting-sources") || !(await this.has()));
       if (ownSetupUsable && (await this.connection()))
         return spawn(id, options);
-      if (required && !(await this.has())) throw new Error(NO_KEY);
+      if (required && !(await this.has()))
+        throw new Error(i18n._(NO_KEY));
       return spawn(id, {
         ...options,
         secrets: [...(options?.secrets ?? []), "anthropic-api-key"],
@@ -307,17 +313,18 @@ export class ClaudeAuth {
    * `authorize` asks native code for. */
   async review(): Promise<Readonly<{ home: string; env: Env }>> {
     const spawn = this.spawn;
-    if (!spawn) throw new Error("Claude reviews need the desktop app");
-    if (!(await this.has())) throw new Error(NO_KEY);
+    if (!spawn)
+      throw new Error(i18n._(msg`Claude reviews need the desktop app`));
+    if (!(await this.has())) throw new Error(i18n._(NO_KEY));
     const home = (await output(spawn, "review")).trim();
     if (!home.startsWith("/"))
-      throw new Error("Claude's review folder is unreadable");
+      throw new Error(i18n._(msg`Claude's review folder is unreadable`));
     return { home, env: {} };
   }
 
   /** A failed review's error, as the person can act on it. */
   explain(error: string) {
-    return rejected(error) ? REJECTED_KEY : error;
+    return rejected(error) ? i18n._(REJECTED_KEY) : error;
   }
 
   /** A failed turn's error as its report in the conversation says it, in
@@ -328,19 +335,27 @@ export class ClaudeAuth {
     // own setup, a saved key is still what protected launches use.
     if (this.usesOwnSetup && (rejected(error) || /\/login\b/.test(error)))
       return this.keySaved
-        ? `Claude could not authenticate. Protected agents use the API key in [Settings](${settings}): replace it there if it was revoked or ran out of credit. Other agents use your own Claude setup: fix it with the Claude CLI. Then try again.`
-        : "Claude could not authenticate with your own Claude setup. Fix it with the Claude CLI, then try again.";
-    if (error.includes(NO_KEY))
-      return `Claude is missing an API key. Head to [Settings](${settings}) to add one.`;
+        ? i18n._(
+            msg`Claude could not authenticate. Protected agents use the API key in [Settings](${settings}): replace it there if it was revoked or ran out of credit. Other agents use your own Claude setup: fix it with the Claude CLI. Then try again.`,
+          )
+        : i18n._(
+            msg`Claude could not authenticate with your own Claude setup. Fix it with the Claude CLI, then try again.`,
+          );
+    if (error.includes(i18n._(NO_KEY)))
+      return i18n._(
+        msg`Claude is missing an API key. Head to [Settings](${settings}) to add one.`,
+      );
     return rejected(error)
-      ? `Anthropic rejected Claude's API key. It may have been revoked or run out of credit. Head to [Settings](${settings}) to replace it.`
+      ? i18n._(
+          msg`Anthropic rejected Claude's API key. It may have been revoked or run out of credit. Head to [Settings](${settings}) to replace it.`,
+        )
       : error;
   }
 }
 
 /** Whether a turn's error is Buzz's own refusal to start Claude without a
  * key, rather than anything Claude said. */
-export const refusedByBuzz = (error: string) => error.includes(NO_KEY);
+export const refusedByBuzz = (error: string) => error.includes(i18n._(NO_KEY));
 
 /** Whether Claude's error says Anthropic refused the key; turns end with
  * "Invalid API key · Fix external API key". */
@@ -372,11 +387,12 @@ export function SignIn({
   /** Keep the form owner alive while its navigated presentation is hidden. */
   render?: ((form: ReactNode) => ReactNode) | undefined;
 }) {
+  const { i18n } = useLingui();
   return (
     <div className="grid gap-3">
       {/* Settings puts the introduction in its shared page header. */}
       {variant !== "dialog" && (
-        <p className="m-0 text-body-sm text-secondary">{KEY_ONCE}</p>
+        <p className="m-0 text-body-sm text-secondary">{i18n._(KEY_ONCE)}</p>
       )}
       <KeyForm
         setup={setup}
@@ -401,11 +417,12 @@ export function SignedIn({
   onSaved?: (() => void) | undefined;
 }) {
   // Claude runs as the person set it up; there is no key to replace here.
+  const { t } = useLingui();
   if (setup.auth.usesOwnSetup) return null;
   return (
     <div className="grid gap-2">
       <p className="m-0 text-body-sm text-subtle">
-        Claude runs with your Anthropic API key.
+        {t`Claude runs with your Anthropic API key.`}
       </p>
       <KeyForm setup={setup} replace onSaved={onSaved} />
     </div>
@@ -419,23 +436,24 @@ export function Missing({
 }: {
   openSettings?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   return (
     <p className="m-0 text-body-sm text-secondary">
-      Claude is missing an API key.{" "}
+      {t`Claude is missing an API key.`}{" "}
       {openSettings ? (
         <>
-          Head to{" "}
+          {t`Head to`}{" "}
           <button
             type="button"
             className={inlineStyles.link}
             onClick={openSettings}
           >
-            Settings
+            {t`Settings`}
           </button>{" "}
-          to add one.
+          {t`to add one.`}
         </>
       ) : (
-        "Add one in Settings → Claude."
+        t`Add one in Settings → Claude.`
       )}
     </p>
   );
@@ -460,6 +478,7 @@ function KeyForm({
   onSavingChange?: ((saving: boolean) => void) | undefined;
   render?: ((form: ReactNode) => ReactNode) | undefined;
 }) {
+  const { t } = useLingui();
   const [key, setKey] = useState("");
   const [saving, setSaving] = useState<AbortController>();
   // Kept until the form closes.
@@ -488,11 +507,11 @@ function KeyForm({
   };
   const form = (
     <ApiKeyForm
-      label={replace ? "Replace API key" : "Anthropic API key"}
+      label={replace ? t`Replace API key` : t`Anthropic API key`}
       description={
         replace
-          ? "Create a key at console.anthropic.com. Buzz keeps it securely on this computer and gives it only to Claude, so commands your Claude agents run can read it."
-          : "Your key will be stored securely on this computer."
+          ? t`Create a key at console.anthropic.com. Buzz keeps it securely on this computer and gives it only to Claude, so commands your Claude agents run can read it.`
+          : t`Your key will be stored securely on this computer.`
       }
       value={key}
       onValueChange={setKey}

@@ -2,6 +2,8 @@
 // keeping that copy on the latest release. Each step runs as a declared
 // process; the copy lives apart from any `codex` the user installed, and
 // shares their `~/.codex` sign-in and settings.
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { withProviderWords } from "../../features/agents/failure-words";
 import type {
   HostProcess,
@@ -120,7 +122,7 @@ export async function checkCodex(spawn: Spawn): Promise<CodexStatus> {
     if (result.code !== 0)
       return {
         state: "error",
-        message: result.stderr.trim() || "Codex did not start",
+        message: result.stderr.trim() || i18n._(msg`Codex did not start`),
       };
     // `codex-cli 0.162.1`
     version = result.stdout.trim().split(/\s/)[1] ?? "";
@@ -138,7 +140,7 @@ export async function checkCodex(spawn: Spawn): Promise<CodexStatus> {
         rpc.open(spawn).then(() => needsSignIn(rpc)),
         new Promise<never>((_, reject) => {
           timer = setTimeout(
-            () => reject(new Error("Codex did not answer")),
+            () => reject(new Error(i18n._(msg`Codex did not answer`))),
             CHECK_TIMEOUT_MS,
           );
         }),
@@ -165,11 +167,15 @@ export async function checkCodex(spawn: Spawn): Promise<CodexStatus> {
  * without the notice's "Codex could not finish: " and the period it adds. */
 export function explainTurn(notice: string, settings: string) {
   const explanation = /Missing bearer or basic authentication/i.test(notice)
-    ? `Codex isn't signed in. Head to [Settings](${settings}) to sign in.`
+    ? i18n._(
+          msg`Codex isn't signed in. Head to [Settings](${settings}) to sign in.`,
+        )
     : /Incorrect API key provided|could not be refreshed\b[^.\n]*\. Please (?:log out and )?sign in again/i.test(
           notice,
         )
-      ? `OpenAI rejected Codex's sign-in. It may have expired or been revoked. Head to [Settings](${settings}) to sign in again.`
+      ? i18n._(
+          msg`OpenAI rejected Codex's sign-in. It may have expired or been revoked. Head to [Settings](${settings}) to sign in again.`,
+        )
       : undefined;
   if (!explanation) return notice;
   const said =
@@ -272,7 +278,7 @@ export class CodexSetup {
     if (!spawn) {
       const status = {
         state: "error",
-        message: "Codex agents run only in the desktop app",
+        message: i18n._(msg`Codex agents run only in the desktop app`),
       } as const;
       this.set({ status });
       return Promise.resolve(status);
@@ -392,13 +398,15 @@ export class CodexSetup {
     if (this.cancelled) void this.process.kill();
     const code = await this.process.exited;
     this.process = undefined;
-    if (code !== 0) throw new Error(`${label} ended (${code ?? "stopped"}).`);
+    if (code !== 0)
+      throw new Error(i18n._(msg`${label} ended (${code ?? "stopped"}).`));
   }
 
   /** Downloads the latest release, checks it against its published checksum,
    * tests it, and only then makes it the one new sessions start. */
   private async install(spawn: Spawn) {
-    if (!this.request) throw new Error("Codex downloads need the desktop app");
+    if (!this.request)
+      throw new Error(i18n._(msg`Codex downloads need the desktop app`));
     const status = await checkCodex(spawn);
     const current = "version" in status ? status.version : undefined;
     const response = await this.request({ url: `${RELEASES}/channels/latest` });
@@ -418,27 +426,34 @@ export class CodexSetup {
       return;
     const target =
       TARGETS[(await collect(spawn, "platform", [])).stdout.trim()];
-    if (!target) throw new Error("Codex is not available for this computer");
+    if (!target)
+      throw new Error(i18n._(msg`Codex is not available for this computer`));
     const asset = `codex-package-${target}.tar.gz`;
     const digest = release.assets?.find((item) => item.name === asset)?.digest;
     const checksum =
       typeof digest === "string" ? digest.replace(/^sha256:/, "") : "";
     if (!/^[0-9a-f]{64}$/.test(checksum))
-      throw new Error(`Codex ${latest} lists no checksum for ${target}`);
+      throw new Error(
+        i18n._(msg`Codex ${latest} lists no checksum for ${target}`),
+      );
     this.log(`Downloading Codex ${latest}…\n`);
-    await this.step(spawn, "install", [latest, target, checksum], "Download");
+    await this.step(spawn, "install", [latest, target, checksum], i18n._(msg`Download`));
     this.log(`Testing Codex ${latest}…\n`);
     try {
       await testRelease(spawn, latest);
     } catch (error) {
       this.refused.add(latest);
-      const reason = `Codex ${latest} failed its test: ${message(error)}`;
+      const reason = i18n._(
+        msg`Codex ${latest} failed its test: ${message(error)}`,
+      );
       this.set({
-        notice: current ? `${reason}. Buzz keeps using ${current}.` : reason,
+        notice: current
+          ? i18n._(msg`${reason}. Buzz keeps using ${current}.`)
+          : reason,
       });
       throw new Error(reason);
     }
-    await this.step(spawn, "use", [latest], "Switching");
+    await this.step(spawn, "use", [latest], i18n._(msg`Switching`));
     this.set({ notice: undefined });
     this.log(`Codex ${latest} is installed.\n`);
   }

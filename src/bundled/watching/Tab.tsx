@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import * as React from "react";
 import { attentionOf, type WatchObject } from "../../features/agents/attention";
 import { relayOrigin } from "../../features/communities/destination";
@@ -81,6 +83,7 @@ export function createAttentionComponents({
     hasWatches: boolean;
     returnFocus: React.RefObject<HTMLElement | null>;
   }) {
+    const { i18n, t } = useLingui();
     const trigger = React.useRef<HTMLButtonElement>(null);
     const cancel = React.useRef<HTMLButtonElement>(null);
     const popup = React.useRef<HTMLDivElement>(null);
@@ -90,7 +93,8 @@ export function createAttentionComponents({
       action.run(async () => {
         const focused = document.activeElement;
         const expected = agent.attention[slug];
-        if (!expected) throw new Error("This interest no longer exists.");
+        if (!expected)
+          throw new Error(i18n._(msg`This interest no longer exists.`));
         const id = slug.slice("interest/".length);
         const watches = Object.values(agent.attention).filter(
           (object) =>
@@ -132,12 +136,12 @@ export function createAttentionComponents({
         <div className="attention-actions">
           <AttentionStatus
             name={label}
-            heading="Interest"
+            heading={t`Interest`}
             triggerRef={trigger}
             popupRef={popup}
             deleteConfirms={hasWatches}
             returnFocus={returnFocus}
-            label={`Interest status for ${label}`}
+            label={t`Interest status for ${label}`}
             active={
               agent.attention[slug]?.value.type === "interest" &&
               agent.attention[slug]?.value.paused !== true
@@ -148,7 +152,9 @@ export function createAttentionComponents({
                 const expected = agent.attention[slug];
                 const value = expected?.value;
                 if (!expected || value?.type !== "interest")
-                  throw new Error("This interest no longer exists.");
+                  throw new Error(
+                    i18n._(msg`This interest no longer exists.`),
+                  );
                 await agents.save(agent.key, {
                   attentionExpected: { [slug]: expected },
                   attention: { [slug]: { ...value, paused: !active } },
@@ -160,8 +166,8 @@ export function createAttentionComponents({
         </div>
         {confirming && (
           <AlertDialog
-            title={`Delete ${label}?`}
-            description="This deletes the interest and all its watches. The agent will stop watching for these triggers. This cannot be undone."
+            title={t`Delete ${label}?`}
+            description={t`This deletes the interest and all its watches. The agent will stop watching for these triggers. This cannot be undone.`}
             pending={action.pending}
             initialFocus={cancel}
             finalFocus={() =>
@@ -177,14 +183,14 @@ export function createAttentionComponents({
                   disabled={action.pending}
                   onClick={() => setConfirming(false)}
                 >
-                  Cancel
+                  {t`Cancel`}
                 </Button>
                 <Button
                   variant="destructive"
                   loading={action.pending}
                   onClick={() => void remove()}
                 >
-                  Delete
+                  {t`Delete`}
                 </Button>
               </>
             }
@@ -240,12 +246,13 @@ export function createAttentionComponents({
     session?: RelaySession | undefined;
     returnFocus: React.RefObject<HTMLElement | null>;
   }) {
+    const { t } = useLingui();
     const id = object.slug.slice("interest/".length);
     const interest = object.value;
     const instructions =
       interest?.type === "interest"
         ? interest.instructions
-        : "No instructions saved.";
+        : t`No instructions saved.`;
     const firstLine =
       instructions.split("\n").find((line) => line.trim()) || "";
     const label =
@@ -255,7 +262,7 @@ export function createAttentionComponents({
       <SettingsGroup layout="cards">
         <section
           className="attention-interest"
-          aria-label={`Interest ${label}`}
+          aria-label={t`Interest ${label}`}
         >
           <div className="attention-interest-head">
             <h4 className="text-label">{label}</h4>
@@ -276,23 +283,23 @@ export function createAttentionComponents({
           )}
           {subscriptions.length > 0 && (
             <div className="attention-column-headings text-caption text-subtle">
-              <h5 className="text-caption">Triggers</h5>
-              <span>Sources</span>
-              <span>Responds in</span>
-              <span>{"Status"}</span>
+              <h5 className="text-caption">{t`Triggers`}</h5>
+              <span>{t`Sources`}</span>
+              <span>{t`Responds in`}</span>
+              <span>{t`Status`}</span>
             </div>
           )}
           {!subscriptions.length && (
             <h5 className="attention-section-label text-caption text-subtle">
-              Triggers
+              {t`Triggers`}
             </h5>
           )}
           {!subscriptions.length && (
             <p className="text-body-sm text-subtle">
-              {"No watches yet, so nothing wakes this interest."}
+              {t`No watches yet, so nothing wakes this interest.`}
             </p>
           )}
-          <ul className="attention-list" aria-label={`${label} watches`}>
+          <ul className="attention-list" aria-label={t`${label} watches`}>
             {subscriptions.map((object) => (
               <Subscription
                 key={object.slug}
@@ -308,7 +315,7 @@ export function createAttentionComponents({
             ))}
           </ul>
           <h5 className="attention-section-label text-caption text-subtle">
-            Instructions
+            {t`Instructions`}
           </h5>
           <Instructions instructions={instructions} />
         </section>
@@ -328,9 +335,11 @@ export function createAttentionComponents({
     session?: RelaySession | undefined;
     returnFocus: React.RefObject<HTMLElement | null>;
   }) {
+    const { t } = useLingui();
     const action = useAction();
     const find = (id: string) => channels.find((channel) => channel.id === id);
-    const name = (id: string) => find(id)?.name ?? `Channel ${id.slice(0, 8)}`;
+    const name = (id: string) =>
+      find(id)?.name ?? t`Channel ${id.slice(0, 8)}`;
     const { interests, watches, orphans } = attentionOf(agent.attention);
     const skipped = Object.values(agent.skipped ?? {});
     const empty =
@@ -343,14 +352,14 @@ export function createAttentionComponents({
         <SettingsGroup layout="cards">
           <section
             className="attention-setting"
-            aria-label="Attention settings"
+            aria-label={t`Attention settings`}
           >
             {!empty && (
               <AttentionSonar name={agent.name} picture={agent.picture} />
             )}
             <PreferenceRow
-              title="Attention"
-              subtitle={`Let ${agent.name} watch for updates and check in on a schedule. Runs while Buzz is open on this device.`}
+              title={t`Attention`}
+              subtitle={t`Let ${agent.name} watch for updates and check in on a schedule. Runs while Buzz is open on this device.`}
             />
           </section>
         </SettingsGroup>
@@ -370,7 +379,7 @@ export function createAttentionComponents({
                   }),
                 )
               }
-            >{`Remove unreadable ${object.slug}`}</Button>
+            >{t`Remove unreadable ${object.slug}`}</Button>
           </section>
         ))}
         {interests.map((object) => (
@@ -391,12 +400,10 @@ export function createAttentionComponents({
           />
         ))}
         {orphans.length > 0 && (
-          <section className="attention-interest" aria-label="Stray watches">
-            <h4 className="text-label">{"Stray watches"}</h4>
+          <section className="attention-interest" aria-label={t`Stray watches`}>
+            <h4 className="text-label">{t`Stray watches`}</h4>
             <p className="text-body-sm text-subtle">
-              {
-                "These saved watches have no matching Interest. Remove them and create watches under an Interest."
-              }
+              {t`These saved watches have no matching Interest. Remove them and create watches under an Interest.`}
             </p>
             {orphans.map((object) => (
               <div key={object.slug} className="attention-agent-head">
@@ -412,7 +419,7 @@ export function createAttentionComponents({
                       }),
                     )
                   }
-                >{`Delete ${object.slug}`}</Button>
+                >{t`Delete ${object.slug}`}</Button>
               </div>
             ))}
           </section>
@@ -432,6 +439,7 @@ export function createAttentionComponents({
     open?: ((target: string) => boolean) | undefined;
     canOpen?: ((target: string) => boolean) | undefined;
   }) {
+    const { t } = useLingui();
     const page = React.useRef<HTMLElement>(null);
     const snapshot = React.useSyncExternalStore(
       agents.subscribe,
@@ -469,7 +477,7 @@ export function createAttentionComponents({
       <section
         data-buzz-ui=""
         className="attention-page"
-        aria-label="Attention"
+        aria-label={t`Attention`}
         ref={page}
         tabIndex={-1}
       >
@@ -481,9 +489,7 @@ export function createAttentionComponents({
               ({ value }) => value.type === "event" && value.classifier,
             ) && (
               <p className="text-body-sm text-secondary">
-                {
-                  "This device can't run message filters, so every message in these channels wakes the agent."
-                }
+                {t`This device can't run message filters, so every message in these channels wakes the agent.`}
               </p>
             )}
           {agent && here ? (
@@ -502,12 +508,12 @@ export function createAttentionComponents({
               role={snapshot.status === "loading" ? "status" : undefined}
             >
               {!connection.scope
-                ? "Choose a community to manage this agent's watches."
+                ? t`Choose a community to manage this agent's watches.`
                 : snapshot.status === "loading"
-                  ? "Loading watches…"
+                  ? t`Loading watches…`
                   : agent
-                    ? "This agent belongs to another community. Switch to it to manage its watches."
-                    : "This agent isn't running on this device."}
+                    ? t`This agent belongs to another community. Switch to it to manage its watches.`
+                    : t`This agent isn't running on this device.`}
             </p>
           )}
         </div>

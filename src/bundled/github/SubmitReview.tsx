@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import { CaretDownIcon } from "../../shared/design-system/icons/index";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -16,10 +19,19 @@ import { changePull, type PullChecklist, type ReviewEvent } from "./pull";
 import type { PanelMemory, ReviewDraft } from "./panel-memory";
 import styles from "./GitHub.module.css";
 
-const decisions: readonly (readonly [ReviewEvent, string, string])[] = [
-  ["COMMENT", "Comment", "Share feedback without approving"],
-  ["APPROVE", "Approve", "Approve merging these changes"],
-  ["REQUEST_CHANGES", "Request changes", "Ask for changes before merging"],
+/** 决定项的标签与说明是 Lingui descriptor，由渲染处求值。 */
+const decisions: readonly (readonly [
+  ReviewEvent,
+  MessageDescriptor,
+  MessageDescriptor,
+])[] = [
+  ["COMMENT", msg`Comment`, msg`Share feedback without approving`],
+  ["APPROVE", msg`Approve`, msg`Approve merging these changes`],
+  [
+    "REQUEST_CHANGES",
+    msg`Request changes`,
+    msg`Ask for changes before merging`,
+  ],
 ];
 
 /** A review is worth keeping once it has text; a decision alone is a click
@@ -45,6 +57,7 @@ export function SubmitReview({
   refresh(): Promise<void>;
   memory: PanelMemory;
 }) {
+  const { i18n, t } = useLingui();
   const [open, setOpen] = useState(false);
   const remembered = memory.get(url).review;
   // The head the draft is written against. As with the merge confirmation, a
@@ -100,7 +113,7 @@ export function SubmitReview({
         setOpen(false);
         setEvent("COMMENT");
         setBody("");
-        notify("Review submitted", "success");
+        notify(i18n._(msg`Review submitted`), "success");
       }
     } catch (failure) {
       // Back for the next panel, unless another panel has started a draft
@@ -142,7 +155,7 @@ export function SubmitReview({
       <PopoverTrigger
         render={
           <Button size="sm">
-            Submit review
+            {t`Submit review`}
             <CaretDownIcon size="1rem" />
           </Button>
         }
@@ -150,7 +163,7 @@ export function SubmitReview({
       <PopoverPopup
         align="end"
         size="wide"
-        aria-label="Submit review"
+        aria-label={t`Submit review`}
         initialFocus={comment}
       >
         <form
@@ -160,7 +173,7 @@ export function SubmitReview({
             void submit();
           }}
         >
-          <Field label="Review decision" nativeLabel={false}>
+          <Field label={t`Review decision`} nativeLabel={false}>
             <RadioGroup<ReviewEvent>
               name="review-decision"
               value={event}
@@ -171,17 +184,17 @@ export function SubmitReview({
                 <Radio
                   key={value}
                   value={value}
-                  label={label}
-                  description={description}
+                  label={i18n._(label)}
+                  description={i18n._(description)}
                 />
               ))}
             </RadioGroup>
           </Field>
           <Field
-            label="Review comment"
+            label={t`Review comment`}
             optional={event === "APPROVE"}
             description={
-              event === "APPROVE" ? undefined : "Required unless you approve."
+              event === "APPROVE" ? undefined : t`Required unless you approve.`
             }
           >
             <Textarea
@@ -196,19 +209,19 @@ export function SubmitReview({
           {pushed ? (
             <div className={styles.reviewNotice}>
               <p role="status">
-                New commits were pushed after you started this review.
+                {t`New commits were pushed after you started this review.`}
               </p>
               <Button
                 size="sm"
                 disabled={busy}
                 onClick={() => edit({ head: pull.head })}
               >
-                Use latest commit
+                {t`Use latest commit`}
               </Button>
             </div>
           ) : (
             (pull.state === "merged" || pull.state === "closed") && (
-              <p role="status">This pull request {pull.state}.</p>
+              <p role="status">{t`This pull request ${pull.state}.`}</p>
             )
           )}
           {error && (
@@ -218,7 +231,7 @@ export function SubmitReview({
           )}
           <div className={styles.reviewActions}>
             <Button disabled={busy} onClick={() => setOpen(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="prominent"
@@ -227,7 +240,7 @@ export function SubmitReview({
               disabled={!ready || pushed}
               focusableWhenDisabled
             >
-              Submit review
+              {t`Submit review`}
             </Button>
           </div>
         </form>

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState } from "react";
 import {
   PopoverRoot,
@@ -25,7 +27,8 @@ import { useReauthorizedRetry } from "../../features/relay/RecoveryNotice";
 import "../../shared/design-system/styles/scrollbars.css";
 import styles from "./ResourcePicker.module.css";
 
-const kinds = { issue: "Issue", pr: "Pull request" } as const;
+// 类型文案表：模块级 msg 描述符，使用处用 i18n._ 求值。
+const kinds = { issue: msg`Issue`, pr: msg`Pull request` } as const;
 type Item = {
   type: keyof typeof kinds;
   id: string;
@@ -49,6 +52,7 @@ export function ResourcePicker({
   disabled,
   insertResource,
 }: ComposerToolProps) {
+  const { i18n, t } = useLingui();
   const [attempt, setAttempt] = useState(0);
   const [home, setHome] = useState<Home>(() => ({
     status: "loading",
@@ -126,7 +130,7 @@ export function ResourcePicker({
                       label:
                         value(event, "subject") ||
                         event.content.split("\n")[0] ||
-                        kinds[type],
+                        i18n._(kinds[type]),
                       createdAt: event.created_at,
                       repository,
                     },
@@ -235,13 +239,17 @@ export function ResourcePicker({
           id: item.id,
           failed:
             entityFailure(error) === "not-found"
-              ? `This ${kinds[item.type].toLowerCase()} is no longer available.`
-              : "Could not check this item. Choose it again to retry.",
+              ? item.type === "issue"
+                ? i18n._(msg`This issue is no longer available.`)
+                : i18n._(msg`This pull request is no longer available.`)
+              : i18n._(
+                  msg`Could not check this item. Choose it again to retry.`,
+                ),
         });
       },
     );
   };
-  const label = "Add issue or pull request";
+  const label = t`Add issue or pull request`;
   return (
     <PopoverRoot
       open={open && !disabled && !pending}
@@ -258,7 +266,7 @@ export function ResourcePicker({
     >
       {pending && (
         <span role="status" className="sr-only">
-          Loading repositories…
+          {t`Loading repositories…`}
         </span>
       )}
       <fieldset
@@ -266,7 +274,7 @@ export function ResourcePicker({
         disabled={disabled}
         hidden={!visibleHome}
         className={styles.controls}
-        aria-label="Issue and pull request controls"
+        aria-label={t`Issue and pull request controls`}
       >
         <PopoverTrigger
           disabled={disabled || pending}
@@ -279,10 +287,10 @@ export function ResourcePicker({
               aria-label={label}
               title={
                 pending
-                  ? "Loading repositories…"
+                  ? t`Loading repositories…`
                   : repositories
                     ? label
-                    : `${label} (unavailable)`
+                    : t`${label} (unavailable)`
               }
               data-unavailable={
                 visibleHome?.status === "error" ? "" : undefined
@@ -309,9 +317,11 @@ export function ResourcePicker({
           <div className={styles.content}>
             {!repositories ? (
               <>
-                <p role="status">Could not load this channel’s repositories.</p>
+                <p role="status">
+                  {t`Could not load this channel’s repositories.`}
+                </p>
                 <Button type="button" onClick={() => setAttempt((n) => n + 1)}>
-                  Retry repositories
+                  {t`Retry repositories`}
                 </Button>
               </>
             ) : (
@@ -319,7 +329,7 @@ export function ResourcePicker({
                 <SearchField
                   variant="capsule"
                   inputRef={searchInput}
-                  label="Search issues and pull requests"
+                  label={t`Search issues and pull requests`}
                   value={search}
                   onValueChange={setSearch}
                   disabled={disabled}
@@ -341,28 +351,29 @@ export function ResourcePicker({
                   }}
                 />
                 {items.status === "loading" && (
-                  <p role="status">Loading issues and pull requests…</p>
+                  <p role="status">{t`Loading issues and pull requests…`}</p>
                 )}
                 {items.status === "error" && (
                   <>
-                    <p role="alert">Could not load issues and pull requests.</p>
+                    <p role="alert">
+                      {t`Could not load issues and pull requests.`}
+                    </p>
                     <Button
                       type="button"
                       onClick={() => setOpening((n) => n + 1)}
                     >
-                      Retry
+                      {t`Retry`}
                     </Button>
                   </>
                 )}
                 {items.status === "ready" && items.truncated && (
                   <p role="status">
-                    Showing the latest items only. Some issues or pull requests
-                    may be missing.
+                    {t`Showing the latest items only. Some issues or pull requests may be missing.`}
                   </p>
                 )}
                 {checking && !checking.failed && (
                   <p role="status" className="sr-only">
-                    Checking the chosen item…
+                    {t`Checking the chosen item…`}
                   </p>
                 )}
                 {(checking?.failed ?? rejected) && (
@@ -373,7 +384,9 @@ export function ResourcePicker({
                   id={highlight.listId}
                   {...highlight.listProps}
                 >
-                  {shown.map(({ item, match }) => (
+                  {shown.map(({ item, match }) => {
+                    const kind = i18n._(kinds[item.type]);
+                    return (
                     <NavigationItem
                       variant="option"
                       data-resource-choice=""
@@ -382,7 +395,7 @@ export function ResourcePicker({
                       {...highlight.rowProps(item.id)}
                       selected={highlight.active === item.id}
                       aria-current={false}
-                      aria-label={`${item.label}, ${kinds[item.type]} in ${item.repository.name}`}
+                      aria-label={t`${item.label}, ${kind} in ${item.repository.name}`}
                       disabled={disabled || busy}
                       onClick={() => choose(item)}
                       label={
@@ -401,23 +414,24 @@ export function ResourcePicker({
                           </span>
                           <small className="text-caption text-subtle">
                             {checking?.id === item.id && !checking.failed
-                              ? "Checking…"
-                              : `${kinds[item.type]} · ${item.repository.name}`}
+                              ? t`Checking…`
+                              : t`${kind} · ${item.repository.name}`}
                           </small>
                         </span>
                       }
                     />
-                  ))}
+                    );
+                  })}
                   {items.status === "ready" && !shown.length && (
                     <p>
                       {items.items.length
-                        ? "No matching issues or pull requests."
-                        : "These repositories have no issues or pull requests yet."}
+                        ? t`No matching issues or pull requests.`
+                        : t`These repositories have no issues or pull requests yet.`}
                     </p>
                   )}
                   <p role="status" className="sr-only">
                     {highlighted
-                      ? `${highlighted.item.label}. Press Enter to add.`
+                      ? t`${highlighted.item.label}. Press Enter to add.`
                       : ""}
                   </p>
                 </div>

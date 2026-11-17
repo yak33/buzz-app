@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { AgentAvatarArtworkProvider } from "../../features/agents/AgentAvatarArtworkProvider";
 import "../../shared/styles/globals.css";
 import "@fontsource-variable/inter/wght.css";
@@ -16,8 +18,10 @@ if (import.meta.env.DEV) clearReactDevMeasures();
 
 function Companion() {
   useKeyboardFocusVisibility();
+  const { i18n } = useLingui();
   const [view, setView] = useState<HuddleView>();
   const [error, setError] = useState<string>();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: i18n._ 每次渲染重建，此订阅效果不需随语言重建。
   useEffect(() => {
     let mounted = true;
     const updates = new Channel<HuddleView & { discussionOpen: boolean }>();
@@ -34,7 +38,9 @@ function Companion() {
     };
     void invoke("huddle_window_watch", { updates }).catch(() => {
       if (mounted)
-        setError("This Huddle window is unavailable. Reopen it from Buzz.");
+        setError(
+          i18n._(msg`This Huddle window is unavailable. Reopen it from Buzz.`),
+        );
     });
     return () => {
       mounted = false;
@@ -44,7 +50,8 @@ function Companion() {
     if (!view) return;
     setError(undefined);
     void invoke("huddle_window_action", { id: view.id, action, text }).catch(
-      () => setError("Couldn’t update the call. Try again from Buzz."),
+      () =>
+        setError(i18n._(msg`Couldn’t update the call. Try again from Buzz.`)),
     );
   };
   return view ? (

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { TypingDots } from "../../shared/design-system/ui/TypingDots";
 import { useProfileGeneration } from "../../features/relay/react";
 import { HuddleAvatarMotion } from "./HuddleAvatarMotion";
@@ -21,6 +22,7 @@ export function HuddleAvatarStack({
   thinking?: readonly string[] | undefined;
   speakers?: Readonly<Record<string, number>> | undefined;
 }) {
+  const { t } = useLingui();
   const { session } = useSyncExternalStore(relay.subscribe, relay.snapshot);
   const profiles = useSyncExternalStore(
     session.profiles.subscribe,
@@ -36,11 +38,12 @@ export function HuddleAvatarStack({
         .catch(() => {});
   }, [keys, session, profileGeneration]);
   const name = (key: string) =>
-    profiles.get(key)?.name || formatPublicKey(key) || "Participant";
+    profiles.get(key)?.name || formatPublicKey(key) || t`Participant`;
   const isThinking = (key: string) =>
     thinking.includes(key) && !speakers?.[key];
+  // Each person reads as one phrase so translation can order its own words.
   const label = participants
-    .map((key) => `${name(key)}${isThinking(key) ? ", thinking" : ""}`)
+    .map((key) => (isThinking(key) ? t`${name(key)}, thinking` : name(key)))
     .join(", ");
   const visible = participants.slice(-4);
   const hidden = participants.length - visible.length;
@@ -49,7 +52,7 @@ export function HuddleAvatarStack({
     <span
       className={styles.avatarStack}
       role="img"
-      aria-label={`In this Huddle: ${label}`}
+      aria-label={t`In this Huddle: ${label}`}
       title={label}
       style={{ width: `${1.25 + Math.max(0, slots - 1) * 0.875}rem` }}
     >

@@ -7,7 +7,9 @@
 // goose acts in Buzz with the in-process Buzz tools over loopback HTTP MCP,
 // signed by the agent's native-held key; the runtime only reports a turn that
 // fails.
+import { msg } from "@lingui/core/macro";
 import type { Context } from "../../buzz-mcp/client";
+import { i18n } from "../../features/localization/service";
 import {
   MemoryReads,
   READ_TIMEOUT_MS,
@@ -378,7 +380,9 @@ export class GooseRuntime {
       return;
     }
     if (this.sessionState(agent, place) !== "idle")
-      throw new Error("Wait for the active turn to finish first.");
+      throw new Error(
+        i18n._(msg`Wait for the active turn to finish first.`),
+      );
     return this.controls.run(control, action, async (signal) => {
       signal.throwIfAborted();
       const result = await entry.sessions.reset(key, action);
@@ -852,7 +856,11 @@ export class GooseRuntime {
 
   private entry(agent: AgentKey, initial: Config): Entry {
     if (this.retirements.has(agent))
-      throw new Error("This agent’s previous native sessions have not retired");
+      throw new Error(
+        i18n._(
+          msg`This agent’s previous native sessions have not retired`,
+        ),
+      );
     const existing = this.agents.get(agent);
     if (existing) return existing;
     const entry: Entry = {
@@ -889,7 +897,8 @@ export class GooseRuntime {
           callSignal: signal,
           ...(current && {
             check: () => {
-              if (!current()) throw new Error("The Goose turn has ended");
+              if (!current())
+                throw new Error(i18n._(msg`The Goose turn has ended`));
             },
           }),
           // Its pre-tool check reviews every call, Buzz's extension included.
@@ -899,7 +908,9 @@ export class GooseRuntime {
             const serving =
               conversation && entry.sessions.serving(conversation);
             if (!serving)
-              throw new Error("The native Goose session is unavailable");
+              throw new Error(
+                i18n._(msg`The native Goose session is unavailable`),
+              );
             const { data } = (await serving.process.request(
               "_goose/unstable/session/export",
               { sessionId: serving.sessionId, format: "json" },
@@ -930,7 +941,9 @@ export class GooseRuntime {
       const protection = entry.handle?.protection;
       if (!protection) {
         if (entry.protected)
-          throw new Error("The protected agent has no live policy binding");
+          throw new Error(
+            i18n._(msg`The protected agent has no live policy binding`),
+          );
         return entry.goose.get();
       }
       protection.assertAvailable();
@@ -1016,7 +1029,10 @@ export class GooseRuntime {
   private memories(agent: AgentKey, slug?: string) {
     const pubkey = pubkeyOf(agent);
     const reads = ownerReads(this.relay(agent), pubkey);
-    if (!reads) return Promise.reject(new Error("Buzz is not connected"));
+    if (!reads)
+      return Promise.reject(
+        new Error(i18n._(msg`Buzz is not connected`)),
+      );
     return this.memoryReads.read(
       reads,
       pubkey,

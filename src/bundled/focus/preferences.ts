@@ -1,10 +1,17 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
+
 /** A preset length: seconds, or the rest of today. */
 export type FocusLength = "1800" | "3600" | "7200" | "today";
-export const focusLengths: readonly (readonly [FocusLength, string])[] = [
-  ["1800", "30 minutes"],
-  ["3600", "1 hour"],
-  ["7200", "2 hours"],
-  ["today", "Rest of today"],
+export const focusLengths: readonly (readonly [
+  FocusLength,
+  MessageDescriptor,
+])[] = [
+  ["1800", msg`30 minutes`],
+  ["3600", msg`1 hour`],
+  ["7200", msg`2 hours`],
+  ["today", msg`Rest of today`],
 ];
 
 export type FocusPreferences = Readonly<{
@@ -75,7 +82,7 @@ export function createPreferences(
           JSON.stringify(current),
         );
       } catch {
-        error = "Focus settings could not be saved on this device.";
+        error = i18n._(msg`Focus settings could not be saved on this device.`);
       }
       notify();
     },

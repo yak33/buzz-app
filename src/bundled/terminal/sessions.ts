@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import type { ChannelPanelContext } from "../../features/panels/service";
 import type { TerminalBridge } from "./bridge";
 import type { TerminalInputSource, TerminalScreen } from "./renderer";
@@ -109,7 +111,9 @@ export function createSessions(
           if (pendingBytes + bytes > 1024 * 1024) {
             fail(
               entry,
-              "Terminal input is full. End this session and start again.",
+              i18n._(
+                msg`Terminal input is full. End this session and start again.`,
+              ),
             );
             return;
           }
@@ -204,7 +208,9 @@ export function createSessions(
       if (!bridge.available || !allowed(context)) return;
       if (sessions.size >= 20)
         throw new Error(
-          "Twenty terminal sessions are open. End one before opening another.",
+          i18n._(
+            msg`Twenty terminal sessions are open. End one before opening another.`,
+          ),
         );
       const entry: TerminalSession = {
         context: Object.freeze({ ...context }),

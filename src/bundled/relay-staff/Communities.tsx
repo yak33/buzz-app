@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { SearchField } from "../../shared/design-system/ui/SearchField";
@@ -36,6 +39,7 @@ export function Communities({
   connectedHost: string;
   onOpen(community: CommunityRef): void;
 }) {
+  const { i18n, t } = useLingui();
   const { context } = useSession();
   const [query, setQuery] = useState("");
   const settled = useDebounced(query.trim().toLowerCase());
@@ -86,7 +90,7 @@ export function Communities({
       >
         <span className="flex-1 truncate">{community.host}</span>
         {connected && (
-          <span className="text-caption text-secondary">Connected</span>
+          <span className="text-caption text-secondary">{t`Connected`}</span>
         )}
       </button>
     </li>
@@ -95,14 +99,14 @@ export function Communities({
   return (
     <div className="flex flex-col gap-3">
       <SearchField
-        label="Search communities"
-        placeholder="Search by host (e.g. team.example.com)"
+        label={t`Search communities`}
+        placeholder={t`Search by host (e.g. team.example.com)`}
         value={query}
         onValueChange={setQuery}
       />
       {secret && (
         <p className="text-body-sm text-danger" role="alert">
-          {SECRET_KEY_WARNING}
+          {i18n._(SECRET_KEY_WARNING)}
         </p>
       )}
       {/* The directory's own alert already explains a missing route. */}
@@ -127,14 +131,16 @@ export function Communities({
         !pages.failure &&
         items.length === 0 &&
         !shownPinned && (
-          <p className="text-body-sm text-secondary">No communities found.</p>
+          <p className="text-body-sm text-secondary">
+            {t`No communities found.`}
+          </p>
         )}
       <ul className="flex flex-col gap-1">{items.map((c) => row(c, false))}</ul>
       {pages.loading && <Loading />}
       {!secret && pages.next && !pages.loading && (
         <div>
           <Button size="sm" variant="outline" onClick={pages.more}>
-            Load more
+            {t`Load more`}
           </Button>
         </div>
       )}
@@ -143,11 +149,11 @@ export function Communities({
 }
 
 const SECTIONS = [
-  { value: "reports", label: "Reports" },
-  { value: "restrictions", label: "Restrictions" },
-  { value: "members", label: "Members" },
-  { value: "actions", label: "Actions" },
-] as const;
+  { value: "reports", label: msg`Reports` },
+  { value: "restrictions", label: msg`Restrictions` },
+  { value: "members", label: msg`Members` },
+  { value: "actions", label: msg`Actions` },
+] as const satisfies readonly { value: string; label: MessageDescriptor }[];
 type Section = (typeof SECTIONS)[number]["value"];
 
 /** One community's Reports, Restrictions, Members and Actions, by its host. */
@@ -158,22 +164,26 @@ export function CommunityPage({
   community: CommunityRef;
   onBack(): void;
 }) {
+  const { i18n, t } = useLingui();
   const [section, setSection] = useState<Section>("reports");
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2 rounded-md border px-3 py-2">
-        <Button size="sm" variant="ghost" aria-label="Back" onClick={onBack}>
+        <Button size="sm" variant="ghost" aria-label={t`Back`} onClick={onBack}>
           <ArrowLeftIcon />
         </Button>
         <CommunityBadge id={community.id} host={community.host} />
         <NotConnected host={community.host} />
       </div>
       <Tabs
-        label="Community sections"
+        label={t`Community sections`}
         variant="panel"
         value={section}
         onValueChange={setSection}
-        items={[...SECTIONS]}
+        items={[...SECTIONS].map(({ value, label }) => ({
+          value,
+          label: i18n._(label),
+        }))}
         renderPanel={(value) =>
           value === "reports" ? (
             <Reports communityId={community.id} />

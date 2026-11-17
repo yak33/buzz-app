@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+// 本地化服务是全局单例：非组件工具函数在调用时求值（见 lingui.config.ts）。
+import { i18n } from "../../features/localization/service";
 import { ReadError, transientStatus } from "../../features/relay/errors";
 import type { GitHubReference } from "./references";
 
@@ -72,7 +75,9 @@ type ResponseData = {
 export class GitHubRateLimited extends Error {
   constructor(readonly resetAt: number) {
     super(
-      "GitHub’s public API limit was reached. Try again later or open it on GitHub.",
+      i18n._(
+        msg`GitHub’s public API limit was reached. Try again later or open it on GitHub.`,
+      ),
     );
   }
 }
@@ -116,14 +121,18 @@ export async function loadGitHubDetails(
   if (!response.ok) {
     if (response.status === 404)
       throw new Error(
-        "This is private or unavailable. Sign in to the gh CLI to see private repositories, or open it on GitHub.",
+        i18n._(
+          msg`This is private or unavailable. Sign in to the gh CLI to see private repositories, or open it on GitHub.`,
+        ),
       );
     if (response.status === 403 || response.status === 429)
       throw new GitHubRateLimited(
         Number(response.headers.get("x-ratelimit-reset")) * 1000 ||
           Date.now() + 60 * 60_000,
       );
-    const message = `GitHub couldn’t load this object (${response.status}).`;
+    const message = i18n._(
+      msg`GitHub couldn’t load this object (${response.status}).`,
+    );
     // `loadGitHubObject` retries server failures quietly.
     throw transientStatus(response.status)
       ? new ReadError("unavailable", message, response.status)
@@ -133,25 +142,26 @@ export async function loadGitHubDetails(
   const facts: GitHubDetails["facts"] = [];
   if (data.head && data.base)
     facts.push([
-      "Branch",
+      i18n._(msg`Branch`),
       {
         head: branchLink(data.head, reference.repository),
         base: branchLink(data.base, reference.repository),
       },
     ]);
   if (data.changed_files !== undefined)
-    facts.push(["Files changed", data.changed_files]);
+    facts.push([i18n._(msg`Files changed`), data.changed_files]);
   if (data.additions !== undefined && data.deletions !== undefined)
     facts.push([
-      "Changes",
+      i18n._(msg`Changes`),
       { additions: data.additions, deletions: data.deletions },
     ]);
   if (reference.kind !== "pull" && data.comments !== undefined)
-    facts.push(["Comments", data.comments]);
+    facts.push([i18n._(msg`Comments`), data.comments]);
   if (data.stargazers_count !== undefined)
-    facts.push(["Stars", data.stargazers_count]);
-  if (data.language) facts.push(["Language", data.language]);
-  if (data.default_branch) facts.push(["Default branch", data.default_branch]);
+    facts.push([i18n._(msg`Stars`), data.stargazers_count]);
+  if (data.language) facts.push([i18n._(msg`Language`), data.language]);
+  if (data.default_branch)
+    facts.push([i18n._(msg`Default branch`), data.default_branch]);
   const [commitTitle, ...commitBody] = data.commit?.message.split("\n") ?? [];
   const accountLogin =
     data.user?.login ??

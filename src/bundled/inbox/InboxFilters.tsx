@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import type { ReactNode, Ref } from "react";
 import styles from "./Inbox.module.css";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -19,18 +20,6 @@ export type ActivityFilter =
   | "dms"
   | "reactions";
 export type SenderFilter = "everyone" | "humans" | "agents";
-const views = [
-  { value: "all", label: "All" },
-  { value: "threads", label: "Threads" },
-  { value: "mentions", label: "Mentions" },
-  { value: "dms", label: "DMs" },
-  { value: "reactions", label: "Reactions" },
-] as const;
-const senders = [
-  { value: "everyone", label: "Anyone" },
-  { value: "humans", label: "People" },
-  { value: "agents", label: "Agents" },
-] as const satisfies readonly { value: SenderFilter; label: string }[];
 
 /**
  * Type tabs, From and Unread as one left-aligned group, like Slack's Activity,
@@ -58,13 +47,26 @@ export function InboxFilters({
   /** Refresh status, sharing the last line with Unread so it never adds one. */
   status?: ReactNode;
 }) {
+  const { t } = useLingui();
+  const views = [
+    { value: "all", label: t`All` },
+    { value: "threads", label: t`Threads` },
+    { value: "mentions", label: t`Mentions` },
+    { value: "dms", label: t`DMs` },
+    { value: "reactions", label: t`Reactions` },
+  ] as const;
+  const senders = [
+    { value: "everyone", label: t`Anyone` },
+    { value: "humans", label: t`People` },
+    { value: "agents", label: t`Agents` },
+  ] as const satisfies readonly { value: SenderFilter; label: string }[];
   const from = senders.find((entry) => entry.value === sender) ?? senders[0];
-  const fromLabel = `From ${from.label.toLowerCase()}`;
+  const fromLabel = t`From ${from.label.toLowerCase()}`;
   return (
     <div className={styles.filters}>
       <div className={styles.typeTabs}>
         <Tabs
-          label="Activity type"
+          label={t`Activity type`}
           variant="panel"
           size="sm"
           value={view}
@@ -82,13 +84,13 @@ export function InboxFilters({
               aria-label={fromLabel}
               title={fromLabel}
             >
-              From
+              {t`From`}
               <CaretDownIcon size="1rem" />
             </Button>
           }
         />
         <MenuPopup
-          aria-label="From"
+          aria-label={t`From`}
           style={{ maxHeight: "var(--available-height)" }}
         >
           <MenuRadioGroup
@@ -104,7 +106,7 @@ export function InboxFilters({
         </MenuPopup>
       </MenuRoot>
       <Switch
-        label="Unread"
+        label={t`Unread`}
         checked={unreadOnly}
         onCheckedChange={onUnreadChange}
       />

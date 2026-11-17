@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "../../features/localization/service";
 import { nativeHookOutput } from "../hook-output";
 import { CODEX_HOOK_EVENTS } from "./hook-bridge";
 import { repositoriesContext } from "../../features/communities/repositories";
@@ -28,7 +30,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const start =
     spawn ??
     (async () => {
-      throw new Error("Codex agents run only in the desktop app");
+      throw new Error(i18n._(msg`Codex agents run only in the desktop app`));
     });
   const providerController = new CodexProvider(
     start,
@@ -163,13 +165,16 @@ export const apply: PluginModule["apply"] = (ctx) => {
     conversationFolders: true,
     voice: async (seat) => {
       if (typeof RTCPeerConnection !== "function")
-        throw new Error("Voice is unsupported on this device");
+        throw new Error(i18n._(msg`Voice is unsupported on this device`));
       // Protection is not known to review realtime input, so voice refuses it.
       if (seat.agent.protection)
-        throw new Error("Voice is unavailable for protected agents");
+        throw new Error(
+          i18n._(msg`Voice is unavailable for protected agents`),
+        );
       await setup.installed(seat.signal);
       const handle = ctx.agents.handle(seat.agent.key);
-      if (!handle) throw new Error("The Codex agent is not running");
+      if (!handle)
+        throw new Error(i18n._(msg`The Codex agent is not running`));
       return runtime.voice(seat, handle);
     },
     execution: true,
@@ -217,15 +222,19 @@ export const apply: PluginModule["apply"] = (ctx) => {
     describeMigration: (saved) => {
       const { model, effort, scope } = config(saved);
       return [
-        { id: "model", label: "Model", isOverride: Boolean(model.trim()) },
+        {
+          id: "model",
+          label: i18n._(msg`Model`),
+          isOverride: Boolean(model.trim()),
+        },
         {
           id: "thinking",
-          label: "Thinking",
+          label: i18n._(msg`Thinking`),
           isOverride: Boolean(effort),
         },
         {
           id: "sessions",
-          label: "Sessions",
+          label: i18n._(msg`Sessions`),
           isOverride: scope !== defaults.scope,
           unchangedKey: scope,
         },
@@ -243,7 +252,9 @@ export const apply: PluginModule["apply"] = (ctx) => {
       readFile && {
         usage: async (agent, { since, signal }) => {
           if (await ctx.agents.inspectExecution(agent.key))
-            throw new Error("Usage is unavailable for remote Codex agents.");
+            throw new Error(
+              i18n._(msg`Usage is unavailable for remote Codex agents.`),
+            );
           return readUsage({ spawn, readFile }, agent, since, signal);
         },
       }),

@@ -1,6 +1,8 @@
 // Owner/admin requests through the selected community adapter. Roles come from
 // the shared roster reader; the relay decides every change.
+import { msg } from "@lingui/core/macro";
 import { communityRequest } from "../../features/communities/api";
+import { i18n } from "../../features/localization/service";
 import type { Member, Role } from "../../features/communities/roster";
 
 export {
@@ -46,5 +48,7 @@ export async function changeMember(community: string, change: MemberChange) {
     message?: string;
   }>(community, "member", change);
   if (!receipt.accepted)
-    throw new Error(receipt.message || "The relay did not accept the change");
+    throw new Error(
+      receipt.message || i18n._(msg`The relay did not accept the change`),
+    );
 }

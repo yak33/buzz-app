@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+// 全局单例：cards 在插件 apply（非组件）中被调用（先例 src/shared/datetime.ts）。
+import { i18n } from "../../features/localization/service";
 import type { ReactNode } from "react";
 import type { SettingsCard } from "../../features/settings/service";
 import type { PluginModule } from "../../plugins/api";
@@ -9,7 +12,7 @@ import { RelayStaff } from "./RelayStaff";
 import type { Staff } from "./staff";
 
 /** The Settings group for every relay-wide staff entry. */
-export const GROUP = "Moderation";
+export const GROUP = msg`Moderation`;
 
 export const inject = ["relay", "settingsCards", "adminAccess"];
 export const apply: PluginModule["apply"] = (ctx) => {
@@ -30,9 +33,9 @@ export function cards(
 ): SettingsCard[] {
   return (Object.keys(SCREENS) as Screen[]).map((screen) => ({
     id: screen,
-    title: SCREENS[screen].title,
+    title: i18n._(SCREENS[screen].title),
     icon: SCREENS[screen].icon,
-    group: GROUP,
+    group: i18n._(GROUP),
     visibility: {
       snapshot: screen === "staff" ? staff.operatorVisible : staff.visible,
       subscribe: staff.subscribe,

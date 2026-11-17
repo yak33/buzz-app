@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Field } from "../../shared/design-system/ui/Field";
 import { Input } from "../../shared/design-system/ui/Input";
 import { Textarea } from "../../shared/design-system/ui/Textarea";
@@ -73,6 +75,7 @@ export function WorkflowEditor({
   create?: boolean;
   chooseChannel?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const id = useId();
   const heading = useRef<HTMLSpanElement>(null);
   const [selection, setSelection] = useState<WorkflowSelection>(
@@ -105,7 +108,7 @@ export function WorkflowEditor({
       new Set(step.headers.map((header) => header.name)).size !==
         step.headers.length,
   )
-    ? "Header names must be unique."
+    ? t`Header names must be unique.`
     : undefined;
   // Invalid form-only values may serialize to unchanged YAML. Keep them in
   // the channel's existing leave/unload guard without creating another draft owner.
@@ -145,24 +148,24 @@ export function WorkflowEditor({
   };
   const disabled = readOnly || busy || locked || chooseChannel;
   const controlReason = readOnly
-    ? "Only the author can change this workflow."
+    ? t`Only the author can change this workflow.`
     : (blocked ??
       (busy || locked
-        ? "Review Recent activity before editing."
+        ? t`Review Recent activity before editing.`
         : chooseChannel
-          ? "Choose a channel before editing."
+          ? t`Choose a channel before editing.`
           : !fields.editable
-            ? "Correct the YAML before changing the name or configuration."
+            ? t`Correct the YAML before changing the name or configuration.`
             : undefined));
   const enableReason = fields.enabled === false ? enableBlocked : undefined;
   const enableSwitch = fields.editable ? (
     <SwitchPreferenceRow
-      label="Enabled in configuration"
+      label={t`Enabled in configuration`}
       description={
         enableReason ??
         // In YAML view the status line directly below already shows the reason.
         (mode === "form" || readOnly ? controlReason : undefined) ??
-        "Configuration changes apply on save. Turning off does not confirm runs have stopped or cancel active runs."
+        t`Configuration changes apply on save. Turning off does not confirm runs have stopped or cancel active runs.`
       }
       checked={fields.enabled !== false}
       disabled={disabled || !!enableReason}
@@ -172,18 +175,18 @@ export function WorkflowEditor({
     />
   ) : (
     <span className="text-body-sm text-secondary">
-      Unreadable configuration
+      {t`Unreadable configuration`}
     </span>
   );
   const modeTabs = (
     <Tabs
       variant="panel"
-      label="Editor mode"
+      label={t`Editor mode`}
       value={mode}
       items={[
-        { value: "form", label: "Form" },
-        { value: "yaml", label: "YAML" },
-        ...(runs ? [{ value: "runs" as const, label: "Runs" }] : []),
+        { value: "form", label: t`Form` },
+        { value: "yaml", label: t`YAML` },
+        ...(runs ? [{ value: "runs" as const, label: t`Runs` }] : []),
       ]}
       onValueChange={(next) => {
         if (next === "runs") {
@@ -194,7 +197,9 @@ export function WorkflowEditor({
         }
         if (next === "yaml" && (conditionError || headerError)) {
           setModeError(
-            "Correct the invalid condition or duplicate header before switching views.",
+            i18n._(
+              msg`Correct the invalid condition or duplicate header before switching views.`,
+            ),
           );
           return;
         }
@@ -214,10 +219,12 @@ export function WorkflowEditor({
       initialFocus={heading}
       title={
         <span ref={heading} tabIndex={-1}>
-          {create ? "Create workflow" : fields.name || "Untitled workflow"}
+          {create
+            ? t`Create workflow`
+            : fields.name || "Untitled workflow"}
         </span>
       }
-      closeLabel="Close editor"
+      closeLabel={t`Close editor`}
       size="wide"
       height="stable-tall"
       onOpenChange={(open) => {
@@ -237,7 +244,7 @@ export function WorkflowEditor({
                 <MenuTrigger
                   render={
                     <IconButton
-                      aria-label="Workflow actions"
+                      aria-label={t`Workflow actions`}
                       icon={<DotsThreeIcon size={20} aria-hidden="true" />}
                     />
                   }
@@ -251,7 +258,7 @@ export function WorkflowEditor({
       actions={
         !readOnly && (
           <>
-            {onCancel && <Button onClick={onCancel}>Cancel</Button>}
+            {onCancel && <Button onClick={onCancel}>{t`Cancel`}</Button>}
             <Button
               variant="prominent"
               focusableWhenDisabled={busy || locked}
@@ -272,19 +279,19 @@ export function WorkflowEditor({
             >
               {busy
                 ? create
-                  ? "Creating…"
-                  : "Saving…"
+                  ? t`Creating…`
+                  : t`Saving…`
                 : showingForm && !form?.steps.length
-                  ? "Add step"
+                  ? t`Add step`
                   : create
-                    ? "Create workflow"
-                    : "Save changes"}
+                    ? t`Create workflow`
+                    : t`Save changes`}
             </Button>
           </>
         )
       }
     >
-      <section aria-label="Workflow editor" className="workflow-editor">
+      <section aria-label={t`Workflow editor`} className="workflow-editor">
         {!chooseChannel && (
           <div className="workflow-editor-tabs">{modeTabs}</div>
         )}
@@ -296,7 +303,7 @@ export function WorkflowEditor({
         <div className="workflow-editor-body">
           {modeError && (
             <p role="alert" className="text-danger">
-              Cannot switch editor view: {modeError}
+              {t`Cannot switch editor view:`} {modeError}
             </p>
           )}
           {chooseChannel ? (
@@ -314,7 +321,7 @@ export function WorkflowEditor({
               overview={
                 <div className="workflow-form">
                   <Field
-                    label="Workflow name"
+                    label={t`Workflow name`}
                     error={issue?.field === "name" ? error : undefined}
                   >
                     <Input
@@ -332,11 +339,11 @@ export function WorkflowEditor({
                       }
                     />
                   </Field>
-                  <Field label="Description">
+                  <Field label={t`Description`}>
                     <Textarea
                       value={form.description}
                       rows={2}
-                      placeholder="What does this workflow do?"
+                      placeholder={t`What does this workflow do?`}
                       disabled={disabled}
                       onChange={(event) =>
                         mutateForm({
@@ -347,7 +354,7 @@ export function WorkflowEditor({
                     />
                   </Field>
                   {scope && (
-                    <Field label="Channel">
+                    <Field label={t`Channel`}>
                       <span className="text-body">{scope}</span>
                     </Field>
                   )}
@@ -359,9 +366,9 @@ export function WorkflowEditor({
           ) : (
             <div className="workflow-form">
               <Field
-                label="Workflow YAML"
+                label={t`Workflow YAML`}
                 error={error}
-                description="Original text is kept until you edit. Form changes may reformat YAML. Schedules use UTC."
+                description={t`Original text is kept until you edit. Form changes may reformat YAML. Schedules use UTC.`}
               >
                 <Textarea
                   id={`${id}-yaml`}
@@ -410,12 +417,12 @@ export function WorkflowEditor({
         </div>
         {activating && (
           <ConfirmAction
-            title={warning?.title ?? "Save this workflow enabled?"}
+            title={warning?.title ?? t`Save this workflow enabled?`}
             description={
               warning?.description ??
-              "The relay may run this workflow automatically when its trigger matches. Saving does not prove a run succeeded."
+              t`The relay may run this workflow automatically when its trigger matches. Saving does not prove a run succeeded.`
             }
-            action="Save enabled workflow"
+            action={t`Save enabled workflow`}
             onCancel={() => setActivating(false)}
             onConfirm={() => {
               setActivating(false);

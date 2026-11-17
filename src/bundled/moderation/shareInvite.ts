@@ -1,4 +1,6 @@
+import { msg } from "@lingui/core/macro";
 import { invoke, isTauri } from "@tauri-apps/api/core";
+import { i18n } from "../../features/localization/service";
 import { renderQrCode } from "../../shared/QrCode";
 
 export const canShareInvite = () => isTauri() && /Mac/.test(navigator.platform);
@@ -16,7 +18,7 @@ export async function shareInvite(url: string, anchor: DOMRect): Promise<void> {
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = 720;
   const context = canvas.getContext("2d");
-  if (!context) throw new Error("Could not create the QR image.");
+  if (!context) throw new Error(i18n._(msg`Could not create the QR image.`));
   context.drawImage(image, 0, 0, 720, 720);
   await invoke("share_image", {
     png: canvas.toDataURL("image/png").split(",")[1],
