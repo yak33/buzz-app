@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Input } from "../../shared/design-system/ui/Input";
 import {
@@ -131,6 +133,7 @@ export function AgentDetails({
   communities?: CommunityReader | undefined;
   openSettings?: ((section: string) => void) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const ProfileActions = type?.ProfileActions ?? Fragment;
   const { pack, src: backdrop } = useAgentPortraitSource(agent, agent.relay);
   const tabbed = !!usePanelTabHost();
@@ -242,7 +245,7 @@ export function AgentDetails({
   const namePrompt = useNamePrompt(nameInput);
   useShake(nameEditor, namePrompt.attempts);
   const nameMessage =
-    nameError || (namePrompt.attempts ? "Add a name to save your agent" : "");
+    nameError || (namePrompt.attempts ? t`Add a name to save your agent` : "");
   const nameMessageId = useId();
   useEffect(() => {
     if (!editingName) return;
@@ -288,6 +291,14 @@ export function AgentDetails({
   };
   const [copyError, setCopyError] = useState("");
   const npub = canonicalPublicKey(agent.pubkey);
+  // 其他社区的主机名列表，供 Remove 说明文案插值使用。
+  const otherCommunities = agents
+    .memberships(agent.pubkey)
+    .filter(
+      (membership) => membership.key !== agent.key && !membership.deleting,
+    )
+    .map(({ origin }) => origin.replace(/^https:\/\//, ""))
+    .join(", ");
   const settings = useAgentSettingsHost({ agents, agent, type, types });
   useEffect(() => {
     if (!copied) return;
@@ -312,7 +323,7 @@ export function AgentDetails({
         <div ref={content} className={styles.detailsScroll}>
           {!tabbed && (
             <IconButton
-              aria-label="Close"
+              aria-label={t`Close`}
               size="sm"
               icon={<XIcon size={16} />}
               onClick={onRemoved}
@@ -320,7 +331,7 @@ export function AgentDetails({
           )}
           <motion.aside
             className={`${hero.hero} ${hero.panelHero} ${styles.identityCard}`}
-            aria-label={`${agent.name} identity`}
+            aria-label={t`${agent.name} identity`}
             initial={false}
             animate={{
               "--agent-artwork-grayscale": signInVisible ? 1 : 0,
@@ -381,8 +392,8 @@ export function AgentDetails({
                   <Input
                     appearance="heading"
                     ref={nameInput}
-                    aria-label="Agent name"
-                    placeholder="Name your agent"
+                    aria-label={t`Agent name`}
+                    placeholder={t`Name your agent`}
                     aria-invalid={namePrompt.attempts > 0 || undefined}
                     aria-describedby={nameMessage ? nameMessageId : undefined}
                     value={name}
@@ -435,7 +446,7 @@ export function AgentDetails({
                       disabled={namePending}
                       onClick={finishName}
                     >
-                      Cancel
+                      {t`Cancel`}
                     </Button>
                     <Button
                       size="sm"
@@ -444,7 +455,7 @@ export function AgentDetails({
                       loading={namePending}
                       onClick={() => void saveName()}
                     >
-                      Save
+                      {t`Save`}
                     </Button>
                   </motion.div>
                 ) : (
@@ -453,7 +464,7 @@ export function AgentDetails({
                       render={
                         <IconButton
                           ref={identityMenu}
-                          aria-label="Agent profile actions"
+                          aria-label={t`Agent profile actions`}
                           variant={backdrop ? "glass" : "subtle"}
                           size="sm"
                           icon={<DotsThreeIcon aria-hidden="true" />}
@@ -467,10 +478,10 @@ export function AgentDetails({
                       }
                     >
                       <MenuItem onClick={() => openIdentity("avatar")}>
-                        Change avatar
+                        {t`Change avatar`}
                       </MenuItem>
                       <MenuItem onClick={() => openIdentity("name")}>
-                        Change name
+                        {t`Change name`}
                       </MenuItem>
                     </MenuPopup>
                   </MenuRoot>
@@ -498,15 +509,15 @@ export function AgentDetails({
           </motion.aside>
           <section
             className={styles.work}
-            aria-label={`${agent.name} settings`}
+            aria-label={t`${agent.name} settings`}
           >
             {!type && (
               <p className="m-0 mb-4 text-body-sm text-secondary">
-                Enable the plugin that provides this agent's type in{" "}
+                {t`Enable the plugin that provides this agent's type in`}{" "}
                 <SettingsSectionLink section="plugins" open={openSettings}>
-                  Manage plugins
+                  {t`Manage plugins`}
                 </SettingsSectionLink>{" "}
-                to change its settings.
+                {t`to change its settings.`}
               </p>
             )}
             <AgentTabs
@@ -529,10 +540,10 @@ export function AgentDetails({
               communities={communities}
               settingsContent={
                 <div>
-                  <InlineHeader title="Agent details" level={4} />
+                  <InlineHeader title={t`Agent details`} level={4} />
                   <SettingsGroup>
                     <PreferenceRow
-                      title="Public key"
+                      title={t`Public key`}
                       subtitle={
                         <code title={npub}>
                           {formatPublicKey(agent.pubkey, 8)}
@@ -540,7 +551,9 @@ export function AgentDetails({
                       }
                       trailing={
                         <IconButton
-                          aria-label={copied ? "Copied" : "Copy public key"}
+                          aria-label={
+                            copied ? t`Copied` : t`Copy public key`
+                          }
                           size="sm"
                           icon={<CopyIcon size={16} aria-hidden="true" />}
                           disabled={!npub}
@@ -552,7 +565,9 @@ export function AgentDetails({
                               .then(() => setCopied(true))
                               .catch(() =>
                                 setCopyError(
-                                  "Could not copy the public key. Try again.",
+                                  i18n._(
+                                    msg`Could not copy the public key. Try again.`,
+                                  ),
                                 ),
                               );
                           }}
@@ -572,21 +587,11 @@ export function AgentDetails({
                     <AgentArchiveRetry agents={agents} agent={agent} />
                     {inSeveral(agents, agent) && (
                       <PreferenceRow
-                        title="Remove from this community"
+                        title={t`Remove from this community`}
                         subtitle={
                           agent.deleting
-                            ? "Its Remove didn't finish, so it stays stopped here. Remove it again to finish."
-                            : `Also in ${agents
-                                .memberships(agent.pubkey)
-                                .filter(
-                                  (membership) =>
-                                    membership.key !== agent.key &&
-                                    !membership.deleting,
-                                )
-                                .map(({ origin }) =>
-                                  origin.replace(/^https:\/\//, ""),
-                                )
-                                .join(", ")}, where it stays.`
+                            ? t`Its Remove didn't finish, so it stays stopped here. Remove it again to finish.`
+                            : t`Also in ${otherCommunities}, where it stays.`
                         }
                         trailing={
                           <AgentRemoveHere
@@ -597,10 +602,10 @@ export function AgentDetails({
                               <Button
                                 size="compact"
                                 variant="outline"
-                                aria-label="Remove from this community"
+                                aria-label={t`Remove from this community`}
                                 onClick={open}
                               >
-                                Remove
+                                {t`Remove`}
                               </Button>
                             )}
                           />
@@ -608,11 +613,11 @@ export function AgentDetails({
                       />
                     )}
                     <PreferenceRow
-                      title="Delete agent"
+                      title={t`Delete agent`}
                       subtitle={
                         agent.deleting &&
                         !inSeveral(agents, agent) &&
-                        "Its Delete didn't finish, so it stays stopped. Delete it again to finish."
+                        t`Its Delete didn't finish, so it stays stopped. Delete it again to finish.`
                       }
                       trailing={
                         <AgentDelete
@@ -623,10 +628,10 @@ export function AgentDetails({
                             <Button
                               size="compact"
                               variant="destructive"
-                              aria-label="Delete agent"
+                              aria-label={t`Delete agent`}
                               onClick={open}
                             >
-                              Delete
+                              {t`Delete`}
                             </Button>
                           )}
                         />
@@ -667,6 +672,7 @@ function SharedSettingsNotice({
   agent: Agent;
   communities: CommunityReader | undefined;
 }) {
+  const { t } = useLingui();
   const known = useSyncExternalStore(
     communities?.subscribe ?? noSubscribe,
     () => communities?.snapshot(),
@@ -689,7 +695,7 @@ function SharedSettingsNotice({
           render={
             <Button variant="plain" size="inline" style={{ maxWidth: "100%" }}>
               <span className="flex min-w-0 flex-wrap items-center justify-center gap-1 whitespace-normal text-subtle">
-                Shared across
+                {t`Shared across`}
                 <AvatarStack items={items} size="mini" />
                 <span className="sr-only">{names}</span>
               </span>
@@ -699,14 +705,13 @@ function SharedSettingsNotice({
         <PopoverPopup
           side="top"
           align="center"
-          aria-label={`${agent.name}’s shared settings`}
+          aria-label={t`${agent.name}’s shared settings`}
         >
           <p className="m-0 text-body-sm text-subtle">
-            {agent.name}’s name, instructions, and settings are shared across
-            these communities:
+            {t`${agent.name}’s name, instructions, and settings are shared across these communities:`}
           </p>
           <ul
-            aria-label="Communities"
+            aria-label={t`Communities`}
             className="m-0 mt-2 grid list-none gap-2 p-0"
           >
             {items.map((item) => (

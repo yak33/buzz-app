@@ -1,4 +1,7 @@
 import styles from "./DeveloperSettings.module.css";
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { SettingsGroup } from "../shared/design-system/ui/SettingsGroup";
 import { Header, InlineHeader } from "../shared/design-system/ui/Header";
 import { PreferenceRow } from "../shared/design-system/ui/PreferenceRow";
@@ -23,12 +26,15 @@ import {
   type ImportScenario,
 } from "../features/developer/agent-import-scenario";
 
-const IMPORT_SCENARIOS: readonly { value: ImportScenario; label: string }[] = [
-  { value: "off", label: "Real data" },
-  { value: "none", label: "Nothing to import" },
-  { value: "both", label: "Other communities and old Buzz" },
-  { value: "communities", label: "Other communities only" },
-  { value: "old", label: "Buzz (Legacy) only" },
+const IMPORT_SCENARIOS: readonly {
+  value: ImportScenario;
+  label: MessageDescriptor;
+}[] = [
+  { value: "off", label: msg`Real data` },
+  { value: "none", label: msg`Nothing to import` },
+  { value: "both", label: msg`Other communities and old Buzz` },
+  { value: "communities", label: msg`Other communities only` },
+  { value: "old", label: msg`Buzz (Legacy) only` },
 ];
 
 type BrokerStats = {
@@ -53,6 +59,7 @@ async function fetchStats(): Promise<BrokerStats | undefined> {
 }
 
 export function DeveloperSettings({ relay }: { relay: RelayData }) {
+  const { i18n, t } = useLingui();
   const level = useSyncExternalStore(subscribeLogLevel, logLevel);
   const scenario = useSyncExternalStore(
     subscribeImportScenario,
@@ -70,13 +77,13 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
       .catch(() => {
         if (alive)
           setSettingsError(
-            "Runtime settings require the local development server.",
+            i18n._(msg`Runtime settings require the local development server.`),
           );
       });
     return () => {
       alive = false;
     };
-  }, []);
+  }, [i18n]);
   async function saveLevel(value: string) {
     if (!isLogLevel(value)) return;
     setSaving(true);
@@ -84,7 +91,7 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
     try {
       await developerSettings(value);
     } catch {
-      setSettingsError("Log level wasn’t saved. Try again.");
+      setSettingsError(i18n._(msg`Log level wasn’t saved. Try again.`));
     } finally {
       setSaving(false);
     }
@@ -113,9 +120,11 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
     setClearing(true);
     try {
       await relay.clearCache();
-      setStatus("Cache cleared. Buzz will load channels and media as needed.");
+      setStatus(
+        i18n._(msg`Cache cleared. Buzz will load channels and media as needed.`),
+      );
     } catch (error) {
-      setStatus(`Buzz couldn’t clear the cache. ${String(error)}`);
+      setStatus(i18n._(msg`Buzz couldn’t clear the cache. ${String(error)}`));
     } finally {
       setClearing(false);
     }
@@ -125,26 +134,26 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
     <section aria-labelledby="developer-settings-title">
       <Header
         id="developer-settings-title"
-        title="Developer"
-        subtitle="Activity and diagnostics for this session."
+        title={t`Developer`}
+        subtitle={t`Activity and diagnostics for this session.`}
       />
       <div className="grid grid-cols-1 gap-section-gap">
         {brokerAvailable && (
           <section aria-labelledby="broker-activity-title">
             <InlineHeader
               id="broker-activity-title"
-              title="Broker activity"
-              subtitle="Running totals from the local relay broker. Updates every 5 seconds."
+              title={t`Broker activity`}
+              subtitle={t`Running totals from the local relay broker. Updates every 5 seconds.`}
             />
             <SettingsGroup layout="form">
               {stats ? (
                 <dl className={styles.metrics}>
                   {(
                     [
-                      ["Queries", stats.queries],
-                      ["Errors", stats.errors],
-                      ["Media", stats.media],
-                      ["Connections", stats.connects],
+                      [t`Queries`, stats.queries],
+                      [t`Errors`, stats.errors],
+                      [t`Media`, stats.media],
+                      [t`Connections`, stats.connects],
                     ] as const
                   ).map(([label, value]) => (
                     <div key={label}>
@@ -157,8 +166,7 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
                 </dl>
               ) : (
                 <p role="status" className="m-0 text-body-sm text-muted">
-                  Broker stats aren’t available. Start the development relay
-                  broker on this origin to view them.
+                  {t`Broker stats aren’t available. Start the development relay broker on this origin to view them.`}
                 </p>
               )}
             </SettingsGroup>
@@ -166,14 +174,14 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
         )}
         {clientMetrics.enabled && <ClientMetricsPanel />}
         <div className="space-y-2">
-          <InlineHeader title="Runtime settings" />
+          <InlineHeader title={t`Runtime settings`} />
           <SettingsGroup layout="form">
             <PreferenceRow
-              title="Log level"
-              subtitle="Saved for this worktree, including browser relay diagnostics."
+              title={t`Log level`}
+              subtitle={t`Saved for this worktree, including browser relay diagnostics.`}
               trailing={
                 <Select
-                  label="Log level"
+                  label={t`Log level`}
                   variant="compact"
                   value={level}
                   disabled={!settingsReady || saving}
@@ -191,9 +199,7 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
               }
             />
             <p className="m-0 text-body-sm text-subtle">
-              Info shows lifecycle messages; Debug shows every broker HTTP
-              request and relay WebSocket frame; Trace adds safe protocol
-              metadata. Message bodies and credentials are never included.
+              {t`Info shows lifecycle messages; Debug shows every broker HTTP request and relay WebSocket frame; Trace adds safe protocol metadata. Message bodies and credentials are never included.`}
             </p>
             {settingsError && (
               <p role="alert" className="m-0 text-body-sm text-muted">
@@ -204,15 +210,15 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
         </div>
         <div className="space-y-2">
           <InlineHeader
-            title="Agent import"
-            subtitle="Simulated findings leave agents unchanged. Real data uses actual imports, even when shown as a new community."
+            title={t`Agent import`}
+            subtitle={t`Simulated findings leave agents unchanged. Real data uses actual imports, even when shown as a new community.`}
           />
           <SettingsGroup layout="form">
             <PreferenceRow
-              title="What Import finds"
+              title={t`What Import finds`}
               trailing={
                 <Select
-                  label="What Import finds"
+                  label={t`What Import finds`}
                   variant="compact"
                   value={scenario.scenario}
                   onValueChange={(value) => {
@@ -221,13 +227,21 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
                     );
                     if (next) setImportScenario({ scenario: next.value });
                   }}
-                  groups={[{ label: "", options: [...IMPORT_SCENARIOS] }]}
+                  groups={[
+                    {
+                      label: "",
+                      options: IMPORT_SCENARIOS.map(({ value, label }) => ({
+                        value,
+                        label: i18n._(label),
+                      })),
+                    },
+                  ]}
                 />
               }
             />
             <SwitchPreferenceRow
-              label="Show as a new community"
-              description="The Agents page shows no agents or teams here, as a first visit would."
+              label={t`Show as a new community`}
+              description={t`The Agents page shows no agents or teams here, as a first visit would.`}
               checked={scenario.empty}
               onCheckedChange={(empty) => setImportScenario({ empty })}
             />
@@ -235,8 +249,8 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
         </div>
         <SettingsGroup layout="form">
           <PreferenceRow
-            title="Caches"
-            subtitle="Clear cached channels, messages, media, and this account’s saved activity in the current community. Turn metrics and your account, relay, and sidebar settings are kept."
+            title={t`Caches`}
+            subtitle={t`Clear cached channels, messages, media, and this account’s saved activity in the current community. Turn metrics and your account, relay, and sidebar settings are kept.`}
             trailing={
               <div className={styles.actions}>
                 <Button
@@ -244,7 +258,7 @@ export function DeveloperSettings({ relay }: { relay: RelayData }) {
                   disabled={clearing}
                   onClick={() => void clearCache()}
                 >
-                  {clearing ? "Clearing…" : "Clear cache"}
+                  {clearing ? t`Clearing…` : t`Clear cache`}
                 </Button>
               </div>
             }

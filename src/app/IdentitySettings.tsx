@@ -8,6 +8,8 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { motion } from "motion/react";
 import { npubEncode } from "nostr-tools/nip19";
 import type {
@@ -160,6 +162,7 @@ export function IdentitySettings({
   /** The visit that opened Identity at Community sign-ins. */
   landing?: string | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const land = useLanding(landing, "#community-sign-ins-title");
   const [signingOut, setSigningOut] = useState(false);
   const [offered, setOffered] = useState(false);
@@ -198,9 +201,11 @@ export function IdentitySettings({
     : "Builderlab";
   // The receipt counts for any account: only a finished pass for this account,
   // or this account's read of this key, makes the backup this account's.
-  const backupAccount = `${
-    status?.status === "complete" || accountBackup.key === viewer ? "your" : "a"
-  } ${backupLocation} account`;
+  const backupOwns =
+    status?.status === "complete" || accountBackup.key === viewer;
+  const backupAccount = backupOwns
+    ? t`your ${backupLocation} account`
+    : t`a ${backupLocation} account`;
   useEffect(() => {
     if (keyScope.current !== viewer) setSigningOut(false);
     keyScope.current = viewer;
@@ -265,11 +270,16 @@ export function IdentitySettings({
     try {
       await writeClipboardText(value);
       if (attempt === copyAttempt.current)
-        setCopyStatus({ message: `${label} copied.`, failed: false });
+        setCopyStatus({
+          message: i18n._(msg`${label} copied.`),
+          failed: false,
+        });
     } catch {
       if (attempt === copyAttempt.current)
         setCopyStatus({
-          message: `Couldn’t copy ${label.toLowerCase()}. Select it and copy manually.`,
+          message: i18n._(
+            msg`Couldn’t copy ${label.toLowerCase()}. Select it and copy manually.`,
+          ),
           failed: true,
         });
     }
@@ -281,11 +291,13 @@ export function IdentitySettings({
     >
       <Header
         id="identity-settings-title"
-        title="Identity"
-        subtitle="Your identity is shared across communities."
+        title={t`Identity`}
+        subtitle={t`Your identity is shared across communities.`}
       />
       {!viewer && (
-        <p>Your identity is unavailable. Connect your identity to manage it.</p>
+        <p>
+          {t`Your identity is unavailable. Connect your identity to manage it.`}
+        </p>
       )}
       {viewer && (
         <>
@@ -296,7 +308,7 @@ export function IdentitySettings({
               name={
                 profile && !profile.nameIsFallback
                   ? profile.name
-                  : "Your Buzz ID"
+                  : t`Your Buzz ID`
               }
               picture={picture}
               photoContext={community ? communityName(community) : undefined}
@@ -336,17 +348,15 @@ export function IdentitySettings({
                             {input}
                           </div>
                           <div className={styles.keyNotice}>
-                            <p className="text-label-sm">Your private key</p>
+                            <p className="text-label-sm">{t`Your private key`}</p>
                             <p className="text-body-sm text-secondary">
-                              This key is stored securely on this device.
+                              {t`This key is stored securely on this device.`}
                               {status?.builderlab && backupConfirmed && (
-                                <> A backup is saved with {backupAccount}.</>
+                                <>{" "}{backupOwns ? t`A backup is saved with your ${backupLocation} account.` : t`A backup is saved with a ${backupLocation} account.`}</>
                               )}
                             </p>
                             <p className="text-body-sm text-secondary">
-                              Save a copy from the private key menu to use this
-                              ID on another device. Lose every copy and you lose
-                              this ID.
+                              {t`Save a copy from the private key menu to use this ID on another device. Lose every copy and you lose this ID.`}
                             </p>
                             <div className={styles.keyWarning}>{warning}</div>
                             {feedback}
@@ -357,18 +367,15 @@ export function IdentitySettings({
                   ) : (
                     <>
                       <div>
-                        <p className="text-label-sm">On this device</p>
+                        <p className="text-label-sm">{t`On this device`}</p>
                         <p className="text-body-sm text-secondary">
-                          Your private key is kept in this device’s secure
-                          storage. It proves this Buzz ID is yours.
+                          {t`Your private key is kept in this device’s secure storage. It proves this Buzz ID is yours.`}
                         </p>
                       </div>
                       <div>
-                        <p className="text-label-sm">On a new device</p>
+                        <p className="text-label-sm">{t`On a new device`}</p>
                         <p className="text-body-sm text-secondary">
-                          Use a saved copy of your private key to restore this
-                          ID. Keep it somewhere safe. If you lose every copy,
-                          you can’t recover this ID.
+                          {t`Use a saved copy of your private key to restore this ID. Keep it somewhere safe. If you lose every copy, you can’t recover this ID.`}
                         </p>
                       </div>
                     </>
@@ -399,7 +406,7 @@ export function IdentitySettings({
                         variant="destructive"
                         onClick={() => setSigningOut(true)}
                       >
-                        Remove from device
+                        {t`Remove from device`}
                       </Button>
                     </div>
                   )}
@@ -415,8 +422,8 @@ export function IdentitySettings({
                 <Header
                   id="community-sign-ins-title"
                   level={3}
-                  title="Community sign-ins"
-                  subtitle="Accounts you use to verify who you are and access your communities."
+                  title={t`Community sign-ins`}
+                  subtitle={t`Accounts you use to verify who you are and access your communities.`}
                 />
                 <OrganizationSignIns
                   identity={federatedIdentity}
@@ -429,7 +436,7 @@ export function IdentitySettings({
           </div>
           {copyStatus?.failed && (
             <p className="text-body-sm">
-              Full Buzz ID:{" "}
+              {t`Full Buzz ID:`}{" "}
               <code className={`text-mono ${styles.identityValue}`}>
                 {npub}
               </code>
@@ -440,7 +447,7 @@ export function IdentitySettings({
               {accountBackup.key && accountBackup.key !== viewer && (
                 <SettingsGroup>
                   <PreferenceRow
-                    title="Backed-up key · Linked"
+                    title={t`Backed-up key · Linked`}
                     subtitle={
                       <code className={`text-mono ${styles.identityValue}`}>
                         {npubEncode(accountBackup.key)}
@@ -460,9 +467,7 @@ export function IdentitySettings({
           {copyStatus && (
             <ToastNotice
               title={
-                copyStatus.failed
-                  ? "Identity wasn’t copied"
-                  : copyStatus.message
+                copyStatus.failed ? t`Identity wasn’t copied` : copyStatus.message
               }
               {...(copyStatus.failed
                 ? { description: copyStatus.message }
@@ -515,6 +520,7 @@ function OrganizationSignIns({
   accountRows?: ReactNode;
   memberships: readonly Membership[];
 }) {
+  const { t } = useLingui();
   const [ids, setIds] = useState<readonly string[]>([]);
   useEffect(() => {
     let active = true;
@@ -573,10 +579,10 @@ function OrganizationSignIns({
   const problems = [...unfinished].map(([session, { authority, failure }]) => (
     <div key={authority.id}>
       <p role="alert" className="text-body-sm text-danger">
-        {`Couldn’t sign out of ${serverName(authority)}. ${recoveryMessage(failure)}`}
+        {t`Couldn’t sign out of ${serverName(authority)}. ${recoveryMessage(failure)}`}
       </p>
       <Button type="button" onClick={() => signOut(session)}>
-        Try again
+        {t`Try again`}
       </Button>
     </div>
   ));
@@ -606,7 +612,7 @@ function OrganizationSignIns({
       </>
     );
   return (
-    <section className={styles.accounts} aria-label="Accounts">
+    <section className={styles.accounts} aria-label={t`Accounts`}>
       <div className={styles.accountList}>
         {sessions.map((session, index) => {
           const state = states[index];
@@ -673,6 +679,7 @@ function AccountCard({
   endnote?: ReactNode;
   memberships: readonly Membership[];
 }) {
+  const { t } = useLingui();
   const tilt = useIdentityTilt();
   const communityArtwork = useRef<HTMLDivElement>(null);
   const reflectionRegions = useCallback(
@@ -700,14 +707,14 @@ function AccountCard({
   const name = serverTitle(authority);
   const signedIn = state.status === "signed-in";
   const status = state.failure
-    ? "Needs attention"
+    ? t`Needs attention`
     : signedIn
-      ? "Signed in"
+      ? t`Signed in`
       : state.status === "restoring"
-        ? "Checking sign-in…"
+        ? t`Checking sign-in…`
         : state.status === "signing-in"
-          ? "Signing in…"
-          : "Not signed in";
+          ? t`Signing in…`
+          : t`Not signed in`;
   return (
     <article
       className={styles.accountEntry}
@@ -725,9 +732,9 @@ function AccountCard({
           <h4 className="m-0 text-body-lg">{name}</h4>
           {signedIn && (
             <p className="m-0 text-body-sm text-secondary">
-              Signed in as{" "}
+              {t`Signed in as`}{" "}
               <span className="text-label-sm text-standard">
-                {state.email ?? "your organization account"}
+                {state.email ?? t`your organization account`}
               </span>
             </p>
           )}
@@ -743,7 +750,7 @@ function AccountCard({
         </div>
         {needsRenewal(state) && state.expiresAt && (
           <p className="m-0 text-caption text-secondary">
-            Expires at{" "}
+            {t`Expires at`}{" "}
             {new Date(state.expiresAt).toLocaleString(undefined, {
               dateStyle: "medium",
               timeStyle: "short",
@@ -752,11 +759,11 @@ function AccountCard({
         )}
         {communities.length > 0 && (
           <section
-            aria-label="Saved communities for this host"
+            aria-label={t`Saved communities for this host`}
             className="grid gap-2"
           >
             <p className="m-0 text-caption text-secondary">
-              {signedIn ? "Used to access" : "Sign in to access"}
+              {signedIn ? t`Used to access` : t`Sign in to access`}
             </p>
             <div className={styles.communityAssets} ref={communityArtwork}>
               <span className={styles.communityIcons}>
@@ -827,6 +834,7 @@ function OrganizationSignIn({
   memberships?: readonly Membership[];
   onSignOut?: () => void;
 }) {
+  const { i18n, t } = useLingui();
   const state = useSyncExternalStore(
     identity.subscribe,
     identity.snapshot,
@@ -879,7 +887,7 @@ function OrganizationSignIn({
     (state.status === "unavailable" &&
     identity.recheck &&
     /^network-(unavailable|timeout)$/.test(problem)
-      ? "Buzz couldn’t check your saved sign-in. Check your connection, then choose Check again."
+      ? t`Buzz couldn’t check your saved sign-in. Check your connection, then choose Check again.`
       : recoveryMessage(problem));
   const recheck = state.status === "unavailable" && identity.recheck && (
     <Button
@@ -887,7 +895,7 @@ function OrganizationSignIn({
       type="button"
       onClick={() => run(() => identity.recheck?.())}
     >
-      Check again
+      {t`Check again`}
     </Button>
   );
   if (state.status === "unavailable" && !listed)
@@ -908,8 +916,8 @@ function OrganizationSignIn({
   const signingIn = state.status === "signing-in";
   const renewing = needsRenewal(state);
   const signOutLabel = listed
-    ? `Sign out of ${new URL(state.authority.identityOrigin).host}`
-    : "Sign out of organization";
+    ? t`Sign out of ${new URL(state.authority.identityOrigin).host}`
+    : t`Sign out of organization`;
   function run(operation: () => Promise<unknown> | undefined) {
     setFailure(null);
     setErrorOpen(false);
@@ -923,7 +931,9 @@ function OrganizationSignIn({
         setFailure({
           revision: state.revision,
           message:
-            error instanceof Error ? error.message : "Sign-in unavailable",
+            error instanceof Error
+              ? error.message
+              : i18n._(msg`Sign-in unavailable`),
         });
         setErrorOpen(true);
       });
@@ -975,7 +985,7 @@ function OrganizationSignIn({
           {signedIn && (state.renewing || renewal === state.revision) ? (
             <span className="flex items-center gap-3">
               <span className="text-body-sm text-subtle" role="status">
-                Finish in your browser
+                {t`Finish in your browser`}
               </span>
               <Button
                 variant="subtle"
@@ -986,7 +996,7 @@ function OrganizationSignIn({
                   else setCancelPending(state.revision);
                 }}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
             </span>
           ) : renewing ? (
@@ -994,14 +1004,14 @@ function OrganizationSignIn({
               variant="prominent"
               size="sm"
               onClick={renew}
-              menuLabel={`More actions for ${organization}`}
+              menuLabel={t`More actions for ${organization}`}
               menu={
                 <MenuItem onClick={() => setConfirmRevision(state.revision)}>
-                  Sign out
+                  {t`Sign out`}
                 </MenuItem>
               }
             >
-              Renew sign-in
+              {t`Renew sign-in`}
             </SplitButton>
           ) : state.status === "unavailable" ? (
             recheck
@@ -1024,11 +1034,11 @@ function OrganizationSignIn({
                 >
                   {signedIn
                     ? listed
-                      ? "Sign out"
-                      : "Sign out of organization"
+                      ? t`Sign out`
+                      : t`Sign out of organization`
                     : signingIn
-                      ? "Cancel sign-in"
-                      : "Sign in"}
+                      ? t`Cancel sign-in`
+                      : t`Sign in`}
                 </Button>
               }
             />
@@ -1045,7 +1055,7 @@ function OrganizationSignIn({
           align="end"
           size="compact"
           finalFocus={trigger}
-          aria-label="Account sign-in error"
+          aria-label={t`Account sign-in error`}
         >
           <p role="alert" className="m-0 text-body-sm">
             {explanation}
@@ -1054,13 +1064,15 @@ function OrganizationSignIn({
       </PopoverRoot>
       {signedIn && confirmRevision === state.revision && (
         <AlertDialog
-          title={`Sign out of ${organization}?`}
-          description={`Your Buzz identity stays on this device. You and your agents can’t reconnect to communities that require your ${organization} login until you sign back in.`}
+          title={t`Sign out of ${organization}?`}
+          description={t`Your Buzz identity stays on this device. You and your agents can’t reconnect to communities that require your ${organization} login until you sign back in.`}
           finalFocus={trigger}
           onClose={() => setConfirmRevision(null)}
           actions={
             <>
-              <Button onClick={() => setConfirmRevision(null)}>Cancel</Button>
+              <Button onClick={() => setConfirmRevision(null)}>
+                {t`Cancel`}
+              </Button>
               <Button
                 variant="prominent"
                 onClick={() => {
@@ -1076,7 +1088,7 @@ function OrganizationSignIn({
                   });
                 }}
               >
-                Sign out
+                {t`Sign out`}
               </Button>
             </>
           }
@@ -1087,7 +1099,7 @@ function OrganizationSignIn({
   return listed ? (
     content
   ) : (
-    <section className={styles.accounts} aria-label="Accounts">
+    <section className={styles.accounts} aria-label={t`Accounts`}>
       <div className={styles.accountList}>
         <AccountCard
           state={state}
@@ -1132,6 +1144,7 @@ function BackupRecovery({
   onRetry(): void;
   finalFocus(): HTMLButtonElement | null;
 }) {
+  const { t } = useLingui();
   const { backup } = identity;
   const [asking, setAsking] = useState(false);
   const action = useRef<HTMLButtonElement>(null);
@@ -1166,12 +1179,12 @@ function BackupRecovery({
   const problem =
     status?.status === "failed" ? BACKUP_FAILURES[status.kind] : undefined;
   const feedback = waiting
-    ? "Back up this key to Builderlab"
+    ? t`Back up this key to Builderlab`
     : statusError || accountProblem
-      ? "Backup status unknown"
+      ? t`Backup status unknown`
       : status?.status === "waiting"
         ? status.reason === "no_session"
-          ? "Sign in to Builderlab to back up your key"
+          ? t`Sign in to Builderlab to back up your key`
           : BACKUP_FAILURES.not_linked.message.replace(/\.$/, "")
         : problem &&
           ("cause" in problem ? problem.cause : problem.message).replace(
@@ -1275,7 +1288,7 @@ function BackupRecovery({
       )}
       {failure && (
         <p role="alert" className="m-0 text-body-sm text-danger">
-          Couldn’t start the backup. Try signing in again.
+          {t`Couldn’t start the backup. Try signing in again.`}
         </p>
       )}
       {waiting ? (
@@ -1284,7 +1297,7 @@ function BackupRecovery({
           variant="prominent"
           onClick={() => setAsking(true)}
         >
-          Back up key
+          {t`Back up key`}
         </Button>
       ) : (
         (busy || retryable) && (
@@ -1294,7 +1307,7 @@ function BackupRecovery({
             disabled={busy}
             onClick={() => void retry()}
           >
-            Retry backup
+            {t`Retry backup`}
           </Button>
         )
       )}

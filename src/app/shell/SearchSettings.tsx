@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { pluginCategoryDefinitions } from "../plugin-categories";
 import { GearIcon, SquaresFourIcon } from "../../shared/design-system/icons";
@@ -219,10 +220,11 @@ export function useSearchSettings({
     plugins && pluginState?.configuration.status === "ready"
       ? pluginState.configuration.catalog.plugins
           .flatMap((plugin) => {
-            const category =
+            const category = i18n._(
               pluginCategoryDefinitions.find(
                 (item) => item.id === plugin.manifest.discovery?.category,
-              )?.label ?? "Other";
+              )?.label ?? msg`Other`,
+            );
             const rank = Math.min(
               matchRank(plugin.manifest.name, needle) ?? Infinity,
               (matchRank(category, needle) ?? Infinity) + 1,

@@ -1,3 +1,6 @@
+import type { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { AISettingsIcon } from "../../features/agents/AISettings";
 import { candidatesFor, onAutomatic } from "../../features/agents/recommended";
 import { visibleTeams } from "../../features/agents/visible-teams";
@@ -154,11 +157,17 @@ const names = (agents: readonly Agent[]) =>
 const importReminderKey = "agent-community-import:dismissed";
 
 /** The type's one-line summary of an agent; its title when it has none. */
-function summaryOf(agent: Agent, type: RegisteredAgentType | undefined) {
+function summaryOf(
+  agent: Agent,
+  type: RegisteredAgentType | undefined,
+  i18n: I18n,
+) {
   if (agent.place === "elsewhere")
-    return type && !type.remote ? "On another device" : "Harness unavailable";
-  if (agent.unfinished) return "Setup unfinished";
-  if (!type) return "Type unavailable";
+    return type && !type.remote
+      ? i18n._(msg`On another device`)
+      : i18n._(msg`Harness unavailable`);
+  if (agent.unfinished) return i18n._(msg`Setup unfinished`);
+  if (!type) return i18n._(msg`Type unavailable`);
   try {
     return type.summary?.(agent).trim() || type.title;
   } catch {
@@ -179,11 +188,20 @@ const MARKETPLACE_ART = [
 ];
 
 type Tab = "yours" | "teams" | "marketplace";
-const TABS = [
-  { value: "yours", label: "Your agents", panelId: "agents-yours" },
-  { value: "teams", label: "Your teams", panelId: "agents-teams" },
-  { value: "marketplace", label: "Marketplace", panelId: "agents-marketplace" },
-] as const;
+// 标签文案用 MessageDescriptor，在 AgentsPage 渲染期以 i18n._() 求值。
+const TABS: readonly {
+  value: Tab;
+  label: MessageDescriptor;
+  panelId: string;
+}[] = [
+  { value: "yours", label: msg`Your agents`, panelId: "agents-yours" },
+  { value: "teams", label: msg`Your teams`, panelId: "agents-teams" },
+  {
+    value: "marketplace",
+    label: msg`Marketplace`,
+    panelId: "agents-marketplace",
+  },
+];
 
 export function AgentsPage({
   agents,
@@ -200,6 +218,7 @@ export function AgentsPage({
   navigator?: Navigation;
   linkRenderers?: ConversationExtensions["links"] | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const { snapshot, types } = useAgents(agents);
   const connection = useRelayConnection(relay);
   const split = usePanelSplit(connection.scope, "agents", 448, 320);
@@ -549,11 +568,11 @@ export function AgentsPage({
           disabled={snapshot.status !== "ready" || !types.length}
           onClick={() => setCreating(true)}
         >
-          <PlusIcon size={16} aria-hidden="true" /> Create a new agent
+          <PlusIcon size={16} aria-hidden="true" /> {t`Create a new agent`}
         </MenuItem>
         {/* Even when discovery finds nothing, a file can be imported. */}
         <MenuItem onClick={openImport}>
-          <DownloadIcon size={16} aria-hidden="true" /> Import an agent
+          <DownloadIcon size={16} aria-hidden="true" /> {t`Import an agent`}
         </MenuItem>
       </MenuPopup>
     </MenuRoot>
@@ -571,34 +590,34 @@ export function AgentsPage({
           crew={agentImports}
           description={
             joinable.length
-              ? "You have agents in your other communities."
+              ? t`You have agents in your other communities.`
               : agentImports.length
-                ? "You have agents in Buzz (Legacy)."
-                : "Check other communities and Buzz (Legacy) for agents."
+                ? t`You have agents in Buzz (Legacy).`
+                : t`Check other communities and Buzz (Legacy) for agents.`
           }
           label={
             agentImports.length
-              ? "Import them now"
-              : "Check for agents to import"
+              ? t`Import them now`
+              : t`Check for agents to import`
           }
           onClick={openImport}
         />
       )}
       <NewAgentTile
-        label="Create your first agent"
+        label={t`Create your first agent`}
         secondary={canImport}
         disabled={snapshot.status !== "ready" || !types.length}
         onClick={() => setCreating(true)}
       />
       <NewAgentTile
-        label="Explore the marketplace"
+        label={t`Explore the marketplace`}
         art={MARKETPLACE_ART}
         secondary={canImport}
         onClick={openMarketplace}
       />
       {firstAgent && !canImport && (
         <NewAgentTile
-          label="Import from a file"
+          label={t`Import from a file`}
           secondary
           onClick={openImport}
         />
@@ -614,13 +633,13 @@ export function AgentsPage({
             <NewAgentTile
               ref={newAgentButton}
               variant="button"
-              label="New team"
+              label={t`New team`}
             />
           ) : (
             <NewAgentTile
               ref={newAgentButton}
               labelRef={newAgentLabel}
-              label="New team"
+              label={t`New team`}
               fullWidth
             />
           )
@@ -634,11 +653,11 @@ export function AgentsPage({
           disabled={snapshot.status !== "ready"}
           onClick={() => setEditingTeam("new")}
         >
-          <PlusIcon size={16} aria-hidden="true" /> Create a new team
+          <PlusIcon size={16} aria-hidden="true" /> {t`Create a new team`}
         </MenuItem>
         {canImportTeam && (
           <MenuItem onClick={() => setFlow("import-team")}>
-            <DownloadIcon size={16} aria-hidden="true" /> Import a team
+            <DownloadIcon size={16} aria-hidden="true" /> {t`Import a team`}
           </MenuItem>
         )}
       </MenuPopup>
@@ -650,16 +669,16 @@ export function AgentsPage({
       return (
         <EmptyState
           icon="✦"
-          title="Agents runs in the desktop app"
-          description="Agent keys stay in the desktop app's native custody."
+          title={t`Agents runs in the desktop app`}
+          description={t`Agent keys stay in the desktop app's native custody.`}
         />
       );
     if (snapshot.status === "error")
       return (
         <EmptyState
           icon="!"
-          title="Agents could not load"
-          description={snapshot.error ?? "Try again."}
+          title={t`Agents could not load`}
+          description={snapshot.error ?? t`Try again.`}
         />
       );
     const inventory = {
@@ -809,16 +828,28 @@ export function AgentsPage({
       />
     )
   ) : undefined;
+  // The discard prompt names the team in the current language; a fallback
+  // covers an editing id that no longer resolves to a team.
+  const leavingTeamName =
+    teams.find((team) => team.id === editing)?.name ?? t`this team`;
+  const teamDiscardDescription =
+    editing === "new"
+      ? t`Your new team will be lost.`
+      : t`Your unsaved changes to ${leavingTeamName} will be lost.`;
+
   const body = (
     <div className={styles.inventory}>
       <div className={styles.content}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Tabs
             variant="panel"
-            label="Agent tabs"
+            label={t`Agent tabs`}
             value={tab}
             onValueChange={changeTab}
-            items={TABS}
+            items={TABS.map((item) => ({
+              ...item,
+              label: i18n._(item.label),
+            }))}
           />
           {tab !== "marketplace" &&
             toolbarAction &&
@@ -884,20 +915,20 @@ export function AgentsPage({
         }
       >
         <div className={styles.main}>
-          <Panel aria-label="Agents">
+          <Panel aria-label={t`Agents`}>
             <div className="flex h-full min-h-0 flex-col">
               <PanelHeader
                 title={
                   <Tabs
                     variant="navigation"
-                    label="Agents header"
+                    label={t`Agents header`}
                     value="agents"
                     onValueChange={() => {}}
                     showSelection={false}
                     items={[
                       {
                         value: "agents",
-                        label: "Agents",
+                        label: t`Agents`,
                         icon: <RobotIcon size="1rem" />,
                       },
                     ]}
@@ -911,7 +942,7 @@ export function AgentsPage({
         {shared && tab === "marketplace" && (
           <aside className={styles.side}>
             {split.handle}
-            <Panel aria-label="Shared agent profile">
+            <Panel aria-label={t`Shared agent profile`}>
               <PanelWorkspace
                 value={shared.agent.id}
                 select={() => {}}
@@ -945,7 +976,7 @@ export function AgentsPage({
             hidden={tab !== "yours"}
           >
             {split.handle}
-            <Panel aria-label="Agent profile">
+            <Panel aria-label={t`Agent profile`}>
               <PanelWorkspace
                 focusOnMount={false}
                 adoptSelection={selected.pubkey}
@@ -971,7 +1002,7 @@ export function AgentsPage({
       {flow && (
         <Dialog
           open
-          title={flow === "import" ? "Import an agent" : "Import a team"}
+          title={flow === "import" ? t`Import an agent` : t`Import a team`}
           size="wide"
           height="stable-tall"
           preventClose={importing}
@@ -1007,7 +1038,7 @@ export function AgentsPage({
       )}
       {leaving && selected && (
         <DiscardChanges
-          description={`Your unsaved changes to ${selected.name} will be lost.`}
+          description={t`Your unsaved changes to ${selected.name} will be lost.`}
           onKeep={() => setLeaving(undefined)}
           onDiscard={() => {
             setLeaving(undefined);
@@ -1018,13 +1049,7 @@ export function AgentsPage({
       )}
       {leavingTeam && editing && (
         <DiscardChanges
-          description={
-            editing === "new"
-              ? "Your new team will be lost."
-              : `Your unsaved changes to ${
-                  teams.find((team) => team.id === editing)?.name ?? "this team"
-                } will be lost.`
-          }
+          description={teamDiscardDescription}
           onKeep={() => setLeavingTeam(undefined)}
           onDiscard={() => {
             setLeavingTeam(undefined);
@@ -1175,6 +1200,7 @@ function CardContextMenu({
   card: ReactElement;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const [anchor, setAnchor] = useState<HTMLElement>();
   return (
@@ -1210,7 +1236,7 @@ function CardContextMenu({
           }
         }}
       />
-      <MenuPopup aria-label={`Actions for ${name}`} anchor={anchor}>
+      <MenuPopup aria-label={t`Actions for ${name}`} anchor={anchor}>
         {children}
       </MenuPopup>
     </ContextMenuRoot>
@@ -1227,6 +1253,7 @@ function focusCard(root: ParentNode | null, pubkey: string | undefined) {
 /** Cards retain arrow navigation; their embedded controls have their own tab stops. The
  * New agent tile leads the grid but is its own stop. */
 function Inventory({ scope, agents, typeOf, ...props }: InventoryProps) {
+  const { i18n } = useLingui();
   const { ordered, save, error } = useAgentOrder(scope, agents);
   return (
     <>
@@ -1239,7 +1266,7 @@ function Inventory({ scope, agents, typeOf, ...props }: InventoryProps) {
             agent={agent}
             community={agent.relay || undefined}
             icon={<TypeIcon type={typeOf(agent)} />}
-            detail={summaryOf(agent, typeOf(agent))}
+            detail={summaryOf(agent, typeOf(agent), i18n)}
           />
         )}
       >
@@ -1285,6 +1312,7 @@ function InventoryGrid({
 }: InventoryProps & {
   dragging: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const grid = useRef<HTMLDivElement>(null);
   const index = agents.findIndex((agent) => agent.pubkey === selected);
   const columns = () =>
@@ -1336,7 +1364,7 @@ function InventoryGrid({
         // biome-ignore lint/a11y/useSemanticElements: This is a wrapping layout grid of interactive cards, not tabular data.
         <div
           role="grid"
-          aria-label="Agents"
+          aria-label={t`Agents`}
           aria-busy={busy || undefined}
           className="contents"
           onKeyDown={onKeyDown}
@@ -1378,7 +1406,9 @@ function InventoryGrid({
                   onRemoved={() => onRemoved(agent.pubkey)}
                   role="gridcell"
                   data-agent={agent.pubkey}
-                  aria-label={isBestie ? `${agent.name}, Bestie` : agent.name}
+                  aria-label={
+                    isBestie ? t`${agent.name}, Bestie` : agent.name
+                  }
                   data-selected={active}
                   aria-selected={active}
                   tabIndex={active || (index < 0 && position === 0) ? 0 : -1}
@@ -1410,7 +1440,7 @@ function InventoryGrid({
                   agent={agent}
                   community={agent.relay || undefined}
                   icon={<TypeIcon type={type} />}
-                  detail={summaryOf(agent, type)}
+                  detail={summaryOf(agent, type, i18n)}
                 />
               </DraggableAgentRow>
             );
@@ -1452,6 +1482,7 @@ function InventoryCard({
     | undefined;
 }) {
   const agent = props.agent;
+  const { i18n, t } = useLingui();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [sharing, setSharing] = useState(false);
@@ -1459,7 +1490,7 @@ function InventoryCard({
   const Model = editable ? type?.CreateModel : undefined;
   const automatic =
     !!type && !type.remote && onAutomatic(agent.config, type.id);
-  const summary = summaryOf(agent, type);
+  const summary = summaryOf(agent, type, i18n);
   const modelLabel =
     automatic && type
       ? (candidatesFor(type.id).find(
@@ -1489,20 +1520,20 @@ function InventoryCard({
       {bestie && !bestie.selected && (
         <>
           <MenuItem disabled={!bestie.available} onClick={bestie.onMake}>
-            Make my bestie
+            {t`Make my bestie`}
           </MenuItem>
           <MenuSeparator />
         </>
       )}
       {bestie?.selected && bestie.onRemove && (
         <>
-          <MenuItem onClick={bestie.onRemove}>Remove as bestie</MenuItem>
+          <MenuItem onClick={bestie.onRemove}>{t`Remove as bestie`}</MenuItem>
           <MenuSeparator />
         </>
       )}
-      {editable && <MenuItem onClick={onBuild}>Open settings</MenuItem>}
+      {editable && <MenuItem onClick={onBuild}>{t`Open settings`}</MenuItem>}
       {editable && session && type?.exportShared && (
-        <MenuItem onClick={() => setSharing(true)}>Share</MenuItem>
+        <MenuItem onClick={() => setSharing(true)}>{t`Share`}</MenuItem>
       )}
       <MenuItem
         onClick={() => {
@@ -1511,16 +1542,16 @@ function InventoryCard({
           );
         }}
       >
-        Copy public key
+        {t`Copy public key`}
       </MenuItem>
       {leave && (
         <MenuItem tone="danger" onClick={leave}>
-          Remove from this community
+          {t`Remove from this community`}
         </MenuItem>
       )}
       {remove && (
         <MenuItem tone="danger" onClick={remove}>
-          Delete agent
+          {t`Delete agent`}
         </MenuItem>
       )}
     </>
@@ -1542,7 +1573,7 @@ function InventoryCard({
           }
           detail={
             automatic ? (
-              <span className="text-primary">{modelLabel} (Automatic)</span>
+              <span className="text-primary">{modelLabel} {t`(Automatic)`}</span>
             ) : Model ? undefined : (
               props.detail
             )
@@ -1552,7 +1583,7 @@ function InventoryCard({
               <MenuTrigger
                 render={
                   <IconButton
-                    aria-label={`Actions for ${agent.name}`}
+                    aria-label={t`Actions for ${agent.name}`}
                     variant="glass-ghost"
                     size="sm"
                     icon={<DotsThreeIcon size={16} />}
@@ -1628,11 +1659,12 @@ function InventoryCard({
 }
 
 function SideHeader({ title, onClose }: { title: ReactNode; onClose(): void }) {
+  const { t } = useLingui();
   return (
     <div className="flex items-center justify-between gap-2">
       <div className="min-w-0">{title}</div>
       <IconButton
-        aria-label="Close"
+        aria-label={t`Close`}
         size="sm"
         icon={<XIcon size={16} aria-hidden="true" />}
         onClick={onClose}
@@ -1668,6 +1700,7 @@ function AgentPeek({
   openSettings: ((section: string) => void) | undefined;
 }) {
   const [finishing, setFinishing] = useState(false);
+  const { i18n, t } = useLingui();
   const [error, setError] = useState("");
   const finish = async () => {
     setFinishing(true);
@@ -1683,37 +1716,34 @@ function AgentPeek({
     <div className={styles.sideBody}>
       <PeekIdentity
         agent={agent}
-        detail={summaryOf(agent, type)}
+        detail={summaryOf(agent, type, i18n)}
         onClose={onClose}
       />
       {agent.place === "elsewhere" ? (
         <p className="m-0 text-body-sm text-secondary">
           {type && !type.remote ? (
-            <>
-              Its key is on another of your devices, which runs it. Open Agents
-              there to change or delete it.
-            </>
+            t`Its key is on another of your devices, which runs it. Open Agents there to change or delete it.`
           ) : (
             <>
-              This agent’s harness is unavailable in this client. Check{" "}
+              {t`This agent’s harness is unavailable in this client. Check`}{" "}
               <SettingsSectionLink section="plugins" open={openSettings}>
-                Manage plugins
+                {t`Manage plugins`}
               </SettingsSectionLink>{" "}
-              or use a build with this harness configured.
+              {t`or use a build with this harness configured.`}
             </>
           )}
         </p>
       ) : (
         <>
           <p className="m-0 text-body-sm text-secondary">
-            Its provider made it, but its setup did not finish.
+            {t`Its provider made it, but its setup did not finish.`}
           </p>
           <Button
             variant="primary"
             loading={finishing}
             onClick={() => void finish()}
           >
-            Finish setup
+            {t`Finish setup`}
           </Button>
           {error && (
             <p role="alert" className="m-0 text-body-sm text-danger">
@@ -1722,7 +1752,7 @@ function AgentPeek({
           )}
           <AgentDelete agents={agents} agent={agent} onRemoved={onRemoved} />
           {agent.place === "here" && (
-            <Section title="Wakes on">
+            <Section title={t`Wakes on`}>
               <AttentionSummary agent={agent} channels={channels} />
             </Section>
           )}
@@ -1741,6 +1771,7 @@ function PeekIdentity({
   detail: string;
   onClose(): void;
 }) {
+  const { t } = useLingui();
   return (
     <div className={styles.peekIdentity}>
       <span className={styles.portraitLarge}>
@@ -1751,7 +1782,7 @@ function PeekIdentity({
         <p className="m-0 text-body-sm text-secondary">{detail}</p>
       </div>
       <IconButton
-        aria-label="Close"
+        aria-label={t`Close`}
         size="sm"
         icon={<XIcon size={16} aria-hidden="true" />}
         onClick={onClose}
@@ -1778,15 +1809,18 @@ function teamsToJoin(teams: readonly Team[], joinable: readonly Agent[]) {
 }
 
 /** What a team import left undone, or "" if nothing. */
-function teamPortNote({
-  team,
-  imported,
-  failed,
-  elsewhere,
-  foreign,
-  teamError,
-  notes = [],
-}: TeamPort) {
+function teamPortNote(
+  {
+    team,
+    imported,
+    failed,
+    elsewhere,
+    foreign,
+    teamError,
+    notes = [],
+  }: TeamPort,
+  i18n: I18n,
+) {
   if (
     !failed.length &&
     !elsewhere.length &&
@@ -1796,17 +1830,28 @@ function teamPortNote({
   )
     return "";
   const came = imported.map((agent) => agent.name).join(", ");
+  // 嵌套分支先按当前语言求值成普通 string，再进入模板插值。
+  const saveResult = came
+    ? i18n._(msg`Imported ${came}; add them`)
+    : i18n._(msg`Add its members`);
   return [
     teamError
-      ? `Couldn't save team ${teamError.name}. ${came ? `Imported ${came}; add them` : "Add its members"} in Teams.`
-      : team && `Imported team ${team.name}${came ? ` with ${came}` : ""}.`,
+      ? i18n._(msg`Couldn't save team ${teamError.name}. ${saveResult} in Teams.`)
+      : team &&
+        (came
+          ? i18n._(msg`Imported team ${team.name} with ${came}.`)
+          : i18n._(msg`Imported team ${team.name}.`)),
     ...failed.map((member) =>
-      sentence(`Couldn't import ${member.name}: ${member.error}`),
+      sentence(i18n._(msg`Couldn't import ${member.name}: ${member.error}`)),
     ),
     elsewhere.length &&
-      `Not added: ${elsewhere.join(", ")}, in your other communities. Use Import an agent to add them here, then import the team again.`,
+      i18n._(
+        msg`Not added: ${elsewhere.join(", ")}, in your other communities. Use Import an agent to add them here, then import the team again.`,
+      ),
     foreign.length &&
-      `Kept out: ${foreign.join(", ")}, which another account on this device has.`,
+      i18n._(
+        msg`Kept out: ${foreign.join(", ")}, which another account on this device has.`,
+      ),
     ...notes,
   ]
     .filter(Boolean)
@@ -1842,6 +1887,7 @@ function ImportAgents({
   onPendingChange(pending: boolean): void;
   openSettings: ((section: string) => void) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const [found, setFound] = useState<FoundAgents>();
   const [confirming, setConfirming] = useState<SharedImport>();
   const importTrigger = useRef<HTMLButtonElement | null>(null);
@@ -1936,12 +1982,12 @@ function ImportAgents({
   const port = (agent: PortableAgent) => {
     const type = typeFor(agent.pubkey)?.key;
     if (!type) return;
-    queue(agent.pubkey, `${agent.name} wasn't imported.`, () =>
+    queue(agent.pubkey, i18n._(msg`${agent.name} wasn't imported.`), () =>
       agents.port({ source: agent.source, pubkey: agent.pubkey, type }),
     );
   };
   const join = (agent: Agent) =>
-    queue(agent.pubkey, `${agent.name} wasn't imported.`, () =>
+    queue(agent.pubkey, i18n._(msg`${agent.name} wasn't imported.`), () =>
       agents.join(agent.key),
     );
   /** Adds each of the team's members from the owner's other communities. */
@@ -1959,7 +2005,9 @@ function ImportAgents({
         notes.push(...(await agents.join(member.key)).notes);
       } catch (reason) {
         failures.push(
-          `${member.name} wasn't imported. ${sentence(message(reason))}`,
+          i18n._(
+            msg`${member.name} wasn't imported. ${sentence(message(reason))}`,
+          ),
         );
       }
     }
@@ -2008,7 +2056,7 @@ function ImportAgents({
           },
       );
       // Leaving would hide the one place that names what still needs a hand.
-      const note = teamPortNote(result);
+      const note = teamPortNote(result, i18n);
       if (note) setError(note);
       else onImported();
     } catch (reason) {
@@ -2042,7 +2090,7 @@ function ImportAgents({
   const failures = [...said.values()].filter((item) => item.failed);
   const notes = [...said.values()].filter((item) => !item.failed);
   const members = (count: number) =>
-    `${count} ${count === 1 ? "member" : "members"}`;
+    count === 1 ? i18n._(msg`1 member`) : i18n._(msg`${count} members`);
   /** The type menu that comes with old Buzz's import for `id`. */
   const typeMenu = (id: string) => (
     <MenuRadioGroup
@@ -2080,23 +2128,22 @@ function ImportAgents({
       ))}
       {old.length > 0 && (
         <p className="m-0 text-body-sm text-secondary">
-          <strong>Buzz (Legacy):</strong> Stop the old runtime before importing,
-          or both may answer. Imports keep each agent’s key, name and picture.
-          Instructions and workspace come over only if the chosen type supports
-          them; choose provider, model and other settings afterward. An archived
-          agent is unarchived here when possible.
+          <strong>Buzz (Legacy):</strong>{" "}
+          {t`Stop the old runtime before importing, or both may answer. Imports keep each agent’s key, name and picture. Instructions and workspace come over only if the chosen type supports them; choose provider, model and other settings afterward. An archived agent is unarchived here when possible.`}
         </p>
       )}
       {empty && !old.length ? (
         <p className="m-0 text-body-sm text-secondary">
           {found.warnings.length
-            ? `No ${only} found in the sources we could read.`
+            ? only === "teams"
+              ? t`No teams found in the sources we could read.`
+              : t`No agents found in the sources we could read.`
             : only === "teams"
-              ? "No teams to import."
-              : "No agents to import."}
+              ? t`No teams to import.`
+              : t`No agents to import.`}
         </p>
       ) : only === "teams" ? (
-        <section aria-label="Teams to import">
+        <section aria-label={t`Teams to import`}>
           <ul className={styles.portList}>
             {teamsElsewhere.map(({ team, members: joining }) => (
               <ImportRow
@@ -2107,7 +2154,7 @@ function ImportAgents({
                 <Button
                   size="compact"
                   variant="prominent"
-                  aria-label={`Import team ${team.name}`}
+                  aria-label={t`Import team ${team.name}`}
                   loading={pending === team.id}
                   disabled={!!pending && pending !== team.id}
                   onClick={(event) =>
@@ -2117,7 +2164,7 @@ function ImportAgents({
                     })
                   }
                 >
-                  Import
+                  {t`Import`}
                 </Button>
               </ImportRow>
             ))}
@@ -2131,7 +2178,7 @@ function ImportAgents({
                   name={team.name}
                   detail={[
                     members(team.members.length),
-                    here > 0 && `${here} already here`,
+                    here > 0 && t`${here} already here`,
                     LEGACY,
                   ]
                     .filter(Boolean)
@@ -2140,8 +2187,8 @@ function ImportAgents({
                   <SplitButton
                     size="sm"
                     variant="prominent"
-                    aria-label={`Import as ${typeFor(team.id)?.title}, team ${team.name}`}
-                    menuLabel={`Choose a type for team ${team.name}`}
+                    aria-label={t`Import as ${typeFor(team.id)?.title}, team ${team.name}`}
+                    menuLabel={t`Choose a type for team ${team.name}`}
                     menu={typeMenu(team.id)}
                     loading={pending === team.id}
                     disabled={!!pending && pending !== team.id}
@@ -2156,7 +2203,7 @@ function ImportAgents({
         </section>
       ) : (
         <section
-          aria-label="Agents to import"
+          aria-label={t`Agents to import`}
           className={cardStyles.grid}
           data-import=""
         >
@@ -2178,13 +2225,13 @@ function ImportAgents({
                 <Button
                   size="compact"
                   variant="prominent"
-                  aria-label={`Import, ${agent.name} from ${host(agent.relay)}`}
+                  aria-label={t`Import, ${agent.name} from ${host(agent.relay)}`}
                   loading={ports.get(agent.pubkey) === "queued"}
                   onClick={(event) => {
                     requestShared(event.currentTarget, { agent });
                   }}
                 >
-                  Import
+                  {t`Import`}
                 </Button>
               )}
             </AgentCard>
@@ -2208,8 +2255,8 @@ function ImportAgents({
                 <SplitButton
                   size="sm"
                   variant="prominent"
-                  aria-label={`Import as ${typeFor(agent.pubkey)?.title}, ${agent.name}`}
-                  menuLabel={`Choose a type for ${agent.name}`}
+                  aria-label={t`Import as ${typeFor(agent.pubkey)?.title}, ${agent.name}`}
+                  menuLabel={t`Choose a type for ${agent.name}`}
                   menu={typeMenu(agent.pubkey)}
                   loading={ports.get(agent.pubkey) === "queued"}
                   onClick={() => port(agent)}
@@ -2223,7 +2270,7 @@ function ImportAgents({
       )}
       {!found && !error && (
         <p role="status" className="m-0 text-body-sm text-secondary">
-          Looking for agents…
+          {t`Looking for agents…`}
         </p>
       )}
       {confirming && (
@@ -2250,9 +2297,10 @@ function ImportAgents({
 
 /** Registered artwork can stand for a known type; the robot fallback cannot. */
 function ImportType({ type }: { type: RegisteredAgentType | undefined }) {
+  const { t } = useLingui();
   return (
     <>
-      Import as{" "}
+      {t`Import as`}{" "}
       {type?.icon && type.icon !== RobotIcon ? (
         <TypeIcon type={type} />
       ) : (
@@ -2280,6 +2328,7 @@ function CommunityImportDialog({
   onClose(): void;
   onImport(remember: boolean): void;
 }) {
+  const { i18n, t } = useLingui();
   const proceed = useRef<HTMLButtonElement>(null);
   const [remember, setRemember] = useState(false);
   const known = useSyncExternalStore(
@@ -2311,7 +2360,7 @@ function CommunityImportDialog({
       size="compact"
       headerGap="compact"
       footerGap="compact"
-      title={`Import ${name}`}
+      title={t`Import ${name}`}
       artwork={
         <div className="grid gap-3">
           {members.length > 1 && portrait}
@@ -2340,13 +2389,13 @@ function CommunityImportDialog({
       }}
       actions={
         <>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose}>{t`Cancel`}</Button>
           <Button
             ref={proceed}
             variant="prominent"
             onClick={() => onImport(remember)}
           >
-            Import
+            {t`Import`}
           </Button>
         </>
       }
@@ -2359,9 +2408,9 @@ function CommunityImportDialog({
             aria-hidden="true"
           />
           <div className="min-w-0">
-            <dt className="text-label-sm">One setup, everywhere</dt>
+            <dt className="text-label-sm">{t`One setup, everywhere`}</dt>
             <dd className="m-0 mt-1 text-body-sm text-secondary">
-              {sharedAgentSettings}
+              {i18n._(sharedAgentSettings)}
             </dd>
           </div>
         </div>
@@ -2372,10 +2421,11 @@ function CommunityImportDialog({
             aria-hidden="true"
           />
           <div className="min-w-0">
-            <dt className="text-label-sm">Memories stay in each community</dt>
+            <dt className="text-label-sm">
+              {t`Memories stay in each community`}
+            </dt>
             <dd className="m-0 mt-1 text-body-sm text-secondary">
-              Pictures, attention, saved memories and conversations stay
-              separate in each community.
+              {t`Pictures, attention, saved memories and conversations stay separate in each community.`}
             </dd>
           </div>
         </div>
@@ -2383,7 +2433,7 @@ function CommunityImportDialog({
       {canRemember && (
         <div className="mt-3">
           <Checkbox
-            label="Don’t remind me again"
+            label={t`Don’t remind me again`}
             checked={remember}
             onCheckedChange={setRemember}
           />
@@ -2402,6 +2452,8 @@ function ImportCommunity({
   memberships: readonly Membership[] | undefined;
   direction: "From" | "To";
 }) {
+  const { t } = useLingui();
+  const directionLabel = direction === "From" ? t`From` : t`To`;
   const destination = origin ? communityDestination(origin) : undefined;
   const membership =
     destination &&
@@ -2410,15 +2462,15 @@ function ImportCommunity({
     );
   const name = membership
     ? communityName(membership)
-    : (destination?.name ?? "this community");
+    : (destination?.name ?? t`this community`);
   return (
     <Tooltip
-      content={`${direction}: ${name}${destination && name !== destination.name ? ` · ${destination.name}` : ""}`}
+      content={`${directionLabel}: ${name}${destination && name !== destination.name ? ` · ${destination.name}` : ""}`}
     >
       <figure
         // biome-ignore lint/a11y/noNoninteractiveTabindex: keyboard users need access to the community name and address in the tooltip.
         tabIndex={0}
-        aria-label={`${direction} ${name}`}
+        aria-label={`${directionLabel} ${name}`}
         className={styles.importCommunity}
       >
         <div
@@ -2448,6 +2500,7 @@ function ImportCommunity({
 /** An import that finished, keeping the owner's place for the next one. */
 function Imported({ name }: { name: string }) {
   // It replaces the import's control, taking keyboard focus with it.
+  const { t } = useLingui();
   const ref = useRef<HTMLButtonElement>(null);
   useLayoutEffect(() => {
     if (!document.activeElement || document.activeElement === document.body)
@@ -2458,11 +2511,11 @@ function Imported({ name }: { name: string }) {
       ref={ref}
       size="compact"
       variant="outline"
-      aria-label={`${name} imported`}
+      aria-label={t`${name} imported`}
       disabled
       focusableWhenDisabled
     >
-      <CheckIcon size={16} aria-hidden="true" /> Imported
+      <CheckIcon size={16} aria-hidden="true" /> {t`Imported`}
     </Button>
   );
 }
@@ -2498,6 +2551,7 @@ function FileImport({
   types: readonly RegisteredAgentType[];
   onImported(): void;
 }) {
+  const { i18n, t } = useLingui();
   const input = useRef<HTMLInputElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const [shared, setShared] = useState<SharedDefinition>();
@@ -2507,17 +2561,19 @@ function FileImport({
     try {
       setShared(await readSnapshot(file));
     } catch (reason) {
-      setError(`Failed to read agent snapshot file. ${message(reason)}`);
+      setError(
+        i18n._(msg`Failed to read agent snapshot file. ${message(reason)}`),
+      );
     }
   };
   return (
     <section
-      aria-label="Import snapshot"
+      aria-label={t`Import snapshot`}
       className="flex flex-col items-start gap-2"
     >
       <InlineHeader
-        title="Import snapshot"
-        subtitle="A new agent will be created with a fresh keypair. The imported agent is independent of the source — identity never travels."
+        title={t`Import snapshot`}
+        subtitle={t`A new agent will be created with a fresh keypair. The imported agent is independent of the source — identity never travels.`}
       />
       <Button
         ref={trigger}
@@ -2525,13 +2581,13 @@ function FileImport({
         variant="outline"
         onClick={() => input.current?.click()}
       >
-        Choose file
+        {t`Choose file`}
       </Button>
       <input
         ref={input}
         type="file"
         accept=".json,.png"
-        aria-label="Choose file"
+        aria-label={t`Choose file`}
         hidden
         onChange={(event) => {
           const file = event.target.files?.[0];
@@ -2593,6 +2649,7 @@ function Teams({
   historyPresentation?: HistoryPresentation | undefined;
   newTeam: ReactNode;
 }) {
+  const { t } = useLingui();
   const team =
     teams.find((item) => item.id === editing) ??
     (removing?.id === editing ? removing : undefined);
@@ -2616,7 +2673,7 @@ function Teams({
       <div className={cardStyles.grid}>
         {newTeam}
         {teams.length > 0 && (
-          <ul className="contents" aria-label="Teams">
+          <ul className="contents" aria-label={t`Teams`}>
             {teams.map((item) => (
               <li key={item.id} className="contents">
                 <TeamCard
@@ -2667,6 +2724,7 @@ function TeamEditor({
   onSaved(id: string): void;
   onDone(): void;
 }) {
+  const { t } = useLingui();
   // A saved revert, until the team shows its new version.
   const [reverted, setReverted] = useState(false);
   const synced = team && agents.teamHistory(team.id);
@@ -2812,7 +2870,7 @@ function TeamEditor({
   return (
     <form
       className={styles.sideBody}
-      aria-label={team ? `Edit ${team.name}` : "New team"}
+      aria-label={team ? t`Edit ${team.name}` : t`New team`}
       onSubmit={(event) => {
         event.preventDefault();
         void save();
@@ -2833,13 +2891,13 @@ function TeamEditor({
       <SideHeader
         title={
           <h3 className="m-0 text-heading">
-            {team ? "Edit team" : "New team"}
+            {team ? t`Edit team` : t`New team`}
           </h3>
         }
         onClose={onDone}
       />
       {team && <TeamSyncLine agents={agents} id={team.id} />}
-      <Field label="Name">
+      <Field label={t`Name`}>
         <Input
           autoFocus
           value={name}
@@ -2848,18 +2906,18 @@ function TeamEditor({
         />
       </Field>
       <Field
-        label="Instructions"
+        label={t`Instructions`}
         description={
           <>
             {remote.length > 0
-              ? "Agents on your devices follow these after their own instructions."
-              : "Every member follows these after its own instructions."}
+              ? t`Agents on your devices follow these after their own instructions.`
+              : t`Every member follows these after its own instructions.`}
             {remote.length > 0 && (
               <>
                 {" "}
                 <span className="mt-1 flex items-start gap-1 text-warning">
                   <WarningCircleIcon className="mt-0.5 shrink-0" aria-hidden />
-                  {`Agents run by their provider (${names(remote)}) will not get these team instructions.`}
+                  {t`Agents run by their provider (${names(remote)}) will not get these team instructions.`}
                 </span>
               </>
             )}
@@ -2879,7 +2937,7 @@ function TeamEditor({
           presentation={historyPresentation}
         />
       )}
-      <Section title="Members">
+      <Section title={t`Members`}>
         {choices.length ? (
           <div className="grid gap-2">
             {choices.map((agent) => (
@@ -2901,11 +2959,11 @@ function TeamEditor({
             ))}
           </div>
         ) : (
-          <p className="m-0 text-body-sm text-secondary">No agents yet.</p>
+          <p className="m-0 text-body-sm text-secondary">{t`No agents yet.`}</p>
         )}
         {away > 0 && (
           <p className="m-0 text-body-sm text-secondary">
-            {`+${away} in your other communities, who stay on the team.`}
+            {t`+${away} in your other communities, who stay on the team.`}
           </p>
         )}
       </Section>
@@ -2921,7 +2979,7 @@ function TeamEditor({
           loading={pending}
           disabled={!name.trim()}
         >
-          {team ? "Save" : "Create team"}
+          {team ? t`Save` : t`Create team`}
         </Button>
         {team && (
           <Button
@@ -2930,14 +2988,18 @@ function TeamEditor({
             disabled={pending}
             onClick={() => askDelete(true)}
           >
-            Delete team
+            {t`Delete team`}
           </Button>
         )}
       </div>
       {team && deleting && (
         <AlertDialog
-          title={`Delete ${team.name}?`}
-          description={`${team.revision ? "It's deleted on all your devices. " : ""}Its agents aren't deleted, but they stop getting its instructions. It can't be undone.`}
+          title={t`Delete ${team.name}?`}
+          description={
+            team.revision
+              ? t`It's deleted on all your devices. Its agents aren't deleted, but they stop getting its instructions. It can't be undone.`
+              : t`Its agents aren't deleted, but they stop getting its instructions. It can't be undone.`
+          }
           pending={pending}
           // While pending, it closes only with the editor, once the delete
           // ends. The editor also goes if the team is deleted elsewhere, and
@@ -2952,14 +3014,14 @@ function TeamEditor({
           actions={
             <>
               <Button disabled={pending} onClick={() => askDelete(false)}>
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant="destructive"
                 loading={pending}
                 onClick={() => void act(() => onRemove(team))}
               >
-                Delete team
+                {t`Delete team`}
               </Button>
             </>
           }

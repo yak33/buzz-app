@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useLingui } from "@lingui/react/macro";
 import { Header, InlineHeader } from "../shared/design-system/ui/Header";
 import { SettingsGroup } from "../shared/design-system/ui/SettingsGroup";
 import { PreferenceRow } from "../shared/design-system/ui/PreferenceRow";
@@ -28,6 +29,7 @@ export function SecuritySettings({
   /** Available only when the host has a native identity. */
   viewer?: string | undefined;
 }) {
+  const { t } = useLingui();
   const [tools, setTools] = useState<PairedTool[] | null>(null);
   const [error, setError] = useState("");
   const [confirming, setConfirming] = useState<PairedTool | null>(null);
@@ -100,21 +102,21 @@ export function SecuritySettings({
     <section aria-labelledby="security-settings-title">
       <Header
         id="security-settings-title"
-        title="Security"
-        subtitle="Tools paired on this device, and applications you authorize to act as you."
+        title={t`Security`}
+        subtitle={t`Tools paired on this device, and applications you authorize to act as you.`}
       />
       <InlineHeader
         ref={heading}
         tabIndex={-1}
         id="paired-tools-title"
-        title="Paired command-line tools"
+        title={t`Paired command-line tools`}
       />
       {alert(error)}
       {tools?.length === 0 ? (
         <EmptyState
           icon={<LockIcon />}
-          title="No paired tools"
-          description="Run buzz auth desktop pair in a terminal to let a command-line tool use Buzz as you."
+          title={t`No paired tools`}
+          description={t`Run buzz auth desktop pair in a terminal to let a command-line tool use Buzz as you.`}
         />
       ) : (
         tools && (
@@ -123,7 +125,7 @@ export function SecuritySettings({
               <PreferenceRow
                 key={tool.id}
                 title={tool.client}
-                subtitle={`${tool.relay} · Paired ${date(tool.created)} · Last used ${date(tool.lastUsed)} · Expires ${date(tool.expires)} unless used`}
+                subtitle={t`${tool.relay} · Paired ${date(tool.created)} · Last used ${date(tool.lastUsed)} · Expires ${date(tool.expires)} unless used`}
                 trailing={
                   <Button
                     ref={(button) => {
@@ -136,7 +138,7 @@ export function SecuritySettings({
                       setConfirming(tool);
                     }}
                   >
-                    Revoke
+                    {t`Revoke`}
                   </Button>
                 }
               />
@@ -146,8 +148,8 @@ export function SecuritySettings({
       )}
       {confirming && (
         <AlertDialog
-          title={`Revoke ${confirming.client}?`}
-          description="It stops working until you pair it again with buzz auth desktop pair."
+          title={t`Revoke ${confirming.client}?`}
+          description={t`It stops working until you pair it again with buzz auth desktop pair.`}
           pending={revoking}
           initialFocus={cancel}
           finalFocus={() =>
@@ -161,14 +163,14 @@ export function SecuritySettings({
           actions={
             <>
               <Button ref={cancel} disabled={revoking} onClick={dismiss}>
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant="destructive"
                 loading={revoking}
                 onClick={() => void revoke(confirming)}
               >
-                Revoke
+                {t`Revoke`}
               </Button>
             </>
           }

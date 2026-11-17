@@ -24,11 +24,12 @@ export const inSeveral = (agents: Agents, agent: Agent) =>
     .memberships(agent.pubkey)
     .some((membership) => membership.key !== agent.key && !membership.deleting);
 
-/** One field list for every surface explaining shared settings. 保持英文：
- * 这是模块加载时求值的导出常量，直接翻译会在语言激活前冻结成错误的
- * locale；渲染它的是 bundled/AgentsPage（不在本次范围）。 */
+/** One field list for every surface explaining shared settings.
+ * 导出 MessageDescriptor 而非求值后的 string，避免模块加载时冻结错误的
+ * locale；渲染方（bundled/AgentsPage）在渲染期以 i18n._() 求值，msgid 与
+ * sameAgent() 首句一致，共用同一条译文。 */
 export const sharedAgentSettings =
-  "Name, type and settings, including instructions, model and workspace, are shared across communities.";
+  msg`Name, type and settings, including instructions, model and workspace, are shared across communities.`;
 
 /** What adding the same agent to another community shares and what it keeps
  * there, as every place that adds one says it. 每次调用时按当前 locale 求

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useMediaCorners } from "../../features/messages/use-media-corners";
 import { AgentAvatarBackdrop } from "./AgentAvatarBackdrop";
 import { EmojiSwap } from "./EmojiSwap";
@@ -90,6 +92,7 @@ export function AgentAvatarPicker({
   onBusyChange(busy: boolean): void;
   avatarRef: Ref<{ prepare(): Promise<string> }>;
 }) {
+  const { i18n, t } = useLingui();
   const surfaceCorners = useMediaCorners();
   const filmCorners = useMediaCorners();
   const mode = selection.kind;
@@ -264,7 +267,9 @@ export function AgentAvatarPicker({
     async prepare() {
       if (selection.kind !== "emoji") return selection.picture;
       if (!community)
-        throw new Error("Select a community to use an emoji avatar.");
+        throw new Error(
+          i18n._(msg`Select a community to use an emoji avatar.`),
+        );
       const request = new AbortController();
       pending.current = request;
       try {
@@ -303,7 +308,7 @@ export function AgentAvatarPicker({
       setError(
         reason instanceof Error
           ? reason.message
-          : "Image upload failed. Try again.",
+          : i18n._(msg`Image upload failed. Try again.`),
       );
     } finally {
       if (!request.signal.aborted) {
@@ -320,7 +325,7 @@ export function AgentAvatarPicker({
   };
   const chooseImage = () => {
     if (!community) {
-      setError("Select a community to upload an image.");
+      setError(i18n._(msg`Select a community to upload an image.`));
       return;
     }
     input.current?.click();
@@ -349,7 +354,7 @@ export function AgentAvatarPicker({
         )}
         <div className="flex items-center justify-end">
           <Tabs<AvatarSelection["kind"]>
-            label="Avatar type"
+            label={t`Avatar type`}
             variant="segmented-icons"
             value={mode}
             items={[
@@ -369,13 +374,13 @@ export function AgentAvatarPicker({
               },
               {
                 value: "emoji",
-                label: "Emoji",
+                label: t`Emoji`,
                 icon: <SmileyIcon />,
                 disabled: locked,
               },
               {
                 value: "image",
-                label: "Upload image",
+                label: t`Upload image`,
                 icon: <ImageIcon />,
                 disabled: locked,
               },
@@ -409,7 +414,7 @@ export function AgentAvatarPicker({
           ref={input}
           type="file"
           accept="image/*"
-          aria-label="Upload an image"
+          aria-label={t`Upload an image`}
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0];
@@ -423,7 +428,7 @@ export function AgentAvatarPicker({
               <div className={styles.avatarUploading}>
                 <Avatar
                   src={uploading.url}
-                  alt="Uploading avatar"
+                  alt={t`Uploading avatar`}
                   fallback={name}
                   size="fill"
                   shape="squircle"
@@ -433,13 +438,13 @@ export function AgentAvatarPicker({
                     variant="glass"
                     shape="round"
                     size="large"
-                    aria-label="Cancel upload"
+                    aria-label={t`Cancel upload`}
                     icon={
                       <span className={styles.uploadControl}>
                         <svg
                           viewBox="0 0 24 24"
                           role="progressbar"
-                          aria-label="Uploading image"
+                          aria-label={t`Uploading image`}
                           aria-valuemin={0}
                           aria-valuemax={100}
                           aria-valuenow={
@@ -488,7 +493,7 @@ export function AgentAvatarPicker({
                   render={
                     <SurfaceButton
                       className={styles.emojiAvatarButton}
-                      aria-label="Choose emoji"
+                      aria-label={t`Choose emoji`}
                       disabled={locked}
                     />
                   }
@@ -502,7 +507,7 @@ export function AgentAvatarPicker({
                   </span>
                 </PopoverTrigger>
                 <PopoverPopup
-                  aria-label="Choose emoji"
+                  aria-label={t`Choose emoji`}
                   onKeyDownCapture={(event) => {
                     // Emoji Mart consumes Escape in its shadow-root search.
                     // Close this popup before the key reaches the widget.
@@ -531,7 +536,7 @@ export function AgentAvatarPicker({
             ) : (
               <Avatar
                 src={shown ?? preview}
-                alt="Selected avatar"
+                alt={t`Selected avatar`}
                 fallback={name}
                 size="fill"
                 shape="squircle"
@@ -548,7 +553,7 @@ export function AgentAvatarPicker({
               <fieldset
                 className={styles.avatarDock}
                 {...dockEvents}
-                aria-label="Avatar background"
+                aria-label={t`Avatar background`}
                 disabled={locked}
               >
                 {backgrounds.map((swatch) => (
@@ -568,7 +573,7 @@ export function AgentAvatarPicker({
                           }
                         />
                       }
-                      aria-label={`Use ${swatch} background`}
+                      aria-label={t`Use ${swatch} background`}
                       aria-pressed={color === swatch}
                       style={{ backgroundColor: swatch }}
                       onPointerDown={(event) => {
@@ -588,7 +593,7 @@ export function AgentAvatarPicker({
               <fieldset
                 className={styles.avatarDock}
                 {...dockEvents}
-                aria-label="Agent avatars"
+                aria-label={t`Agent avatars`}
                 disabled={locked}
               >
                 {slots.map(({ id, avatar }, index) => (
@@ -646,7 +651,7 @@ export function AgentAvatarPicker({
         </div>
         {busy && (
           <p role="status" className="sr-only">
-            Uploading image…
+            {t`Uploading image…`}
           </p>
         )}
         {error && (
@@ -661,7 +666,7 @@ export function AgentAvatarPicker({
           className="m-0 text-body-sm text-secondary"
           style={{ visibility: mode === "emoji" ? "visible" : "hidden" }}
         >
-          Select a community to use an emoji avatar.
+          {t`Select a community to use an emoji avatar.`}
         </p>
       )}
     </>

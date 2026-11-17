@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLingui } from "@lingui/react/macro";
 import {
   communityActionLabel,
   communityDefaultName,
@@ -35,6 +36,7 @@ export function CommunityDepartureSettings({
   onRemoved(): void;
   onPending?: (pending: boolean) => void;
 }) {
+  const { t } = useLingui();
   const notify = useToastNotification();
   const [intent, setIntent] = useState<Intent | null>(null);
   const [pending, setPending] = useState(false);
@@ -120,13 +122,13 @@ export function CommunityDepartureSettings({
     <section aria-labelledby="leave-community-title">
       <Header
         id="leave-community-title"
-        title="Leave or remove"
-        subtitle="Remove community from Buzz on this device or leave community completely."
+        title={t`Leave or remove`}
+        subtitle={t`Remove community from Buzz on this device or leave community completely.`}
       />
       <SettingsGroup>
         <PreferenceRow
-          title="Remove from this device"
-          subtitle="Removes community connection and data from Buzz on this device only. Your membership won't change."
+          title={t`Remove from this device`}
+          subtitle={t`Removes community connection and data from Buzz on this device only. Your membership won't change.`}
           trailing={
             <Button
               ref={removeButton}
@@ -134,13 +136,13 @@ export function CommunityDepartureSettings({
               disabled={pending}
               onClick={() => setIntent("remove")}
             >
-              Remove from this device
+              {t`Remove from this device`}
             </Button>
           }
         />
         <PreferenceRow
-          title="Leave community"
-          subtitle="Ends your membership and removes community from this device. Rejoining may require a new invite."
+          title={t`Leave community`}
+          subtitle={t`Ends your membership and removes community from this device. Rejoining may require a new invite.`}
           trailing={
             <Button
               ref={leaveButton}
@@ -149,7 +151,7 @@ export function CommunityDepartureSettings({
               disabled={pending}
               onClick={() => setIntent("leave")}
             >
-              Leave community
+              {t`Leave community`}
             </Button>
           }
         />
@@ -158,13 +160,13 @@ export function CommunityDepartureSettings({
         <AlertDialog
           title={
             intent === "leave"
-              ? `Leave ${communityDefaultName(community)}?`
-              : `Remove ${communityDefaultName(community)} from this device?`
+              ? t`Leave ${communityDefaultName(community)}?`
+              : t`Remove ${communityDefaultName(community)} from this device?`
           }
           description={
             intent === "leave"
-              ? "This will send a leave request to the community’s relay and remove it from this device. You may need a new invite to rejoin."
-              : "The community connection and any saved drafts or data will be removed from Buzz on this device."
+              ? t`This will send a leave request to the community’s relay and remove it from this device. You may need a new invite to rejoin.`
+              : t`The community connection and any saved drafts or data will be removed from Buzz on this device.`
           }
           pending={pending}
           finalFocus={() =>
@@ -178,7 +180,7 @@ export function CommunityDepartureSettings({
           actions={
             <>
               <Button disabled={pending} onClick={() => setIntent(null)}>
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant={intent === "leave" ? "destructive" : "prominent"}
@@ -186,8 +188,8 @@ export function CommunityDepartureSettings({
                 onClick={() => void run()}
               >
                 {intent === "leave"
-                  ? "Leave community"
-                  : "Remove from this device"}
+                  ? t`Leave community`
+                  : t`Remove from this device`}
               </Button>
             </>
           }
@@ -196,7 +198,7 @@ export function CommunityDepartureSettings({
             {community.localName &&
               community.localName !== communityDefaultName(community) && (
                 <p className="text-muted">
-                  Shown as {community.localName} on this device
+                  {t`Shown as ${community.localName} on this device`}
                 </p>
               )}
             <p className="break-all">

@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { ProviderDialog } from "./ProviderDialog";
 import { useId, useRef, useState, type ReactNode } from "react";
 import type {
@@ -123,9 +126,10 @@ export function useAgentSettingsHost({
   };
 }
 
-const CARRY_LABELS: Record<keyof Carry, string> = {
-  instructions: "Instructions",
-  workspace: "Workspace",
+// 标签文案用 MessageDescriptor，在渲染处以 i18n._() 求值。
+const CARRY_LABELS: Record<keyof Carry, MessageDescriptor> = {
+  instructions: msg`Instructions`,
+  workspace: msg`Workspace`,
 };
 const CARRY_KEYS = Object.keys(CARRY_LABELS) as (keyof Carry)[];
 
@@ -148,6 +152,7 @@ function TypeField({
   action?: ReactNode;
   onSelect(type: { key: string; config: unknown } | undefined): void;
 }) {
+  const { t } = useLingui();
   const others = types.filter((item) => item.key !== agent.type);
   const unavailable = others.filter((item) => type?.remote || item.remote);
   const selectedType = types.find((item) => item.key === selected) ?? type;
@@ -207,13 +212,15 @@ function TypeField({
   const value = (
     <span className="flex min-w-0 items-center gap-2">
       {TypeIcon && <TypeIcon size={20} aria-hidden="true" />}
-      {selectedType?.title ?? "Type unavailable"}
+      {selectedType?.title ?? t`Type unavailable`}
     </span>
   );
+  // 先按当前语言求值，再进入 aria-label 模板插值。
+  const currentHarness = selectedType?.title ?? t`unavailable harness`;
   return (
     <>
       <PreferenceRow
-        title="Harness"
+        title={t`Harness`}
         trailing={
           <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
             {others.length > 0 ? (
@@ -225,7 +232,7 @@ function TypeField({
                   }}
                 >
                   <MenuTrigger
-                    aria-label={`Change harness from ${selectedType?.title ?? "unavailable harness"}`}
+                    aria-label={t`Change harness from ${currentHarness}`}
                     render={
                       <Button
                         ref={providerButton}
@@ -254,7 +261,11 @@ function TypeField({
                       onValueChange={(next) => choose(String(next))}
                     >
                       {[true, false].map((remote) => {
-                        const label = remote ? "Remote" : "Local";
+                        // groupKey 是 helpOpen 的标识值；label 才是显示文案。
+                        const groupKey = remote
+                          ? ("Remote" as const)
+                          : ("Local" as const);
+                        const label = remote ? t`Remote` : t`Local`;
                         const choices = types.filter(
                           (item) => Boolean(item.remote) === remote,
                         );
@@ -263,7 +274,7 @@ function TypeField({
                           unavailable.includes(item),
                         );
                         return (
-                          <MenuGroup key={label}>
+                          <MenuGroup key={groupKey}>
                             <MenuGroupLabel emphasis="quiet">
                               <span className="text-caption">{label}</span>
                             </MenuGroupLabel>
@@ -291,9 +302,9 @@ function TypeField({
                               <UnavailableHarnessChoices
                                 types={blocked}
                                 source={type}
-                                open={helpOpen === label}
+                                open={helpOpen === groupKey}
                                 onOpenChange={(open) =>
-                                  setHelpOpen(open ? label : undefined)
+                                  setHelpOpen(open ? groupKey : undefined)
                                 }
                               />
                             )}
@@ -328,8 +339,8 @@ function TypeField({
         }}
         title={
           migration
-            ? `Move ${agent.name} to ${migration.target.title}?`
-            : "Move agent?"
+            ? t`Move ${agent.name} to ${migration.target.title}?`
+            : t`Move agent?`
         }
         headerGap="compact"
         actions={
@@ -339,14 +350,14 @@ function TypeField({
               disabled={checking}
               onClick={() => setMigration(undefined)}
             >
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="primary"
               loading={checking}
               onClick={() => void prepare()}
             >
-              Continue
+              {t`Continue`}
             </Button>
           </>
         }
@@ -387,6 +398,7 @@ function UnavailableHarnessChoices({
   open: boolean;
   onOpenChange(open: boolean): void;
 }) {
+  const { t } = useLingui();
   const triggerId = useId();
   const trigger = useRef<HTMLDivElement>(null);
   const description = useId();
@@ -416,7 +428,7 @@ function UnavailableHarnessChoices({
         openOnHover="control"
         nativeButton={false}
         role="group"
-        aria-label="Unavailable harnesses"
+        aria-label={t`Unavailable harnesses`}
         aria-haspopup={false}
         aria-expanded={undefined}
         tabIndex={-1}
@@ -458,22 +470,15 @@ function UnavailableHarnessChoices({
       <PopoverPopup
         side="right"
         align="start"
-        aria-label="Harness availability"
+        aria-label={t`Harness availability`}
         initialFocus={false}
         finalFocus={false}
       >
         <PopoverDescription id={description}>
           {source?.remote ? (
-            <>
-              This agent runs on {source.title}. You can’t switch it to a local
-              harness yet. To run locally, create a new agent.
-            </>
+            t`This agent runs on ${source.title}. You can’t switch it to a local harness yet. To run locally, create a new agent.`
           ) : (
-            <>
-              This agent runs on your device. You can’t switch it to{" "}
-              {hosted?.title} yet. To run hosted, create a new {hosted?.title}{" "}
-              agent.
-            </>
+            t`This agent runs on your device. You can’t switch it to ${hosted?.title ?? ""} yet. To run hosted, create a new ${hosted?.title ?? ""} agent.`
           )}
         </PopoverDescription>
       </PopoverPopup>
@@ -492,6 +497,7 @@ export function MigrationPreview({
   preview: ReturnType<Agents["previewRetype"]>;
   discardDraft: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const SourceIcon = source?.icon;
   const TargetIcon = target.icon;
   const carry = CARRY_KEYS.filter(
@@ -503,7 +509,7 @@ export function MigrationPreview({
       <div className="flex items-center gap-3 text-body">
         <span className="flex items-center gap-2">
           {SourceIcon && <SourceIcon size={24} aria-hidden="true" />}
-          {source?.title ?? "Unavailable type"}
+          {source?.title ?? t`Unavailable type`}
         </span>
         <ArrowRightIcon size={16} aria-hidden="true" />
         <span className="flex items-center gap-2">
@@ -512,13 +518,12 @@ export function MigrationPreview({
         </span>
       </div>
       <p className="m-0 text-body-sm text-secondary">
-        The provider changes when you save settings. Your agent will continue
-        the conversation in Buzz.
+        {t`The provider changes when you save settings. Your agent will continue the conversation in Buzz.`}
         {warning && ` ${warning}`}
       </p>
       {discardDraft && (
         <p className="m-0 text-body-sm text-warning">
-          Unsaved Settings changes will be discarded when you continue.
+          {t`Unsaved Settings changes will be discarded when you continue.`}
         </p>
       )}
       {(carry.length > 0 || preview.settings.length > 0) && (
@@ -528,11 +533,11 @@ export function MigrationPreview({
             const dropped = preview.dropped.includes(key);
             return (
               <div className="flex justify-between gap-3" key={key}>
-                <dt>{CARRY_LABELS[key]}</dt>
+                <dt>{i18n._(CARRY_LABELS[key])}</dt>
                 <dd
                   className={`m-0 text-body-sm ${dropped ? "text-danger" : "text-secondary"}`}
                 >
-                  {dropped ? "Dropped" : moved ? "Moves" : null}
+                  {dropped ? t`Dropped` : moved ? t`Moves` : null}
                 </dd>
               </div>
             );
@@ -543,7 +548,7 @@ export function MigrationPreview({
               <dd
                 className={`m-0 text-body-sm ${setting.outcome === "reset" ? "text-warning" : "text-danger"}`}
               >
-                {setting.outcome === "reset" ? "Resets" : "Dropped"}
+                {setting.outcome === "reset" ? t`Resets` : t`Dropped`}
               </dd>
             </div>
           ))}

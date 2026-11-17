@@ -1,4 +1,6 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../shared/design-system/ui/Button";
 import { Dialog } from "../shared/design-system/ui/Dialog";
 import { InlineHeader } from "../shared/design-system/ui/Header";
@@ -48,6 +50,7 @@ export function ManagedPlugins({
   authorizeGit?: Authorize | undefined;
   holdReview?: (() => () => void) | undefined;
 }) {
+  const { t } = useLingui();
   const [reviewingId, setReviewingId] = useState<string>();
   const trigger = useRef<HTMLElement | null>(null);
   // Opening Settings after a failed first fetch retries once, so restored
@@ -88,9 +91,12 @@ export function ManagedPlugins({
         aria-labelledby="managed-plugins-title"
         className={styles.pluginCoreSection}
       >
-        <InlineHeader id="managed-plugins-title" title="Recommended plugins" />
+        <InlineHeader
+          id="managed-plugins-title"
+          title={t`Recommended plugins`}
+        />
         <p role="status" className="m-0 text-body-sm text-muted break-words">
-          Loading the recommended plugin list…
+          {t`Loading the recommended plugin list…`}
         </p>
       </section>
     ) : managed.status === "unavailable" ? (
@@ -100,7 +106,7 @@ export function ManagedPlugins({
       >
         <InlineHeader
           id="managed-plugins-title"
-          title="Recommended plugins unavailable"
+          title={t`Recommended plugins unavailable`}
           actions={
             <Button
               size="sm"
@@ -108,13 +114,13 @@ export function ManagedPlugins({
               disabled={busy}
               onClick={() => void plugins.refreshManaged()}
             >
-              Retry
+              {t`Retry`}
             </Button>
           }
         />
         <p role="status" className="m-0 text-body-sm text-muted break-words">
-          Buzz couldn’t load the recommended plugin list from {managed.url}.{" "}
-          {managed.reason}
+          {t`Buzz couldn’t load the recommended plugin list from`}{" "}
+          {managed.url}. {managed.reason}
         </p>
       </section>
     ) : managed.status === "invalid" ? (
@@ -124,10 +130,10 @@ export function ManagedPlugins({
       >
         <InlineHeader
           id="managed-plugins-title"
-          title="Recommended plugins unavailable"
+          title={t`Recommended plugins unavailable`}
         />
         <p role="status" className="m-0 text-body-sm text-muted break-words">
-          Buzz couldn’t use the managed plugin file {managed.path}.{" "}
+          {t`Buzz couldn’t use the managed plugin file`} {managed.path}.{" "}
           {managed.reason}
         </p>
       </section>
@@ -140,8 +146,8 @@ export function ManagedPlugins({
           id="managed-plugins-title"
           title={
             rows.length
-              ? `Recommended by ${managed.source}`
-              : "Recommended plugins"
+              ? t`Recommended by ${managed.source}`
+              : t`Recommended plugins`
           }
         />
         {rows.length > 0 && (
@@ -152,8 +158,12 @@ export function ManagedPlugins({
                 title={entry.id}
                 subtitle={
                   entry.state === "other"
-                    ? `Installed from a different source. Remove it to review the recommended version. ${location(entry)}`
-                    : `${entry.state === "outdated" ? "Update recommended. " : ""}${location(entry)}`
+                    ? t`Installed from a different source. Remove it to review the recommended version. ${location(entry)}`
+                    : `${
+                        entry.state === "outdated"
+                          ? t`Update recommended. `
+                          : ""
+                      }${location(entry)}`
                 }
                 trailing={
                   entry.state === "other" ? undefined : (
@@ -163,15 +173,19 @@ export function ManagedPlugins({
                         entry.state === "missing" ? "prominent" : "subtle"
                       }
                       disabled={busy}
-                      aria-label={`${entry.state === "missing" ? "Review and install" : "Review update"} ${entry.id}`}
+                      aria-label={`${
+                        entry.state === "missing"
+                          ? t`Review and install`
+                          : t`Review update`
+                      } ${entry.id}`}
                       onClick={(event) => {
                         trigger.current = event.currentTarget;
                         setReviewingId(entry.id);
                       }}
                     >
                       {entry.state === "missing"
-                        ? "Review and install"
-                        : "Review update"}
+                        ? t`Review and install`
+                        : t`Review update`}
                     </Button>
                   )
                 }
@@ -182,7 +196,7 @@ export function ManagedPlugins({
         {managed.problems.length > 0 && (
           <div role="status" className="mt-3 text-body-sm text-muted">
             <p className="m-0">
-              Some entries in the managed plugin file were ignored:
+              {t`Some entries in the managed plugin file were ignored:`}
             </p>
             <ul className="mb-0 mt-1 list-disc space-y-1 break-words pl-4">
               {managed.problems.map((problem) => (
@@ -222,14 +236,18 @@ export function ManagedPluginUpdate({
   holdReview?: (() => () => void) | undefined;
   returnFocus?: () => HTMLElement | null;
 }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   return (
-    <section aria-label="Managed updates" className="flex flex-col gap-2">
+    <section
+      aria-label={t`Managed updates`}
+      className="flex flex-col gap-2"
+    >
       <p className="m-0 text-body-sm text-muted">
         {entry.state === "outdated"
-          ? `${source} recommends a different version of this plugin.`
-          : `Updates follow the recommendation from ${source}.`}
+          ? t`${source} recommends a different version of this plugin.`
+          : t`Updates follow the recommendation from ${source}.`}
       </p>
       {entry.state === "outdated" && (
         <div>
@@ -240,7 +258,7 @@ export function ManagedPluginUpdate({
             disabled={busy}
             onClick={() => setOpen(true)}
           >
-            Review update
+            {t`Review update`}
           </Button>
         </div>
       )}
@@ -312,6 +330,7 @@ export function ManagedPluginReview({
   onOpen?: (() => void) | undefined;
   onClose: () => void;
 }) {
+  const { i18n, t } = useLingui();
   const cancel = useRef<HTMLButtonElement>(null);
   const imports = plugins.imports;
   const key = entry && entryKey(entry);
@@ -341,7 +360,8 @@ export function ManagedPluginReview({
       try {
         if ("url" in wanted) {
           const preview = await imports.url(wanted.url, wanted.sha256);
-          if (!preview) throw new Error("No plugin found at this URL.");
+          if (!preview)
+            throw new Error(i18n._(msg`No plugin found at this URL.`));
           if (!current.active) {
             discard(preview.token);
             return;
@@ -360,8 +380,10 @@ export function ManagedPluginReview({
           discard(preview.token);
           throw new Error(
             found
-              ? `The plugin at this URL is ${found.manifest.id}, not ${wanted.id}.`
-              : (preview.warnings[0] ?? "No plugin found at this URL."),
+              ? i18n._(
+                  msg`The plugin at this URL is ${found.manifest.id}, not ${wanted.id}.`,
+                )
+              : (preview.warnings[0] ?? i18n._(msg`No plugin found at this URL.`)),
           );
         }
         const signed = await authorizeGit?.(wanted.repository);
@@ -371,7 +393,8 @@ export function ManagedPluginReview({
           signed?.token,
           ...gitScope(wanted.commit, wanted.path),
         );
-        if (!preview) throw new Error("No plugin source found.");
+        if (!preview)
+          throw new Error(i18n._(msg`No plugin source found.`));
         if (!current.active) {
           discard(preview.token);
           return;
@@ -379,7 +402,9 @@ export function ManagedPluginReview({
         if (preview.commit?.toLowerCase() !== wanted.commit) {
           discard(preview.token);
           throw new Error(
-            `The repository returned commit ${preview.commit ?? "unknown"}, not the recommended commit ${wanted.commit}.`,
+            i18n._(
+              msg`The repository returned commit ${preview.commit ?? "unknown"}, not the recommended commit ${wanted.commit}.`,
+            ),
           );
         }
         const candidate = preview.candidates.find(
@@ -400,9 +425,11 @@ export function ManagedPluginReview({
           wanted.path === "." ? "Selected folder:" : `${wanted.path}:`;
         throw new Error(
           candidate
-            ? `The plugin at ${wanted.path} is ${candidate.manifest.id}, not ${wanted.id}.`
+            ? i18n._(
+                msg`The plugin at ${wanted.path} is ${candidate.manifest.id}, not ${wanted.id}.`,
+              )
             : (preview.warnings.find((warning) => warning.startsWith(prefix)) ??
-                `This commit has no plugin at ${wanted.path}.`),
+                i18n._(msg`This commit has no plugin at ${wanted.path}.`)),
         );
       } catch (reason) {
         if (current.active)
@@ -444,7 +471,7 @@ export function ManagedPluginReview({
   const sameRevision = !!candidate && candidate.revision === existing?.revision;
   const rollbackWarning =
     existing?.source === "external"
-      ? importRollbackWarning(candidate, existing)
+      ? importRollbackWarning(candidate, existing, i18n)
       : null;
 
   async function install() {
@@ -482,7 +509,9 @@ export function ManagedPluginReview({
           status: "error",
           reason:
             plugins.snapshot().error ??
-            "Plugin installation wasn’t confirmed. Check the preview and try again.",
+            i18n._(
+              msg`Plugin installation wasn’t confirmed. Check the preview and try again.`,
+            ),
         });
         return;
       }
@@ -500,7 +529,7 @@ export function ManagedPluginReview({
   }
 
   const busy = installing || managing || !ready;
-  const name = candidate?.manifest.name ?? entry?.id ?? "plugin";
+  const name = candidate?.manifest.name ?? entry?.id ?? t`plugin`;
   if ((refusal || opened) && !installing)
     return (
       <Dialog
@@ -512,7 +541,7 @@ export function ManagedPluginReview({
           if (!open && opened) onClose();
         }}
         initialFocus={cancel}
-        title="Already installed"
+        title={t`Already installed`}
         description={refusal}
         size="compact"
         dismissOnOutsideClick
@@ -520,7 +549,7 @@ export function ManagedPluginReview({
         actions={
           <>
             <Button ref={cancel} onClick={onClose}>
-              Close
+              {t`Close`}
             </Button>
             {onOpen && (
               <Button
@@ -530,7 +559,7 @@ export function ManagedPluginReview({
                   onOpen();
                 }}
               >
-                Open plugin
+                {t`Open plugin`}
               </Button>
             )}
           </>
@@ -547,19 +576,21 @@ export function ManagedPluginReview({
       title={
         ready ? (
           updating ? (
-            `Update ${name}`
+            t`Update ${name}`
           ) : (
             <>
-              Review <strong>{name} Plugin</strong> access
+              {t`Review`} <strong>{name} Plugin</strong> {t`access`}
             </>
           )
         ) : (
-          `Review ${entry?.id ?? "plugin"}`
+          t`Review ${name}`
         )
       }
       description={
         ready && !updating
-          ? `${requestedBy ? `Requested by ${requestedBy.name}` : `Recommended by ${source}`}. Only install code you trust.`
+          ? requestedBy
+            ? t`Requested by ${requestedBy.name}. Only install code you trust.`
+            : t`Recommended by ${source}. Only install code you trust.`
           : undefined
       }
       size={ready && updating ? "compact" : "wide"}
@@ -569,14 +600,14 @@ export function ManagedPluginReview({
       leadingActions={
         ready && !updating ? (
           <Switch
-            label="Enable plugin"
+            label={t`Enable plugin`}
             checked={enable}
             disabled={busy}
             onCheckedChange={setEnable}
           />
         ) : ready && existing?.enabled === false ? (
           <p className="m-0 text-body-sm text-muted">
-            This plugin will stay disabled.
+            {t`This plugin will stay disabled.`}
           </p>
         ) : undefined
       }
@@ -584,11 +615,11 @@ export function ManagedPluginReview({
         <>
           {review.status === "error" && (
             <Button onClick={() => setAttempt((count) => count + 1)}>
-              Try again
+              {t`Try again`}
             </Button>
           )}
           <Button ref={cancel} disabled={installing} onClick={onClose}>
-            {ready ? "Cancel" : "Close"}
+            {ready ? t`Cancel` : t`Close`}
           </Button>
           {ready && (
             <Button
@@ -597,7 +628,7 @@ export function ManagedPluginReview({
               loading={installing}
               onClick={() => void install()}
             >
-              {updating ? "Update" : "Install plugin"}
+              {updating ? t`Update` : t`Install plugin`}
             </Button>
           )}
         </>
@@ -606,8 +637,8 @@ export function ManagedPluginReview({
       {!ready && review.status !== "error" && (
         <p role="status">
           {entry && "url" in entry
-            ? "Downloading the plugin…"
-            : "Reading the plugin at the pinned commit… Git imports may take up to a minute."}
+            ? t`Downloading the plugin…`
+            : t`Reading the plugin at the pinned commit… Git imports may take up to a minute.`}
         </p>
       )}
       {review.status === "error" && (
@@ -616,7 +647,10 @@ export function ManagedPluginReview({
         </p>
       )}
       {ready && candidate && entry && (
-        <section aria-label="Managed plugin source" className="text-body-sm">
+        <section
+          aria-label={t`Managed plugin source`}
+          className="text-body-sm"
+        >
           {requestedBy?.reason && (
             <p className="mb-4 mt-0 break-words">
               {updating && `${requestedBy.name}: `}
@@ -628,8 +662,7 @@ export function ManagedPluginReview({
             existing.updateSource &&
             "repository" in existing.updateSource && (
               <p className="mb-4 mt-0 break-words">
-                This update switches this plugin from Git to a packaged
-                download. The URL below replaces its saved Git source.
+                {t`This update switches this plugin from Git to a packaged download. The URL below replaces its saved Git source.`}
               </p>
             )}
           <code className={`${importStyles.sourcePath} break-all`}>
@@ -642,16 +675,13 @@ export function ManagedPluginReview({
           </p>
           {existing?.source === "bundled" ? (
             <p className="m-0">
-              This plugin is included with Buzz. Update Buzz to get its latest
-              version.
+              {t`This plugin is included with Buzz. Update Buzz to get its latest version.`}
             </p>
           ) : (
             <>
               {sameRevision && (
                 <p className="mb-4 mt-0">
-                  This plugin’s code already matches this revision. Updating
-                  records {source}’s recommended source and keeps the plugin as
-                  it is.
+                  {t`This plugin’s code already matches this revision. Updating records ${source}’s recommended source and keeps the plugin as it is.`}
                 </p>
               )}
               <PluginAccessReview
@@ -706,6 +736,7 @@ export function UrlPluginInstallReview({
   onOpenInstalled?: ((id: string) => void) | undefined;
   onClose?: (() => void) | undefined;
 }) {
+  const { t } = useLingui();
   const [claimed, setClaimed] = useState(!request);
   const [closed, setClosed] = useState(false);
   const mounted = useRef(false);
@@ -732,9 +763,9 @@ export function UrlPluginInstallReview({
     current?.source !== "external" ||
     (saved && ("url" in saved || "repository" in saved))
       ? undefined
-      : `${current.manifest.name} is already installed from ${
-          saved ? saved.root : "an unknown source"
-        }; remove it first to install it from ${source.url}.`;
+      : saved
+        ? t`${current.manifest.name} is already installed from ${saved.root}; remove it first to install it from ${source.url}.`
+        : t`${current.manifest.name} is already installed from an unknown source; remove it first to install it from ${source.url}.`;
   const close = () => {
     setClosed(true);
     if (request) request.end(request.id);
@@ -752,7 +783,7 @@ export function UrlPluginInstallReview({
       // A link's refusal stands alone; a plugin's request says who asked.
       refusal={
         conflict && request
-          ? `Requested by ${requester}. ${conflict}`
+          ? `${t`Requested by ${requester}.`} ${conflict}`
           : conflict
       }
       confirm={request && (() => request.confirm(request.id))}
@@ -770,10 +801,11 @@ export function UrlPluginDetails({
 }: {
   source: Readonly<{ url: string; sha256: string }>;
 }) {
+  const { t } = useLingui();
   return (
-    <section aria-label="Plugin updates" className="text-body-sm">
+    <section aria-label={t`Plugin updates`} className="text-body-sm">
       <h3 className={`${importStyles.sourceHeading} text-caption`}>
-        Source URL
+        {t`Source URL`}
       </h3>
       <code className={`${importStyles.sourcePath} break-all`}>
         {source.url}
@@ -782,9 +814,7 @@ export function UrlPluginDetails({
         SHA-256: {source.sha256}
       </p>
       <p className="m-0 text-muted">
-        This plugin was installed from a single pinned file. To update it,
-        install the newer version from the plugin marketplace or a new install
-        link.
+        {t`This plugin was installed from a single pinned file. To update it, install the newer version from the plugin marketplace or a new install link.`}
       </p>
     </section>
   );

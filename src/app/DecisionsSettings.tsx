@@ -5,6 +5,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { useLingui } from "@lingui/react/macro";
 import {
   DEFAULT_DECISION_PROVIDER,
   DEFAULT_DECISION_PROVIDERS,
@@ -45,6 +46,7 @@ export function DecisionsSettings({
   active(): boolean;
   onSection?: ((section: string) => void) | undefined;
 }) {
+  const { t } = useLingui();
   const backend = useSyncExternalStore(
     decisions.subscribe,
     decisions.backend,
@@ -140,22 +142,21 @@ export function DecisionsSettings({
     >
       <Header
         id="decisions-settings-title"
-        title="Decisions API"
+        title={t`Decisions API`}
         subtitle={
           <>
-            <strong>Agents</strong>, <strong>plugins</strong> and features like{" "}
-            <strong>Attention</strong> can use this API for quick, inexpensive
-            judgments, such as whether a watched event should wake your agent.
-            Your chosen provider handles these questions and receives the
-            message text sent with them, which may come from private channels.
+            <strong>Agents</strong>, <strong>plugins</strong>
+            {t` and features like`}{" "}
+            <strong>Attention</strong>
+            {t` can use this API for quick, inexpensive judgments, such as whether a watched event should wake your agent. Your chosen provider handles these questions and receives the message text sent with them, which may come from private channels.`}
           </>
         }
       />
       {providers.length === 0 ? (
         <p role="status" className="mt-4 text-body-sm text-secondary">
-          No decision provider is turned on. Turn one on in{" "}
+          {t`No decision provider is turned on. Turn one on in`}{" "}
           <SettingsSectionLink section="plugins" open={onSection}>
-            Manage plugins
+            {t`Manage plugins`}
           </SettingsSectionLink>
           .
         </p>
@@ -166,14 +167,14 @@ export function DecisionsSettings({
         >
           {choosable && !combined && (
             <div className="w-full max-w-md">
-              <InlineHeader title="Decisions API Provider" />
+              <InlineHeader title={t`Decisions API Provider`} />
               <Field
-                label="Decisions API Provider"
+                label={t`Decisions API Provider`}
                 labelVisibility="hidden"
                 nativeLabel={false}
               >
                 <RadioGroup
-                  aria-label="Decisions API Provider"
+                  aria-label={t`Decisions API Provider`}
                   value={shown?.key ?? ""}
                   onValueChange={choose}
                 >
@@ -194,7 +195,7 @@ export function DecisionsSettings({
             <div className="w-full">
               <SettingsGroup>
                 <Select
-                  label="Decision provider"
+                  label={t`Decision provider`}
                   leading={
                     shown?.key === builderlab.key ? (
                       <BuilderlabLogoIcon size={20} aria-hidden="true" />
@@ -220,7 +221,7 @@ export function DecisionsSettings({
                       <WarningCircleIcon
                         size={16}
                         className="ml-2 text-danger"
-                        aria-label="Unavailable for this account"
+                        aria-label={t`Unavailable for this account`}
                       />
                     ) : undefined
                   }
@@ -230,14 +231,14 @@ export function DecisionsSettings({
                   onValueChange={choose}
                   groups={[
                     {
-                      label: "Providers",
+                      label: t`Providers`,
                       options: [
                         {
                           value: builderlab.key,
                           label: "Builderlab",
                           description:
                             builderlabStatus === "needs-setup"
-                              ? "Unavailable for this account"
+                              ? t`Unavailable for this account`
                               : undefined,
                           leading:
                             builderlabStatus === "needs-setup" ? (
@@ -282,9 +283,7 @@ export function DecisionsSettings({
                       role="status"
                       className="m-0 py-4 text-body-sm text-secondary"
                     >
-                      Decisions API isn’t available for this Builderlab account.
-                      Use your own TypeSafe key or contact your account
-                      administrator.
+                      {t`Decisions API isn’t available for this Builderlab account. Use your own TypeSafe key or contact your account administrator.`}
                     </p>
                   )}
                 {shown?.key === ownKey.key && shown.Settings && (
@@ -293,7 +292,9 @@ export function DecisionsSettings({
                       entry={shown}
                       registry={{ snapshot: decisions.providers }}
                       fallback={
-                        <p role="alert">TypeSafe settings are unavailable.</p>
+                        <p role="alert">
+                          {t`TypeSafe settings are unavailable.`}
+                        </p>
                       }
                     >
                       {(entry, owned) => {
@@ -326,10 +327,9 @@ export function DecisionsSettings({
                   registry={{ snapshot: decisions.providers }}
                   fallback={
                     <p role="alert" className="text-body-sm text-secondary">
-                      {shown.label} settings are unavailable. You can turn its
-                      plugin off in{" "}
+                      {t`${shown.label} settings are unavailable. You can turn its plugin off in`}{" "}
                       <SettingsSectionLink section="plugins" open={onSection}>
-                        Manage plugins
+                        {t`Manage plugins`}
                       </SettingsSectionLink>
                       .
                     </p>
@@ -356,13 +356,13 @@ export function DecisionsSettings({
           headerGap="compact"
           title={
             selected.key === ownKey.key
-              ? "Connect TypeSafe"
-              : "Set up Builderlab"
+              ? t`Connect TypeSafe`
+              : t`Set up Builderlab`
           }
           description={
             selected.key === ownKey.key ? (
               <>
-                Create an API key at{" "}
+                {t`Create an API key at`}{" "}
                 <Button
                   variant="link"
                   size="text"
@@ -378,10 +378,10 @@ export function DecisionsSettings({
                 >
                   console.typesafe.ai
                 </Button>{" "}
-                and paste it below.
+                {t`and paste it below.`}
               </>
             ) : (
-              "Complete account setup to use Builderlab for decision requests."
+              t`Complete account setup to use Builderlab for decision requests.`
             )
           }
           dismissOnOutsideClick
@@ -403,7 +403,11 @@ export function DecisionsSettings({
             <OwnedContribution
               entry={selected}
               registry={{ snapshot: decisions.providers }}
-              fallback={<p role="alert">TypeSafe settings are unavailable.</p>}
+              fallback={
+                <p role="alert">
+                  {t`TypeSafe settings are unavailable.`}
+                </p>
+              }
             >
               {(entry, owned) => {
                 const Settings = entry.Settings;

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { createPortal } from "react-dom";
 import { Popover } from "@base-ui/react/popover";
 import { useEffect, useLayoutEffect, useId, useRef, useState } from "react";
@@ -93,6 +95,7 @@ const outsideEditor = (popup: HTMLElement | null, target: EventTarget | null) =>
 
 /** One draft editor for humans and agents; the enclosing form owns profile Save. */
 export function AvatarEditor(props: Props) {
+  const { t } = useLingui();
   const setupAnchor = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(!!props.inlinePicker);
   const [draftPreview, setDraftPreview] = useState<DraftPreview | null>(null);
@@ -201,7 +204,7 @@ export function AvatarEditor(props: Props) {
                 <button
                   type="button"
                   className={`${styles.dottedTrigger} ${styles.emptyCircle}`}
-                  aria-label="Add avatar"
+                  aria-label={t`Add avatar`}
                   disabled={props.disabled}
                 />
               }
@@ -231,7 +234,7 @@ export function AvatarEditor(props: Props) {
                 <button
                   type="button"
                   className={styles.dottedTrigger}
-                  aria-label="Edit avatar"
+                  aria-label={t`Edit avatar`}
                   disabled={props.disabled}
                 />
               }
@@ -246,7 +249,7 @@ export function AvatarEditor(props: Props) {
               {draftPreview?.emoji ? null : preview ? (
                 <img
                   src={preview}
-                  alt="Avatar preview"
+                  alt={t`Avatar preview`}
                   data-avatar-shape="squircle"
                 />
               ) : (
@@ -292,7 +295,7 @@ export function AvatarEditor(props: Props) {
               >
                 <Avatar
                   src={preview}
-                  alt={open ? "Avatar preview" : "Avatar"}
+                  alt={open ? t`Avatar preview` : t`Avatar`}
                   fallback={props.name}
                   size="fill"
                   loading="eager"
@@ -314,7 +317,7 @@ export function AvatarEditor(props: Props) {
                       minWidth: 0,
                       minHeight: 0,
                     }}
-                    aria-label="Edit avatar"
+                    aria-label={t`Edit avatar`}
                     aria-describedby={pictureError ? errorId : undefined}
                     icon={
                       (draftPreview?.picture ?? props.value) ||
@@ -360,7 +363,9 @@ export function AvatarEditor(props: Props) {
                 data-buzz-ui=""
                 className={`popover-surface ${styles.popup}`}
               >
-                <Popover.Title className="sr-only">Edit avatar</Popover.Title>
+                <Popover.Title className="sr-only">
+                  {t`Edit avatar`}
+                </Popover.Title>
                 {draft}
               </Popover.Popup>
             </Popover.Positioner>
@@ -386,6 +391,7 @@ function EmojiPreview({
   /** Leave room for the edit badge, as the profile avatar does. */
   cutout?: boolean;
 }) {
+  const { t } = useLingui();
   const artwork = (
     <div
       data-avatar-shape={shape}
@@ -412,7 +418,7 @@ function EmojiPreview({
     <div
       role="slider"
       tabIndex={move ? 0 : -1}
-      aria-label="Emoji position"
+      aria-label={t`Emoji position`}
       aria-orientation="vertical"
       aria-disabled={!move || undefined}
       // Up is positive, matching the arrow keys.
@@ -421,8 +427,8 @@ function EmojiPreview({
       aria-valuenow={Math.round(-offset * 100)}
       aria-valuetext={
         offset
-          ? `${Math.round(Math.abs(offset) * 100)}% ${offset > 0 ? "down" : "up"}`
-          : "Centered"
+          ? `${Math.round(Math.abs(offset) * 100)}% ${offset > 0 ? t`down` : t`up`}`
+          : t`Centered`
       }
       data-emoji-position=""
       className={styles.emojiPreview}
@@ -511,6 +517,7 @@ function AvatarDraft({
   onPreview(value: DraftPreview | null): void;
   sizeTarget: HTMLElement | null;
 }) {
+  const { i18n, t } = useLingui();
   const [customColorOpen, setCustomColorOpen] = useState(false);
   const customColorTrigger = useRef<HTMLButtonElement>(null);
   const wasCustomColorOpen = useRef(false);
@@ -617,7 +624,7 @@ function AvatarDraft({
         setError(
           reason instanceof Error
             ? reason.message
-            : "Image upload failed. Try again.",
+            : i18n._(msg`Image upload failed. Try again.`),
         );
     } finally {
       if (!request.signal.aborted) {
@@ -650,13 +657,13 @@ function AvatarDraft({
         else applyPicture();
       }}
     >
-      Done
+      {t`Done`}
     </Button>
   );
 
   const sizeSlider = (
     <label className={styles.emojiScale}>
-      <span className="text-label-sm">Emoji size</span>
+      <span className="text-label-sm">{t`Emoji size`}</span>
       <input
         type="range"
         min={1}
@@ -685,10 +692,10 @@ function AvatarDraft({
           <CloudUploadIcon size={24} aria-hidden="true" />
           <span>
             {busy
-              ? "Uploading…"
+              ? t`Uploading…`
               : dragging
-                ? "Drop image here"
-                : "Drop or browse"}
+                ? t`Drop image here`
+                : t`Drop or browse`}
           </span>
         </button>
         <input
@@ -696,7 +703,7 @@ function AvatarDraft({
           type="file"
           className="sr-only"
           tabIndex={-1}
-          aria-label="Upload an image"
+          aria-label={t`Upload an image`}
           accept="image/png,image/jpeg,image/gif,image/webp,image/heic,image/heif"
           disabled={disabled || busy || !community}
           onChange={(event) => {
@@ -706,7 +713,7 @@ function AvatarDraft({
           }}
         />
         <Field
-          label="Picture URL (optional)"
+          label={t`Picture URL (optional)`}
           labelVisibility="hidden"
           error={checkPicture ? pictureError : undefined}
         >
@@ -717,7 +724,7 @@ function AvatarDraft({
             <Input
               ref={urlInput}
               type="url"
-              placeholder="Paste an image URL"
+              placeholder={t`Paste an image URL`}
               maxLength={2048}
               disabled={disabled || busy}
               value={picture}
@@ -757,13 +764,13 @@ function AvatarDraft({
             onClose={() => setCustomColorOpen(false)}
           />
         ) : (
-          <fieldset className={styles.swatches} aria-label="Avatar background">
+          <fieldset className={styles.swatches} aria-label={t`Avatar background`}>
             {colors.map((swatch) => (
               <button
                 key={swatch}
                 type="button"
                 className={styles.swatch}
-                aria-label={`Use ${swatch} background`}
+                aria-label={t`Use ${swatch} background`}
                 aria-pressed={color.toUpperCase() === swatch}
                 disabled={disabled || busy}
                 style={{ backgroundColor: swatch }}
@@ -774,7 +781,7 @@ function AvatarDraft({
               ref={customColorTrigger}
               type="button"
               className={styles.customColor}
-              aria-label="Custom background color"
+              aria-label={t`Custom background color`}
               aria-pressed={!colors.includes(color.toUpperCase())}
               disabled={disabled || busy}
               onClick={() => setCustomColorOpen(true)}
@@ -789,7 +796,7 @@ function AvatarDraft({
       {sizeTarget && mode !== "image" && createPortal(sizeSlider, sizeTarget)}
       <fieldset
         ref={panels}
-        aria-label="Avatar picker"
+        aria-label={t`Avatar picker`}
         className={styles.picker}
         data-dragging={dragging || undefined}
         onDragEnter={(event) => {
@@ -822,12 +829,12 @@ function AvatarDraft({
       >
         <Tabs
           value={mode}
-          label="Avatar source"
+          label={t`Avatar source`}
           variant="panel"
           items={[
-            { value: "image", label: "Image" },
-            { value: "emoji", label: "Emoji" },
-            { value: "background", label: "Background" },
+            { value: "image", label: t`Image` },
+            { value: "emoji", label: t`Emoji` },
+            { value: "background", label: t`Background` },
           ]}
           onValueChange={(next) => {
             if (!busy && !disabled) {
@@ -840,7 +847,7 @@ function AvatarDraft({
         />
         {busy && (
           <p role="status" className="text-body-sm">
-            Uploading avatar…
+            {t`Uploading avatar…`}
           </p>
         )}
         {error && (
@@ -850,8 +857,7 @@ function AvatarDraft({
         )}
         {!community && (
           <p className="text-body-sm text-subtle">
-            Select a community to upload an image or emoji. Your local default
-            can use a public HTTPS image URL.
+            {t`Select a community to upload an image or emoji. Your local default can use a public HTTPS image URL.`}
           </p>
         )}
         {!(mode === "background" && customColorOpen) && (
@@ -865,7 +871,7 @@ function AvatarDraft({
                   disabled={(!value && !picture) || disabled || busy}
                   onClick={() => done("")}
                 >
-                  Remove avatar
+                  {t`Remove avatar`}
                 </Button>
               )}
               {actionTarget
@@ -890,6 +896,7 @@ export function AvatarEmojiPicker({
   onSelect(value: string, animate: boolean): void;
   disabled: boolean;
 }) {
+  const { t } = useLingui();
   const host = useRef<HTMLDivElement>(null);
   const pointer = useRef(false);
   const callback = useRef<(value: string) => void>(() => {});
@@ -985,7 +992,7 @@ export function AvatarEmojiPicker({
   if (error)
     return (
       <p role="alert" className={emojiStyles.emojiStatus}>
-        Could not load the emoji picker. Reopen it to retry.
+        {t`Could not load the emoji picker. Reopen it to retry.`}
       </p>
     );
   return (

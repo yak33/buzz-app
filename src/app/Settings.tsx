@@ -1,4 +1,5 @@
 import { LanguageSettings } from "./LanguageSettings";
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import type {
   AdminAccessReader,
@@ -162,6 +163,9 @@ function comparePlugins(a: PluginInfo, b: PluginInfo) {
   );
 }
 
+// Category labels are Lingui descriptors; translated where they render.
+const otherCategoryLabel = msg`Other`;
+
 function groupPlugins(plugins: readonly PluginInfo[]) {
   const known = new Map<string, PluginInfo[]>(
     pluginCategoryDefinitions.map(({ id }) => [id, []]),
@@ -191,7 +195,9 @@ function groupPlugins(plugins: readonly PluginInfo[]) {
       const entries = known.get(id) ?? [];
       return entries.length ? [{ id, label, plugins: entries }] : [];
     }),
-    ...(other.length ? [{ id: "other", label: "Other", plugins: other }] : []),
+    ...(other.length
+      ? [{ id: "other", label: otherCategoryLabel, plugins: other }]
+      : []),
   ];
 }
 
@@ -1128,7 +1134,7 @@ export function Settings({
             id={`plugin-category-${group.id}`}
             title={
               <span className={styles.pluginCategoryTitle}>
-                <span>{group.label}</span>
+                <span>{group.label ? i18n._(group.label) : null}</span>
                 <span className={styles.pluginCount}>
                   {group.plugins.length}
                   <span className="sr-only">

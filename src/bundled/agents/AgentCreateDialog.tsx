@@ -1,4 +1,5 @@
 // Avatar selection above the agent identity and type-owned setup fields.
+import { useLingui } from "@lingui/react/macro";
 import {
   type AriaAttributes,
   type ReactElement,
@@ -82,12 +83,16 @@ const SetUpFirst = ({
 }: Readonly<{
   when: boolean;
   children: ReactElement<Pick<AriaAttributes, "aria-describedby">>;
-}>) =>
-  when ? (
-    <Tooltip content="Set up Goose, Codex or Claude first.">{children}</Tooltip>
+}>) => {
+  const { t } = useLingui();
+  return when ? (
+    <Tooltip content={t`Set up Goose, Codex or Claude first.`}>
+      {children}
+    </Tooltip>
   ) : (
     children
   );
+};
 
 const startingConfig = (type: RegisteredAgentType | undefined) => {
   try {
@@ -128,6 +133,7 @@ export function AgentCreateDialog({
     onSave(input: NewAgent): Promise<void>;
   }>;
 }) {
+  const { t } = useLingui();
   const edited = update?.agent;
   const [open, setOpen] = useState(true);
   const [name, setName] = useState(
@@ -336,11 +342,11 @@ export function AgentCreateDialog({
   const harnessControl = (
     <PreferenceRow
       id={harnessId}
-      title="Harness"
+      title={t`Harness`}
       trailing={
         <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
           <Select
-            label="Harness"
+            label={t`Harness`}
             variant="compact"
             align="end"
             value={type?.key ?? ""}
@@ -348,7 +354,7 @@ export function AgentCreateDialog({
             disabled={pending || types.length < 2}
             groups={[true, false]
               .map((remote) => ({
-                label: remote ? "Remote" : "Local",
+                label: remote ? t`Remote` : t`Local`,
                 options: types
                   .filter((item) => Boolean(item.remote) === remote)
                   .map((item) => ({
@@ -387,7 +393,7 @@ export function AgentCreateDialog({
       {harnessControl}
       {Model && (
         <PreferenceRow
-          title="Model"
+          title={t`Model`}
           trailing={
             <Model
               key={type.key}
@@ -402,7 +408,7 @@ export function AgentCreateDialog({
       )}
       {Thinking && (
         <PreferenceRow
-          title="Thinking"
+          title={t`Thinking`}
           trailing={
             <Thinking
               key={type.key}
@@ -427,24 +433,24 @@ export function AgentCreateDialog({
       }}
       title={
         showRemoteIntro
-          ? "Meet your remote agent"
+          ? t`Meet your remote agent`
           : edited
-            ? `Edit ${edited.name}`
-            : "Create agent"
+            ? t`Edit ${edited.name}`
+            : t`Create agent`
       }
       description={
         showRemoteIntro
           ? undefined
           : update
-            ? `${update.request.requesterName} proposed these changes. Nothing changes until you save.`
+            ? t`${update.request.requesterName} proposed these changes. Nothing changes until you save.`
             : request
-              ? `${request.requesterName} requested this agent. Review its settings before creating it.`
+              ? t`${request.requesterName} requested this agent. Review its settings before creating it.`
               : draft
-                ? "From an agent card. Review its settings before creating it."
+                ? t`From an agent card. Review its settings before creating it.`
                 : undefined
       }
       size={showRemoteIntro ? "compact" : "default"}
-      closeLabel={showRemoteIntro ? "Back to agent settings" : "Close"}
+      closeLabel={showRemoteIntro ? t`Back to agent settings` : t`Close`}
       height="content"
       chromeSpacing="padded"
       initialFocus={nameField}
@@ -463,7 +469,7 @@ export function AgentCreateDialog({
               disabled={pending}
               onClick={() => setShowRemoteIntro(false)}
             >
-              Back
+              {t`Back`}
             </Button>
             <Button
               ref={introContinue}
@@ -472,7 +478,7 @@ export function AgentCreateDialog({
               disabled={!canCreate || avatarBusy}
               onClick={() => void create(true)}
             >
-              Let’s go
+              {t`Let’s go`}
             </Button>
           </>
         ) : (
@@ -494,7 +500,7 @@ export function AgentCreateDialog({
                 !name.trim()
               }
             >
-              {update ? "Save changes" : "Create agent"}
+              {update ? t`Save changes` : t`Create agent`}
             </Button>
           </SetUpFirst>
         )
@@ -506,14 +512,17 @@ export function AgentCreateDialog({
         id={form}
         className={styles.form}
         data-error={error ? "" : undefined}
-        aria-label={edited ? `Edit ${edited.name}` : "New agent"}
+        aria-label={edited ? t`Edit ${edited.name}` : t`New agent`}
         onSubmit={(event) => {
           event.preventDefault();
           void create();
         }}
       >
         <div className={styles.createStack}>
-          <section aria-label="Identity" className={styles.profileIdentity}>
+          <section
+            aria-label={t`Identity`}
+            className={styles.profileIdentity}
+          >
             <div>
               <AgentAvatarPicker
                 name={name}
@@ -532,19 +541,19 @@ export function AgentCreateDialog({
           </section>
           <div>
             <Field
-              label="Name"
+              label={t`Name`}
               error={
                 namePrompt.attempts
                   ? update
-                    ? "Name the agent"
-                    : "Add a name to create your agent"
+                    ? t`Name the agent`
+                    : t`Add a name to create your agent`
                   : undefined
               }
             >
               <div ref={nameControl}>
                 <Input
                   ref={nameField}
-                  placeholder="Name"
+                  placeholder={t`Name`}
                   value={name}
                   disabled={pending}
                   onChange={(event) => {
@@ -558,7 +567,7 @@ export function AgentCreateDialog({
             </Field>
           </div>
           <section
-            aria-label="AI configuration"
+            aria-label={t`AI configuration`}
             className={styles.configuration}
             onFocusCapture={(event) =>
               reveal(event.target instanceof HTMLElement ? event.target : null)
@@ -595,8 +604,8 @@ export function AgentCreateDialog({
                 {nothingSetUp && (
                   <PreferenceRow
                     icon={<PlugIcon size={20} aria-hidden="true" />}
-                    title="One thing to set up first"
-                    subtitle="Set up a local harness for Automatic, or choose Custom to select another harness."
+                    title={t`One thing to set up first`}
+                    subtitle={t`Set up a local harness for Automatic, or choose Custom to select another harness.`}
                     trailing={
                       openSettings && (
                         <Button
@@ -604,7 +613,7 @@ export function AgentCreateDialog({
                           size="sm"
                           onClick={() => openSettings("agents")}
                         >
-                          Set up
+                          {t`Set up`}
                         </Button>
                       )
                     }
@@ -637,7 +646,7 @@ export function AgentCreateDialog({
             />
           ) : (
             <p className="m-0 text-body-sm text-secondary">
-              Set it up after it is made.
+              {t`Set it up after it is made.`}
             </p>
           )}
           {preview && type && (

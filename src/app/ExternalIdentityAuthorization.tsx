@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { npubEncode } from "nostr-tools/nip19";
 import { prepareRemoteAgentAuthorization } from "../features/host/service";
 import { writeClipboardText } from "../shared/clipboard";
@@ -12,6 +14,7 @@ import { Textarea } from "../shared/design-system/ui/Textarea";
 
 /** Mounted with the viewer as its key, so a different owner gets a fresh form. */
 export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
+  const { i18n, t } = useLingui();
   const [publicKey, setPublicKey] = useState("");
   const [proof, setProof] = useState("");
   const [error, setError] = useState("");
@@ -33,7 +36,9 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
     const agent = publicKey.trim().toLowerCase();
     if (!/^[0-9a-f]{64}$/.test(agent) || agent === viewer) {
       setError(
-        "Enter the application's 64-character hexadecimal public key, different from your own key.",
+        i18n._(
+          msg`Enter the application's 64-character hexadecimal public key, different from your own key.`,
+        ),
       );
       return;
     }
@@ -53,7 +58,9 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
       if (attempt.signal.aborted) return;
       if (tag[1] !== viewer)
         throw new Error(
-          "Your Buzz identity changed. Reopen Security settings before authorizing.",
+          i18n._(
+            msg`Your Buzz identity changed. Reopen Security settings before authorizing.`,
+          ),
         );
       setProof(JSON.stringify(tag));
     } catch (failure) {
@@ -61,7 +68,7 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
         setError(
           failure instanceof Error
             ? failure.message
-            : "Couldn’t authorize this identity.",
+            : i18n._(msg`Couldn’t authorize this identity.`),
         );
     } finally {
       if (!attempt.signal.aborted) {
@@ -76,13 +83,17 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
     try {
       await writeClipboardText(proof);
       if (attempt === copyAttempt.current)
-        setCopyStatus({ proof, message: "Ownership proof copied." });
+        setCopyStatus({
+          proof,
+          message: i18n._(msg`Ownership proof copied.`),
+        });
     } catch {
       if (attempt === copyAttempt.current)
         setCopyStatus({
           proof,
-          message:
-            "Couldn’t copy. Select the ownership proof and copy it manually.",
+          message: i18n._(
+            msg`Couldn’t copy. Select the ownership proof and copy it manually.`,
+          ),
         });
     }
   }
@@ -90,8 +101,8 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
   return (
     <div className="mt-8">
       <InlineHeader
-        title="Authorize external identity"
-        subtitle="For an application such as Nexus that keeps its own agent key. Only authorize a public key you recognize: this ownership proof has no time or event-kind limits."
+        title={t`Authorize external identity`}
+        subtitle={t`For an application such as Nexus that keeps its own agent key. Only authorize a public key you recognize: this ownership proof has no time or event-kind limits.`}
       />
       <SettingsGroup layout="form">
         <form
@@ -102,8 +113,8 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
           }}
         >
           <Field
-            label="Application public key (hex)"
-            description="Copy this public key from the application’s identity settings."
+            label={t`Application public key (hex)`}
+            description={t`Copy this public key from the application’s identity settings.`}
             error={error}
           >
             <Input
@@ -127,20 +138,20 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
               loading={pending}
               disabled={!publicKey.trim()}
             >
-              {pending ? "Authorizing…" : "Authorize identity"}
+              {pending ? t`Authorizing…` : t`Authorize identity`}
             </Button>
           </div>
           {proof && (
             <>
               <Field
-                label="Ownership proof"
-                description="Paste this signed proof into the application’s owner attestation field. It is bound to the public key above."
+                label={t`Ownership proof`}
+                description={t`Paste this signed proof into the application’s owner attestation field. It is bound to the public key above.`}
               >
                 <Textarea variant="code" readOnly value={proof} rows={4} />
               </Field>
               <div className="flex flex-wrap gap-2">
                 <Button onClick={() => void copy()}>
-                  Copy ownership proof
+                  {t`Copy ownership proof`}
                 </Button>
               </div>
             </>
@@ -154,25 +165,25 @@ export function ExternalIdentityAuthorization({ viewer }: { viewer: string }) {
       </SettingsGroup>
       {confirmKey && (
         <AlertDialog
-          title="Authorize this identity?"
-          description="The holder of this key can act as your agent, including directing your Buzz coding agents to run commands as you. This permission has no time or event-kind limits."
+          title={t`Authorize this identity?`}
+          description={t`The holder of this key can act as your agent, including directing your Buzz coding agents to run commands as you. This permission has no time or event-kind limits.`}
           initialFocus={cancelButton}
           onClose={() => setConfirmKey(null)}
           actions={
             <>
               <Button ref={cancelButton} onClick={() => setConfirmKey(null)}>
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button
                 variant="prominent"
                 onClick={() => void authorize(confirmKey)}
               >
-                Authorize this key
+                {t`Authorize this key`}
               </Button>
             </>
           }
         >
-          <Field label="Application identity (npub)">
+          <Field label={t`Application identity (npub)`}>
             <Textarea
               variant="code"
               readOnly

@@ -4,6 +4,9 @@ import styles from "./DeveloperSettings.module.css";
 import { Button } from "../shared/design-system/ui/Button";
 import { Accordion } from "../shared/design-system/ui/Accordion";
 import { useEffect, useState } from "react";
+import type { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   clientMetrics,
   type OpenSource,
@@ -16,11 +19,11 @@ type Summary = ReturnType<typeof clientMetrics.summary>;
 type Loads = Summary["opens"]["bySource"][OpenSource];
 type Phase = Summary["phases"][number];
 
-const SOURCES: readonly [OpenSource, string][] = [
-  ["memory", "Memory"],
-  ["disk", "Disk"],
-  ["disk-late", "Disk, late"],
-  ["network", "Server"],
+const SOURCES: readonly [OpenSource, MessageDescriptor][] = [
+  ["memory", msg`Memory`],
+  ["disk", msg`Disk`],
+  ["disk-late", msg`Disk, late`],
+  ["network", msg`Server`],
 ];
 // Emphasis: the wait is what caching and relay work change; render is context.
 const WAIT = "bg-affordance-accent-prominent";
@@ -45,6 +48,7 @@ function LoadRow({
   loads: Loads;
   scale: number;
 }) {
+  const { t } = useLingui();
   const wait = loads.waitP50 ?? 0;
   const render = loads.renderP50 ?? 0;
   const width = (value: number) => `${(value / scale) * 100}%`;
@@ -56,7 +60,7 @@ function LoadRow({
       <span className="text-body-sm tabular-nums">{ms(loads.p50)}</span>
       <span
         className={styles.loadBar}
-        title={`Wait ${ms(wait)}, render ${ms(render)}`}
+        title={t`Wait ${ms(wait)}, render ${ms(render)}`}
       >
         {loads.n > 0 && wait > 0 && (
           <span className={WAIT} style={{ width: width(wait) }} />
@@ -67,8 +71,8 @@ function LoadRow({
       </span>
       <span className={`${styles.loadDetail} text-metadata tabular-nums`}>
         {loads.n
-          ? `wait ${ms(wait)} · render ${ms(render)} · p90 ${ms(loads.p90)}`
-          : "No opens yet"}
+          ? t`wait ${ms(wait)} · render ${ms(render)} · p90 ${ms(loads.p90)}`
+          : t`No opens yet`}
       </span>
     </li>
   );
@@ -83,14 +87,15 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-const phaseName = (phase: Phase, index: number) =>
+const phaseName = (phase: Phase, index: number, i18n: Pick<I18n, "_">) =>
   phase.kind === "open"
-    ? "App open"
+    ? i18n._(msg`App open`)
     : index
-      ? `Reconnect ${index}`
-      : "Latest reconnect";
+      ? i18n._(msg`Reconnect ${index}`)
+      : i18n._(msg`Latest reconnect`);
 
 export function ClientMetricsPanel() {
+  const { i18n, t } = useLingui();
   const [summary, setSummary] = useState(clientMetrics.summary);
   useEffect(() => {
     const timer = setInterval(
@@ -127,9 +132,12 @@ export function ClientMetricsPanel() {
   );
   const [first, ...reconnects] = phases;
   const cpu = (stage: string) => mainThread.cpu[stage];
-  const cpuLine = (label: string, stage: string) => {
+  // The label is translated outside the template so no macro nests in t``.
+  const cpuLine = (label: MessageDescriptor, stage: string) => {
     const entry = cpu(stage);
-    return entry ? `${label}: ${ms(entry.ms)} for ${entry.count} events` : "";
+    return entry
+      ? `${i18n._(label)}: ${t`${ms(entry.ms)} for ${entry.count} events`}`
+      : "";
   };
 
   return (
@@ -140,12 +148,12 @@ export function ClientMetricsPanel() {
       <div className={styles.metricsHeader}>
         <InlineHeader
           id="client-performance-title"
-          title="Client performance"
-          subtitle="This window, since launch. Data stays on this device."
+          title={t`Client performance`}
+          subtitle={t`This window, since launch. Data stays on this device.`}
           actions={
             <div className={styles.actions}>
               <Button type="button" size="sm" onClick={download}>
-                Export JSON
+                {t`Export JSON`}
               </Button>
               <Button
                 type="button"
@@ -155,17 +163,17 @@ export function ClientMetricsPanel() {
                   setSummary(clientMetrics.summary());
                 }}
               >
-                Reset
+                {t`Reset`}
               </Button>
             </div>
           }
         />
         <SettingsGroup layout="form">
           <dl className={styles.metrics}>
-            <Stat label="Channel opens" value={String(opens.n)} />
-            <Stat label="Median load" value={ms(opens.p50)} />
+            <Stat label={t`Channel opens`} value={String(opens.n)} />
+            <Stat label={t`Median load`} value={ms(opens.p50)} />
             <Stat
-              label="From cache"
+              label={t`From cache`}
               value={
                 opens.cacheHitRate === undefined
                   ? "–"
@@ -175,7 +183,7 @@ export function ClientMetricsPanel() {
           </dl>
           {opens.skipped > 0 && (
             <p className="m-0 text-body-sm text-muted">
-              {opens.skipped} opens not timed: no visible messages to paint.
+              {t`${opens.skipped} opens not timed: no visible messages to paint.`}
             </p>
           )}
         </SettingsGroup>
@@ -184,23 +192,24 @@ export function ClientMetricsPanel() {
       <section aria-labelledby="metrics-loads">
         <InlineHeader
           id="metrics-loads"
-          title="Channel load"
-          subtitle="Median load time by source. Wait and render medians may not add up to the total."
+          title={t`Channel load`}
+          subtitle={t`Median load time by source. Wait and render medians may not add up to the total.`}
         />
         <SettingsGroup layout="form">
           <p className="m-0 flex flex-wrap gap-x-4 text-metadata">
             <span className="flex items-center gap-1.5">
-              <Swatch className={WAIT} /> Wait: disk read or server request
+              <Swatch className={WAIT} /> {t`Wait: disk read or server request`}
             </span>
             <span className="flex items-center gap-1.5">
-              <Swatch className={RENDER} /> Render: rows in memory to on screen
+              <Swatch className={RENDER} />{" "}
+              {t`Render: rows in memory to on screen`}
             </span>
           </p>
           <ul className="m-0 list-none space-y-6 p-0">
             {rows.map(([source, label]) => (
               <LoadRow
                 key={source}
-                label={label}
+                label={i18n._(label)}
                 loads={opens.bySource[source]}
                 scale={scale}
               />
@@ -212,29 +221,31 @@ export function ClientMetricsPanel() {
       <section aria-labelledby="metrics-live">
         <InlineHeader
           id="metrics-live"
-          title="Live subscriptions"
-          subtitle="A subscription is live after stored events arrive (EOSE), and settled when live or failed."
+          title={t`Live subscriptions`}
+          subtitle={t`A subscription is live after stored events arrive (EOSE), and settled when live or failed.`}
         />
         <SettingsGroup layout="form">
           {!first && (
             <p className="m-0 text-body-sm text-muted">
-              No connection measurements yet.
+              {t`No connection measurements yet.`}
             </p>
           )}
           {first && (
             <dl className={styles.metrics}>
-              <Stat label="Connected" value={ms(first.authMs)} />
+              <Stat label={t`Connected`} value={ms(first.authMs)} />
               <Stat
                 label={
-                  first.routes ? `All ${first.routes} settled` : "All settled"
+                  first.routes
+                    ? t`All ${first.routes} settled`
+                    : t`All settled`
                 }
                 value={ms(first.coverageMs)}
               />
               <Stat
-                label="Each, median / slowest"
+                label={t`Each, median / slowest`}
                 value={`${ms(first.routeMs.p50)} / ${ms(first.routeMs.max)}`}
               />
-              <Stat label="Failed" value={String(first.routeErrors)} />
+              <Stat label={t`Failed`} value={String(first.routeErrors)} />
             </dl>
           )}
           {reconnects.length > 0 && (
@@ -242,22 +253,22 @@ export function ClientMetricsPanel() {
               className={styles.history}
               // biome-ignore lint/a11y/noNoninteractiveTabindex: Scroll owner supports keyboard panning of connection history.
               tabIndex={0}
-              aria-label="Connection history"
+              aria-label={t`Connection history`}
             >
               <table className="text-body-sm tabular-nums">
                 <thead>
                   <tr>
-                    <th scope="col">Connection</th>
-                    <th scope="col">Connected</th>
-                    <th scope="col">Settled</th>
-                    <th scope="col">Failed</th>
+                    <th scope="col">{t`Connection`}</th>
+                    <th scope="col">{t`Connected`}</th>
+                    <th scope="col">{t`Settled`}</th>
+                    <th scope="col">{t`Failed`}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {phases.map((phase, index) => (
                     // biome-ignore lint/suspicious/noArrayIndexKey: phases are append-only
                     <tr key={index}>
-                      <th scope="row">{phaseName(phase, index)}</th>
+                      <th scope="row">{phaseName(phase, index, i18n)}</th>
                       <td>{ms(phase.authMs)}</td>
                       <td>
                         {phase.routes} in {ms(phase.coverageMs)}
@@ -276,20 +287,19 @@ export function ClientMetricsPanel() {
         items={[
           {
             value: "details",
-            title: "Main thread and reads",
+            title: t`Main thread and reads`,
             content: (
               <ul className="m-0 list-none space-y-1 p-0 text-body-sm tabular-nums">
                 <li>
-                  Main thread blocked 50 ms or more: {mainThread.longTasks}{" "}
-                  times, {ms(mainThread.longTaskMs)} in total
+                  {t`Main thread blocked 50 ms or more: ${mainThread.longTasks} times, ${ms(mainThread.longTaskMs)} in total`}
                 </li>
                 {[
-                  cpuLine("Checking signatures of relay reads", "verify.read"),
+                  cpuLine(msg`Checking signatures of relay reads`, "verify.read"),
                   cpuLine(
-                    "Checking signatures of disk restores",
+                    msg`Checking signatures of disk restores`,
                     "verify.restore",
                   ),
-                  cpuLine("Building timelines from events", "fold"),
+                  cpuLine(msg`Building timelines from events`, "fold"),
                 ]
                   .filter(Boolean)
                   .map((line) => (
@@ -300,9 +310,7 @@ export function ClientMetricsPanel() {
                     // biome-ignore lint/suspicious/noArrayIndexKey: append-only phases
                     key={`reads-${index}`}
                   >
-                    Reads during {phaseName(phase, index).toLowerCase()}:{" "}
-                    {phase.queries} ({phase.background} background),{" "}
-                    {Math.round(phase.bytes / 1024)} KB
+                    {t`Reads during ${phaseName(phase, index, i18n).toLowerCase()}: ${phase.queries} (${phase.background} background), ${Math.round(phase.bytes / 1024)} KB`}
                   </li>
                 ))}
               </ul>

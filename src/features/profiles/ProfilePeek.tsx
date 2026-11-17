@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
 import {
   UserIcon,
@@ -100,6 +101,7 @@ export function ProfilePeek({
   viewer,
   onFocusChange,
 }: ProfilePeekProps) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const compact = useMessageDensity() === "compact";
   const [hoveredAction, setHoveredAction] = useState<"profile" | "message">();
@@ -264,7 +266,7 @@ export function ProfilePeek({
           </div>
           <div className={styles.identity}>
             <div className={`${styles.name} text-label-sm`}>
-              {agent && <RobotIcon aria-label="Agent" size={14} />}
+              {agent && <RobotIcon aria-label={t`Agent`} size={14} />}
               {name}
             </div>
             {session && <OtherName session={session} pubkey={pubkey} />}
@@ -292,7 +294,7 @@ export function ProfilePeek({
             size="sm"
             shape="round"
             variant="subtle"
-            aria-label="View profile"
+            aria-label={t`View profile`}
             onClick={openProfile}
             icon={
               <span className={styles.actionContent}>
@@ -312,7 +314,7 @@ export function ProfilePeek({
               onPointerEnter={(event) => {
                 if (event.pointerType !== "touch") setHoveredAction("message");
               }}
-              aria-label="Message"
+              aria-label={t`Message`}
               loading={message.opening}
               onClick={() => void message.open()}
               icon={

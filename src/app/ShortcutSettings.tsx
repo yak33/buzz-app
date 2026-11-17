@@ -12,6 +12,9 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import type { I18n } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { isTauri } from "@tauri-apps/api/core";
 import { Button } from "../shared/design-system/ui/Button";
 import {
@@ -38,6 +41,7 @@ import {
 } from "../features/messages/send-key-preference";
 import type { PluginManager } from "../plugins/manager";
 import { editKeyPreference } from "../features/messages/edit-key-preference";
+import { i18n as defaultI18n } from "../features/localization/service";
 
 type Row = Readonly<{
   key: string;
@@ -67,29 +71,32 @@ type Notice = Readonly<{
 }>;
 
 /** The message editor's own keys, shown read-only: it handles them before any shortcut. */
-const editorRows = (sendWithModEnter: boolean): readonly Row[] =>
+const editorRows = (
+  sendWithModEnter: boolean,
+  i18n: Pick<I18n, "_"> = defaultI18n,
+): readonly Row[] =>
   [
     ...composerFormats.map((format) => ({
       title: format.label,
       bindings: formatBindings(format),
     })),
-    { title: "Add or edit link", bindings: linkBindings },
-    { title: "Undo", bindings: [{ key: "z", mod: true }] },
+    { title: i18n._(msg`Add or edit link`), bindings: linkBindings },
+    { title: i18n._(msg`Undo`), bindings: [{ key: "z", mod: true }] },
     {
-      title: "Redo",
+      title: i18n._(msg`Redo`),
       bindings: [
         { key: "z", mod: true, shift: true },
         { key: "y", mod: true },
       ],
     },
     {
-      title: "Send message",
+      title: i18n._(msg`Send message`),
       bindings: [
         sendWithModEnter ? { key: "Enter", mod: true } : { key: "Enter" },
       ],
     },
     {
-      title: "New line",
+      title: i18n._(msg`New line`),
       bindings: sendWithModEnter
         ? [{ key: "Enter" }, { key: "Enter", shift: true }]
         : [{ key: "Enter", shift: true }],
@@ -97,7 +104,7 @@ const editorRows = (sendWithModEnter: boolean): readonly Row[] =>
   ].map(({ title, bindings }, order) => ({
     key: `editor:${title}`,
     title,
-    owner: "Message formatting",
+    owner: i18n._(msg`Message formatting`),
     order,
     readOnly: true,
     defaults: bindings,
@@ -187,6 +194,7 @@ function useShortcutGroups({
   plugins: Pick<PluginManager, "subscribe" | "snapshot">;
   desktop?: boolean;
 }) {
+  const { t, i18n } = useLingui();
   const host = useSyncExternalStore(
     shortcuts.hostSubscribe,
     shortcuts.hostSnapshot,
@@ -234,13 +242,13 @@ function useShortcutGroups({
   const groups: Group[] = [
     {
       id: "host",
-      label: "Buzz",
+      label: t`Buzz`,
       sortKey: "",
       rows: host.map((shortcut) =>
         row(
           shortcut.id,
           shortcut,
-          "Buzz",
+          t`Buzz`,
           desktop &&
             shortcut.binding.some((binding) =>
               includes(DESKTOP_CHORDS, binding),
@@ -276,11 +284,10 @@ function useShortcutGroups({
     ...groups,
     {
       id: "editor",
-      label: "Message formatting",
+      label: t`Message formatting`,
       sortKey: "editor",
-      description:
-        "Built into the message editor. These work while you type and can't be changed.",
-      rows: editorRows(sendWithModEnter),
+      description: t`Built into the message editor. These work while you type and can't be changed.`,
+      rows: editorRows(sendWithModEnter, i18n),
     },
   ];
   return { overrides, error, rows, shownGroups };
@@ -294,11 +301,12 @@ function ShortcutChords({
   chords: readonly KeyBinding[];
   apple: boolean;
 }) {
+  const { t } = useLingui();
   return (
     <span className="inline-flex flex-wrap items-center gap-1 text-body-sm text-subtle">
       {shownChords(chords).map((binding, index) => (
         <Fragment key={formatBinding(binding, apple).text}>
-          {index > 0 && <span>or</span>}
+          {index > 0 && <span>{t`or`}</span>}
           <KeyCombo binding={binding} apple={apple} />
         </Fragment>
       ))}
@@ -326,6 +334,7 @@ export function ShortcutSettings({
   /** Packaged desktop build, where close/quit chords belong to the shell. */
   desktop?: boolean;
 }) {
+  const { i18n, t } = useLingui();
   const { overrides, error, rows, shownGroups } = useShortcutGroups({
     shortcuts,
     bindings,
@@ -368,15 +377,24 @@ export function ShortcutSettings({
     const refuse = (message: string) =>
       setNotice({ key: target.key, tone: "error", message });
     if (binding.key === "Dead" || binding.key === "Unidentified")
-      return refuse("That key can’t be used for a shortcut. Try another.");
+      return refuse(
+        i18n._(msg`That key can’t be used for a shortcut. Try another.`),
+      );
     if (otherPrimary)
       return refuse(
-        "The Windows/Command key isn’t used for shortcuts on this device. Try Control or Alt.",
+        i18n._(
+          msg`The Windows/Command key isn’t used for shortcuts on this device. Try Control or Alt.`,
+        ),
       );
-    if (!binding.mod && !binding.alt)
+    if (!binding.mod && !binding.alt) {
+      // Key names stay English; only the sentence around them is translated.
+      const modifiers = apple ? "Command or Option" : "Control or Alt";
       return refuse(
-        `Include ${apple ? "Command or Option" : "Control or Alt"} so ordinary typing keeps working.`,
+        i18n._(
+          msg`Include ${modifiers} so ordinary typing keeps working.`,
+        ),
       );
+    }
     // Apple's ⌥⇧⌘V browser paste types a layout-specific key, so match the physical V.
     const applePlainPaste =
       apple &&
@@ -387,11 +405,15 @@ export function ShortcutSettings({
       !binding.ctrl;
     if (includes(CLIPBOARD_CHORDS, binding) || applePlainPaste)
       return refuse(
-        `${chord} is reserved for copy, cut, paste and select all. Try another.`,
+        i18n._(
+          msg`${chord} is reserved for copy, cut, paste and select all. Try another.`,
+        ),
       );
     if (desktop && includes(DESKTOP_CHORDS, binding))
       return refuse(
-        `${chord} is reserved for switching or closing tabs and quitting Buzz. Try another.`,
+        i18n._(
+          msg`${chord} is reserved for switching or closing tabs and quitting Buzz. Try another.`,
+        ),
       );
     const conflict = rows.find(
       (row) =>
@@ -400,7 +422,9 @@ export function ShortcutSettings({
     );
     if (conflict)
       return refuse(
-        `${chord} is already used by ${conflict.title} (${conflict.owner}).`,
+        i18n._(
+          msg`${chord} is already used by ${conflict.title} (${conflict.owner}).`,
+        ),
       );
     const isDefault =
       target.defaults.length === 1 &&
@@ -415,7 +439,9 @@ export function ShortcutSettings({
         ? {
             key: target.key,
             tone: "warning",
-            message: `Saved. The message editor handles ${chord} itself while you are typing, so it wins there.`,
+            message: i18n._(
+              msg`Saved. The message editor handles ${chord} itself while you are typing, so it wins there.`,
+            ),
           }
         : null,
     );
@@ -423,18 +449,18 @@ export function ShortcutSettings({
 
   return (
     <section aria-labelledby="shortcut-settings-title">
-      <Header id="shortcut-settings-title" title="Shortcuts" />
+      <Header id="shortcut-settings-title" title={t`Shortcuts`} />
       <div className="grid gap-5">
         <MessageKeyPreference
-          title="Sending messages"
-          label={`Send with ${sendChord}`}
-          description={`Enter adds a new line. ${sendChord} sends your message.`}
+          title={t`Sending messages`}
+          label={t`Send with ${sendChord}`}
+          description={t`Enter adds a new line. ${sendChord} sends your message.`}
           preference={sendKeyPreference}
         />
         <MessageKeyPreference
-          title="Editing messages"
-          label="Edit last message with Up Arrow"
-          description="When the composer is empty, Up Arrow edits your most recent editable message instead of selecting messages."
+          title={t`Editing messages`}
+          label={t`Edit last message with Up Arrow`}
+          description={t`When the composer is empty, Up Arrow edits your most recent editable message instead of selecting messages.`}
           preference={editKeyPreference}
         />
         {rows.length ? (
@@ -471,7 +497,7 @@ export function ShortcutSettings({
           </div>
         ) : (
           <p className="m-0 px-control-inset text-body-sm text-subtle">
-            No shortcuts are available yet.
+            {t`No shortcuts are available yet.`}
           </p>
         )}
         <div className="flex flex-wrap items-center gap-3">
@@ -484,7 +510,7 @@ export function ShortcutSettings({
               bindings.reset();
             }}
           >
-            Reset all shortcuts
+            {t`Reset all shortcuts`}
           </Button>
         </div>
         {error && (
@@ -492,7 +518,7 @@ export function ShortcutSettings({
             <p className="m-0">{error}</p>
             <div>
               <Button type="button" onClick={bindings.retry}>
-                Retry saving shortcuts
+                {t`Retry saving shortcuts`}
               </Button>
             </div>
           </div>
@@ -513,6 +539,7 @@ function MessageKeyPreference({
   description: string;
   preference: typeof sendKeyPreference;
 }) {
+  const { t } = useLingui();
   const checked = preference.usePreference();
   const [error, setError] = useState<string | null>(null);
   const change = (enabled: boolean) => setError(preference.set(enabled));
@@ -532,7 +559,7 @@ function MessageKeyPreference({
           <p className="m-0">{error}</p>
           <div>
             <Button type="button" onClick={() => change(checked)}>
-              Retry saving
+              {t`Retry saving`}
             </Button>
           </div>
         </div>
@@ -566,6 +593,7 @@ function ShortcutRow({
   onCapture: (chord: CapturedChord) => void;
   onReset: () => void;
 }) {
+  const { t } = useLingui();
   const titleId = useId();
   const noticeId = useId();
   const change = useRef<HTMLButtonElement>(null);
@@ -594,14 +622,14 @@ function ShortcutRow({
         subtitle={
           row.readOnly ? (
             explained ? undefined : (
-              "Reserved by Buzz"
+              t`Reserved by Buzz`
             )
           ) : row.override || sharedWith.length > 0 ? (
             <>
-              {row.override && <span className="block">Modified</span>}
+              {row.override && <span className="block">{t`Modified`}</span>}
               {sharedWith.length > 0 && (
                 <span className="block text-subtle">
-                  Also used by{" "}
+                  {t`Also used by`}{" "}
                   {sharedWith
                     .map((other) => `${other.title} (${other.owner})`)
                     .join(", ")}
@@ -615,7 +643,7 @@ function ShortcutRow({
             {listening ? (
               <KeyCaptureControl
                 apple={apple}
-                label={`New shortcut for ${row.title}`}
+                label={t`New shortcut for ${row.title}`}
                 describedBy={notice ? noticeId : undefined}
                 onCapture={onCapture}
                 onCancel={onCancel}
@@ -633,14 +661,14 @@ function ShortcutRow({
                     <PencilSimpleIcon size={16} aria-hidden="true" />
                   )
                 }
-                title={listening ? "Cancel" : "Change shortcut"}
+                title={listening ? t`Cancel` : t`Change shortcut`}
                 ref={change}
                 type="button"
                 size="sm"
                 aria-label={
                   listening
-                    ? `Cancel changing ${row.title}`
-                    : `Change shortcut for ${row.title}`
+                    ? t`Cancel changing ${row.title}`
+                    : t`Change shortcut for ${row.title}`
                 }
                 // Keep focus on the listening control so a click here cancels once.
                 onMouseDown={(event) => event.preventDefault()}
@@ -651,13 +679,13 @@ function ShortcutRow({
               <Button
                 type="button"
                 size="sm"
-                aria-label={`Reset shortcut for ${row.title}`}
+                aria-label={t`Reset shortcut for ${row.title}`}
                 onClick={() => {
                   resetting.current = true;
                   onReset();
                 }}
               >
-                Reset
+                {t`Reset`}
               </Button>
             )}
           </>

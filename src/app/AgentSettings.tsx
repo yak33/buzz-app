@@ -1,4 +1,7 @@
 import { useState } from "react";
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import type { PageNavigation } from "../features/navigation/service";
 import type { Agents } from "../features/agents/service";
 import { AgentDefaults } from "../bundled/agents/AgentDefaults";
@@ -25,15 +28,14 @@ import {
   type KeepAwake,
 } from "../features/agents/keep-awake";
 
-const keepAwakeModes = [
-  { value: "off", label: "Off" },
-  { value: "auto", label: "While agents work" },
-  { value: "on", label: "Always" },
-] as const;
-const delayLabel = (minutes: number) =>
-  minutes < 60
-    ? `${minutes} minutes`
-    : `${minutes / 60} hour${minutes === 60 ? "" : "s"}`;
+const keepAwakeModes: readonly {
+  value: "off" | "auto" | "on";
+  label: MessageDescriptor;
+}[] = [
+  { value: "off", label: msg`Off` },
+  { value: "auto", label: msg`While agents work` },
+  { value: "on", label: msg`Always` },
+];
 
 export function AgentSettings({
   agents,
@@ -49,6 +51,14 @@ export function AgentSettings({
   /** Only the macOS app can keep the computer awake. */
   keepAwakeAvailable?: boolean;
 }) {
+  const { i18n, t } = useLingui();
+  // Plural forms split into complete templates per the localization rules.
+  const delayLabel = (minutes: number) =>
+    minutes < 60
+      ? t`${minutes} minutes`
+      : minutes === 60
+        ? t`1 hour`
+        : t`${minutes / 60} hours`;
   const rememberAgents = useRememberAgentsPreference();
   const keepAwake = useKeepAwakePreference();
   const keepAwakeApplyError = useKeepAwakeApplyError();
@@ -60,7 +70,7 @@ export function AgentSettings({
     setKeepAwakeError(setKeepAwakePreference({ ...keepAwake, ...change }));
   return (
     <section aria-labelledby="agent-settings-title">
-      <Header id="agent-settings-title" title="Agent setup" />
+      <Header id="agent-settings-title" title={t`Agent setup`} />
       {agents && active && (
         <AgentDefaults
           agents={agents}
@@ -69,24 +79,32 @@ export function AgentSettings({
         />
       )}
       <div className="mt-section-gap">
-        <InlineHeader title="Agent behavior" />
+        <InlineHeader title={t`Agent behavior`} />
         <SettingsGroup>
           <SwitchPreferenceRow
-            label="Remember mentioned agents"
-            description="Keep the same agents selected for your next message in this channel or thread."
+            label={t`Remember mentioned agents`}
+            description={t`Keep the same agents selected for your next message in this channel or thread.`}
             checked={rememberAgents}
             onCheckedChange={changeRememberAgents}
           />
           {keepAwakeAvailable && (
             <PreferenceRow
-              title="Keep this Mac awake"
-              subtitle="So agents can keep answering. Closing the lid still puts it to sleep."
+              title={t`Keep this Mac awake`}
+              subtitle={t`So agents can keep answering. Closing the lid still puts it to sleep.`}
               trailing={
                 <Select
-                  label="Keep this Mac awake"
+                  label={t`Keep this Mac awake`}
                   variant="compact"
                   value={keepAwake.mode}
-                  groups={[{ label: "", options: keepAwakeModes }]}
+                  groups={[
+                    {
+                      label: "",
+                      options: keepAwakeModes.map(({ value, label }) => ({
+                        value,
+                        label: i18n._(label),
+                      })),
+                    },
+                  ]}
                   onValueChange={(mode) =>
                     changeKeepAwake({ mode: mode as KeepAwake["mode"] })
                   }
@@ -96,10 +114,10 @@ export function AgentSettings({
           )}
           {keepAwakeAvailable && keepAwake.mode === "auto" && (
             <PreferenceRow
-              title="Stay awake after agents finish"
+              title={t`Stay awake after agents finish`}
               trailing={
                 <Select
-                  label="Stay awake after agents finish"
+                  label={t`Stay awake after agents finish`}
                   variant="compact"
                   value={String(keepAwake.after)}
                   groups={[
@@ -122,7 +140,7 @@ export function AgentSettings({
       </div>
       {active && mentionError && (
         <ToastNotice
-          title="Agent preference wasn’t saved"
+          title={t`Agent preference wasn’t saved`}
           description={mentionError}
         >
           <Button
@@ -130,7 +148,7 @@ export function AgentSettings({
             size="sm"
             onClick={() => changeRememberAgents(rememberAgents)}
           >
-            Retry saving mentioned agents
+            {t`Retry saving mentioned agents`}
           </Button>
         </ToastNotice>
       )}
@@ -140,13 +158,13 @@ export function AgentSettings({
         (keepAwakeAvailable && keepAwakeApplyError ? (
           <ToastNotice title={keepAwakeApplyError}>
             <Button type="button" size="sm" onClick={retryKeepAwake}>
-              Try again
+              {t`Try again`}
             </Button>
           </ToastNotice>
         ) : (
           keepAwakeError && (
             <ToastNotice
-              title="Keep-awake setting wasn’t saved"
+              title={t`Keep-awake setting wasn’t saved`}
               description={keepAwakeError}
             >
               <Button
@@ -154,7 +172,7 @@ export function AgentSettings({
                 size="sm"
                 onClick={() => changeKeepAwake(keepAwake)}
               >
-                Try again
+                {t`Try again`}
               </Button>
             </ToastNotice>
           )

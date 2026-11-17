@@ -1,6 +1,7 @@
 // Browse: the agents this community's members have shared, each importable
 // as a new agent. The catalog is read a page at a time; an over-budget page is
 // retried smaller.
+import { useLingui } from "@lingui/react/macro";
 import {
   type ReactNode,
   useEffect,
@@ -88,9 +89,10 @@ export function AgentBrowse({
   relay,
   ...selection
 }: Selection & { relay: RelayData }) {
+  const { t } = useLingui();
   const connection = useRelayConnection(relay);
   if (connection.status !== "ready")
-    return <p>Connect to a community to browse shared agents.</p>;
+    return <p>{t`Connect to a community to browse shared agents.`}</p>;
   // A new session (another community) starts over from the first page.
   return (
     <SharedAgentList
@@ -111,6 +113,7 @@ function SharedAgentList({
   session: RelaySession;
   community: string | undefined;
 }) {
+  const { t } = useLingui();
   const [events, setEvents] = useState<readonly EventData[]>([]);
   const [cursor, setCursor] = useState<{ until: number; before_id: string }>();
   const [more, setMore] = useState(false);
@@ -181,17 +184,17 @@ function SharedAgentList({
   }, [present, selectedId]);
   return (
     <div className="flex flex-col gap-section-gap">
-      {loading && <p role="status">Loading shared agents…</p>}
+      {loading && <p role="status">{t`Loading shared agents…`}</p>}
       {error && (
         <div role="alert">
-          <p>Couldn’t load shared agents.</p>
+          <p>{t`Couldn’t load shared agents.`}</p>
           <Button onClick={() => setAttempt((value) => value + 1)}>
-            Try again
+            {t`Try again`}
           </Button>
         </div>
       )}
       {!loading && !error && !agents.length && (
-        <p>No shared agents found in this community yet.</p>
+        <p>{t`No shared agents found in this community yet.`}</p>
       )}
       <div ref={grid} className={cardStyles.grid}>
         {agents.map((agent) => (
@@ -223,7 +226,7 @@ function SharedAgentList({
             if (last) setCursor({ until: last.created_at, before_id: last.id });
           }}
         >
-          Load more
+          {t`Load more`}
         </Button>
       )}
     </div>
@@ -234,6 +237,7 @@ export function SharedAgentPanel({
   selection,
   ...importing
 }: Importing & { selection: SharedAgentSelection }) {
+  const { t } = useLingui();
   const { agent, session, community } = selection;
   const pack = agentAvatars.find((item) => item.url === agent.picture);
   const picture = useAvatarPreview(
@@ -246,7 +250,7 @@ export function SharedAgentPanel({
     <div className={pageStyles.detailsScroll}>
       <section
         className={`${hero.hero} ${hero.panelHero}`}
-        aria-label={`${agent.name} identity`}
+        aria-label={t`${agent.name} identity`}
       >
         <ProfileBackdrop src={backdrop} />
         <span className={pageStyles.identityPortrait}>
@@ -265,10 +269,10 @@ export function SharedAgentPanel({
         </div>
       </section>
       <section>
-        <InlineHeader title="About" />
+        <InlineHeader title={t`About`} />
         <SettingsGroup>
           <PreferenceRow
-            title="Shared by"
+            title={t`Shared by`}
             trailing={
               <Sharer
                 pubkey={agent.owner}
@@ -278,11 +282,11 @@ export function SharedAgentPanel({
             }
           />
           <PreferenceRow
-            title="Model"
+            title={t`Model`}
             trailing={
               <span className={styles.fact}>
                 <ModelIcon model={agent.model} />
-                {agent.model || "Not given"}
+                {agent.model || t`Not given`}
               </span>
             }
           />
@@ -294,6 +298,7 @@ export function SharedAgentPanel({
 }
 
 function SharedAgentDetails({ agent }: { agent: SharedAgent }) {
+  const { t } = useLingui();
   const [expanded, setExpanded] = useState(false);
   const id = useId();
   const long =
@@ -301,14 +306,14 @@ function SharedAgentDetails({ agent }: { agent: SharedAgent }) {
     agent.instructions.split("\n").length > 5;
   return (
     <div className={styles.details}>
-      <InlineHeader title="Instructions" />
+      <InlineHeader title={t`Instructions`} />
       <section
         id={id}
         className={styles.instructions}
         data-collapsed={long && !expanded ? "" : undefined}
-        aria-label="Instructions"
+        aria-label={t`Instructions`}
       >
-        {agent.instructions || "No instructions included."}
+        {agent.instructions || t`No instructions included.`}
       </section>
       {long && (
         <div className={styles.instructionsAction}>
@@ -318,7 +323,7 @@ function SharedAgentDetails({ agent }: { agent: SharedAgent }) {
             aria-controls={id}
             onClick={() => setExpanded(!expanded)}
           >
-            {expanded ? "See less" : "See more"}
+            {expanded ? t`See less` : t`See more`}
           </Button>
         </div>
       )}
@@ -372,6 +377,7 @@ function ImportShared({
   variant,
   ...props
 }: Importing & { shared: SharedAgent; variant: "glass" | "subtle" }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   return (
@@ -383,7 +389,7 @@ function ImportShared({
         shape="control"
         onClick={() => setOpen(true)}
       >
-        Import
+        {t`Import`}
       </Button>
       {open && (
         <SharedImportDialog
@@ -408,6 +414,7 @@ export function SharedAgentCardContent({
   /** Conversation cards offer an action in place of model metadata. */
   action?: ReactNode;
 }) {
+  const { t } = useLingui();
   return (
     <>
       <AgentCardBackdrop agent={agent} community={community} />
@@ -420,7 +427,7 @@ export function SharedAgentCardContent({
           <span className={cardStyles.detail}>
             <ModelIcon model={agent.model} />
             <span className={cardStyles.detailText}>
-              {agent.model || "Shared agent"}
+              {agent.model || t`Shared agent`}
             </span>
           </span>
         )}
@@ -462,10 +469,11 @@ export function NoImportTypes({
   agents,
   openSettings,
 }: Pick<Importing, "agents" | "openSettings">) {
+  const { t } = useLingui();
   const { snapshot } = useAgents(agents);
   if (snapshot.status === "loading")
     return (
-      <LoadingRegion pending label="Loading agent types…">
+      <LoadingRegion pending label={t`Loading agent types…`}>
         {null}
       </LoadingRegion>
     );
@@ -473,14 +481,18 @@ export function NoImportTypes({
     <p className="m-0 text-body-sm text-secondary">
       {snapshot.status === "unavailable" ? (
         // As the Agents page's own empty state words it.
-        "Agents runs in the desktop app. Open Buzz there to import one."
+        t`Agents runs in the desktop app. Open Buzz there to import one.`
       ) : snapshot.status === "error" ? (
-        `Agents could not load. ${snapshot.error ?? "Try again."}`
+        snapshot.error ? (
+          t`Agents could not load. ${snapshot.error}`
+        ) : (
+          t`Agents could not load. Try again.`
+        )
       ) : (
         <>
-          No harness that runs agents on this computer is available. Check{" "}
+          {t`No harness that runs agents on this computer is available. Check`}{" "}
           <SettingsSectionLink section="plugins" open={openSettings}>
-            Manage plugins
+            {t`Manage plugins`}
           </SettingsSectionLink>
           .
         </>
@@ -503,6 +515,7 @@ export function SharedImportDialog({
   onClose(): void;
   finalFocus: React.RefObject<HTMLButtonElement | null>;
 }) {
+  const { t } = useLingui();
   const { snapshot, types: known } = useAgents(agents);
   const body = useRef<HTMLDivElement>(null);
   const [initial] = useState(() => {
@@ -581,10 +594,10 @@ export function SharedImportDialog({
       title={shared.name}
       description={
         existing
-          ? "You already have this agent."
+          ? t`You already have this agent.`
           : edited
-            ? "Edited. Changes only affect your copy."
-            : "Import it as is, or edit anything below first. Changes only affect your copy."
+            ? t`Edited. Changes only affect your copy.`
+            : t`Import it as is, or edit anything below first. Changes only affect your copy.`
       }
       headerGap="compact"
       footerGap="compact"
@@ -596,7 +609,7 @@ export function SharedImportDialog({
       leadingActions={
         edited && (
           <Button variant="ghost" disabled={pending} onClick={undo}>
-            Undo changes
+            {t`Undo changes`}
           </Button>
         )
       }
@@ -604,7 +617,7 @@ export function SharedImportDialog({
         <>
           {!(existing && onOpen) && (
             <Button disabled={pending} onClick={onClose}>
-              Cancel
+              {t`Cancel`}
             </Button>
           )}
           <Button
@@ -613,7 +626,7 @@ export function SharedImportDialog({
             loading={pending}
             onClick={() => void run()}
           >
-            {existing ? "Import a copy" : "Import"}
+            {existing ? t`Import a copy` : t`Import`}
           </Button>
           {existing && onOpen && (
             <Button
@@ -621,7 +634,7 @@ export function SharedImportDialog({
               disabled={pending}
               onClick={() => onOpen(existing)}
             >
-              Open {existing.name}
+              {t`Open ${existing.name}`}
             </Button>
           )}
         </>
@@ -646,13 +659,13 @@ export function SharedImportDialog({
         ) : (
           <SettingsGroup>
             <PreferenceRow
-              title="Harness"
+              title={t`Harness`}
               trailing={
                 <Select
-                  label="Harness"
+                  label={t`Harness`}
                   variant="compact"
                   align="end"
-                  placeholder="Choose"
+                  placeholder={t`Choose`}
                   value={type}
                   disabled={pending}
                   groups={[
@@ -670,7 +683,7 @@ export function SharedImportDialog({
             />
             {Model && (
               <PreferenceRow
-                title="Model"
+                title={t`Model`}
                 trailing={
                   <Model
                     key={type}

@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-US\n"
 
+#. placeholder {0}: phaseName(phase, index, i18n).toLowerCase()
+#. placeholder {1}: phase.queries
+#. placeholder {2}: phase.background
+#. placeholder {3}: Math.round(phase.bytes / 1024)
+#: src/app/ClientMetricsPanel.tsx
+msgid "Reads during {0}: {1} ({2} background), {3} KB"
+msgstr "Reads during {0}: {1} ({2} background), {3} KB"
+
 #: src/bundled/channels/CanvasHistory.tsx
 msgid " · Current"
 msgstr " · Current"
@@ -48,6 +56,23 @@ msgstr " · Restored"
 msgid " · Thread"
 msgstr " · Thread"
 
+#: src/app/PluginAccessReview.tsx
+msgid " (added)"
+msgstr " (added)"
+
+#: src/app/PluginAccessReview.tsx
+msgid " (changed)"
+msgstr " (changed)"
+
+#. placeholder {0}: constraint.reference
+#: src/app/PluginImport.tsx
+msgid " (matches the requested commit, verified on {0})"
+msgstr " (matches the requested commit, verified on {0})"
+
+#: src/app/PluginImport.tsx
+msgid " (matches the requested commit, verified on the repository default branch)"
+msgstr " (matches the requested commit, verified on the repository default branch)"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid " (you)"
 msgstr " (you)"
@@ -66,6 +91,14 @@ msgstr " and {0} more"
 #: src/features/messages/TypingIndicator.tsx
 msgid " and {0} others"
 msgstr " and {0} others"
+
+#: src/app/DecisionsSettings.tsx
+msgid " and features like"
+msgstr " and features like"
+
+#: src/app/DecisionsSettings.tsx
+msgid " can use this API for quick, inexpensive judgments, such as whether a watched event should wake your agent. Your chosen provider handles these questions and receives the message text sent with them, which may come from private channels."
+msgstr " can use this API for quick, inexpensive judgments, such as whether a watched event should wake your agent. Your chosen provider handles these questions and receives the message text sent with them, which may come from private channels."
 
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid " in "
@@ -177,6 +210,10 @@ msgstr "“{0}” is not a valid recipient"
 msgid "({unreadCount} new)"
 msgstr "({unreadCount} new)"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "(Automatic)"
+msgstr "(Automatic)"
+
 #: src/features/agents/AISettings.tsx
 msgid "(recommended)"
 msgstr "(recommended)"
@@ -200,6 +237,14 @@ msgstr "{0} · {1}: {2}"
 #: src/features/messages/ComposerModels.tsx
 msgid "{0} · No thinking options"
 msgstr "{0} · No thinking options"
+
+#. placeholder {0}: tool.relay
+#. placeholder {1}: date(tool.created)
+#. placeholder {2}: date(tool.lastUsed)
+#. placeholder {3}: date(tool.expires)
+#: src/app/SecuritySettings.tsx
+msgid "{0} · Paired {1} · Last used {2} · Expires {3} unless used"
+msgstr "{0} · Paired {1} · Last used {2} · Expires {3} unless used"
 
 #. placeholder {0}: group.length
 #: src/features/messages/MessageRow.tsx
@@ -235,6 +280,45 @@ msgstr "{0} failed"
 #: src/features/messages/FileAttachment.tsx
 msgid "{0} file"
 msgstr "{0} file"
+
+#. placeholder {0}: ms(entry.ms)
+#. placeholder {1}: entry.count
+#: src/app/ClientMetricsPanel.tsx
+msgid "{0} for {1} events"
+msgstr "{0} for {1} events"
+
+#. placeholder {0}: minutes / 60
+#: src/app/AgentSettings.tsx
+msgid "{0} hours"
+msgstr "{0} hours"
+
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentDetails.tsx
+msgid "{0} identity"
+msgstr "{0} identity"
+
+#. placeholder {0}: current.manifest.name
+#. placeholder {1}: saved.root
+#. placeholder {2}: source.url
+#: src/app/ManagedPlugins.tsx
+msgid "{0} is already installed from {1}; remove it first to install it from {2}."
+msgstr "{0} is already installed from {1}; remove it first to install it from {2}."
+
+#. placeholder {0}: existing.manifest.name
+#. placeholder {1}: sourceLabel(preview.source, candidate.path)
+#: src/app/PluginImport.tsx
+msgid "{0} is already installed from {installedFrom}; remove it first to install it from {1}."
+msgstr "{0} is already installed from {installedFrom}; remove it first to install it from {1}."
+
+#. placeholder {0}: current.manifest.name
+#. placeholder {0}: existing.manifest.name
+#. placeholder {1}: source.url
+#. placeholder {1}: sourceLabel(preview.source, candidate.path)
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "{0} is already installed from an unknown source; remove it first to install it from {1}."
+msgstr "{0} is already installed from an unknown source; remove it first to install it from {1}."
 
 #. placeholder {0}: team.name
 #: src/bundled/channels/ChannelMembersDialog.tsx
@@ -277,15 +361,30 @@ msgstr "{0} of {1}"
 msgid "{0} of {pageCount}"
 msgstr "{0} of {pageCount}"
 
+#. placeholder {0}: opens.skipped
+#: src/app/ClientMetricsPanel.tsx
+msgid "{0} opens not timed: no visible messages to paint."
+msgstr "{0} opens not timed: no visible messages to paint."
+
 #. placeholder {0}: authorIds.length
 #: src/features/messages/MessageReactions.tsx
 msgid "{0} people"
 msgstr "{0} people"
 
+#. placeholder {0}: update.request.requesterName
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "{0} proposed these changes. Nothing changes until you save."
+msgstr "{0} proposed these changes. Nothing changes until you save."
+
 #. placeholder {0}: activity.replies
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{0} replies"
 msgstr "{0} replies"
+
+#. placeholder {0}: request.requesterName
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "{0} requested this agent. Review its settings before creating it."
+msgstr "{0} requested this agent. Review its settings before creating it."
 
 #. placeholder {0}: request.client
 #: src/features/agents/ExternalAuthorizationDialog.tsx
@@ -301,6 +400,16 @@ msgstr "{0} revisions loaded."
 #: src/features/agents/ActivityTranscript.tsx
 msgid "{0} sections"
 msgstr "{0} sections"
+
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentDetails.tsx
+msgid "{0} settings"
+msgstr "{0} settings"
+
+#. placeholder {0}: shown.label
+#: src/app/DecisionsSettings.tsx
+msgid "{0} settings are unavailable. You can turn its plugin off in"
+msgstr "{0} settings are unavailable. You can turn its plugin off in"
 
 #. placeholder {0}: item.entries.length
 #: src/features/agents/ActivityTranscript.tsx
@@ -323,10 +432,26 @@ msgstr "{0} to {1}"
 msgid "{0} waiting"
 msgstr "{0} waiting"
 
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "{0} wasn't imported."
+msgstr "{0} wasn't imported."
+
+#. placeholder {0}: member.name
+#. placeholder {1}: sentence(message(reason))
+#: src/bundled/agents/AgentsPage.tsx
+msgid "{0} wasn't imported. {1}"
+msgstr "{0} wasn't imported. {1}"
+
 #. placeholder {0}: threadAgents.map(({ pubkey, name }) => resolveName(pubkey, name)).join(", ")
 #: src/features/messages/MessageRow.tsx
 msgid "{0} working"
 msgstr "{0} working"
+
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "{0}, Bestie"
+msgstr "{0}, Bestie"
 
 #. placeholder {0}: copy.done
 #. placeholder {0}: copy.title
@@ -343,6 +468,16 @@ msgstr "{0}. Press Enter to add."
 #: src/features/messages/MessageRow.tsx
 msgid "{0}’s agent"
 msgstr "{0}’s agent"
+
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentDetails.tsx
+msgid "{0}’s name, instructions, and settings are shared across these communities:"
+msgstr "{0}’s name, instructions, and settings are shared across these communities:"
+
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentDetails.tsx
+msgid "{0}’s shared settings"
+msgstr "{0}’s shared settings"
 
 #. placeholder {0}: count.toLocaleString()
 #. placeholder {1}: tracks.some((track) => !track?.done) ? "+" : ""
@@ -401,6 +536,20 @@ msgstr "{channelCount} channels will move back to Channels. This does not delete
 msgid "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
 msgstr "{chatLabel}. Chat unavailable. You don’t have access, or it no longer exists."
 
+#. placeholder {0}: conflict.title
+#. placeholder {1}: conflict.owner
+#: src/app/ShortcutSettings.tsx
+msgid "{chord} is already used by {0} ({1})."
+msgstr "{chord} is already used by {0} ({1})."
+
+#: src/app/ShortcutSettings.tsx
+msgid "{chord} is reserved for copy, cut, paste and select all. Try another."
+msgstr "{chord} is reserved for copy, cut, paste and select all. Try another."
+
+#: src/app/ShortcutSettings.tsx
+msgid "{chord} is reserved for switching or closing tabs and quitting Buzz. Try another."
+msgstr "{chord} is reserved for switching or closing tabs and quitting Buzz. Try another."
+
 #: src/app/AppearanceSettings.tsx
 msgid "{colorLabel} accent color"
 msgstr "{colorLabel} accent color"
@@ -408,6 +557,10 @@ msgstr "{colorLabel} accent color"
 #: src/features/messages/ReplySummary.tsx
 msgid "{count} {replyWord}"
 msgstr "{count} {replyWord}"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "{count} members"
+msgstr "{count} members"
 
 #: src/features/agents/InterruptedNotice.tsx
 msgid "{count} mentions"
@@ -458,6 +611,10 @@ msgstr "{detail} · {count} mentions"
 msgid "{displayLabel} (preview only)"
 msgstr "{displayLabel} (preview only)"
 
+#: src/app/PluginAccessReview.tsx
+msgid "{displayName} details"
+msgstr "{displayName} details"
+
 #: src/features/agents/ModelFamilyMenu.tsx
 msgid "{family} models"
 msgstr "{family} models"
@@ -479,6 +636,10 @@ msgstr "{heading}: No revisions returned."
 msgid "{headingTitle} conversations"
 msgstr "{headingTitle} conversations"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "{here} already here"
+msgstr "{here} already here"
+
 #: src/features/identity/ProfileStep.tsx
 msgid "{host} no longer admits this key. Ask a community administrator to restore your access."
 msgstr "{host} no longer admits this key. Ask a community administrator to restore your access."
@@ -486,6 +647,10 @@ msgstr "{host} no longer admits this key. Ask a community administrator to resto
 #: src/features/messages/MessageActionBar.tsx
 msgid "{label} copied"
 msgstr "{label} copied"
+
+#: src/app/IdentitySettings.tsx
+msgid "{label} copied."
+msgstr "{label} copied."
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "{label} date"
@@ -525,6 +690,7 @@ msgstr "{memberName} is in the {placeText}."
 msgid "{mentionCount} unread mentions"
 msgstr "{mentionCount} unread mentions"
 
+#: src/app/AgentSettings.tsx
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 msgid "{minutes} minutes"
 msgstr "{minutes} minutes"
@@ -532,6 +698,10 @@ msgstr "{minutes} minutes"
 #: src/features/messages/MessageRow.tsx
 msgid "{name} avatar"
 msgstr "{name} avatar"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "{name} imported"
+msgstr "{name} imported"
 
 #: src/app/NotificationSettings.tsx
 msgid "{name} rec."
@@ -600,6 +770,10 @@ msgstr "{seconds} seconds"
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "{shown} after you"
 msgstr "{shown} after you"
+
+#: src/app/ManagedPlugins.tsx
+msgid "{source} recommends a different version of this plugin."
+msgstr "{source} recommends a different version of this plugin."
 
 #: src/features/messages/ActivityGroupPreview.tsx
 msgid "{speaker}: still working — {preview}"
@@ -675,6 +849,10 @@ msgstr "# Goal\n"
 msgid "+{0} more"
 msgstr "+{0} more"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "+{away} in your other communities, who stay on the team."
+msgstr "+{away} in your other communities, who stay on the team."
+
 #. placeholder {0}: row.count
 #: src/bundled/channels/CanvasDiff.tsx
 msgid "⋯ {0} unchanged line"
@@ -689,10 +867,12 @@ msgstr "⋯ {0} unchanged lines"
 msgid "1 day"
 msgstr "1 day"
 
+#: src/app/AgentSettings.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "1 hour"
 msgstr "1 hour"
 
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "1 member"
 msgstr "1 member"
@@ -757,6 +937,18 @@ msgstr "24-hour"
 msgid "8 hours"
 msgstr "8 hours"
 
+#: src/app/IdentitySettings.tsx
+msgid "a {backupLocation} account"
+msgstr "a {backupLocation} account"
+
+#: src/app/IdentitySettings.tsx
+msgid "A backup is saved with a {backupLocation} account."
+msgstr "A backup is saved with a {backupLocation} account."
+
+#: src/app/IdentitySettings.tsx
+msgid "A backup is saved with your {backupLocation} account."
+msgstr "A backup is saved with your {backupLocation} account."
+
 #: src/features/agents/AgentManage.tsx
 msgid "A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here."
 msgstr "A change to them applies in every community. Its picture and what it pays attention to are its own in each. Memory is kept per community, so anything it saved here before comes back, and so do its conversations here."
@@ -772,6 +964,10 @@ msgstr "A different account is saved on this computer"
 #: src/features/direct-messages/NewMessage.tsx
 msgid "A file couldn’t upload. Retry or remove it, then send again."
 msgstr "A file couldn’t upload. Retry or remove it, then send again."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "A new agent will be created with a fresh keypair. The imported agent is independent of the source — identity never travels."
+msgstr "A new agent will be created with a fresh keypair. The imported agent is independent of the source — identity never travels."
 
 #: src/bundled/channels/LiveStatus.tsx
 msgid "A relay request was rate-limited; recovery needs attention."
@@ -789,6 +985,10 @@ msgstr "A selected agent is no longer available. Remove it or refresh its detail
 msgid "A selected recipient is archived or being deleted. Remove it before sending."
 msgstr "A selected recipient is archived or being deleted. Remove it before sending."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "A subscription is live after stored events arrive (EOSE), and settled when live or failed."
+msgstr "A subscription is live after stored events arrive (EOSE), and settled when live or failed."
+
 #: src/features/messages/MessageComposer.tsx
 msgid "A team member is no longer available. Refresh choices before trying again."
 msgstr "A team member is no longer available. Refresh choices before trying again."
@@ -796,6 +996,10 @@ msgstr "A team member is no longer available. Refresh choices before trying agai
 #: src/bundled/channels/SidebarSection.tsx
 msgid "A–Z"
 msgstr "A–Z"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "About"
+msgstr "About"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "About your other agents"
@@ -809,9 +1013,18 @@ msgstr "Accent color"
 msgid "Accent color wasn’t saved"
 msgstr "Accent color wasn’t saved"
 
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "access"
+msgstr "access"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Access"
 msgstr "Access"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Access beyond this list"
+msgstr "Access beyond this list"
 
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Access unavailable"
@@ -821,11 +1034,26 @@ msgstr "Access unavailable"
 msgid "Access updated"
 msgstr "Access updated"
 
+#: src/app/IdentitySettings.tsx
+msgid "Account sign-in error"
+msgstr "Account sign-in error"
+
+#: src/app/IdentitySettings.tsx
+msgid "Accounts"
+msgstr "Accounts"
+
+#: src/app/IdentitySettings.tsx
+msgid "Accounts you use to verify who you are and access your communities."
+msgstr "Accounts you use to verify who you are and access your communities."
+
+#. placeholder {0}: agent.name
 #. placeholder {0}: channel.name
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/channel-navigation/RegionChannelGroup.tsx
 msgid "Actions for {0}"
 msgstr "Actions for {0}"
 
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Actions for {name}"
 msgstr "Actions for {name}"
@@ -842,6 +1070,10 @@ msgstr "Active in the last"
 #: src/app/shell/BestieNavigation.tsx
 msgid "Activity"
 msgstr "Activity"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Activity and diagnostics for this session."
+msgstr "Activity and diagnostics for this session."
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Activity filters and Recent sorting may be out of date."
@@ -866,6 +1098,7 @@ msgstr "Activity: {0} agents working"
 msgid "Activity: {0} working"
 msgstr "Activity: {0} working"
 
+#: src/app/PluginImport.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Add"
 msgstr "Add"
@@ -882,6 +1115,18 @@ msgstr "Add {name} ({keyLabel})"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Add {name} ({keyLabel}) as"
 msgstr "Add {name} ({keyLabel}) as"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Add a name to create your agent"
+msgstr "Add a name to create your agent"
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Add a name to save your agent"
+msgstr "Add a name to save your agent"
+
+#: src/app/PluginImport.tsx
+msgid "Add a plugin"
+msgstr "Add a plugin"
 
 #. placeholder {0}: people[0]?.[1]?.slice(0, 12) ?? ""
 #: src/bundled/channels/OutboxStatus.tsx
@@ -908,6 +1153,22 @@ msgstr "Add as"
 msgid "Add as admin"
 msgstr "Add as admin"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Add avatar"
+msgstr "Add avatar"
+
+#: src/app/PluginImport.tsx
+msgid "Add from folder"
+msgstr "Add from folder"
+
+#: src/app/PluginImport.tsx
+msgid "Add from Git"
+msgstr "Add from Git"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Add its members"
+msgstr "Add its members"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Add link"
 msgstr "Add link"
@@ -915,6 +1176,10 @@ msgstr "Add link"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Add member?"
 msgstr "Add member?"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Add or edit link"
+msgstr "Add or edit link"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Add people and agents"
@@ -949,9 +1214,14 @@ msgstr "Add to participate"
 msgid "Add with view-only access"
 msgstr "Add with view-only access"
 
+#: src/app/PluginAccessReview.tsx
 #: src/bundled/channels/CanvasDiff.tsx
 msgid "Added"
 msgstr "Added"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Added declarations"
+msgstr "Added declarations"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Adding members is unavailable in this connection."
@@ -978,6 +1248,10 @@ msgstr "Admin"
 msgid "after {label}"
 msgstr "after {label}"
 
+#: src/app/PluginAccessReview.tsx
+msgid "After this update"
+msgstr "After this update"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "agent"
 msgstr "agent"
@@ -986,18 +1260,78 @@ msgstr "agent"
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 #: src/features/messages/MessageRow.tsx
+#: src/features/profiles/ProfilePeek.tsx
 msgid "Agent"
 msgstr "Agent"
+
+#: src/bundled/agents/AgentCreateHeader.tsx
+msgid "Agent avatar"
+msgstr "Agent avatar"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Agent avatars"
+msgstr "Agent avatars"
+
+#: src/app/AgentSettings.tsx
+msgid "Agent behavior"
+msgstr "Agent behavior"
 
 #: src/features/agents/AgentConnectionSetup.tsx
 msgid "Agent connection setup"
 msgstr "Agent connection setup"
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Agent details"
+msgstr "Agent details"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Agent execution:"
+msgstr "Agent execution:"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Agent hooks:"
+msgstr "Agent hooks:"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Agent import"
+msgstr "Agent import"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agent keys stay in the desktop app's native custody."
+msgstr "Agent keys stay in the desktop app's native custody."
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Agent name"
+msgstr "Agent name"
+
+#: src/app/AgentSettings.tsx
+msgid "Agent preference wasn’t saved"
+msgstr "Agent preference wasn’t saved"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agent profile"
+msgstr "Agent profile"
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Agent profile actions"
+msgstr "Agent profile actions"
+
+#: src/app/AgentSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Agent setup"
 msgstr "Agent setup"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agent tabs"
+msgstr "Agent tabs"
+
+#: src/app/plugin-categories.ts
+msgid "Agent tools"
+msgstr "Agent tools"
+
+#: src/app/plugin-categories.ts
 #: src/app/shell/BestieNavigation.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Agents"
@@ -1007,14 +1341,56 @@ msgstr "Agents"
 msgid "Agents could not be loaded."
 msgstr "Agents could not be loaded."
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agents could not load"
+msgstr "Agents could not load"
+
+#. placeholder {0}: snapshot.error
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Agents could not load. {0}"
+msgstr "Agents could not load. {0}"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Agents could not load. Try again."
+msgstr "Agents could not load. Try again."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agents header"
+msgstr "Agents header"
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Agents on this device"
 msgstr "Agents on this device"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agents on your devices follow these after their own instructions."
+msgstr "Agents on your devices follow these after their own instructions."
+
+#. placeholder {0}: names(remote)
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agents run by their provider ({0}) will not get these team instructions."
+msgstr "Agents run by their provider ({0}) will not get these team instructions."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agents runs in the desktop app"
+msgstr "Agents runs in the desktop app"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Agents runs in the desktop app. Open Buzz there to import one."
+msgstr "Agents runs in the desktop app. Open Buzz there to import one."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Agents to import"
+msgstr "Agents to import"
 
 #: src/bundled/channels/ChannelActivityPopover.tsx
 #: src/features/messages/TypingIndicator.tsx
 msgid "Agents working now"
 msgstr "Agents working now"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "AI configuration"
+msgstr "AI configuration"
 
 #: src/features/agents/AISettings.tsx
 msgid "AI setup"
@@ -1025,6 +1401,15 @@ msgstr "AI setup"
 #: src/bundled/channels/SidebarSection.tsx
 msgid "All"
 msgstr "All"
+
+#. placeholder {0}: first.routes
+#: src/app/ClientMetricsPanel.tsx
+msgid "All {0} settled"
+msgstr "All {0} settled"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "All settled"
+msgstr "All settled"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Allow automatic spelling correction"
@@ -1046,21 +1431,46 @@ msgstr "Allow notifications and badges to show the unread dot."
 msgid "Allow notifications to receive alerts."
 msgstr "Allow notifications to receive alerts."
 
+#: src/app/PluginAccessReview.tsx
+msgid "Allows further arguments and standard input, with your account’s full access."
+msgstr "Allows further arguments and standard input, with your account’s full access."
+
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
 msgstr "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Already installed"
+msgstr "Already installed"
 
 #: src/features/identity/SignOut.tsx
 msgid "Also erase everything else Buzz stores on this device"
 msgstr "Also erase everything else Buzz stores on this device"
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Also in {otherCommunities}, where it stays."
+msgstr "Also in {otherCommunities}, where it stays."
+
 #: src/features/identity/SignOut.tsx
 msgid "Also remove my agents"
 msgstr "Also remove my agents"
 
+#: src/app/ShortcutSettings.tsx
+msgid "Also used by"
+msgstr "Also used by"
+
+#: src/app/AgentSettings.tsx
+msgid "Always"
+msgstr "Always"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "An agent you're sending to is archived or being deleted. Choose another agent to send."
 msgstr "An agent you're sending to is archived or being deleted. Choose another agent to send."
+
+#: src/app/DecisionsSettings.tsx
+msgid "and paste it below."
+msgstr "and paste it below."
 
 #: src/app/PluginUpdates.tsx
 msgid "Another plugin review opened. Close it before confirming this update."
@@ -1087,6 +1497,10 @@ msgstr "Anyone with this key can act as you. Never share it."
 msgid "App language"
 msgstr "App language"
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "App open"
+msgstr "App open"
+
 #: src/app/AppearanceSettings.tsx
 #: src/app/settings-sections.ts
 #: src/app/shell/ProfileButton.tsx
@@ -1100,6 +1514,14 @@ msgstr "Appearance preview"
 #: src/app/AppearanceSettings.tsx
 msgid "Appearance wasn’t saved"
 msgstr "Appearance wasn’t saved"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Application identity (npub)"
+msgstr "Application identity (npub)"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Application public key (hex)"
+msgstr "Application public key (hex)"
 
 #: src/bundled/channels/SidebarActiveDialog.tsx
 msgid "Apply"
@@ -1172,6 +1594,19 @@ msgstr "Archives without activity."
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 msgid "Archiving {nounText}…"
 msgstr "Archiving {nounText}…"
+
+#. placeholder {0}: index + 1
+#: src/app/PluginAccessReview.tsx
+msgid "Argument {0}"
+msgstr "Argument {0}"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Arguments:"
+msgstr "Arguments:"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Arguments: none"
+msgstr "Arguments: none"
 
 #. placeholder {0}: candidate.name
 #: src/features/agents/AgentConnectionSetup.tsx
@@ -1252,6 +1687,26 @@ msgstr "Authorize"
 msgid "Authorize app"
 msgstr "Authorize app"
 
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Authorize external identity"
+msgstr "Authorize external identity"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Authorize identity"
+msgstr "Authorize identity"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Authorize this identity?"
+msgstr "Authorize this identity?"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Authorize this key"
+msgstr "Authorize this key"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Authorizing…"
+msgstr "Authorizing…"
+
 #: src/features/agents/AISettings.tsx
 msgid "Automatic"
 msgstr "Automatic"
@@ -1272,6 +1727,31 @@ msgstr "Availability: {label}"
 msgid "Availability: {label}, updating to {targetLabel}"
 msgstr "Availability: {label}, updating to {targetLabel}"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Avatar"
+msgstr "Avatar"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Avatar background"
+msgstr "Avatar background"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Avatar picker"
+msgstr "Avatar picker"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Avatar preview"
+msgstr "Avatar preview"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Avatar source"
+msgstr "Avatar source"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Avatar type"
+msgstr "Avatar type"
+
 #: src/app/shell/ProfileButton.tsx
 msgid "away"
 msgstr "away"
@@ -1280,6 +1760,8 @@ msgstr "away"
 msgid "Away"
 msgstr "Away"
 
+#: src/app/PluginImport.tsx
+#: src/bundled/agents/AgentCreateDialog.tsx
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/OnboardingBack.tsx
@@ -1287,6 +1769,10 @@ msgstr "Away"
 #: src/features/identity/Welcome.tsx
 msgid "Back"
 msgstr "Back"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Back to agent settings"
+msgstr "Back to agent settings"
 
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "Back to channel creation"
@@ -1312,13 +1798,26 @@ msgstr "Back to sent"
 msgid "Back to template"
 msgstr "Back to template"
 
+#: src/app/IdentitySettings.tsx
 #: src/features/identity/BackupConsent.tsx
 msgid "Back up key"
 msgstr "Back up key"
 
+#: src/app/IdentitySettings.tsx
+msgid "Back up this key to Builderlab"
+msgstr "Back up this key to Builderlab"
+
 #: src/features/identity/BackupConsent.tsx
 msgid "Back up your key?"
 msgstr "Back up your key?"
+
+#: src/app/IdentitySettings.tsx
+msgid "Backed-up key · Linked"
+msgstr "Backed-up key · Linked"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Background"
+msgstr "Background"
 
 #: src/features/identity/setup.ts
 msgid "Backing up your key…"
@@ -1328,6 +1827,10 @@ msgstr "Backing up your key…"
 msgid "Backup restoration isn’t available for this account. Enter your private key to continue."
 msgstr "Backup restoration isn’t available for this account. Enter your private key to continue."
 
+#: src/app/IdentitySettings.tsx
+msgid "Backup status unknown"
+msgstr "Backup status unknown"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Behavior"
 msgstr "Behavior"
@@ -1336,13 +1839,58 @@ msgstr "Behavior"
 msgid "Bold"
 msgstr "Bold"
 
+#: src/app/PluginImport.tsx
+msgid "Branch or tag (optional)"
+msgstr "Branch or tag (optional)"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Broker activity"
+msgstr "Broker activity"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Broker stats aren’t available. Start the development relay broker on this origin to view them."
+msgstr "Broker stats aren’t available. Start the development relay broker on this origin to view them."
+
+#: src/app/PluginImport.tsx
 #: src/features/identity/KeyImport.tsx
 msgid "Browse"
 msgstr "Browse"
 
+#: src/app/PluginImport.tsx
+msgid "Browse plugin folder"
+msgstr "Browse plugin folder"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Building timelines from events"
+msgstr "Building timelines from events"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Built into the message editor. These work while you type and can't be changed."
+msgstr "Built into the message editor. These work while you type and can't be changed."
+
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bullet list"
 msgstr "Bullet list"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Bundled with Buzz."
+msgstr "Bundled with Buzz."
+
+#: src/app/ShortcutSettings.tsx
+msgid "Buzz"
+msgstr "Buzz"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Buzz (Legacy) only"
+msgstr "Buzz (Legacy) only"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Buzz can call this route with your community session for the plugin."
+msgstr "Buzz can call this route with your community session for the plugin."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Buzz can make HTTPS requests to this address for the plugin."
+msgstr "Buzz can make HTTPS requests to this address for the plugin."
 
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Buzz can show Dock badges."
@@ -1352,13 +1900,30 @@ msgstr "Buzz can show Dock badges."
 msgid "Buzz can’t read the key saved on this computer, so it can’t open with it or copy it. Trying again won’t change that."
 msgstr "Buzz can’t read the key saved on this computer, so it can’t open with it or copy it. Trying again won’t change that."
 
+#: src/app/IdentitySettings.tsx
+msgid "Buzz couldn’t check your saved sign-in. Check your connection, then choose Check again."
+msgstr "Buzz couldn’t check your saved sign-in. Check your connection, then choose Check again."
+
+#. placeholder {0}: String(error)
+#: src/app/DeveloperSettings.tsx
+msgid "Buzz couldn’t clear the cache. {0}"
+msgstr "Buzz couldn’t clear the cache. {0}"
+
 #: src/features/messages/MessageManagement.tsx
 msgid "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
 msgstr "Buzz couldn’t confirm whether this message was delivered. Removing it stops this device from sending it. If it was delivered, it stays in the conversation. This cannot be undone."
 
+#: src/app/ManagedPlugins.tsx
+msgid "Buzz couldn’t load the recommended plugin list from"
+msgstr "Buzz couldn’t load the recommended plugin list from"
+
 #: src/app/NotificationSettings.tsx
 msgid "Buzz couldn’t send the notification"
 msgstr "Buzz couldn’t send the notification"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Buzz couldn’t use the managed plugin file"
+msgstr "Buzz couldn’t use the managed plugin file"
 
 #: src/features/identity/KeyImport.tsx
 msgid "Buzz will automatically sync this key with your Builderlab account"
@@ -1377,24 +1942,63 @@ msgstr "Buzz’s usual pick, {skipped}, isn’t set up on this computer, so this
 msgid "Buzzin’"
 msgstr "Buzzin’"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Cache cleared. Buzz will load channels and media as needed."
+msgstr "Cache cleared. Buzz will load channels and media as needed."
+
 #. placeholder {0}: verifiedName.issuerLabel
 #: src/features/communities/ProfileFields.tsx
 msgid "Cached verification from {0}"
 msgstr "Cached verification from {0}"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Caches"
+msgstr "Caches"
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Calls recorded during this script"
 msgstr "Calls recorded during this script"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Can access files and run programs on your computer."
+msgstr "Can access files and run programs on your computer."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Can read any file your account can, and create folders it resolves."
+msgstr "Can read any file your account can, and create folders it resolves."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Can read hook events and change or block agent actions."
+msgstr "Can read hook events and change or block agent actions."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Can run native agent code and read files on that host. Buzz keeps the agent's identity."
+msgstr "Can run native agent code and read files on that host. Buzz keeps the agent's identity."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Can start a background process with additional arguments, using your account’s full access."
+msgstr "Can start a background process with additional arguments, using your account’s full access."
 
 #: src/app/App.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Can’t connect"
 msgstr "Can’t connect"
 
+#: src/app/CommunityDepartureSettings.tsx
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/CommunityRepositoriesSettings.tsx
+#: src/app/ExternalIdentityAuthorization.tsx
+#: src/app/IdentitySettings.tsx
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginMenu.tsx
 #: src/app/ProfileSettings.tsx
+#: src/app/SecuritySettings.tsx
 #: src/app/shell/MarkAllReadShortcut.tsx
+#: src/app/ShortcutSettings.tsx
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentSettingsHost.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/CanvasEditor.tsx
 #: src/bundled/channels/CanvasHistory.tsx
 #: src/bundled/channels/ChannelDetailsEditor.tsx
@@ -1425,6 +2029,11 @@ msgstr "Can’t connect"
 msgid "Cancel"
 msgstr "Cancel"
 
+#. placeholder {0}: row.title
+#: src/app/ShortcutSettings.tsx
+msgid "Cancel changing {0}"
+msgstr "Cancel changing {0}"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Cancel edit"
 msgstr "Cancel edit"
@@ -1436,6 +2045,14 @@ msgstr "Cancel rename"
 #: src/features/messages/ThreadPanel.tsx
 msgid "Cancel reply target"
 msgstr "Cancel reply target"
+
+#: src/app/IdentitySettings.tsx
+msgid "Cancel sign-in"
+msgstr "Cancel sign-in"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Cancel upload"
+msgstr "Cancel upload"
 
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Cancel upload and remove attachment"
@@ -1484,6 +2101,10 @@ msgstr "Canvas was restored. Your unsaved draft is kept. Copy any edits you want
 msgid "Capture timings"
 msgstr "Capture timings"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Centered"
+msgstr "Centered"
+
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Change access"
 msgstr "Change access"
@@ -1505,13 +2126,39 @@ msgstr "Change access from {0} to {1}. This changes what they can do in this {pl
 msgid "Change access to {0}?"
 msgstr "Change access to {0}?"
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Change avatar"
+msgstr "Change avatar"
+
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Change general access?"
 msgstr "Change general access?"
 
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Change harness from {currentHarness}"
+msgstr "Change harness from {currentHarness}"
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Change name"
+msgstr "Change name"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Change shortcut"
+msgstr "Change shortcut"
+
+#. placeholder {0}: row.title
+#: src/app/ShortcutSettings.tsx
+msgid "Change shortcut for {0}"
+msgstr "Change shortcut for {0}"
+
+#: src/app/PluginAccessReview.tsx
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Changed"
 msgstr "Changed"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Changed declarations"
+msgstr "Changed declarations"
 
 #: src/features/agents/AgentConfigHistory.tsx
 msgid "Changes"
@@ -1570,9 +2217,17 @@ msgstr "Channel ID copied"
 msgid "Channel list needs refreshing."
 msgstr "Channel list needs refreshing."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Channel load"
+msgstr "Channel load"
+
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Channel message history"
 msgstr "Channel message history"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Channel opens"
+msgstr "Channel opens"
 
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Channel preview"
@@ -1667,6 +2322,7 @@ msgstr "Chats you start with New chat in this community begin with this lifetime
 msgid "Check access and share"
 msgstr "Check access and share"
 
+#: src/app/IdentitySettings.tsx
 #: src/app/PluginUpdates.tsx
 #: src/features/updates/UpdateSettings.tsx
 msgid "Check again"
@@ -1680,13 +2336,26 @@ msgstr "Check another device where you’re signed in to Buzz, or look for a bac
 msgid "Check Dock permission"
 msgstr "Check Dock permission"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Check for agents to import"
+msgstr "Check for agents to import"
+
+#: src/app/PluginImport.tsx
 #: src/features/updates/UpdateSettings.tsx
 msgid "Check for updates"
 msgstr "Check for updates"
 
+#: src/app/PluginMenu.tsx
+msgid "Check for updates automatically"
+msgstr "Check for updates automatically"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Check if a new version is available."
 msgstr "Check if a new version is available."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Check other communities and Buzz (Legacy) for agents."
+msgstr "Check other communities and Buzz (Legacy) for agents."
 
 #: src/app/NotificationSettings.tsx
 msgid "Check permission"
@@ -1724,6 +2393,7 @@ msgstr "Checking for a backed-up key…"
 msgid "Checking for updates. Try again when the check finishes."
 msgstr "Checking for updates. Try again when the check finishes."
 
+#: src/app/PluginImport.tsx
 #: src/app/PluginUpdates.tsx
 #: src/features/updates/UpdateSettings.tsx
 msgid "Checking for updates…"
@@ -1732,6 +2402,18 @@ msgstr "Checking for updates…"
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Checking save status…"
 msgstr "Checking save status…"
+
+#: src/app/IdentitySettings.tsx
+msgid "Checking sign-in…"
+msgstr "Checking sign-in…"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Checking signatures of disk restores"
+msgstr "Checking signatures of disk restores"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Checking signatures of relay reads"
+msgstr "Checking signatures of relay reads"
 
 #: src/features/agents/AISettings.tsx
 msgid "Checking this computer…"
@@ -1757,6 +2439,10 @@ msgstr "Checking…"
 #: src/app/AppearanceSettings.tsx
 msgid "Chillin’"
 msgstr "Chillin’"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Choose"
+msgstr "Choose"
 
 #: src/bundled/channels/ChannelsPage.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
@@ -1787,6 +2473,10 @@ msgstr "Choose a harness to continue."
 msgid "Choose a harness to import this agent."
 msgstr "Choose a harness to import this agent."
 
+#: src/app/PluginImport.tsx
+msgid "Choose a plugin"
+msgstr "Choose a plugin"
+
 #: src/app/NotificationSettings.tsx
 msgid "Choose a sound to preview it."
 msgstr "Choose a sound to preview it."
@@ -1794,6 +2484,16 @@ msgstr "Choose a sound to preview it."
 #: src/features/user-status/StatusEditor.tsx
 msgid "Choose a status emoji"
 msgstr "Choose a status emoji"
+
+#. placeholder {0}: agent.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Choose a type for {0}"
+msgstr "Choose a type for {0}"
+
+#. placeholder {0}: team.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Choose a type for team {0}"
+msgstr "Choose a type for team {0}"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Choose an agent to send"
@@ -1807,9 +2507,29 @@ msgstr "Choose at most 32 recipients"
 msgid "Choose attachments"
 msgstr "Choose attachments"
 
+#: src/bundled/agents/AgentCreateHeader.tsx
+msgid "Choose avatar"
+msgstr "Choose avatar"
+
+#: src/app/PluginImport.tsx
+msgid "Choose Back, enter a smaller folder path in Folder, then try again."
+msgstr "Choose Back, enter a smaller folder path in Folder, then try again."
+
+#: src/app/PluginImport.tsx
+msgid "Choose Back, enter the plugin folder in Folder, then try again."
+msgstr "Choose Back, enter the plugin folder in Folder, then try again."
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Choose emoji"
+msgstr "Choose emoji"
+
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Choose expiration date"
 msgstr "Choose expiration date"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Choose file"
+msgstr "Choose file"
 
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Choose folder…"
@@ -1844,6 +2564,14 @@ msgstr "Citrus"
 msgid "Clear {0}"
 msgstr "Clear {0}"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Clear cache"
+msgstr "Clear cache"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Clear cached channels, messages, media, and this account’s saved activity in the current community. Turn metrics and your account, relay, and sidebar settings are kept."
+msgstr "Clear cached channels, messages, media, and this account’s saved activity in the current community. Turn metrics and your account, relay, and sidebar settings are kept."
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Clear draft"
 msgstr "Clear draft"
@@ -1860,9 +2588,17 @@ msgstr "Clear search"
 msgid "Clear status"
 msgstr "Clear status"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Clearing…"
+msgstr "Clearing…"
+
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Click the image to zoom."
 msgstr "Click the image to zoom."
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Client performance"
+msgstr "Client performance"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Clock"
@@ -1873,6 +2609,10 @@ msgid "Clock preference wasn’t saved"
 msgstr "Clock preference wasn’t saved"
 
 #: src/app/App.tsx
+#: src/app/ManagedPlugins.tsx
+#: src/bundled/agents/AgentCreateDialog.tsx
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
@@ -1960,6 +2700,11 @@ msgstr "Collapse"
 msgid "Collapse {0} {replyWord}"
 msgstr "Collapse {0} {replyWord}"
 
+#. placeholder {0}: command.id
+#: src/app/PluginAccessReview.tsx
+msgid "Command {0}:"
+msgstr "Command {0}:"
+
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Comment at current frame"
 msgstr "Comment at current frame"
@@ -1973,6 +2718,19 @@ msgstr "Commenting at {0}"
 msgid "Comments"
 msgstr "Comments"
 
+#: src/app/PluginImport.tsx
+msgid "Commit"
+msgstr "Commit"
+
+#: src/app/PluginImport.tsx
+msgid "Commit:"
+msgstr "Commit:"
+
+#: src/app/plugin-categories.ts
+msgid "Communication"
+msgstr "Communication"
+
+#: src/bundled/agents/AgentDetails.tsx
 #: src/features/communities/CommunityPicker.tsx
 msgid "Communities"
 msgstr "Communities"
@@ -2010,6 +2768,10 @@ msgstr "Community admin"
 #: src/app/ProfileSettings.tsx
 msgid "Community profiles are not available in this build yet."
 msgstr "Community profiles are not available in this build yet."
+
+#: src/app/IdentitySettings.tsx
+msgid "Community sign-ins"
+msgstr "Community sign-ins"
 
 #: src/features/communities/CommunityPicker.tsx
 msgid "Community switcher: {activeLabel}"
@@ -2060,6 +2822,10 @@ msgstr "Compacting session…"
 msgid "Comparison too large; showing full content."
 msgstr "Comparison too large; showing full content."
 
+#: src/app/DecisionsSettings.tsx
+msgid "Complete account setup to use Builderlab for decision requests."
+msgstr "Complete account setup to use Builderlab for decision requests."
+
 #: src/features/identity/KeyRestore.tsx
 msgid "Complete sign-in in your browser if prompted."
 msgstr "Complete sign-in in your browser if prompted."
@@ -2067,6 +2833,10 @@ msgstr "Complete sign-in in your browser if prompted."
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Completed"
 msgstr "Completed"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Computer access"
+msgstr "Computer access"
 
 #: src/features/agents/AgentConnectionSetup.tsx
 #: src/features/identity/JoinCommunity.tsx
@@ -2082,9 +2852,17 @@ msgstr "Connect {0}"
 msgid "Connect to {host}"
 msgstr "Connect to {host}"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Connect to {origin}"
+msgstr "Connect to {origin}"
+
 #: src/features/identity/JoinCommunity.tsx
 msgid "Connect to a community"
 msgstr "Connect to a community"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Connect to a community to browse shared agents."
+msgstr "Connect to a community to browse shared agents."
 
 #: src/app/shell/PageSearch.tsx
 msgid "Connect to this community to search messages."
@@ -2093,6 +2871,14 @@ msgstr "Connect to this community to search messages."
 #: src/features/identity/ConnectChoice.tsx
 msgid "Connect to your community"
 msgstr "Connect to your community"
+
+#: src/app/DecisionsSettings.tsx
+msgid "Connect TypeSafe"
+msgstr "Connect TypeSafe"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Connected"
+msgstr "Connected"
 
 #: src/bundled/channels/LiveStatus.tsx
 msgid "connecting"
@@ -2107,6 +2893,28 @@ msgstr "Connecting to this community…"
 msgid "Connecting…"
 msgstr "Connecting…"
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Connection"
+msgstr "Connection"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Connection history"
+msgstr "Connection history"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Connections"
+msgstr "Connections"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Contact any public website for images"
+msgstr "Contact any public website for images"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Contact any public website for link previews"
+msgstr "Contact any public website for link previews"
+
+#: src/app/PluginImport.tsx
+#: src/bundled/agents/AgentSettingsHost.tsx
 #: src/bundled/channels/CreateChannelDialog.tsx
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/identity/CommunityUrlField.tsx
@@ -2178,11 +2986,19 @@ msgstr "Conversations"
 msgid "Conversations couldn’t open."
 msgstr "Conversations couldn’t open."
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Copied"
+msgstr "Copied"
+
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 #: src/features/identity/PrivateKey.tsx
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Copy"
 msgstr "Copy"
+
+#: src/app/PluginImport.tsx
+msgid "Copy a plugin listing’s Ref into this field. Leave blank to scan the repository’s default branch."
+msgstr "Copy a plugin listing’s Ref into this field. Leave blank to scan the repository’s default branch."
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Copy community URL"
@@ -2213,9 +3029,18 @@ msgstr "Copy name"
 msgid "Copy npub"
 msgstr "Copy npub"
 
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Copy ownership proof"
+msgstr "Copy ownership proof"
+
 #: src/features/identity/PrivateKey.tsx
 msgid "Copy private key"
 msgstr "Copy private key"
+
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Copy public key"
+msgstr "Copy public key"
 
 #: src/features/drafts-sent/DraftPreview.tsx
 #: src/features/messages/MessageComposer.tsx
@@ -2225,6 +3050,10 @@ msgstr "Copy text"
 #: src/features/identity/IdentitySetup.tsx
 msgid "Copy this from Identity details in your old Buzz app. Never share it with anyone."
 msgstr "Copy this from Identity details in your old Buzz app. Never share it with anyone."
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Copy this public key from the application’s identity settings."
+msgstr "Copy this public key from the application’s identity settings."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Copy URL"
@@ -2283,6 +3112,10 @@ msgstr "could not be tagged: the message would be too long"
 msgid "Could not confirm your status. Try again."
 msgstr "Could not confirm your status. Try again."
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Could not copy the public key. Try again."
+msgstr "Could not copy the public key. Try again."
+
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Could not copy the text. Try again."
 msgstr "Could not copy the text. Try again."
@@ -2302,6 +3135,10 @@ msgstr "Could not dismiss the operation."
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Could not load people."
 msgstr "Could not load people."
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Could not load the emoji picker. Reopen it to retry."
+msgstr "Could not load the emoji picker. Reopen it to retry."
 
 #: src/features/agents/ModelFamilyMenu.tsx
 msgid "Could not load thinking levels"
@@ -2364,6 +3201,10 @@ msgstr "Could not update reaction. Try again."
 msgid "Could not update unread state. Try again."
 msgstr "Could not update unread state. Try again."
 
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Couldn’t authorize this identity."
+msgstr "Couldn’t authorize this identity."
+
 #: src/app/PluginUpdates.tsx
 msgid "Couldn’t check for updates."
 msgstr "Couldn’t check for updates."
@@ -2388,6 +3229,11 @@ msgstr "Couldn't confirm the revert was saved ({detail}). It may still arrive; c
 #: src/bundled/channels/CreateSidebarSection.tsx
 msgid "Couldn't confirm the section was saved. Try again."
 msgstr "Couldn't confirm the section was saved. Try again."
+
+#. placeholder {0}: label.toLowerCase()
+#: src/app/IdentitySettings.tsx
+msgid "Couldn’t copy {0}. Select it and copy manually."
+msgstr "Couldn’t copy {0}. Select it and copy manually."
 
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "Couldn’t copy channel ID. Try again."
@@ -2425,6 +3271,10 @@ msgstr "Couldn’t copy the URL. Select it and copy manually."
 msgid "Couldn’t copy your private key. Reveal it to copy manually, or retry."
 msgstr "Couldn’t copy your private key. Reveal it to copy manually, or retry."
 
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Couldn’t copy. Select the ownership proof and copy it manually."
+msgstr "Couldn’t copy. Select the ownership proof and copy it manually."
+
 #: src/features/messages/MessageActionBar.tsx
 msgid "Couldn’t copy. Try again from the message menu."
 msgstr "Couldn’t copy. Try again from the message menu."
@@ -2453,6 +3303,12 @@ msgstr "Couldn’t finish setup"
 msgid "Couldn’t forward the message. Try again."
 msgstr "Couldn’t forward the message. Try again."
 
+#. placeholder {0}: member.name
+#. placeholder {1}: member.error
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Couldn't import {0}: {1}"
+msgstr "Couldn't import {0}: {1}"
+
 #: src/features/identity/KeyImport.tsx
 msgid "Couldn’t import this key."
 msgstr "Couldn’t import this key."
@@ -2473,6 +3329,10 @@ msgstr "Couldn’t load details"
 #: src/features/agents/AgentConfigHistory.tsx
 msgid "Couldn't load older revisions."
 msgstr "Couldn't load older revisions."
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Couldn’t load shared agents."
+msgstr "Couldn’t load shared agents."
 
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Couldn’t load this preview."
@@ -2519,6 +3379,11 @@ msgstr "Couldn’t retry {agentName}. {detail}"
 #: src/features/identity/PrivateKey.tsx
 msgid "Couldn’t reveal your private key. Retry when secure storage is available."
 msgstr "Couldn’t reveal your private key. Retry when secure storage is available."
+
+#. placeholder {0}: teamError.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Couldn't save team {0}. {saveResult} in Teams."
+msgstr "Couldn't save team {0}. {saveResult} in Teams."
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Couldn’t save the display name. Try again."
@@ -2569,6 +3434,16 @@ msgstr "Couldn’t sign in"
 msgid "Couldn’t sign out"
 msgstr "Couldn’t sign out"
 
+#. placeholder {0}: serverName(authority)
+#. placeholder {1}: recoveryMessage(failure)
+#: src/app/IdentitySettings.tsx
+msgid "Couldn’t sign out of {0}. {1}"
+msgstr "Couldn’t sign out of {0}. {1}"
+
+#: src/app/IdentitySettings.tsx
+msgid "Couldn’t start the backup. Try signing in again."
+msgstr "Couldn’t start the backup. Try signing in again."
+
 #. placeholder {0}: intent.name
 #: src/features/channel-navigation/ChannelNavigationState.tsx
 msgid "Couldn’t unmute {0}"
@@ -2591,13 +3466,29 @@ msgstr "Create a channel"
 msgid "Create a community"
 msgstr "Create a community"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Create a new agent"
+msgstr "Create a new agent"
+
 #: src/features/identity/IdentitySetup.tsx
 msgid "Create a new identity"
 msgstr "Create a new identity"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Create a new team"
+msgstr "Create a new team"
+
 #: src/features/identity/Welcome.tsx
 msgid "Create account"
 msgstr "Create account"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Create agent"
+msgstr "Create agent"
+
+#: src/app/DecisionsSettings.tsx
+msgid "Create an API key at"
+msgstr "Create an API key at"
 
 #: src/bundled/channels/CreateSidebarSection.tsx
 #: src/bundled/channels/SoloChatMenu.tsx
@@ -2630,9 +3521,17 @@ msgstr "Create new…"
 msgid "Create section"
 msgstr "Create section"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Create team"
+msgstr "Create team"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Create this conversation before attaching files."
 msgstr "Create this conversation before attaching files."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Create your first agent"
+msgstr "Create your first agent"
 
 #: src/features/identity/setup.ts
 msgid "Creating your key…"
@@ -2664,6 +3563,10 @@ msgstr "Current version"
 msgid "Custom"
 msgstr "Custom"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Custom background color"
+msgstr "Custom background color"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "Custom date and time"
 msgstr "Custom date and time"
@@ -2678,9 +3581,30 @@ msgstr "Custom model"
 msgid "Dark"
 msgstr "Dark"
 
+#: src/app/DecisionsSettings.tsx
+msgid "Decision provider"
+msgstr "Decision provider"
+
+#: src/app/DecisionsSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Decisions API"
 msgstr "Decisions API"
+
+#: src/app/DecisionsSettings.tsx
+msgid "Decisions API isn’t available for this Builderlab account. Use your own TypeSafe key or contact your account administrator."
+msgstr "Decisions API isn’t available for this Builderlab account. Use your own TypeSafe key or contact your account administrator."
+
+#: src/app/DecisionsSettings.tsx
+msgid "Decisions API Provider"
+msgstr "Decisions API Provider"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Declared access changes"
+msgstr "Declared access changes"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Declared scopes"
+msgstr "Declared scopes"
 
 #: src/bundled/channels/ChannelDurationField.tsx
 msgid "Decrease duration"
@@ -2702,6 +3626,8 @@ msgstr "Default bubble messages at {widthLabel} width."
 msgid "Default REPOS folder in each agent’s workspace"
 msgstr "Default REPOS folder in each agent’s workspace"
 
+#: src/app/PluginMenu.tsx
+#: src/bundled/agents/AgentDetails.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 #: src/features/agents/ActivityTranscript.tsx
 #: src/features/agents/AgentManage.tsx
@@ -2710,6 +3636,10 @@ msgid "Delete"
 msgstr "Delete"
 
 #. placeholder {0}: agent.name
+#. placeholder {0}: plugin.manifest.name
+#. placeholder {0}: team.name
+#: src/app/PluginMenu.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/agents/AgentManage.tsx
 msgid "Delete {0}?"
 msgstr "Delete {0}?"
@@ -2727,6 +3657,8 @@ msgstr "Delete {nounText}"
 msgid "Delete again to finish here."
 msgstr "Delete again to finish here."
 
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/agents/AgentManage.tsx
 msgid "Delete agent"
 msgstr "Delete agent"
@@ -2738,6 +3670,14 @@ msgstr "Delete message"
 #: src/features/messages/MessageManagement.tsx
 msgid "Delete message?"
 msgstr "Delete message?"
+
+#: src/app/PluginMenu.tsx
+msgid "Delete plugin"
+msgstr "Delete plugin"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Delete team"
+msgstr "Delete team"
 
 #: src/bundled/channels/SoloWorkspaces.tsx
 msgid "Delete workspace"
@@ -2809,9 +3749,14 @@ msgstr "Details the agent can look up as needed."
 msgid "Details unavailable"
 msgstr "Details unavailable"
 
+#: src/app/DeveloperSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Developer"
 msgstr "Developer"
+
+#: src/app/plugin-categories.ts
+msgid "Developer tools & integrations"
+msgstr "Developer tools & integrations"
 
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "Diagnostics"
@@ -2857,6 +3802,14 @@ msgstr "Discard failed update"
 #: src/bundled/channels/CanvasEditor.tsx
 msgid "Discard your draft and reload the saved Canvas?"
 msgstr "Discard your draft and reload the saved Canvas?"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Disk"
+msgstr "Disk"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Disk, late"
+msgstr "Disk, late"
 
 #: src/bundled/channels/SoloWorkspaces.tsx
 #: src/features/agents/AgentConnectionSetup.tsx
@@ -2927,6 +3880,10 @@ msgstr "Dock unread badge"
 msgid "Don’t clear"
 msgstr "Don’t clear"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Don’t remind me again"
+msgstr "Don’t remind me again"
+
 #: src/features/agents/InterruptedNotice.tsx
 msgid "Don’t resume"
 msgstr "Don’t resume"
@@ -2935,9 +3892,16 @@ msgstr "Don’t resume"
 msgid "Don’t show me this again"
 msgstr "Don’t show me this again"
 
+#: src/app/PluginImport.tsx
+#: src/app/PluginMenu.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
+#: src/features/profiles/AvatarEditor.tsx
 msgid "Done"
 msgstr "Done"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "down"
+msgstr "down"
 
 #: src/features/messages/FileAttachment.tsx
 msgid "Download"
@@ -2970,6 +3934,10 @@ msgstr "Downloaded"
 #: src/features/messages/FileAttachment.tsx
 msgid "Downloading {displayName}"
 msgstr "Downloading {displayName}"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Downloading the plugin…"
+msgstr "Downloading the plugin…"
 
 #: src/features/updates/UpdateSettings.tsx
 msgid "Downloading update…"
@@ -3010,13 +3978,33 @@ msgstr "Drafts & sent"
 msgid "Drafts and sent"
 msgstr "Drafts and sent"
 
+#: src/app/PluginImport.tsx
+msgid "Drop a plugin folder here"
+msgstr "Drop a plugin folder here"
+
 #: src/features/messages/FileDropOverlay.tsx
 msgid "Drop files into this conversation"
 msgstr "Drop files into this conversation"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Drop image here"
+msgstr "Drop image here"
+
+#: src/app/PluginImport.tsx
+msgid "Drop one folder, or choose Browse."
+msgstr "Drop one folder, or choose Browse."
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Drop or browse"
+msgstr "Drop or browse"
+
 #: src/features/identity/KeyImport.tsx
 msgid "Drop to use this file."
 msgstr "Drop to use this file."
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Dropped"
+msgstr "Dropped"
 
 #: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/user-status/StatusEditor.tsx
@@ -3026,6 +4014,18 @@ msgstr "Duration"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Duration: {durationLabel}"
 msgstr "Duration: {durationLabel}"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Each request goes to port 443 on a public address and follows no redirect: the plugin sees where a redirect points and decides whether to ask again. Buzz reads at most the page's head and returns only its preview fields, never the page itself. The address check can't recognize internal sites that resolve to public addresses, such as those reached through a company VPN, so the plugin has to refuse those itself. Sites see your IP address."
+msgstr "Each request goes to port 443 on a public address and follows no redirect: the plugin sees where a redirect points and decides whether to ask again. Buzz reads at most the page's head and returns only its preview fields, never the page itself. The address check can't recognize internal sites that resolve to public addresses, such as those reached through a company VPN, so the plugin has to refuse those itself. Sites see your IP address."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Each request goes to port 443 on a public address and follows no redirect: the plugin sees where a redirect points and decides whether to ask again. Only PNG, JPEG, GIF, WebP and AVIF images are returned. The address check can't recognize internal sites that resolve to public addresses, such as those reached through a company VPN, so the plugin has to refuse those itself. Sites see your IP address."
+msgstr "Each request goes to port 443 on a public address and follows no redirect: the plugin sees where a redirect points and decides whether to ask again. Only PNG, JPEG, GIF, WebP and AVIF images are returned. The address check can't recognize internal sites that resolve to public addresses, such as those reached through a company VPN, so the plugin has to refuse those itself. Sites see your IP address."
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Each, median / slowest"
+msgstr "Each, median / slowest"
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "Earlier reply unavailable in loaded history."
@@ -3038,10 +4038,18 @@ msgstr "Earlier reply unavailable in loaded history."
 msgid "Edit"
 msgstr "Edit"
 
+#. placeholder {0}: edited.name
 #. placeholder {0}: item.name
+#. placeholder {0}: team.name
+#: src/bundled/agents/AgentCreateDialog.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Edit {0}"
 msgstr "Edit {0}"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Edit avatar"
+msgstr "Edit avatar"
 
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 msgid "Edit channel details"
@@ -3064,6 +4072,10 @@ msgstr "Edit connection"
 msgid "Edit details"
 msgstr "Edit details"
 
+#: src/app/ShortcutSettings.tsx
+msgid "Edit last message with Up Arrow"
+msgstr "Edit last message with Up Arrow"
+
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Edit link"
 msgstr "Edit link"
@@ -3077,6 +4089,10 @@ msgstr "Edit message"
 msgid "Edit queued message"
 msgstr "Edit queued message"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Edit team"
+msgstr "Edit team"
+
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Edit template"
 msgstr "Edit template"
@@ -3084,6 +4100,10 @@ msgstr "Edit template"
 #: src/features/messages/MessageRow.tsx
 msgid "edited"
 msgstr "edited"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Edited. Changes only affect your copy."
+msgstr "Edited. Changes only affect your copy."
 
 #: src/features/agents/current-activity.ts
 msgid "Editing"
@@ -3096,6 +4116,23 @@ msgstr "Editing is unavailable on this connection."
 #: src/features/messages/MessageComposer.tsx
 msgid "Editing message"
 msgstr "Editing message"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Editing messages"
+msgstr "Editing messages"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Emoji"
+msgstr "Emoji"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Emoji position"
+msgstr "Emoji position"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Emoji size"
+msgstr "Emoji size"
 
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Empty"
@@ -3121,6 +4158,19 @@ msgstr "Enable its runtime plugin, or use the Buzz copy that runs this agent. Yo
 msgid "Enable Messages to see conversations."
 msgstr "Enable Messages to see conversations."
 
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Enable plugin"
+msgstr "Enable plugin"
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Enable the plugin that provides this agent's type in"
+msgstr "Enable the plugin that provides this agent's type in"
+
+#: src/app/CommunityDepartureSettings.tsx
+msgid "Ends your membership and removes community from this device. Rejoining may require a new invite."
+msgstr "Ends your membership and removes community from this device. Rejoining may require a new invite."
+
 #: src/features/identity/Welcome.tsx
 msgid "Enter a community address or an invite link to continue."
 msgstr "Enter a community address or an invite link to continue."
@@ -3142,9 +4192,17 @@ msgstr "Enter a name for your community profile. You can change it later."
 msgid "Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community."
 msgstr "Enter a wss:// or https:// relay address without a path. Changing the connection URL does not rename or move this community."
 
+#: src/app/ShortcutSettings.tsx
+msgid "Enter adds a new line. {sendChord} sends your message."
+msgstr "Enter adds a new line. {sendChord} sends your message."
+
 #: src/features/identity/KeyRestore.tsx
 msgid "Enter my private key"
 msgstr "Enter my private key"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Enter the application's 64-character hexadecimal public key, different from your own key."
+msgstr "Enter the application's 64-character hexadecimal public key, different from your own key."
 
 #: src/features/identity/KeyImport.tsx
 #: src/features/identity/RestoreIdentity.tsx
@@ -3156,10 +4214,18 @@ msgstr "Enter your private key"
 msgid "Erasing clears this app’s data, local storage, caches and plugin storage on this device only. It can’t reach your clipboard, keys you exported, or relay data; your npub and its history stay on the relays."
 msgstr "Erasing clears this app’s data, local storage, caches and plugin storage on this device only. It can’t reach your clipboard, keys you exported, or relay data; your npub and its history stay on the relays."
 
+#: src/app/DeveloperSettings.tsx
+msgid "Errors"
+msgstr "Errors"
+
 #. placeholder {0}: asking.name
 #: src/app/shell/MarkAllReadShortcut.tsx
 msgid "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
 msgstr "Every conversation in {0} will show as read. You can still mark a conversation unread afterward."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Every member follows these after its own instructions."
+msgstr "Every member follows these after its own instructions."
 
 #: src/bundled/channels/ChannelPrivacyConfirmation.tsx
 msgid "Everyone in this community will be able to view this channel’s full history."
@@ -3169,6 +4235,10 @@ msgstr "Everyone in this community will be able to view this channel’s full hi
 msgid "Everyone who reacted"
 msgstr "Everyone who reacted"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Executable artifact:"
+msgstr "Executable artifact:"
+
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Existing members keep their access."
 msgstr "Existing members keep their access."
@@ -3177,13 +4247,29 @@ msgstr "Existing members keep their access."
 msgid "Expiration time"
 msgstr "Expiration time"
 
+#: src/app/IdentitySettings.tsx
+msgid "Expires at"
+msgstr "Expires at"
+
 #: src/features/messages/MessageComposer.tsx
 msgid "Explicit mentions"
 msgstr "Explicit mentions"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Explore the marketplace"
+msgstr "Explore the marketplace"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Export JSON"
+msgstr "Export JSON"
+
 #: src/bundled/channels/RelayTimings.tsx
 msgid "Export timings"
 msgstr "Export timings"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Exposes plugin tools through Buzz’s local MCP server."
+msgstr "Exposes plugin tools through Buzz’s local MCP server."
 
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "External app authorization failed"
@@ -3201,9 +4287,15 @@ msgstr "External apps are not enabled here."
 msgid "Extra high"
 msgstr "Extra high"
 
+#: src/app/ClientMetricsPanel.tsx
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Failed"
 msgstr "Failed"
+
+#. placeholder {0}: message(reason)
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Failed to read agent snapshot file. {0}"
+msgstr "Failed to read agent snapshot file. {0}"
 
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Failed to submit report. Try again."
@@ -3212,6 +4304,11 @@ msgstr "Failed to submit report. Try again."
 #: src/features/agents/ModelFamilyMenu.tsx
 msgid "Fast"
 msgstr "Fast"
+
+#. placeholder {0}: manifest.host?.federatedIdentity?.authority ?? ""
+#: src/app/PluginAccessReview.tsx
+msgid "Federated authority {0}:"
+msgstr "Federated authority {0}:"
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Fetch"
@@ -3229,6 +4326,10 @@ msgstr "File"
 msgid "File unavailable"
 msgstr "File unavailable"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Files:"
+msgstr "Files:"
+
 #: src/bundled/channels/SidebarSection.tsx
 msgid "Filter"
 msgstr "Filter"
@@ -3241,6 +4342,10 @@ msgstr "Filter {title}"
 msgid "Filter members: {filterText}"
 msgstr "Filter members: {filterText}"
 
+#: src/app/PluginImport.tsx
+msgid "Find"
+msgstr "Find"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Find a person…"
 msgstr "Find a person…"
@@ -3248,6 +4353,10 @@ msgstr "Find a person…"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Find more matches"
 msgstr "Find more matches"
+
+#: src/app/PluginImport.tsx
+msgid "Find plugins"
+msgstr "Find plugins"
 
 #: src/features/identity/setup.ts
 msgid "Finding communities…"
@@ -3269,6 +4378,7 @@ msgstr "Finish conversion"
 msgid "Finish editing before attaching new files."
 msgstr "Finish editing before attaching new files."
 
+#: src/app/IdentitySettings.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Finish in your browser"
 msgstr "Finish in your browser"
@@ -3277,6 +4387,10 @@ msgstr "Finish in your browser"
 msgid "Finish or cancel your current edit first."
 msgstr "Finish or cancel your current edit first."
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Finish setup"
+msgstr "Finish setup"
+
 #: src/features/identity/Welcome.tsx
 msgid "Finish signing in there, then come back and choose Continue."
 msgstr "Finish signing in there, then come back and choose Continue."
@@ -3284,6 +4398,19 @@ msgstr "Finish signing in there, then come back and choose Continue."
 #: src/bundled/channels/SoloChatName.tsx
 msgid "Finish the pending change in Chat settings first."
 msgstr "Finish the pending change in Chat settings first."
+
+#: src/app/PluginImport.tsx
+msgid "folder"
+msgstr "folder"
+
+#: src/app/PluginImport.tsx
+msgid "Folder (optional)"
+msgstr "Folder (optional)"
+
+#. placeholder {0}: preview.warnings.length
+#: src/app/PluginImport.tsx
+msgid "Folders skipped ({0})"
+msgstr "Folders skipped ({0})"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Follow thread"
@@ -3300,6 +4427,10 @@ msgstr "Follow-up preference wasn’t saved"
 #: src/features/agents/AgentConnectionSetup.tsx
 msgid "Follow-up queued"
 msgstr "Follow-up queued"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "For an application such as Nexus that keeps its own agent key. Only authorize a public key you recognize: this ownership proof has no time or event-kind limits."
+msgstr "For an application such as Nexus that keeps its own agent key. Only authorize a public key you recognize: this ownership proof has no time or event-kind limits."
 
 #: src/features/agents/AgentManage.tsx
 msgid "Forget"
@@ -3335,13 +4466,33 @@ msgstr "Forward"
 msgid "Forward message"
 msgstr "Forward message"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "From"
+msgstr "From"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "From an agent card. Review its settings before creating it."
+msgstr "From an agent card. Review its settings before creating it."
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "From cache"
+msgstr "From cache"
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Full access as the selected agent: the app can use every Buzz tool the agent has, including tools plugins add later. It reads, posts and manages channels where the agent can, uses its memory, attention and Git access to its community's repositories, wakes the agent in its conversations, runs the Nexus workers the agent may run, and can change Buzz settings on this device. It can post any file the agent can read on this device, including outside its workspace. It can disable plugins; installing, updating, enabling or removing one needs your confirmation. Keys stay in Buzz."
 msgstr "Full access as the selected agent: the app can use every Buzz tool the agent has, including tools plugins add later. It reads, posts and manages channels where the agent can, uses its memory, attention and Git access to its community's repositories, wakes the agent in its conversations, runs the Nexus workers the agent may run, and can change Buzz settings on this device. It can post any file the agent can read on this device, including outside its workspace. It can disable plugins; installing, updating, enabling or removing one needs your confirmation. Keys stay in Buzz."
 
+#: src/app/IdentitySettings.tsx
+msgid "Full Buzz ID:"
+msgstr "Full Buzz ID:"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Full name"
 msgstr "Full name"
+
+#: src/app/PluginImport.tsx
+msgid "Future updates will follow"
+msgstr "Future updates will follow"
 
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "General"
@@ -3359,6 +4510,10 @@ msgstr "General access recovery"
 msgid "Getting ready"
 msgstr "Getting ready"
 
+#: src/app/PluginImport.tsx
+msgid "Git or GitHub repository"
+msgstr "Git or GitHub repository"
+
 #: src/app/App.tsx
 #: src/app/shell/NavigationControls.tsx
 #: src/features/identity/KeyLost.tsx
@@ -3373,9 +4528,20 @@ msgstr "Go forward"
 msgid "Go to Messages"
 msgstr "Go to Messages"
 
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentCreateDialog.tsx
+#: src/bundled/agents/AgentSettingsHost.tsx
 #: src/features/agents/AgentConnectionSetup.tsx
 msgid "Harness"
 msgstr "Harness"
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Harness availability"
+msgstr "Harness availability"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Harness unavailable"
+msgstr "Harness unavailable"
 
 #: src/features/agents/AgentInstructions.tsx
 msgid "Help me plan my week and prioritize tasks."
@@ -3448,6 +4614,18 @@ msgstr "Honey"
 msgid "How people with verified names appear to you. Search, profiles, and previews show both."
 msgstr "How people with verified names appear to you. Search, profiles, and previews show both."
 
+#: src/app/PluginImport.tsx
+msgid "HTTPS or SSH; GitHub owner/repository also works. SSH uses your agent and known hosts. Password prompts and credential helpers are not used. Buzz git repositories in this community sign in with your account."
+msgstr "HTTPS or SSH; GitHub owner/repository also works. SSH uses your agent and known hosts. Password prompts and credential helpers are not used. Buzz git repositories in this community sign in with your account."
+
+#: src/app/PluginAccessReview.tsx
+msgid "HTTPS origin {origin}"
+msgstr "HTTPS origin {origin}"
+
+#: src/app/PluginAccessReview.tsx
+msgid "HTTPS origin:"
+msgstr "HTTPS origin:"
+
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
 msgid "I agree to this community’s "
@@ -3472,13 +4650,19 @@ msgstr "I lost my key"
 msgid "I will manage my own key"
 msgstr "I will manage my own key"
 
+#: src/app/IdentitySettings.tsx
 #: src/app/settings-sections.ts
+#: src/bundled/agents/AgentCreateDialog.tsx
 msgid "Identity"
 msgstr "Identity"
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Identity to restore"
 msgstr "Identity to restore"
+
+#: src/app/IdentitySettings.tsx
+msgid "Identity wasn’t copied"
+msgstr "Identity wasn’t copied"
 
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Illegal content"
@@ -3493,6 +4677,7 @@ msgid "image"
 msgstr "image"
 
 #: src/features/messages/MediaReviewViewer.tsx
+#: src/features/profiles/AvatarEditor.tsx
 msgid "Image"
 msgstr "Image"
 
@@ -3515,6 +4700,11 @@ msgstr "Image gallery"
 msgid "Image unavailable"
 msgstr "Image unavailable"
 
+#: src/bundled/agents/AgentAvatarPicker.tsx
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Image upload failed. Try again."
+msgstr "Image upload failed. Try again."
+
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Image viewer"
 msgstr "Image viewer"
@@ -3533,6 +4723,43 @@ msgstr "images"
 msgid "Impersonation"
 msgstr "Impersonation"
 
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import"
+msgstr "Import"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import {name}"
+msgstr "Import {name}"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Import a copy"
+msgstr "Import a copy"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import a team"
+msgstr "Import a team"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import an agent"
+msgstr "Import an agent"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import as"
+msgstr "Import as"
+
+#. placeholder {0}: typeFor(agent.pubkey)?.title
+#. placeholder {1}: agent.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import as {0}, {1}"
+msgstr "Import as {0}, {1}"
+
+#. placeholder {0}: typeFor(team.id)?.title
+#. placeholder {1}: team.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import as {0}, team {1}"
+msgstr "Import as {0}, team {1}"
+
 #: src/features/communities/LegacyCommunityImport.tsx
 msgid "Import communities"
 msgstr "Import communities"
@@ -3541,9 +4768,54 @@ msgstr "Import communities"
 msgid "Import communities from old Buzz?"
 msgstr "Import communities from old Buzz?"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import from a file"
+msgstr "Import from a file"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Import it as is, or edit anything below first. Changes only affect your copy."
+msgstr "Import it as is, or edit anything below first. Changes only affect your copy."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import snapshot"
+msgstr "Import snapshot"
+
+#. placeholder {0}: team.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import team {0}"
+msgstr "Import team {0}"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import them now"
+msgstr "Import them now"
+
 #: src/features/identity/IdentitySetup.tsx
 msgid "Import this identity"
 msgstr "Import this identity"
+
+#. placeholder {0}: agent.name
+#. placeholder {1}: host(agent.relay)
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Import, {0} from {1}"
+msgstr "Import, {0} from {1}"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Imported"
+msgstr "Imported"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Imported {came}; add them"
+msgstr "Imported {came}; add them"
+
+#. placeholder {0}: team.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Imported team {0} with {came}."
+msgstr "Imported team {0} with {came}."
+
+#. placeholder {0}: team.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Imported team {0}."
+msgstr "Imported team {0}."
 
 #: src/features/identity/KeyImport.tsx
 msgid "Importing your key…"
@@ -3570,6 +4842,10 @@ msgstr "In channel"
 msgid "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
 msgstr "In Solo, send follow-ups immediately or queue them until the agent finishes its previous response."
 
+#: src/app/ShortcutSettings.tsx
+msgid "Include {modifiers} so ordinary typing keeps working."
+msgstr "Include {modifiers} so ordinary typing keeps working."
+
 #: src/app/NotificationSettings.tsx
 msgid "Include direct messages in the conversation you’re viewing."
 msgstr "Include direct messages in the conversation you’re viewing."
@@ -3586,14 +4862,43 @@ msgstr "Increase duration"
 msgid "Increase interface size"
 msgstr "Increase interface size"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Info shows lifecycle messages; Debug shows every broker HTTP request and relay WebSocket frame; Trace adds safe protocol metadata. Message bodies and credentials are never included."
+msgstr "Info shows lifecycle messages; Debug shows every broker HTTP request and relay WebSocket frame; Trace adds safe protocol metadata. Message bodies and credentials are never included."
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Input"
 msgstr "Input"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Input:"
+msgstr "Input:"
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Install plugin"
+msgstr "Install plugin"
+
+#. placeholder {0}: location(entry)
+#: src/app/ManagedPlugins.tsx
+msgid "Installed from a different source. Remove it to review the recommended version. {0}"
+msgstr "Installed from a different source. Remove it to review the recommended version. {0}"
+
+#: src/app/PluginImport.tsx
+msgid "Installing plugin…"
+msgstr "Installing plugin…"
 
 #: src/features/updates/UpdateSettings.tsx
 msgid "Installing update…"
 msgstr "Installing update…"
 
+#: src/app/PluginImport.tsx
+msgid "instead of"
+msgstr "instead of"
+
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentSettingsHost.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/agents/AgentConfigHistoryRow.tsx
 #: src/features/agents/AgentInstructions.tsx
 msgid "Instructions"
@@ -3668,6 +4973,10 @@ msgstr "It stops here, leaves this community's channels and is archived here. It
 msgid "It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
 msgstr "It stops in every community it's in. In each one it leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
 
+#: src/app/SecuritySettings.tsx
+msgid "It stops working until you pair it again with buzz auth desktop pair."
+msgstr "It stops working until you pair it again with buzz auth desktop pair."
+
 #: src/features/agents/AgentManage.tsx
 msgid "It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
 msgstr "It stops, leaves every channel and is archived so it no longer appears in member lists or mention suggestions, then its key is deleted from this device. It can't be undone."
@@ -3675,6 +4984,10 @@ msgstr "It stops, leaves every channel and is archived so it no longer appears i
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first."
 msgstr "It’s a starter channel, so new members will be added to it again if it’s made public. To stop that, turn off Starter channel for new members in Settings first."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "It's deleted on all your devices. Its agents aren't deleted, but they stop getting its instructions. It can't be undone."
+msgstr "It's deleted on all your devices. Its agents aren't deleted, but they stop getting its instructions. It can't be undone."
 
 #: src/bundled/channels/ChannelStateNotice.tsx
 msgid "It’s hidden from the sidebar until it’s unarchived."
@@ -3688,6 +5001,10 @@ msgstr "Italic"
 msgid "item"
 msgstr "item"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Its agents aren't deleted, but they stop getting its instructions. It can't be undone."
+msgstr "Its agents aren't deleted, but they stop getting its instructions. It can't be undone."
+
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "Its agents can’t be checked right now, so they can’t be added. Retry, or choose None to create the channel without them."
 msgstr "Its agents can’t be checked right now, so they can’t be added. Retry, or choose None to create the channel without them."
@@ -3696,14 +5013,30 @@ msgstr "Its agents can’t be checked right now, so they can’t be added. Retry
 msgid "Its communities"
 msgstr "Its communities"
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Its Delete didn't finish, so it stays stopped. Delete it again to finish."
+msgstr "Its Delete didn't finish, so it stays stopped. Delete it again to finish."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Its key is on another of your devices, which runs it. Open Agents there to change or delete it."
+msgstr "Its key is on another of your devices, which runs it. Open Agents there to change or delete it."
+
 #: src/features/agents/AgentManage.tsx
 msgid "Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone."
 msgstr "Its provider deletes it and its key, then it leaves every channel and is archived so it no longer appears in member lists or mention suggestions. It can't be undone."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Its provider made it, but its setup did not finish."
+msgstr "Its provider made it, but its setup did not finish."
 
 #. placeholder {0}: communityDefaultName(leaving.membership)
 #: src/features/communities/CommunityPicker.tsx
 msgid "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
 msgstr "Its relay didn’t confirm the leave, so you may still be a member. You can remove {0} from this device instead, along with its saved drafts and reading positions. This doesn’t change your membership."
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Its Remove didn't finish, so it stays stopped here. Remove it again to finish."
+msgstr "Its Remove didn't finish, so it stays stopped here. Remove it again to finish."
 
 #: src/features/communities/CommunityLanding.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -3769,6 +5102,23 @@ msgstr "Keep editing"
 msgid "Keep my draft"
 msgstr "Keep my draft"
 
+#: src/app/AgentSettings.tsx
+msgid "Keep the same agents selected for your next message in this channel or thread."
+msgstr "Keep the same agents selected for your next message in this channel or thread."
+
+#: src/app/AgentSettings.tsx
+msgid "Keep this Mac awake"
+msgstr "Keep this Mac awake"
+
+#: src/app/AgentSettings.tsx
+msgid "Keep-awake setting wasn’t saved"
+msgstr "Keep-awake setting wasn’t saved"
+
+#. placeholder {0}: foreign.join(", ")
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Kept out: {0}, which another account on this device has."
+msgstr "Kept out: {0}, which another account on this device has."
+
 #: src/features/identity/KeyImport.tsx
 msgid "Key file"
 msgstr "Key file"
@@ -3796,7 +5146,13 @@ msgstr "Later"
 msgid "latest from {0}, {1}"
 msgstr "latest from {0}, {1}"
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Latest reconnect"
+msgstr "Latest reconnect"
+
+#. placeholder {0}: communityDefaultName(community)
 #. placeholder {0}: communityDefaultName(leaving.membership)
+#: src/app/CommunityDepartureSettings.tsx
 #: src/features/communities/CommunityPicker.tsx
 msgid "Leave {0}?"
 msgstr "Leave {0}?"
@@ -3806,11 +5162,13 @@ msgstr "Leave {0}?"
 msgid "Leave {nounText}"
 msgstr "Leave {nounText}"
 
+#: src/app/CommunityDepartureSettings.tsx
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Leave community"
 msgstr "Leave community"
 
+#: src/app/CommunityDepartureSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Leave or remove"
 msgstr "Leave or remove"
@@ -3830,6 +5188,10 @@ msgstr "Leaving {nounText}…"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Leaving…"
 msgstr "Leaving…"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Let’s go"
+msgstr "Let’s go"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
@@ -3861,6 +5223,10 @@ msgstr "Linking your key…"
 msgid "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 msgstr "Live identity access is unavailable. For development, set BUZZ_DEV_VIEWER to your Buzz public key in .env.local, then restart just web or just desktop. See docs/contributing.md for requirements."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Live subscriptions"
+msgstr "Live subscriptions"
+
 #: src/bundled/channels/LiveStatus.tsx
 msgid "Live updates are unavailable."
 msgstr "Live updates are unavailable."
@@ -3876,6 +5242,14 @@ msgstr "Live updates:"
 #: src/bundled/channels/UnreadBadge.tsx
 msgid "Load a verified message before marking through it."
 msgstr "Load a verified message before marking through it."
+
+#: src/app/PluginImport.tsx
+msgid "Load built plugins containing manifest.json and plugin.js. Buzz doesn’t build source code or run install scripts."
+msgstr "Load built plugins containing manifest.json and plugin.js. Buzz doesn’t build source code or run install scripts."
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Load more"
+msgstr "Load more"
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Load more people"
@@ -3897,6 +5271,10 @@ msgstr "Load saved draft"
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Loading access…"
 msgstr "Loading access…"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Loading agent types…"
+msgstr "Loading agent types…"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Loading agents…"
@@ -3978,6 +5356,14 @@ msgstr "Loading saved model and effort…"
 msgid "Loading sent messages…"
 msgstr "Loading sent messages…"
 
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Loading shared agents…"
+msgstr "Loading shared agents…"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Loading the recommended plugin list…"
+msgstr "Loading the recommended plugin list…"
+
 #: src/features/agents/ModelFamilyMenu.tsx
 msgid "Loading thinking levels…"
 msgstr "Loading thinking levels…"
@@ -4015,10 +5401,27 @@ msgstr "Loading your sidebar…"
 msgid "Loading…"
 msgstr "Loading…"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Local"
+msgstr "Local"
+
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/settings-sections.ts
 msgid "Local settings"
 msgstr "Local settings"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Log level"
+msgstr "Log level"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Log level wasn’t saved. Try again."
+msgstr "Log level wasn’t saved. Try again."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Looking for agents…"
+msgstr "Looking for agents…"
 
 #: src/features/communities/FindCommunity.tsx
 msgid "Looking up {host}…"
@@ -4036,6 +5439,16 @@ msgstr "Magenta"
 msgid "Main pane"
 msgstr "Main pane"
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Main thread and reads"
+msgstr "Main thread and reads"
+
+#. placeholder {0}: mainThread.longTasks
+#. placeholder {1}: ms(mainThread.longTaskMs)
+#: src/app/ClientMetricsPanel.tsx
+msgid "Main thread blocked 50 ms or more: {0} times, {1} in total"
+msgstr "Main thread blocked 50 ms or more: {0} times, {1} in total"
+
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "Make channel private?"
 msgstr "Make channel private?"
@@ -4043,6 +5456,10 @@ msgstr "Make channel private?"
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "Make channel public?"
 msgstr "Make channel public?"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Make my bestie"
+msgstr "Make my bestie"
 
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Make teams on the Agents page."
@@ -4057,8 +5474,12 @@ msgid "Manage {name} update checks"
 msgstr "Manage {name} update checks"
 
 #: src/app/App.tsx
+#: src/app/DecisionsSettings.tsx
 #: src/app/PluginUpdates.tsx
 #: src/app/settings-sections.ts
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentsPage.tsx
 msgid "Manage plugins"
 msgstr "Manage plugins"
 
@@ -4069,6 +5490,18 @@ msgstr "Manage this channel and its members."
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Managed by "
 msgstr "Managed by "
+
+#: src/app/PluginAccessReview.tsx
+msgid "Managed files:"
+msgstr "Managed files:"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Managed plugin source"
+msgstr "Managed plugin source"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Managed updates"
+msgstr "Managed updates"
 
 #: src/bundled/channels/ChannelActivityPopover.tsx
 msgid "Mark {nounLabel} from {name} as read"
@@ -4119,6 +5552,10 @@ msgstr "Marked unread"
 msgid "Marked unread on this device only"
 msgstr "Marked unread on this device only"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Marketplace"
+msgstr "Marketplace"
+
 #: src/app/shell/WindowControls.tsx
 msgid "Maximize or restore window"
 msgstr "Maximize or restore window"
@@ -4126,6 +5563,14 @@ msgstr "Maximize or restore window"
 #: src/bundled/channels/ChannelActivityPopover.tsx
 msgid "May be out of date"
 msgstr "May be out of date"
+
+#: src/app/PluginAccessReview.tsx
+msgid "MCP servers:"
+msgstr "MCP servers:"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Media"
+msgstr "Media"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Media comments"
@@ -4135,6 +5580,18 @@ msgstr "Media comments"
 msgid "Media unavailable"
 msgstr "Media unavailable"
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Median load"
+msgstr "Median load"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Median load time by source. Wait and render medians may not add up to the total."
+msgstr "Median load time by source. Wait and render medians may not add up to the total."
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Meet your remote agent"
+msgstr "Meet your remote agent"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "member"
 msgstr "member"
@@ -4143,6 +5600,7 @@ msgstr "member"
 msgid "Member list"
 msgstr "Member list"
 
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "Members"
 msgstr "Members"
@@ -4151,6 +5609,11 @@ msgstr "Members"
 msgid "Memories"
 msgstr "Memories"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Memories stay in each community"
+msgstr "Memories stay in each community"
+
+#: src/app/ClientMetricsPanel.tsx
 #: src/features/agents/tabs.tsx
 msgid "Memory"
 msgstr "Memory"
@@ -4190,6 +5653,7 @@ msgstr "Mentions"
 
 #: src/features/messages/MessageActionBar.tsx
 #: src/features/messages/MessageComposer.tsx
+#: src/features/profiles/ProfilePeek.tsx
 msgid "Message"
 msgstr "Message"
 
@@ -4224,6 +5688,10 @@ msgstr "Message density wasn’t saved"
 #: src/features/messages/MessageManagement.tsx
 msgid "Message edit"
 msgstr "Message edit"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Message formatting"
+msgstr "Message formatting"
 
 #. placeholder {0}: to.name
 #: src/features/messages/ForwardMessage.tsx
@@ -4286,6 +5754,8 @@ msgstr "Minimize window"
 msgid "Mode"
 msgstr "Mode"
 
+#: src/bundled/agents/AgentBrowse.tsx
+#: src/bundled/agents/AgentCreateDialog.tsx
 #: src/features/agents/ModelPicker.tsx
 msgid "Model"
 msgstr "Model"
@@ -4336,9 +5806,17 @@ msgstr "Model, effort, and session controls"
 msgid "Model, effort, and session controls for this chat"
 msgstr "Model, effort, and session controls for this chat"
 
+#: src/app/ShortcutSettings.tsx
+msgid "Modified"
+msgstr "Modified"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Mono"
 msgstr "Mono"
+
+#: src/app/IdentitySettings.tsx
+msgid "More actions for {organization}"
+msgstr "More actions for {organization}"
 
 #: src/bundled/channels/SidebarSection.tsx
 msgid "More actions for {title}"
@@ -4348,6 +5826,10 @@ msgstr "More actions for {title}"
 msgid "More message actions"
 msgstr "More message actions"
 
+#: src/app/PluginMenu.tsx
+msgid "More plugin actions"
+msgstr "More plugin actions"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Most relevant"
 msgstr "Most relevant"
@@ -4355,6 +5837,12 @@ msgstr "Most relevant"
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Move"
 msgstr "Move"
+
+#. placeholder {0}: agent.name
+#. placeholder {1}: migration.target.title
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Move {0} to {1}?"
+msgstr "Move {0} to {1}?"
 
 #. placeholder {0}: channel.name
 #: src/features/channel-navigation/ChannelInventory.tsx
@@ -4364,6 +5852,10 @@ msgstr "Move {0} to section"
 #: src/bundled/channels/SoloChatMenu.tsx
 msgid "Move {name} into a personal workspace that syncs across Buzz."
 msgstr "Move {name} into a personal workspace that syncs across Buzz."
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Move agent?"
+msgstr "Move agent?"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Move channel"
@@ -4412,6 +5904,10 @@ msgstr "Moved to the {pane} pane."
 msgid "Moved to the {target} pane."
 msgstr "Moved to the {target} pane."
 
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Moves"
+msgstr "Moves"
+
 #: src/features/agents/current-activity.ts
 msgid "Moving"
 msgstr "Moving"
@@ -4429,15 +5925,27 @@ msgid "Muted"
 msgstr "Muted"
 
 #: src/app/AppearanceSettings.tsx
+#: src/bundled/agents/AgentCreateDialog.tsx
+#: src/bundled/agents/AgentCreateHeader.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 #: src/bundled/channels/ChannelTextField.tsx
 msgid "Name"
 msgstr "Name"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Name the agent"
+msgstr "Name the agent"
+
 #. placeholder {0}: verifiedName.issuerLabel
 #: src/features/communities/ProfileFields.tsx
 msgid "Name verified by {0}"
 msgstr "Name verified by {0}"
+
+#: src/bundled/agents/AgentCreateHeader.tsx
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Name your agent"
+msgstr "Name your agent"
 
 #: src/features/agents/AgentManage.tsx
 msgid "Name, type and settings, including instructions, model and workspace, are shared across communities."
@@ -4455,9 +5963,17 @@ msgstr "Narrow"
 msgid "Navigation history"
 msgstr "Navigation history"
 
+#: src/app/IdentitySettings.tsx
+msgid "Needs attention"
+msgstr "Needs attention"
+
 #: src/app/shell/NewMenu.tsx
 msgid "New"
 msgstr "New"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "New agent"
+msgstr "New agent"
 
 #: src/app/shell/NewMenu.tsx
 msgid "New channel"
@@ -4489,6 +6005,10 @@ msgstr "New DM"
 #: src/features/agents/ActivityTranscript.tsx
 msgid "New file"
 msgstr "New file"
+
+#: src/app/ShortcutSettings.tsx
+msgid "New line"
+msgstr "New line"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "new message"
@@ -4539,6 +6059,11 @@ msgstr "New session"
 msgid "New session started"
 msgstr "New session started"
 
+#. placeholder {0}: row.title
+#: src/app/ShortcutSettings.tsx
+msgid "New shortcut for {0}"
+msgstr "New shortcut for {0}"
+
 #: src/features/solo/DefaultLifetimeSettings.tsx
 msgid "New Solo chats"
 msgstr "New Solo chats"
@@ -4556,6 +6081,10 @@ msgstr "New task in {0}"
 #: src/features/channel-navigation/WorkspaceComposition.tsx
 msgid "New task in {title}"
 msgstr "New task in {title}"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "New team"
+msgstr "New team"
 
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "New template"
@@ -4596,6 +6125,19 @@ msgstr "next run"
 msgid "No activity in the last {0}"
 msgstr "No activity in the last {0}"
 
+#: src/app/PluginAccessReview.tsx
+msgid "No additional capabilities declared."
+msgstr "No additional capabilities declared."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "No agents found in the sources we could read."
+msgstr "No agents found in the sources we could read."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "No agents to import."
+msgstr "No agents to import."
+
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "No agents yet."
 msgstr "No agents yet."
@@ -4608,6 +6150,10 @@ msgstr "No automatic archive."
 #: src/features/identity/RestoreIdentity.tsx
 msgid "No backups were found for this account."
 msgstr "No backups were found for this account."
+
+#: src/app/PluginImport.tsx
+msgid "No built plugins found. Build the plugin first, then choose its output folder, or use a repository that includes built artifacts."
+msgstr "No built plugins found. Build the plugin first, then choose its output folder, or use a repository that includes built artifacts."
 
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "No channel templates yet"
@@ -4629,9 +6175,21 @@ msgstr "No comments yet. Add the first below."
 msgid "No community is set up at this address."
 msgstr "No community is set up at this address."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "No connection measurements yet."
+msgstr "No connection measurements yet."
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "No current step details received."
 msgstr "No current step details received."
+
+#: src/app/DecisionsSettings.tsx
+msgid "No decision provider is turned on. Turn one on in"
+msgstr "No decision provider is turned on. Turn one on in"
+
+#: src/app/PluginAccessReview.tsx
+msgid "No declared access changes"
+msgstr "No declared access changes"
 
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "No description"
@@ -4653,6 +6211,14 @@ msgstr "No drafts match “{0}”."
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "No eligible agent runs here. Start an agent in this community. Protected agents cannot use external connections."
 msgstr "No eligible agent runs here. Start an agent in this community. Protected agents cannot use external connections."
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "No harness that runs agents on this computer is available. Check"
+msgstr "No harness that runs agents on this computer is available. Check"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "No instructions included."
+msgstr "No instructions included."
 
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
@@ -4694,6 +6260,10 @@ msgstr "No messages yet."
 msgid "No more revisions."
 msgstr "No more revisions."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "No opens yet"
+msgstr "No opens yet"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "No other matching people or agents."
 msgstr "No other matching people or agents."
@@ -4701,6 +6271,22 @@ msgstr "No other matching people or agents."
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "No other matching people."
 msgstr "No other matching people."
+
+#: src/app/SecuritySettings.tsx
+msgid "No paired tools"
+msgstr "No paired tools"
+
+#: src/app/ManagedPlugins.tsx
+msgid "No plugin found at this URL."
+msgstr "No plugin found at this URL."
+
+#: src/app/ManagedPlugins.tsx
+msgid "No plugin source found."
+msgstr "No plugin source found."
+
+#: src/app/PluginImport.tsx
+msgid "No plugins found"
+msgstr "No plugins found"
 
 #: src/features/messages/ComposerAttachmentViewer.tsx
 msgid "No preview available for this file type."
@@ -4719,6 +6305,10 @@ msgstr "No replies after yours"
 msgid "No saved revisions."
 msgstr "No saved revisions."
 
+#: src/app/PluginImport.tsx
+msgid "No saved source. Choose a folder or repository to update this plugin."
+msgstr "No saved source. Choose a folder or repository to update this plugin."
+
 #. placeholder {0}: search.trim()
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "No sent messages match “{0}”"
@@ -4728,9 +6318,25 @@ msgstr "No sent messages match “{0}”"
 msgid "No setting changes."
 msgstr "No setting changes."
 
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "No shared agents found in this community yet."
+msgstr "No shared agents found in this community yet."
+
+#: src/app/ShortcutSettings.tsx
+msgid "No shortcuts are available yet."
+msgstr "No shortcuts are available yet."
+
 #: src/features/messages/ComposerModels.tsx
 msgid "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
 msgstr "No supported model is listed in the loaded catalog. Send omits model and effort overrides and uses the agent's defaults"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "No teams found in the sources we could read."
+msgstr "No teams found in the sources we could read."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "No teams to import."
+msgstr "No teams to import."
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "No turns captured for this scope yet."
@@ -4739,6 +6345,18 @@ msgstr "No turns captured for this scope yet."
 #: src/bundled/channels/SidebarSection.tsx
 msgid "No unread messages"
 msgstr "No unread messages"
+
+#: src/app/PluginImport.tsx
+msgid "No update source found"
+msgstr "No update source found"
+
+#: src/app/PluginImport.tsx
+msgid "No update source found. Try again."
+msgstr "No update source found. Try again."
+
+#: src/app/PluginAccessReview.tsx
+msgid "none"
+msgstr "none"
 
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "None"
@@ -4752,6 +6370,11 @@ msgstr "None of its agents are in this community, and it has no Canvas."
 msgid "None of your backups holds the key linked to this account, so nothing was restored."
 msgstr "None of your backups holds the key linked to this account, so nothing was restored."
 
+#. placeholder {0}: elsewhere.join(", ")
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Not added: {0}, in your other communities. Use Import an agent to add them here, then import the team again."
+msgstr "Not added: {0}, in your other communities. Use Import an agent to add them here, then import the team again."
+
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "Not available"
 msgstr "Not available"
@@ -4759,6 +6382,10 @@ msgstr "Not available"
 #: src/features/agents/AgentManage.tsx
 msgid "Not checked since import, so it may be hidden from member lists and mentions."
 msgstr "Not checked since import, so it may be hidden from member lists and mentions."
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Not given"
+msgstr "Not given"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Not in this {placeText}"
@@ -4787,6 +6414,10 @@ msgstr "Not sent"
 msgid "Not sent. Try again."
 msgstr "Not sent. Try again."
 
+#: src/app/IdentitySettings.tsx
+msgid "Not signed in"
+msgstr "Not signed in"
+
 #: src/features/messages/ForwardMessage.tsx
 msgid "Note (optional)"
 msgstr "Note (optional)"
@@ -4796,9 +6427,17 @@ msgstr "Note (optional)"
 msgid "Notes to self"
 msgstr "Notes to self"
 
+#: src/app/PluginImport.tsx
+msgid "Nothing is installed until you confirm."
+msgstr "Nothing is installed until you confirm."
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Nothing sent yet"
 msgstr "Nothing sent yet"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Nothing to import"
+msgstr "Nothing to import"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "Nothing to interrupt. The session is idle."
@@ -4846,6 +6485,11 @@ msgstr "Now {0}"
 msgid "Nudity or sexual content"
 msgstr "Nudity or sexual content"
 
+#. placeholder {0}: types.find((type) => type.key === harness)?.title ?? harness
+#: src/app/PluginAccessReview.tsx
+msgid "Observe and influence {0}"
+msgstr "Observe and influence {0}"
+
 #: src/bundled/channels/UnreadBadge.tsx
 msgid "Observed messages only—not exact totals. Manual unread is local to this device. Older read hints can expire; this is not an everlasting read receipt log."
 msgstr "Observed messages only—not exact totals. Manual unread is local to this device. Older read hints can expire; this is not an everlasting read receipt log."
@@ -4853,6 +6497,10 @@ msgstr "Observed messages only—not exact totals. Manual unread is local to thi
 #: src/features/messages/MessageRow.tsx
 msgid "Observed unread replies{staleUnreadNote}. Not an exact total."
 msgstr "Observed unread replies{staleUnreadNote}. Not an exact total."
+
+#: src/app/AgentSettings.tsx
+msgid "Off"
+msgstr "Off"
 
 #: src/app/shell/ProfileButton.tsx
 msgid "offline"
@@ -4883,9 +6531,29 @@ msgstr "Older history isn't available from this relay (limit {0} revisions)."
 msgid "Older revisions aren't loaded yet."
 msgstr "Older revisions aren't loaded yet."
 
+#: src/app/IdentitySettings.tsx
+msgid "On a new device"
+msgstr "On a new device"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "On another device"
+msgstr "On another device"
+
+#: src/app/IdentitySettings.tsx
+msgid "On this device"
+msgstr "On this device"
+
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "One person at a time. Remove them to choose someone else."
 msgstr "One person at a time. Remove them to choose someone else."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "One setup, everywhere"
+msgstr "One setup, everywhere"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "One thing to set up first"
+msgstr "One thing to set up first"
 
 #: src/bundled/channels/ChannelDurationField.tsx
 #: src/features/solo/DefaultLifetimeSettings.tsx
@@ -4920,6 +6588,10 @@ msgstr "Only community owners and admins can change this."
 msgid "Only currently accessible messages remain readable."
 msgstr "Only currently accessible messages remain readable."
 
+#: src/app/PluginImport.tsx
+msgid "Only install code you trust."
+msgstr "Only install code you trust."
+
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Only people you add"
 msgstr "Only people you add"
@@ -4944,7 +6616,9 @@ msgstr "Only typing updates are reaching this app."
 msgid "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
 msgstr "Only your available agents can be mentioned in Solo chats. Remove the unavailable recipient and retry."
 
+#. placeholder {0}: existing.name
 #. placeholder {0}: notice.destination.name
+#: src/bundled/agents/AgentBrowse.tsx
 #: src/features/messages/BackgroundUploadStatus.tsx
 msgid "Open {0}"
 msgstr "Open {0}"
@@ -4989,6 +6663,10 @@ msgstr "Open image fullscreen"
 msgid "Open image in browser"
 msgstr "Open image in browser"
 
+#: src/app/PluginImport.tsx
+msgid "Open in Buzz"
+msgstr "Open in Buzz"
+
 #: src/bundled/channels/useConversationTabs.tsx
 msgid "Open in channel"
 msgstr "Open in channel"
@@ -5005,9 +6683,17 @@ msgstr "Open link"
 msgid "Open owner profile: {ownerName}"
 msgstr "Open owner profile: {ownerName}"
 
+#: src/app/ManagedPlugins.tsx
+msgid "Open plugin"
+msgstr "Open plugin"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Open profile for {name} ({keyLabel}){agentNote}{membershipNote}{archivedNote}"
 msgstr "Open profile for {name} ({keyLabel}){agentNote}{membershipNote}{archivedNote}"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Open settings"
+msgstr "Open settings"
 
 #: src/bundled/channels/PageTabs.tsx
 msgid "Open tab pane"
@@ -5044,6 +6730,19 @@ msgstr "Open video fullscreen"
 msgid "Open your DM with {0}"
 msgstr "Open your DM with {0}"
 
+#: src/app/PluginImport.tsx
+msgid "Opened from"
+msgstr "Opened from"
+
+#. placeholder {0}: requester(bound.origin)
+#: src/app/PluginImport.tsx
+msgid "Opened from {0}. "
+msgstr "Opened from {0}. "
+
+#: src/app/PluginImport.tsx
+msgid "Opened from a link. "
+msgstr "Opened from a link. "
+
 #: src/app/App.tsx
 msgid "Opening Buzz"
 msgstr "Opening Buzz"
@@ -5066,6 +6765,10 @@ msgstr "Opening your local identity…"
 msgid "Opening your saved identity…"
 msgstr "Opening your saved identity…"
 
+#: src/app/ShortcutSettings.tsx
+msgid "or"
+msgstr "or"
+
 #: src/features/identity/JoinCommunity.tsx
 msgid "Or create a community"
 msgstr "Or create a community"
@@ -5073,6 +6776,10 @@ msgstr "Or create a community"
 #: src/features/identity/KeyRestore.tsx
 msgid "Or enter your private key if you have a copy."
 msgstr "Or enter your private key if you have a copy."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "or use a build with this harness configured."
+msgstr "or use a build with this harness configured."
 
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Ordered list"
@@ -5083,6 +6790,8 @@ msgstr "Ordered list"
 msgid "Original message unavailable."
 msgstr "Original message unavailable."
 
+#: src/app/Settings.tsx
+#: src/app/shell/SearchSettings.tsx
 #: src/features/agents/ModelFamilyMenu.tsx
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Other"
@@ -5091,6 +6800,14 @@ msgstr "Other"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Other agents"
 msgstr "Other agents"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Other communities and old Buzz"
+msgstr "Other communities and old Buzz"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Other communities only"
+msgstr "Other communities only"
 
 #: src/features/identity/KeyLost.tsx
 msgid "Other communities you’ve joined aren’t listed."
@@ -5113,6 +6830,18 @@ msgstr "Outbox · {0} items"
 msgid "Output"
 msgstr "Output"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Output:"
+msgstr "Output:"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Ownership proof"
+msgstr "Ownership proof"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Ownership proof copied."
+msgstr "Ownership proof copied."
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Page "
 msgstr "Page "
@@ -5125,6 +6854,10 @@ msgstr "Page navigation"
 #: src/app/shell/PageSearch.tsx
 msgid "Pages"
 msgstr "Pages"
+
+#: src/app/SecuritySettings.tsx
+msgid "Paired command-line tools"
+msgstr "Paired command-line tools"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Pane"
@@ -5150,6 +6883,10 @@ msgstr "Password-protected backups aren’t supported here yet. Paste the nsec1 
 msgid "Paste a link or address"
 msgstr "Paste a link or address"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Paste an image URL"
+msgstr "Paste an image URL"
+
 #: src/features/communities/CommunityLanding.tsx
 msgid "Paste an invite link or community URL."
 msgstr "Paste an invite link or community URL."
@@ -5157,6 +6894,10 @@ msgstr "Paste an invite link or community URL."
 #: src/features/identity/PrivateKey.tsx
 msgid "Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 msgstr "Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Paste this signed proof into the application’s owner attestation field. It is bound to the public key above."
+msgstr "Paste this signed proof into the application’s owner attestation field. It is bound to the public key above."
 
 #: src/features/communities/CommunityDialog.tsx
 msgid "Paste your community link. Continue shares your Buzz identity with the community so you can preview it before joining."
@@ -5196,6 +6937,10 @@ msgstr "Pending"
 msgid "People"
 msgstr "People"
 
+#: src/app/plugin-categories.ts
+msgid "People & communities"
+msgstr "People & communities"
+
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "People already in the chat keep their access."
 msgstr "People already in the chat keep their access."
@@ -5230,6 +6975,25 @@ msgstr "Personal space"
 msgid "photos and videos"
 msgstr "photos and videos"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Picture URL (optional)"
+msgstr "Picture URL (optional)"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Pictures, attention, saved memories and conversations stay separate in each community."
+msgstr "Pictures, attention, saved memories and conversations stay separate in each community."
+
+#. placeholder {0}: shortCommit(constraint.commit)
+#. placeholder {1}: constraint.reference
+#: src/app/PluginImport.tsx
+msgid "Pinned to commit {0} on {1}. Nothing is installed unless that commit is verified to be on it. "
+msgstr "Pinned to commit {0} on {1}. Nothing is installed unless that commit is verified to be on it. "
+
+#. placeholder {0}: shortCommit(constraint.commit)
+#: src/app/PluginImport.tsx
+msgid "Pinned to commit {0} on the repository default branch. Nothing is installed unless that commit is verified to be on it. "
+msgstr "Pinned to commit {0} on the repository default branch. Nothing is installed unless that commit is verified to be on it. "
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Plan"
 msgstr "Plan"
@@ -5263,14 +7027,62 @@ msgstr "Please respond to my message above."
 msgid "Please try again."
 msgstr "Please try again."
 
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "plugin"
+msgstr "plugin"
+
+#: src/app/PluginMenu.tsx
+msgid "Plugin actions"
+msgstr "Plugin actions"
+
+#: src/app/PluginMenu.tsx
+msgid "Plugin deletion wasn’t confirmed. Try again."
+msgstr "Plugin deletion wasn’t confirmed. Try again."
+
+#. placeholder {0}: constraint.path
+#: src/app/PluginImport.tsx
+msgid "Plugin folder: {0}. Only this folder is read. "
+msgstr "Plugin folder: {0}. Only this folder is read. "
+
+#: src/app/PluginImport.tsx
+msgid "Plugin import preview"
+msgstr "Plugin import preview"
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Plugin installation wasn’t confirmed. Check the preview and try again."
+msgstr "Plugin installation wasn’t confirmed. Check the preview and try again."
+
 #: src/app/PluginUpdates.tsx
 msgid "Plugin recovery actions"
 msgstr "Plugin recovery actions"
+
+#: src/app/PluginMenu.tsx
+msgid "Plugin rollback wasn’t confirmed. Try again."
+msgstr "Plugin rollback wasn’t confirmed. Try again."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Plugin safety"
+msgstr "Plugin safety"
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Plugin updates"
+msgstr "Plugin updates"
 
 #: src/app/PluginUpdates.tsx
 #: src/app/settings-sections.ts
 msgid "Plugins"
 msgstr "Plugins"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Plugins aren’t sandboxed. They can access your computer beyond these declarations, even when no additional capabilities are listed."
+msgstr "Plugins aren’t sandboxed. They can access your computer beyond these declarations, even when no additional capabilities are listed."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Plugins can access your computer beyond these declarations. Only update code you trust."
+msgstr "Plugins can access your computer beyond these declarations. Only update code you trust."
 
 #: src/bundled/channels/useSoloShare.ts
 msgid "Posting chat link…"
@@ -5352,9 +7164,17 @@ msgstr "Previous image"
 msgid "Previous media"
 msgstr "Previous media"
 
+#: src/app/PluginImport.tsx
+msgid "Previous publisher:"
+msgstr "Previous publisher:"
+
 #: src/features/agents/AgentConfigHistoryRow.tsx
 msgid "Previous versions"
 msgstr "Previous versions"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Previously"
+msgstr "Previously"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -5395,6 +7215,15 @@ msgstr "Private key copied"
 msgid "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 msgstr "Private key copied. Paste it somewhere safe now: Buzz tries to clear it from your clipboard in a minute."
 
+#. placeholder {0}: process.id
+#: src/app/PluginAccessReview.tsx
+msgid "Process {0}:"
+msgstr "Process {0}:"
+
+#: src/app/plugin-categories.ts
+msgid "Productivity"
+msgstr "Productivity"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Profanity or hate speech"
 msgstr "Profanity or hate speech"
@@ -5416,9 +7245,21 @@ msgstr "Profile preview"
 msgid "Profile updated"
 msgstr "Profile updated"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Program:"
+msgstr "Program:"
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Prompt context"
 msgstr "Prompt context"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Provide tools to local agents"
+msgstr "Provide tools to local agents"
+
+#: src/app/DecisionsSettings.tsx
+msgid "Providers"
+msgstr "Providers"
 
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Public (existing)"
@@ -5432,17 +7273,37 @@ msgstr "Public channel"
 msgid "Public identity:"
 msgstr "Public identity:"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Public images:"
+msgstr "Public images:"
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Public key"
+msgstr "Public key"
+
 #: src/features/identity/PublicKeyPanel.tsx
 msgid "Public key copied."
 msgstr "Public key copied."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Public pages:"
+msgstr "Public pages:"
 
 #: src/features/communities/CommunityDialog.tsx
 msgid "Publish profile & open"
 msgstr "Publish profile & open"
 
+#: src/app/PluginImport.tsx
+msgid "Publisher:"
+msgstr "Publisher:"
+
 #: src/features/communities/CommunityDialog.tsx
 msgid "Publishing…"
 msgstr "Publishing…"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Queries"
+msgstr "Queries"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Queue"
@@ -5505,6 +7366,10 @@ msgstr "Read state couldn’t be saved. Try again."
 msgid "Read sync: "
 msgstr "Read sync: "
 
+#: src/app/PluginAccessReview.tsx
+msgid "Read your files"
+msgstr "Read your files"
+
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Read-only {placeWord}"
 msgstr "Read-only {placeWord}"
@@ -5525,9 +7390,21 @@ msgstr "Reading"
 msgid "Reading access could not be confirmed."
 msgstr "Reading access could not be confirmed."
 
+#: src/app/PluginImport.tsx
+msgid "Reading plugin folders… Git imports may take up to a minute."
+msgstr "Reading plugin folders… Git imports may take up to a minute."
+
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "Reading the current Canvas…"
 msgstr "Reading the current Canvas…"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Reading the plugin at the pinned commit… Git imports may take up to a minute."
+msgstr "Reading the plugin at the pinned commit… Git imports may take up to a minute."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Reads files and resolves folders with your account’s full access."
+msgstr "Reads files and resolves folders with your account’s full access."
 
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Ready"
@@ -5536,6 +7413,10 @@ msgstr "Ready"
 #: src/features/updates/UpdateSettings.tsx
 msgid "Ready to install. Buzz will restart."
 msgstr "Ready to install. Buzz will restart."
+
+#: src/app/DeveloperSettings.tsx
+msgid "Real data"
+msgstr "Real data"
 
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Reason"
@@ -5553,13 +7434,38 @@ msgstr "Recent activity"
 msgid "Recipients"
 msgstr "Recipients"
 
+#. placeholder {0}: managed.source
+#: src/app/ManagedPlugins.tsx
+msgid "Recommended by {0}"
+msgstr "Recommended by {0}"
+
 #: src/features/agents/AISettings.tsx
 msgid "Recommended by {recommendedBy}."
 msgstr "Recommended by {recommendedBy}."
 
+#: src/app/ManagedPlugins.tsx
+msgid "Recommended by {source}. Only install code you trust."
+msgstr "Recommended by {source}. Only install code you trust."
+
+#: src/app/ManagedPlugins.tsx
+msgid "Recommended plugins"
+msgstr "Recommended plugins"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Recommended plugins unavailable"
+msgstr "Recommended plugins unavailable"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Reconnect {index}"
+msgstr "Reconnect {index}"
+
 #: src/bundled/channels/LiveStatus.tsx
 msgid "recovering automatically after rate limiting; awaiting confirmation"
 msgstr "recovering automatically after rate limiting; awaiting confirmation"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Redo"
+msgstr "Redo"
 
 #: src/features/agents/MemoryPanel.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
@@ -5614,10 +7520,16 @@ msgstr "Reload saved Canvas?"
 msgid "Reload saved choices"
 msgstr "Reload saved choices"
 
+#: src/app/AgentSettings.tsx
+msgid "Remember mentioned agents"
+msgstr "Remember mentioned agents"
+
 #: src/app/shell/BestieNavigation.tsx
 msgid "Reminders"
 msgstr "Reminders"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
+#: src/bundled/agents/AgentSettingsHost.tsx
 #: src/features/messages/RemoteAgentHint.tsx
 msgid "Remote"
 msgstr "Remote"
@@ -5626,6 +7538,7 @@ msgstr "Remote"
 msgid "Remote agent"
 msgstr "Remote agent"
 
+#: src/bundled/agents/AgentDetails.tsx
 #: src/features/agents/AgentManage.tsx
 #: src/features/messages/ComposerAttachments.tsx
 #: src/features/messages/MessageManagement.tsx
@@ -5656,6 +7569,11 @@ msgstr "Remove {0} from {place}?"
 msgid "Remove {0} from DMs"
 msgstr "Remove {0} from DMs"
 
+#. placeholder {0}: communityDefaultName(community)
+#: src/app/CommunityDepartureSettings.tsx
+msgid "Remove {0} from this device?"
+msgstr "Remove {0} from this device?"
+
 #. placeholder {0}: scope.label
 #: src/app/shell/SearchChoices.tsx
 msgid "Remove {0} search scope"
@@ -5683,10 +7601,22 @@ msgstr "Remove agent {0} {1}"
 msgid "Remove and erase data"
 msgstr "Remove and erase data"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Remove as bestie"
+msgstr "Remove as bestie"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Remove avatar"
+msgstr "Remove avatar"
+
 #. placeholder {0}: index + 1
 #: src/features/messages/ComposerChatCards.tsx
 msgid "Remove chat attachment {0}"
 msgstr "Remove chat attachment {0}"
+
+#: src/app/CommunityDepartureSettings.tsx
+msgid "Remove community from Buzz on this device or leave community completely."
+msgstr "Remove community from Buzz on this device or leave community completely."
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
@@ -5698,6 +7628,7 @@ msgstr "Remove explicit mention of {0} ({1})"
 msgid "Remove from"
 msgstr "Remove from"
 
+#: src/app/IdentitySettings.tsx
 #: src/features/identity/SignOut.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Remove from device"
@@ -5707,6 +7638,12 @@ msgstr "Remove from device"
 msgid "Remove from outbox"
 msgstr "Remove from outbox"
 
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Remove from this community"
+msgstr "Remove from this community"
+
+#: src/app/CommunityDepartureSettings.tsx
 #: src/features/communities/CommunityPicker.tsx
 #: src/features/messages/MessageManagement.tsx
 msgid "Remove from this device"
@@ -5750,9 +7687,30 @@ msgstr "Remove voice note"
 msgid "Remove your key from this device?"
 msgstr "Remove your key from this device?"
 
+#: src/app/PluginAccessReview.tsx
 #: src/bundled/channels/CanvasDiff.tsx
 msgid "Removed"
 msgstr "Removed"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Removed {displayName} details"
+msgstr "Removed {displayName} details"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Removed declarations"
+msgstr "Removed declarations"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Removed: "
+msgstr "Removed: "
+
+#: src/app/CommunityDepartureSettings.tsx
+msgid "Removes community connection and data from Buzz on this device only. Your membership won't change."
+msgstr "Removes community connection and data from Buzz on this device only. Your membership won't change."
+
+#: src/app/PluginMenu.tsx
+msgid "Removes this plugin and its rollback history from Buzz. You can install it again later."
+msgstr "Removes this plugin and its rollback history from Buzz. You can install it again later."
 
 #: src/bundled/channels/OutboxStatus.tsx
 msgid "Removing an item from the outbox does not delete a sent message."
@@ -5783,6 +7741,14 @@ msgstr "Rename section"
 #: src/bundled/channels/RenameSidebarSection.tsx
 msgid "Renaming section and waiting for confirmation…"
 msgstr "Renaming section and waiting for confirmation…"
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "Render: rows in memory to on screen"
+msgstr "Render: rows in memory to on screen"
+
+#: src/app/IdentitySettings.tsx
+msgid "Renew sign-in"
+msgstr "Renew sign-in"
 
 #: src/bundled/channels/OutboxStatus.tsx
 msgid "Reopen Members to check this addition."
@@ -5871,9 +7837,39 @@ msgstr "Repositories folder saved on this device. Claude and Goose use it in new
 msgid "Repositories folders are configured in the desktop app."
 msgstr "Repositories folders are configured in the desktop app."
 
+#: src/app/PluginImport.tsx
+msgid "repository"
+msgstr "repository"
+
+#: src/app/PluginImport.tsx
+msgid "Repository default"
+msgstr "Repository default"
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Request"
 msgstr "Request"
+
+#. placeholder {0}: requestedBy.name
+#: src/app/ManagedPlugins.tsx
+msgid "Requested by {0}. Only install code you trust."
+msgstr "Requested by {0}. Only install code you trust."
+
+#: src/app/ManagedPlugins.tsx
+msgid "Requested by {requester}."
+msgstr "Requested by {requester}."
+
+#: src/app/ShortcutSettings.tsx
+msgid "Reserved by Buzz"
+msgstr "Reserved by Buzz"
+
+#: src/app/ClientMetricsPanel.tsx
+#: src/app/ShortcutSettings.tsx
+msgid "Reset"
+msgstr "Reset"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Reset all shortcuts"
+msgstr "Reset all shortcuts"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Reset interface size"
@@ -5887,6 +7883,15 @@ msgstr "Reset model and effort"
 msgid "Reset name"
 msgstr "Reset name"
 
+#. placeholder {0}: row.title
+#: src/app/ShortcutSettings.tsx
+msgid "Reset shortcut for {0}"
+msgstr "Reset shortcut for {0}"
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Resets"
+msgstr "Resets"
+
 #: src/features/channel-navigation/ResizableSidebar.tsx
 msgid "Resize sidebar"
 msgstr "Resize sidebar"
@@ -5899,6 +7904,10 @@ msgstr "Restore default"
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Restore from backup"
 msgstr "Restore from backup"
+
+#: src/app/PluginMenu.tsx
+msgid "Restore the previous installed version. You can update again from the source folder or repository."
+msgstr "Restore the previous installed version. You can update again from the source folder or repository."
 
 #: src/features/agents/AgentConfigHistory.tsx
 msgid "Restore this"
@@ -5944,6 +7953,7 @@ msgstr "Resume interrupted agent?"
 msgid "Resume interrupted agents?"
 msgstr "Resume interrupted agents?"
 
+#: src/app/ManagedPlugins.tsx
 #: src/bundled/channels/CanvasHistory.tsx
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
@@ -5984,6 +7994,10 @@ msgstr "Retry adding {names}"
 #: src/features/messages/ComposerModels.tsx
 msgid "Retry agents"
 msgstr "Retry agents"
+
+#: src/app/IdentitySettings.tsx
+msgid "Retry backup"
+msgstr "Retry backup"
 
 #: src/app/shell/PageSearch.tsx
 #: src/features/channel-navigation/ChannelInventory.tsx
@@ -6092,6 +8106,10 @@ msgstr "Retry read sync"
 msgid "Retry saved choices"
 msgstr "Retry saved choices"
 
+#: src/app/ShortcutSettings.tsx
+msgid "Retry saving"
+msgstr "Retry saving"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Retry saving accent color"
 msgstr "Retry saving accent color"
@@ -6120,6 +8138,10 @@ msgstr "Retry saving interface size"
 msgid "Retry saving language"
 msgstr "Retry saving language"
 
+#: src/app/AgentSettings.tsx
+msgid "Retry saving mentioned agents"
+msgstr "Retry saving mentioned agents"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Retry saving message density"
 msgstr "Retry saving message density"
@@ -6131,6 +8153,10 @@ msgstr "Retry saving message width"
 #: src/app/AppearanceSettings.tsx
 msgid "Retry saving search preference"
 msgstr "Retry saving search preference"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Retry saving shortcuts"
+msgstr "Retry saving shortcuts"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Retry saving spelling correction"
@@ -6198,6 +8224,23 @@ msgstr "Reveal private key"
 msgid "Revert to this"
 msgstr "Revert to this"
 
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Review"
+msgstr "Review"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Review {name}"
+msgstr "Review {name}"
+
+#: src/app/PluginMenu.tsx
+msgid "Review access"
+msgstr "Review access"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Review and install"
+msgstr "Review and install"
+
 #: src/features/messages/ForwardMessage.tsx
 msgid "Review pending forward"
 msgstr "Review pending forward"
@@ -6214,17 +8257,61 @@ msgstr "Review report"
 msgid "Review the settings to import this agent and continue your conversation."
 msgstr "Review the settings to import this agent and continue your conversation."
 
+#: src/app/PluginImport.tsx
+msgid "Review the source, then choose Find to read it. Nothing is installed until you confirm."
+msgstr "Review the source, then choose Find to read it. Nothing is installed until you confirm."
+
+#: src/app/ManagedPlugins.tsx
+msgid "Review update"
+msgstr "Review update"
+
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "Revision Markdown"
 msgstr "Revision Markdown"
+
+#: src/app/SecuritySettings.tsx
+msgid "Revoke"
+msgstr "Revoke"
+
+#. placeholder {0}: confirming.client
+#: src/app/SecuritySettings.tsx
+msgid "Revoke {0}?"
+msgstr "Revoke {0}?"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Role unverified"
 msgstr "Role unverified"
 
+#: src/app/PluginMenu.tsx
+msgid "Roll back"
+msgstr "Roll back"
+
+#. placeholder {0}: plugin.manifest.name
+#: src/app/PluginMenu.tsx
+msgid "Roll back {0}?"
+msgstr "Roll back {0}?"
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Run"
 msgstr "Run"
+
+#. placeholder {0}: command.program
+#: src/app/PluginAccessReview.tsx
+msgid "Run {0}"
+msgstr "Run {0}"
+
+#. placeholder {0}: types.find((type) => type.key === harness)?.title ?? harness
+#: src/app/PluginAccessReview.tsx
+msgid "Run {0} on another host"
+msgstr "Run {0} on another host"
+
+#: src/app/PluginAccessReview.tsx
+msgid "Run a program on your computer."
+msgstr "Run a program on your computer."
+
+#: src/app/SecuritySettings.tsx
+msgid "Run buzz auth desktop pair in a terminal to let a command-line tool use Buzz as you."
+msgstr "Run buzz auth desktop pair in a terminal to let a command-line tool use Buzz as you."
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Running"
@@ -6243,9 +8330,21 @@ msgstr "Running a command"
 msgid "Running a tool"
 msgstr "Running a tool"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Running totals from the local relay broker. Updates every 5 seconds."
+msgstr "Running totals from the local relay broker. Updates every 5 seconds."
+
 #: src/features/agents/AgentExecutionNote.tsx
 msgid "Runs on a Builderlab machine"
 msgstr "Runs on a Builderlab machine"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Runtime settings"
+msgstr "Runtime settings"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Runtime settings require the local development server."
+msgstr "Runtime settings require the local development server."
 
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "Same as current version."
@@ -6253,15 +8352,22 @@ msgstr "Same as current version."
 
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/ProfileSettings.tsx
+#: src/bundled/agents/AgentDetails.tsx
+#: src/bundled/agents/AgentsPage.tsx
 #: src/features/agents/AgentSaveButton.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Save"
 msgstr "Save"
 
+#: src/app/IdentitySettings.tsx
+msgid "Save a copy from the private key menu to use this ID on another device. Lose every copy and you lose this ID."
+msgstr "Save a copy from the private key menu to use this ID on another device. Lose every copy and you lose this ID."
+
 #: src/bundled/channels/CanvasEditor.tsx
 msgid "Save Canvas"
 msgstr "Save Canvas"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Save changes"
@@ -6283,9 +8389,21 @@ msgstr "Save status"
 msgid "Save template"
 msgstr "Save template"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Save temporary plugin files"
+msgstr "Save temporary plugin files"
+
+#: src/app/PluginImport.tsx
+msgid "Save unfinished forms and stop active plugin workers before you update. Updating an enabled plugin reloads it immediately."
+msgstr "Save unfinished forms and stop active plugin workers before you update. Updating an enabled plugin reloads it immediately."
+
 #: src/app/PluginUpdates.tsx
 msgid "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
 msgstr "Save unfinished forms and stop active plugin workers first. Updating an enabled plugin reloads it immediately."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Save up to 16 MiB at a time in host-selected private storage, without file-reading access."
+msgstr "Save up to 16 MiB at a time in host-selected private storage, without file-reading access."
 
 #: src/features/messages/FileAttachment.tsx
 msgid "Saved {displayName} to Downloads"
@@ -6299,6 +8417,10 @@ msgstr "Saved before restart. Send when ready."
 msgid "Saved Canvas"
 msgstr "Saved Canvas"
 
+#: src/app/IdentitySettings.tsx
+msgid "Saved communities for this host"
+msgstr "Saved communities for this host"
+
 #. placeholder {0}: runs.label
 #: src/features/messages/ComposerModels.tsx
 msgid "Saved effort is unavailable for {0}."
@@ -6307,6 +8429,10 @@ msgstr "Saved effort is unavailable for {0}."
 #: src/features/messages/ComposerModels.tsx
 msgid "Saved effort is unavailable."
 msgstr "Saved effort is unavailable."
+
+#: src/app/DeveloperSettings.tsx
+msgid "Saved for this worktree, including browser relay diagnostics."
+msgstr "Saved for this worktree, including browser relay diagnostics."
 
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "saved group"
@@ -6356,6 +8482,10 @@ msgstr "Saved to Downloads"
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "Saved, but not confirmed yet. Try again to check."
 msgstr "Saved, but not confirmed yet. Try again to check."
+
+#: src/app/ShortcutSettings.tsx
+msgid "Saved. The message editor handles {chord} itself while you are typing, so it wins there."
+msgstr "Saved. The message editor handles {chord} itself while you are typing, so it wins there."
 
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Saving access…"
@@ -6456,9 +8586,18 @@ msgstr "Searching…"
 msgid "Section name"
 msgstr "Section name"
 
+#: src/app/SecuritySettings.tsx
 #: src/app/settings-sections.ts
 msgid "Security"
 msgstr "Security"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "See less"
+msgstr "See less"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "See more"
+msgstr "See more"
 
 #. placeholder {0}: attachment.name
 #: src/features/messages/AudioAttachment.tsx
@@ -6479,13 +8618,33 @@ msgstr "Seek to {0}, {1}"
 msgid "Select a community"
 msgstr "Select a community"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Select a community to upload an image or emoji. Your local default can use a public HTTPS image URL."
+msgstr "Select a community to upload an image or emoji. Your local default can use a public HTTPS image URL."
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Select a community to upload an image."
+msgstr "Select a community to upload an image."
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Select a community to use an emoji avatar."
+msgstr "Select a community to use an emoji avatar."
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Select a connected community to authorize this app."
 msgstr "Select a connected community to authorize this app."
 
+#: src/app/PluginImport.tsx
+msgid "Select a plugin to review before installing."
+msgstr "Select a plugin to review before installing."
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Select an agent"
 msgstr "Select an agent"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Selected avatar"
+msgstr "Selected avatar"
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "Selected message unavailable."
@@ -6524,6 +8683,7 @@ msgstr "Send chips from the main window."
 msgid "Send immediately"
 msgstr "Send immediately"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/MessageComposer.tsx
 msgid "Send message"
 msgstr "Send message"
@@ -6544,6 +8704,10 @@ msgstr "Send this message to a person, with an optional note."
 msgid "Send to channel"
 msgstr "Send to channel"
 
+#: src/app/ShortcutSettings.tsx
+msgid "Send with {sendChord}"
+msgstr "Send with {sendChord}"
+
 #: src/bundled/channels/OutboxStatus.tsx
 msgid "Sending"
 msgstr "Sending"
@@ -6551,6 +8715,10 @@ msgstr "Sending"
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Sending message…"
 msgstr "Sending message…"
+
+#: src/app/ShortcutSettings.tsx
+msgid "Sending messages"
+msgstr "Sending messages"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Sending to"
@@ -6587,6 +8755,10 @@ msgstr "Sent messages could not be loaded."
 msgid "Sent to {0}."
 msgstr "Sent to {0}."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Server"
+msgstr "Server"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "Session action failed"
 msgstr "Session action failed"
@@ -6621,6 +8793,10 @@ msgstr "Set a status: {0}"
 msgid "Set as admin"
 msgstr "Set as admin"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Set it up after it is made."
+msgstr "Set it up after it is made."
+
 #: src/features/agents/AISettings.tsx
 msgid "Set to"
 msgstr "Set to"
@@ -6634,6 +8810,18 @@ msgstr "Set to {0}"
 msgid "Set to {modelName} (recommended)"
 msgstr "Set to {modelName} (recommended)"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Set up"
+msgstr "Set up"
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Set up a local harness for Automatic, or choose Custom to select another harness."
+msgstr "Set up a local harness for Automatic, or choose Custom to select another harness."
+
+#: src/app/DecisionsSettings.tsx
+msgid "Set up Builderlab"
+msgstr "Set up Builderlab"
+
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Set up Dock badges"
 msgstr "Set up Dock badges"
@@ -6641,6 +8829,10 @@ msgstr "Set up Dock badges"
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Set up Dock badges to show the unread dot."
 msgstr "Set up Dock badges to show the unread dot."
+
+#: src/bundled/agents/AgentCreateDialog.tsx
+msgid "Set up Goose, Codex or Claude first."
+msgstr "Set up Goose, Codex or Claude first."
 
 #: src/features/identity/ProfileStep.tsx
 msgid "Set up your profile"
@@ -6664,6 +8856,15 @@ msgstr "Settings only apply on this device."
 msgid "Settings sections"
 msgstr "Settings sections"
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Settled"
+msgstr "Settled"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Setup unfinished"
+msgstr "Setup unfinished"
+
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Share"
 msgstr "Share"
@@ -6681,6 +8882,22 @@ msgstr "Share this chat?"
 msgid "Shared"
 msgstr "Shared"
 
+#: src/bundled/agents/AgentDetails.tsx
+msgid "Shared across"
+msgstr "Shared across"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Shared agent"
+msgstr "Shared agent"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Shared agent profile"
+msgstr "Shared agent profile"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Shared by"
+msgstr "Shared by"
+
 #. placeholder {0}: channelText(shared)
 #: src/bundled/channels/useSoloShare.ts
 msgid "Shared in {0}"
@@ -6694,7 +8911,12 @@ msgstr "Shared Markdown for this channel. Saves and restores check the loaded re
 msgid "Shared notes"
 msgstr "Shared notes"
 
+#: src/app/PluginAccessReview.tsx
+msgid "Shared storage is limited to 64 MiB and 16 files; any plugin can fill it. Files normally remain for 24 hours, survive plugin unload and app restart, and are removed on a later save after expiry. Explicit app-data erase or user deletion can remove them sooner. This does not grant file reading or arbitrary-path writes."
+msgstr "Shared storage is limited to 64 MiB and 16 files; any plugin can fill it. Files normally remain for 24 hours, survive plugin unload and app restart, and are removed on a later save after expiry. Explicit app-data erase or user deletion can remove them sooner. This does not grant file reading or arbitrary-path writes."
+
 #: src/app/settings-sections.ts
+#: src/app/ShortcutSettings.tsx
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
@@ -6719,6 +8941,10 @@ msgstr "Show"
 #: src/features/messages/LinkPreviews.tsx
 msgid "Show {hidden} more {hiddenNoun}"
 msgstr "Show {hidden} more {hiddenNoun}"
+
+#: src/app/DeveloperSettings.tsx
+msgid "Show as a new community"
+msgstr "Show as a new community"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Show comments"
@@ -6795,7 +9021,9 @@ msgstr "Showing your latest {SENT_LIMIT} messages."
 msgid "Showing your unsaved local draft. Open History to view saved versions."
 msgstr "Showing your unsaved local draft. Open History to view saved versions."
 
+#. placeholder {0}: community.localName
 #. placeholder {0}: leaving.membership.localName
+#: src/app/CommunityDepartureSettings.tsx
 #: src/features/communities/CommunityPicker.tsx
 msgid "Shown as {0} on this device"
 msgstr "Shown as {0} on this device"
@@ -6803,6 +9031,10 @@ msgstr "Shown as {0} on this device"
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
 msgstr "Shows a dot for unread activity in the selected community. It doesn’t show a message count."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Sibling"
+msgstr "Sibling"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Side pane"
@@ -6812,6 +9044,7 @@ msgstr "Side pane"
 msgid "Sidebar"
 msgstr "Sidebar"
 
+#: src/app/IdentitySettings.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Sign in"
 msgstr "Sign in"
@@ -6819,6 +9052,14 @@ msgstr "Sign in"
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Sign in in your browser to find your backups…"
 msgstr "Sign in in your browser to find your backups…"
+
+#: src/app/IdentitySettings.tsx
+msgid "Sign in to access"
+msgstr "Sign in to access"
+
+#: src/app/IdentitySettings.tsx
+msgid "Sign in to Builderlab to back up your key"
+msgstr "Sign in to Builderlab to back up your key"
 
 #: src/features/identity/ConnectChoice.tsx
 msgid "Sign in to your Builderlab account with email, or use an existing private key to continue."
@@ -6828,11 +9069,41 @@ msgstr "Sign in to your Builderlab account with email, or use an existing privat
 msgid "Sign in with Builderlab"
 msgstr "Sign in with Builderlab"
 
+#: src/app/IdentitySettings.tsx
+msgid "Sign out"
+msgstr "Sign out"
+
+#. placeholder {0}: new URL(state.authority.identityOrigin).host
+#: src/app/IdentitySettings.tsx
+msgid "Sign out of {0}"
+msgstr "Sign out of {0}"
+
+#: src/app/IdentitySettings.tsx
+msgid "Sign out of {organization}?"
+msgstr "Sign out of {organization}?"
+
+#: src/app/IdentitySettings.tsx
+msgid "Sign out of organization"
+msgstr "Sign out of organization"
+
+#: src/app/IdentitySettings.tsx
+msgid "Sign-in unavailable"
+msgstr "Sign-in unavailable"
+
+#: src/app/IdentitySettings.tsx
+msgid "Signed in"
+msgstr "Signed in"
+
+#: src/app/IdentitySettings.tsx
+msgid "Signed in as"
+msgstr "Signed in as"
+
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/WelcomeBack.tsx
 msgid "Signed in as {email}"
 msgstr "Signed in as {email}"
 
+#: src/app/IdentitySettings.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Signing in…"
 msgstr "Signing in…"
@@ -6841,6 +9112,10 @@ msgstr "Signing in…"
 msgid "Silent"
 msgstr "Silent"
 
+#: src/app/DeveloperSettings.tsx
+msgid "Simulated findings leave agents unchanged. Real data uses actual imports, even when shown as a new community."
+msgstr "Simulated findings leave agents unchanged. Real data uses actual imports, even when shown as a new community."
+
 #: src/features/communities/LegacyCommunityImport.tsx
 msgid "Skip import"
 msgstr "Skip import"
@@ -6848,6 +9123,14 @@ msgstr "Skip import"
 #: src/app/shell/AppShell.tsx
 msgid "Skip to content"
 msgstr "Skip to content"
+
+#: src/app/PluginImport.tsx
+msgid "Skipped folders"
+msgstr "Skipped folders"
+
+#: src/app/AgentSettings.tsx
+msgid "So agents can keep answering. Closing the lid still puts it to sleep."
+msgstr "So agents can keep answering. Closing the lid still puts it to sleep."
 
 #: src/app/settings-sections.ts
 #: src/features/updates/UpdateSettings.tsx
@@ -6877,6 +9160,10 @@ msgstr "Some backups couldn’t be recovered."
 #: src/bundled/channels/LiveStatus.tsx
 msgid "Some channels are missing from the current roster."
 msgstr "Some channels are missing from the current roster."
+
+#: src/app/ManagedPlugins.tsx
+msgid "Some entries in the managed plugin file were ignored:"
+msgstr "Some entries in the managed plugin file were ignored:"
 
 #: src/features/agents/MemoryPanel.tsx
 msgid "Some memories couldn't be shown."
@@ -6914,6 +9201,26 @@ msgstr "Sort {title}"
 msgid "Sound"
 msgstr "Sound"
 
+#: src/app/PluginImport.tsx
+msgid "Source"
+msgstr "Source"
+
+#: src/app/PluginImport.tsx
+msgid "Source folder"
+msgstr "Source folder"
+
+#: src/app/PluginImport.tsx
+msgid "Source repository"
+msgstr "Source repository"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Source URL"
+msgstr "Source URL"
+
+#: src/app/PluginImport.tsx
+msgid "Source:"
+msgstr "Source:"
+
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Spam"
 msgstr "Spam"
@@ -6930,6 +9237,11 @@ msgstr "Spoiler"
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Starred"
 msgstr "Starred"
+
+#. placeholder {0}: process.program
+#: src/app/PluginAccessReview.tsx
+msgid "Start {0}"
+msgstr "Start {0}"
 
 #: src/features/messages/ComposerModels.tsx
 msgid "Start a new session"
@@ -6999,6 +9311,10 @@ msgstr "Status unknown"
 msgid "Status updates are unavailable in this community."
 msgstr "Status updates are unavailable in this community."
 
+#: src/app/AgentSettings.tsx
+msgid "Stay awake after agents finish"
+msgstr "Stay awake after agents finish"
+
 #: src/app/App.tsx
 msgid "Still can’t connect. Check your connection, then try again."
 msgstr "Still can’t connect. Check your connection, then try again."
@@ -7020,6 +9336,10 @@ msgstr "Stop {0}{1}"
 #: src/features/messages/ActivityGroupActions.tsx
 msgid "Stop {name}"
 msgstr "Stop {name}"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Stop the old runtime before importing, or both may answer. Imports keep each agent’s key, name and picture. Instructions and workspace come over only if the chosen type supports them; choose provider, model and other settings afterward. An archived agent is unarchived here when possible."
+msgstr "Stop the old runtime before importing, or both may answer. Imports keep each agent’s key, name and picture. Instructions and workspace come over only if the chosen type supports them; choose provider, model and other settings afterward. An archived agent is unarchived here when possible."
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Stopped"
@@ -7086,10 +9406,15 @@ msgstr "Tag an agent to send."
 msgid "Team"
 msgstr "Team"
 
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Teams"
 msgstr "Teams"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Teams to import"
+msgstr "Teams to import"
 
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "Template"
@@ -7130,9 +9455,17 @@ msgstr "That doesn’t look like a valid nsec. Paste an nsec1 key."
 msgid "That isn’t the key linked to this account. It expects"
 msgstr "That isn’t the key linked to this account. It expects"
 
+#: src/app/ShortcutSettings.tsx
+msgid "That key can’t be used for a shortcut. Try another."
+msgstr "That key can’t be used for a shortcut. Try another."
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "That message is no longer available."
 msgstr "That message is no longer available."
+
+#: src/app/DeveloperSettings.tsx
+msgid "The Agents page shows no agents or teams here, as a first visit would."
+msgstr "The Agents page shows no agents or teams here, as a first visit would."
 
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "The change may have been saved. Check its status before trying again. Checking never resends it."
@@ -7146,6 +9479,10 @@ msgstr "The change may have been saved. Check its status before trying again. Ch
 msgid "The channel could not be created."
 msgstr "The channel could not be created."
 
+#: src/app/CommunityDepartureSettings.tsx
+msgid "The community connection and any saved drafts or data will be removed from Buzz on this device."
+msgstr "The community connection and any saved drafts or data will be removed from Buzz on this device."
+
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "The current Canvas could not be read, so this version cannot be compared with it."
 msgstr "The current Canvas could not be read, so this version cannot be compared with it."
@@ -7158,9 +9495,17 @@ msgstr "The draft changed or this link exceeds the message limit. Close and try 
 msgid "The draft changed. Close and try again."
 msgstr "The draft changed. Close and try again."
 
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "The holder of this key can act as your agent, including directing your Buzz coding agents to run commands as you. This permission has no time or event-kind limits."
+msgstr "The holder of this key can act as your agent, including directing your Buzz coding agents to run commands as you. This permission has no time or event-kind limits."
+
 #: src/app/PluginUpdates.tsx
 msgid "The installed plugin changed after this update was checked."
 msgstr "The installed plugin changed after this update was checked."
+
+#: src/app/PluginImport.tsx
+msgid "The installed plugin changed. Close this review and check again."
+msgstr "The installed plugin changed. Close this review and check again."
 
 #: src/bundled/channels/useSoloShare.ts
 msgid "The link was not posted. Any access change already saved is kept."
@@ -7178,6 +9523,31 @@ msgstr "The member list could not load. Try again."
 msgid "The message can't be edited right now"
 msgstr "The message can't be edited right now"
 
+#. placeholder {0}: wanted.path
+#. placeholder {1}: candidate.manifest.id
+#. placeholder {2}: wanted.id
+#: src/app/ManagedPlugins.tsx
+msgid "The plugin at {0} is {1}, not {2}."
+msgstr "The plugin at {0} is {1}, not {2}."
+
+#. placeholder {0}: found.manifest.id
+#. placeholder {1}: wanted.id
+#: src/app/ManagedPlugins.tsx
+msgid "The plugin at this URL is {0}, not {1}."
+msgstr "The plugin at this URL is {0}, not {1}."
+
+#: src/app/PluginAccessReview.tsx
+msgid "The plugin picks the address, so it can send what it knows to any site in that address. Only a page's title, description, site name, image and icon come back, without your cookies."
+msgstr "The plugin picks the address, so it can send what it knows to any site in that address. Only a page's title, description, site name, image and icon come back, without your cookies."
+
+#: src/app/PluginAccessReview.tsx
+msgid "The plugin picks the address, so it can send what it knows to any site in that address. Only images come back, without your cookies."
+msgstr "The plugin picks the address, so it can send what it knows to any site in that address. Only images come back, without your cookies."
+
+#: src/app/PluginImport.tsx
+msgid "The plugin source changed. Close this review and check again."
+msgstr "The plugin source changed. Close this review and check again."
+
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "The previous placement is shown. A partial save may already exist on the relay."
 msgstr "The previous placement is shown. A partial save may already exist on the relay."
@@ -7190,13 +9560,35 @@ msgstr "The previous revision isn't loaded, so changes can't be shown."
 msgid "The previous revision isn't valid config, so changes can't be shown."
 msgstr "The previous revision isn't valid config, so changes can't be shown."
 
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "The provider changes when you save settings. Your agent will continue the conversation in Buzz."
+msgstr "The provider changes when you save settings. Your agent will continue the conversation in Buzz."
+
 #: src/features/messages/ForwardMessage.tsx
 msgid "The recipient can open the original only if they have access to its conversation."
 msgstr "The recipient can open the original only if they have access to its conversation."
 
+#: src/app/PluginImport.tsx
+msgid "the repository default"
+msgstr "the repository default"
+
+#. placeholder {0}: preview.commit ?? "unknown"
+#. placeholder {1}: wanted.commit
+#: src/app/ManagedPlugins.tsx
+msgid "The repository returned commit {0}, not the recommended commit {1}."
+msgstr "The repository returned commit {0}, not the recommended commit {1}."
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "The requesting app supplies its name. Authorize it only if you started setup in that app."
 msgstr "The requesting app supplies its name. Authorize it only if you started setup in that app."
+
+#: src/app/PluginImport.tsx
+msgid "The saved folder or repository no longer contains this plugin at its installed path."
+msgstr "The saved folder or repository no longer contains this plugin at its installed path."
+
+#: src/app/PluginImport.tsx
+msgid "The saved repository no longer contains this plugin at its installed path."
+msgstr "The saved repository no longer contains this plugin at its installed path."
 
 #: src/features/messages/MessageComposer.tsx
 msgid "The session changed. Review its channel and retry."
@@ -7210,14 +9602,32 @@ msgstr "The start of this turn isn't loaded."
 msgid "The team would exceed the message length or 32-recipient limit. Nothing was added."
 msgstr "The team would exceed the message length or 32-recipient limit. Nothing was added."
 
+#: src/app/PluginImport.tsx
 #: src/app/PluginUpdates.tsx
 msgid "The update candidate changed after it was checked. Check for updates again before reviewing it."
 msgstr "The update candidate changed after it was checked. Check for updates again before reviewing it."
+
+#: src/app/PluginImport.tsx
+msgid "The update publisher changed after it was checked. Check for updates again before reviewing it."
+msgstr "The update publisher changed after it was checked. Check for updates again before reviewing it."
+
+#: src/app/ShortcutSettings.tsx
+msgid "The Windows/Command key isn’t used for shortcuts on this device. Try Control or Alt."
+msgstr "The Windows/Command key isn’t used for shortcuts on this device. Try Control or Alt."
+
+#: src/app/PluginAccessReview.tsx
+msgid "These declarations describe what the plugin asks Buzz to do. They don’t limit what its code can do."
+msgstr "These declarations describe what the plugin asks Buzz to do. They don’t limit what its code can do."
+
+#: src/app/PluginImport.tsx
+msgid "These folders couldn’t be loaded as plugins. Other listed plugins can still be installed."
+msgstr "These folders couldn’t be loaded as plugins. Other listed plugins can still be installed."
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Think"
 msgstr "Think"
 
+#: src/bundled/agents/AgentCreateDialog.tsx
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Thinking"
 msgstr "Thinking"
@@ -7245,6 +9655,21 @@ msgstr "This address isn’t a Buzz community."
 #: src/features/messages/ForwardMessage.tsx
 msgid "This agent is no longer available for direct messages. Choose another person."
 msgstr "This agent is no longer available for direct messages. Choose another person."
+
+#. placeholder {0}: source.title
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "This agent runs on {0}. You can’t switch it to a local harness yet. To run locally, create a new agent."
+msgstr "This agent runs on {0}. You can’t switch it to a local harness yet. To run locally, create a new agent."
+
+#. placeholder {0}: hosted?.title ?? ""
+#. placeholder {1}: hosted?.title ?? ""
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "This agent runs on your device. You can’t switch it to {0} yet. To run hosted, create a new {1} agent."
+msgstr "This agent runs on your device. You can’t switch it to {0} yet. To run hosted, create a new {1} agent."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "This agent’s harness is unavailable in this client. Check"
+msgstr "This agent’s harness is unavailable in this client. Check"
 
 #: src/features/agents/external-connection.ts
 msgid "This app asks for limited access, which Buzz no longer grants. Update the app, then start setup again."
@@ -7291,6 +9716,15 @@ msgstr "This choice is active, but could not be saved on this device."
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device. Try again."
 msgstr "This choice is active, but could not be saved on this device. Try again."
+
+#. placeholder {0}: wanted.path
+#: src/app/ManagedPlugins.tsx
+msgid "This commit has no plugin at {0}."
+msgstr "This commit has no plugin at {0}."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "this community"
+msgstr "this community"
 
 #: src/features/agents/MemoryPanel.tsx
 msgid "This community doesn't let you read this agent's memory."
@@ -7377,6 +9811,10 @@ msgstr "This is the relay URL you use to connect to this community."
 msgid "This is your public identity — it’s safe to share."
 msgstr "This is your public identity — it’s safe to share."
 
+#: src/app/IdentitySettings.tsx
+msgid "This key is stored securely on this device."
+msgstr "This key is stored securely on this device."
+
 #: src/app/LanguageSettings.tsx
 msgid "This language is active, but could not be saved on this device. Try again."
 msgstr "This language is active, but could not be saved on this device. Try again."
@@ -7425,6 +9863,28 @@ msgstr "This page’s sidebar is unavailable."
 msgid "This paste would make your message too long."
 msgstr "This paste would make your message too long."
 
+#: src/app/PluginImport.tsx
+msgid "This plugin is already installed. Open its details to manage it."
+msgstr "This plugin is already installed. Open its details to manage it."
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "This plugin is included with Buzz. Update Buzz to get its latest version."
+msgstr "This plugin is included with Buzz. Update Buzz to get its latest version."
+
+#: src/app/ManagedPlugins.tsx
+msgid "This plugin was installed from a single pinned file. To update it, install the newer version from the plugin marketplace or a new install link."
+msgstr "This plugin was installed from a single pinned file. To update it, install the newer version from the plugin marketplace or a new install link."
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "This plugin will stay disabled."
+msgstr "This plugin will stay disabled."
+
+#: src/app/ManagedPlugins.tsx
+msgid "This plugin’s code already matches this revision. Updating records {source}’s recommended source and keeps the plugin as it is."
+msgstr "This plugin’s code already matches this revision. Updating records {source}’s recommended source and keeps the plugin as it is."
+
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "This publishes the selected version as a new Canvas revision. Existing history is kept."
 msgstr "This publishes the selected version as a new Canvas revision. Existing history is kept."
@@ -7440,6 +9900,14 @@ msgstr "This recipient is no longer available. Remove it or refresh choices."
 #: src/features/messages/MessageComposer.tsx
 msgid "This relay connection supports reading only."
 msgstr "This relay connection supports reading only."
+
+#: src/app/PluginImport.tsx
+msgid "This repository has no plugin at {path}. Nothing was installed."
+msgstr "This repository has no plugin at {path}. Nothing was installed."
+
+#: src/app/PluginImport.tsx
+msgid "This repository is not at the commit that was requested. Nothing was installed."
+msgstr "This repository is not at the commit that was requested. Nothing was installed."
 
 #: src/features/messages/MessageManagement.tsx
 msgid "This requests removal of this message from Buzz’s relay. People may still have copies. This cannot be undone."
@@ -7462,9 +9930,25 @@ msgstr "this section"
 msgid "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
 msgstr "This sends a leave request to the community’s relay, then removes {0} from this device along with its saved drafts and reading positions. Rejoining may need a new invite."
 
+#: src/app/PluginImport.tsx
+msgid "This source does not contain the installed plugin. Choose a source with the same plugin ID."
+msgstr "This source does not contain the installed plugin. Choose a source with the same plugin ID."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "this team"
+msgstr "this team"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "This thread didn’t load."
 msgstr "This thread didn’t load."
+
+#: src/app/PluginImport.tsx
+msgid "This update review is no longer active. Check for updates again before reviewing it."
+msgstr "This update review is no longer active. Check for updates again before reviewing it."
+
+#: src/app/ManagedPlugins.tsx
+msgid "This update switches this plugin from Git to a packaged download. The URL below replaces its saved Git source."
+msgstr "This update switches this plugin from Git to a packaged download. The URL below replaces its saved Git source."
 
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "This version exceeds the {LIVE_CANVAS_LIMIT} Canvas limit and cannot be restored here."
@@ -7485,6 +9969,14 @@ msgstr "This version removed this configuration."
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "This week"
+
+#: src/app/CommunityDepartureSettings.tsx
+msgid "This will send a leave request to the community’s relay and remove it from this device. You may need a new invite to rejoin."
+msgstr "This will send a leave request to the community’s relay and remove it from this device. You may need a new invite to rejoin."
+
+#: src/app/ClientMetricsPanel.tsx
+msgid "This window, since launch. Data stays on this device."
+msgstr "This window, since launch. Data stays on this device."
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "This won’t change the identity linked to your account."
@@ -7562,9 +10054,17 @@ msgstr "Time zone"
 msgid "Timestamps"
 msgstr "Timestamps"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "To"
+msgstr "To"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "To add an agent, mention it in the chat."
 msgstr "To add an agent, mention it in the chat."
+
+#: src/bundled/agents/AgentDetails.tsx
+msgid "to change its settings."
+msgstr "to change its settings."
 
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "To:"
@@ -7584,6 +10084,14 @@ msgstr "Toggle formatting"
 msgid "Toggle tab pane"
 msgstr "Toggle tab pane"
 
+#: src/app/SecuritySettings.tsx
+msgid "Tools paired on this device, and applications you authorize to act as you."
+msgstr "Tools paired on this device, and applications you authorize to act as you."
+
+#: src/app/PluginAccessReview.tsx
+msgid "Tools served to local agents over loopback HTTP."
+msgstr "Tools served to local agents over loopback HTTP."
+
 #: src/features/agents/TranscriptPanel.tsx
 msgid "Transcript"
 msgstr "Transcript"
@@ -7592,7 +10100,12 @@ msgstr "Transcript"
 msgid "Transfer complete; waiting for server confirmation"
 msgstr "Transfer complete; waiting for server confirmation"
 
+#: src/app/AgentSettings.tsx
 #: src/app/App.tsx
+#: src/app/IdentitySettings.tsx
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+#: src/bundled/agents/AgentBrowse.tsx
 #: src/bundled/channels/ChannelsPage.tsx
 #: src/features/identity/KeyRestore.tsx
 #: src/features/identity/Welcome.tsx
@@ -7600,6 +10113,30 @@ msgstr "Transfer complete; waiting for server confirmation"
 #: src/features/messages/ThreadPanel.tsx
 msgid "Try again"
 msgstr "Try again"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Try again."
+msgstr "Try again."
+
+#: src/app/PluginImport.tsx
+msgid "Try another branch or tag with a smaller plugin file. If it still exceeds the limit, ask the publisher to provide a smaller file."
+msgstr "Try another branch or tag with a smaller plugin file. If it still exceeds the limit, ask the publisher to provide a smaller file."
+
+#: src/app/PluginImport.tsx
+msgid "Try another branch or tag with a smaller plugin source. If it still exceeds the limit, ask the publisher for a smaller plugin-focused repository."
+msgstr "Try another branch or tag with a smaller plugin source. If it still exceeds the limit, ask the publisher for a smaller plugin-focused repository."
+
+#: src/app/PluginImport.tsx
+msgid "Try another branch or tag with fewer repository entries. If it still exceeds the limit, ask the publisher for a plugin-focused repository."
+msgstr "Try another branch or tag with fewer repository entries. If it still exceeds the limit, ask the publisher for a plugin-focused repository."
+
+#: src/app/PluginImport.tsx
+msgid "Try another branch or tag. If the same output limit persists, ask the publisher for a ref or repository that Buzz can read."
+msgstr "Try another branch or tag. If the same output limit persists, ask the publisher for a ref or repository that Buzz can read."
+
+#: src/app/PluginImport.tsx
+msgid "Try another folder or repository."
+msgstr "Try another folder or repository."
 
 #: src/features/identity/RestoreIdentity.tsx
 msgid "Try recovery again"
@@ -7622,6 +10159,15 @@ msgstr "Type “{WIPE_PHRASE}” to confirm"
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
 msgstr "Type at least {SEARCH_MIN_CHARS} characters to search people."
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Type unavailable"
+msgstr "Type unavailable"
+
+#: src/app/DecisionsSettings.tsx
+msgid "TypeSafe settings are unavailable."
+msgstr "TypeSafe settings are unavailable."
 
 #: src/bundled/channels/ChannelStateNotice.tsx
 msgid "Unarchive"
@@ -7653,6 +10199,18 @@ msgstr "Unavailable"
 msgid "Unavailable conversation"
 msgstr "Unavailable conversation"
 
+#: src/app/DecisionsSettings.tsx
+msgid "Unavailable for this account"
+msgstr "Unavailable for this account"
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "unavailable harness"
+msgstr "unavailable harness"
+
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Unavailable harnesses"
+msgstr "Unavailable harnesses"
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Unavailable in this copy of Buzz."
 msgstr "Unavailable in this copy of Buzz."
@@ -7661,17 +10219,34 @@ msgstr "Unavailable in this copy of Buzz."
 msgid "Unavailable model"
 msgstr "Unavailable model"
 
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Unavailable type"
+msgstr "Unavailable type"
+
+#: src/app/PluginImport.tsx
+msgid "unavailable."
+msgstr "unavailable."
+
 #: src/bundled/channels/CanvasDiff.tsx
 msgid "Unchanged"
 msgstr "Unchanged"
+
+#: src/app/PluginImport.tsx
+msgid "Unchanged declarations"
+msgstr "Unchanged declarations"
 
 #: src/bundled/channels/OutboxStatus.tsx
 msgid "Unconfirmed"
 msgstr "Unconfirmed"
 
+#: src/app/ShortcutSettings.tsx
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 msgid "Undo"
 msgstr "Undo"
+
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "Undo changes"
+msgstr "Undo changes"
 
 #: src/features/channel-navigation/WorkspaceComposition.tsx
 msgid "Unfiled"
@@ -7680,6 +10255,10 @@ msgstr "Unfiled"
 #: src/features/messages/MessageManagement.tsx
 msgid "Unfollow thread"
 msgstr "Unfollow thread"
+
+#: src/app/PluginImport.tsx
+msgid "Unknown"
+msgstr "Unknown"
 
 #: src/features/messages/ThreadPanel.tsx
 msgid "Unknown author"
@@ -7721,22 +10300,56 @@ msgstr "Unread threads"
 msgid "Unreads"
 msgstr "Unreads"
 
+#: src/bundled/agents/AgentSettingsHost.tsx
+msgid "Unsaved Settings changes will be discarded when you continue."
+msgstr "Unsaved Settings changes will be discarded when you continue."
+
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Unsent draft"
 msgstr "Unsent draft"
+
+#: src/app/PluginImport.tsx
+msgid "Unsigned"
+msgstr "Unsigned"
 
 #: src/features/user-status/StatusExpiration.tsx
 msgid "Until"
 msgstr "Until"
 
+#: src/features/profiles/AvatarEditor.tsx
+msgid "up"
+msgstr "up"
+
+#. placeholder {0}: command.maxInputBytes
+#. placeholder {0}: command.maxOutputBytes ?? 4096
+#: src/app/PluginAccessReview.tsx
+msgid "up to {0} bytes"
+msgstr "up to {0} bytes"
+
+#: src/app/PluginImport.tsx
+msgid "Up to date"
+msgstr "Up to date"
+
+#: src/app/ManagedPlugins.tsx
+#: src/app/PluginImport.tsx
+msgid "Update"
+msgstr "Update"
+
+#. placeholder {0}: existing.manifest.name
 #. placeholder {0}: update.candidate?.manifest.name ?? update.id
+#: src/app/PluginImport.tsx
 #: src/app/PluginUpdates.tsx
 msgid "Update {0}"
 msgstr "Update {0}"
 
+#: src/app/ManagedPlugins.tsx
 #: src/app/PluginUpdates.tsx
 msgid "Update {name}"
 msgstr "Update {name}"
+
+#: src/app/PluginImport.tsx
+msgid "Update {updateTargetName}"
+msgstr "Update {updateTargetName}"
 
 #: src/app/PluginUpdates.tsx
 msgid "Update and reload"
@@ -7751,6 +10364,18 @@ msgstr "Update failed: {0}"
 msgid "Update now"
 msgstr "Update now"
 
+#: src/app/PluginImport.tsx
+msgid "Update plugin"
+msgstr "Update plugin"
+
+#: src/app/ManagedPlugins.tsx
+msgid "Update recommended. "
+msgstr "Update recommended. "
+
+#: src/app/PluginImport.tsx
+msgid "Update source"
+msgstr "Update source"
+
 #: src/features/updates/UpdateSettings.tsx
 msgid "Update status"
 msgstr "Update status"
@@ -7759,9 +10384,22 @@ msgstr "Update status"
 msgid "Update this community’s profile. Other community profiles stay unchanged."
 msgstr "Update this community’s profile. Other community profiles stay unchanged."
 
+#: src/app/ManagedPlugins.tsx
+msgid "Updates follow the recommendation from {source}."
+msgstr "Updates follow the recommendation from {source}."
+
+#: src/app/PluginImport.tsx
+msgid "Updating plugin…"
+msgstr "Updating plugin…"
+
 #: src/app/shell/ProfileButton.tsx
 msgid "Updating to {targetLabel}…"
 msgstr "Updating to {targetLabel}…"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Upload an image"
+msgstr "Upload an image"
 
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Upload failed"
@@ -7771,15 +10409,36 @@ msgstr "Upload failed"
 msgid "Upload failed. Retry or remove it to send."
 msgstr "Upload failed. Retry or remove it to send."
 
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Upload image"
+msgstr "Upload image"
+
 #: src/features/messages/ComposerAttachments.tsx
 msgid "Uploading"
 msgstr "Uploading"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Uploading avatar"
+msgstr "Uploading avatar"
+
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Uploading avatar…"
+msgstr "Uploading avatar…"
 
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Uploading files…"
 msgstr "Uploading files…"
 
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Uploading image"
+msgstr "Uploading image"
+
+#: src/bundled/agents/AgentAvatarPicker.tsx
+msgid "Uploading image…"
+msgstr "Uploading image…"
+
 #: src/features/messages/ComposerAttachments.tsx
+#: src/features/profiles/AvatarEditor.tsx
 msgid "Uploading…"
 msgstr "Uploading…"
 
@@ -7787,10 +10446,19 @@ msgstr "Uploading…"
 msgid "Uploads are unavailable on this connection."
 msgstr "Uploads are unavailable on this connection."
 
+#: src/bundled/agents/AgentAvatarPicker.tsx
+#: src/features/profiles/AvatarEditor.tsx
+msgid "Use {swatch} background"
+msgstr "Use {swatch} background"
+
 #: src/features/identity/Welcome.tsx
 #: src/features/identity/WelcomeBack.tsx
 msgid "Use a different account"
 msgstr "Use a different account"
+
+#: src/app/IdentitySettings.tsx
+msgid "Use a saved copy of your private key to restore this ID. Keep it somewhere safe. If you lose every copy, you can’t recover this ID."
+msgstr "Use a saved copy of your private key to restore this ID. Keep it somewhere safe. If you lose every copy, you can’t recover this ID."
 
 #: src/features/identity/ConnectChoice.tsx
 #: src/features/identity/IdentitySetup.tsx
@@ -7800,6 +10468,10 @@ msgstr "Use an existing key"
 #: src/features/messages/ComposerLinkDialog.tsx
 msgid "Use an HTTP(S) URL or a valid buzz:// link."
 msgstr "Use an HTTP(S) URL or a valid buzz:// link."
+
+#: src/bundled/agents/AgentCreateHeader.tsx
+msgid "Use custom"
+msgstr "Use custom"
 
 #: src/features/agents/ModelFamilyMenu.tsx
 #: src/features/agents/ModelPicker.tsx
@@ -7821,6 +10493,10 @@ msgstr "Use your identity across communities. Your profile and conversations sta
 #: src/app/ProfileSettings.tsx
 msgid "Used for new communities. Existing community profiles stay unchanged."
 msgstr "Used for new communities. Existing community profiles stay unchanged."
+
+#: src/app/IdentitySettings.tsx
+msgid "Used to access"
+msgstr "Used to access"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Username"
@@ -7946,6 +10622,10 @@ msgstr "View message in {where}: {line}"
 msgid "View only"
 msgstr "View only"
 
+#: src/features/profiles/ProfilePeek.tsx
+msgid "View profile"
+msgstr "View profile"
+
 #: src/features/messages/MessageRow.tsx
 #: src/features/messages/ReplySummary.tsx
 msgid "View thread"
@@ -7961,9 +10641,26 @@ msgstr "View thread: {0} {replyCountWord}"
 msgid "View transcript"
 msgstr "View transcript"
 
+#: src/app/PluginAccessReview.tsx
+msgid "View unchanged declarations"
+msgstr "View unchanged declarations"
+
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Viewing only. Ask an owner or admin to participate."
 msgstr "Viewing only. Ask an owner or admin to participate."
+
+#. placeholder {0}: ms(wait)
+#. placeholder {1}: ms(render)
+#. placeholder {2}: ms(loads.p90)
+#: src/app/ClientMetricsPanel.tsx
+msgid "wait {0} · render {1} · p90 {2}"
+msgstr "wait {0} · render {1} · p90 {2}"
+
+#. placeholder {0}: ms(wait)
+#. placeholder {1}: ms(render)
+#: src/app/ClientMetricsPanel.tsx
+msgid "Wait {0}, render {1}"
+msgstr "Wait {0}, render {1}"
 
 #: src/features/messages/MessageComposer.tsx
 #: src/features/messages/QueuedFollowUps.tsx
@@ -7978,6 +10675,10 @@ msgstr "Wait for saved sidebar groups to load, then try again."
 msgid "Wait for the active turn to finish before {waitVerb}."
 msgstr "Wait for the active turn to finish before {waitVerb}."
 
+#: src/app/ClientMetricsPanel.tsx
+msgid "Wait: disk read or server request"
+msgstr "Wait: disk read or server request"
+
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Waiting for {name} to connect."
 msgstr "Waiting for {name} to connect."
@@ -7990,6 +10691,10 @@ msgstr "Waiting for permission"
 #: src/app/UnreadIndicatorSettings.tsx
 msgid "Waiting for system permission…"
 msgstr "Waiting for system permission…"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Wakes on"
+msgstr "Wakes on"
 
 #: src/features/identity/KeyRestore.tsx
 msgid "We couldn’t check all your backups. Try again, or enter your private key if you have a copy."
@@ -8015,13 +10720,33 @@ msgstr "We found the key to your account."
 msgid "Welcome back"
 msgstr "Welcome back"
 
+#: src/app/DeveloperSettings.tsx
+msgid "What Import finds"
+msgstr "What Import finds"
+
 #: src/bundled/channels/ChannelTextField.tsx
 msgid "What this channel is for"
 msgstr "What this channel is for"
 
+#: src/app/PluginMenu.tsx
+msgid "What this plugin can do"
+msgstr "What this plugin can do"
+
 #: src/features/user-status/StatusEditor.tsx
 msgid "What's your status?"
 msgstr "What's your status?"
+
+#: src/app/ShortcutSettings.tsx
+msgid "When the composer is empty, Up Arrow edits your most recent editable message instead of selecting messages."
+msgstr "When the composer is empty, Up Arrow edits your most recent editable message instead of selecting messages."
+
+#: src/app/AgentSettings.tsx
+msgid "While agents work"
+msgstr "While agents work"
+
+#: src/app/PluginImport.tsx
+msgid "Whole repository"
+msgstr "Whole repository"
 
 #: src/app/AppearancePreview.tsx
 msgid "wide"
@@ -8083,6 +10808,7 @@ msgstr "Working now"
 msgid "Working remotely"
 msgstr "Working remotely"
 
+#: src/bundled/agents/AgentSettingsHost.tsx
 #: src/bundled/channels/SoloChatMenu.tsx
 msgid "Workspace"
 msgstr "Workspace"
@@ -8125,6 +10851,10 @@ msgstr "Yielded"
 msgid "You"
 msgstr "You"
 
+#: src/bundled/agents/AgentBrowse.tsx
+msgid "You already have this agent."
+msgstr "You already have this agent."
+
 #: src/features/messages/ChannelTimeline.tsx
 msgid "You can load older messages once Buzz reconnects."
 msgstr "You can load older messages once Buzz reconnects."
@@ -8137,6 +10867,10 @@ msgstr "You can message up to {maxRecipients} people at once."
 msgid "You can’t post in {title} anymore. Your draft is still saved."
 msgstr "You can’t post in {title} anymore. Your draft is still saved."
 
+#: src/app/PluginImport.tsx
+msgid "You cannot roll back to the unsigned revision after this update."
+msgstr "You cannot roll back to the unsigned revision after this update."
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "You cannot share this chat."
 msgstr "You cannot share this chat."
@@ -8144,6 +10878,14 @@ msgstr "You cannot share this chat."
 #: src/app/App.tsx
 msgid "You don’t have access to this"
 msgstr "You don’t have access to this"
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "You have agents in Buzz (Legacy)."
+msgstr "You have agents in Buzz (Legacy)."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "You have agents in your other communities."
+msgstr "You have agents in your other communities."
 
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "You’re last"
@@ -8156,6 +10898,10 @@ msgstr "You're on the latest version."
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "You’re previewing this {placeWord}"
 msgstr "You’re previewing this {placeWord}"
+
+#: src/app/IdentitySettings.tsx
+msgid "your {backupLocation} account"
+msgstr "your {backupLocation} account"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Your account is unavailable. Open Local settings again."
@@ -8173,6 +10919,7 @@ msgstr "Your account’s key isn’t on this device. Enter its private key to co
 msgid "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
 msgstr "Your account’s key isn’t on this device. Try restoring it from a backup, or enter its private key."
 
+#: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Your agents"
 msgstr "Your agents"
@@ -8193,10 +10940,22 @@ msgstr "Your backups couldn’t be recovered. Try again."
 msgid "Your Builderlab account"
 msgstr "Your Builderlab account"
 
+#: src/app/IdentitySettings.tsx
+msgid "Your Buzz ID"
+msgstr "Your Buzz ID"
+
 #: src/features/identity/IdentitySetup.tsx
 #: src/features/identity/Welcome.tsx
 msgid "Your Buzz identity"
 msgstr "Your Buzz identity"
+
+#: src/app/ExternalIdentityAuthorization.tsx
+msgid "Your Buzz identity changed. Reopen Security settings before authorizing."
+msgstr "Your Buzz identity changed. Reopen Security settings before authorizing."
+
+#: src/app/IdentitySettings.tsx
+msgid "Your Buzz identity stays on this device. You and your agents can’t reconnect to communities that require your {organization} login until you sign back in."
+msgstr "Your Buzz identity stays on this device. You and your agents can’t reconnect to communities that require your {organization} login until you sign back in."
 
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 msgid "Your channel details have unsaved changes."
@@ -8234,6 +10993,14 @@ msgstr "Your edit is still in the outbox."
 msgid "Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings."
 msgstr "Your identity is ready, but connecting to communities is not available in this build yet. You can manage your local profile and identity in Settings."
 
+#: src/app/IdentitySettings.tsx
+msgid "Your identity is shared across communities."
+msgstr "Your identity is shared across communities."
+
+#: src/app/IdentitySettings.tsx
+msgid "Your identity is unavailable. Connect your identity to manage it."
+msgstr "Your identity is unavailable. Connect your identity to manage it."
+
 #: src/features/identity/Welcome.tsx
 msgid "Your key is saved on this device, but it isn’t linked to your account or backed up yet."
 msgstr "Your key is saved on this device, but it isn’t linked to your account or backed up yet."
@@ -8254,9 +11021,17 @@ msgstr "Your local default. Use it when joining communities; saving here does no
 msgid "Your local identity is unavailable. Connect your identity to edit your profile."
 msgstr "Your local identity is unavailable. Connect your identity to edit your profile."
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Your new team will be lost."
+msgstr "Your new team will be lost."
+
 #: src/features/identity/KeyLost.tsx
 msgid "Your old key can’t be linked again"
 msgstr "Your old key can’t be linked again"
+
+#: src/app/IdentitySettings.tsx
+msgid "your organization account"
+msgstr "your organization account"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Your other agents"
@@ -8267,9 +11042,17 @@ msgstr "Your other agents"
 msgid "Your people, your agents, one place."
 msgstr "Your people, your agents, one place."
 
+#: src/app/IdentitySettings.tsx
+msgid "Your private key"
+msgstr "Your private key"
+
 #: src/features/identity/SignOut.tsx
 msgid "Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in."
 msgstr "Your private key is how you sign in to Buzz. This removes it from this device’s secure storage and signs you out of your organization, Builderlab and hosted communities. Account backups and copies saved elsewhere stay. Save a copy so you can sign back in."
+
+#: src/app/IdentitySettings.tsx
+msgid "Your private key is kept in this device’s secure storage. It proves this Buzz ID is yours."
+msgstr "Your private key is kept in this device’s secure storage. It proves this Buzz ID is yours."
 
 #: src/app/ProfileSettings.tsx
 #: src/app/shell/ProfileButton.tsx
@@ -8306,9 +11089,22 @@ msgstr "Your status is unavailable"
 msgid "Your status: {label}"
 msgstr "Your status: {label}"
 
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Your teams"
+msgstr "Your teams"
+
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Your template has unsaved changes."
 msgstr "Your template has unsaved changes."
+
+#. placeholder {0}: selected.name
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Your unsaved changes to {0} will be lost."
+msgstr "Your unsaved changes to {0} will be lost."
+
+#: src/bundled/agents/AgentsPage.tsx
+msgid "Your unsaved changes to {leavingTeamName} will be lost."
+msgstr "Your unsaved changes to {leavingTeamName} will be lost."
 
 #: src/bundled/channels/CanvasHistory.tsx
 msgid "Your unsaved draft will be kept separately. Copy any edits you want to keep before reloading the restored Canvas."
