@@ -217,7 +217,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   ctx.inject(["settingsCards"], (scope) => {
     scope.settingsCards.register({
       id: "authors",
-      title: "GitHub",
+      title: msg`GitHub`,
       group: "Plugins",
       icon: GithubLogoIcon,
       component: ({ active }) => <GitHubSettings active={active} gh={gh} />,

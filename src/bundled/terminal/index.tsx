@@ -1,4 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
+import { msg } from "@lingui/core/macro";
 import { useLayoutEffect } from "react";
 import { TerminalWindowIcon } from "../../shared/design-system/icons/index";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
@@ -40,7 +41,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
   ctx.settingsCards.register({
     id: "settings",
-    title: "Terminal",
+    title: msg`Terminal`,
     icon: TerminalWindowIcon,
     group: "Plugins",
     component: (props) => (

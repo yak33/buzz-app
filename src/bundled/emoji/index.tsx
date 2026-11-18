@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { createGifShortcut } from "./gif-shortcut";
 import { EmojiCompletion } from "./EmojiCompletion";
 import { emojiQuery } from "./emoji-query";
@@ -38,7 +39,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     const relay = scope.relay;
     scope.settingsCards.register({
       id: "custom-emoji",
-      title: "Custom emoji",
+      title: msg`Custom emoji`,
       icon: SmileyIcon,
       component: ({ active }) => (
         <CustomEmojiSettings relay={relay} active={active} />

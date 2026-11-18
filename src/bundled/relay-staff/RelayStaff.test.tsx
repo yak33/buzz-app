@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { i18n } from "../../features/localization/service";
 import "@testing-library/jest-dom/vitest";
 import {
   act,
@@ -123,7 +124,7 @@ function Entries({ staff }: { staff: Staff }) {
             aria-selected={e === entry}
             onClick={() => setOpen(e.id)}
           >
-            {e.title}
+            {typeof e.title === "string" ? e.title : i18n._(e.title)}
           </button>
         ))}
       </div>

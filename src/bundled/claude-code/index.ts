@@ -59,7 +59,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   if (Settings)
     ctx.settingsCards.register({
       id: "credentials",
-      title: "Claude",
+      title: msg`Claude`,
       icon: ClaudeLogoIcon,
       group: "Plugins",
       component: ({ active, navigation }) => {

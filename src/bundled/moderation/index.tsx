@@ -1,4 +1,5 @@
 import type { PluginModule } from "../../plugins/api";
+import { msg } from "@lingui/core/macro";
 import { CommunityAdmin } from "./CommunityAdmin";
 import { canManageMembership } from "./membership";
 
@@ -11,7 +12,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   // still opens the roster and invite controls in native builds.
   ctx.settingsCards.register({
     id: "membership",
-    title: "Membership",
+    title: msg`Membership`,
     section: "administration",
     visibility: {
       snapshot: () => {

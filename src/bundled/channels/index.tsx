@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { StartLinkedChat, canStartLinkedChat } from "./StartLinkedChat";
 import { ChannelCompletion } from "./ChannelCompletion";
 import { channelQuery } from "./channel-query";
@@ -121,7 +122,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const membership = ctx.adminAccess.membership;
   ctx.settingsCards.register({
     id: "templates",
-    title: "Channel templates",
+    title: msg`Channel templates`,
     group: "App",
     icon: CopyIcon,
     component: ({ active }) => (

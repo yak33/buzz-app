@@ -134,7 +134,10 @@ export function settingsSections(
     const resolvedIcon = card.icon ?? icon;
     return {
       id: card.key,
-      label: card.title,
+      // 插件卡片标题在渲染期翻译，语言切换即时生效。
+      label:
+        typeof card.title === "string" ? card.title : i18n._(card.title),
+      ...(typeof card.title !== "string" ? { lang: i18n.locale } : {}),
       ...(resolvedIcon ? { icon: resolvedIcon } : {}),
     };
   };

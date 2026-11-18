@@ -360,7 +360,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   };
   ctx.settingsCards.register({
     id: "login",
-    title: "Builderlab",
+    title: msg`Builderlab`,
     icon: BuilderlabLogoIcon,
     group: "Plugins",
     ...(nativeBuilderlab() && !unavailable

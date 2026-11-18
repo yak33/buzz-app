@@ -1,4 +1,5 @@
 import type { PluginModule } from "../../plugins/api";
+import { msg } from "@lingui/core/macro";
 import { registerAttention } from "../../features/agents/attention-command";
 import { registerDiscovery } from "../../features/agents/attention-discovery";
 import { registerDecideTool } from "../../features/decisions/agent-tool";
@@ -57,7 +58,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     );
     ctx.settingsCards.register({
       id: "external-apps",
-      title: "External apps",
+      title: msg`External apps`,
       visibility: {
         snapshot: () =>
           externalMcpEnabled(ctx.communityReader.snapshot().selected),

@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import { nativeBuilderlab } from "../builderlab/session";
 import { MobileSettings } from "./MobileApp";
@@ -18,7 +19,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const phone = builderlab ? ctx.builderlabPhone : undefined;
   ctx.settingsCards.register({
     id: "mobile",
-    title: builderlab ? "Mobile app" : "Pair mobile",
+    title: builderlab ? msg`Mobile app` : msg`Pair mobile`,
     icon: DeviceMobileIcon,
     // Pairing needs a community address, not a selected community.
     personal: true,

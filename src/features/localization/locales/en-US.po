@@ -3515,6 +3515,10 @@ msgstr "Browse plugin folder"
 msgid "Bug"
 msgstr "Bug"
 
+#: src/bundled/builderlab/index.tsx
+msgid "Builderlab"
+msgstr "Builderlab"
+
 #: src/bundled/builderlab/communities/HostedCommunities.tsx
 msgid "Builderlab account"
 msgstr "Builderlab account"
@@ -4260,6 +4264,7 @@ msgid "Channel setup couldn’t finish: {0}"
 msgstr "Channel setup couldn’t finish: {0}"
 
 #: src/bundled/channels/ChannelTemplateSettings.tsx
+#: src/bundled/channels/index.tsx
 msgid "Channel templates"
 msgstr "Channel templates"
 
@@ -4904,6 +4909,10 @@ msgstr "Choosing Bestie's model…"
 #: src/app/AppearanceSettings.tsx
 msgid "Citrus"
 msgstr "Citrus"
+
+#: src/bundled/claude-code/index.ts
+msgid "Claude"
+msgstr "Claude"
 
 #. placeholder {0}: status.version
 #. placeholder {1}: setup.auth.needs
@@ -7154,6 +7163,7 @@ msgid "Custom date and time"
 msgstr "Custom date and time"
 
 #: src/bundled/emoji/CustomEmojiSettings.tsx
+#: src/bundled/emoji/index.tsx
 msgid "Custom emoji"
 msgstr "Custom emoji"
 
@@ -8561,6 +8571,10 @@ msgstr "Exposes plugin tools through Buzz’s local MCP server."
 msgid "External app authorization failed"
 msgstr "External app authorization failed"
 
+#: src/bundled/agents/index.tsx
+msgid "External apps"
+msgstr "External apps"
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "External apps are not enabled for this community. Select an enabled community."
 msgstr "External apps are not enabled for this community. Select an enabled community."
@@ -8824,6 +8838,7 @@ msgstr "Fix {title}'s markers in Instructions."
 
 #: src/bundled/focus/FocusDialog.tsx
 #: src/bundled/focus/FocusSettings.tsx
+#: src/bundled/focus/index.tsx
 msgid "Focus"
 msgstr "Focus"
 
@@ -9052,6 +9067,7 @@ msgid "Git or GitHub repository"
 msgstr "Git or GitHub repository"
 
 #: src/bundled/github/GitHubSettings.tsx
+#: src/bundled/github/index.tsx
 #: src/bundled/link-lab/index.tsx
 msgid "GitHub"
 msgstr "GitHub"
@@ -11106,6 +11122,7 @@ msgid "Members serving your model can read the prompts and conversation history 
 msgstr "Members serving your model can read the prompts and conversation history sent to them. In Agent mode, this includes tool output and core memory; their model directs tools on this computer."
 
 #: src/bundled/moderation/CommunityAdmin.tsx
+#: src/bundled/moderation/index.tsx
 msgid "Membership"
 msgstr "Membership"
 
@@ -11394,6 +11411,7 @@ msgstr "Minute"
 msgid "minutes"
 msgstr "minutes"
 
+#: src/bundled/pairing/index.tsx
 #: src/bundled/pairing/MobileApp.tsx
 msgid "Mobile app"
 msgstr "Mobile app"
@@ -13453,6 +13471,7 @@ msgstr "Pages"
 msgid "Pair another phone"
 msgstr "Pair another phone"
 
+#: src/bundled/pairing/index.tsx
 #: src/bundled/pairing/PairingSettings.tsx
 msgid "Pair mobile"
 msgstr "Pair mobile"
@@ -18250,6 +18269,7 @@ msgstr "Temporary"
 msgid "Temporary, {0}"
 msgstr "Temporary, {0}"
 
+#: src/bundled/terminal/index.tsx
 #: src/bundled/terminal/TerminalSettings.tsx
 msgid "Terminal"
 msgstr "Terminal"

@@ -1,4 +1,5 @@
 import type { PluginModule } from "../../plugins/api";
+import { msg } from "@lingui/core/macro";
 import { TelescopeIcon } from "../../shared/design-system/icons/index";
 import { FocusBanner, FocusDialog, startFocus } from "./FocusDialog";
 import { FocusSettings } from "./FocusSettings";
@@ -86,7 +87,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
   ctx.settingsCards.register({
     id: "focus",
-    title: "Focus",
+    title: msg`Focus`,
     group: "Plugins",
     icon: TelescopeIcon,
     component: ({ active }) => (

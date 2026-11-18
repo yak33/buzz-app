@@ -1,4 +1,5 @@
 // Plugin-owned cards inside existing host Settings. No persistence.
+import type { MessageDescriptor } from "@lingui/core";
 import { Service, type Context } from "@deepseek-ai/cordis";
 import type { ComponentType } from "react";
 import type { PageNavigation } from "../navigation/service";
@@ -9,7 +10,8 @@ import {
 } from "../../plugins/contributions";
 export type SettingsCard = {
   id: string;
-  title: string;
+  /** 卡片标题：字符串，或 Lingui 描述符（渲染期由宿主翻译）。 */
+  title: string | MessageDescriptor;
   /** Optional design-system icon for this card's Settings destination. */
   icon?: typeof ChatCircleIcon;
   component: ComponentType<{
@@ -104,7 +106,8 @@ export class SettingsCardsService extends Service implements SettingsCards {
   register(card: SettingsCard) {
     if (
       !/^[a-z0-9][a-z0-9._-]*$/.test(card.id) ||
-      !card.title?.trim() ||
+      card.title == null ||
+      (typeof card.title === "string" && !card.title.trim()) ||
       typeof card.component !== "function" ||
       (card.identityRow !== undefined &&
         typeof card.identityRow !== "function") ||
