@@ -1,4 +1,5 @@
 // FOUNDATION: Target-based panel contributions, independent of page layout.
+import type { MessageDescriptor } from "@lingui/core";
 import { Service, type Context } from "@deepseek-ai/cordis";
 import type { ComponentType } from "react";
 import type { ChannelSummary } from "../relay/contracts";
@@ -58,7 +59,8 @@ export type PanelProps = {
 };
 export type Panel = Readonly<{
   id: string;
-  title: string;
+  /** 面板标题：字符串，或 Lingui 描述符（渲染期由宿主翻译）。 */
+  title: string | MessageDescriptor;
   matches: (url: string) => boolean;
   /** Claim strength when several panels match a target; see `MatchOrder`. */
   order?: MatchOrder | undefined;
@@ -70,7 +72,8 @@ export type Panel = Readonly<{
   channelLauncher?: ComponentType<ChannelLauncherProps>;
   /** Optional Channels menu placement; eligibility is presentation-only, not access. */
   channelMenu?: Readonly<{
-    label: string;
+    /** 菜单项文字：字符串，或 Lingui 描述符（渲染期由宿主翻译）。 */
+    label: string | MessageDescriptor;
     eligible(channel: ChannelSummary, session: RelaySession): boolean;
   }>;
   /**
@@ -166,8 +169,8 @@ export class PanelsService extends Service implements Panels {
       !panel ||
       typeof panel.id !== "string" ||
       !/^[a-z0-9][a-z0-9._-]*$/.test(panel.id) ||
-      typeof panel.title !== "string" ||
-      !panel.title.trim() ||
+      panel.title == null ||
+      (typeof panel.title === "string" && !panel.title.trim()) ||
       typeof panel.matches !== "function" ||
       typeof panel.component !== "function"
     ) {
@@ -198,8 +201,9 @@ export class PanelsService extends Service implements Panels {
     if (
       panel.channelMenu !== undefined &&
       (!panel.channelMenu ||
-        typeof panel.channelMenu.label !== "string" ||
-        !panel.channelMenu.label.trim() ||
+        panel.channelMenu.label == null ||
+        (typeof panel.channelMenu.label === "string" &&
+          !panel.channelMenu.label.trim()) ||
         typeof panel.channelMenu.eligible !== "function")
     )
       throw new Error(

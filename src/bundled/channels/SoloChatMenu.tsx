@@ -171,7 +171,7 @@ export function SoloChatMenuItems({
             <MenuIcon>
               <HashArrowInIcon size={14} />
             </MenuIcon>
-            {conversionLabel(session, channel.id)}
+            {i18n._(conversionLabel(session, channel.id))}
           </MenuItem>
         )}
       {onLifecycle &&

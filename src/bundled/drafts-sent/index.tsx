@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import { DraftsSentBadge } from "../../features/drafts-sent/DraftsSentBadge";
 import { DraftsSentPage } from "../../features/drafts-sent/DraftsSentPage";
@@ -15,7 +16,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const { relay, panels, navigation: navigator } = ctx;
   ctx.pages.register({
     id: "drafts-sent",
-    title: "Drafts & sent",
+    title: msg`Drafts & sent`,
     layout: "workspace",
     primary: true,
     companion: true,

@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import type { PanelProps } from "../../features/panels/service";
 import {
@@ -17,7 +18,7 @@ export const inject = [
 export const apply: PluginModule["apply"] = (ctx) => {
   ctx.panels.register({
     id: "profile",
-    title: "Profile",
+    title: msg`Profile`,
     matches: (target) =>
       !!profilePanelKey(target) || !!profileActivityViewKey(target),
     component: Object.assign(

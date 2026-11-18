@@ -266,16 +266,20 @@ export function ProfileButton({
   const ActionDialog = actions.find(
     (action) => action === selectedAction,
   )?.component;
-  const renderAction = (action: RegisteredAccountAction) => (
-    <MenuItem
-      lang="en"
-      key={action.key}
-      onClick={() => setSelectedAction(action)}
-    >
-      <MenuIcon>{action.icon ?? <PlugIcon size={17} />}</MenuIcon>
-      {action.title}
-    </MenuItem>
-  );
+  const renderAction = (action: RegisteredAccountAction) => {
+    // 描述符标题在渲染期翻译；普通字符串保持英文语言标记。
+    const translated = typeof action.title !== "string";
+    return (
+      <MenuItem
+        lang={translated ? i18n.locale : "en"}
+        key={action.key}
+        onClick={() => setSelectedAction(action)}
+      >
+        <MenuIcon>{action.icon ?? <PlugIcon size={17} />}</MenuIcon>
+        {translated ? i18n._(action.title) : action.title}
+      </MenuItem>
+    );
+  };
   const accountLabel = useId();
   const statusUnavailable = useId();
   const avatar = (

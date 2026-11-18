@@ -1517,7 +1517,7 @@ export function SearchResults({
     pickerPrompt || showAmbiguousPicker
       ? [
           {
-            label: "People",
+            label: t`People`,
             destinations: authorChoices.filter((choice) => !choice.isAgent),
             empty: authorChoices.length
               ? undefined
@@ -1534,16 +1534,16 @@ export function SearchResults({
                         : "Type a name to search people.",
           },
           {
-            label: "Agents",
+            label: t`Agents`,
             destinations: authorChoices.filter((choice) => choice.isAgent),
           },
         ]
       : showDateChoices || showChannelPicker
         ? [
             showDateChoices
-              ? { label: "Dates", destinations: dateChoices }
+              ? { label: t`Dates`, destinations: dateChoices }
               : {
-                  label: "Channels",
+                  label: t`Channels`,
                   destinations: channelChoices,
                   empty: "No matching channels.",
                 },
@@ -1592,12 +1592,12 @@ export function SearchResults({
                 // comes after them.
                 ...[
                   {
-                    label: "Agents",
+                    label: t`Agents`,
                     destinations: agentResults,
                     best: Math.min(...agentResults.map(({ score }) => score)),
                   },
                   {
-                    label: "Chats",
+                    label: t`Chats`,
                     destinations: chatResults.map(({ channel }) =>
                       conversationDestination(channel),
                     ),
@@ -1605,26 +1605,26 @@ export function SearchResults({
                     exactName: chatResults.some(({ exactName }) => exactName),
                   },
                   {
-                    label: "Channels",
+                    label: t`Channels`,
                     destinations: channelResults.map(channelDestination),
                     best: Math.min(...channelResults.map(channelRank)),
                     headingStatus: slowChannels ? "Searching…" : undefined,
                   },
                   {
-                    label: "People",
+                    label: t`People`,
                     destinations: personResults,
                     headingStatus: slowPeople ? "Searching…" : undefined,
                     best: Math.min(...personResults.map(({ score }) => score)),
                   },
                   {
-                    label: "Direct messages",
+                    label: t`Direct messages`,
                     destinations: directMessageResults.map(
                       conversationDestination,
                     ),
                     best: Math.min(...directMessageResults.map(dmRank)),
                   },
                   {
-                    label: "Pages",
+                    label: t`Pages`,
                     // PageSearch already ranked these by text and underlined
                     // them; here usage and earlier choices adjust the order.
                     destinations: byMatch(pages, (page) =>
@@ -1646,8 +1646,8 @@ export function SearchResults({
                       lead:
                         named ||
                         (newChats.size > 0 &&
-                          (group.label === "Agents" ||
-                            group.label === "Chats")),
+                          (group.label === t`Agents` ||
+                            group.label === t`Chats`)),
                     };
                   })
                   .sort(

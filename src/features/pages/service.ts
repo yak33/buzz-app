@@ -1,4 +1,5 @@
 // FOUNDATION: Page contribution contract, shared by bundled and external plugins.
+import type { MessageDescriptor } from "@lingui/core";
 import { Service, type Context } from "@deepseek-ai/cordis";
 import type { ComponentType, ReactNode } from "react";
 import {
@@ -28,7 +29,8 @@ export type PagePreviewProps = {
 
 export type Page = Readonly<{
   id: string;
-  title: string;
+  /** 页面标题：字符串，或 Lingui 描述符（渲染期由宿主翻译）。 */
+  title: string | MessageDescriptor;
   component: ComponentType<PageProps>;
   /** Replace the conversation sidebar while this page is selected. */
   sidebar?: ComponentType<PageSidebarProps>;
@@ -99,8 +101,8 @@ export class PagesService extends Service implements Pages {
       !page ||
       typeof page.id !== "string" ||
       !/^[a-z0-9][a-z0-9._-]*$/.test(page.id) ||
-      typeof page.title !== "string" ||
-      !page.title.trim() ||
+      page.title == null ||
+      (typeof page.title === "string" && !page.title.trim()) ||
       typeof page.component !== "function" ||
       (page.sidebar !== undefined && typeof page.sidebar !== "function") ||
       (page.conversationNavigation !== undefined &&

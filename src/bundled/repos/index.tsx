@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import { parseEntityRoute } from "../../features/repos/routes";
 import { RepoPage } from "./RepoPage";
@@ -7,7 +8,7 @@ export const inject = ["pages", "relay", "navigation", "conversation"];
 export const apply: PluginModule["apply"] = (ctx) => {
   ctx.pages.register({
     id: "repos",
-    title: "Repository",
+    title: msg`Repository`,
     layout: "workspace",
     primary: false,
     handlesNavigation: true,

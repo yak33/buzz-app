@@ -1,4 +1,5 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
+import { useLingui } from "@lingui/react/macro";
 import { NavigationItem } from "./NavigationItem";
 import { IconButton } from "./IconButton";
 import { Input } from "./Input";
@@ -387,6 +388,7 @@ export function TabMenu({
   closeOthers: (() => boolean) | undefined;
   children: ReactNode;
 }) {
+  const { t } = useLingui();
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLElement>(null);
   const [anchor, setAnchor] = useState<HTMLElement>();
@@ -449,7 +451,7 @@ export function TabMenu({
         {children}
       </ContextMenuTrigger>
       <MenuPopup
-        aria-label={`Actions for ${label} tab`}
+        aria-label={t`Actions for ${label} tab`}
         size="compact"
         anchor={anchor}
         finalFocus={() =>
@@ -470,9 +472,9 @@ export function TabMenu({
             {action.label}
           </MenuItem>
         ))}
-        {onRename && <MenuItem onClick={onRename}>Rename tab</MenuItem>}
+        {onRename && <MenuItem onClick={onRename}>{t`Rename tab`}</MenuItem>}
         {closeOthers && (
-          <MenuItem onClick={closeOthers}>Close other tabs</MenuItem>
+          <MenuItem onClick={closeOthers}>{t`Close other tabs`}</MenuItem>
         )}
         {closeAll && (
           <MenuItem
@@ -480,7 +482,7 @@ export function TabMenu({
               closingAll.current = closeAll();
             }}
           >
-            Close all tabs
+            {t`Close all tabs`}
           </MenuItem>
         )}
       </MenuPopup>
@@ -496,6 +498,7 @@ function TabRename({
   label: string;
   onDone(name: string | undefined): void;
 }) {
+  const { t } = useLingui();
   const done = useRef(false);
   const initial = useRef(label);
   const finish = (input: HTMLInputElement, name: string | undefined) => {
@@ -512,7 +515,7 @@ function TabRename({
     <span className="buzz-tabs-rename">
       <Input
         controlSize="sm"
-        aria-label="Tab name"
+        aria-label={t`Tab name`}
         defaultValue={label}
         autoFocus
         // The field keeps its own text menu and middle-click paste rather than

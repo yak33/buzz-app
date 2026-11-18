@@ -243,7 +243,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
 
   ctx.pages.register({
     id: "reminders",
-    title: "Reminders",
+    title: msg`Reminders`,
     layout: "workspace",
     primary: true,
     badge: Badge,

@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { useSyncExternalStore } from "react";
 import type { Context } from "@deepseek-ai/cordis";
@@ -67,9 +68,9 @@ export function registerCanvas(ctx: Context) {
   }
   ctx.panels.register({
     id: "canvas",
-    title: "Canvas",
+    title: msg`Canvas`,
     matches: () => false,
-    channelMenu: { label: "View canvas", eligible },
+    channelMenu: { label: msg`View canvas`, eligible },
     component: Panel,
   });
 }

@@ -1,3 +1,4 @@
+import type { MessageDescriptor } from "@lingui/core";
 import { Service, type Context } from "@deepseek-ai/cordis";
 import type { ComponentType, ReactNode } from "react";
 import {
@@ -7,7 +8,8 @@ import {
 
 export type AccountAction = Readonly<{
   id: string;
-  title: string;
+  /** 操作标题：字符串，或 Lingui 描述符（渲染期由宿主翻译）。 */
+  title: string | MessageDescriptor;
   icon?: ReactNode;
   /** Default actions stay in the plugin section after Settings. */
   placement?: "default" | "before-settings";
@@ -29,7 +31,8 @@ export class AccountActionsService extends Service {
     if (
       !action ||
       !/^[a-z0-9][a-z0-9._-]*$/.test(action.id) ||
-      !action.title?.trim() ||
+      action.title == null ||
+      (typeof action.title === "string" && !action.title.trim()) ||
       typeof action.component !== "function"
     )
       throw new Error("An account action needs an id, title and component");

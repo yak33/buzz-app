@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useCallback, useSyncExternalStore } from "react";
 import type { ChannelDetailsDraft } from "../relay/channel-details-protocol";
 import type { RelaySession } from "../relay/session";
@@ -48,8 +49,9 @@ export function useChatConversions(session: RelaySession) {
     () => conversions.get(session) ?? empty,
   );
 }
+/** 返回 Lingui 描述符，调用方在渲染期用 i18n._ 翻译。 */
 export function conversionLabel(session: RelaySession, id: string) {
   return chatConversion(session, id)
-    ? "Finish conversion"
-    : "Convert to channel";
+    ? msg`Finish conversion`
+    : msg`Convert to channel`;
 }

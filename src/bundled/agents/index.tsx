@@ -91,7 +91,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
   ctx.pages.register({
     id: "agents",
-    title: "Agents",
+    title: msg`Agents`,
     layout: "workspace",
     primary: true,
     route: {

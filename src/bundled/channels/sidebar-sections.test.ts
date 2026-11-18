@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import { msg } from "@lingui/core/macro";
 import type { ChannelSummary } from "../../features/relay/contracts";
 import {
   orderContributedSidebarSections,
@@ -139,9 +140,15 @@ it("intersects groups/stars with active authorized streams and movable DMs", () 
       new Set(["hidden-dm"]),
     ).find(({ key }) => key === "starred")?.ids,
   ).toEqual(["solo", "star"]);
+  // 固定分组标题是 Lingui 描述符，渲染期才翻译；断言比较描述符本身。
   expect(sidebarSections([])).toEqual([
-    { key: "channels", title: "Channels", icon: undefined, rows: [] },
-    { key: "dms", title: "Direct messages", icon: undefined, rows: [] },
+    { key: "channels", title: msg`Channels`, icon: undefined, rows: [] },
+    {
+      key: "dms",
+      title: msg`Direct messages`,
+      icon: undefined,
+      rows: [],
+    },
   ]);
   expect(
     sidebarSections(roster, undefined, new Set(["hidden-dm"])).flatMap(

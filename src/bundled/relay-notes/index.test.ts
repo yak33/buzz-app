@@ -1,4 +1,5 @@
 import { Context } from "@deepseek-ai/cordis";
+import { msg } from "@lingui/core/macro";
 import { expect, it } from "vitest";
 import { AgentsService } from "../../features/agents/service";
 import {
@@ -47,10 +48,11 @@ it("registers only the reader page and leaves built-in agent tools unchanged", a
       .plugin({ inject, apply });
     await scope;
     expect(service.tools()).toEqual([]);
+    // 页面标题现在是 Lingui 描述符，渲染期由宿主翻译；断言比较描述符本身。
     expect(pages.snapshot()).toMatchObject([
       {
         id: "notes",
-        title: "Shared notes",
+        title: msg`Shared notes`,
         layout: "workspace",
         primary: true,
         placement: "dock",

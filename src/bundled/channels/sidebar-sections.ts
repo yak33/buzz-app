@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { ChannelSummary } from "../../features/relay/contracts";
 import type { SidebarPreferences } from "../../features/relay/sidebar-preferences";
 
@@ -82,7 +83,8 @@ export function sidebarSections<T extends ChannelSummary>(
   return [
     {
       key: "starred",
-      title: "Starred",
+      // 固定分组的标题用描述符在渲染期翻译；group.name 是用户自建分组名，保持原文。
+      title: msg`Starred`,
       icon: undefined,
       rows: sort(
         movable.filter((channel) => stars.has(channel.id)),
@@ -103,7 +105,7 @@ export function sidebarSections<T extends ChannelSummary>(
     })),
     {
       key: "channels",
-      title: "Channels",
+      title: msg`Channels`,
       icon: undefined,
       rows: sort(
         streams.filter(
@@ -115,7 +117,7 @@ export function sidebarSections<T extends ChannelSummary>(
     },
     {
       key: "forums",
-      title: "Forums",
+      title: msg`Forums`,
       icon: undefined,
       rows: sort(
         active.filter((channel) => channel.channelType === "forum"),
@@ -124,7 +126,7 @@ export function sidebarSections<T extends ChannelSummary>(
     },
     {
       key: "dms",
-      title: "Direct messages",
+      title: msg`Direct messages`,
       icon: undefined,
       rows: sort(
         dms.filter(

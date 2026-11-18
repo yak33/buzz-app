@@ -479,9 +479,10 @@ export function SoloInventory({
     </>
   );
   // The active region's title names the conversations this nav holds.
+  // 工作区名（region.title）是用户数据不翻；固定回退名参与翻译。
   const headingTitle =
     regions.regions.find((region) => region.source && !region.hidden)?.title ??
-    "Solo";
+    t`Solo`;
   return (
     <nav
       className={styles.sidebarContents}

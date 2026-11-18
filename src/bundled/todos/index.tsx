@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { useCallback, useSyncExternalStore } from "react";
 import type { PluginModule } from "../../plugins/api";
@@ -39,6 +40,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     );
   }
   function Panel({ channelContext, close, context: host }: PanelProps) {
+    const { t } = useLingui();
     const state = useSyncExternalStore(ctx.relay.subscribe, ctx.relay.snapshot);
     const isActive = useCallback(
       () => active && ctx.relay.snapshot() === state,
@@ -49,7 +51,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
       state.status !== "ready" ||
       state.scope !== channelContext.scope
     )
-      return <p role="status">Connect to this channel to view todos.</p>;
+      return <p role="status">{t`Connect to this channel to view todos.`}</p>;
     return (
       <TodosPanel
         key={`${state.scope}:${state.generation}:${channelContext.channelId}`}
@@ -64,7 +66,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   }
   ctx.panels.register({
     id: "todos",
-    title: "Todos",
+    title: msg`Todos`,
     matches: () => false,
     channelLauncher: Launcher,
     channelPlacement: "side",

@@ -901,7 +901,11 @@ export function useConversationTabs({
     return {
       id,
       instance: entry,
-      label: entry.panel.title,
+      // 面板标题在渲染期翻译，语言切换即时生效。
+      label:
+        typeof entry.panel.title === "string"
+          ? entry.panel.title
+          : i18n._(entry.panel.title),
       ...(entry.channelContext && {
         icon: <InfoIcon size="1rem" />,
       }),

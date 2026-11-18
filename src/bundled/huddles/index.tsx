@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import {
   remoteDmVoiceCalls,
   withRemoteDmVoiceCalls,
@@ -105,7 +106,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   ));
   ctx.panels.register({
     id: "huddles",
-    title: "Huddles",
+    title: msg`Huddles`,
     matches: (target) => !!parseHuddleTarget(target),
     toolbar: () => (
       <HuddleCapsule

@@ -131,7 +131,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
   ctx.pages.register({
     id: "channels",
-    title: "Channels",
+    title: msg`Channels`,
     primary: true,
     placement: "dock",
     layout: "workspace",

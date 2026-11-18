@@ -156,10 +156,17 @@ export function usePagePresentation() {
     "buzz.relay-notes/notes": t`Shared notes`,
   };
   const bestie = useContext(BestieNavigationContext);
-  return (page: RegisteredPage) => ({
-    ...pagePresentation(page),
-    lang: labels[page.key] ? i18n.locale : "en",
-    ...(labels[page.key] ? { label: labels[page.key] } : {}),
-    ...(page.key === BESTIE_PAGE ? bestie : undefined),
-  });
+  return (page: RegisteredPage) => {
+    const known = labels[page.key];
+    // Bundled labels and descriptor titles resolve in the UI language; plain
+    // plugin strings keep English language metadata.
+    const lang =
+      known || typeof page.title !== "string" ? i18n.locale : "en";
+    return {
+      ...pagePresentation(page),
+      lang,
+      ...(known ? { label: known } : {}),
+      ...(page.key === BESTIE_PAGE ? bestie : undefined),
+    };
+  };
 }

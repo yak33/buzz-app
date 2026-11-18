@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { usePanelTabHost } from "./PanelWorkspace";
 import type { Ref } from "react";
 import { Panel } from "../../shared/design-system/ui/Panel";
@@ -23,13 +24,17 @@ export function PanelCard({
   panel: RegisteredPanel;
   contentKey?: string;
 }) {
+  const { i18n } = useLingui();
   const tabbed = !!usePanelTabHost();
+  // 面板标题在渲染期翻译，语言切换即时生效。
+  const title =
+    typeof panel.title === "string" ? panel.title : i18n._(panel.title);
   return (
     <aside
       ref={ref}
       tabIndex={-1}
       className={styles.cardLayout}
-      aria-label={panel.title}
+      aria-label={title}
       onKeyDown={(event) => {
         if (event.key === "Escape" && !event.shiftKey && !tabbed) {
           event.stopPropagation();
@@ -45,17 +50,17 @@ export function PanelCard({
                 title={
                   panel.launcher ? (
                     <PanelHeaderLabel
-                      title={panel.title}
+                      title={title}
                       icon={<img src={panel.launcher.icon} alt="" />}
                     />
                   ) : (
-                    panel.title
+                    title
                   )
                 }
                 actions={
                   <IconButton
                     size="toolbar"
-                    aria-label={`Close ${panel.title} panel`}
+                    aria-label={`Close ${title} panel`}
                     onClick={props.close}
                     icon={<XIcon size={18} aria-hidden="true" />}
                   />

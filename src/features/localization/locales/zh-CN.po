@@ -1971,6 +1971,10 @@ msgstr "{0} 的操作"
 msgid "Actions for {label}"
 msgstr "针对 {label} 的操作"
 
+#: src/shared/design-system/ui/Tabs.tsx
+msgid "Actions for {label} tab"
+msgstr "{label} 标签页的操作"
+
 #: src/bundled/agents/AgentsPage.tsx
 #: src/bundled/workflows/WorkflowLanding.tsx
 #: src/features/communities/CommunityPickerItem.tsx
@@ -2016,6 +2020,7 @@ msgstr "生效中的限制"
 #: src/app/shell/BestieNavigation.tsx
 #: src/bundled/inbox/InboxPage.tsx
 #: src/bundled/inbox/InboxPreview.tsx
+#: src/bundled/inbox/index.tsx
 #: src/bundled/watching/Activity.tsx
 msgid "Activity"
 msgstr "动态"
@@ -2526,7 +2531,9 @@ msgstr "智能体"
 
 #: src/app/plugin-categories.ts
 #: src/app/shell/BestieNavigation.tsx
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/agents/AgentsPage.tsx
+#: src/bundled/agents/index.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 #: src/bundled/inbox/InboxFilters.tsx
@@ -2854,6 +2861,10 @@ msgstr "持有此密钥的任何人都能以你的身份行事。切勿分享。
 #: src/bundled/pi/tabs.tsx
 msgid "API key"
 msgstr "API 密钥"
+
+#: src/bundled/builderlab/apps/index.ts
+msgid "App"
+msgstr "应用"
 
 #: src/app/LanguageSettings.tsx
 msgid "App language"
@@ -3404,6 +3415,10 @@ msgstr "落后"
 msgid "Best-effort estimate from local session files at published API prices, not your bill."
 msgstr "基于本地会话文件与公开 API 价格的尽力估算，并非你的实际账单。"
 
+#: src/bundled/bestie/index.tsx
+msgid "Bestie"
+msgstr "Bestie"
+
 #: src/bundled/bestie/PrivateChannels.tsx
 msgid "Bestie already reads every public channel. In a channel you add it to, it reads along as a guest and can't post there."
 msgstr "Bestie 已经会读取每个公开频道。在你把它添加进去的频道里，它会以访客身份旁听，并且无法在那里发帖。"
@@ -3921,6 +3936,7 @@ msgstr "无法打开此 PDF"
 #: src/features/messages/ForwardMessage.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/messages/ReportMessageDialog.tsx
+#: src/features/solo/ConvertToChannel.tsx
 msgid "Cancel"
 msgstr "取消"
 
@@ -4122,6 +4138,7 @@ msgstr "更改的声明"
 msgid "Changed files"
 msgstr "已更改的文件"
 
+#: src/bundled/changesets/index.tsx
 #: src/bundled/github/data.ts
 #: src/bundled/github/index.tsx
 #: src/features/agents/AgentConfigHistory.tsx
@@ -4258,6 +4275,10 @@ msgstr "频道预览"
 msgid "Channel settings"
 msgstr "频道设置"
 
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Channel settings changed. Reload details before continuing."
+msgstr "频道设置已变化。请重新加载详情后再继续。"
+
 #. placeholder {0}: notice.name
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Channel setup couldn’t finish: {0}"
@@ -4282,8 +4303,11 @@ msgid "channels"
 msgstr "频道"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/ChannelsPage.tsx
+#: src/bundled/channels/index.tsx
+#: src/bundled/channels/sidebar-sections.ts
 #: src/bundled/profiles/ProfileChannels.tsx
 #: src/bundled/profiles/ProfilePanel.tsx
 #: src/bundled/repos/RepoPage.tsx
@@ -4366,6 +4390,7 @@ msgstr "与 {bestie} 聊天"
 msgid "Chat: no tools."
 msgstr "聊天：无工具。"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/SoloChatMenu.tsx
 #: src/bundled/channels/SoloWorkspaces.tsx
 msgid "Chats"
@@ -4453,6 +4478,10 @@ msgstr "再次删除前请检查已保存的配置。已在运行的任务可能
 #: src/bundled/workflows/WorkflowChannel.tsx
 msgid "Check saved configuration or review Recent activity before continuing."
 msgstr "继续之前，请检查已保存的配置或查看最近动态。"
+
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Check status"
+msgstr "检查状态"
 
 #: src/bundled/workflows/WorkflowDeletionNotices.tsx
 msgid "Check the workflow and try again from its menu."
@@ -5131,8 +5160,13 @@ msgstr "未能保存时间设置"
 #: src/bundled/voice-notes/VoiceCapture.tsx
 #: src/features/messages/ComposerLinkDialog.tsx
 #: src/features/messages/MessageManagement.tsx
+#: src/features/solo/ConvertToChannel.tsx
 msgid "Close"
 msgstr "关闭"
+
+#: src/shared/design-system/ui/Tabs.tsx
+msgid "Close all tabs"
+msgstr "关闭全部标签页"
 
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "Close channel creation"
@@ -5186,6 +5220,10 @@ msgstr "关闭全屏查看器"
 #: src/bundled/workflows/WorkflowForm.tsx
 msgid "Close inspector"
 msgstr "关闭检查器"
+
+#: src/shared/design-system/ui/Tabs.tsx
+msgid "Close other tabs"
+msgstr "关闭其他标签页"
 
 #: src/features/drafts-sent/DraftPreview.tsx
 msgid "Close sent preview"
@@ -5763,6 +5801,10 @@ msgstr "连接社区后即可查看你的提醒。"
 msgid "Connect to a community to view this profile."
 msgstr "连接社区后即可查看此资料。"
 
+#: src/bundled/todos/index.tsx
+msgid "Connect to this channel to view todos."
+msgstr "连接此频道后才能查看待办。"
+
 #: src/app/shell/PageSearch.tsx
 msgid "Connect to this community to search messages."
 msgstr "连接此社区后即可搜索消息。"
@@ -5983,9 +6025,22 @@ msgstr "对话"
 msgid "Conversations couldn’t open."
 msgstr "对话无法打开。"
 
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Conversion is already in progress in another view."
+msgstr "另一个视图中的转换正在进行。"
+
+#: src/features/solo/conversion.ts
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Convert to channel"
+msgstr "转换为频道"
+
 #: src/bundled/github/PullChecklist.tsx
 msgid "Convert to draft"
 msgstr "转换为草稿"
+
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Converted to channel."
+msgstr "已转换为频道。"
 
 #: src/bundled/agents/AgentDetails.tsx
 #: src/bundled/diffs/parse.ts
@@ -7199,6 +7254,10 @@ msgstr "深色"
 msgid "Dataset {0}"
 msgstr "数据集 {0}"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Dates"
+msgstr "日期"
+
 #: src/bundled/workflows/workflowDuration.ts
 msgid "day"
 msgstr "天"
@@ -7619,6 +7678,8 @@ msgid "Direct message"
 msgstr "私信"
 
 #: src/app/NotificationSettings.tsx
+#: src/app/shell/SearchResults.tsx
+#: src/bundled/channels/sidebar-sections.ts
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Direct messages"
 msgstr "私聊"
@@ -7968,6 +8029,7 @@ msgid "Drafts"
 msgstr "草稿"
 
 #: src/app/shell/BestieNavigation.tsx
+#: src/bundled/drafts-sent/index.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Drafts & sent"
 msgstr "草稿和已发送"
@@ -8728,8 +8790,8 @@ msgid "Filter"
 msgstr "筛选"
 
 #: src/bundled/channels/SidebarSection.tsx
-msgid "Filter {title}"
-msgstr "筛选 {title}"
+msgid "Filter {sectionTitle}"
+msgstr "筛选 {sectionTitle}"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Filter members: {filterText}"
@@ -8772,6 +8834,8 @@ msgid "Finding your community…"
 msgstr "正在查找你的社区…"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
+#: src/features/solo/conversion.ts
+#: src/features/solo/ConvertToChannel.tsx
 msgid "Finish conversion"
 msgstr "完成转换"
 
@@ -8943,6 +9007,10 @@ msgstr "文本格式"
 msgid "Formatting options"
 msgstr "格式选项"
 
+#: src/bundled/channels/sidebar-sections.ts
+msgid "Forums"
+msgstr "论坛"
+
 #: src/features/messages/ForwardMessage.tsx
 msgid "Forward"
 msgstr "转发"
@@ -9021,6 +9089,7 @@ msgid "General"
 msgstr "通用"
 
 #: src/bundled/channels/ChannelGeneralAccess.tsx
+#: src/features/solo/ConvertToChannel.tsx
 msgid "General access"
 msgstr "通用访问权限"
 
@@ -9414,6 +9483,10 @@ msgstr "Huddle 参与者"
 #: src/bundled/huddles/HuddleCapsule.tsx
 msgid "Huddle request"
 msgstr "Huddle 请求"
+
+#: src/bundled/huddles/index.tsx
+msgid "Huddles"
+msgstr "Huddle"
 
 #: src/features/communities/CommunityDialog.tsx
 #: src/features/communities/FindCommunity.tsx
@@ -11568,8 +11641,8 @@ msgid "More actions for {organization}"
 msgstr "{organization} 的更多操作"
 
 #: src/bundled/channels/SidebarSection.tsx
-msgid "More actions for {title}"
-msgstr "{title} 的更多操作"
+msgid "More actions for {sectionTitle}"
+msgstr "{sectionTitle} 的更多操作"
 
 #: src/bundled/reminders/RemindersPage.tsx
 msgid "More actions: {sender}"
@@ -11633,6 +11706,10 @@ msgstr "移动对话"
 #: src/bundled/channels/SidebarSection.tsx
 msgid "Move down"
 msgstr "下移"
+
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Move this conversation from Solo to Team. History, Canvas, members and lifetime stay the same."
+msgstr "将此对话从 Solo 移到 Team。历史记录、Canvas、成员和保留时长保持不变。"
 
 #: src/bundled/channels/SoloChatMenu.tsx
 msgid "Move to"
@@ -13464,6 +13541,7 @@ msgstr "页面导航"
 
 #: src/app/shell/AppShell.tsx
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 msgid "Pages"
 msgstr "页面"
 
@@ -13644,6 +13722,7 @@ msgstr "PDF 文件"
 msgid "Pending"
 msgstr "待处理"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/inbox/InboxFilters.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
@@ -14065,6 +14144,7 @@ msgstr "脏话或仇恨言论"
 
 #: src/app/ProfileSettings.tsx
 #: src/app/settings-sections.ts
+#: src/bundled/profiles/index.tsx
 msgid "Profile"
 msgstr "个人资料"
 
@@ -14737,6 +14817,7 @@ msgid "Reminder time"
 msgstr "提醒时间"
 
 #: src/app/shell/BestieNavigation.tsx
+#: src/bundled/reminders/index.tsx
 #: src/bundled/reminders/RemindersPage.tsx
 msgid "Reminders"
 msgstr "提醒"
@@ -14847,8 +14928,8 @@ msgid "Remove {removalText} from {placeText}"
 msgstr "从{placeText}中移除{removalText}"
 
 #: src/bundled/channels/SidebarSection.tsx
-msgid "Remove {title}?"
-msgstr "移除 {title}？"
+msgid "Remove {sectionTitle}?"
+msgstr "移除 {sectionTitle}？"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey
@@ -15050,6 +15131,10 @@ msgstr "重命名 {title}"
 msgid "Rename section"
 msgstr "重命名分区"
 
+#: src/shared/design-system/ui/Tabs.tsx
+msgid "Rename tab"
+msgstr "重命名标签页"
+
 #: src/bundled/diffs/parse.ts
 msgid "Renamed"
 msgstr "已重命名"
@@ -15229,6 +15314,7 @@ msgid "repository"
 msgstr "仓库"
 
 #: src/bundled/github/index.tsx
+#: src/bundled/repos/index.tsx
 #: src/bundled/repos/RepoPage.tsx
 msgid "Repository"
 msgstr "仓库"
@@ -17140,6 +17226,7 @@ msgid "shared notes"
 msgstr "共享笔记"
 
 #: src/app/shell/BestieNavigation.tsx
+#: src/bundled/relay-notes/index.tsx
 #: src/bundled/relay-notes/NotesPage.tsx
 msgid "Shared notes"
 msgstr "共享笔记"
@@ -17622,12 +17709,17 @@ msgid "Software updates"
 msgstr "软件更新"
 
 #: src/app/shell/NewMenu.tsx
+#: src/features/channel-navigation/SoloInventory.tsx
 msgid "Solo"
 msgstr "个人"
 
 #: src/app/NotificationSettings.tsx
 msgid "Solo chat completions"
 msgstr "个人对话完成"
+
+#: src/features/solo/ConvertToChannel.tsx
+msgid "Solo workspaces could not be read. Try again."
+msgstr "无法读取 Solo 工作区。请重试。"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Some agent managers or their names could not load. Try again."
@@ -17700,8 +17792,8 @@ msgid "Sort"
 msgstr "排序"
 
 #: src/bundled/channels/SidebarSection.tsx
-msgid "Sort {title}"
-msgstr "排序 {title}"
+msgid "Sort {sectionTitle}"
+msgstr "排序 {sectionTitle}"
 
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "Sort workflows"
@@ -17793,6 +17885,7 @@ msgid "Standby"
 msgstr "待机"
 
 #: src/bundled/channels/CreateChannelDialog.tsx
+#: src/bundled/channels/sidebar-sections.ts
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Starred"
 msgstr "星标"
@@ -18186,6 +18279,10 @@ msgstr "系统提示词"
 #: src/app/AppearanceSettings.tsx
 msgid "System uses your device’s time format."
 msgstr "“跟随系统”使用设备的时间格式。"
+
+#: src/shared/design-system/ui/Tabs.tsx
+msgid "Tab name"
+msgstr "标签页名称"
 
 #: src/features/messages/MessageComposer.tsx
 msgid "Tag a person already in this chat or one of your available agents."
@@ -20892,6 +20989,10 @@ msgstr "查看全部 {0} {mediaLabel}，从第 4 项开始"
 #: src/bundled/github/PullChecklist.tsx
 msgid "View all checks"
 msgstr "查看所有检查"
+
+#: src/bundled/channels/canvas-panel.tsx
+msgid "View canvas"
+msgstr "查看 Canvas"
 
 #: src/bundled/channels/ChannelHeaderMenu.tsx
 msgid "View channel details"

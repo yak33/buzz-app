@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import { msg } from "@lingui/core/macro";
 import { Context } from "@deepseek-ai/cordis";
 import { PluginRuntime } from "../../plugins/runtime";
 import { PagesService } from "../pages/service";
@@ -63,9 +64,10 @@ it("independently unloads panels without removing the page or shared data", asyn
     runtime.reconcile(desired(["channels", "github"]));
     await flush();
     expect(pages.snapshot()).toHaveLength(1);
-    expect(panels.resolve("https://github.com/block/buzz/pull/23")?.title).toBe(
-      "GitHub",
-    );
+    // 面板标题现在是 Lingui 描述符，渲染期由宿主翻译；断言比较描述符本身。
+    expect(
+      panels.resolve("https://github.com/block/buzz/pull/23")?.title,
+    ).toEqual(msg`GitHub`);
     expect(
       panels.resolve("https://github.com/block/buzz/pull/23")?.deferUntilShown,
     ).toBe(true);

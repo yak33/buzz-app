@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { isTauri } from "@tauri-apps/api/core";
 import type { PluginModule } from "../../plugins/api";
 import { createGit } from "./git";
@@ -39,7 +40,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
   ctx.panels.register({
     id: "changes",
-    title: "Changes",
+    title: msg`Changes`,
     matches: (url) => !!parseTarget(url),
     component: ({ target }) => <ChangesetPanel target={target} turns={turns} />,
   });

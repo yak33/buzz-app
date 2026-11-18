@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { i18n } from "../localization/service";
 import "@testing-library/jest-dom/vitest";
 import {
   act,
@@ -332,7 +333,8 @@ it("retires superseded View-only recovery after Finish rejects changed admission
   expect(
     screen.queryByRole("button", { name: "Finish conversion" }),
   ).toBeNull();
-  expect(conversionLabel(h.session, id)).toBe("Convert to channel");
+  // conversionLabel 现在返回描述符；en-US 下渲染仍为原文。
+  expect(i18n._(conversionLabel(h.session, id))).toBe("Convert to channel");
   expect(
     canConvertToChannel(h.session, {
       id,

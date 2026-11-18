@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { IconButton } from "../../shared/design-system/ui/IconButton";
 import { Component, useState, type ReactNode } from "react";
 import { SidebarIcon } from "../../shared/design-system/icons/index";
@@ -12,13 +13,17 @@ export function PanelLaunchers({
   selected: RegisteredPanel | undefined;
   launch(panel: RegisteredPanel, trigger: HTMLButtonElement): void;
 }) {
+  const { i18n } = useLingui();
   return panels
     .filter((panel) => panel.launcher || panel.toolbar)
-    .map((panel) =>
-      panel.toolbar ? (
+    .map((panel) => {
+      // 面板标题在渲染期翻译，语言切换即时生效。
+      const title =
+        typeof panel.title === "string" ? panel.title : i18n._(panel.title);
+      return panel.toolbar ? (
         <ToolbarBoundary
           key={`${panel.key}:${panel.revision}`}
-          title={panel.title}
+          title={title}
         >
           <panel.toolbar />
         </ToolbarBoundary>
@@ -27,8 +32,8 @@ export function PanelLaunchers({
           type="button"
           key={`${panel.key}:${panel.revision}`}
           variant="chrome"
-          aria-label={panel.title}
-          title={panel.title}
+          aria-label={title}
+          title={title}
           aria-expanded={panel === selected}
           onClick={(event) => launch(panel, event.currentTarget)}
           icon={
@@ -38,8 +43,8 @@ export function PanelLaunchers({
             />
           }
         />
-      ),
-    );
+      );
+    });
 }
 function LauncherIcon({ src }: { src: string }) {
   const [failed, setFailed] = useState(false);

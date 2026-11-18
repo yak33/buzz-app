@@ -1,3 +1,4 @@
+import type { MessageDescriptor } from "@lingui/core";
 import { useLingui } from "@lingui/react/macro";
 import { RenameSidebarSection } from "./RenameSidebarSection";
 import { SidebarActiveDialog, activeWindowLabel } from "./SidebarActiveDialog";
@@ -84,7 +85,8 @@ export function SidebarSection({
   children,
 }: {
   sectionKey: string;
-  title: string;
+  /** 分组标题：固定分组是 Lingui 描述符；用户自建分组名是字符串。 */
+  title: string | MessageDescriptor;
   icon?: ReactNode;
   session?: RelaySession | undefined;
   open: boolean;
@@ -145,7 +147,10 @@ export function SidebarSection({
     | undefined;
   children: ReactNode;
 }) {
-  const { t } = useLingui();
+  const { t, i18n } = useLingui();
+  // 固定分组标题在渲染期翻译，语言切换即时生效。
+  const sectionTitle =
+    typeof title === "string" ? title : i18n._(title);
   const id = useId();
   const cancelRemove = useRef<HTMLButtonElement>(null);
   const actionsTrigger = useRef<HTMLButtonElement>(null);
@@ -195,12 +200,12 @@ export function SidebarSection({
                     <IconButton
                       {...props}
                       size="compact"
-                      aria-label={t`More actions for ${title}`}
+                      aria-label={t`More actions for ${sectionTitle}`}
                       icon={<DotsThreeIcon strokeWidth={2.5} size={15} />}
                     />
                   )}
                 />
-                <MenuPopup align="end" aria-label={t`More actions for ${title}`}>
+                <MenuPopup align="end" aria-label={t`More actions for ${sectionTitle}`}>
                   {filter && (
                     <MenuSubmenu>
                       <MenuSubmenuTrigger>
@@ -210,7 +215,7 @@ export function SidebarSection({
                         {t`Filter`}
                       </MenuSubmenuTrigger>
                       <MenuSubmenuPopup
-                        aria-label={t`Filter ${title}`}
+                        aria-label={t`Filter ${sectionTitle}`}
                         finalFocus={false}
                       >
                         <MenuRadioGroup
@@ -319,7 +324,7 @@ export function SidebarSection({
                         {t`Sort`}
                       </MenuSubmenuTrigger>
                       <MenuSubmenuPopup
-                        aria-label={t`Sort ${title}`}
+                        aria-label={t`Sort ${sectionTitle}`}
                         finalFocus={false}
                       >
                         <MenuRadioGroup
@@ -459,7 +464,7 @@ export function SidebarSection({
             )}
             {renameOpen && onRename && (
               <RenameSidebarSection
-                title={title}
+                title={sectionTitle}
                 rename={onRename}
                 close={() => setRenameOpen(false)}
                 finalFocus={actionsTrigger}
@@ -478,7 +483,7 @@ export function SidebarSection({
                     ? actionsTrigger.current
                     : (removalFocus?.() ?? false)
                 }
-                title={t`Remove ${title}?`}
+                title={t`Remove ${sectionTitle}?`}
                 description={
                   channelCount === undefined
                     ? t`Assigned channels will move back to Channels. This does not delete any channels.`
@@ -537,7 +542,7 @@ export function SidebarSection({
           <summary
             ref={dragHandle?.ref}
             {...dragHandle?.listeners}
-            aria-label={title}
+            aria-label={sectionTitle}
             aria-controls={id}
             onClick={(event) => {
               event.preventDefault();
@@ -557,7 +562,7 @@ export function SidebarSection({
                   persistentChevron ? styles.scopeSectionTitle : ""
                 }`}
               >
-                {title}
+                {sectionTitle}
               </FadingLabel>
             </span>
             <span

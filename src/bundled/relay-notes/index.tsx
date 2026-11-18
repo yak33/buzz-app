@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import { NotesPage } from "./NotesPage";
 import { notesRoute } from "./routes";
@@ -13,7 +14,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const relay = ctx.relay;
   ctx.pages.register({
     id: "notes",
-    title: "Shared notes",
+    title: msg`Shared notes`,
     layout: "workspace",
     primary: true,
     placement: "dock",

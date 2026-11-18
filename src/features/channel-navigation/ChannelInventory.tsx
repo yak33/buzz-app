@@ -177,7 +177,7 @@ export function ChannelInventory({
   sidebarRows?: SidebarRows | undefined;
   render(inventory: Inventory): ReactNode;
 }) {
-  const { t } = useLingui();
+  const { t, i18n } = useLingui();
   const contributions = useSyncExternalStore(
     contributedSections?.subscribe ?? noSubscription,
     contributedSections?.snapshot ?? noSidebarSections,
@@ -571,6 +571,15 @@ export function ChannelInventory({
       dmVisibility.hidden,
     ],
   );
+  // 固定分组标题是描述符（渲染期翻译）；用户自建分组名是字符串。
+  const sectionTitle = (key: string) => {
+    const title = sections.find((section) => section.key === key)?.title;
+    return title === undefined
+      ? undefined
+      : typeof title === "string"
+        ? title
+        : i18n._(title);
+  };
   const sectionSort = useCallback(
     (key: string): SidebarSortMode => {
       const saved =
@@ -909,7 +918,7 @@ export function ChannelInventory({
                   <MinusIcon size={14} />
                 </MenuIcon>
                 {t`Remove from`}{" "}
-                {sections.find((section) => section.key === sectionKey)?.title}
+                {sectionTitle(sectionKey)}
               </MenuItem>
             )}
           </MenuSubmenuPopup>
@@ -1269,11 +1278,9 @@ export function ChannelInventory({
   // The section a save-failure notice names, titled for the reader, with a
   // fallback when that section is no longer listed.
   const sectionTitleFor = (group: string) =>
-    sections.find(
-      ({ key }) =>
-        key ===
-        (group.startsWith("section:") ? `group:${group.slice(8)}` : group),
-    )?.title ?? t`this section`;
+    sectionTitle(
+      group.startsWith("section:") ? `group:${group.slice(8)}` : group,
+    ) ?? t`this section`;
   return render({
     sidebar,
     dmPreviews: unreadDmPreviews,
@@ -1373,7 +1380,9 @@ export function ChannelInventory({
                 : orderedContributions.find(
                     ({ key }) => contributedSidebarSectionKey(key) === id,
                   );
-              const title = section?.title ?? contribution?.title;
+              const title =
+                (section ? sectionTitle(section.key) : undefined) ??
+                contribution?.title;
               if (!title) return null;
               return (
                 <div className={styles.channelDragOverlay}>

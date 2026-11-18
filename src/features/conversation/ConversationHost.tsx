@@ -1,4 +1,5 @@
 import type { Context } from "@deepseek-ai/cordis";
+import { useLingui } from "@lingui/react/macro";
 import {
   useEffect,
   useLayoutEffect,
@@ -59,6 +60,7 @@ export function ConversationHost({
   threadId,
   children,
 }: ConversationHostProps) {
+  const { i18n } = useLingui();
   const presented = useConversationPresentation();
   const presentation = useRef(presented);
   const trigger = useRef<HTMLElement | null>(null);
@@ -162,7 +164,11 @@ export function ConversationHost({
       {presented && overlay?.panel && (
         <Dialog
           open
-          title={overlay.panel.title}
+          title={
+            typeof overlay.panel.title === "string"
+              ? overlay.panel.title
+              : i18n._(overlay.panel.title)
+          }
           placement="right"
           height="stable"
           finalFocus={() =>

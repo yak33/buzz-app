@@ -109,14 +109,22 @@ export function ChannelHeaderMenu({
       </MenuItem>
       {menuPanels?.map((panel) => (
         <MenuItem
-          lang="en"
+          lang={
+            typeof panel.channelMenu?.label === "string"
+              ? "en"
+              : i18n.locale
+          }
           key={panel.key}
           onClick={() => openMenuPanel?.(panel)}
         >
           <MenuIcon>
             <InfoIcon size={16} />
           </MenuIcon>
-          {panel.channelMenu?.label}
+          {typeof panel.channelMenu?.label === "string"
+            ? panel.channelMenu.label
+            : panel.channelMenu?.label
+              ? i18n._(panel.channelMenu.label)
+              : null}
         </MenuItem>
       ))}
       {channel && <ChannelHeaderActions channel={channel} surface={surface} />}

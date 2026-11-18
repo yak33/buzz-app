@@ -89,7 +89,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   }
   ctx.panels.register({
     id: "terminal",
-    title: "Terminal",
+    title: msg`Terminal`,
     matches: () => false,
     channelLauncher: Launcher,
     component: (props) => <TerminalPanel {...props} sessions={sessions} />,

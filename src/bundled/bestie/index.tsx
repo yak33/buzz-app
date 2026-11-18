@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import type { ReactNode } from "react";
 import type { PluginModule } from "../../plugins/api";
@@ -54,7 +55,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   );
   ctx.pages.register({
     id: "bestie",
-    title: "Bestie",
+    title: msg`Bestie`,
     layout: "workspace",
     primary: true,
     route: {

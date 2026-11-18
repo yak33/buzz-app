@@ -1,3 +1,4 @@
+import type { I18n } from "@lingui/core";
 import {
   AlarmIcon,
   BellIcon,
@@ -10,6 +11,7 @@ import {
   SendIcon,
 } from "../../shared/design-system/icons/index";
 import type { RegisteredPage } from "../../features/pages/service";
+import { i18n as defaultI18n } from "../../features/localization/service";
 
 // Shell-owned presentation keeps plugin content independent of navigation chrome.
 // Add page identities here; unknown plugins inherit a consistent layout default.
@@ -105,13 +107,19 @@ type PagePresentation = Readonly<{
   tone: string;
   image?: string;
 }>;
-export function pagePresentation(page: RegisteredPage): PagePresentation {
+export function pagePresentation(
+  page: RegisteredPage,
+  i18n: Pick<I18n, "_"> = defaultI18n,
+): PagePresentation {
   if (page.key === "buzz.channels/channels") return shellPresentation.channels;
+  // 页面标题在渲染期翻译，语言切换即时生效。
+  const title =
+    typeof page.title === "string" ? page.title : i18n._(page.title);
   const tone = page.layout === "workspace" ? "lime" : "sky";
   const bundledIcon = bundledIcons.get(page.key);
-  if (bundledIcon) return { label: page.title, icon: bundledIcon, tone };
+  if (bundledIcon) return { label: title, icon: bundledIcon, tone };
   return {
-    label: page.title,
+    label: title,
     icon: BrowserIcon,
     tone,
     ...(page.icon === undefined ? {} : { image: page.icon }),

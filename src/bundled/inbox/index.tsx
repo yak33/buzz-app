@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import { InboxPage } from "./InboxPage";
 import { InboxPreview } from "./InboxPreview";
@@ -44,7 +45,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   open("open-dms", "Open DMs in Activity", "k", 50, { activity: "dms" });
   ctx.pages.register({
     id: "inbox",
-    title: "Activity",
+    title: msg`Activity`,
     layout: "workspace",
     primary: true,
     route: { version: 1, validate: isInboxRoute },

@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { prepareSoloMove } from "../channel-navigation/solo-navigation";
 import {
   useCallback,
@@ -84,6 +86,7 @@ export function ConvertToChannel({
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
 }) {
   const details = session.channelDetails;
+  const { i18n, t } = useLingui();
   const receipt = useChatConversions(session).get(id);
   const converted = !!receipt?.converted;
   const notify = useToastNotification();
@@ -193,7 +196,11 @@ export function ConvertToChannel({
         if (!active.aborted) acceptDetails(next);
       } else {
         if (chatConversion(session, id)?.running)
-          throw new Error("Conversion is already in progress in another view.");
+          throw new Error(
+            i18n._(
+              msg`Conversion is already in progress in another view.`,
+            ),
+          );
         if (
           action !== "finish" &&
           (!base ||
@@ -224,7 +231,9 @@ export function ConvertToChannel({
               if (!details.snapshot(id))
                 updateChatConversion(session, id, undefined);
               throw new Error(
-                "Channel settings changed. Reload details before continuing.",
+                i18n._(
+                  msg`Channel settings changed. Reload details before continuing.`,
+                ),
               );
             }
           } else if (base)
@@ -247,7 +256,8 @@ export function ConvertToChannel({
           const filing = projects.snapshot();
           if (filing.status !== "ready")
             throw new Error(
-              filing.error ?? "Solo workspaces could not be read. Try again.",
+              filing.error ??
+                i18n._(msg`Solo workspaces could not be read. Try again.`),
             );
           if (filing.data?.assignments[id])
             await projects.assign(id, undefined);
@@ -255,7 +265,7 @@ export function ConvertToChannel({
         }
         updateChatConversion(session, id, undefined);
         if (!active.aborted) {
-          notify("Converted to channel.", "success");
+          notify(i18n._(msg`Converted to channel.`), "success");
           completed.current = true;
           setOpen(false);
         }
@@ -290,7 +300,7 @@ export function ConvertToChannel({
         if (completed.current && !signal?.aborted) onConverted?.();
       }}
       initialFocus={cancel}
-      title="Convert to channel"
+      title={t`Convert to channel`}
       size="compact"
       headerGap="compact"
       footerGap="compact"
@@ -300,7 +310,7 @@ export function ConvertToChannel({
           : (base &&
               selectedAccess === "private" &&
               soloRetainedAccessWarning(base)) ||
-            "Move this conversation from Solo to Team. History, Canvas, members and lifetime stay the same."
+            t`Move this conversation from Solo to Team. History, Canvas, members and lifetime stay the same.`
       }
       onOpenChange={(open) => {
         if (!open) setOpen(false);
@@ -310,7 +320,7 @@ export function ConvertToChannel({
       actions={
         <>
           <Button ref={cancel} onClick={() => setOpen(false)} disabled={busy}>
-            {converted ? "Close" : "Cancel"}
+            {converted ? t`Close` : t`Cancel`}
           </Button>
           {canFinish ? (
             <Button
@@ -318,14 +328,14 @@ export function ConvertToChannel({
               disabled={busy || !!receipt?.running || !!signal?.aborted}
               onClick={() => void run("finish")}
             >
-              Finish conversion
+              {t`Finish conversion`}
             </Button>
           ) : attempt?.status === "unconfirmed" && matchingAttempt ? (
             <Button
               disabled={busy || !!receipt?.running || !!signal?.aborted}
               onClick={() => void run("check")}
             >
-              Check status
+              {t`Check status`}
             </Button>
           ) : (
             <Button
@@ -339,14 +349,14 @@ export function ConvertToChannel({
               }
               onClick={() => void run("convert")}
             >
-              Convert to channel
+              {t`Convert to channel`}
             </Button>
           )}
         </>
       }
     >
       <Select
-        label="General access"
+        label={t`General access`}
         variant="field"
         value={selectedAccess}
         groups={[{ label: "", options: Object.values(generalAccessOptions) }]}

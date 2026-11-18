@@ -1,6 +1,7 @@
 // Builderlab Apps for local agents: tools that create, deploy and share a
 // web app with the plugin's Builderlab sign-in, and a side panel that
 // shows a deployed app in Buzz's browser view.
+import { msg } from "@lingui/core/macro";
 import { createElement, useSyncExternalStore } from "react";
 import type { PluginModule } from "../../../plugins/api";
 import type { PanelProps } from "../../../features/panels/service";
@@ -96,7 +97,7 @@ export function applyApps(
   };
   ctx.panels.register({
     id: "app",
-    title: "App",
+    title: msg`App`,
     keepOpen: true,
     matches: (target) => ctx.browser.available && isAppUrl(target),
     component: AppView,

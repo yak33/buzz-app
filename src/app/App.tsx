@@ -648,7 +648,11 @@ function ConnectedAppContent({ services }: { services: AppServices }) {
                       fallback={
                         <div className="shell-sidebar-default">
                           <SidebarFrame
-                            label={`${workspace.page.title} sidebar`}
+                            label={`${
+                              typeof workspace.page.title === "string"
+                                ? workspace.page.title
+                                : i18n._(workspace.page.title)
+                            } sidebar`}
                           >
                             <SidebarList>
                               <p role="alert">{t`This page’s sidebar is unavailable.`}</p>

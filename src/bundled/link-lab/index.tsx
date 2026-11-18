@@ -11,7 +11,7 @@ export const inject = ["pages"];
 export const apply: PluginModule["apply"] = (ctx) => {
   ctx.pages.register({
     id: "link-lab",
-    title: "Link Lab",
+    title: msg`Link Lab`,
     primary: true,
     component: LinkLab,
   });

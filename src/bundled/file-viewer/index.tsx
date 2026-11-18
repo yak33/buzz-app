@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { useCallback, useMemo } from "react";
 import type { AttachmentRendererProps } from "../../features/conversation/contracts";
@@ -39,7 +40,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
 
   ctx.panels.register({
     id: "file-viewer",
-    title: "File viewer",
+    title: msg`File viewer`,
     keepOpen: true,
     deferUntilShown: true,
     order: ORDER,

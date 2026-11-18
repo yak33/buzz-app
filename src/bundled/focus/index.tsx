@@ -79,7 +79,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   });
   ctx.accountActions.register({
     id: "focus",
-    title: "Focus",
+    title: msg`Focus`,
     icon: <TelescopeIcon size={17} />,
     component: (props) => (
       <FocusDialog {...props} focus={focus} preferences={preferences} />
