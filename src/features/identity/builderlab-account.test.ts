@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Credential } from "../../bundled/builderlab/session";
 import type { HostRequest, HostResponse } from "../host/service";
 import { BackupError, type BackupStatus, createBackupStatus } from "./backup";
-import { BACKUP_FAILURES } from "./backup-failure";
+import { backupFailures } from "./backup-failure";
 import { oauthTarget } from "../../bundled/builderlab/oauth/browser";
 import {
   federatedFixture,
@@ -1415,7 +1415,7 @@ describe("backup", () => {
         expect(failed).toBeInstanceOf(BackupError);
         expect(failed).toMatchObject({
           kind,
-          retryable: BACKUP_FAILURES[kind].retryable,
+          retryable: backupFailures()[kind].retryable,
         });
       },
     );

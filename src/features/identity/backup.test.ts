@@ -7,7 +7,7 @@ import {
   createBackupStatus,
   handoffFederatedBackupSession,
 } from "./backup";
-import { BACKUP_FAILURES } from "./backup-failure";
+import { backupFailures } from "./backup-failure";
 
 vi.mock("@tauri-apps/api/core", () => ({
   invoke: vi.fn(),
@@ -276,8 +276,8 @@ it.each([
     expect(error).toMatchObject({
       name: "BackupError",
       kind,
-      message: i18n._(BACKUP_FAILURES[kind].message),
-      retryable: BACKUP_FAILURES[kind].retryable,
+      message: i18n._(backupFailures()[kind].message),
+      retryable: backupFailures()[kind].retryable,
     });
     expect(commands(host).at(-1)).toBe("nsec_backup_session(null)");
     expect(backup.cleared()).toBe(true);
@@ -374,7 +374,7 @@ it("never shows native text when the status cannot be read or consent written", 
   );
   expect(await backUp(unwritten).failed).toMatchObject({
     kind: "interrupted",
-    message: i18n._(BACKUP_FAILURES.interrupted.message),
+    message: i18n._(backupFailures().interrupted.message),
   });
   // The credential is never handed over without consent.
   expect(commands(unwritten).at(-1)).toBe("nsec_backup_set_choice");

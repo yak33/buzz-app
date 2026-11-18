@@ -18,7 +18,7 @@ import {
   type BackupStatus,
   createBackupStatus,
 } from "../features/identity/backup";
-import { BACKUP_FAILURES } from "../features/identity/backup-failure";
+import { backupFailures } from "../features/identity/backup-failure";
 import { backupOfferedFor } from "../features/identity/builderlab-account";
 import type { Identity } from "../features/identity/service";
 import type {
@@ -562,7 +562,7 @@ it.each([
     const openBuilderlab = vi.fn();
     await renderBackup(at(1, progress), openBuilderlab).settled();
     await showKeyDetails();
-    const message = i18n._(BACKUP_FAILURES[kind].message).replace(/[.。]$/, "");
+    const message = i18n._(backupFailures()[kind].message).replace(/[.。]$/, "");
     const sentence = screen.getByText(
       (_, el) => el?.tagName === "P" && el.textContent === message,
     );
@@ -611,7 +611,7 @@ it("names Builderlab as plain text where Settings can't open it", async () => {
   ).settled();
   await showKeyDetails();
   const message = i18n
-    ._(BACKUP_FAILURES.not_linked.message)
+    ._(backupFailures().not_linked.message)
     .replace(/[.。]$/, "");
   const sentence = screen.getByText(
     (_, el) => el?.tagName === "P" && el.textContent === message,
@@ -895,7 +895,7 @@ it.each([
       [
         { status: "failed", kind },
         // 模块级构造 it.each 数据：en-US 下与原文一致。
-        i18n._(BACKUP_FAILURES[kind].message).replace(/[.。]$/, ""),
+        i18n._(backupFailures()[kind].message).replace(/[.。]$/, ""),
       ] as const,
   ),
 ] as const)("offers no Retry backup for %o", async (progress, copy) => {

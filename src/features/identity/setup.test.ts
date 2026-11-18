@@ -4,7 +4,7 @@ import { i18n } from "../localization/service";
 import { expect, it, vi } from "vitest";
 import type { FirstRunAccount } from "./builderlab-account";
 import { BackupError } from "./backup";
-import { BACKUP_FAILURES } from "./backup-failure";
+import { backupFailures } from "./backup-failure";
 import type { Identity } from "./service";
 import {
   checkAccount,
@@ -280,7 +280,7 @@ it("a refused save while keeping a listed backup fails setup as an interrupted b
   await setup.start([keepBackup(identity)]);
   expect(setup.snapshot()).toMatchObject({
     status: "failed",
-    error: i18n._(BACKUP_FAILURES.interrupted.message),
+    error: i18n._(backupFailures().interrupted.message),
     retryable: true,
   });
 });

@@ -16,7 +16,7 @@ import type {
   IdentityManagement,
   BackupStatus,
 } from "../features/identity/backup";
-import { BACKUP_FAILURES } from "../features/identity/backup-failure";
+import { backupFailures } from "../features/identity/backup-failure";
 import { BackupPrompt } from "../features/identity/BackupConsent";
 import {
   backedUpLinkedKey,
@@ -1177,7 +1177,7 @@ function BackupRecovery({
   // A new native status retires a failed-start message from an earlier pass.
   const failure = failedAt !== undefined && failedAt === status?.seq;
   const problem =
-    status?.status === "failed" ? BACKUP_FAILURES[status.kind] : undefined;
+    status?.status === "failed" ? backupFailures()[status.kind] : undefined;
   const feedback = waiting
     ? t`Back up this key to Builderlab`
     : statusError || accountProblem
@@ -1186,7 +1186,7 @@ function BackupRecovery({
         ? status.reason === "no_session"
           ? t`Sign in to Builderlab to back up your key`
           : i18n
-              ._(BACKUP_FAILURES.not_linked.message)
+              ._(backupFailures().not_linked.message)
               .replace(/[.。]$/, "")
         : problem &&
           i18n
@@ -1212,7 +1212,7 @@ function BackupRecovery({
     (status?.status === "failed" && status.kind === "signed_out") ||
     !(
       (status?.status === "waiting" && status.reason === "no_session") ||
-      (status?.status === "failed" && !BACKUP_FAILURES[status.kind].retryable)
+      (status?.status === "failed" && !backupFailures()[status.kind].retryable)
     );
   async function retry() {
     if (pending.current || running) return;
