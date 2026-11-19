@@ -18,6 +18,10 @@ import type {
 } from "../plugins/types";
 import { PluginAccessReview } from "./PluginAccessReview";
 import type { UrlPluginSource } from "../features/navigation/targets";
+import {
+  isolateLanguageValue,
+  LANGUAGE_VALUE_MARKER,
+} from "../features/localization/LanguageBoundary";
 import { importRollbackWarning } from "./PluginImport";
 import importStyles from "./PluginImport.module.css";
 import styles from "./Settings.module.css";
@@ -119,8 +123,8 @@ export function ManagedPlugins({
           }
         />
         <p role="status" className="m-0 text-body-sm text-muted break-words">
-          {t`Buzz couldn’t load the recommended plugin list from`}{" "}
-          {managed.url}. {managed.reason}
+          {t`Buzz couldn’t load the recommended plugin list from`} {managed.url}
+          . {managed.reason}
         </p>
       </section>
     ) : managed.status === "invalid" ? (
@@ -240,10 +244,7 @@ export function ManagedPluginUpdate({
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   return (
-    <section
-      aria-label={t`Managed updates`}
-      className="flex flex-col gap-2"
-    >
+    <section aria-label={t`Managed updates`} className="flex flex-col gap-2">
       <p className="m-0 text-body-sm text-muted">
         {entry.state === "outdated"
           ? t`${source} recommends a different version of this plugin.`
@@ -299,6 +300,7 @@ export function ManagedPluginReview({
   authorizeGit,
   holdReview,
   requestedBy,
+  lang,
   refusal,
   recheck,
   confirm,
@@ -317,6 +319,8 @@ export function ManagedPluginReview({
   holdReview?: (() => () => void) | undefined;
   /** An agent's request, reviewed in place of a recommendation. */
   requestedBy?: Readonly<{ name: string; reason: string }> | undefined;
+  /** Language of translated copy when this review belongs to a localized request. */
+  lang?: string | undefined;
   /** Refuses the install as the review opens, before downloading anything. */
   refusal?: string | undefined;
   /** Run as the owner confirms; a returned reason refuses the install. */
@@ -383,7 +387,8 @@ export function ManagedPluginReview({
               ? i18n._(
                   msg`The plugin at this URL is ${found.manifest.id}, not ${wanted.id}.`,
                 )
-              : (preview.warnings[0] ?? i18n._(msg`No plugin found at this URL.`)),
+              : (preview.warnings[0] ??
+                  i18n._(msg`No plugin found at this URL.`)),
           );
         }
         const signed = await authorizeGit?.(wanted.repository);
@@ -393,8 +398,7 @@ export function ManagedPluginReview({
           signed?.token,
           ...gitScope(wanted.commit, wanted.path),
         );
-        if (!preview)
-          throw new Error(i18n._(msg`No plugin source found.`));
+        if (!preview) throw new Error(i18n._(msg`No plugin source found.`));
         if (!current.active) {
           discard(preview.token);
           return;
@@ -534,6 +538,7 @@ export function ManagedPluginReview({
     return (
       <Dialog
         open={!opened}
+        {...(lang === undefined ? {} : { lang, closeLabel: t`Close` })}
         onOpenChange={(next) => {
           if (!next) onClose();
         }}
@@ -542,7 +547,7 @@ export function ManagedPluginReview({
         }}
         initialFocus={cancel}
         title={t`Already installed`}
-        description={refusal}
+        description={refusal && <span lang="">{refusal}</span>}
         size="compact"
         dismissOnOutsideClick
         finalFocus={returnFocus}
@@ -569,6 +574,7 @@ export function ManagedPluginReview({
   return (
     <Dialog
       open
+      {...(lang === undefined ? {} : { lang, closeLabel: t`Close` })}
       onOpenChange={(next) => {
         if (!next) onClose();
       }}
@@ -576,21 +582,31 @@ export function ManagedPluginReview({
       title={
         ready ? (
           updating ? (
-            t`Update ${name}`
+            isolateLanguageValue(t`Update ${LANGUAGE_VALUE_MARKER}`, name)
           ) : (
             <>
-              {t`Review`} <strong>{name} Plugin</strong> {t`access`}
+              {t`Review`}{" "}
+              <strong>
+                <span lang="">{name}</span> <span lang="en">Plugin</span>
+              </strong>{" "}
+              {t`access`}
             </>
           )
         ) : (
-          t`Review ${name}`
+          isolateLanguageValue(t`Review ${LANGUAGE_VALUE_MARKER}`, name)
         )
       }
       description={
         ready && !updating
           ? requestedBy
-            ? t`Requested by ${requestedBy.name}. Only install code you trust.`
-            : t`Recommended by ${source}. Only install code you trust.`
+            ? isolateLanguageValue(
+                t`Requested by ${LANGUAGE_VALUE_MARKER}. Only install code you trust.`,
+                requestedBy.name,
+              )
+            : isolateLanguageValue(
+                t`Recommended by ${LANGUAGE_VALUE_MARKER}. Only install code you trust.`,
+                source,
+              )
           : undefined
       }
       size={ready && updating ? "compact" : "wide"}
@@ -642,19 +658,20 @@ export function ManagedPluginReview({
         </p>
       )}
       {review.status === "error" && (
-        <p role="alert" className="error break-words">
+        <p role="alert" lang="" className="error break-words">
           {review.reason}
         </p>
       )}
       {ready && candidate && entry && (
-        <section
-          aria-label={t`Managed plugin source`}
-          className="text-body-sm"
-        >
+        <section aria-label={t`Managed plugin source`} className="text-body-sm">
           {requestedBy?.reason && (
             <p className="mb-4 mt-0 break-words">
-              {updating && `${requestedBy.name}: `}
-              {requestedBy.reason}
+              {updating && (
+                <>
+                  <span lang="">{requestedBy.name}</span>:{" "}
+                </>
+              )}
+              <span lang="">{requestedBy.reason}</span>
             </p>
           )}
           {"url" in entry &&
@@ -665,10 +682,10 @@ export function ManagedPluginReview({
                 {t`This update switches this plugin from Git to a packaged download. The URL below replaces its saved Git source.`}
               </p>
             )}
-          <code className={`${importStyles.sourcePath} break-all`}>
+          <code lang="" className={`${importStyles.sourcePath} break-all`}>
             {location(entry)}
           </code>
-          <p className="mb-4 mt-1 break-all text-caption text-muted">
+          <p lang="en" className="mb-4 mt-1 break-all text-caption text-muted">
             {"url" in entry
               ? `SHA-256: ${entry.sha256}`
               : `Commit: ${review.preview.commit}`}
@@ -681,15 +698,22 @@ export function ManagedPluginReview({
             <>
               {sameRevision && (
                 <p className="mb-4 mt-0">
-                  {t`This plugin’s code already matches this revision. Updating records ${source}’s recommended source and keeps the plugin as it is.`}
+                  {isolateLanguageValue(
+                    t`This plugin’s code already matches this revision. Updating records ${LANGUAGE_VALUE_MARKER}’s recommended source and keeps the plugin as it is.`,
+                    source,
+                  )}
                 </p>
               )}
-              <PluginAccessReview
-                manifest={candidate.manifest}
-                previousManifest={existing?.manifest}
-              />
+              <div lang="">
+                <PluginAccessReview
+                  manifest={candidate.manifest}
+                  previousManifest={existing?.manifest}
+                />
+              </div>
               {rollbackWarning && (
-                <p className="mb-0 mt-4">{rollbackWarning}</p>
+                <p lang="" className="mb-0 mt-4">
+                  {rollbackWarning}
+                </p>
               )}
             </>
           )}

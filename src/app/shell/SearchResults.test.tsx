@@ -18,6 +18,7 @@ import {
   type IdentityNames,
 } from "../../features/identity-names/service";
 import { createAgentDirectory } from "../../features/identity-names/testing";
+import { i18n } from "../../features/localization/service";
 import { afterEach, assert, beforeEach, expect, it, vi } from "vitest";
 import { createRelaySession } from "../../features/relay/session";
 import { eventDto, type RelayEvent } from "../../features/relay/events";
@@ -1335,6 +1336,7 @@ it("does not reveal a revoked public hit queued before React commits its result"
 it.each(["", "Crew"])(
   "explains cold conversation loading without redundant banners (query=%s)",
   async (query) => {
+    const locale = i18n.locale;
     const relay = keypair();
     const viewer = keypair();
     const wire = scriptedTransport(viewer.pubkey, relay.pubkey);
@@ -1377,6 +1379,11 @@ it.each(["", "Crew"])(
       if (query) {
         expect(screen.getByText("Loading joined conversations…")).toBeVisible();
         expect(screen.queryByText("Loading recent conversations…")).toBeNull();
+        act(() => i18n.activate("zh-CN"));
+        expect(screen.getByText("正在加载已加入的对话…")).toHaveAttribute(
+          "lang",
+          "zh-CN",
+        );
       } else {
         expect(screen.getByText("Loading recent conversations…")).toBeVisible();
         expect(screen.queryByText("Loading joined conversations…")).toBeNull();
@@ -1384,12 +1391,14 @@ it.each(["", "Crew"])(
       await act(async () => pending.respond(discovery));
       expect(await screen.findByRole("option", { name: /Crew/ })).toBeVisible();
       expect(screen.queryByText("Loading joined conversations…")).toBeNull();
+      expect(screen.queryByText("正在加载已加入的对话…")).toBeNull();
       if (query)
         expect(screen.getByRole("option", { name: /Settings/ })).toBeVisible();
       else
         expect(screen.queryByRole("option", { name: /Settings/ })).toBeNull();
     } finally {
       cleanup();
+      if (i18n.locale !== locale) act(() => i18n.activate(locale));
       owner.dispose();
     }
   },

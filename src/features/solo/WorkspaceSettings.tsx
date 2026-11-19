@@ -1,3 +1,6 @@
+import { useLingui } from "@lingui/react/macro";
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { useEffect, useRef, useState, type ComponentProps } from "react";
 import type { RelaySession } from "../relay/session";
 import type { KitEntry, Lineup } from "../channel-templates/model";
@@ -28,7 +31,39 @@ import { ChannelDurationField } from "../../bundled/channels/ChannelDurationFiel
 type Target =
   | { kind: "project"; id: string; name: string }
   | { kind: "chat"; id: string; name: string };
-class CanvasSettingsError extends Error {}
+type UserMessage = MessageDescriptor | string;
+type SaveError =
+  | UserMessage
+  | { prefix: MessageDescriptor; detail: UserMessage };
+
+class UIMessageError extends Error {
+  constructor(readonly userMessage: UserMessage) {
+    super(typeof userMessage === "string" ? userMessage : userMessage.message);
+  }
+}
+
+class CanvasSettingsError extends UIMessageError {}
+
+const errorMessage = (reason: unknown): UserMessage =>
+  reason instanceof UIMessageError
+    ? reason.userMessage
+    : reason instanceof Error
+      ? reason.message
+      : String(reason);
+
+const containsMessage = (
+  message: SaveError,
+  value: string,
+  translate: (message: MessageDescriptor) => string,
+) => {
+  const text =
+    typeof message === "string"
+      ? message
+      : "detail" in message
+        ? `${translate(message.prefix)} ${typeof message.detail === "string" ? message.detail : translate(message.detail)}`
+        : translate(message);
+  return text.includes(value);
+};
 
 export function WorkspaceSettings({
   session,
@@ -45,6 +80,7 @@ export function WorkspaceSettings({
   signal?: AbortSignal | undefined;
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
 }) {
+  const { i18n, t } = useLingui();
   const [workspace, setWorkspace] = useState<Workspace>(emptyWorkspace);
   const [raw, setRaw] = useState<string>();
   const [base, setBase] = useState<string>();
@@ -54,8 +90,8 @@ export function WorkspaceSettings({
   const [loaded, setLoaded] = useState(false);
   const [busy, setBusy] = useState(false);
   const [loadingCanvas, setLoadingCanvas] = useState(false);
-  const [error, setError] = useState("");
-  const [status, setStatus] = useState("");
+  const [error, setError] = useState<SaveError>("");
+  const [status, setStatus] = useState<UserMessage>("");
   const [canvasError, setCanvasError] = useState(false);
   const [reloadConfirmed, setReloadConfirmed] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -100,7 +136,9 @@ export function WorkspaceSettings({
         if (!active()) return;
         const kit = session.channelKit.snapshot();
         if (kit.status !== "ready")
-          throw new Error(kit.error ?? "Workspace defaults are unavailable.");
+          throw new CanvasSettingsError(
+            kit.error ?? msg`Workspace defaults are unavailable.`,
+          );
         const id = await projectTemplateId(target.id);
         if (!active()) return;
         // Tombstones still own the revision even though they supply no defaults.
@@ -142,7 +180,7 @@ export function WorkspaceSettings({
         setBase(saved.base ?? undefined);
         if ((saved.base ?? undefined) !== revision) {
           setError(
-            "Saved settings changed while this draft was open. Your draft is kept; copy it before reloading.",
+            msg`Saved settings changed while this draft was open. Your draft is kept; copy it before reloading.`,
           );
           setCanvasError(true);
         }
@@ -155,11 +193,11 @@ export function WorkspaceSettings({
       setReloadConfirmed(false);
       if (replace && !writeView(scope, key, null))
         throw new CanvasSettingsError(
-          "Saved settings loaded, but the old draft couldn’t be cleared on this device.",
+          msg`Saved settings loaded, but the old draft couldn’t be cleared on this device.`,
         );
     } catch (reason) {
       if (alive.current) {
-        setError(reason instanceof Error ? reason.message : String(reason));
+        setError(errorMessage(reason));
         setCanvasError(true);
       }
     } finally {
@@ -190,7 +228,7 @@ export function WorkspaceSettings({
         if (!active()) return;
         if (canvasAvailable && !loaded) {
           setStatus(
-            "Chat name and lifetime saved. Workspace and Canvas were not loaded; retry settings to review them.",
+            msg`Chat name and lifetime saved. Workspace and Canvas were not loaded; retry settings to review them.`,
           );
           return;
         }
@@ -199,7 +237,7 @@ export function WorkspaceSettings({
           (raw ?? workspaceCanvas(workspace)) !== confirmedCanvas.current
         ) {
           setStatus(
-            "Chat name and lifetime saved. Workspace and Canvas still have unsaved changes.",
+            msg`Chat name and lifetime saved. Workspace and Canvas still have unsaved changes.`,
           );
           return;
         }
@@ -211,16 +249,16 @@ export function WorkspaceSettings({
             : workspaceCanvas({ folders: [], canvas: raw })
           : undefined;
         if (lifetime.changed && lifetime.blocked)
-          throw new Error(
+          throw new UIMessageError(
             lifetime.invalid ||
-              "Reload chat details before saving name or lifetime.",
+              msg`Reload chat details before saving name or lifetime.`,
           );
         if (
           canvas !== undefined &&
           !writeView(scope, key, { canvas, base: base ?? null, lineup })
         )
           throw new CanvasSettingsError(
-            "Your draft couldn’t be saved on this device. No new changes were sent.",
+            msg`Your draft couldn’t be saved on this device. No new changes were sent.`,
           );
         if (canvas !== undefined) kept.current = snapshot(canvas, lineup);
         if (
@@ -237,17 +275,13 @@ export function WorkspaceSettings({
             try {
               await session.channelKit.save(template, base);
             } catch (reason) {
-              throw new CanvasSettingsError(
-                reason instanceof Error ? reason.message : String(reason),
-              );
+              throw new CanvasSettingsError(errorMessage(reason));
             }
           } else {
             const selected = await session.canvas
               .save(target.id, canvas, base)
               .catch((reason) => {
-                throw new CanvasSettingsError(
-                  reason instanceof Error ? reason.message : String(reason),
-                );
+                throw new CanvasSettingsError(errorMessage(reason));
               });
             confirmedCanvas.current = selected.content;
             setBase(selected.id);
@@ -260,7 +294,7 @@ export function WorkspaceSettings({
               })
             )
               throw new CanvasSettingsError(
-                "The confirmed Canvas revision couldn’t be saved on this device. Name and lifetime were not sent; keep this dialog open to retry.",
+                msg`The confirmed Canvas revision couldn’t be saved on this device. Name and lifetime were not sent; keep this dialog open to retry.`,
               );
           }
         }
@@ -272,15 +306,21 @@ export function WorkspaceSettings({
       if (loaded && !writeView(scope, key, null))
         throw new CanvasSettingsError(
           target.kind === "project"
-            ? "Workspace defaults are confirmed, but the saved draft couldn’t be cleared on this device."
-            : "Changes are confirmed, but the saved draft couldn’t be cleared on this device. Retry to finish without resending confirmed changes.",
+            ? msg`Workspace defaults are confirmed, but the saved draft couldn’t be cleared on this device.`
+            : msg`Changes are confirmed, but the saved draft couldn’t be cleared on this device. Retry to finish without resending confirmed changes.`,
         );
       close();
     } catch (reason) {
       if (active()) {
-        setError(
-          `${canvasConfirmed ? "Workspace and Canvas saved. " : ""}${reason instanceof Error ? reason.message : String(reason)}`,
-        );
+        const message = errorMessage(reason);
+        if (canvasConfirmed) {
+          setError({
+            prefix: msg`Workspace and Canvas saved.`,
+            detail: message,
+          });
+        } else {
+          setError(message);
+        }
         setCanvasError(reason instanceof CanvasSettingsError);
       }
     } finally {
@@ -299,6 +339,7 @@ export function WorkspaceSettings({
   return (
     <ChatSettingsDialog
       finalFocus={finalFocus}
+      lang={i18n.locale}
       close={close}
       dirty={
         // An uncertain details save stays with its owner and reopens to be checked.
@@ -307,11 +348,13 @@ export function WorkspaceSettings({
           snapshot(instructionsCanvas(workspace, raw), lineup) !== kept.current)
       }
       busy={busy || lifetime.busy}
-      title={target.kind === "project" ? "Workspace settings" : undefined}
+      title={target.kind === "project" ? t`Workspace settings` : undefined}
       saveLabel={
         lifetime.checkOnly
-          ? "Check save status"
-          : `Save ${target.kind === "project" ? "defaults" : "changes"}`
+          ? t`Check save status`
+          : target.kind === "project"
+            ? t`Save defaults`
+            : t`Save changes`
       }
       saveLoading={busy || lifetime.busy || loadingCanvas}
       saveDisabled={
@@ -326,10 +369,11 @@ export function WorkspaceSettings({
       onSave={() => void save()}
     >
       {lifetime.available && lifetime.base && (
-        <Field label="Chat name" error={lifetime.nameError}>
+        <Field label={t`Chat name`} error={lifetime.nameError}>
           <Input
             value={lifetime.name}
             placeholder={lifetime.base.name}
+            lang=""
             disabled={busy || lifetime.busy || lifetime.blocked}
             onChange={(event) => lifetime.changeName(event.target.value)}
           />
@@ -339,17 +383,23 @@ export function WorkspaceSettings({
         <>
           {target.kind === "project" && templates.length > 0 && (
             <Select
-              label="Start from a template"
+              label={t`Start from a template`}
+              lang={i18n.locale}
               variant="field"
               value={selectedTemplate}
               groups={[
                 {
                   label: "",
                   options: [
-                    { value: "", label: "Custom settings" },
+                    {
+                      value: "",
+                      label: t`Custom settings`,
+                      lang: i18n.locale,
+                    },
                     ...templates.map((template) => ({
                       value: template.id,
                       label: template.name,
+                      lang: "",
                     })),
                   ],
                 },
@@ -376,8 +426,7 @@ export function WorkspaceSettings({
           {target.kind === "project" &&
             (lineup.agents.length > 0 || lineup.teamIds.length > 0) && (
               <p className="text-secondary">
-                The selected template’s agents and teams are also included in
-                new chats.
+                {t`The selected template’s agents and teams are also included in new chats.`}
               </p>
             )}
           {canvasError && (
@@ -389,23 +438,23 @@ export function WorkspaceSettings({
               }}
             >
               {reloadConfirmed
-                ? "Discard draft and reload saved settings"
-                : "Review saved settings"}
+                ? t`Discard draft and reload saved settings`
+                : t`Review saved settings`}
             </Button>
           )}
         </>
       )}
       {canvasAvailable && !loaded && !loadingCanvas && (
-        <Button onClick={() => void load()}>Retry settings</Button>
+        <Button onClick={() => void load()}>{t`Retry settings`}</Button>
       )}
       {!canvasAvailable && (
-        <p role="status">Workspace and Canvas are unavailable.</p>
+        <p role="status">{t`Workspace and Canvas are unavailable.`}</p>
       )}
       {lifetime.available && (
         <>
           {lifetime.base ? (
             <ChannelDurationField
-              label="Lifetime"
+              label={t`Lifetime`}
               temporary={lifetime.ttl !== undefined}
               ttlSeconds={lifetime.temporaryTtl}
               disabled={busy || lifetime.busy || lifetime.blocked}
@@ -413,22 +462,26 @@ export function WorkspaceSettings({
               onChange={lifetime.change}
             />
           ) : (
-            !lifetime.error && <p role="status">Loading chat details…</p>
+            !lifetime.error && <p role="status">{t`Loading chat details…`}</p>
           )}
           {lifetime.base && !lifetime.eligible && (
             <p role="status">
-              Only a chat you can edit can change its name or lifetime.
+              {t`Only a chat you can edit can change its name or lifetime.`}
             </p>
           )}
           {lifetime.unrelatedAttempt && (
             <p role="status">
-              Finish the existing channel details change before editing the chat
-              name or lifetime.
+              {t`Finish the existing channel details change before editing the chat name or lifetime.`}
             </p>
           )}
-          {lifetime.error && !error.includes(lifetime.error) && (
-            <p role="alert">{lifetime.error}</p>
-          )}
+          {lifetime.error &&
+            !containsMessage(error, lifetime.error, (message) =>
+              i18n._(message),
+            ) && (
+              <p role="alert" lang="">
+                {lifetime.error}
+              </p>
+            )}
           {lifetime.error && !lifetime.checkOnly && (
             <Button
               disabled={busy || lifetime.busy || !!signal?.aborted}
@@ -441,15 +494,36 @@ export function WorkspaceSettings({
                   .catch(() => {})
               }
             >
-              Reload chat details
+              {t`Reload chat details`}
             </Button>
           )}
         </>
       )}
-      {status && <p role="status">{status}</p>}
-      {error && <p role="alert">{error}</p>}
+      {status && (
+        <p role="status" lang={typeof status === "string" ? "" : i18n.locale}>
+          {typeof status === "string" ? status : i18n._(status)}
+        </p>
+      )}
+      {error && (
+        <p role="alert">
+          {typeof error === "object" && "prefix" in error ? (
+            <>
+              <span lang={i18n.locale}>{i18n._(error.prefix)}</span>{" "}
+              <span lang={typeof error.detail === "string" ? "" : i18n.locale}>
+                {typeof error.detail === "string"
+                  ? error.detail
+                  : i18n._(error.detail)}
+              </span>
+            </>
+          ) : typeof error === "string" ? (
+            <span lang="">{error}</span>
+          ) : (
+            <span lang={i18n.locale}>{i18n._(error)}</span>
+          )}
+        </p>
+      )}
       {canvasAvailable && loadingCanvas && !loaded && (
-        <p role="status">Loading settings…</p>
+        <p role="status">{t`Loading settings…`}</p>
       )}
     </ChatSettingsDialog>
   );

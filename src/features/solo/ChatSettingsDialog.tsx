@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useState, type ComponentProps, type ReactNode } from "react";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Dialog } from "../../shared/design-system/ui/Dialog";
@@ -10,19 +12,21 @@ import styles from "./WorkspaceSettings.module.css";
 
 /** One settings surface for drafts, chats and projects; callers own loading and saving. */
 export function ChatSettingsDialog({
-  title = "Edit chat",
+  title,
   finalFocus,
   close,
   busy = false,
-  saveLabel = "Save changes",
+  saveLabel,
   saveDisabled = false,
   saveLoading = false,
   dismissOnOutsideClick = true,
   dirty = false,
+  lang,
   onSave,
   children,
 }: {
   title?: string | undefined;
+  lang?: string | undefined;
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
   close(): void;
   /** A pending save blocks dismissal and edits. */
@@ -36,6 +40,7 @@ export function ChatSettingsDialog({
   onSave(): void;
   children: ReactNode;
 }) {
+  const { i18n, t } = useLingui();
   const [confirmDiscard, setConfirmDiscard] = useState(false);
   return (
     <Dialog
@@ -49,11 +54,12 @@ export function ChatSettingsDialog({
       preventClose={busy}
       dismissOnOutsideClick={dismissOnOutsideClick}
       size="wide"
-      title={title}
+      {...(lang === undefined ? {} : { lang })}
+      title={title ?? t`Edit chat`}
       actions={
         <>
           <Button disabled={busy} onClick={close}>
-            Cancel
+            <span lang={i18n.locale}>{t`Cancel`}</span>
           </Button>
           <Button
             variant="prominent"
@@ -61,7 +67,7 @@ export function ChatSettingsDialog({
             disabled={saveDisabled}
             onClick={onSave}
           >
-            {saveLabel}
+            <span lang={i18n.locale}>{saveLabel ?? t`Save changes`}</span>
           </Button>
         </>
       }
@@ -71,7 +77,8 @@ export function ChatSettingsDialog({
       </div>
       {confirmDiscard && (
         <DiscardChanges
-          description="Your settings have unsaved changes."
+          description={i18n._(msg`Your settings have unsaved changes.`)}
+          lang={i18n.locale}
           onKeep={() => setConfirmDiscard(false)}
           onDiscard={close}
         />
@@ -104,6 +111,7 @@ export function ChatInstructions({
   raw: string | undefined;
   onRawChange(value: string): void;
 }) {
+  const { t } = useLingui();
   return raw === undefined ? (
     <WorkspaceFields
       value={workspace}
@@ -112,12 +120,13 @@ export function ChatInstructions({
     />
   ) : (
     <Field
-      label="Instructions"
-      description="These instructions have custom workspace setup. Edit them directly to keep it."
+      label={t`Instructions`}
+      description={t`These instructions have custom workspace setup. Edit them directly to keep it.`}
     >
       <Textarea
         rows={12}
         value={raw}
+        lang=""
         onChange={(event) => onRawChange(event.target.value)}
       />
     </Field>

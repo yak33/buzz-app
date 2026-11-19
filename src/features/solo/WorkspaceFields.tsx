@@ -1,5 +1,8 @@
 import { useId, useRef, useEffect, useState } from "react";
 import { invoke, isTauri } from "@tauri-apps/api/core";
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { Button } from "../../shared/design-system/ui/Button";
 import { Field } from "../../shared/design-system/ui/Field";
 import { FieldButton } from "../../shared/design-system/ui/FieldButton";
@@ -36,8 +39,9 @@ export function WorkspaceFields({
   instructionRows?: number;
   onChange(value: Workspace): void;
 }) {
+  const { i18n, t } = useLingui();
   const [picking, setPicking] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<MessageDescriptor | string>("");
   const [typed, setTyped] = useState("");
   const folderErrorId = useId();
   const current = useRef({ value, onChange, disabled });
@@ -77,7 +81,7 @@ export function WorkspaceFields({
     const next = path.trim();
     if (!next) return false;
     if (existing.includes(next)) {
-      setError("Already added.");
+      setError(msg`Already added.`);
       return false;
     }
     if (existing.length >= MAX_FOLDERS) return false;
@@ -90,7 +94,7 @@ export function WorkspaceFields({
     setError("");
     try {
       const path = await invoke<string | null>("workspace_pick_folder", {
-        title: "Add a folder",
+        title: i18n._(t`Add a folder`),
       });
       if (alive.current && path) attach(path);
     } catch (reason) {
@@ -108,7 +112,7 @@ export function WorkspaceFields({
     setError("");
     try {
       const path = await invoke<string | null>("workspace_pick_folder", {
-        title: "Choose a worktree location",
+        title: i18n._(t`Choose a worktree location`),
         start: current.current.value.worktree?.location,
       });
       const latest = current.current.value;
@@ -138,30 +142,40 @@ export function WorkspaceFields({
   const folderError =
     error ||
     (worktree && !folders.length
-      ? "Add at least one folder to use a new worktree."
+      ? msg`Add at least one folder to use a new worktree.`
       : undefined);
   return (
-    <div className={styles.sections}>
-      <Field label="Instructions" optional>
+    <div className={styles.sections} lang={i18n.locale}>
+      <Field label={t`Instructions`} optional>
         <Textarea
           disabled={disabled}
           rows={instructionRows}
           value={value.canvas}
+          lang=""
           onChange={(event) =>
             onChange({ ...value, canvas: event.target.value })
           }
-          placeholder="Instructions and context for agents working in this chat."
+          placeholder={i18n._(
+            t`Instructions and context for agents working in this chat.`,
+          )}
         />
       </Field>
       <div className={styles.fields}>
         <Field
-          label="Folders"
+          label={t`Folders`}
           optional={!worktree}
           nativeLabel={false}
-          description={full ? "Up to 20 folders." : undefined}
+          description={full ? t`Up to 20 folders.` : undefined}
           error={
             folderError ? (
-              <span id={folderErrorId}>{folderError}</span>
+              <span
+                id={folderErrorId}
+                lang={typeof folderError === "string" ? "" : i18n.locale}
+              >
+                {typeof folderError === "string"
+                  ? folderError
+                  : i18n._(folderError)}
+              </span>
             ) : undefined
           }
         >
@@ -172,8 +186,8 @@ export function WorkspaceFields({
                   <PreferenceRow
                     key={folder}
                     icon={<FolderSimpleIcon size={18} />}
-                    title={folderName(folder)}
-                    subtitle={folder}
+                    title={<span lang="">{folderName(folder)}</span>}
+                    subtitle={<span lang="">{folder}</span>}
                     trailing={
                       <IconButton
                         ref={(node) => {
@@ -182,7 +196,7 @@ export function WorkspaceFields({
                         disabled={disabled}
                         variant="ghost"
                         size="sm"
-                        aria-label={`Remove ${folderName(folder)}`}
+                        aria-label={i18n._(t`Remove ${folderName(folder)}`)}
                         icon={<XIcon size={16} />}
                         onClick={() => remove(index)}
                       />
@@ -204,14 +218,15 @@ export function WorkspaceFields({
                 onClick={() => void browse()}
               >
                 <FolderPlusIcon size={16} aria-hidden="true" />
-                Add folder…
+                {t`Add folder…`}
               </Button>
             </div>
           ) : (
             <div className={styles.repositoryInput}>
               <Input
                 ref={pathInput}
-                aria-label="Folder path"
+                aria-label={i18n._(t`Folder path`)}
+                lang=""
                 value={typed}
                 disabled={disabled || full}
                 placeholder="~/Development/my-project"
@@ -230,14 +245,14 @@ export function WorkspaceFields({
                   if (attach(typed)) setTyped("");
                 }}
               >
-                Add
+                {t`Add`}
               </Button>
             </div>
           )}
         </Field>
         <Switch
           disabled={disabled}
-          label="Work in a new worktree"
+          label={i18n._(t`Work in a new worktree`)}
           checked={!!worktree}
           onCheckedChange={(checked) =>
             onChange({
@@ -251,12 +266,15 @@ export function WorkspaceFields({
         {worktree && (
           <div className={styles.worktree}>
             {isTauri() ? (
-              <Field label="Worktree location" nativeLabel={false}>
+              <Field label={t`Worktree location`} nativeLabel={false}>
                 <FieldButton
                   ref={location}
                   dropdown={false}
                   title={worktree.location}
-                  aria-label={`Worktree location: ${worktree.location}`}
+                  aria-label={i18n._(
+                    t`Worktree location: ${worktree.location}`,
+                  )}
+                  lang=""
                   disabled={disabled || picking}
                   onClick={() => void pickLocation()}
                 >
@@ -264,9 +282,10 @@ export function WorkspaceFields({
                 </FieldButton>
               </Field>
             ) : (
-              <Field label="Worktree location">
+              <Field label={t`Worktree location`}>
                 <Input
                   disabled={disabled}
+                  lang=""
                   value={worktree.location}
                   onChange={(event) =>
                     onChange({
@@ -277,9 +296,10 @@ export function WorkspaceFields({
                 />
               </Field>
             )}
-            <Field label="Base branch">
+            <Field label={t`Base branch`}>
               <Input
                 disabled={disabled}
+                lang=""
                 value={worktree.baseBranch}
                 onChange={(event) =>
                   onChange({

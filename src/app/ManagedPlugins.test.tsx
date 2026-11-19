@@ -162,7 +162,9 @@ it("reviews at the pinned commit, then installs and enables only after confirmat
     undefined,
     { commit, path: "dist" },
   );
-  expect(within(dialog).getByText(/Recommended by Example Org/)).toBeVisible();
+  expect(dialog).toHaveAccessibleDescription(
+    "Recommended by Example Org. Only install code you trust.",
+  );
   expect(manager.installImport).not.toHaveBeenCalled();
   fireEvent.click(
     within(dialog).getByRole("button", { name: "Install plugin" }),

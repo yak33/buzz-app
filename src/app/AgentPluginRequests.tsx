@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { AlertDialog } from "../shared/design-system/ui/AlertDialog";
 import { Button } from "../shared/design-system/ui/Button";
@@ -5,6 +8,10 @@ import { Dialog } from "../shared/design-system/ui/Dialog";
 import { InlineHeader } from "../shared/design-system/ui/Header";
 import { PreferenceRow } from "../shared/design-system/ui/PreferenceRow";
 import { SettingsGroup } from "../shared/design-system/ui/SettingsGroup";
+import {
+  isolateLanguageValue,
+  LANGUAGE_VALUE_MARKER,
+} from "../features/localization/LanguageBoundary";
 import type { PluginManager } from "../plugins/manager";
 import type { PluginRequest } from "../plugins/requests";
 import type { Catalog } from "../plugins/types";
@@ -16,11 +23,14 @@ type Authorize = NonNullable<
   Parameters<typeof ManagedPluginReview>[0]["authorizeGit"]
 >;
 
-export const REQUEST_VERB: Record<PluginRequest["action"], string> = {
-  install: "Install",
-  update: "Update",
-  enable: "Enable",
-  remove: "Delete",
+export const REQUEST_VERB: Record<
+  PluginRequest["action"],
+  (name: string) => MessageDescriptor
+> = {
+  install: (name) => msg`Install ${name}`,
+  update: (name) => msg`Update ${name}`,
+  enable: (name) => msg`Enable ${name}`,
+  remove: (name) => msg`Delete ${name}`,
 };
 
 /** Plugin changes agents asked for. Each applies only through the same
@@ -42,6 +52,7 @@ export function AgentPluginRequests({
   /** Where focus goes once no request remains. */
   fallbackFocus?: (() => HTMLElement | null) | undefined;
 }) {
+  const { i18n, t } = useLingui();
   const { requests } = plugins;
   const pending = useSyncExternalStore(requests.subscribe, requests.pending);
   // Held, not looked up, so settling the request never remounts the review.
@@ -84,41 +95,72 @@ export function AgentPluginRequests({
         >
           <InlineHeader
             id="agent-plugin-requests-title"
-            title="Requested by agents"
+            title={<span lang={i18n.locale}>{t`Requested by agents`}</span>}
           />
           <SettingsGroup>
             {pending.map((request) => (
               <PreferenceRow
                 key={request.id}
-                title={`${REQUEST_VERB[request.action]} ${request.pluginName}`}
-                subtitle={`${request.requester.name}: ${request.reason}`}
-                trailing={
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="subtle"
-                      aria-label={`Decline ${request.pluginName}`}
-                      onClick={() => {
-                        requests.settle(request.id, "declined");
-                        survivor()?.focus();
-                      }}
-                    >
-                      Decline
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="prominent"
-                      disabled={busy}
-                      aria-label={`Review ${request.pluginName}`}
-                      onClick={(event) => {
-                        trigger.current = event.currentTarget;
-                        setReviewing(request);
-                      }}
-                    >
-                      Review
-                    </Button>
-                  </div>
+                title={
+                  <span lang={i18n.locale}>
+                    {isolateLanguageValue(
+                      i18n._(
+                        REQUEST_VERB[request.action](LANGUAGE_VALUE_MARKER),
+                      ),
+                      request.pluginName,
+                    )}
+                  </span>
                 }
+                subtitle={
+                  <span lang="">
+                    {request.requester.name}: {request.reason}
+                  </span>
+                }
+                trailing={(label) => {
+                  const declineLabelId = `${label["aria-labelledby"]}-${request.id}-decline`;
+                  const reviewLabelId = `${label["aria-labelledby"]}-${request.id}-review`;
+                  return (
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="subtle"
+                        lang={i18n.locale}
+                        aria-labelledby={declineLabelId}
+                        onClick={() => {
+                          requests.settle(request.id, "declined");
+                          survivor()?.focus();
+                        }}
+                      >
+                        <span aria-hidden="true">{t`Decline`}</span>
+                        <span id={declineLabelId} className="sr-only">
+                          {isolateLanguageValue(
+                            t`Decline ${LANGUAGE_VALUE_MARKER}`,
+                            request.pluginName,
+                          )}
+                        </span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="prominent"
+                        disabled={busy}
+                        lang={i18n.locale}
+                        aria-labelledby={reviewLabelId}
+                        onClick={(event) => {
+                          trigger.current = event.currentTarget;
+                          setReviewing(request);
+                        }}
+                      >
+                        <span aria-hidden="true">{t`Review`}</span>
+                        <span id={reviewLabelId} className="sr-only">
+                          {isolateLanguageValue(
+                            t`Review ${LANGUAGE_VALUE_MARKER}`,
+                            request.pluginName,
+                          )}
+                        </span>
+                      </Button>
+                    </div>
+                  );
+                }}
               />
             ))}
           </SettingsGroup>
@@ -152,6 +194,7 @@ export function RequestReview({
   returnFocus: () => HTMLElement | null;
   onClose: () => void;
 }) {
+  const { i18n } = useLingui();
   return !request.source ? (
     <ChangeReview
       plugins={plugins}
@@ -163,6 +206,7 @@ export function RequestReview({
     />
   ) : (
     <ManagedPluginReview
+      lang={i18n.locale}
       plugins={plugins}
       catalog={catalog}
       busy={busy}
@@ -203,9 +247,10 @@ function ChangeReview({
   returnFocus: () => HTMLElement | null;
   onClose: () => void;
 }) {
+  const { i18n, t } = useLingui();
   useEffect(() => holdReview?.(), [holdReview]);
   const [working, setWorking] = useState(false);
-  const [failure, setFailure] = useState<string | null>(null);
+  const [failure, setFailure] = useState<string | true | null>(null);
   const cancel = useRef<HTMLButtonElement>(null);
   const plugin = catalog.plugins.find(
     (item) => item.manifest.id === request.pluginId,
@@ -220,23 +265,30 @@ function ChangeReview({
       if (await plugins.change(action, request.pluginId)) {
         plugins.requests.settle(request.id, "approved");
         onClose();
-      } else
-        setFailure(
-          plugins.snapshot().error ?? "The change wasn’t confirmed. Try again.",
-        );
+      } else setFailure(plugins.snapshot().error ?? true);
     } finally {
       setWorking(false);
     }
   }
   const body = (
     <>
-      <p className="mb-4 mt-0 break-words text-body-sm">{request.reason}</p>
+      <p lang="" className="mb-4 mt-0 break-words text-body-sm">
+        {request.reason}
+      </p>
       {!plugin && (
-        <p className="m-0 text-body-sm">This plugin is no longer installed.</p>
+        <p lang={i18n.locale} className="m-0 text-body-sm">
+          {t`This plugin is no longer installed.`}
+        </p>
       )}
       {failure && (
-        <p role="alert" className="error text-body-sm">
-          {failure}
+        <p
+          lang={failure === true ? i18n.locale : ""}
+          role="alert"
+          className="error text-body-sm"
+        >
+          {failure === true
+            ? t`The change wasn’t confirmed. Try again.`
+            : failure}
         </p>
       )}
     </>
@@ -244,8 +296,17 @@ function ChangeReview({
   if (action === "remove")
     return (
       <AlertDialog
-        title={`Delete ${name}?`}
-        description={`Requested by ${request.requester.name}. Removes this plugin and its rollback history from Buzz. You can install it again later.`}
+        lang={i18n.locale}
+        closeLabel={t`Close`}
+        title={isolateLanguageValue(t`Delete ${LANGUAGE_VALUE_MARKER}?`, name)}
+        description={
+          <span lang={i18n.locale}>
+            {isolateLanguageValue(
+              t`Requested by ${LANGUAGE_VALUE_MARKER}. Removes this plugin and its rollback history from Buzz. You can install it again later.`,
+              request.requester.name,
+            )}
+          </span>
+        }
         pending={working}
         initialFocus={cancel}
         finalFocus={returnFocus}
@@ -253,14 +314,14 @@ function ChangeReview({
         actions={
           <>
             <Button ref={cancel} disabled={working} onClick={onClose}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant="destructive"
               disabled={working || !plugin}
               onClick={() => void confirm()}
             >
-              Delete plugin
+              {t`Delete plugin`}
             </Button>
           </>
         }
@@ -271,11 +332,20 @@ function ChangeReview({
   return (
     <Dialog
       open
+      lang={i18n.locale}
+      closeLabel={t`Close`}
       onOpenChange={(next) => {
         if (!next) onClose();
       }}
-      title={`Enable ${name}?`}
-      description={`Requested by ${request.requester.name}. Only enable code you trust.`}
+      title={isolateLanguageValue(t`Enable ${LANGUAGE_VALUE_MARKER}?`, name)}
+      description={
+        <span lang={i18n.locale}>
+          {isolateLanguageValue(
+            t`Requested by ${LANGUAGE_VALUE_MARKER}. Only enable code you trust.`,
+            request.requester.name,
+          )}
+        </span>
+      }
       preventClose={working}
       dismissOnOutsideClick
       initialFocus={cancel}
@@ -283,7 +353,7 @@ function ChangeReview({
       actions={
         <>
           <Button ref={cancel} disabled={working} onClick={onClose}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             variant="prominent"
@@ -291,13 +361,17 @@ function ChangeReview({
             loading={working}
             onClick={() => void confirm()}
           >
-            Enable plugin
+            {t`Enable plugin`}
           </Button>
         </>
       }
     >
       {body}
-      {plugin && <PluginAccessReview manifest={plugin.manifest} />}
+      {plugin && (
+        <div lang="">
+          <PluginAccessReview manifest={plugin.manifest} />
+        </div>
+      )}
     </Dialog>
   );
 }

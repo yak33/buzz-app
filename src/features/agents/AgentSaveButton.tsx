@@ -129,16 +129,20 @@ export function useAgentSaveReports() {
 /** Asks before leaving would unmount reported unsaved edits. */
 export function DiscardChanges({
   description,
+  lang,
   onKeep,
   onDiscard,
 }: {
   description: string;
+  /** Language of this confirmation's translated copy. */
+  lang?: string | undefined;
   onKeep(): void;
   onDiscard(): void;
 }) {
   const { t } = useLingui();
   return (
     <AlertDialog
+      {...(lang === undefined ? {} : { lang })}
       title={t`Discard changes?`}
       description={description}
       onClose={onKeep}

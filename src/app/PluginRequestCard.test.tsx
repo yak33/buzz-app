@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -10,13 +11,17 @@ import {
 } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
 import type { PluginManager } from "../plugins/manager";
+import { i18n } from "../features/localization/service";
 import { createPluginRequests } from "../plugins/requests";
 import type { Catalog, ImportPreview } from "../plugins/types";
 import { foldMessages } from "../features/relay/fold";
 import { keypair, signed } from "../features/relay/testing";
 import { PluginRequestCard } from "./PluginRequestCard";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  if (i18n.locale !== "en-US") act(() => i18n.activate("en-US"));
+});
 
 // https://github.com/example-org/buzz-plugin-browser, whose manifest is this.
 const BROWSER = "https://github.com/example-org/buzz-plugin-browser";
@@ -108,8 +113,8 @@ it("offers Review and Decline for a request this device holds", async () => {
   const { ask, show, imports } = harness();
   const { requestId } = await ask();
   show(requestId);
-  const card = screen.getByRole("region", { name: "Plugin request: Browser" });
-  expect(within(card).getByText("Install Browser")).toBeVisible();
+  const card = screen.getByRole("region", { name: "Install Browser" });
+  expect(card).toHaveAccessibleName("Install Browser");
   expect(within(card).getByText(`Builder: ${reason}`)).toBeVisible();
   expect(
     within(card).getByRole("button", { name: "Review Browser" }),
@@ -118,6 +123,32 @@ it("offers Review and Decline for a request this device holds", async () => {
     within(card).getByRole("button", { name: "Decline Browser" }),
   ).toBeEnabled();
   expect(imports.git).not.toHaveBeenCalled();
+});
+
+it("shows a localized action while preserving the request text", async () => {
+  const { ask, show } = harness();
+  const { requestId } = await ask();
+  show(requestId);
+  const card = screen.getByRole("region", { name: "Install Browser" });
+  expect(card).toBeVisible();
+
+  act(() => i18n.activate("zh-CN"));
+
+  const localizedCard = screen.getByRole("region", {
+    name: "安装 Browser",
+  });
+  expect(localizedCard).toHaveAttribute("lang", "zh-CN");
+  const action = within(localizedCard).getByText("安装");
+  expect(action).toHaveTextContent("安装 Browser");
+  expect(within(action).getByText("Browser")).toHaveAttribute("lang", "");
+  expect(
+    within(localizedCard).getByRole("button", { name: "检查 Browser" }),
+  ).toBeVisible();
+  expect(
+    within(localizedCard).getByRole("button", { name: "拒绝 Browser" }),
+  ).toBeVisible();
+  const requestReason = within(localizedCard).getByText(`Builder: ${reason}`);
+  expect(requestReason).toHaveAttribute("lang", "");
 });
 
 it("reviews in place at the pinned commit, then shows the outcome and tells the agent", async () => {
@@ -129,11 +160,9 @@ it("reviews in place at the pinned commit, then shows the outcome and tells the 
     name: "Review Browser Plugin access",
   });
   await within(dialog).findByText(`Commit: ${commit}`);
-  expect(
-    within(dialog).getByText(
-      "Requested by Builder. Only install code you trust.",
-    ),
-  ).toBeVisible();
+  expect(dialog).toHaveAccessibleDescription(
+    "Requested by Builder. Only install code you trust.",
+  );
   expect(within(dialog).getByText(reason)).toBeVisible();
   expect(holdReview).toHaveBeenCalledOnce();
   expect(asker.status(requestId).state).toBe("pending");

@@ -221,7 +221,7 @@ export function SearchResults({
    * and open-channel lookups wait for the connection instead of failing. */
   offline?: ReactNode;
 } & SearchInputProps) {
-  const { t } = useLingui();
+  const { i18n, t } = useLingui();
   const resolveName = useIdentityNames(session.names);
   const list = useChannelList(session.channels);
   const parsed = useMemo(() => parseSearchOperators(query.trim()), [query]);
@@ -1793,12 +1793,15 @@ export function SearchResults({
         aria-live="polite"
       >
         {list.status === "loading" && query.trim() && !list.channels.length && (
-          <p>Loading joined conversations…</p>
+          <p lang={i18n.locale}>{t`Loading joined conversations…`}</p>
         )}
         {list.status === "error" && (
           <div>
-            <p>Couldn’t load all joined conversations.</p>
+            <p
+              lang={i18n.locale}
+            >{t`Couldn’t load all joined conversations.`}</p>
             <Button
+              lang={i18n.locale}
               size="sm"
               variant="ghost"
               onClick={retryFromInput(() =>
@@ -1807,27 +1810,32 @@ export function SearchResults({
                   : session.channels.ensureList(),
               )}
             >
-              Retry conversations
+              {t`Retry conversations`}
             </Button>
           </div>
         )}
         {list.coverage === "partial" && (
-          <p>Conversation names include only loaded joined conversations.</p>
+          <p lang={i18n.locale}>
+            {t`Conversation names include only loaded joined conversations.`}
+          </p>
         )}
         {query.trim() &&
           !scopedChannelId &&
           (publicChannels.partial || operatorPublicChannels.partial) && (
-            <p>Only the newest open channels were searched.</p>
+            <p lang={i18n.locale}>
+              {t`Only the newest open channels were searched.`}
+            </p>
           )}
         {!scopedChannelId && publicChannels.error && (
           <div>
             <p>{publicChannels.error}</p>
             <Button
+              lang={i18n.locale}
               size="sm"
               variant="ghost"
               onClick={retryFromInput(publicChannels.retry)}
             >
-              Retry channels
+              {t`Retry channels`}
             </Button>
           </div>
         )}
@@ -1835,11 +1843,12 @@ export function SearchResults({
           <div>
             <p>{operatorLookupError}</p>
             <Button
+              lang={i18n.locale}
               size="sm"
               variant="ghost"
               onClick={retryFromInput(operatorPublicChannels.retry)}
             >
-              Retry channels
+              {t`Retry channels`}
             </Button>
           </div>
         )}
@@ -1851,13 +1860,14 @@ export function SearchResults({
         )}
         {peopleActive && personDirectory.error && (
           <div>
-            <p>Couldn’t search community people.</p>
+            <p lang={i18n.locale}>{t`Couldn’t search community people.`}</p>
             <Button
+              lang={i18n.locale}
               size="sm"
               variant="ghost"
               onClick={retryFromInput(personDirectory.retry)}
             >
-              Retry people
+              {t`Retry people`}
             </Button>
           </div>
         )}

@@ -2080,6 +2080,7 @@ msgstr "活动：{0} 在工作"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/relay-staff/Operators.tsx
 #: src/bundled/todos/TodosPanel.tsx
+#: src/features/solo/WorkspaceFields.tsx
 msgid "Add"
 msgstr "添加"
 
@@ -2100,6 +2101,10 @@ msgstr "添加 {name}（{keyLabel}）"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Add {name} ({keyLabel}) as"
 msgstr "将 {name}（{keyLabel}）添加为"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Add a folder"
+msgstr "添加文件夹"
 
 #: src/bundled/agents/AgentCreateDialog.tsx
 msgid "Add a name to create your agent"
@@ -2163,6 +2168,10 @@ msgstr "添加为"
 msgid "Add as admin"
 msgstr "设为管理员"
 
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Add at least one folder to use a new worktree."
+msgstr "至少添加一个文件夹，才能使用新的工作树。"
+
 #: src/bundled/workflows/editor-model.ts
 msgid "Add at least one step."
 msgstr "至少添加一个步骤。"
@@ -2203,6 +2212,10 @@ msgstr "直接添加"
 #: src/bundled/emoji/CustomEmojiSettings.tsx
 msgid "Add emoji"
 msgstr "添加表情"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Add folder…"
+msgstr "添加文件夹…"
 
 #: src/app/PluginImport.tsx
 msgid "Add from folder"
@@ -2731,6 +2744,10 @@ msgstr "允许附加参数和标准输入，拥有你账户的完全访问权。
 #: src/app/CommunityRepositoriesSettings.tsx
 msgid "Allows your agents to work in existing code checkouts instead of cloning separate copies. Leave blank to use the default location."
 msgstr "允许智能体使用已有的本地代码仓库，无需另外克隆。留空则使用默认位置。"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Already added."
+msgstr "已添加。"
 
 #. placeholder {0}: time(event.deletedAt)
 #: src/bundled/relay-staff/DirectActions.tsx
@@ -3399,6 +3416,10 @@ msgstr "已封禁"
 msgid "Bare links show their kind:"
 msgstr "纯链接会显示其类型："
 
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Base branch"
+msgstr "基础分支"
+
 #: src/bundled/workflows/WorkflowConditions.tsx
 msgid "Basic"
 msgstr "基础"
@@ -3870,6 +3891,7 @@ msgstr "无法打开此文件"
 msgid "Can't open this PDF"
 msgstr "无法打开此 PDF"
 
+#: src/app/AgentPluginRequests.tsx
 #: src/app/CommunityDepartureSettings.tsx
 #: src/app/CommunityLocalSettings.tsx
 #: src/app/CommunityRepositoriesSettings.tsx
@@ -3936,6 +3958,7 @@ msgstr "无法打开此 PDF"
 #: src/features/messages/ForwardMessage.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/messages/ReportMessageDialog.tsx
+#: src/features/solo/ChatSettingsDialog.tsx
 #: src/features/solo/ConvertToChannel.tsx
 msgid "Cancel"
 msgstr "取消"
@@ -4144,6 +4167,10 @@ msgstr "已更改的文件"
 #: src/features/agents/AgentConfigHistory.tsx
 msgid "Changes"
 msgstr "更改"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Changes are confirmed, but the saved draft couldn’t be cleared on this device. Retry to finish without resending confirmed changes."
+msgstr "更改已确认，但无法清除此设备上保存的草稿。请重试以完成操作，不会重新发送已确认的更改。"
 
 #: src/bundled/channels/CanvasDiff.tsx
 msgid "Changes from current version"
@@ -4367,8 +4394,17 @@ msgid "Chat changed to View only. "
 msgstr "聊天已改为仅查看。"
 
 #: src/bundled/channels/SoloChatName.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Chat name"
 msgstr "聊天名称"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Chat name and lifetime saved. Workspace and Canvas still have unsaved changes."
+msgstr "聊天名称和有效期已保存。工作区和 Canvas 仍有未保存的更改。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Chat name and lifetime saved. Workspace and Canvas were not loaded; retry settings to review them."
+msgstr "聊天名称和有效期已保存。工作区和 Canvas 尚未加载；请重试设置以查看它们。"
 
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Chat preview"
@@ -4463,6 +4499,7 @@ msgstr "查看近期活动。"
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 #: src/bundled/channels/SoloChatName.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Check save status"
 msgstr "检查保存状态"
 
@@ -4784,6 +4821,10 @@ msgstr "为团队 {0} 选择类型"
 #: src/bundled/todos/model.ts
 msgid "Choose a valid Buzz user."
 msgstr "请选择有效的 Buzz 用户。"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Choose a worktree location"
+msgstr "选择工作树位置"
 
 #: src/bundled/github/ResolvePull.tsx
 #: src/bundled/mentions/MentionPicker.tsx
@@ -5148,6 +5189,7 @@ msgstr "时间格式"
 msgid "Clock preference wasn’t saved"
 msgstr "未能保存时间设置"
 
+#: src/app/AgentPluginRequests.tsx
 #: src/app/App.tsx
 #: src/app/ManagedPlugins.tsx
 #: src/bundled/agents/AgentCreateDialog.tsx
@@ -6012,6 +6054,10 @@ msgstr "对话活动"
 msgid "Conversation hidden"
 msgstr "对话已隐藏"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Conversation names include only loaded joined conversations."
+msgstr "按名称搜索时，仅包含已加入且已加载的对话。"
+
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Conversation unknown"
 msgstr "对话未知"
@@ -6778,6 +6824,10 @@ msgstr "无法加载智能体"
 msgid "Couldn’t load agents. Try again."
 msgstr "无法加载智能体。请重试。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Couldn’t load all joined conversations."
+msgstr "未能加载全部已加入的对话。"
+
 #: src/features/agents/InterruptedNotice.tsx
 msgid "Couldn’t load details"
 msgstr "无法加载详情"
@@ -6952,6 +7002,10 @@ msgstr "无法保存到此设备，请重试。"
 #: src/bundled/todos/TodosPanel.tsx
 msgid "Couldn’t save. Your changes are still here. {failureText}"
 msgstr "无法保存。你的更改仍在。{failureText}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Couldn’t search community people."
+msgstr "无法搜索社区成员。"
 
 #: src/bundled/github/ResolvePull.tsx
 msgid "Couldn’t send the request. Try again."
@@ -7231,6 +7285,10 @@ msgstr "自定义模型"
 msgid "Custom model or local GGUF"
 msgstr "自定义模型或本地 GGUF"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Custom settings"
+msgstr "自定义设置"
+
 #: src/bundled/terminal/TerminalSettings.tsx
 msgid "Customize your terminal."
 msgstr "自定义你的终端。"
@@ -7300,10 +7358,21 @@ msgstr "声明的权限变化"
 msgid "Declared scopes"
 msgstr "声明的权限范围"
 
+#: src/app/AgentPluginRequests.tsx
+#: src/app/PluginRequestCard.tsx
 #: src/bundled/huddles/HuddleCapsule.tsx
 #: src/bundled/huddles/HuddleRequestView.tsx
 msgid "Decline"
 msgstr "拒绝"
+
+#: src/app/AgentPluginRequests.tsx
+#: src/app/PluginRequestCard.tsx
+msgid "Decline {LANGUAGE_VALUE_MARKER}"
+msgstr "拒绝 {LANGUAGE_VALUE_MARKER}"
+
+#: src/app/PluginRequestCard.tsx
+msgid "Declined"
+msgstr "已拒绝"
 
 #: src/bundled/channels/ChannelDurationField.tsx
 msgid "Decrease duration"
@@ -7393,6 +7462,14 @@ msgstr "删除 {channelName}？"
 msgid "Delete {label}?"
 msgstr "删除 {label}？"
 
+#: src/app/AgentPluginRequests.tsx
+msgid "Delete {LANGUAGE_VALUE_MARKER}?"
+msgstr "删除“{LANGUAGE_VALUE_MARKER}”？"
+
+#: src/app/AgentPluginRequests.tsx
+msgid "Delete {name}"
+msgstr "删除 {name}"
+
 #: src/bundled/channels/ChannelLifecycleActions.tsx
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 msgid "Delete {nounText}"
@@ -7417,6 +7494,7 @@ msgstr "删除消息"
 msgid "Delete message?"
 msgstr "删除消息？"
 
+#: src/app/AgentPluginRequests.tsx
 #: src/app/PluginMenu.tsx
 msgid "Delete plugin"
 msgstr "删除插件"
@@ -7447,6 +7525,7 @@ msgstr "删除工作流"
 msgid "Delete workspace"
 msgstr "删除工作区"
 
+#: src/app/PluginRequestCard.tsx
 #: src/bundled/diffs/parse.ts
 msgid "Deleted"
 msgstr "已删除"
@@ -7717,6 +7796,10 @@ msgstr "放弃修改"
 #: src/features/agents/AgentSaveButton.tsx
 msgid "Discard changes?"
 msgstr "放弃修改？"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Discard draft and reload saved settings"
+msgstr "丢弃草稿并重新加载已保存的设置"
 
 #: src/features/messages/MessageManagement.tsx
 msgid "Discard failed update"
@@ -8159,6 +8242,10 @@ msgstr "编辑频道详情"
 msgid "Edit channel name"
 msgstr "编辑频道名称"
 
+#: src/features/solo/ChatSettingsDialog.tsx
+msgid "Edit chat"
+msgstr "编辑聊天"
+
 #: src/bundled/goose/tabs.tsx
 #: src/features/agents/ModelFamilyMenu.tsx
 msgid "Edit configuration"
@@ -8299,6 +8386,14 @@ msgstr "空草稿"
 msgid "Empty message"
 msgstr "空消息"
 
+#: src/app/AgentPluginRequests.tsx
+msgid "Enable {LANGUAGE_VALUE_MARKER}?"
+msgstr "启用“{LANGUAGE_VALUE_MARKER}”？"
+
+#: src/app/AgentPluginRequests.tsx
+msgid "Enable {name}"
+msgstr "启用 {name}"
+
 #: src/features/agents/ExternalAuthorizationDialog.tsx
 msgid "Enable Agents in Buzz desktop to authorize external apps."
 msgstr "请在 Buzz 桌面版中启用智能体以授权外部应用。"
@@ -8311,6 +8406,7 @@ msgstr "请启用它的运行时插件，或使用运行此智能体的那份 Bu
 msgid "Enable Messages to see conversations."
 msgstr "启用消息功能以查看对话。"
 
+#: src/app/AgentPluginRequests.tsx
 #: src/app/ManagedPlugins.tsx
 #: src/app/PluginImport.tsx
 msgid "Enable plugin"
@@ -8320,6 +8416,7 @@ msgstr "启用插件"
 msgid "Enable the plugin that provides this agent's type in"
 msgstr "在以下位置启用提供此智能体类型的插件："
 
+#: src/app/PluginRequestCard.tsx
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "Enabled"
 msgstr "已启用"
@@ -8868,6 +8965,10 @@ msgstr "请在浏览器中完成登录，然后返回 Buzz。"
 msgid "Finish signing in there, then come back and choose Continue."
 msgstr "在浏览器中完成登录后，回到这里选择“继续”。"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Finish the existing channel details change before editing the chat name or lifetime."
+msgstr "请先完成现有的频道详情更改，再编辑聊天名称或有效期。"
+
 #: src/bundled/channels/SoloChatName.tsx
 msgid "Finish the pending change in Chat settings first."
 msgstr "请先完成聊天设置中待处理的更改。"
@@ -8935,6 +9036,14 @@ msgstr "文件夹"
 #: src/app/PluginImport.tsx
 msgid "Folder (optional)"
 msgstr "文件夹（可选）"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Folder path"
+msgstr "文件夹路径"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Folders"
+msgstr "文件夹"
 
 #. placeholder {0}: preview.warnings.length
 #: src/app/PluginImport.tsx
@@ -9865,6 +9974,10 @@ msgstr "输入"
 msgid "Input:"
 msgstr "输入："
 
+#: src/app/AgentPluginRequests.tsx
+msgid "Install {name}"
+msgstr "安装 {name}"
+
 #: src/bundled/pairing/MobileApp.tsx
 msgid "Install Buzz on your phone from its app store, then sign in with Builderlab as {email}."
 msgstr "在手机的应用商店安装 Buzz，然后以 {email} 登录 Builderlab。"
@@ -9894,6 +10007,10 @@ msgstr "安装集成"
 #: src/app/PluginImport.tsx
 msgid "Install plugin"
 msgstr "安装插件"
+
+#: src/app/PluginRequestCard.tsx
+msgid "Installed"
+msgstr "已安装"
 
 #. placeholder {0}: location(entry)
 #: src/app/ManagedPlugins.tsx
@@ -9928,8 +10045,14 @@ msgstr "替代"
 #: src/bundled/watching/Tab.tsx
 #: src/features/agents/AgentConfigHistoryRow.tsx
 #: src/features/agents/AgentInstructions.tsx
+#: src/features/solo/ChatSettingsDialog.tsx
+#: src/features/solo/WorkspaceFields.tsx
 msgid "Instructions"
 msgstr "指令"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Instructions and context for agents working in this chat."
+msgstr "为此聊天中的 Agent 提供说明和上下文。"
 
 #: src/bundled/watching/Tab.tsx
 msgid "Interest"
@@ -10476,6 +10599,10 @@ msgstr "开始吧"
 msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
 msgstr "允许 macOS 纠正消息中的拼写错误。可在消息输入框的“拼写和语法”菜单中开启或关闭。"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Lifetime"
+msgstr "有效期"
+
 #: src/bundled/relay-staff/Restrictions.tsx
 msgid "Lift ban"
 msgstr "解除封禁"
@@ -10627,6 +10754,10 @@ msgstr "正在加载频道…"
 msgid "Loading chat agents…"
 msgstr "正在加载聊天智能体…"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Loading chat details…"
+msgstr "正在加载聊天详情…"
+
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Loading comments…"
 msgstr "正在加载评论…"
@@ -10676,6 +10807,10 @@ msgstr "正在加载历史…"
 #: src/bundled/repos/ResourcePicker.tsx
 msgid "Loading issues and pull requests…"
 msgstr "正在加载 issue 和 PR…"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Loading joined conversations…"
+msgstr "正在加载已加入的对话…"
 
 #: src/bundled/mentions/use-team-mentions.ts
 msgid "Loading legacy teams…"
@@ -10773,6 +10908,7 @@ msgid "Loading sent messages…"
 msgstr "正在加载已发送消息…"
 
 #: src/bundled/builderlab/adapter-type/ModelSettings.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Loading settings…"
 msgstr "正在加载设置…"
 
@@ -12287,6 +12423,10 @@ msgstr "无限制"
 msgid "No live transcript"
 msgstr "无实时执行记录"
 
+#: src/app/PluginRequestCard.tsx
+msgid "No longer available on this device."
+msgstr "此设备上已不可用。"
+
 #: src/bundled/mentions/use-mention-choices.ts
 msgid "No longer available. Change your search to refresh choices."
 msgstr "已不可用。更改搜索以刷新选项。"
@@ -12961,6 +13101,10 @@ msgstr "在线"
 msgid "Only {placeText} members can read."
 msgstr "仅此{placeText}的成员可以阅读。"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Only a chat you can edit can change its name or lifetime."
+msgstr "只有可编辑的聊天才能更改名称或有效期。"
+
 #: src/bundled/builderlab/adapter-type/Instructions.tsx
 #: src/bundled/builderlab/adapter-type/ModelSettings.tsx
 msgid "Only Active agents can have their settings edited."
@@ -13023,6 +13167,10 @@ msgstr "只有作者可以更改此工作流。"
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "Only the author or their verified agent owner can delete this workflow."
 msgstr "只有作者或其已验证的智能体所有者才能删除此工作流。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Only the newest open channels were searched."
+msgstr "只搜索了最新的公开频道。"
 
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Only the selected community can be marked as read."
@@ -13931,6 +14079,10 @@ msgstr "插件安装未确认。请检查预览后重试。"
 msgid "Plugin recovery actions"
 msgstr "插件恢复操作"
 
+#: src/app/PluginRequestCard.tsx
+msgid "Plugin request"
+msgstr "插件请求"
+
 #: src/app/PluginMenu.tsx
 msgid "Plugin rollback wasn’t confirmed. Try again."
 msgstr "插件回滚未确认。请重试。"
@@ -14624,13 +14776,13 @@ msgstr "推荐与精选"
 msgid "Recommended by {0}"
 msgstr "由 {0} 推荐"
 
+#: src/app/ManagedPlugins.tsx
+msgid "Recommended by {LANGUAGE_VALUE_MARKER}. Only install code you trust."
+msgstr "由 {LANGUAGE_VALUE_MARKER} 推荐。请仅安装你信任的代码。"
+
 #: src/features/agents/AISettings.tsx
 msgid "Recommended by {recommendedBy}."
 msgstr "由 {recommendedBy} 推荐。"
-
-#: src/app/ManagedPlugins.tsx
-msgid "Recommended by {source}. Only install code you trust."
-msgstr "由 {source} 推荐。只安装你信任的代码。"
 
 #: src/app/ManagedPlugins.tsx
 msgid "Recommended plugins"
@@ -14752,8 +14904,13 @@ msgid "Reload access"
 msgstr "重新加载权限"
 
 #: src/bundled/channels/SoloChatName.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Reload chat details"
 msgstr "重新加载聊天详情"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Reload chat details before saving name or lifetime."
+msgstr "保存名称或有效期前，请重新加载聊天详情。"
 
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 msgid "Reload details"
@@ -14862,11 +15019,12 @@ msgstr "移除"
 msgid "Remove :{0}:"
 msgstr "移除 :{0}:"
 
+#. placeholder {0}: folderName(folder)
 #. placeholder {0}: gif.title
 #. placeholder {0}: item.file.name
-#. placeholder {0}: label(person)
 #: src/features/direct-messages/RecipientPicker.tsx
 #: src/features/messages/ComposerAttachments.tsx
+#: src/features/solo/WorkspaceFields.tsx
 msgid "Remove {0}"
 msgstr "移除 {0}"
 
@@ -15360,14 +15518,25 @@ msgstr "要求修改"
 msgid "Requested"
 msgstr "已请求"
 
-#. placeholder {0}: requestedBy.name
+#: src/app/AgentPluginRequests.tsx
+msgid "Requested by {LANGUAGE_VALUE_MARKER}. Only enable code you trust."
+msgstr "由 {LANGUAGE_VALUE_MARKER} 请求。请仅启用你信任的代码。"
+
 #: src/app/ManagedPlugins.tsx
-msgid "Requested by {0}. Only install code you trust."
-msgstr "由 {0} 请求。只安装你信任的代码。"
+msgid "Requested by {LANGUAGE_VALUE_MARKER}. Only install code you trust."
+msgstr "由 {LANGUAGE_VALUE_MARKER} 请求。请仅安装你信任的代码。"
+
+#: src/app/AgentPluginRequests.tsx
+msgid "Requested by {LANGUAGE_VALUE_MARKER}. Removes this plugin and its rollback history from Buzz. You can install it again later."
+msgstr "由 {LANGUAGE_VALUE_MARKER} 请求。此操作会从 Buzz 中移除此插件及其回滚历史。你之后可以重新安装。"
 
 #: src/app/ManagedPlugins.tsx
 msgid "Requested by {requester}."
 msgstr "由 {requester} 请求。"
+
+#: src/app/AgentPluginRequests.tsx
+msgid "Requested by agents"
+msgstr "智能体的请求"
 
 #: src/bundled/workflows/WorkflowOperations.tsx
 msgid "Requesting a run…"
@@ -15614,6 +15783,7 @@ msgstr "重试备份"
 msgid "Retry channel membership"
 msgstr "重试频道成员身份"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/profiles/ProfileChannels.tsx
 #: src/bundled/workflows/WorkflowsPage.tsx
 msgid "Retry channels"
@@ -15633,6 +15803,10 @@ msgstr "重试社区搜索"
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Retry connection"
 msgstr "重新连接"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Retry conversations"
+msgstr "重试加载对话"
 
 #: src/features/messages/FileAttachment.tsx
 msgid "Retry download"
@@ -15754,6 +15928,10 @@ msgstr "重试笔记"
 msgid "Retry older messages"
 msgstr "重试加载更早的消息"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Retry people"
+msgstr "重试搜索成员"
+
 #: src/bundled/emoji/EmojiPicker.tsx
 msgid "Retry picker"
 msgstr "重试选择器"
@@ -15872,6 +16050,10 @@ msgstr "重试访问安全存储"
 msgid "Retry send"
 msgstr "重试发送"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Retry settings"
+msgstr "重试设置"
+
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Retry share"
 msgstr "重试分享"
@@ -15946,16 +16128,20 @@ msgstr "显示 webhook 密钥"
 msgid "Revert to this"
 msgstr "回退到此版本"
 
+#: src/app/AgentPluginRequests.tsx
 #: src/app/ManagedPlugins.tsx
 #: src/app/PluginImport.tsx
+#: src/app/PluginRequestCard.tsx
 #: src/bundled/github/PullChecklist.tsx
 #: src/bundled/relay-staff/DirectActions.tsx
 msgid "Review"
 msgstr "检查"
 
+#: src/app/AgentPluginRequests.tsx
 #: src/app/ManagedPlugins.tsx
-msgid "Review {name}"
-msgstr "检查 {name}"
+#: src/app/PluginRequestCard.tsx
+msgid "Review {LANGUAGE_VALUE_MARKER}"
+msgstr "检查 {LANGUAGE_VALUE_MARKER}"
 
 #: src/app/PluginMenu.tsx
 msgid "Review access"
@@ -15996,6 +16182,10 @@ msgstr "编辑前请先查看“最近活动”。"
 #: src/features/messages/ReportMessageDialog.tsx
 msgid "Review report"
 msgstr "查看举报"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Review saved settings"
+msgstr "查看已保存的设置"
 
 #. placeholder {0}: issue.stepIndex + 1
 #: src/bundled/workflows/WorkflowForm.tsx
@@ -16262,11 +16452,14 @@ msgstr "保存 Canvas"
 #: src/bundled/channels/ChannelDetailsEditor.tsx
 #: src/bundled/workflows/WorkflowEditor.tsx
 #: src/features/messages/MessageComposer.tsx
+#: src/features/solo/ChatSettingsDialog.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Save changes"
 msgstr "保存修改"
 
 #: src/bundled/codex/tabs.tsx
 #: src/bundled/goose/tabs.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Save defaults"
 msgstr "保存默认值"
 
@@ -16430,6 +16623,14 @@ msgstr "已保存的修订"
 #: src/bundled/typesafe/TypeSafeSettings.tsx
 msgid "Saved securely on this computer."
 msgstr "已在此计算机上安全保存。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Saved settings changed while this draft was open. Your draft is kept; copy it before reloading."
+msgstr "此草稿打开期间，已保存的设置发生了变化。草稿仍会保留；重新加载前请先复制。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Saved settings loaded, but the old draft couldn’t be cleared on this device."
+msgstr "已加载已保存的设置，但无法清除此设备上的旧草稿。"
 
 #: src/features/channel-navigation/ChannelInventory.tsx
 msgid "Saved sidebar preferences couldn’t refresh"
@@ -17928,6 +18129,10 @@ msgstr "开始 Focus"
 msgid "Start from"
 msgstr "从…开始"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Start from a template"
+msgstr "从模板开始"
+
 #: src/bundled/huddles/HuddleLauncher.tsx
 msgid "Start huddle"
 msgstr "开始 Huddle"
@@ -18507,6 +18712,10 @@ msgstr "更改可能已保存。再次尝试前请检查其状态。检查不会
 msgid "The change was saved, but the list could not be refreshed."
 msgstr "更改已保存，但列表无法刷新。"
 
+#: src/app/AgentPluginRequests.tsx
+msgid "The change wasn’t confirmed. Try again."
+msgstr "未能确认此更改，请重试。"
+
 #: src/bundled/channels/CreateChannelDialog.tsx
 msgid "The channel could not be created."
 msgstr "无法创建频道。"
@@ -18534,6 +18743,10 @@ msgstr "Codex 集成尚未安装。"
 #: src/app/CommunityDepartureSettings.tsx
 msgid "The community connection and any saved drafts or data will be removed from Buzz on this device."
 msgstr "社区连接及所有已保存的草稿或数据将从此设备的 Buzz 中移除。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "The confirmed Canvas revision couldn’t be saved on this device. Name and lifetime were not sent; keep this dialog open to retry."
+msgstr "无法在此设备上保存已确认的 Canvas 版本。名称和有效期尚未发送；请保持此对话框打开并重试。"
 
 #: src/bundled/huddles/HuddleCapsule.tsx
 msgid "The connection failed."
@@ -18886,6 +19099,10 @@ msgstr "安全模型未完成"
 msgid "The security model returned no structured result"
 msgstr "安全模型未返回结构化结果"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "The selected template’s agents and teams are also included in new chats."
+msgstr "所选模板中的 Agent 和团队也会包含在新聊天中。"
+
 #: src/bundled/builderlab/adapter-type/ModelSettings.tsx
 msgid "The server has not confirmed the saved model selection. Choose a model and thinking level."
 msgstr "服务器尚未确认已保存的模型选择。请选择模型和思考力度。"
@@ -18974,6 +19191,10 @@ msgstr "这些声明描述插件请求 Buzz 做什么。它们不限制插件代
 #: src/app/PluginImport.tsx
 msgid "These folders couldn’t be loaded as plugins. Other listed plugins can still be installed."
 msgstr "这些文件夹无法作为插件加载。列表中的其他插件仍可安装。"
+
+#: src/features/solo/ChatSettingsDialog.tsx
+msgid "These instructions have custom workspace setup. Edit them directly to keep it."
+msgstr "这些说明包含自定义工作区设置。请直接编辑，以保留这些设置。"
 
 #: src/bundled/repos/ResourcePicker.tsx
 msgid "These repositories have no issues or pull requests yet."
@@ -19492,6 +19713,10 @@ msgstr "此插件已安装。打开其详情进行管理。"
 msgid "This plugin is included with Buzz. Update Buzz to get its latest version."
 msgstr "此插件随 Buzz 提供。更新 Buzz 即可获得最新版本。"
 
+#: src/app/AgentPluginRequests.tsx
+msgid "This plugin is no longer installed."
+msgstr "此插件已不再安装。"
+
 #: src/app/ManagedPlugins.tsx
 msgid "This plugin was installed from a single pinned file. To update it, install the newer version from the plugin marketplace or a new install link."
 msgstr "此插件安装自单个固定文件。要更新它，请从插件市场或新的安装链接安装较新版本。"
@@ -19502,8 +19727,8 @@ msgid "This plugin will stay disabled."
 msgstr "此插件将保持禁用。"
 
 #: src/app/ManagedPlugins.tsx
-msgid "This plugin’s code already matches this revision. Updating records {source}’s recommended source and keeps the plugin as it is."
-msgstr "此插件的代码已与此版本一致。更新只会记录 {source} 推荐的来源，插件保持原样。"
+msgid "This plugin’s code already matches this revision. Updating records {LANGUAGE_VALUE_MARKER}’s recommended source and keeps the plugin as it is."
+msgstr "此插件的代码已与此版本一致。更新只会记录 {LANGUAGE_VALUE_MARKER} 推荐的来源，插件保持原样。"
 
 #: src/bundled/workflows/WorkflowWebhookSecretDialog.tsx
 msgid "This private secret is shown once and cannot be recovered. Copy and store it before continuing."
@@ -20505,6 +20730,10 @@ msgstr "最多 {0} 字节"
 msgid "Up to {0} characters."
 msgstr "最多 {0} 个字符。"
 
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Up to 20 folders."
+msgstr "最多可添加 20 个文件夹。"
+
 #: src/app/PluginImport.tsx
 msgid "Up to date"
 msgstr "已是最新"
@@ -20526,6 +20755,10 @@ msgid "Update {0}"
 msgstr "更新 {0}"
 
 #: src/app/ManagedPlugins.tsx
+msgid "Update {LANGUAGE_VALUE_MARKER}"
+msgstr "更新 {LANGUAGE_VALUE_MARKER}"
+
+#: src/app/AgentPluginRequests.tsx
 #: src/app/PluginUpdates.tsx
 msgid "Update {name}"
 msgstr "更新 {name}"
@@ -20576,6 +20809,7 @@ msgstr "更新状态"
 msgid "Update this community’s profile. Other community profiles stay unchanged."
 msgstr "更新你在此社区的个人资料，其他社区的资料不受影响。"
 
+#: src/app/PluginRequestCard.tsx
 #: src/bundled/relay-notes/NotesPage.tsx
 msgid "Updated"
 msgstr "已更新"
@@ -21398,6 +21632,10 @@ msgstr "无活动。"
 msgid "Without merging"
 msgstr "不合并"
 
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Work in a new worktree"
+msgstr "在新的工作树中工作"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "Work with unconfirmed thread"
 msgstr "处理未确认的话题"
@@ -21533,15 +21771,32 @@ msgstr "工作区"
 msgid "Workspace actions"
 msgstr "工作区操作"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Workspace and Canvas are unavailable."
+msgstr "工作区和 Canvas 不可用。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Workspace and Canvas saved."
+msgstr "工作区和 Canvas 已保存。"
+
 #: src/bundled/channels/SoloWorkspaces.tsx
 msgid "Workspace could not be deleted. Try again."
 msgstr "无法删除工作区。请重试。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Workspace defaults are confirmed, but the saved draft couldn’t be cleared on this device."
+msgstr "工作区默认设置已确认，但无法清除此设备上保存的草稿。"
+
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Workspace defaults are unavailable."
+msgstr "工作区默认设置不可用。"
 
 #: src/bundled/channels/SoloChatMenu.tsx
 msgid "Workspace name"
 msgstr "工作区名称"
 
 #: src/bundled/channels/SoloWorkspaces.tsx
+#: src/features/solo/WorkspaceSettings.tsx
 msgid "Workspace settings"
 msgstr "工作区设置"
 
@@ -21552,6 +21807,15 @@ msgstr "工作区不可用。请关闭此对话框后重试。"
 #: src/bundled/channels/SoloWorkspaces.tsx
 msgid "Workspaces couldn’t load."
 msgstr "工作区无法加载。"
+
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Worktree location"
+msgstr "工作树位置"
+
+#. placeholder {0}: worktree.location
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Worktree location: {0}"
+msgstr "工作树位置：{0}"
 
 #: src/bundled/workflows/WorkflowForm.tsx
 msgid "Write a message…"
@@ -21858,6 +22122,10 @@ msgstr "你的对话仍可访问。"
 msgid "Your current identity isn’t in these backups. You can choose a previous identity."
 msgstr "你当前的身份不在此备份中。你可以选择先前的身份。"
 
+#: src/features/solo/WorkspaceSettings.tsx
+msgid "Your draft couldn’t be saved on this device. No new changes were sent."
+msgstr "无法在此设备上保存草稿。未发送任何新更改。"
+
 #: src/bundled/workflows/WorkflowOperations.tsx
 msgid "Your draft is kept and editing is unlocked. Dismissing this notice does not confirm, cancel, or repeat deletion. Check saved configuration before deleting again."
 msgstr "你的草稿已保留，编辑已解锁。关闭此通知不会确认、取消或重复删除。再次删除前请检查已保存的配置。"
@@ -22023,6 +22291,10 @@ msgstr "你保存的 Buzz 账户与此账户不匹配。请先打开匹配的账
 #: src/bundled/github/AuthorSettings.tsx
 msgid "Your saved rules no longer parse, so no comment or review wakes your agents until you fix them."
 msgstr "你保存的规则已无法解析，在修复之前，任何评论或审查都无法唤醒你的智能体。"
+
+#: src/features/solo/ChatSettingsDialog.tsx
+msgid "Your settings have unsaved changes."
+msgstr "设置有未保存的更改。"
 
 #: src/features/identity/SignOut.tsx
 msgid "Your settings, agents and other Buzz data stay on this device. Sign back in with this key and they’ll be here. Agents start only for this key."

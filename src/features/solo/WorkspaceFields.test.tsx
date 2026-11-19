@@ -2,9 +2,10 @@
 import "@testing-library/jest-dom/vitest";
 import { useState } from "react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { invoke, isTauri } from "@tauri-apps/api/core";
+import { i18n } from "../localization/service";
 import { WorkspaceFields } from "./WorkspaceFields";
 import type { Workspace } from "./workspace";
 vi.mock("@tauri-apps/api/core", () => ({
@@ -15,6 +16,7 @@ beforeEach(() => vi.mocked(isTauri).mockReturnValue(true));
 afterEach(() => {
   cleanup();
   vi.resetAllMocks();
+  if (i18n.locale !== "en-US") act(() => i18n.activate("en-US"));
 });
 function Form({ folders = ["~/original"] }: { folders?: string[] }) {
   const [value, setValue] = useState<Workspace>({
@@ -44,8 +46,12 @@ it("adds a picked folder, preserves other fields, ignores cancellation and dupli
   await user.click(add);
   expect(screen.getAllByRole("button", { name: /^Remove / })).toHaveLength(2);
   await user.click(add);
-  expect(await screen.findByRole("alert")).toHaveTextContent("Already added.");
+  const error = await screen.findByRole("alert");
+  expect(error).toHaveTextContent("Already added.");
   expect(screen.getAllByRole("button", { name: /^Remove / })).toHaveLength(2);
+  act(() => i18n.activate("zh-CN"));
+  const translatedError = screen.getByText("已添加。");
+  expect(translatedError).toHaveAttribute("lang", "zh-CN");
 });
 it("removing a folder moves focus to the next remove button, then to Add", async () => {
   vi.mocked(invoke).mockResolvedValueOnce("~/second");

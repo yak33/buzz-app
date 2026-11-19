@@ -13,6 +13,7 @@ import { keypair, signed } from "../relay/testing";
 import { matchesEvent } from "../relay/projection";
 import type { RelayEvent } from "../relay/events";
 import type { Outbox } from "../relay/outbox";
+import { i18n } from "../localization/service";
 import "@testing-library/jest-dom/vitest";
 import { webcrypto } from "node:crypto";
 import {
@@ -825,6 +826,30 @@ const prompt = () =>
   screen.findByRole("alertdialog", { name: "Discard changes?" });
 const backdrop = () =>
   [...document.querySelectorAll(".buzz-dialog-backdrop")].at(-1) as Element;
+
+it("updates fixed settings copy when the language changes and keeps workspace text original", async () => {
+  const previousLocale = i18n.locale;
+  chat();
+  try {
+    const originalInstructions = await instructions();
+    expect(originalInstructions).toHaveValue("Original");
+
+    act(() => i18n.activate("zh-CN"));
+
+    const settings = screen.getByRole("dialog", { name: "编辑聊天" });
+    expect(settings).toHaveAttribute("lang", "zh-CN");
+    expect(screen.getByRole("button", { name: "保存修改" })).toBeVisible();
+    const translatedInstructions = screen.getByRole("textbox", {
+      name: /^指令/,
+    });
+    expect(translatedInstructions).toHaveValue("Original");
+    expect(translatedInstructions).toHaveAttribute("lang", "");
+  } finally {
+    cleanup();
+    if (i18n.locale !== previousLocale)
+      act(() => i18n.activate(previousLocale));
+  }
+});
 
 it.each(["Escape", "Close", "backdrop"] as const)(
   "asks before %s drops a chat's unsaved settings, and Keep editing keeps them",

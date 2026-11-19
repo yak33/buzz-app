@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -10,6 +11,7 @@ import {
 } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
 import type { PluginManager } from "../plugins/manager";
+import { i18n } from "../features/localization/service";
 import { createPluginRequests } from "../plugins/requests";
 import type {
   Catalog,
@@ -22,6 +24,7 @@ import { AgentPluginRequests } from "./AgentPluginRequests";
 afterEach(() => {
   cleanup();
   document.body.replaceChildren();
+  if (i18n.locale !== "en-US") act(() => i18n.activate("en-US"));
 });
 
 const commit = "0123456789abcdef0123456789abcdef01234567";
@@ -110,12 +113,12 @@ it("installs the pinned commit only after the owner confirms, then tells the age
   const group = await screen.findByRole("region", {
     name: "Requested by agents",
   });
-  expect(within(group).getByText("Install Tasks")).toBeVisible();
+  expect(group).toHaveTextContent("Install Tasks");
   expect(
     within(group).getByText("Builder: Tracks the sprint board"),
   ).toBeVisible();
   expect(imports.git).not.toHaveBeenCalled();
-  fireEvent.click(within(group).getByRole("button", { name: "Review Tasks" }));
+  fireEvent.click(within(group).getByRole("button", { name: /Review/ }));
   const dialog = await screen.findByRole("dialog", {
     name: "Review Tasks Plugin access",
   });
@@ -126,11 +129,9 @@ it("installs the pinned commit only after the owner confirms, then tells the age
     undefined,
     { commit, path: "tasks" },
   );
-  expect(
-    within(dialog).getByText(
-      "Requested by Builder. Only install code you trust.",
-    ),
-  ).toBeVisible();
+  expect(dialog).toHaveAccessibleDescription(
+    "Requested by Builder. Only install code you trust.",
+  );
   expect(within(dialog).getByText("Tracks the sprint board")).toBeVisible();
   expect(within(dialog).getByText(/tasks\.example\.com/)).toBeVisible();
   expect(agent.status(requestId).state).toBe("pending");
@@ -145,6 +146,67 @@ it("installs the pinned commit only after the owner confirms, then tells the age
   expect(manager.change).toHaveBeenCalledWith("enable", "example.tasks");
   expect(agent.status(requestId).state).toBe("approved");
   expect(screen.queryByRole("region")).toBeNull();
+});
+
+it("translates request actions without translating the agent-provided reason", async () => {
+  const { agent } = await harness();
+  await agent.request({
+    action: "install",
+    repository: "https://example.com/plugins",
+    reference: "main",
+    reason: "Tracks the sprint board",
+  });
+  await screen.findByRole("region", { name: "Requested by agents" });
+
+  act(() => i18n.activate("zh-CN"));
+
+  const chineseGroup = screen.getByRole("region", { name: "智能体的请求" });
+  const action = within(chineseGroup).getByText("安装");
+  expect(action).toHaveAttribute("lang", "zh-CN");
+  expect(action).toHaveTextContent("安装 Tasks");
+  expect(within(action).getByText("Tasks")).toHaveAttribute("lang", "");
+  expect(
+    within(chineseGroup).getByRole("button", { name: "检查 Tasks" }),
+  ).toBeVisible();
+  expect(
+    within(chineseGroup).getByRole("button", { name: "拒绝 Tasks" }),
+  ).toBeVisible();
+  const requestReason = within(chineseGroup).getByText(
+    "Builder: Tracks the sprint board",
+  );
+  expect(requestReason).toBeVisible();
+  expect(requestReason).toHaveAttribute("lang", "");
+});
+
+it("localizes an install review while preserving plugin and requester language", async () => {
+  const { agent } = await harness();
+  await agent.request({
+    action: "install",
+    repository: "https://example.com/plugins",
+    reference: "main",
+    reason: "Tracks the sprint board",
+  });
+  await screen.findByRole("region", { name: "Requested by agents" });
+  act(() => i18n.activate("zh-CN"));
+  fireEvent.click(await screen.findByRole("button", { name: "检查 Tasks" }));
+
+  const dialog = await screen.findByRole("dialog");
+  await within(dialog).findByText(`Commit: ${commit}`);
+  expect(dialog).toHaveAttribute("lang", "zh-CN");
+  const heading = within(dialog).getByRole("heading", { level: 2 });
+  expect(heading).toHaveTextContent("Tasks");
+  expect(within(heading).getByText("Tasks")).toHaveAttribute("lang", "");
+  expect(dialog).toHaveAccessibleDescription(
+    "由 Builder 请求。请仅安装你信任的代码。",
+  );
+  expect(
+    within(dialog).getByText("Builder", { selector: 'span[lang=""]' }),
+  ).toBeVisible();
+  expect(
+    within(dialog).getByText("Tracks the sprint board", {
+      selector: 'span[lang=""]',
+    }),
+  ).toBeVisible();
 });
 
 it("leaves the request pending when the review is closed, and declines it on request", async () => {
@@ -181,6 +243,36 @@ const installed = (extra: Partial<PluginInfo> = {}): PluginInfo => ({
   },
   ...extra,
 });
+
+it.each([
+  ["enable", "dialog", "启用“Tasks”？", "启用插件"],
+  ["remove", "alertdialog", "删除“Tasks”？", "删除插件"],
+] as const)(
+  "translates the %s confirmation while preserving its reason",
+  async (action, role, title, confirmLabel) => {
+    const { agent } = await harness([
+      installed({ enabled: action === "remove" }),
+    ]);
+    await agent.request({ action, id: "example.tasks", reason });
+
+    act(() => i18n.activate("zh-CN"));
+    fireEvent.click(await screen.findByRole("button", { name: "检查 Tasks" }));
+
+    const dialog = await screen.findByRole(role, { name: title });
+    expect(dialog).toHaveAttribute("lang", "zh-CN");
+    const heading = within(dialog).getByRole("heading", { level: 2 });
+    expect(heading).toHaveTextContent(title);
+    expect(within(heading).getByText("Tasks")).toHaveAttribute("lang", "");
+    expect(
+      within(dialog).getByRole("button", { name: confirmLabel }),
+    ).toBeVisible();
+    expect(within(dialog).getByText(reason, { selector: "p" })).toHaveAttribute(
+      "lang",
+      "",
+    );
+  },
+);
+
 const reason = "Tracks the sprint board";
 
 it("updates at the pinned commit and keeps the plugin's enabled state", async () => {
@@ -190,7 +282,10 @@ it("updates at the pinned commit and keeps the plugin's enabled state", async ()
     id: "example.tasks",
     reason,
   });
-  expect(await screen.findByText("Update Tasks")).toBeVisible();
+  const group = await screen.findByRole("region", {
+    name: "Requested by agents",
+  });
+  expect(group).toHaveTextContent("Update Tasks");
   fireEvent.click(await screen.findByRole("button", { name: "Review Tasks" }));
   const dialog = await screen.findByRole("dialog", { name: "Update Tasks" });
   await within(dialog).findByText(`Commit: ${commit}`);
@@ -200,7 +295,10 @@ it("updates at the pinned commit and keeps the plugin's enabled state", async ()
     undefined,
     { commit, path: "tasks" },
   );
-  expect(within(dialog).getByText(`Builder: ${reason}`)).toBeVisible();
+  expect(
+    within(dialog).getByText(reason, { selector: 'span[lang=""]' })
+      .parentElement,
+  ).toHaveTextContent(`Builder: ${reason}`);
   fireEvent.click(within(dialog).getByRole("button", { name: "Update" }));
   await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   expect(manager.installImport).toHaveBeenCalledWith("preview", "tasks");
@@ -215,14 +313,14 @@ it("shows a plugin's access before enabling it", async () => {
     id: "example.tasks",
     reason,
   });
-  expect(screen.getByText("Enable Tasks")).toBeVisible();
-  fireEvent.click(screen.getByRole("button", { name: "Review Tasks" }));
-  const dialog = await screen.findByRole("dialog", { name: "Enable Tasks?" });
   expect(
-    within(dialog).getByText(
-      "Requested by Builder. Only enable code you trust.",
-    ),
-  ).toBeVisible();
+    screen.getByRole("region", { name: "Requested by agents" }),
+  ).toHaveTextContent("Enable Tasks");
+  fireEvent.click(screen.getByRole("button", { name: /Review/ }));
+  const dialog = await screen.findByRole("dialog", { name: "Enable Tasks?" });
+  expect(dialog).toHaveAccessibleDescription(
+    "Requested by Builder. Only enable code you trust.",
+  );
   expect(within(dialog).getByText(reason)).toBeVisible();
   expect(within(dialog).getByText(/tasks\.example\.com/)).toBeVisible();
   fireEvent.click(
