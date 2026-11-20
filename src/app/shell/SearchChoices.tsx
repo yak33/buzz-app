@@ -87,6 +87,8 @@ export type SearchInputProps = {
   onEditLastChip?: (() => void) | undefined;
   displayQuery?: string | undefined;
   onDisplayQueryChange?: ((value: string) => void) | undefined;
+  /** Language of localized group and chip labels supplied by the caller. */
+  labelLang?: string | undefined;
   /** False while the palette closes, so a held Enter chooses nothing. */
   open?: boolean | undefined;
 };
@@ -130,6 +132,7 @@ export function SearchChoices({
   onEditLastChip,
   displayQuery,
   onDisplayQueryChange,
+  labelLang,
   input,
   label: suppliedLabel,
   scope,
@@ -438,6 +441,7 @@ export function SearchChoices({
                   key={chip.operand}
                   type="button"
                   className="search-palette-author-chip"
+                  lang={labelLang}
                   aria-label={chip.label}
                   title={chip.title}
                   onClick={() => onRemoveChip?.(chip)}
@@ -567,6 +571,7 @@ export function SearchChoices({
                     key={label}
                     role={hasControls ? "rowgroup" : "group"}
                     aria-label={label}
+                    lang={labelLang}
                     // A status-only group has no rows yet; busy states why.
                     aria-busy={
                       (!!headingStatus && !destinations.length) || undefined

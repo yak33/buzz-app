@@ -1313,6 +1313,10 @@ msgstr "{label}时间"
 msgid "{label} watches"
 msgstr "{label}的关注"
 
+#: src/app/shell/SearchResults.tsx
+msgid "{label}, selected"
+msgstr "{label}，已选中"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "{label}: session controls unavailable. Check the agent's connection and the app running it."
 msgstr "{label}：会话控制不可用。请检查该智能体的连接及其运行的应用。"
@@ -2149,6 +2153,10 @@ msgstr "在上方添加待办事项，跟踪此频道的工作。更改会自动
 #: src/bundled/todos/TodosPanel.tsx
 msgid "Add a todo…"
 msgstr "添加待办事项…"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Add a word or “phrase” to search for alongside -exclusions."
+msgstr "使用 -排除词 时，请同时输入要搜索的词或“短语”。"
 
 #. placeholder {0}: after + 1
 #: src/bundled/workflows/WorkflowForm.tsx
@@ -3012,6 +3020,10 @@ msgstr "已归档的{placeText}不能添加成员。"
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Archived {placeWord}"
 msgstr "已归档的{placeWord}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Archived channel"
+msgstr "已归档的频道"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Archived identities could not be checked."
@@ -4226,6 +4238,7 @@ msgstr "变更集：{0}"
 msgid "channel"
 msgstr "频道"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 #: src/bundled/claude-code/tabs.tsx
 #: src/bundled/codex/tabs.tsx
@@ -4351,6 +4364,7 @@ msgstr "频道模板设置"
 msgid "Channel unavailable"
 msgstr "频道不可用"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/bestie/PrivateChannels.tsx
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "channels"
@@ -4778,6 +4792,10 @@ msgstr "选择一个已连接的社区来管理成员。"
 #: src/features/user-status/StatusEditor.tsx
 msgid "Choose a date and time in the future."
 msgstr "请选择未来的日期和时间。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Choose a day"
+msgstr "选择日期"
 
 #: src/bundled/goose/setup.ts
 msgid "Choose a default model with goose configure, then try again."
@@ -5900,6 +5918,10 @@ msgstr "连接此频道后才能查看待办。"
 msgid "Connect to this community to search messages."
 msgstr "连接此社区后即可搜索消息。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Connect to this community to search people."
+msgstr "连接此社区后才能搜索人员。"
+
 #: src/features/identity/ConnectChoice.tsx
 msgid "Connect to your community"
 msgstr "连接到你的社区"
@@ -6087,6 +6109,7 @@ msgstr "最近 {0} 个 commit 的贡献者"
 msgid "conversation"
 msgstr "对话"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/inbox/InboxRow.tsx
 msgid "Conversation"
 msgstr "对话"
@@ -6537,6 +6560,10 @@ msgstr "无法将此{nounLabel}标为已读。请重试。"
 #: src/bundled/moderation/CommunityAdmin.tsx
 msgid "Could not open sharing. Try again or copy the link."
 msgstr "无法打开分享。请重试或复制链接。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Could not open the conversation. Try again."
+msgstr "无法打开对话，请重试。"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Could not open the conversation. Try Send message again."
@@ -9414,6 +9441,14 @@ msgstr "前进"
 msgid "Go to Messages"
 msgstr "前往消息"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Go to the Next Month"
+msgstr "前往下个月"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Go to the Previous Month"
+msgstr "前往上个月"
+
 #: src/bundled/link-lab/index.tsx
 msgid "Google Drive"
 msgstr "Google Drive"
@@ -10583,6 +10618,10 @@ msgstr "最后更新"
 msgid "Last verified"
 msgstr "上次验证"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Last week"
+msgstr "上周"
+
 #: src/bundled/watching/WatchRow.tsx
 msgid "Last woke"
 msgstr "上次唤醒"
@@ -10984,6 +11023,10 @@ msgstr "正在加载更多频道…"
 msgid "Loading more memories…"
 msgstr "正在加载更多记忆…"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Loading more messages…"
+msgstr "正在加载更多消息…"
+
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Loading older…"
 msgstr "正在加载更早的…"
@@ -10999,6 +11042,10 @@ msgstr "正在加载 Pi 的提供商…"
 #: src/bundled/profiles/ProfilePanel.tsx
 msgid "Loading profile…"
 msgstr "正在加载资料…"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Loading recent conversations…"
+msgstr "正在加载最近的对话…"
 
 #: src/bundled/mentions/MentionCompletion.tsx
 msgid "Loading recipients…"
@@ -11670,6 +11717,10 @@ msgstr "消息收件人"
 msgid "Message search is unavailable while this community is disconnected."
 msgstr "社区断开连接时无法搜索消息。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Message search is unavailable."
+msgstr "消息搜索暂不可用。"
+
 #: src/bundled/workflows/workflowConditionExpression.ts
 #: src/bundled/workflows/WorkflowForm.tsx
 msgid "Message text"
@@ -11703,6 +11754,10 @@ msgstr "未能保存消息宽度"
 #: src/features/solo/SoloDraft.tsx
 msgid "Message your agents"
 msgstr "给智能体发消息"
+
+#: src/app/shell/SearchResults.tsx
+msgid "messages"
+msgstr "消息"
 
 #: src/app/shell/BestieNavigation.tsx
 #: src/bundled/watching/presentation.ts
@@ -11938,7 +11993,16 @@ msgstr "更多 PR 操作"
 msgid "More services"
 msgstr "更多服务"
 
+#: src/app/shell/SearchResults.tsx
+msgid "More than one conversation is named “{operatorChannel}”. Search in that conversation instead."
+msgstr "有多个名为“{operatorChannel}”的对话，请打开目标对话后在其中搜索。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Most recent"
+msgstr "最新"
+
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 msgid "Most relevant"
 msgstr "最相关"
 
@@ -12487,6 +12551,10 @@ msgstr "未选择社区"
 msgid "No connection measurements yet."
 msgstr "还没有连接测量数据。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "No conversation named “{operatorChannel}”."
+msgstr "找不到名为“{operatorChannel}”的对话。"
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "No current step details received."
 msgstr "未收到当前步骤的详情。"
@@ -12606,6 +12674,7 @@ msgid "No matching channels with a known visible type; other memberships could n
 msgstr "没有类型已知且可见的匹配频道；其他成员身份无法分类。已加载列表之外可能还有更多频道。"
 
 #: src/app/shell/ChannelDirectoryResults.tsx
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/workflows/WorkflowChannelPicker.tsx
 msgid "No matching channels."
 msgstr "没有匹配的频道。"
@@ -12618,6 +12687,10 @@ msgstr "没有匹配的 issue 或 pull request。"
 msgid "No matching Mesh sessions in recent history for this workspace. Chat mode has no tool transcript. Sessions from older builds may not be listed."
 msgstr "此工作区最近记录中没有匹配的 Mesh 会话。聊天模式没有工具执行记录。旧版本构建的会话可能不会列出。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "No matching messages in accessible conversations."
+msgstr "可访问的对话中没有匹配的消息。"
+
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "没有匹配的页面。"
@@ -12625,6 +12698,10 @@ msgstr "没有匹配的页面。"
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "No matching people."
 msgstr "没有匹配的人员。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "No matching people. Try a different name."
+msgstr "未找到匹配的人员，请试试其他名字。"
 
 #: src/bundled/goose/tabs.tsx
 msgid "No matching providers."
@@ -12755,6 +12832,10 @@ msgstr "无近期活动"
 #: src/bundled/inbox/InboxPage.tsx
 msgid "No recent activity in this view"
 msgstr "此视图中无近期活动"
+
+#: src/app/shell/SearchResults.tsx
+msgid "No recent activity yet."
+msgstr "暂无近期活动。"
 
 #. placeholder {0}: type.title
 #: src/features/agents/AISettings.tsx
@@ -13702,6 +13783,8 @@ msgid "Opening your account…"
 msgstr "正在打开你的账户…"
 
 #. placeholder {0}: agent.name
+#. placeholder {0}: personOpen.name
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/bestie/PinnedBestie.tsx
 msgid "Opening your conversation with {0}…"
 msgstr "正在打开你与 {0} 的对话…"
@@ -14065,6 +14148,10 @@ msgid "Pending"
 msgstr "待处理"
 
 #: src/app/shell/SearchResults.tsx
+msgid "people"
+msgstr "人员"
+
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/inbox/InboxFilters.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
@@ -14090,6 +14177,10 @@ msgstr "人员与智能体"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "People not in this {placeText}"
 msgstr "不在此{placeText}中的人员"
+
+#: src/app/shell/SearchResults.tsx
+msgid "People search is unavailable. Try a longer name."
+msgstr "人员搜索暂不可用，请试试更长的名字。"
 
 #: src/features/messages/MessageReactions.tsx
 msgid "People who reacted with {name}"
@@ -14954,6 +15045,7 @@ msgid "Recent"
 msgstr "最近"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/inbox/InboxPreview.tsx
 #: src/bundled/workflows/WorkflowOperations.tsx
 msgid "Recent activity"
@@ -15334,9 +15426,19 @@ msgstr "取消挚友"
 msgid "Remove as Bestie"
 msgstr "移除 Bestie 身份"
 
+#. placeholder {0}: profile.name
+#: src/app/shell/SearchResults.tsx
+msgid "Remove author {0}"
+msgstr "移除作者筛选 {0}"
+
 #: src/features/profiles/AvatarEditor.tsx
 msgid "Remove avatar"
 msgstr "移除头像"
+
+#. placeholder {0}: channel.name
+#: src/app/shell/SearchResults.tsx
+msgid "Remove channel {0}"
+msgstr "移除频道筛选 {0}"
 
 #. placeholder {0}: index + 1
 #: src/features/messages/ComposerChatCards.tsx
@@ -15350,6 +15452,15 @@ msgstr "移除 Claude API 密钥？"
 #: src/app/CommunityDepartureSettings.tsx
 msgid "Remove community from Buzz on this device or leave community completely."
 msgstr "从此设备的 Buzz 移除社区，或完全离开社区。"
+
+#. placeholder {0}: profile.name
+#: src/app/shell/SearchResults.tsx
+msgid "Remove conversation with {0}"
+msgstr "移除与 {0} 的对话筛选"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Remove date {operand}"
+msgstr "移除日期筛选 {operand}"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
@@ -16135,6 +16246,7 @@ msgstr "重试准备消息"
 msgid "Retry message update"
 msgstr "重试更新消息"
 
+#: src/app/shell/SearchResults.tsx
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Retry messages"
 msgstr "重试加载消息"
@@ -17010,6 +17122,10 @@ msgstr "搜索社区"
 msgid "Search community people and agents"
 msgstr "搜索社区人员与智能体"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Search conversation with {channelName}"
+msgstr "在与 {channelName} 的对话中搜索"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Search covers your latest {SENT_LIMIT} messages."
 msgstr "搜索覆盖你最近的 {SENT_LIMIT} 条消息。"
@@ -17030,6 +17146,10 @@ msgstr "搜索 GIF"
 msgid "Search in"
 msgstr "搜索范围"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Search in {channelName}"
+msgstr "在 {channelName} 中搜索"
+
 #: src/bundled/repos/ResourcePicker.tsx
 msgid "Search issues and pull requests"
 msgstr "搜索 issue 和 pull request"
@@ -17042,6 +17162,10 @@ msgstr "搜索成员"
 #: src/bundled/mentions/MentionPicker.tsx
 msgid "Search members and agents"
 msgstr "搜索成员与智能体"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Search messages in this conversation"
+msgstr "搜索此对话中的消息"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Search people and agents"
@@ -17080,6 +17204,10 @@ msgstr "搜索..."
 msgid "Searching"
 msgstr "搜索中"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Searching {names}…"
+msgstr "正在搜索{names}…"
+
 #: src/bundled/mentions/MentionCompletion.tsx
 #: src/bundled/mentions/MentionPicker.tsx
 msgid "Searching community…"
@@ -17089,6 +17217,11 @@ msgstr "正在搜索社区…"
 msgid "Searching emoji…"
 msgstr "正在搜索表情…"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Searching people…"
+msgstr "正在搜索人员…"
+
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Searching…"
 msgstr "正在搜索…"
@@ -17822,6 +17955,10 @@ msgstr "显示更多"
 msgid "Show more chats in {0}"
 msgstr "在 {0} 中显示更多聊天"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Show more messages"
+msgstr "显示更多消息"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Show my local time on my profile"
 msgstr "在个人资料中显示我的当地时间"
@@ -18254,6 +18391,10 @@ msgstr "排序"
 #: src/bundled/channels/SidebarSection.tsx
 msgid "Sort {sectionTitle}"
 msgstr "排序 {sectionTitle}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Sort messages"
+msgstr "消息排序"
 
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "Sort workflows"
@@ -19573,6 +19714,10 @@ msgstr "此智能体已无法接收私信。请选择其他人。"
 msgid "This agent is no longer available in this community."
 msgstr "此智能体在此社区中已不再可用。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "This agent is not ready to message in this community."
+msgstr "此智能体暂时无法在此社区接收消息。"
+
 #: src/bundled/watching/Tab.tsx
 msgid "This agent isn't running on this device."
 msgstr "此智能体未在此设备上运行。"
@@ -19727,6 +19872,7 @@ msgid "this conversation"
 msgstr "此对话"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 msgid "This conversation"
 msgstr "此对话"
 
@@ -19876,6 +20022,10 @@ msgstr "此 Huddle 窗口不可用。请从 Buzz 重新打开。"
 msgid "This identity has a deletion request saved from a different app address on this device. It can't be checked here, so contact support before starting another deletion."
 msgstr "此身份有一个从此设备上另一个应用地址保存的删除请求。无法在此处检查，因此在开始另一次删除之前，请联系支持人员。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "This identity is archived or being deleted in this community."
+msgstr "此身份已在此社区归档或正在删除。"
+
 #: src/bundled/watching/WatchRow.tsx
 msgid "This interest is paused. Resume it to run enabled watches."
 msgstr "此兴趣已暂停。恢复它即可运行已启用的监视项。"
@@ -19960,6 +20110,10 @@ msgstr "消息投递状态已变化，请取消操作以查看当前状态。"
 #: src/bundled/codex/tabs.tsx
 msgid "This model isn’t available. Choose another model to continue."
 msgstr "此模型不可用。请选择其他模型继续。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "This month"
+msgstr "本月"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "This name is only visible to you. Other users can’t see your display name for this community."
@@ -20173,6 +20327,7 @@ msgstr "此版本移除了此配置。"
 msgid "This watch no longer exists."
 msgstr "此监视项已不存在。"
 
+#: src/app/shell/SearchResults.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "本周"
@@ -20200,6 +20355,10 @@ msgstr "此工作流仍在已保存的配置中。删除前请再次检查。"
 #: src/bundled/workflows/workflowActivationWarning.ts
 msgid "This workflow may run often"
 msgstr "此工作流可能频繁运行"
+
+#: src/app/shell/SearchResults.tsx
+msgid "This year"
+msgstr "今年"
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Thought"
@@ -20364,12 +20523,17 @@ msgstr "收件人："
 msgid "today"
 msgstr "今天"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/reminders/model.ts
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/features/user-status/StatusEditor.tsx
 #: src/shared/datetime.ts
 msgid "Today"
 msgstr "今天"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Today, {date}"
+msgstr "今天，{date}"
 
 #: src/bundled/todos/index.tsx
 #: src/bundled/todos/TodosPanel.tsx
@@ -20648,10 +20812,23 @@ msgstr "已打开二十个终端会话。请先结束一个再打开另一个。
 msgid "Type “{WIPE_PHRASE}” to confirm"
 msgstr "输入“{WIPE_PHRASE}”以确认"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Type a name to search people."
+msgstr "输入名字以搜索人员。"
+
 #: src/bundled/terminal/TerminalSettings.tsx
 msgid "Type an installed font family name. For Nerd Fonts, use a Mono variant for cell alignment."
 msgstr "输入已安装的字体族名称。对于 Nerd Fonts，请使用 Mono 变体以保证单元格对齐。"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Type at least {minMessageLength} characters in the last word to search messages."
+msgstr "最后一个词至少输入 {minMessageLength} 个字符才能搜索消息。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Type at least {minMessageLength} characters to search messages."
+msgstr "至少输入 {minMessageLength} 个字符才能搜索消息。"
+
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
@@ -20664,6 +20841,14 @@ msgstr "输入确切的主机名"
 #: src/bundled/emoji/CustomEmojiSettings.tsx
 msgid "Type this name between colons in messages and reactions."
 msgstr "在消息和表情回应中输入两端带冒号的此名称。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Type to search messages in this community."
+msgstr "输入关键词以搜索此社区中的消息。"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Type to search messages in this conversation."
+msgstr "输入关键词以搜索此对话中的消息。"
 
 #: src/bundled/agents/AgentSettingsHost.tsx
 #: src/bundled/agents/AgentsPage.tsx
@@ -20900,6 +21085,7 @@ msgstr "未命名或格式错误的工作流"
 msgid "Unnamed status"
 msgstr "未命名状态"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/inbox/InboxFilters.tsx
 msgid "Unread"
 msgstr "未读"
@@ -22135,6 +22321,7 @@ msgstr "YAML"
 msgid "YAML must be an object"
 msgstr "YAML 必须是对象"
 
+#: src/app/shell/SearchResults.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/shared/datetime.ts
 msgid "Yesterday"

@@ -51,6 +51,7 @@ const nonIconDependencies = new Set([
   "@vitejs/plugin-react",
   "@xterm/addon-fit",
   "@xterm/xterm",
+  "babel-plugin-macros", // Expands Lingui's UI localization macros.
   "blurhash",
   "consola", // Runtime logging, not an icon catalog.
   "d3-scale", // Chart scales and ticks; marks are Buzz-rendered SVG.

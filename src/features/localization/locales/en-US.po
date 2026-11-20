@@ -1313,6 +1313,10 @@ msgstr "{label} time"
 msgid "{label} watches"
 msgstr "{label} watches"
 
+#: src/app/shell/SearchResults.tsx
+msgid "{label}, selected"
+msgstr "{label}, selected"
+
 #: src/features/messages/ComposerModels.tsx
 msgid "{label}: session controls unavailable. Check the agent's connection and the app running it."
 msgstr "{label}: session controls unavailable. Check the agent's connection and the app running it."
@@ -2149,6 +2153,10 @@ msgstr "Add a todo above to track work with this channel. Changes save automatic
 #: src/bundled/todos/TodosPanel.tsx
 msgid "Add a todo…"
 msgstr "Add a todo…"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Add a word or “phrase” to search for alongside -exclusions."
+msgstr "Add a word or “phrase” to search for alongside -exclusions."
 
 #. placeholder {0}: after + 1
 #: src/bundled/workflows/WorkflowForm.tsx
@@ -3012,6 +3020,10 @@ msgstr "Archived {placeText}s cannot add members."
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "Archived {placeWord}"
 msgstr "Archived {placeWord}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Archived channel"
+msgstr "Archived channel"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Archived identities could not be checked."
@@ -4226,6 +4238,7 @@ msgstr "Changeset: {0}"
 msgid "channel"
 msgstr "channel"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 #: src/bundled/claude-code/tabs.tsx
 #: src/bundled/codex/tabs.tsx
@@ -4351,6 +4364,7 @@ msgstr "Channel templates settings"
 msgid "Channel unavailable"
 msgstr "Channel unavailable"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/bestie/PrivateChannels.tsx
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "channels"
@@ -4778,6 +4792,10 @@ msgstr "Choose a connected community to manage members."
 #: src/features/user-status/StatusEditor.tsx
 msgid "Choose a date and time in the future."
 msgstr "Choose a date and time in the future."
+
+#: src/app/shell/SearchResults.tsx
+msgid "Choose a day"
+msgstr "Choose a day"
 
 #: src/bundled/goose/setup.ts
 msgid "Choose a default model with goose configure, then try again."
@@ -5900,6 +5918,10 @@ msgstr "Connect to this channel to view todos."
 msgid "Connect to this community to search messages."
 msgstr "Connect to this community to search messages."
 
+#: src/app/shell/SearchResults.tsx
+msgid "Connect to this community to search people."
+msgstr "Connect to this community to search people."
+
 #: src/features/identity/ConnectChoice.tsx
 msgid "Connect to your community"
 msgstr "Connect to your community"
@@ -6087,6 +6109,7 @@ msgstr "Contributors in the latest {0} commits"
 msgid "conversation"
 msgstr "conversation"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/inbox/InboxRow.tsx
 msgid "Conversation"
 msgstr "Conversation"
@@ -6537,6 +6560,10 @@ msgstr "Could not mark this {nounLabel} as read. Try again."
 #: src/bundled/moderation/CommunityAdmin.tsx
 msgid "Could not open sharing. Try again or copy the link."
 msgstr "Could not open sharing. Try again or copy the link."
+
+#: src/app/shell/SearchResults.tsx
+msgid "Could not open the conversation. Try again."
+msgstr "Could not open the conversation. Try again."
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Could not open the conversation. Try Send message again."
@@ -9414,6 +9441,14 @@ msgstr "Go forward"
 msgid "Go to Messages"
 msgstr "Go to Messages"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Go to the Next Month"
+msgstr "Go to the Next Month"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Go to the Previous Month"
+msgstr "Go to the Previous Month"
+
 #: src/bundled/link-lab/index.tsx
 msgid "Google Drive"
 msgstr "Google Drive"
@@ -10583,6 +10618,10 @@ msgstr "Last updated"
 msgid "Last verified"
 msgstr "Last verified"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Last week"
+msgstr "Last week"
+
 #: src/bundled/watching/WatchRow.tsx
 msgid "Last woke"
 msgstr "Last woke"
@@ -10984,6 +11023,10 @@ msgstr "Loading more channels…"
 msgid "Loading more memories…"
 msgstr "Loading more memories…"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Loading more messages…"
+msgstr "Loading more messages…"
+
 #: src/features/messages/ChannelTimeline.tsx
 msgid "Loading older…"
 msgstr "Loading older…"
@@ -10999,6 +11042,10 @@ msgstr "Loading Pi's providers…"
 #: src/bundled/profiles/ProfilePanel.tsx
 msgid "Loading profile…"
 msgstr "Loading profile…"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Loading recent conversations…"
+msgstr "Loading recent conversations…"
 
 #: src/bundled/mentions/MentionCompletion.tsx
 msgid "Loading recipients…"
@@ -11670,6 +11717,10 @@ msgstr "Message recipients"
 msgid "Message search is unavailable while this community is disconnected."
 msgstr "Message search is unavailable while this community is disconnected."
 
+#: src/app/shell/SearchResults.tsx
+msgid "Message search is unavailable."
+msgstr "Message search is unavailable."
+
 #: src/bundled/workflows/workflowConditionExpression.ts
 #: src/bundled/workflows/WorkflowForm.tsx
 msgid "Message text"
@@ -11703,6 +11754,10 @@ msgstr "Message width wasn’t saved"
 #: src/features/solo/SoloDraft.tsx
 msgid "Message your agents"
 msgstr "Message your agents"
+
+#: src/app/shell/SearchResults.tsx
+msgid "messages"
+msgstr "messages"
 
 #: src/app/shell/BestieNavigation.tsx
 #: src/bundled/watching/presentation.ts
@@ -11938,7 +11993,16 @@ msgstr "More pull request actions"
 msgid "More services"
 msgstr "More services"
 
+#: src/app/shell/SearchResults.tsx
+msgid "More than one conversation is named “{operatorChannel}”. Search in that conversation instead."
+msgstr "More than one conversation is named “{operatorChannel}”. Search in that conversation instead."
+
+#: src/app/shell/SearchResults.tsx
+msgid "Most recent"
+msgstr "Most recent"
+
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 msgid "Most relevant"
 msgstr "Most relevant"
 
@@ -12487,6 +12551,10 @@ msgstr "No community selected"
 msgid "No connection measurements yet."
 msgstr "No connection measurements yet."
 
+#: src/app/shell/SearchResults.tsx
+msgid "No conversation named “{operatorChannel}”."
+msgstr "No conversation named “{operatorChannel}”."
+
 #: src/features/messages/TypingIndicator.tsx
 msgid "No current step details received."
 msgstr "No current step details received."
@@ -12606,6 +12674,7 @@ msgid "No matching channels with a known visible type; other memberships could n
 msgstr "No matching channels with a known visible type; other memberships could not be classified. More channels may exist outside the loaded list."
 
 #: src/app/shell/ChannelDirectoryResults.tsx
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/workflows/WorkflowChannelPicker.tsx
 msgid "No matching channels."
 msgstr "No matching channels."
@@ -12618,6 +12687,10 @@ msgstr "No matching issues or pull requests."
 msgid "No matching Mesh sessions in recent history for this workspace. Chat mode has no tool transcript. Sessions from older builds may not be listed."
 msgstr "No matching Mesh sessions in recent history for this workspace. Chat mode has no tool transcript. Sessions from older builds may not be listed."
 
+#: src/app/shell/SearchResults.tsx
+msgid "No matching messages in accessible conversations."
+msgstr "No matching messages in accessible conversations."
+
 #: src/app/shell/PageSearch.tsx
 msgid "No matching pages."
 msgstr "No matching pages."
@@ -12625,6 +12698,10 @@ msgstr "No matching pages."
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "No matching people."
 msgstr "No matching people."
+
+#: src/app/shell/SearchResults.tsx
+msgid "No matching people. Try a different name."
+msgstr "No matching people. Try a different name."
 
 #: src/bundled/goose/tabs.tsx
 msgid "No matching providers."
@@ -12755,6 +12832,10 @@ msgstr "No recent activity"
 #: src/bundled/inbox/InboxPage.tsx
 msgid "No recent activity in this view"
 msgstr "No recent activity in this view"
+
+#: src/app/shell/SearchResults.tsx
+msgid "No recent activity yet."
+msgstr "No recent activity yet."
 
 #. placeholder {0}: type.title
 #: src/features/agents/AISettings.tsx
@@ -13702,6 +13783,8 @@ msgid "Opening your account…"
 msgstr "Opening your account…"
 
 #. placeholder {0}: agent.name
+#. placeholder {0}: personOpen.name
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/bestie/PinnedBestie.tsx
 msgid "Opening your conversation with {0}…"
 msgstr "Opening your conversation with {0}…"
@@ -14065,6 +14148,10 @@ msgid "Pending"
 msgstr "Pending"
 
 #: src/app/shell/SearchResults.tsx
+msgid "people"
+msgstr "people"
+
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/inbox/InboxFilters.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
@@ -14090,6 +14177,10 @@ msgstr "People and agents"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "People not in this {placeText}"
 msgstr "People not in this {placeText}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "People search is unavailable. Try a longer name."
+msgstr "People search is unavailable. Try a longer name."
 
 #: src/features/messages/MessageReactions.tsx
 msgid "People who reacted with {name}"
@@ -14954,6 +15045,7 @@ msgid "Recent"
 msgstr "Recent"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/inbox/InboxPreview.tsx
 #: src/bundled/workflows/WorkflowOperations.tsx
 msgid "Recent activity"
@@ -15334,9 +15426,19 @@ msgstr "Remove as bestie"
 msgid "Remove as Bestie"
 msgstr "Remove as Bestie"
 
+#. placeholder {0}: profile.name
+#: src/app/shell/SearchResults.tsx
+msgid "Remove author {0}"
+msgstr "Remove author {0}"
+
 #: src/features/profiles/AvatarEditor.tsx
 msgid "Remove avatar"
 msgstr "Remove avatar"
+
+#. placeholder {0}: channel.name
+#: src/app/shell/SearchResults.tsx
+msgid "Remove channel {0}"
+msgstr "Remove channel {0}"
 
 #. placeholder {0}: index + 1
 #: src/features/messages/ComposerChatCards.tsx
@@ -15350,6 +15452,15 @@ msgstr "Remove Claude API key?"
 #: src/app/CommunityDepartureSettings.tsx
 msgid "Remove community from Buzz on this device or leave community completely."
 msgstr "Remove community from Buzz on this device or leave community completely."
+
+#. placeholder {0}: profile.name
+#: src/app/shell/SearchResults.tsx
+msgid "Remove conversation with {0}"
+msgstr "Remove conversation with {0}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Remove date {operand}"
+msgstr "Remove date {operand}"
 
 #. placeholder {0}: recipient.name
 #. placeholder {1}: recipient.pubkey.slice(0, 8)
@@ -16135,6 +16246,7 @@ msgstr "Retry message preparation"
 msgid "Retry message update"
 msgstr "Retry message update"
 
+#: src/app/shell/SearchResults.tsx
 #: src/features/direct-messages/NewMessage.tsx
 msgid "Retry messages"
 msgstr "Retry messages"
@@ -17010,6 +17122,10 @@ msgstr "Search communities"
 msgid "Search community people and agents"
 msgstr "Search community people and agents"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Search conversation with {channelName}"
+msgstr "Search conversation with {channelName}"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Search covers your latest {SENT_LIMIT} messages."
 msgstr "Search covers your latest {SENT_LIMIT} messages."
@@ -17030,6 +17146,10 @@ msgstr "Search GIFs"
 msgid "Search in"
 msgstr "Search in"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Search in {channelName}"
+msgstr "Search in {channelName}"
+
 #: src/bundled/repos/ResourcePicker.tsx
 msgid "Search issues and pull requests"
 msgstr "Search issues and pull requests"
@@ -17042,6 +17162,10 @@ msgstr "Search members"
 #: src/bundled/mentions/MentionPicker.tsx
 msgid "Search members and agents"
 msgstr "Search members and agents"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Search messages in this conversation"
+msgstr "Search messages in this conversation"
 
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Search people and agents"
@@ -17080,6 +17204,10 @@ msgstr "Search..."
 msgid "Searching"
 msgstr "Searching"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Searching {names}…"
+msgstr "Searching {names}…"
+
 #: src/bundled/mentions/MentionCompletion.tsx
 #: src/bundled/mentions/MentionPicker.tsx
 msgid "Searching community…"
@@ -17089,6 +17217,11 @@ msgstr "Searching community…"
 msgid "Searching emoji…"
 msgstr "Searching emoji…"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Searching people…"
+msgstr "Searching people…"
+
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "Searching…"
 msgstr "Searching…"
@@ -17822,6 +17955,10 @@ msgstr "Show more"
 msgid "Show more chats in {0}"
 msgstr "Show more chats in {0}"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Show more messages"
+msgstr "Show more messages"
+
 #: src/features/profiles/TimeZoneField.tsx
 msgid "Show my local time on my profile"
 msgstr "Show my local time on my profile"
@@ -18254,6 +18391,10 @@ msgstr "Sort"
 #: src/bundled/channels/SidebarSection.tsx
 msgid "Sort {sectionTitle}"
 msgstr "Sort {sectionTitle}"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Sort messages"
+msgstr "Sort messages"
 
 #: src/bundled/workflows/WorkflowLanding.tsx
 msgid "Sort workflows"
@@ -19573,6 +19714,10 @@ msgstr "This agent is no longer available for direct messages. Choose another pe
 msgid "This agent is no longer available in this community."
 msgstr "This agent is no longer available in this community."
 
+#: src/app/shell/SearchResults.tsx
+msgid "This agent is not ready to message in this community."
+msgstr "This agent is not ready to message in this community."
+
 #: src/bundled/watching/Tab.tsx
 msgid "This agent isn't running on this device."
 msgstr "This agent isn't running on this device."
@@ -19727,6 +19872,7 @@ msgid "this conversation"
 msgstr "this conversation"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/SearchResults.tsx
 msgid "This conversation"
 msgstr "This conversation"
 
@@ -19876,6 +20022,10 @@ msgstr "This Huddle window is unavailable. Reopen it from Buzz."
 msgid "This identity has a deletion request saved from a different app address on this device. It can't be checked here, so contact support before starting another deletion."
 msgstr "This identity has a deletion request saved from a different app address on this device. It can't be checked here, so contact support before starting another deletion."
 
+#: src/app/shell/SearchResults.tsx
+msgid "This identity is archived or being deleted in this community."
+msgstr "This identity is archived or being deleted in this community."
+
 #: src/bundled/watching/WatchRow.tsx
 msgid "This interest is paused. Resume it to run enabled watches."
 msgstr "This interest is paused. Resume it to run enabled watches."
@@ -19960,6 +20110,10 @@ msgstr "This message’s delivery changed. Cancel to see its current status."
 #: src/bundled/codex/tabs.tsx
 msgid "This model isn’t available. Choose another model to continue."
 msgstr "This model isn’t available. Choose another model to continue."
+
+#: src/app/shell/SearchResults.tsx
+msgid "This month"
+msgstr "This month"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "This name is only visible to you. Other users can’t see your display name for this community."
@@ -20173,6 +20327,7 @@ msgstr "This version removed this configuration."
 msgid "This watch no longer exists."
 msgstr "This watch no longer exists."
 
+#: src/app/shell/SearchResults.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "This week"
 msgstr "This week"
@@ -20200,6 +20355,10 @@ msgstr "This workflow is still in saved configuration. Check again before deleti
 #: src/bundled/workflows/workflowActivationWarning.ts
 msgid "This workflow may run often"
 msgstr "This workflow may run often"
+
+#: src/app/shell/SearchResults.tsx
+msgid "This year"
+msgstr "This year"
 
 #: src/features/agents/ActivityTranscript.tsx
 msgid "Thought"
@@ -20364,12 +20523,17 @@ msgstr "To:"
 msgid "today"
 msgstr "today"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/reminders/model.ts
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/features/user-status/StatusEditor.tsx
 #: src/shared/datetime.ts
 msgid "Today"
 msgstr "Today"
+
+#: src/app/shell/SearchResults.tsx
+msgid "Today, {date}"
+msgstr "Today, {date}"
 
 #: src/bundled/todos/index.tsx
 #: src/bundled/todos/TodosPanel.tsx
@@ -20648,10 +20812,23 @@ msgstr "Twenty terminal sessions are open. End one before opening another."
 msgid "Type “{WIPE_PHRASE}” to confirm"
 msgstr "Type “{WIPE_PHRASE}” to confirm"
 
+#: src/app/shell/SearchResults.tsx
+msgid "Type a name to search people."
+msgstr "Type a name to search people."
+
 #: src/bundled/terminal/TerminalSettings.tsx
 msgid "Type an installed font family name. For Nerd Fonts, use a Mono variant for cell alignment."
 msgstr "Type an installed font family name. For Nerd Fonts, use a Mono variant for cell alignment."
 
+#: src/app/shell/SearchResults.tsx
+msgid "Type at least {minMessageLength} characters in the last word to search messages."
+msgstr "Type at least {minMessageLength} characters in the last word to search messages."
+
+#: src/app/shell/SearchResults.tsx
+msgid "Type at least {minMessageLength} characters to search messages."
+msgstr "Type at least {minMessageLength} characters to search messages."
+
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/features/direct-messages/RecipientPicker.tsx
 msgid "Type at least {SEARCH_MIN_CHARS} characters to search people."
@@ -20664,6 +20841,14 @@ msgstr "Type the exact host"
 #: src/bundled/emoji/CustomEmojiSettings.tsx
 msgid "Type this name between colons in messages and reactions."
 msgstr "Type this name between colons in messages and reactions."
+
+#: src/app/shell/SearchResults.tsx
+msgid "Type to search messages in this community."
+msgstr "Type to search messages in this community."
+
+#: src/app/shell/SearchResults.tsx
+msgid "Type to search messages in this conversation."
+msgstr "Type to search messages in this conversation."
 
 #: src/bundled/agents/AgentSettingsHost.tsx
 #: src/bundled/agents/AgentsPage.tsx
@@ -20900,6 +21085,7 @@ msgstr "Unnamed or malformed workflow"
 msgid "Unnamed status"
 msgstr "Unnamed status"
 
+#: src/app/shell/SearchResults.tsx
 #: src/bundled/inbox/InboxFilters.tsx
 msgid "Unread"
 msgstr "Unread"
@@ -22135,6 +22321,7 @@ msgstr "YAML"
 msgid "YAML must be an object"
 msgstr "YAML must be an object"
 
+#: src/app/shell/SearchResults.tsx
 #: src/features/drafts-sent/DraftsSentPage.tsx
 #: src/shared/datetime.ts
 msgid "Yesterday"

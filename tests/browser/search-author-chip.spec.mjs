@@ -8,17 +8,20 @@ test("selected author remains a removable chip through typing and date completio
   page,
   app,
 }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("buzz-language.v1", "zh-CN");
+  });
   await page.goto(app.origin);
-  await page.getByRole("button", { name: "Search Buzz", exact: true }).click();
-  const dialog = page.getByRole("dialog", { name: "Search Buzz" });
-  const input = dialog.getByRole("combobox", { name: "Search Buzz" });
+  await page.getByRole("button", { name: "搜索 Buzz", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "搜索 Buzz" });
+  const input = dialog.getByRole("combobox", { name: "搜索 Buzz" });
   await input.fill("from:@fixture");
   await dialog
-    .getByRole("group", { name: "People" })
+    .getByRole("group", { name: "人员" })
     .getByRole("option", { name: /Fixture Reader/ })
     .click();
   const chip = dialog.getByRole("button", {
-    name: "Remove author Fixture Reader",
+    name: "移除作者筛选 Fixture Reader",
   });
   await expect(chip).toHaveCount(1);
   await expect(chip).toHaveAttribute("title", npubEncode(app.viewer));
@@ -39,13 +42,13 @@ test("selected author remains a removable chip through typing and date completio
   await input.pressSequentially("deploy before:");
   await expect(input).toHaveValue("deploy before:");
   await dialog
-    .getByRole("group", { name: "Dates" })
-    .getByRole("option", { name: /Yesterday/ })
+    .getByRole("group", { name: "日期" })
+    .getByRole("option", { name: /昨天/ })
     .click();
   await expect(chip).toBeVisible();
   await expect(
     dialog.getByRole("button", {
-      name: /^Remove date before:\d{4}-\d{2}-\d{2}$/,
+      name: /^移除日期筛选 before:\d{4}-\d{2}-\d{2}$/,
     }),
   ).toBeVisible();
   await expect(input).toHaveValue("deploy ");

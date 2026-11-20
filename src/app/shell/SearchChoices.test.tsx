@@ -188,3 +188,31 @@ it("keeps a footer below the results, outside their scrollport, so it stays in v
     "data-search-footer",
   );
 });
+
+it("marks localized group and chip labels with the caller's language", () => {
+  render(
+    <SearchChoices
+      query=""
+      onQueryChange={() => {}}
+      input={createRef<HTMLElement>()}
+      labelLang="zh-CN"
+      chips={[
+        {
+          operand: "from:alice",
+          text: "from:@Alice",
+          edit: "from:@Alice",
+          label: "移除作者筛选 Alice",
+        },
+      ]}
+      groups={[{ label: "人员", destinations: [], empty: "没有匹配的人员。" }]}
+    />,
+  );
+
+  expect(screen.getByRole("group", { name: "人员" })).toHaveAttribute(
+    "lang",
+    "zh-CN",
+  );
+  expect(
+    screen.getByRole("button", { name: "移除作者筛选 Alice" }),
+  ).toHaveAttribute("lang", "zh-CN");
+});
