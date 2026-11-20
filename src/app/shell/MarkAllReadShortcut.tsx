@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { channelHasUnread } from "../../bundled/channels/useSidebarFilters";
@@ -54,12 +55,12 @@ export function MarkAllReadShortcut({
   // A different session retires an open question about the old one.
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only the session retires it.
   useEffect(() => setAsking(undefined), [session]);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: t 每次渲染重建，重新注册快捷键只需 session 变化。
   useEffect(() => {
     if (!session || !name) return;
     return shortcuts.registerHost({
       id: "mark-all-read",
-      title: t`Mark all as read`,
+      title: "Mark all as read",
+      titleMessage: msg`Mark all as read`,
       binding: { key: "Escape", shift: true },
       order: 76,
       allowInEditable: true,

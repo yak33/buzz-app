@@ -1,12 +1,14 @@
 // @vitest-environment jsdom
 import { afterEach, expect, it, vi } from "vitest";
+import { i18n } from "../../features/localization/service";
+import type { Pages } from "../../features/pages/service";
 import { apply } from "./index";
 import manifest from "./manifest.json";
 
 afterEach(() => vi.restoreAllMocks());
 it("opens the Activity page with filters from four chords, including from the composer", () => {
   const shortcuts = { register: vi.fn() };
-  const pages = { register: vi.fn() };
+  const pages = { register: vi.fn<Pages["register"]>() };
   const open = vi.fn();
   apply({
     pages,
@@ -56,7 +58,11 @@ it("opens the Activity page with filters from four chords, including from the co
   expect(orders.size).toBe(4);
   const [page] = pages.register.mock.calls[0] ?? [];
   // Shown as Activity; the page id and route stay "inbox".
-  expect(page).toMatchObject({ id: "inbox", title: "Activity" });
+  if (!page?.route) throw new Error("Missing Activity page route");
+  const title =
+    typeof page.title === "string" ? page.title : i18n._(page.title);
+  expect(page.id).toBe("inbox");
+  expect(title).toBe("Activity");
   expect(page.route.version).toBe(1);
   expect(page.route.validate({ activity: "threads" })).toBe(true);
   expect(page.route.validate({ activity: "bogus" })).toBe(false);

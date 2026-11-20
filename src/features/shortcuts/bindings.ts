@@ -1,4 +1,6 @@
 // FOUNDATION: In-app key matching. Local editors handle events before this layer.
+import type { MessageDescriptor } from "@lingui/core";
+
 export type KeyBinding = Readonly<{
   key: string;
   /** Command on Apple platforms, Control elsewhere. Other modifiers match exactly. */
@@ -11,6 +13,8 @@ export type KeyBinding = Readonly<{
 export type Shortcut = Readonly<{
   id: string;
   title: string;
+  /** Optional label translated by the host when it displays the shortcut. */
+  titleMessage?: MessageDescriptor;
   binding: KeyBinding | readonly KeyBinding[];
   run: () => void | Promise<void>;
   /** Read current state; false makes this registration ineligible. */
@@ -36,6 +40,9 @@ export function normalizeShortcut(shortcut: Shortcut): NormalizedShortcut {
     !/^[a-z0-9][a-z0-9._-]*$/.test(shortcut.id) ||
     typeof shortcut.title !== "string" ||
     !shortcut.title.trim() ||
+    (shortcut.titleMessage !== undefined &&
+      (typeof shortcut.titleMessage?.id !== "string" ||
+        !shortcut.titleMessage.id.trim())) ||
     typeof shortcut.run !== "function" ||
     (shortcut.when !== undefined && typeof shortcut.when !== "function") ||
     [

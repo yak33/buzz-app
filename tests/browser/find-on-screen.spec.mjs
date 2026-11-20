@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { watchPageErrors } from "./page-errors.mjs";
+import { localizationPlugin } from "../../scripts/localization-plugin.ts";
 
 let server;
 let directory;
@@ -20,7 +21,7 @@ test.beforeAll(async () => {
     configFile: false,
     envFile: false,
     logLevel: "error",
-    plugins: [react()],
+    plugins: [react(), localizationPlugin()],
     build: {
       rollupOptions: {
         input: join(root, "tests/browser/find-on-screen.html"),
@@ -44,6 +45,10 @@ test.afterAll(async () => {
 
 const bar = (page) => page.locator("search");
 const field = (page) => page.getByRole("searchbox", { name: "Find on screen" });
+async function openFind(page) {
+  await page.waitForFunction(() => typeof window.openFind === "function");
+  await page.evaluate(() => window.openFind());
+}
 const box = (locator) =>
   locator.evaluate((element) => {
     const { x, y, width, height } = element.getBoundingClientRect();
@@ -78,7 +83,7 @@ test("the bar keeps the window's top-right corner inside a dialog", async ({
   const errors = watchPageErrors(page);
   await page.setViewportSize({ width: 1200, height: 800 });
   await page.goto(url);
-  await page.evaluate(() => window.openFind());
+  await openFind(page);
   await expect(field(page)).toBeFocused();
   const outside = await box(bar(page));
   await field(page).press("Escape");
@@ -86,7 +91,7 @@ test("the bar keeps the window's top-right corner inside a dialog", async ({
   await page.evaluate(() => window.setModal(true));
   const dialog = page.getByRole("dialog", { name: "Members" });
   await expect(dialog).toBeVisible();
-  await page.evaluate(() => window.openFind());
+  await openFind(page);
   await expect(dialog.locator("search")).toHaveCount(1);
   await expect(field(page)).toBeFocused();
   expect(await box(bar(page))).toEqual(outside);
@@ -104,18 +109,22 @@ test("the bar keeps the window's top-right corner inside a dialog", async ({
 test("stepping reveals each match in a long code block", async ({ page }) => {
   const errors = watchPageErrors(page);
   await page.setViewportSize({ width: 900, height: 700 });
+  await page.addInitScript(() => {
+    localStorage.setItem("buzz-language.v1", "zh-CN");
+  });
   await page.goto(url);
-  await page.evaluate(() => window.openFind());
-  await field(page).fill("needle");
+  await openFind(page);
+  const chineseField = page.getByRole("searchbox", { name: "在页面内查找" });
+  await chineseField.fill("needle");
   const status = page.locator("search [role=status]");
-  await expect(status).toHaveText("1 of 2");
+  await expect(status).toHaveText("第 1 项，共 2 项");
   expect(await activeMatch(page)).toEqual({ text: "needle", shown: true });
-  await field(page).press("Enter");
-  await expect(status).toHaveText("2 of 2");
+  await chineseField.press("Enter");
+  await expect(status).toHaveText("第 2 项，共 2 项");
   expect(await activeMatch(page)).toEqual({ text: "needle", shown: true });
 
-  await field(page).fill("farright");
-  await expect(status).toHaveText("1 of 1");
+  await chineseField.fill("farright");
+  await expect(status).toHaveText("第 1 项，共 1 项");
   await expect
     .poll(() => activeMatch(page))
     .toEqual({ text: "farright", shown: true });

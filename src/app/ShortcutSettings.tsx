@@ -12,7 +12,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import type { I18n } from "@lingui/core";
+import type { I18n, MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { isTauri } from "@tauri-apps/api/core";
@@ -27,6 +27,7 @@ import {
   composerFormats,
   formatBindings,
   linkBindings,
+  type ComposerFormat,
 } from "../features/messages/composer-dom";
 import { KeyCombo } from "../features/shortcuts/KeyCombo";
 import {
@@ -46,6 +47,7 @@ import { i18n as defaultI18n } from "../features/localization/service";
 type Row = Readonly<{
   key: string;
   title: string;
+  titleLang: string;
   owner: string;
   /** Owner-defined presentation order within the Settings category. */
   order: number;
@@ -71,13 +73,25 @@ type Notice = Readonly<{
 }>;
 
 /** The message editor's own keys, shown read-only: it handles them before any shortcut. */
+const EDITOR_FORMAT_LABELS = {
+  bold: msg`Bold`,
+  italic: msg`Italic`,
+  strike: msg`Strikethrough`,
+  spoiler: msg`Spoiler`,
+  code: msg`Code`,
+  code_block: msg`Code block`,
+  bullet_list: msg`Bullet list`,
+  ordered_list: msg`Ordered list`,
+  blockquote: msg`Quote`,
+} satisfies Record<ComposerFormat, MessageDescriptor>;
+
 const editorRows = (
   sendWithModEnter: boolean,
-  i18n: Pick<I18n, "_"> = defaultI18n,
+  i18n: Pick<I18n, "_" | "locale"> = defaultI18n,
 ): readonly Row[] =>
   [
     ...composerFormats.map((format) => ({
-      title: format.label,
+      title: i18n._(EDITOR_FORMAT_LABELS[format.mark]),
       bindings: formatBindings(format),
     })),
     { title: i18n._(msg`Add or edit link`), bindings: linkBindings },
@@ -104,6 +118,7 @@ const editorRows = (
   ].map(({ title, bindings }, order) => ({
     key: `editor:${title}`,
     title,
+    titleLang: i18n.locale,
     owner: i18n._(msg`Message formatting`),
     order,
     readOnly: true,
@@ -226,9 +241,13 @@ function useShortcutGroups({
     readOnly = false,
   ): Row => {
     const override = overrides[key];
+    const message = shortcut.titleMessage;
     return {
       key,
-      title: shortcut.title,
+      title: message
+        ? i18n._(message.id, message.values, { message: shortcut.title })
+        : shortcut.title,
+      titleLang: message ? i18n.locale : "",
       owner,
       order: shortcut.order,
       readOnly,
@@ -390,9 +409,7 @@ export function ShortcutSettings({
       // Key names stay English; only the sentence around them is translated.
       const modifiers = apple ? "Command or Option" : "Control or Alt";
       return refuse(
-        i18n._(
-          msg`Include ${modifiers} so ordinary typing keeps working.`,
-        ),
+        i18n._(msg`Include ${modifiers} so ordinary typing keeps working.`),
       );
     }
     // Apple's ⌥⇧⌘V browser paste types a layout-specific key, so match the physical V.
@@ -615,7 +632,7 @@ function ShortcutRow({
     <article aria-labelledby={titleId}>
       <PreferenceRow
         title={
-          <h4 id={titleId} className="m-0 text-label-sm">
+          <h4 id={titleId} className="m-0 text-label-sm" lang={row.titleLang}>
             {row.title}
           </h4>
         }

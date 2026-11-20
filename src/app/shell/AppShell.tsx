@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { ActivityNavigationProvider } from "./ActivityNavigation";
 import { PageNavigation } from "./PageNavigation";
@@ -217,6 +218,7 @@ function AppShellContent({
       searchServices?.shortcuts.registerHost({
         id: "new",
         title: "Open New menu",
+        titleMessage: msg`Open New menu`,
         binding: { key: "n", mod: true },
         order: 75,
         allowInEditable: true,

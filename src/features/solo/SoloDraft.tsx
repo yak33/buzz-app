@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { linkedDraftKey, readLinkedChat, type LinkedChat } from "./linked-chat";
 import {
   canonicalDetailsName,
@@ -177,8 +179,7 @@ const openNewChats = new Set<{
 /** The prompt last given back to each New chat, as saved, so a later refusal
  * that finds it still there can say so. */
 const restoredPrompts = new Map<string, string>();
-const REGION_UNAVAILABLE =
-  "This chat's plugin is unavailable. Your draft is saved.";
+const REGION_UNAVAILABLE = msg`This chat's plugin is unavailable. Your draft is saved.`;
 // Allow async local preparation without leaving Send stuck on a plugin.
 const PREPARE_START_TIMEOUT_MS = 3_000;
 
@@ -220,6 +221,8 @@ export function SoloDraft({
     | undefined;
   projectId?: string | undefined;
 }) {
+  const { i18n, t } = useLingui();
+  const settingsLabel = t`Chat settings`;
   const draftKey = region
     ? regionDraftKey(region, projectId, regionDraft?.key)
     : linkedId
@@ -227,7 +230,10 @@ export function SoloDraft({
       : projectId
         ? `solo:project:${projectId}`
         : "solo";
-  const notify = useToastNotification();
+  const notify = useToastNotification({
+    lang: i18n.locale,
+    closeLabel: t`Close`,
+  });
   // Reconcile explicit route intent before the composer restores its pick.
   useState(() => prepareNamedAgentDraft(scope, `${draftKey}:new-draft`, agent));
   // Read the source live: starting the chat consumes it.
@@ -440,7 +446,7 @@ export function SoloDraft({
         const current = region
           ? soloNavigationFor(session)?.draftRegion(region)
           : undefined;
-        if (region && !current) throw new Error(REGION_UNAVAILABLE);
+        if (region && !current) throw new Error(i18n._(REGION_UNAVAILABLE));
         return current;
       };
       const eligible = regionOwner();
@@ -519,7 +525,7 @@ export function SoloDraft({
             current?.source !== owner.source ||
             current?.binding !== owner.binding
           )
-            throw new Error(REGION_UNAVAILABLE);
+            throw new Error(i18n._(REGION_UNAVAILABLE));
         }
         starting = session.channelWrites.start(
           channelId,
@@ -633,12 +639,12 @@ export function SoloDraft({
       if (mounted.current) onStarted(channelId);
       if (clearedPicks === "failed")
         notify(
-          "Could not clear model and effort from New chat. Reset them before starting another chat.",
+          t`Could not clear model and effort from New chat. Reset them before starting another chat.`,
           "error",
         );
       if (!savedChatPicks)
         notify(
-          "Could not save model and effort for this chat. Choose them again before your next message.",
+          t`Could not save model and effort for this chat. Choose them again before your next message.`,
           "error",
         );
       // Only a start that made no chat ends here; the chat and its messages
@@ -736,11 +742,11 @@ export function SoloDraft({
               if (returned) {
                 restoredPrompts.set(returnedTo, JSON.stringify(draft));
                 if (source && !writeView(scope, draftKey, source))
-                  missing.push("link");
+                  missing.push(t`link`);
                 if (!writeView(scope, `${draftKey}:settings`, draftSettings))
-                  missing.push("settings");
+                  missing.push(t`settings`);
                 if (!writeView(scope, `${draftKey}:new-project`, project))
-                  missing.push("workspace");
+                  missing.push(t`workspace`);
                 // The pill's agents, when it routed the send; the composer reads
                 // them as it mounts. Tags in the text carry their own.
                 if (
@@ -748,7 +754,7 @@ export function SoloDraft({
                   !draft.recipients.length &&
                   !writeView(scope, `${draftKey}:new-draft:agents`, addressed)
                 )
-                  missing.push("agents");
+                  missing.push(t`agents`);
                 attachmentDraft(
                   session,
                   `${scope}:${draftKey}:new-draft`,
@@ -761,30 +767,37 @@ export function SoloDraft({
                 ? reason.message
                 : `${reason.message}.`;
               const earlier = restoredPrompts.get(returnedTo);
-              const outcome = returned
-                ? missing.length
-                  ? `Your message is back in New chat, but its ${new Intl.ListFormat(
-                      undefined,
-                      { type: "conjunction" },
-                    ).format(missing)} could not be saved on this device.`
-                  : "Your message is back in New chat."
-                : earlier !== undefined &&
-                    viewRevision(scope, `${draftKey}:new-draft`) === earlier
-                  ? "New chat holds an earlier message that couldn't be sent, so this one was not restored."
-                  : "New chat has a newer draft, so your message was not restored.";
+              const holdsEarlier =
+                !returned &&
+                earlier !== undefined &&
+                viewRevision(scope, `${draftKey}:new-draft`) === earlier;
+              let outcome: string;
+              if (returned && missing.length) {
+                const missingSettings = new Intl.ListFormat(i18n.locale, {
+                  type: "conjunction",
+                }).format(missing);
+                outcome = t`Your message is back in New chat, but its ${missingSettings} could not be saved on this device.`;
+              } else if (returned) {
+                outcome = t`Your message is back in New chat.`;
+              } else if (holdsEarlier) {
+                outcome = t`New chat holds an earlier message that couldn't be sent, so this one was not restored.`;
+              } else {
+                outcome = t`New chat has a newer draft, so your message was not restored.`;
+              }
               restored = true;
               onFailed?.(
                 channelId,
-                `Couldn't start "${name}": ${why} ${outcome}`,
+                t`Couldn't start "${name}": ${why} ${outcome}`,
               );
             });
           } catch {
             const unavailable = failedPromptWrite
-              ? "Your message could not be saved on this device."
-              : "Window ownership or saved choices are unavailable.";
+              ? t`Your message could not be saved on this device.`
+              : t`Window ownership or saved choices are unavailable.`;
+            const why = reason.message;
             onFailed?.(
               channelId,
-              `Couldn't start "${name}": ${reason.message}. ${unavailable} Retry to restore your message.`,
+              t`Couldn't start "${name}": ${why}. ${unavailable} Retry to restore your message.`,
               restore,
             );
           } finally {
@@ -829,7 +842,7 @@ export function SoloDraft({
         scope={scope}
         channelId={channelId}
         channelName="this chat"
-        label="Message your agents"
+        label={t`Message your agents`}
         inviteAgents
         agentFilter={draftAgent ? agentFilter : undefined}
         defaultMention={defaultAgent}
@@ -867,10 +880,10 @@ export function SoloDraft({
         }}
       />
       {!available && (
-        <p className={styles.availability} role="status">
+        <p className={styles.availability} role="status" lang={i18n.locale}>
           {region && !owner
-            ? REGION_UNAVAILABLE
-            : "Solo preferences or channel creation are unavailable. Your draft is saved."}
+            ? i18n._(REGION_UNAVAILABLE)
+            : t`Solo preferences or channel creation are unavailable. Your draft is saved.`}
         </p>
       )}
       {error && <p role="alert">{error}</p>}
@@ -882,8 +895,9 @@ export function SoloDraft({
         <IconButton
           ref={settingsTrigger}
           size="toolbar"
-          aria-label="Chat settings"
-          title="Chat settings"
+          aria-label={settingsLabel}
+          title={settingsLabel}
+          lang={i18n.locale}
           icon={<GearIcon size="1rem" aria-hidden="true" />}
           disabled={busy}
           onClick={() => {
@@ -916,11 +930,9 @@ export function SoloDraft({
               ...(chosen ? { lifetimeChosen: true as const } : {}),
               name: name ?? "",
             };
-            if (!writeView(scope, `${draftKey}:settings`, next))
-              throw new Error(
-                "Settings couldn’t be saved on this device. Try again.",
-              );
+            if (!writeView(scope, `${draftKey}:settings`, next)) return false;
             setDraftSettings(next);
+            return true;
           }}
         />
       )}

@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { Communities } from "../../features/communities/service";
 import type { SearchServices } from "./PageSearch";
@@ -42,29 +43,49 @@ export function CommunityShortcuts({
       select(list[(index + by + list.length) % list.length] ?? null);
     };
     const removes = [
-      ...Array.from({ length: 9 }, (_, index) =>
-        shortcuts.registerHost({
-          id: `switch-community-${index + 1}`,
+      ...Array.from({ length: 9 }, (_, index) => {
+        const position = index + 1;
+        return shortcuts.registerHost({
+          id: `switch-community-${position}`,
           title:
             index === 0
               ? "Switch to Personal space"
-              : `Switch to community ${index + 1} in the switcher`,
-          binding: { key: String(index + 1), mod: true },
+              : `Switch to community ${position} in the switcher`,
+          titleMessage:
+            index === 0
+              ? msg`Switch to Personal space`
+              : msg`Switch to community ${position} in the switcher`,
+          binding: { key: String(position), mod: true },
           order: ORDER + index / 100,
           allowInEditable: true,
           when: () => index < entries().length,
           run: () => select(entries()[index] ?? null),
-        }),
-      ),
+        });
+      }),
       ...(
         [
-          ["next-community", "Switch to next community", "]", "}", 1],
-          ["previous-community", "Switch to previous community", "[", "{", -1],
+          [
+            "next-community",
+            "Switch to next community",
+            msg`Switch to next community`,
+            "]",
+            "}",
+            1,
+          ],
+          [
+            "previous-community",
+            "Switch to previous community",
+            msg`Switch to previous community`,
+            "[",
+            "{",
+            -1,
+          ],
         ] as const
-      ).map(([id, title, key, shifted, by], index) =>
+      ).map(([id, title, titleMessage, key, shifted, by], index) =>
         shortcuts.registerHost({
           id,
           title,
+          titleMessage,
           // Shift turns brackets into braces on common layouts.
           binding: [
             { key, mod: true, shift: true },

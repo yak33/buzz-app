@@ -146,7 +146,7 @@ export function WorkspaceFields({
       : undefined);
   return (
     <div className={styles.sections} lang={i18n.locale}>
-      <Field label={t`Instructions`} optional>
+      <Field label={t`Instructions`} optional optionalLabel={t`Optional`}>
         <Textarea
           disabled={disabled}
           rows={instructionRows}

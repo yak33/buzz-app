@@ -14,6 +14,8 @@ export type FieldProps = Omit<
   labelVisibility?: "visible" | "hidden";
   /** Marks a field that can be left empty when its form has a required field. */
   optional?: boolean;
+  /** Localized copy for the optional suffix when the enclosing form is translated. */
+  optionalLabel?: string;
 };
 
 /** Base UI connects the label, description, error and contained control. */
@@ -25,6 +27,7 @@ export function Field({
   invalid,
   labelVisibility = "visible",
   optional = false,
+  optionalLabel = "Optional",
   nativeLabel = true,
   controlId,
   ...props
@@ -48,7 +51,7 @@ export function Field({
         {optional && (
           <>
             {" "}
-            <span className="buzz-field-optional">Optional</span>
+            <span className="buzz-field-optional">{optionalLabel}</span>
           </>
         )}
       </BaseField.Label>

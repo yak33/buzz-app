@@ -66,6 +66,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   ctx.shortcuts.register({
     id: "toggle",
     title: "Start or end Focus",
+    titleMessage: msg`Start or end Focus`,
     // Option types "ƒ" on a US Mac layout, so the key is listed both ways.
     binding: [
       { key: "f", alt: true },

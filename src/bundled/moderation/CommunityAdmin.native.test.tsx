@@ -13,10 +13,12 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { invoke } from "@tauri-apps/api/core";
 import { verifyEvent, type EventTemplate } from "nostr-tools";
 import { nativeIdentityEnabled } from "../../features/identity/service";
+import { i18n } from "../../features/localization/service";
 import type { Role } from "../../features/communities/roster";
 import type { RelayEvent } from "../../features/relay/events";
 import { keypair, signed, type Key } from "../../features/relay/testing";
 import type { RelayData } from "../../features/relay/service";
+import type { SettingsCards } from "../../features/settings/service";
 import { CommunityAdmin } from "./CommunityAdmin";
 import { apply } from "./index";
 import { createCommunityMembership } from "./membership";
@@ -192,7 +194,7 @@ afterEach(() => {
 
 it("keeps the Membership card registered in a native build", () => {
   expect(nativeIdentityEnabled()).toBe(true);
-  const settingsCards = { register: vi.fn() };
+  const settingsCards = { register: vi.fn<SettingsCards["register"]>() };
   const data = relay(owner).relay;
   const membership = createCommunityMembership(data);
   apply({
@@ -204,11 +206,15 @@ it("keeps the Membership card registered in a native build", () => {
   expect(settingsCards.register).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({
       id: "membership",
-      title: "Membership",
       section: "administration",
       component: expect.any(Function),
     }),
   );
+  const [card] = settingsCards.register.mock.calls[0] ?? [];
+  if (!card) throw new Error("Missing native Membership settings card");
+  const title =
+    typeof card.title === "string" ? card.title : i18n._(card.title);
+  expect(title).toBe("Membership");
   membership.dispose();
 });
 

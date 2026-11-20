@@ -1048,6 +1048,14 @@ msgstr "{confirmAction} #{number}？"
 msgid "{contributors} people are contributing compute."
 msgstr "{contributors} 人正在贡献算力。"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "{count, plural, one {# channel matches} other {# channels match}}"
+msgstr "{count, plural, other {找到 # 个匹配的频道}}"
+
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "{count, plural, one {# channel you can join} other {# channels you can join}}"
+msgstr "{count, plural, other {有 # 个频道可以加入}}"
+
 #: src/features/messages/ReplySummary.tsx
 msgid "{count} {replyWord}"
 msgstr "{count} 条{replyWord}"
@@ -1462,10 +1470,18 @@ msgstr "另有 {omitted} 行未显示。"
 msgid "{passed} passed"
 msgstr "{passed} 项已通过"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "{people, plural, one { member} other { members}}"
+msgstr "{people, plural, other { 位成员}}"
+
 #. placeholder {0}: uploads.destination.name
 #: src/features/messages/BackgroundUploadStatus.tsx
 msgid "{phaseText} to {0}"
 msgstr "{phaseText} 到 {0}"
+
+#: src/app/shell/FindInPage.tsx
+msgid "{position} of {total}"
+msgstr "第 {position} 项，共 {total} 项"
 
 #. placeholder {0}: message(reason)
 #: src/bundled/builderlab/communities/HostedCommunities.tsx
@@ -2539,6 +2555,7 @@ msgid "Agent: the serving member’s model directs shell and files on this machi
 msgstr "智能体：承载此模型的成员可控制本机的 shell 和文件以及 Buzz 访问权限；工作区为 ~/.buzz。工具输出和核心记忆可能会发送给该成员。"
 
 #: src/bundled/usage/UsagePage.tsx
+#: src/features/solo/SoloDraft.tsx
 msgid "agents"
 msgstr "智能体"
 
@@ -2951,6 +2968,10 @@ msgstr "归档 {name}？"
 #: src/bundled/channels/ChannelLifecycleDialog.tsx
 msgid "Archive {nounText}"
 msgstr "归档{nounText}"
+
+#: src/bundled/channels/index.tsx
+msgid "Archive chat"
+msgstr "归档聊天"
 
 #: src/bundled/mentions/MentionCompletion.tsx
 msgid "Archive information unavailable. Retry to refresh."
@@ -3506,6 +3527,7 @@ msgstr "蓝色文字、悬停时的柔和背景，以及图标提供的一点上
 msgid "body: sees a comment’s first 1,000 characters, the most a wake quotes."
 msgstr "body：可查看评论的前 1000 个字符，即一次唤醒最多引用的长度。"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bold"
 msgstr "加粗"
@@ -3643,6 +3665,7 @@ msgstr "正在从事件构建时间线"
 msgid "Built into the message editor. These work while you type and can't be changed."
 msgstr "内置于消息编辑器。输入时生效且无法更改。"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Bullet list"
 msgstr "无序列表"
@@ -4244,6 +4267,10 @@ msgstr "频道对话"
 msgid "Channel creation unavailable"
 msgstr "频道创建不可用"
 
+#: src/features/solo/DraftSettings.tsx
+msgid "Channel duration could not be verified."
+msgstr "无法验证频道有效期。"
+
 #: src/bundled/channels/ChannelSettingsPanel.tsx
 msgid "Channel ID"
 msgstr "频道 ID"
@@ -4329,6 +4356,7 @@ msgstr "频道不可用"
 msgid "channels"
 msgstr "频道"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
 #: src/app/shell/PageSearch.tsx
 #: src/app/shell/SearchResults.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
@@ -4345,6 +4373,10 @@ msgstr "频道"
 #: src/bundled/workflows/WorkflowsPage.tsx
 msgid "Channels could not be read."
 msgstr "无法读取频道。"
+
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "Channels you can join"
+msgstr "可加入的频道"
 
 #: src/bundled/charts/ChartExpand.tsx
 msgid "Chart"
@@ -4394,6 +4426,7 @@ msgid "Chat changed to View only. "
 msgstr "聊天已改为仅查看。"
 
 #: src/bundled/channels/SoloChatName.tsx
+#: src/features/solo/DraftSettings.tsx
 #: src/features/solo/WorkspaceSettings.tsx
 msgid "Chat name"
 msgstr "聊天名称"
@@ -4411,6 +4444,7 @@ msgid "Chat preview"
 msgstr "聊天预览"
 
 #: src/bundled/channels/SoloChatMenu.tsx
+#: src/features/solo/SoloDraft.tsx
 msgid "Chat settings"
 msgstr "聊天设置"
 
@@ -5153,6 +5187,10 @@ msgstr "清除 {where} 的草稿：{line}"
 msgid "Clear filters"
 msgstr "清除筛选器"
 
+#: src/app/shell/FindInPage.tsx
+msgid "Clear find on screen"
+msgstr "清除查找内容"
+
 #: src/features/drafts-sent/DraftsSentPage.tsx
 msgid "Clear search"
 msgstr "清除搜索"
@@ -5203,6 +5241,7 @@ msgstr "未能保存时间设置"
 #: src/features/messages/ComposerLinkDialog.tsx
 #: src/features/messages/MessageManagement.tsx
 #: src/features/solo/ConvertToChannel.tsx
+#: src/features/solo/SoloDraft.tsx
 msgid "Close"
 msgstr "关闭"
 
@@ -5246,6 +5285,10 @@ msgstr "关闭编辑频道详情"
 msgid "Close editor"
 msgstr "关闭编辑器"
 
+#: src/app/shell/FindInPage.tsx
+msgid "Close find on screen"
+msgstr "关闭页面内查找"
+
 #: src/bundled/focus/FocusDialog.tsx
 msgid "Close Focus"
 msgstr "关闭 Focus"
@@ -5279,6 +5322,10 @@ msgstr "关闭设置"
 msgid "Close status editor"
 msgstr "关闭状态编辑器"
 
+#: src/app/shortcuts.ts
+msgid "Close tab"
+msgstr "关闭标签页"
+
 #: src/bundled/bestie/BestieConversation.tsx
 #: src/bundled/channels/PageTabs.tsx
 msgid "Close tab pane"
@@ -5304,10 +5351,12 @@ msgstr "已关闭"
 msgid "Cobalt"
 msgstr "钴蓝"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Code"
 msgstr "行内代码"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Code block"
 msgstr "代码块"
@@ -6328,6 +6377,10 @@ msgstr "无法检查此项。请重新选择以重试。"
 msgid "Could not clear feedback."
 msgstr "无法清除反馈。"
 
+#: src/features/solo/SoloDraft.tsx
+msgid "Could not clear model and effort from New chat. Reset them before starting another chat."
+msgstr "无法清除新聊天的模型和思考力度设置。请先重置，再开始另一个聊天。"
+
 #: src/bundled/builderlab/oauth/first-run.ts
 msgid "Could not complete Builderlab sign-in. Try again."
 msgstr "无法完成 Builderlab 登录。请重试。"
@@ -6559,6 +6612,10 @@ msgstr "无法保存关闭操作。请重试。"
 #: src/features/messages/MessageComposer.tsx
 msgid "Could not save model and effort for this chat on this device. The current choices remain until this composer closes."
 msgstr "无法在此设备上保存该对话的模型和推理强度，当前选择会保留到输入框关闭。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Could not save model and effort for this chat. Choose them again before your next message."
+msgstr "无法保存此聊天的模型和思考力度设置。请在发送下一条消息前重新选择。"
 
 #: src/bundled/inbox/archive.ts
 msgid "Could not save the Inbox archive on this device. Try again."
@@ -6824,9 +6881,17 @@ msgstr "无法加载智能体"
 msgid "Couldn’t load agents. Try again."
 msgstr "无法加载智能体。请重试。"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "Couldn’t load all channels."
+msgstr "未能加载所有频道。"
+
 #: src/app/shell/SearchResults.tsx
 msgid "Couldn’t load all joined conversations."
 msgstr "未能加载全部已加入的对话。"
+
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "Couldn’t load channels."
+msgstr "无法加载频道。"
 
 #: src/features/agents/InterruptedNotice.tsx
 msgid "Couldn’t load details"
@@ -7036,6 +7101,14 @@ msgstr "无法退出登录"
 #: src/app/IdentitySettings.tsx
 msgid "Couldn’t sign out of {0}. {1}"
 msgstr "无法退出 {0}。{1}"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Couldn't start \"{name}\": {why} {outcome}"
+msgstr "无法启动“{name}”：{why} {outcome}"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Couldn't start \"{name}\": {why}. {unavailable} Retry to restore your message."
+msgstr "无法启动“{name}”：{why}。{unavailable}请重试以恢复消息。"
 
 #: src/bundled/workflows/WorkflowsPage.tsx
 msgid "Couldn't start deletion"
@@ -7379,6 +7452,7 @@ msgid "Decrease duration"
 msgstr "缩短时长"
 
 #: src/app/AppearanceSettings.tsx
+#: src/app/shortcuts.ts
 msgid "Decrease interface size"
 msgstr "缩小界面"
 
@@ -7498,6 +7572,10 @@ msgstr "删除消息？"
 #: src/app/PluginMenu.tsx
 msgid "Delete plugin"
 msgstr "删除插件"
+
+#: src/app/shortcuts.ts
+msgid "Delete selected message"
+msgstr "删除选中的消息"
 
 #: src/bundled/agents/AgentsPage.tsx
 msgid "Delete team"
@@ -8289,6 +8367,10 @@ msgstr "编辑资料"
 msgid "Edit queued message"
 msgstr "编辑排队中的消息"
 
+#: src/app/shortcuts.ts
+msgid "Edit selected message"
+msgstr "编辑选中的消息"
+
 #. placeholder {0}: index + 1
 #. placeholder {1}: i18n._(ACTION_LABELS[step.action])
 #: src/bundled/workflows/WorkflowForm.tsx
@@ -8914,6 +8996,10 @@ msgstr "查找人员…"
 msgid "Find more matches"
 msgstr "查找更多匹配"
 
+#: src/app/shell/FindInPage.tsx
+msgid "Find on screen"
+msgstr "在页面内查找"
+
 #: src/app/PluginImport.tsx
 msgid "Find plugins"
 msgstr "查找插件"
@@ -9015,6 +9101,18 @@ msgstr "无法在此设备上保存 Focus。"
 msgid "Focus end"
 msgstr "Focus 结束"
 
+#: src/app/shortcuts.ts
+msgid "Focus main pane"
+msgstr "聚焦主面板"
+
+#: src/app/shortcuts.ts
+msgid "Focus message box"
+msgstr "聚焦消息输入框"
+
+#: src/app/shortcuts.ts
+msgid "Focus next pane"
+msgstr "聚焦下一个面板"
+
 #: src/bundled/focus/FocusSettings.tsx
 msgid "Focus settings"
 msgstr "Focus 设置"
@@ -9022,6 +9120,10 @@ msgstr "Focus 设置"
 #: src/bundled/focus/preferences.ts
 msgid "Focus settings could not be saved on this device."
 msgstr "无法在此设备上保存 Focus 设置。"
+
+#: src/app/shortcuts.ts
+msgid "Focus side pane"
+msgstr "聚焦侧面板"
 
 #. placeholder {0}: focusUntilLabel(state.until as number)
 #. placeholder {0}: focusUntilLabel(until)
@@ -9297,12 +9399,14 @@ msgstr "请为此工作流命名。"
 
 #: src/app/App.tsx
 #: src/app/shell/NavigationControls.tsx
+#: src/app/shortcuts.ts
 #: src/bundled/workflows/WorkflowWebhookSecretDialog.tsx
 #: src/features/identity/KeyLost.tsx
 msgid "Go back"
 msgstr "后退"
 
 #: src/app/shell/NavigationControls.tsx
+#: src/app/shortcuts.ts
 msgid "Go forward"
 msgstr "前进"
 
@@ -9496,6 +9600,10 @@ msgstr "历史已清除。请刷新以重新读取。"
 #: src/features/messages/ChannelTimeline.tsx
 msgid "History window limit reached"
 msgstr "已达到历史窗口上限"
+
+#: src/app/shortcuts.ts
+msgid "Home"
+msgstr "主页"
 
 #: src/app/AppearanceSettings.tsx
 msgid "Honey"
@@ -9947,6 +10055,7 @@ msgid "Increase duration"
 msgstr "延长时长"
 
 #: src/app/AppearanceSettings.tsx
+#: src/app/shortcuts.ts
 msgid "Increase interface size"
 msgstr "放大界面"
 
@@ -10253,6 +10362,7 @@ msgstr "取消归档前它会一直隐藏在侧边栏之外。"
 msgid "It's pinned at the top of Buzz, with your DM as its home."
 msgstr "它会置顶在 Buzz 顶部，并把与你的私信作为它的主页。"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Italic"
 msgstr "斜体"
@@ -10352,6 +10462,7 @@ msgstr "加入可能已生效，但尚未确认。请再次尝试以确认。"
 msgid "Join this channel to add people and agents."
 msgstr "加入此频道后才能添加人和智能体。"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
 #: src/features/conversation/BuzzLinkPreview.tsx
 msgid "Joined"
 msgstr "已加入"
@@ -10599,6 +10710,7 @@ msgstr "开始吧"
 msgid "Lets macOS correct misspelled words in messages. Turn correction on or off from the message box’s Spelling and Grammar menu."
 msgstr "允许 macOS 纠正消息中的拼写错误。可在消息输入框的“拼写和语法”菜单中开启或关闭。"
 
+#: src/features/solo/DraftSettings.tsx
 #: src/features/solo/WorkspaceSettings.tsx
 msgid "Lifetime"
 msgstr "有效期"
@@ -10615,6 +10727,10 @@ msgstr "解除封禁？"
 #: src/app/shell/ProfileButton.tsx
 msgid "Light"
 msgstr "浅色"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "link"
+msgstr "链接"
 
 #: src/features/messages/ComposerFormattingTools.tsx
 #: src/features/messages/MessageActionBar.tsx
@@ -10746,6 +10862,7 @@ msgstr "正在加载 Canvas…"
 msgid "Loading changes from GitHub…"
 msgstr "正在从 GitHub 加载更改…"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
 #: src/bundled/profiles/ProfileChannels.tsx
 msgid "Loading channels…"
 msgstr "正在加载频道…"
@@ -10859,6 +10976,10 @@ msgstr "正在加载模型选项…"
 msgid "Loading models…"
 msgstr "正在加载模型…"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "Loading more channels…"
+msgstr "正在加载更多频道…"
+
 #: src/features/agents/MemoryPanel.tsx
 msgid "Loading more memories…"
 msgstr "正在加载更多记忆…"
@@ -10908,6 +11029,7 @@ msgid "Loading sent messages…"
 msgstr "正在加载已发送消息…"
 
 #: src/bundled/builderlab/adapter-type/ModelSettings.tsx
+#: src/features/solo/DraftSettings.tsx
 #: src/features/solo/WorkspaceSettings.tsx
 msgid "Loading settings…"
 msgstr "正在加载设置…"
@@ -11184,6 +11306,10 @@ msgstr "标为已读"
 msgid "Mark as read {sender} in {context}"
 msgstr "在 {context} 中将 {sender} 标为已读"
 
+#: src/bundled/channels/index.tsx
+msgid "Mark conversation as read"
+msgstr "将对话标为已读"
+
 #: src/bundled/reminders/RemindersPage.tsx
 msgid "Mark done: {sender}"
 msgstr "标记完成：{sender}"
@@ -11204,6 +11330,10 @@ msgstr "标记至已加载消息为已读"
 #: src/features/messages/MessageManagement.tsx
 msgid "Mark unread"
 msgstr "标为未读"
+
+#: src/app/shortcuts.ts
+msgid "Mark unread from selected message"
+msgstr "从选中的消息起标为未读"
 
 #: src/bundled/channels/UnreadBadge.tsx
 msgid "Mark unread on this device"
@@ -11569,6 +11699,10 @@ msgstr "消息宽度"
 #: src/app/AppearanceSettings.tsx
 msgid "Message width wasn’t saved"
 msgstr "未能保存消息宽度"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Message your agents"
+msgstr "给智能体发消息"
 
 #: src/app/shell/BestieNavigation.tsx
 #: src/bundled/watching/presentation.ts
@@ -12024,6 +12158,14 @@ msgstr "新建频道"
 msgid "New chat"
 msgstr "新建对话"
 
+#: src/features/solo/SoloDraft.tsx
+msgid "New chat has a newer draft, so your message was not restored."
+msgstr "新聊天中已有更新的草稿，因此未恢复这条消息。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "New chat holds an earlier message that couldn't be sent, so this one was not restored."
+msgstr "新聊天中有一条更早的发送失败消息，因此未恢复这条消息。"
+
 #. placeholder {0}: project.name
 #: src/bundled/channels/SoloWorkspaces.tsx
 msgid "New chat in {0}"
@@ -12181,6 +12323,10 @@ msgstr "下一个"
 msgid "Next attachment"
 msgstr "下一个附件"
 
+#: src/bundled/channels/index.tsx
+msgid "Next conversation"
+msgstr "下一个对话"
+
 #: src/bundled/changesets/Panel.tsx
 msgid "Next file"
 msgstr "下一个文件"
@@ -12188,6 +12334,10 @@ msgstr "下一个文件"
 #: src/features/messages/ImageReviewStage.tsx
 msgid "Next image"
 msgstr "下一张图片"
+
+#: src/app/shell/FindInPage.tsx
+msgid "Next match"
+msgstr "下一个匹配项"
 
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Next media"
@@ -12204,6 +12354,10 @@ msgstr "下一页"
 #: src/features/messages/ComposerModels.tsx
 msgid "next run"
 msgstr "下次运行"
+
+#: src/bundled/channels/index.tsx
+msgid "Next unread conversation"
+msgstr "下一个未读对话"
 
 #: src/bundled/repos/RepoPage.tsx
 msgid "No accessible linked channels."
@@ -12451,6 +12605,7 @@ msgstr "没有类型已知且可见的匹配频道；其他成员身份无法分
 msgid "No matching channels with a known visible type; other memberships could not be classified. More channels may exist outside the loaded list."
 msgstr "没有类型已知且可见的匹配频道；其他成员身份无法分类。已加载列表之外可能还有更多频道。"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
 #: src/bundled/workflows/WorkflowChannelPicker.tsx
 msgid "No matching channels."
 msgstr "没有匹配的频道。"
@@ -12622,6 +12777,7 @@ msgstr "未找到举报。"
 msgid "No repository linked."
 msgstr "未关联仓库。"
 
+#: src/app/shell/FindInPage.tsx
 #: src/bundled/emoji/CustomEmojiSettings.tsx
 msgid "No results"
 msgstr "无结果"
@@ -13168,6 +13324,10 @@ msgstr "只有作者可以更改此工作流。"
 msgid "Only the author or their verified agent owner can delete this workflow."
 msgstr "只有作者或其已验证的智能体所有者才能删除此工作流。"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "Only the newest open channels are shown."
+msgstr "仅显示最新的公开频道。"
+
 #: src/app/shell/SearchResults.tsx
 msgid "Only the newest open channels were searched."
 msgstr "只搜索了最新的公开频道。"
@@ -13309,9 +13469,17 @@ msgstr "打开对话：{0}"
 msgid "Open destination {name}"
 msgstr "打开目的地 {name}"
 
+#: src/bundled/inbox/index.tsx
+msgid "Open DMs in Activity"
+msgstr "在动态中打开私信"
+
 #: src/features/messages/FileAttachment.tsx
 msgid "Open file"
 msgstr "打开文件"
+
+#: src/bundled/emoji/index.tsx
+msgid "Open GIF picker"
+msgstr "打开 GIF 选择器"
 
 #: src/bundled/github/LinkSettings.tsx
 msgid "Open GitHub links in Buzz"
@@ -13373,6 +13541,10 @@ msgstr "打开链接"
 msgid "Open linked {0}"
 msgstr "打开关联的 {0}"
 
+#: src/bundled/inbox/index.tsx
+msgid "Open mentions in Activity"
+msgstr "在动态中打开提及"
+
 #: src/bundled/reminders/RemindersPage.tsx
 msgid "Open message"
 msgstr "打开消息"
@@ -13380,6 +13552,10 @@ msgstr "打开消息"
 #: src/bundled/reminders/RemindersPage.tsx
 msgid "Open message from {sender}"
 msgstr "打开来自 {sender} 的消息"
+
+#: src/app/shell/AppShell.tsx
+msgid "Open New menu"
+msgstr "打开新建菜单"
 
 #: src/bundled/relay-notes/NotesPage.tsx
 msgid "Open notes"
@@ -13419,6 +13595,10 @@ msgstr "打开引用 {name}"
 msgid "Open settings"
 msgstr "打开设置"
 
+#: src/app/shortcuts.ts
+msgid "Open Settings"
+msgstr "打开设置"
+
 #: src/bundled/mesh-compute/index.tsx
 msgid "Open Shared compute settings to switch communities first"
 msgstr "请先打开共享算力设置以切换社区"
@@ -13453,9 +13633,17 @@ msgstr "请打开桌面应用，选择此设备上的目录。"
 msgid "Open threads in"
 msgstr "话题打开位置"
 
+#: src/bundled/inbox/index.tsx
+msgid "Open threads in Activity"
+msgstr "在动态中打开话题"
+
 #: src/bundled/channels/ChannelActivityPopover.tsx
 msgid "Open unread {nounLabel} from {name}: {preview}"
 msgstr "打开来自 {name} 的未读{nounLabel}：{preview}"
+
+#: src/bundled/inbox/index.tsx
+msgid "Open unread in Activity"
+msgstr "在动态中打开未读消息"
 
 #: src/features/messages/MessageRow.tsx
 msgid "Open video"
@@ -13536,6 +13724,11 @@ msgstr "正在打开你的私密 Bestie 频道…"
 msgid "Opening your saved identity…"
 msgstr "正在打开你保存的身份…"
 
+#: src/features/solo/DraftSettings.tsx
+#: src/features/solo/WorkspaceFields.tsx
+msgid "Optional"
+msgstr "可选"
+
 #: src/app/ShortcutSettings.tsx
 msgid "or"
 msgstr "或"
@@ -13556,6 +13749,7 @@ msgstr "或接续"
 msgid "or use a build with this harness configured."
 msgstr "或使用配置了此运行框架的构建。"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Ordered list"
 msgstr "有序列表"
@@ -14202,6 +14396,10 @@ msgstr "上一个"
 msgid "Previous attachment"
 msgstr "上一个附件"
 
+#: src/bundled/channels/index.tsx
+msgid "Previous conversation"
+msgstr "上一个对话"
+
 #: src/bundled/changesets/Panel.tsx
 msgid "Previous file"
 msgstr "上一个文件"
@@ -14214,6 +14412,10 @@ msgstr "先前的身份"
 msgid "Previous image"
 msgstr "上一张图片"
 
+#: src/app/shell/FindInPage.tsx
+msgid "Previous match"
+msgstr "上一个匹配项"
+
 #: src/features/messages/MediaReviewViewer.tsx
 msgid "Previous media"
 msgstr "上一个媒体"
@@ -14225,6 +14427,10 @@ msgstr "上一页"
 #: src/app/PluginImport.tsx
 msgid "Previous publisher:"
 msgstr "先前的发布者："
+
+#: src/bundled/channels/index.tsx
+msgid "Previous unread conversation"
+msgstr "上一个未读对话"
 
 #: src/features/agents/AgentConfigHistoryRow.tsx
 msgid "Previous versions"
@@ -14254,6 +14460,10 @@ msgstr "私有频道。你不是其成员、它已不存在，或链接来自另
 #: src/bundled/bestie/PrivateChannels.tsx
 msgid "Private channels {name} can read"
 msgstr "{name} 可以读取的私密频道"
+
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "Private channels show up once someone invites you."
+msgstr "收到邀请后，私密频道才会显示。"
 
 #: src/features/identity/PrivateKey.tsx
 msgid "Private key"
@@ -14487,10 +14697,15 @@ msgstr "已排队合并到"
 msgid "Quick statuses"
 msgstr "快捷状态"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 #: src/features/messages/SelectionQuote.tsx
 msgid "Quote"
 msgstr "引用"
+
+#: src/app/shortcuts.ts
+msgid "Quote selected text"
+msgstr "引用选中的文本"
 
 #: src/bundled/usage/UsagePage.tsx
 msgid "ran"
@@ -14500,6 +14715,14 @@ msgstr "已运行"
 #: src/features/messages/MessageRow.tsx
 msgid "Raw diff"
 msgstr "原始差异"
+
+#: src/app/shortcuts.ts
+msgid "React to latest message"
+msgstr "给最新消息添加回应"
+
+#: src/app/shortcuts.ts
+msgid "React to selected message"
+msgstr "给选中的消息添加回应"
 
 #: src/bundled/inbox/InboxRow.tsx
 msgid "reacted"
@@ -14902,6 +15125,10 @@ msgstr "中继耗时"
 #: src/bundled/channels/ChannelGeneralAccess.tsx
 msgid "Reload access"
 msgstr "重新加载权限"
+
+#: src/app/shortcuts.ts
+msgid "Reload Buzz"
+msgstr "重新加载 Buzz"
 
 #: src/bundled/channels/SoloChatName.tsx
 #: src/features/solo/WorkspaceSettings.tsx
@@ -15391,6 +15618,10 @@ msgstr "在话题中回复"
 msgid "Reply in thread to {0}"
 msgstr "在话题中回复 {0}"
 
+#: src/app/shortcuts.ts
+msgid "Reply in thread to selected message"
+msgstr "在话题中回复选中的消息"
+
 #: src/features/messages/ThreadPanel.tsx
 msgid "Reply target is no longer available."
 msgstr "回复目标已不可用。"
@@ -15568,6 +15799,7 @@ msgid "Reset all shortcuts"
 msgstr "重置全部快捷键"
 
 #: src/app/AppearanceSettings.tsx
+#: src/app/shortcuts.ts
 msgid "Reset interface size"
 msgstr "重置界面大小"
 
@@ -15783,6 +16015,7 @@ msgstr "重试备份"
 msgid "Retry channel membership"
 msgstr "重试频道成员身份"
 
+#: src/app/shell/ChannelDirectoryResults.tsx
 #: src/app/shell/SearchResults.tsx
 #: src/bundled/profiles/ProfileChannels.tsx
 #: src/bundled/workflows/WorkflowsPage.tsx
@@ -16050,6 +16283,7 @@ msgstr "重试访问安全存储"
 msgid "Retry send"
 msgstr "重试发送"
 
+#: src/features/solo/DraftSettings.tsx
 #: src/features/solo/WorkspaceSettings.tsx
 msgid "Retry settings"
 msgstr "重试设置"
@@ -17191,6 +17425,7 @@ msgid "Set a duration…"
 msgstr "设置时长…"
 
 #: src/app/shell/ProfileButton.tsx
+#: src/app/shortcuts.ts
 #: src/bundled/profiles/ProfilePanel.tsx
 #: src/features/user-status/StatusEditor.tsx
 msgid "Set a status"
@@ -17294,6 +17529,10 @@ msgstr "设置共享算力"
 msgid "Set up your profile"
 msgstr "设置你的资料"
 
+#: src/features/solo/SoloDraft.tsx
+msgid "settings"
+msgstr "设置"
+
 #: src/app/App.tsx
 #: src/app/Settings.tsx
 #: src/app/shell/PageSearch.tsx
@@ -17309,6 +17548,10 @@ msgstr "设置"
 #: src/bundled/builderlab/adapter-type/ModelSettings.tsx
 msgid "Settings are taking longer to load."
 msgstr "设置加载时间较长。"
+
+#: src/features/solo/DraftSettings.tsx
+msgid "Settings couldn’t be saved on this device. Try again."
+msgstr "无法在此设备上保存设置，请重试。"
 
 #: src/app/CommunityLocalSettings.tsx
 msgid "Settings only apply on this device."
@@ -17557,6 +17800,10 @@ msgstr "显示更少预览"
 msgid "Show full content"
 msgstr "显示完整内容"
 
+#: src/app/shortcuts.ts
+msgid "Show keyboard shortcuts"
+msgstr "显示键盘快捷键"
+
 #: src/bundled/channels/SoloWorkspaces.tsx
 msgid "Show less"
 msgstr "收起"
@@ -17583,9 +17830,17 @@ msgstr "在个人资料中显示我的当地时间"
 msgid "Show navigation"
 msgstr "显示导航"
 
+#: src/app/shortcuts.ts
+msgid "Show next tab"
+msgstr "显示下一个标签页"
+
 #: src/app/AppearanceSettings.tsx
 msgid "Show people by"
 msgstr "用户名称显示方式"
+
+#: src/app/shortcuts.ts
+msgid "Show previous tab"
+msgstr "显示上一个标签页"
 
 #: src/bundled/inbox/InboxPreview.tsx
 msgid "Show recent activity"
@@ -17918,6 +18173,10 @@ msgstr "个人"
 msgid "Solo chat completions"
 msgstr "个人对话完成"
 
+#: src/features/solo/SoloDraft.tsx
+msgid "Solo preferences or channel creation are unavailable. Your draft is saved."
+msgstr "Solo 偏好设置或频道创建当前不可用。草稿已保存。"
+
 #: src/features/solo/ConvertToChannel.tsx
 msgid "Solo workspaces could not be read. Try again."
 msgstr "无法读取 Solo 工作区。请重试。"
@@ -18065,6 +18324,7 @@ msgstr "未能保存拼写设置"
 msgid "Split"
 msgstr "分栏"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Spoiler"
 msgstr "剧透内容"
@@ -18140,6 +18400,10 @@ msgstr "开始 Huddle"
 #: src/bundled/channels/ChannelTemplateSettings.tsx
 msgid "Start new channels with your agents, teams and a Canvas already in place."
 msgstr "创建新频道时预先配好你的智能体、团队和 Canvas。"
+
+#: src/bundled/focus/index.tsx
+msgid "Start or end Focus"
+msgstr "开始或结束专注"
 
 #: src/bundled/huddles/HuddleLauncher.tsx
 msgid "Start or join a huddle"
@@ -18407,6 +18671,7 @@ msgstr "孤立监视项"
 msgid "stream established"
 msgstr "数据流已建立"
 
+#: src/app/ShortcutSettings.tsx
 #: src/features/messages/ComposerFormattingTools.tsx
 msgid "Strikethrough"
 msgstr "删除线"
@@ -18450,6 +18715,22 @@ msgstr "切换身份"
 #: src/features/communities/CommunityPickerItem.tsx
 msgid "Switch to {name}"
 msgstr "切换到 {name}"
+
+#: src/app/shell/CommunityShortcuts.tsx
+msgid "Switch to community {position} in the switcher"
+msgstr "切换到列表中的第 {position} 个社区"
+
+#: src/app/shell/CommunityShortcuts.tsx
+msgid "Switch to next community"
+msgstr "切换到下一个社区"
+
+#: src/app/shell/CommunityShortcuts.tsx
+msgid "Switch to Personal space"
+msgstr "切换到个人空间"
+
+#: src/app/shell/CommunityShortcuts.tsx
+msgid "Switch to previous community"
+msgstr "切换到上一个社区"
 
 #: src/bundled/builderlab/communities/HostedCommunities.tsx
 msgid "Switch to this device’s identity"
@@ -19380,6 +19661,10 @@ msgstr "此聊天无法重命名。"
 #: src/bundled/channels/ChannelMembersDialog.tsx
 msgid "This chat is already View only. Its link will be posted in {0}. "
 msgstr "此聊天已是仅查看。其链接将发送到 {0}。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "This chat's plugin is unavailable. Your draft is saved."
+msgstr "此聊天的插件不可用。草稿已保存。"
 
 #: src/app/AppearanceSettings.tsx
 msgid "This choice is active, but could not be saved on this device."
@@ -20922,6 +21207,10 @@ msgstr "使用"
 msgid "Use {swatch} background"
 msgstr "使用 {swatch} 背景"
 
+#: src/features/solo/DraftSettings.tsx
+msgid "Use a chat name of at most 120 characters."
+msgstr "聊天名称最多可输入 120 个字符。"
+
 #: src/features/identity/Welcome.tsx
 #: src/features/identity/WelcomeBack.tsx
 msgid "Use a different account"
@@ -21612,6 +21901,10 @@ msgstr "窗口操作失败，请重试。"
 msgid "Window controls"
 msgstr "窗口操作"
 
+#: src/features/solo/SoloDraft.tsx
+msgid "Window ownership or saved choices are unavailable."
+msgstr "无法读取窗口归属或已保存的选项。"
+
 #: src/bundled/mesh-compute/index.tsx
 msgid "with"
 msgstr "与"
@@ -21754,6 +22047,10 @@ msgstr "远程办公"
 #: src/bundled/mesh-compute/MeshAgentTab.tsx
 msgid "Works with shell, project skills and Buzz tools."
 msgstr "支持 shell、项目技能和 Buzz 工具。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "workspace"
+msgstr "工作区"
 
 #: src/bundled/agents/AgentSettingsHost.tsx
 #: src/bundled/builderlab/adapter-type/Instructions.tsx
@@ -21958,6 +22255,14 @@ msgstr "当前已是最新版本。"
 #: src/features/messages/ChannelJoinNotice.tsx
 msgid "You’re previewing this {placeWord}"
 msgstr "你正在预览此{placeWord}"
+
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "You’ve joined all of the newest open channels."
+msgstr "你已加入所有最新的公开频道。"
+
+#: src/app/shell/ChannelDirectoryResults.tsx
+msgid "You’ve joined every open channel."
+msgstr "你已加入全部公开频道。"
 
 #: src/bundled/builderlab/communities/api.ts
 msgid "You've reached your community limit."
@@ -22190,6 +22495,18 @@ msgstr "你的本地默认资料。加入社区时会使用它；在此保存不
 #: src/app/ProfileSettings.tsx
 msgid "Your local identity is unavailable. Connect your identity to edit your profile."
 msgstr "本地身份不可用，请连接身份后编辑个人资料。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Your message could not be saved on this device."
+msgstr "无法在此设备上保存消息。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Your message is back in New chat, but its {missingSettings} could not be saved on this device."
+msgstr "消息已恢复到新聊天，但无法在此设备上保存它的{missingSettings}。"
+
+#: src/features/solo/SoloDraft.tsx
+msgid "Your message is back in New chat."
+msgstr "消息已恢复到新聊天。"
 
 #: src/bundled/mentions/MentionPicker.tsx
 msgid "Your message tags {audienceNames}, so picks here add or remove tags."

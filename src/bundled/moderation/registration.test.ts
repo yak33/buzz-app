@@ -2,6 +2,7 @@ import { provideNavigation } from "../../features/navigation/service";
 import { Context } from "@deepseek-ai/cordis";
 import { expect, it, vi } from "vitest";
 import { MEMBERSHIP_SECTION } from "../../features/communities/CommunityPickerItem";
+import { i18n } from "../../features/localization/service";
 import type { RelayData } from "../../features/relay/service";
 import { flush } from "../../features/relay/testing";
 import { SettingsCardsService } from "../../features/settings/service";
@@ -84,13 +85,15 @@ it("registers the Membership card under the key the community rail opens", async
   await vi.waitFor(() =>
     expect(cards.visibility(MEMBERSHIP_SECTION)).toBe(true),
   );
-  expect(
-    cards.snapshot().find((card) => card.key === MEMBERSHIP_SECTION),
-  ).toMatchObject({
-    title: "Membership",
+  const card = cards.snapshot().find((card) => card.key === MEMBERSHIP_SECTION);
+  if (!card) throw new Error("Missing Membership settings card");
+  expect(card).toMatchObject({
     section: "administration",
     pluginId: manifest.id,
   });
+  const title =
+    typeof card.title === "string" ? card.title : i18n._(card.title);
+  expect(title).toBe("Membership");
 
   await fiber.dispose();
   releaseVisibility();

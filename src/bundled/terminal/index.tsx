@@ -51,6 +51,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   ctx.shortcuts.register({
     id: "toggle",
     title: "Toggle channel terminal",
+    titleMessage: msg`Toggle channel terminal`,
     binding: TOGGLE_BINDING,
     // Plugin Settings order: the terminal action is the category's primary action.
     order: 10,

@@ -134,7 +134,9 @@ it("adds a profile-menu action and leaves alerts and the sidebar alone while off
   const t = setup();
   t.enable();
   await vi.waitFor(() =>
-    expect(t.accountActions.snapshot().map((a) => a.title)).toEqual(["Focus"]),
+    expect(t.accountActions.snapshot().map((action) => action.id)).toEqual([
+      "focus",
+    ]),
   );
   expect(t.sidebarScope.snapshot()).toEqual([]);
   expect(t.notifications.gated(conversation("team"))).toBe(true);
@@ -165,8 +167,8 @@ it("⌥F starts Focus for the shortcut length set in Settings", async () => {
   const t = setup();
   t.enable();
   await vi.waitFor(() =>
-    expect(t.settingsCards.snapshot().map((card) => card.title)).toEqual([
-      "Focus",
+    expect(t.settingsCards.snapshot().map((card) => card.id)).toEqual([
+      "focus",
     ]),
   );
   const shortcut = t.shortcuts.snapshot().find((item) => item.id === "toggle");

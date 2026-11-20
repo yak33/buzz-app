@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { isTauri } from "@tauri-apps/api/core";
 import { isApplePlatform } from "../features/shortcuts/format";
 import type { ShortcutsService } from "../features/shortcuts/service";
@@ -48,6 +49,12 @@ export const HOST_SHORTCUT_ORDER = {
   reload: 95,
 } as const;
 
+const PANE_SHORTCUT_TITLES = {
+  main: ["Focus main pane", msg`Focus main pane`],
+  side: ["Focus side pane", msg`Focus side pane`],
+  next: ["Focus next pane", msg`Focus next pane`],
+} as const;
+
 export function registerAppShortcuts(
   shortcuts: ShortcutsService,
   appearance: Appearance,
@@ -59,6 +66,7 @@ export function registerAppShortcuts(
     shortcuts.registerHost({
       id: "focus-composer",
       title: "Focus message box",
+      titleMessage: msg`Focus message box`,
       binding: { key: "l", mod: true },
       order: HOST_SHORTCUT_ORDER.focus,
       allowInEditable: true,
@@ -66,10 +74,12 @@ export function registerAppShortcuts(
         !document.activeElement?.closest(".xterm") && !!composerFocusTarget(),
       run: () => focusKeyboardTarget(composerFocusTarget()),
     }),
-    ...(apple ? (["main", "side"] as const) : [undefined]).map((pane) =>
-      shortcuts.registerHost({
+    ...(apple ? (["main", "side"] as const) : [undefined]).map((pane) => {
+      const [title, titleMessage] = PANE_SHORTCUT_TITLES[pane ?? "next"];
+      return shortcuts.registerHost({
         id: pane ? `focus-${pane}-pane` : "focus-pane",
-        title: pane ? `Focus ${pane} pane` : "Focus next pane",
+        title,
+        titleMessage,
         binding: pane
           ? {
               key: { main: "h", side: "l" }[pane],
@@ -81,11 +91,12 @@ export function registerAppShortcuts(
         allowInEditable: true,
         when: () => !!paneFocusTarget(pane),
         run: () => focusKeyboardTarget(paneFocusTarget(pane)),
-      }),
-    ),
+      });
+    }),
     shortcuts.registerHost({
       id: "set-status",
       title: "Set a status",
+      titleMessage: msg`Set a status`,
       binding: { key: "y", mod: true, shift: true },
       order: HOST_SHORTCUT_ORDER.status,
       // The message editor keeps this chord as Redo; elsewhere it opens status.
@@ -98,6 +109,7 @@ export function registerAppShortcuts(
     shortcuts.registerHost({
       id: "settings",
       title: "Open Settings",
+      titleMessage: msg`Open Settings`,
       binding: { key: ",", mod: true },
       order: HOST_SHORTCUT_ORDER.settings,
       allowInEditable: true,
@@ -109,6 +121,7 @@ export function registerAppShortcuts(
         [
           "font-increase",
           "Increase interface size",
+          msg`Increase interface size`,
           HOST_SHORTCUT_ORDER.textSizeIncrease,
           [
             { key: "=", mod: true },
@@ -121,6 +134,7 @@ export function registerAppShortcuts(
         [
           "font-decrease",
           "Decrease interface size",
+          msg`Decrease interface size`,
           HOST_SHORTCUT_ORDER.textSizeDecrease,
           { key: "-", mod: true },
           () => appearance.setFontScale(appearance.snapshot().fontScale - 0.1),
@@ -128,15 +142,17 @@ export function registerAppShortcuts(
         [
           "font-reset",
           "Reset interface size",
+          msg`Reset interface size`,
           HOST_SHORTCUT_ORDER.textSizeReset,
           { key: "0", mod: true },
           () => appearance.setFontScale(1),
         ],
       ] as const
-    ).map(([id, title, order, binding, run]) =>
+    ).map(([id, title, titleMessage, order, binding, run]) =>
       shortcuts.registerHost({
         id,
         title,
+        titleMessage,
         order,
         binding,
         run,
@@ -151,6 +167,7 @@ export function registerAppShortcuts(
     shortcuts.registerHost({
       id: "app-reload",
       title: "Reload Buzz",
+      titleMessage: msg`Reload Buzz`,
       binding: { key: "r", mod: true },
       order: HOST_SHORTCUT_ORDER.reload,
       allowInEditable: true,
@@ -165,6 +182,7 @@ export function registerAppShortcuts(
       shortcuts.registerHost({
         id: "close-tab",
         title: "Close tab",
+        titleMessage: msg`Close tab`,
         binding: { key: "w", mod: true },
         order: HOST_SHORTCUT_ORDER.close,
         allowInEditable: true,
@@ -180,18 +198,26 @@ export function registerAppShortcuts(
       }),
       ...(
         [
-          ["next-tab", "Show next tab", HOST_SHORTCUT_ORDER.nextTab, false],
+          [
+            "next-tab",
+            "Show next tab",
+            msg`Show next tab`,
+            HOST_SHORTCUT_ORDER.nextTab,
+            false,
+          ],
           [
             "previous-tab",
             "Show previous tab",
+            msg`Show previous tab`,
             HOST_SHORTCUT_ORDER.previousTab,
             true,
           ],
         ] as const
-      ).map(([id, title, order, shift]) =>
+      ).map(([id, title, titleMessage, order, shift]) =>
         shortcuts.registerHost({
           id,
           title,
+          titleMessage,
           binding: { key: "Tab", mod: true, shift },
           order,
           allowInEditable: true,
@@ -236,6 +262,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "edit-message",
       title: "Edit selected message",
+      titleMessage: msg`Edit selected message`,
       binding: { key: "e" },
       order: HOST_SHORTCUT_ORDER.editMessage,
       when: () => {
@@ -251,6 +278,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "react-to-message",
       title: "React to selected message",
+      titleMessage: msg`React to selected message`,
       binding: { key: "r" },
       order: HOST_SHORTCUT_ORDER.reactToMessage,
       when: () => {
@@ -262,6 +290,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "reply-to-message",
       title: "Reply in thread to selected message",
+      titleMessage: msg`Reply in thread to selected message`,
       binding: [{ key: "t" }, { key: "ArrowRight" }],
       order: HOST_SHORTCUT_ORDER.replyToMessage,
       when: () => {
@@ -276,6 +305,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "mark-message-unread",
       title: "Mark unread from selected message",
+      titleMessage: msg`Mark unread from selected message`,
       binding: { key: "u" },
       order: HOST_SHORTCUT_ORDER.markMessageUnread,
       when: () => {
@@ -291,6 +321,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "delete-message",
       title: "Delete selected message",
+      titleMessage: msg`Delete selected message`,
       // Mac keyboards' Delete key reports Backspace.
       binding: [{ key: "Delete" }, { key: "Backspace" }],
       order: HOST_SHORTCUT_ORDER.deleteMessage,
@@ -307,6 +338,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "quote-selection",
       title: "Quote selected text",
+      titleMessage: msg`Quote selected text`,
       binding: { key: "q" },
       order: HOST_SHORTCUT_ORDER.quoteSelection,
       when: () => !!quotableSelection(),
@@ -317,6 +349,7 @@ function registerMessageShortcuts(shortcuts: ShortcutsService) {
     shortcuts.registerHost({
       id: "react-to-latest",
       title: "React to latest message",
+      titleMessage: msg`React to latest message`,
       // Shift turns Backslash into a bar on common layouts.
       binding: [
         { key: "\\", mod: true, shift: true },
@@ -342,6 +375,7 @@ export function registerNavigationShortcuts(
     shortcuts.registerHost({
       id: "home",
       title: "Home",
+      titleMessage: msg`Home`,
       order: HOST_SHORTCUT_ORDER.home,
       // Placeholder chord: Slack's ⌘⇧A belongs to Inbox's unread view.
       binding: { key: "o", mod: true, shift: true },
@@ -352,6 +386,7 @@ export function registerNavigationShortcuts(
     shortcuts.registerHost({
       id: "shortcuts-help",
       title: "Show keyboard shortcuts",
+      titleMessage: msg`Show keyboard shortcuts`,
       order: HOST_SHORTCUT_ORDER.shortcutsHelp,
       // Not Mod+Shift+? too: macOS reserves it for Help menu search.
       binding: { key: "/", mod: true },
@@ -364,6 +399,7 @@ export function registerNavigationShortcuts(
     shortcuts.registerHost({
       id: "navigation-back",
       title: "Go back",
+      titleMessage: msg`Go back`,
       order: HOST_SHORTCUT_ORDER.navigationBack,
       binding: { key: "[", mod: true },
       allowInEditable: true,
@@ -375,6 +411,7 @@ export function registerNavigationShortcuts(
     shortcuts.registerHost({
       id: "navigation-forward",
       title: "Go forward",
+      titleMessage: msg`Go forward`,
       order: HOST_SHORTCUT_ORDER.navigationForward,
       binding: { key: "]", mod: true },
       allowInEditable: true,

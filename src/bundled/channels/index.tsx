@@ -67,6 +67,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   ctx.shortcuts.register({
     id: "archive-chat",
     title: "Archive chat",
+    titleMessage: msg`Archive chat`,
     // Apple Mail's Archive. Elsewhere Ctrl is Mod, and Ctrl+Shift+A opens Inbox unread.
     binding: isApplePlatform(globalThis.navigator?.platform ?? "")
       ? { key: "a", mod: true, ctrl: true }
@@ -79,11 +80,26 @@ export const apply: PluginModule["apply"] = (ctx) => {
   // Slack's sidebar stepping. Terminals keep Option+Arrow, and stepping is
   // unavailable (the key is left alone) while the sidebar renders no rows.
   const stepping = [
-    ["previous-conversation", "Previous conversation", "ArrowUp", false, 30],
-    ["next-conversation", "Next conversation", "ArrowDown", false, 31],
+    [
+      "previous-conversation",
+      "Previous conversation",
+      msg`Previous conversation`,
+      "ArrowUp",
+      false,
+      30,
+    ],
+    [
+      "next-conversation",
+      "Next conversation",
+      msg`Next conversation`,
+      "ArrowDown",
+      false,
+      31,
+    ],
     [
       "previous-unread-conversation",
       "Previous unread conversation",
+      msg`Previous unread conversation`,
       "ArrowUp",
       true,
       32,
@@ -91,15 +107,17 @@ export const apply: PluginModule["apply"] = (ctx) => {
     [
       "next-unread-conversation",
       "Next unread conversation",
+      msg`Next unread conversation`,
       "ArrowDown",
       true,
       33,
     ],
   ] as const;
-  for (const [id, title, key, unreadOnly, order] of stepping)
+  for (const [id, title, titleMessage, key, unreadOnly, order] of stepping)
     ctx.shortcuts.register({
       id,
       title,
+      titleMessage,
       binding: { key, alt: true, shift: unreadOnly },
       order,
       allowInEditable: true,
@@ -111,6 +129,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   ctx.shortcuts.register({
     id: "mark-read",
     title: "Mark conversation as read",
+    titleMessage: msg`Mark conversation as read`,
     binding: { key: "Escape" },
     order: 40,
     allowInEditable: true,

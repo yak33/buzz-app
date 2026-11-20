@@ -28,6 +28,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     scope.shortcuts.register({
       id: "gif-picker",
       title: "Open GIF picker",
+      titleMessage: msg`Open GIF picker`,
       binding: { key: "g", mod: true },
       allowInEditable: true,
       when: gifShortcut.available,

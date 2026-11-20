@@ -117,7 +117,7 @@ async function mount() {
 it("draws the request in its message and applies the change the owner confirms there", async () => {
   const { plugins, agent, requestId, installRequests } = await mount();
   const card = await screen.findByRole("region", {
-    name: "Plugin request: Browser",
+    name: "Enable Browser",
   });
   expect(within(card).getByText(`Builder: ${reason}`)).toBeVisible();
   fireEvent.click(within(card).getByRole("button", { name: "Review Browser" }));

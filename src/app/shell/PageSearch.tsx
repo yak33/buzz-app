@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { useSearchSettings } from "./SearchSettings";
 import { usePagePresentation } from "./BestieNavigation";
@@ -194,26 +195,28 @@ export function PageSearch({
     () =>
       services?.shortcuts.registerHost({
         id: SEARCH_ID,
-        title: t`Search Buzz`,
+        title: "Search Buzz",
+        titleMessage: msg`Search Buzz`,
         binding: SEARCH_BINDINGS,
         order: HOST_SHORTCUT_ORDER.search,
         allowInEditable: true,
         run: begin,
       }),
-    [services, begin, t],
+    [services, begin],
   );
   useEffect(
     () =>
       services?.shortcuts.registerHost({
         id: CONVERSATION_SEARCH_ID,
-        title: t`Search this conversation`,
+        title: "Search this conversation",
+        titleMessage: msg`Search this conversation`,
         binding: CONVERSATION_SEARCH_BINDING,
         order: HOST_SHORTCUT_ORDER.search + 1,
         allowInEditable: true,
         when: () => !!currentChannelId,
         run: beginScoped,
       }),
-    [services, currentChannelId, beginScoped, t],
+    [services, currentChannelId, beginScoped],
   );
   // The hint follows the person's rebind, derived from the same binding object.
   const { overrides } = useSyncExternalStore(

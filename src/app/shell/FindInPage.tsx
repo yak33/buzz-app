@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import {
   useCallback,
   useEffect,
@@ -21,6 +23,7 @@ import styles from "./FindInPage.module.css";
 
 const MATCHES = "buzz-find";
 const ACTIVE = "buzz-find-active";
+const FIND_TITLE = msg`Find on screen`;
 /** Typing waits this long; arriving messages recount after a longer pause. */
 const TYPING_DELAY = 100;
 const MUTATION_DELAY = 250;
@@ -127,6 +130,8 @@ export function FindInPage({
 }: {
   shortcuts?: Pick<ShortcutsService, "registerHost"> | undefined;
 }) {
+  const { t, i18n } = useLingui();
+  const title = i18n._(FIND_TITLE);
   const [root, setRoot] = useState<Element | null>(null);
   const [query, setQuery] = useState("");
   // The count names the query it was taken for: "No results" waits for a search.
@@ -197,6 +202,7 @@ export function FindInPage({
       shortcuts?.registerHost({
         id: "find-in-page",
         title: "Find on screen",
+        titleMessage: FIND_TITLE,
         binding: { key: "f", mod: true, shift: true },
         order: HOST_SHORTCUT_ORDER.search + 2,
         allowInEditable: true,
@@ -268,17 +274,16 @@ export function FindInPage({
   if (!root) return null;
   const total =
     count.total === FIND_LIMIT ? `${FIND_LIMIT}+` : String(count.total);
-  const label =
-    !query.trim() || !count.query
-      ? ""
-      : count.total
-        ? `${count.active + 1} of ${total}`
-        : "No results";
+  const position = count.active + 1;
+  let label = "";
+  if (query.trim() && count.query)
+    label = count.total ? t`${position} of ${total}` : t`No results`;
   const step = (by: number) => show(active.current + by, true);
   return createPortal(
     <search
       ref={bar}
-      aria-label="Find on screen"
+      aria-label={title}
+      lang={i18n.locale}
       className={styles.bar}
       popover={POPOVER}
       onKeyDown={(event) => {
@@ -301,8 +306,11 @@ export function FindInPage({
       <div className={styles.field}>
         <SearchField
           variant="capsule"
-          label="Find on screen"
-          placeholder="Find on screen"
+          label={title}
+          labelLang={i18n.locale}
+          lang=""
+          placeholder={title}
+          clearLabel={t`Clear find on screen`}
           value={query}
           onValueChange={setQuery}
           inputRef={input}
@@ -314,19 +322,19 @@ export function FindInPage({
         />
       </div>
       <IconButton
-        aria-label="Previous match"
+        aria-label={t`Previous match`}
         icon={<CaretUpIcon size={16} aria-hidden="true" />}
         disabled={!count.total}
         onClick={() => step(-1)}
       />
       <IconButton
-        aria-label="Next match"
+        aria-label={t`Next match`}
         icon={<CaretDownIcon size={16} aria-hidden="true" />}
         disabled={!count.total}
         onClick={() => step(1)}
       />
       <IconButton
-        aria-label="Close find on screen"
+        aria-label={t`Close find on screen`}
         icon={<XIcon size={16} aria-hidden="true" />}
         onClick={close}
       />

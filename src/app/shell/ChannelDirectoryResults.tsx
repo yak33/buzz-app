@@ -1,3 +1,5 @@
+import { plural } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { channelIcon } from "../../features/channels/channel-icon";
 import {
@@ -49,6 +51,7 @@ export function ChannelDirectoryResults({
   /** Opens an open channel's read-only preview, where Join lives. */
   openPreview: (channelId: string) => void;
 }) {
+  const { t, i18n } = useLingui();
   const list = useChannelRoster(session.channels);
   const ready = list.status === "ready";
   const directory = useChannelDirectory(session.channels, ready);
@@ -154,7 +157,7 @@ export function ChannelDirectoryResults({
     .slice(0, drawn)
     .map(({ channel, joined, match }) => {
       const people = members.counts.get(channel.id);
-      const detail = [joined && "Joined", channel.description]
+      const detail = [joined && t`Joined`, channel.description]
         .filter(Boolean)
         .join(" · ");
       return {
@@ -165,13 +168,21 @@ export function ChannelDirectoryResults({
         // The count's space is held from the start, so its arrival neither
         // makes a row taller nor trims the description again.
         trailing: (
-          <span className="search-palette-count text-body-sm">
+          <span
+            className="search-palette-count text-body-sm"
+            lang={i18n.locale}
+          >
             {people !== undefined && (
               <>
                 <UserIcon size={14} aria-hidden="true" />
-                {people.toLocaleString()}
+                {i18n.number(people)}
                 <span className="sr-only">
-                  {people === 1 ? " member" : " members"}
+                  {t({
+                    message: plural(people, {
+                      one: " member",
+                      other: " members",
+                    }),
+                  })}
                 </span>
               </>
             )}
@@ -186,11 +197,22 @@ export function ChannelDirectoryResults({
   const settled = ready && !directory.loading && !failed;
   const count = rows.length;
   // One polite summary once a switch or filter settles, not per keystroke.
-  const summary = settled
-    ? needle
-      ? `${count} ${count === 1 ? "channel matches" : "channels match"}`
-      : `${count} ${count === 1 ? "channel" : "channels"} you can join`
-    : "";
+  let summary = "";
+  if (settled) {
+    summary = needle
+      ? t({
+          message: plural(count, {
+            one: "# channel matches",
+            other: "# channels match",
+          }),
+        })
+      : t({
+          message: plural(count, {
+            one: "# channel you can join",
+            other: "# channels you can join",
+          }),
+        });
+  }
   const [announced, setAnnounced] = useState("");
   useEffect(() => {
     const timer = setTimeout(() => setAnnounced(summary), 500);
@@ -220,62 +242,67 @@ export function ChannelDirectoryResults({
       groups={[
         {
           // Typed results sit under the Channels tab that names them.
-          label: needle ? "Channels" : "Channels you can join",
+          label: needle ? t`Channels` : t`Channels you can join`,
           hideLabel: !!needle,
           destinations,
           total: count,
         },
       ]}
     >
-      <p className="sr-only" aria-live="polite">
+      <p className="sr-only" aria-live="polite" lang={i18n.locale}>
         {announced}
       </p>
       {count ? (
         <div
           className="space-y-2 px-3 text-body-sm text-subtle"
           aria-live="polite"
+          lang={i18n.locale}
         >
           {failed && (
             <div>
-              <p>Couldn’t load all channels.</p>
+              <p>{t`Couldn’t load all channels.`}</p>
               <Button size="sm" variant="ghost" onClick={retry}>
-                Retry channels
+                {t`Retry channels`}
               </Button>
             </div>
           )}
           {settled && directory.partial && (
-            <p>Only the newest open channels are shown.</p>
+            <p>{t`Only the newest open channels are shown.`}</p>
           )}
           {/* The first page shows at once; the rest join it as they land. */}
-          {directory.loading && !failed && <p>Loading more channels…</p>}
+          {directory.loading && !failed && <p>{t`Loading more channels…`}</p>}
         </div>
       ) : (
         // Nothing to list: the message takes the reserved results space.
-        <div className="search-palette-centered" aria-live="polite">
+        <div
+          className="search-palette-centered"
+          aria-live="polite"
+          lang={i18n.locale}
+        >
           {failed ? (
             <>
-              <p>Couldn’t load channels.</p>
+              <p>{t`Couldn’t load channels.`}</p>
               <Button size="sm" variant="ghost" onClick={retry}>
-                Retry channels
+                {t`Retry channels`}
               </Button>
             </>
           ) : settled ? (
             needle ? (
               <>
-                <p>No matching channels.</p>
-                <p>Private channels show up once someone invites you.</p>
+                <p>{t`No matching channels.`}</p>
+                <p>{t`Private channels show up once someone invites you.`}</p>
               </>
             ) : (
               <p>
                 {directory.partial
                   ? // A capped read can't say nothing else is left to join.
-                    "You’ve joined all of the newest open channels."
-                  : "You’ve joined every open channel."}
+                    t`You’ve joined all of the newest open channels.`
+                  : t`You’ve joined every open channel.`}
               </p>
             )
           ) : (
             // Rows show from the first page; this waits a second first.
-            <LoadingRegion pending label="Loading channels…">
+            <LoadingRegion pending label={t`Loading channels…`}>
               {null}
             </LoadingRegion>
           )}

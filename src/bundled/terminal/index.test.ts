@@ -9,7 +9,8 @@ import {
   screen,
 } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import type { SettingsCard } from "../../features/settings/service";
+import { i18n } from "../../features/localization/service";
+import type { SettingsCards } from "../../features/settings/service";
 import { TERMINAL_FONT_KEY } from "./font-preference";
 import { apply } from "./index";
 import { nativeBridge } from "./bridge";
@@ -26,7 +27,8 @@ it("retains registered font drafts across navigation and clears them on Apply/re
   nativeBridge.available = true;
   const ctx = host();
   apply(ctx as unknown as Parameters<typeof apply>[0]);
-  const card = ctx.settingsCards.register.mock.calls[0]?.[0] as SettingsCard;
+  const card = ctx.settingsCards.register.mock.calls[0]?.[0];
+  if (!card) throw new Error("Missing Terminal settings card");
   const open = () =>
     render(createElement(card.component, { active: () => true }));
   const family = () => screen.getByRole("textbox", { name: "Font family" });
@@ -77,7 +79,7 @@ function host() {
   const shortcuts = { register: vi.fn() };
   const effect = vi.fn();
   const relay = { snapshot: vi.fn() };
-  const settingsCards = { register: vi.fn() };
+  const settingsCards = { register: vi.fn<SettingsCards["register"]>() };
   return { panels, shortcuts, effect, relay, settingsCards };
 }
 it("does not register a panel or shortcut without native terminal support", () => {
@@ -111,11 +113,15 @@ it("retains the desktop panel, shortcut and session cleanup", async () => {
   expect(ctx.settingsCards.register).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({
       id: "settings",
-      title: "Terminal",
       group: "Plugins",
       component: expect.any(Function),
     }),
   );
+  const [card] = ctx.settingsCards.register.mock.calls[0] ?? [];
+  if (!card) throw new Error("Missing Terminal settings card");
+  const title =
+    typeof card.title === "string" ? card.title : i18n._(card.title);
+  expect(title).toBe("Terminal");
   const storageListener = subscribe.mock.calls.find(
     ([event]) => event === "storage",
   )?.[1];

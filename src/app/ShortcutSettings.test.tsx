@@ -22,6 +22,7 @@ import { ShortcutsService } from "../features/shortcuts/service";
 import type { PluginManager } from "../plugins/manager";
 import type { PluginInfo } from "../plugins/types";
 import { createAppearance } from "../shared/theme/service";
+import { i18n } from "../features/localization/service";
 import { createNavigationController } from "../features/navigation/controller";
 import { createMemoryHistory } from "../features/navigation/history";
 import { registerAppShortcuts, registerNavigationShortcuts } from "./shortcuts";
@@ -267,7 +268,7 @@ it("lists live host and plugin shortcuts without search or intro text and follow
   }
 });
 
-it("presents actual host registrations in navigation, interface sizing, search/settings, then development order", async () => {
+it("presents host shortcuts in order and translates their titles without changing a plugin's own title", async () => {
   const root = new Context();
   root.provide("pluginStatus", {
     isActive: () => true,
@@ -282,7 +283,19 @@ it("presents actual host registrations in navigation, interface sizing, search/s
     shortcuts,
     navigation.navigation,
   );
+  const previousLocale = i18n.locale;
   try {
+    await root
+      .extend({ pluginOwner: { id: "example.search", revision: "one" } })
+      .plugin((ctx) => {
+        ctx.shortcuts.register({
+          id: "search",
+          title: "Search",
+          binding: { key: "F9" },
+          run: vi.fn(),
+        });
+      })
+      .await();
     render(
       <>
         <PageSearch
@@ -299,7 +312,7 @@ it("presents actual host registrations in navigation, interface sizing, search/s
         <ShortcutSettings
           shortcuts={shortcuts}
           bindings={bindings}
-          plugins={catalog([])}
+          plugins={catalog([info("example.search", "Search tools")])}
         />
       </>,
     );
@@ -330,9 +343,19 @@ it("presents actual host registrations in navigation, interface sizing, search/s
       "Delete selected message",
       "Quote selected text",
       "Reload Buzz",
+      "Search",
     ]);
+
+    act(() => i18n.activate("zh-CN"));
+    expect(screen.getByRole("heading", { name: "打开设置" })).toHaveAttribute(
+      "lang",
+      "zh-CN",
+    );
+    expect(row("搜索 Buzz")).toBeVisible();
+    expect(row("Search")).toBeVisible();
   } finally {
     cleanup();
+    if (i18n.locale !== previousLocale) i18n.activate(previousLocale);
     removeNavigation();
     removeApp();
     navigation.dispose();

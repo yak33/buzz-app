@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
 import { ChannelDurationField } from "../../bundled/channels/ChannelDurationField";
 import {
   canonicalDetailsName,
@@ -39,38 +42,44 @@ export function DraftSettings({
   name?: string | undefined;
   ttlSeconds?: number | undefined;
   finalFocus?: ComponentProps<typeof Dialog>["finalFocus"];
-  save(canvas: string, ttlSeconds?: number, name?: string): void;
+  /** Returns false when the device couldn't store the updated settings. */
+  save(canvas: string, ttlSeconds?: number, name?: string): boolean | undefined;
   close(): void;
 }) {
+  const { i18n, t } = useLingui();
   // A persisted name arrives unchecked; a malformed one opens blank.
   const openedName = typeof name === "string" ? name : "";
   const [value, setValue] = useState(openedName);
   const normalized = canonicalDetailsName(value);
-  const nameError = normalized
-    ? detailsDraftErrors({
-        name: normalized,
-        description: "",
-        visibility: "private",
-      }).name
-      ? "Use a chat name of at most 120 characters."
-      : undefined
+  const invalidName =
+    normalized !== "" &&
+    detailsDraftErrors({
+      name: normalized,
+      description: "",
+      visibility: "private",
+    }).name;
+  const nameError = invalidName
+    ? t`Use a chat name of at most 120 characters.`
     : undefined;
   const [ttl, setTtl] = useState(ttlSeconds);
   const [temporaryTtl, setTemporaryTtl] = useState(
     ttlSeconds ?? DEFAULT_TEMPORARY_CHANNEL_TTL_SECONDS,
   );
-  const lifetimeError = detailsDraftErrors({
+  const invalidLifetime = detailsDraftErrors({
     name: "Chat",
     description: "",
     visibility: "private",
     ttlSeconds: ttl,
   }).lifetime;
+  const lifetimeError = invalidLifetime
+    ? t`Channel duration could not be verified.`
+    : undefined;
   const [workspace, setWorkspace] = useState(emptyWorkspace);
   const [raw, setRaw] = useState<string>();
   // The Canvas the dialog opened with; undefined until it has loaded.
   const [opened, setOpened] = useState<string>();
   const loaded = opened !== undefined;
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | MessageDescriptor>("");
   const [attempt, setAttempt] = useState(0);
   // biome-ignore lint/correctness/useExhaustiveDependencies: attempt explicitly retries a failed settings read.
   useEffect(() => {
@@ -99,6 +108,7 @@ export function DraftSettings({
   }, [session, projectId, canvas, attempt]);
   return (
     <ChatSettingsDialog
+      lang={i18n.locale}
       dismissOnOutsideClick={false}
       dirty={
         canonicalDetailsName(value) !== canonicalDetailsName(openedName) ||
@@ -110,22 +120,34 @@ export function DraftSettings({
       saveDisabled={!loaded || !!nameError || !!lifetimeError}
       onSave={() => {
         try {
-          save(
+          const saved = save(
             raw === undefined
               ? workspaceCanvas(workspace)
               : workspaceCanvas({ folders: [], canvas: raw }),
             ttl,
             normalized,
           );
+          if (saved === false) {
+            setError(
+              msg`Settings couldn’t be saved on this device. Try again.`,
+            );
+            return;
+          }
           close();
         } catch (reason) {
           setError(reason instanceof Error ? reason.message : String(reason));
         }
       }}
     >
-      <Field label="Chat name" optional error={nameError}>
+      <Field
+        label={t`Chat name`}
+        optional
+        optionalLabel={t`Optional`}
+        error={nameError}
+      >
         <Input
           value={value}
+          lang=""
           disabled={!loaded}
           onChange={(event) => setValue(event.target.value)}
         />
@@ -138,10 +160,10 @@ export function DraftSettings({
           onRawChange={setRaw}
         />
       ) : (
-        !error && <p role="status">Loading settings…</p>
+        !error && <p role="status">{t`Loading settings…`}</p>
       )}
       <ChannelDurationField
-        label="Lifetime"
+        label={t`Lifetime`}
         temporary={ttl !== undefined}
         ttlSeconds={temporaryTtl}
         disabled={!loaded}
@@ -151,10 +173,14 @@ export function DraftSettings({
           if (next !== undefined) setTemporaryTtl(next);
         }}
       />
-      {error && <p role="alert">{error}</p>}
+      {error && (
+        <p role="alert" lang={typeof error === "string" ? "" : i18n.locale}>
+          {typeof error === "string" ? error : i18n._(error)}
+        </p>
+      )}
       {!loaded && error && (
         <Button onClick={() => setAttempt((value) => value + 1)}>
-          Retry settings
+          {t`Retry settings`}
         </Button>
       )}
     </ChatSettingsDialog>

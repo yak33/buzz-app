@@ -1,3 +1,4 @@
+import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import type { PluginModule } from "../../plugins/api";
 import { InboxPage } from "./InboxPage";
@@ -18,6 +19,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
   const open = (
     id: string,
     title: string,
+    titleMessage: MessageDescriptor,
     key: string,
     order: number,
     params: InboxRoute,
@@ -25,6 +27,7 @@ export const apply: PluginModule["apply"] = (ctx) => {
     ctx.shortcuts.register({
       id,
       title,
+      titleMessage,
       binding: { key, mod: true, shift: true },
       order,
       allowInEditable: true,
@@ -32,17 +35,33 @@ export const apply: PluginModule["apply"] = (ctx) => {
         void navigator.open(inboxRouteTarget(params));
       },
     });
-  open("open-unread", "Open unread in Activity", "a", 20, {
-    activity: "all",
-    attention: "unread",
+  open(
+    "open-unread",
+    "Open unread in Activity",
+    msg`Open unread in Activity`,
+    "a",
+    20,
+    { activity: "all", attention: "unread" },
+  );
+  open(
+    "open-threads",
+    "Open threads in Activity",
+    msg`Open threads in Activity`,
+    "t",
+    30,
+    { activity: "threads" },
+  );
+  open(
+    "open-mentions",
+    "Open mentions in Activity",
+    msg`Open mentions in Activity`,
+    "m",
+    40,
+    { activity: "mentions" },
+  );
+  open("open-dms", "Open DMs in Activity", msg`Open DMs in Activity`, "k", 50, {
+    activity: "dms",
   });
-  open("open-threads", "Open threads in Activity", "t", 30, {
-    activity: "threads",
-  });
-  open("open-mentions", "Open mentions in Activity", "m", 40, {
-    activity: "mentions",
-  });
-  open("open-dms", "Open DMs in Activity", "k", 50, { activity: "dms" });
   ctx.pages.register({
     id: "inbox",
     title: msg`Activity`,
