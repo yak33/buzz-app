@@ -9,6 +9,7 @@
   },
   "include": [
     "src/plugins/author.ts",
+    "src/features/localization/po.d.ts",
     "src/vite-env.d.ts",
     "src/shared/design-system/icons/tabler.d.ts"
   ]

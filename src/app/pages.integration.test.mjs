@@ -41,6 +41,11 @@ test("the app runtime exposes ready bundled pages and removes them on disable", 
   let services;
   try {
     const { createServices } = await vite.ssrLoadModule("/src/app/services.ts");
+    const { i18n } = await vite.ssrLoadModule(
+      "/src/features/localization/service.ts",
+    );
+    const titleText = (title) =>
+      typeof title === "string" ? title : i18n._(title);
     services = createServices();
     assert.deepEqual(services.pages.snapshot(), []);
     await vi.waitFor(() =>
@@ -147,7 +152,7 @@ test("the app runtime exposes ready bundled pages and removes them on disable", 
     const inbox = services.pages
       .snapshot()
       .find((page) => page.pluginId === "buzz.inbox");
-    assert.equal(inbox.title, "Activity");
+    assert.equal(titleText(inbox.title), "Activity");
     assert.equal(inbox.layout, "workspace");
     assert.equal(inbox.primary, true);
     assert.match(
@@ -200,7 +205,7 @@ test("the app runtime exposes ready bundled pages and removes them on disable", 
       .filter((card) => card.pluginId === "buzz.github");
     assert.equal(githubSettings.length, 1);
     assert.equal(githubSettings[0].key, "buzz.github/authors");
-    assert.equal(githubSettings[0].title, "GitHub");
+    assert.equal(titleText(githubSettings[0].title), "GitHub");
     for (const target of githubTargets)
       assert.equal(services.panels.resolve(target)?.pluginId, "buzz.github");
     const githubLinks = services.conversation.links.snapshot();
@@ -381,7 +386,7 @@ test("the app runtime exposes ready bundled pages and removes them on disable", 
     const bestiePage = services.pages
       .snapshot()
       .find((page) => page.pluginId === "buzz.bestie");
-    assert.equal(bestiePage.title, "Bestie");
+    assert.equal(titleText(bestiePage.title), "Bestie");
     assert.equal(bestiePage.layout, "workspace");
     assert.equal(bestiePage.primary, true);
     assert.match(
@@ -455,7 +460,7 @@ test("the app runtime exposes ready bundled pages and removes them on disable", 
     const workflows = services.pages
       .snapshot()
       .find((page) => page.pluginId === "buzz.workflows");
-    assert.equal(workflows.title, "Workflows");
+    assert.equal(titleText(workflows.title), "Workflows");
     assert.equal(workflows.layout, "workspace");
     assert.match(
       renderToStaticMarkup(createElement(workflows.component)),
@@ -489,7 +494,7 @@ test("the app runtime exposes ready bundled pages and removes them on disable", 
     assert.equal(services.pages.snapshot().length, 5);
     assert.equal(projects.pluginId, "buzz.repos");
     assert.equal(projects.id, "repos");
-    assert.equal(projects.title, "Repository");
+    assert.equal(titleText(projects.title), "Repository");
     assert.equal(projects.layout, "workspace");
     assert.equal(projects.handlesNavigation, true);
     assert.equal(projects.primary, false);

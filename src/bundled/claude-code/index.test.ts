@@ -15,6 +15,7 @@ import { createMemoryHistory } from "../../features/navigation/history";
 import type { ClaudeConnection } from "./ClaudeSettings";
 import { ClaudeDefaults } from "./defaults";
 import { recommendedRun } from "../../features/agents/recommended";
+import { i18n } from "../../features/localization/service";
 
 vi.mock("@tauri-apps/api/core", () => ({ isTauri: () => true }));
 afterEach(() => vi.restoreAllMocks());
@@ -53,13 +54,17 @@ it.each([true, false])(
           ? [
               {
                 key: "buzz.claude-code/credentials",
-                title: "Claude",
                 group: "Plugins",
               },
             ]
           : [],
       );
       if (settings) {
+        const card = cards.snapshot()[0];
+        if (!card) throw new Error("Missing Claude settings card");
+        const title =
+          typeof card.title === "string" ? card.title : i18n._(card.title);
+        expect(title).toBe("Claude");
         const parent = {
           version: 1,
           kind: "settings",

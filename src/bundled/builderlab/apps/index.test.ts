@@ -4,6 +4,7 @@ import type { AddedTool } from "../../../buzz-mcp/session-tools";
 import type { BuzzClient } from "../../../buzz-mcp/client";
 import type { HostResponse, HostRequest } from "../../../features/host/service";
 import { applyApps } from "./index";
+import { i18n } from "../../../features/localization/service";
 
 afterEach(() => {
   vi.useRealTimers();
@@ -123,8 +124,13 @@ it("adds the app tools only for a tenant with an Apps control plane", async () =
   expect(other.tools.size).toBe(0);
   // The panel opens app links whatever the sign-in.
   expect(other.ctx.panels.register).toHaveBeenCalledWith(
-    expect.objectContaining({ id: "app", title: "App" }),
+    expect.objectContaining({ id: "app" }),
   );
+  const [panel] = other.ctx.panels.register.mock.calls[0] ?? [];
+  if (!panel) throw new Error("Missing App panel");
+  const title =
+    typeof panel.title === "string" ? panel.title : i18n._(panel.title);
+  expect(title).toBe("App");
 });
 
 it("calls through the NIP-FI forwarder, which adds the session", async () => {
