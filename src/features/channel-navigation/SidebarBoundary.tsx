@@ -12,12 +12,17 @@ function SidebarFailure({
 }: Pick<ComponentProps<typeof SidebarFrame>, "header" | "panelId"> & {
   onRetry: () => void;
 }) {
-  const { t } = useLingui();
+  const { i18n, t } = useLingui();
   return (
-    <SidebarFrame label={t`Sidebar`} header={header} panelId={panelId}>
+    <SidebarFrame
+      label={t`Sidebar`}
+      labelLang={i18n.locale}
+      header={header}
+      panelId={panelId}
+    >
       <SidebarList>
-        <p role="alert">{t`Conversations couldn’t open.`}</p>
-        <Button onClick={onRetry}>{t`Retry sidebar`}</Button>
+        <p role="alert" lang={i18n.locale}>{t`Conversations couldn’t open.`}</p>
+        <Button lang={i18n.locale} onClick={onRetry}>{t`Retry sidebar`}</Button>
       </SidebarList>
     </SidebarFrame>
   );

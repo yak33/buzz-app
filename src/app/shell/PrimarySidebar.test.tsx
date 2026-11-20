@@ -34,11 +34,58 @@ import { createSidebarPreferencesStore } from "../../features/relay/sidebar-pref
 import { SOLO_LABEL } from "../../features/solo/labels";
 import type { ChannelDetailsCapability } from "../../features/relay/channel-details";
 import { SIDEBAR_REVEAL_BUDGET_MS } from "../../bundled/channels/useSidebarStartup";
+import { i18n } from "../../features/localization/service";
 stubAvatarBrowserApis();
 afterEach(() => {
   cleanup();
   for (const owner of owners.splice(0)) owner.dispose();
   localStorage.clear();
+});
+
+it("translates primary sidebar filters and connection recovery when the language changes", () => {
+  const previousLocale = i18n.locale;
+  const f = fixture(true);
+  try {
+    act(() => i18n.activate("zh-CN"));
+
+    expect(screen.getByRole("tablist", { name: "导航范围" })).toHaveAttribute(
+      "lang",
+      "zh-CN",
+    );
+    expect(screen.getByRole("tab", { name: "全部" })).toHaveAttribute(
+      "lang",
+      "zh-CN",
+    );
+    expect(screen.getByRole("tab", { name: "个人" })).toHaveAttribute(
+      "lang",
+      "zh-CN",
+    );
+    expect(screen.getByRole("tab", { name: "团队" })).toHaveAttribute(
+      "lang",
+      "zh-CN",
+    );
+    expect(
+      screen.getByLabelText("团队", { selector: "summary" }),
+    ).toHaveAttribute("lang", "zh-CN");
+    expect(
+      screen.getByRole("complementary", { name: "侧边栏" }),
+    ).not.toHaveAttribute("lang");
+
+    f.connection({ status: "connecting" });
+    expect(screen.getByText("正在连接…")).toHaveAttribute("lang", "zh-CN");
+
+    f.connection({
+      status: "error",
+      error: "ReadError: Relay read failed (502)",
+    });
+    expect(screen.getByText("无法加载频道。")).toHaveAttribute("lang", "zh-CN");
+    expect(screen.getByRole("button", { name: "重试" })).toHaveAttribute(
+      "lang",
+      "zh-CN",
+    );
+  } finally {
+    act(() => i18n.activate(previousLocale));
+  }
 });
 
 it("double-clicks a Solo row to edit its selected name, retaining a failed save for retry", async () => {
@@ -948,38 +995,53 @@ it("an explicit Solo reveal during a restriction keeps the saved Team filter", a
   }
 });
 
-it("uses one contributed heading and the prior All Team Nexus order, with no heading creation", async () => {
-  const h = createSoloRegionFixture(viewer);
-  await h.register({ title: "Nexus", component: () => null });
-  const target = conversationTarget(h.scope, "owned");
-  const view = render(
-    <ToastProvider>
-      <PrimarySidebar relay={h.relay} navigator={h.navigator} target={target}>
-        {null}
-      </PrimarySidebar>
-    </ToastProvider>,
-  );
-  try {
-    expect(screen.getAllByRole("tab").map((tab) => tab.textContent)).toEqual([
-      "All",
-      "Team",
-      "Nexus",
-    ]);
-    expect(screen.queryByText("Solo")).not.toBeInTheDocument();
-    expect(screen.getAllByText("Nexus")).toHaveLength(2);
-    await userEvent.setup().click(screen.getByRole("tab", { name: "Nexus" }));
-    expect(screen.getAllByText("Nexus")).toHaveLength(1);
-    await userEvent.setup().click(screen.getByRole("tab", { name: "All" }));
-    expect(screen.getAllByText("Nexus")).toHaveLength(2);
-    // Headings carry no creation of their own; the New menu owns it.
-    expect(
-      screen.queryByRole("button", { name: "Create" }),
-    ).not.toBeInTheDocument();
-  } finally {
-    view.unmount();
-    await h.dispose();
-  }
-});
+it.each([
+  ["Nexus", ["All", "Team", "Nexus"], ["全部", "团队", "Nexus"]],
+  ["Solo", ["All", "Solo", "Team"], ["全部", "Solo", "团队"]],
+])(
+  "keeps a contributed %s title verbatim across languages and preserves tab order",
+  async (title, sourceOrder, translatedOrder) => {
+    const previousLocale = i18n.locale;
+    const h = createSoloRegionFixture(viewer);
+    await h.register({ title, component: () => null });
+    const target = conversationTarget(h.scope, "owned");
+    const view = render(
+      <ToastProvider>
+        <PrimarySidebar relay={h.relay} navigator={h.navigator} target={target}>
+          {null}
+        </PrimarySidebar>
+      </ToastProvider>,
+    );
+    try {
+      expect(screen.getAllByRole("tab").map((tab) => tab.textContent)).toEqual(
+        sourceOrder,
+      );
+      if (title !== "Solo")
+        expect(screen.queryByText("Solo")).not.toBeInTheDocument();
+      expect(screen.getAllByText(title)).toHaveLength(2);
+      await userEvent.setup().click(screen.getByRole("tab", { name: title }));
+      expect(screen.getAllByText(title)).toHaveLength(1);
+      await userEvent.setup().click(screen.getByRole("tab", { name: "All" }));
+      expect(screen.getAllByText(title)).toHaveLength(2);
+      // Headings carry no creation of their own; the New menu owns it.
+      expect(
+        screen.queryByRole("button", { name: "Create" }),
+      ).not.toBeInTheDocument();
+      act(() => i18n.activate("zh-CN"));
+      expect(screen.getAllByRole("tab").map((tab) => tab.textContent)).toEqual(
+        translatedOrder,
+      );
+      expect(screen.getByRole("tab", { name: title })).toHaveAttribute(
+        "lang",
+        "",
+      );
+    } finally {
+      view.unmount();
+      act(() => i18n.activate(previousLocale));
+      await h.dispose();
+    }
+  },
+);
 
 it("omits a contributed create action whose menu fails", async () => {
   const h = createSoloRegionFixture(viewer);

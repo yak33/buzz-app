@@ -1,6 +1,10 @@
 import { stopRoutes } from "./playwright-test.mjs";
 import { test, expect } from "./fixture.mjs";
-import { openSettings, selectSettingsSection } from "./navigation.mjs";
+import {
+  activate,
+  openSettings,
+  selectSettingsSection,
+} from "./navigation.mjs";
 
 test.use({ historyCounts: { alpha: 1, beta: 0 } });
 
@@ -37,12 +41,34 @@ test("Chinese settings persist and synchronize between windows without changing 
     page.getByRole("combobox", { name: "应用语言", exact: true }),
   ).toContainText("简体中文");
 
+  await page
+    .getByRole("dialog", { name: "设置", exact: true })
+    .getByRole("button", { name: "关闭设置", exact: true })
+    .click();
+  const sidebar = page.getByRole("complementary", {
+    name: "侧边栏",
+    exact: true,
+  });
+  const scope = sidebar.getByRole("tablist", { name: "导航范围", exact: true });
+  await expect(scope).toHaveAttribute("lang", "zh-CN");
+  await expect(
+    scope.getByRole("tab", { name: "全部", exact: true }),
+  ).toBeVisible();
+  await scope.getByRole("tab", { name: "团队", exact: true }).click();
+  await expect(
+    scope.getByRole("tab", { name: "团队", exact: true }),
+  ).toHaveAttribute("aria-selected", "true");
+  await scope.getByRole("tab", { name: "全部", exact: true }).click();
+  await page.getByRole("button", { name: "你的个人资料", exact: true }).click();
+  await page.getByRole("menuitem", { name: "设置", exact: true }).click();
+  await page.getByRole("button", { name: "语言", exact: true }).click();
+
   const second = await page.context().newPage();
   try {
     await second.goto(page.url());
-    await second
-      .getByRole("combobox", { name: "应用语言", exact: true })
-      .click();
+    await activate(
+      second.getByRole("combobox", { name: "应用语言", exact: true }),
+    );
     await second
       .getByRole("option", { name: "English (United States)", exact: true })
       .click();

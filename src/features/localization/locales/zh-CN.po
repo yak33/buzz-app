@@ -2662,6 +2662,7 @@ msgid "AI setup"
 msgstr "AI 设置"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/PrimarySidebar.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/SidebarSection.tsx
 #: src/bundled/inbox/InboxFilters.tsx
@@ -4767,6 +4768,10 @@ msgstr "选择一个社区以继续使用你的 Bestie。"
 msgid "Choose a community to manage this agent's watches."
 msgstr "选择一个社区来管理此智能体的关注。"
 
+#: src/app/shell/PrimarySidebar.tsx
+msgid "Choose a community to see channels."
+msgstr "选择社区以查看频道。"
+
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Choose a community to see its channels, or join one. Your profile and settings work without a community."
 msgstr "选择社区即可查看其频道，或加入一个社区。没有社区时，你的个人资料和设置也能正常使用。"
@@ -5993,6 +5998,7 @@ msgstr "正在连接你与 {0} 的私信。"
 msgid "Connecting your microphone…"
 msgstr "正在连接你的麦克风…"
 
+#: src/app/shell/PrimarySidebar.tsx
 #: src/bundled/bestie/index.tsx
 #: src/bundled/bestie/PinnedBestie.tsx
 #: src/features/agents/AgentConnectionSetup.tsx
@@ -6917,6 +6923,7 @@ msgid "Couldn’t load all joined conversations."
 msgstr "未能加载全部已加入的对话。"
 
 #: src/app/shell/ChannelDirectoryResults.tsx
+#: src/app/shell/PrimarySidebar.tsx
 msgid "Couldn’t load channels."
 msgstr "无法加载频道。"
 
@@ -12180,6 +12187,10 @@ msgstr "缩小搜索范围以查看更多成员。"
 #: src/app/shell/NavigationControls.tsx
 msgid "Navigation history"
 msgstr "导航历史"
+
+#: src/app/shell/PrimarySidebar.tsx
+msgid "Navigation scope"
+msgstr "导航范围"
 
 #: src/bundled/claude-code/auth.tsx
 msgid "needs an Anthropic API key"
@@ -18085,6 +18096,7 @@ msgstr "同级"
 msgid "Side pane"
 msgstr "侧边面板"
 
+#: src/app/shell/PrimarySidebar.tsx
 #: src/features/channel-navigation/SidebarBoundary.tsx
 msgid "Sidebar"
 msgstr "侧边栏"
@@ -18302,6 +18314,7 @@ msgid "Software updates"
 msgstr "软件更新"
 
 #: src/app/shell/NewMenu.tsx
+#: src/app/shell/PrimarySidebar.tsx
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Solo"
 msgstr "个人"
@@ -18950,6 +18963,7 @@ msgid "Target kind"
 msgstr "目标类型"
 
 #: src/app/shell/NewMenu.tsx
+#: src/app/shell/PrimarySidebar.tsx
 msgid "Team"
 msgstr "团队"
 
@@ -20680,6 +20694,7 @@ msgstr "试试输入 URL"
 #: src/app/IdentitySettings.tsx
 #: src/app/ManagedPlugins.tsx
 #: src/app/PluginImport.tsx
+#: src/app/shell/PrimarySidebar.tsx
 #: src/bundled/agents/AgentBrowse.tsx
 #: src/bundled/bestie/BestieChooser.tsx
 #: src/bundled/bestie/index.tsx

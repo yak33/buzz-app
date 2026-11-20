@@ -58,6 +58,7 @@ import styles from "./Channels.module.css";
 export function SidebarSection({
   sectionKey,
   title,
+  titleLang,
   icon,
   session,
   open,
@@ -87,6 +88,7 @@ export function SidebarSection({
   sectionKey: string;
   /** 分组标题：固定分组是 Lingui 描述符；用户自建分组名是字符串。 */
   title: string | MessageDescriptor;
+  titleLang?: string | undefined;
   icon?: ReactNode;
   session?: RelaySession | undefined;
   open: boolean;
@@ -149,8 +151,7 @@ export function SidebarSection({
 }) {
   const { t, i18n } = useLingui();
   // 固定分组标题在渲染期翻译，语言切换即时生效。
-  const sectionTitle =
-    typeof title === "string" ? title : i18n._(title);
+  const sectionTitle = typeof title === "string" ? title : i18n._(title);
   const id = useId();
   const cancelRemove = useRef<HTMLButtonElement>(null);
   const actionsTrigger = useRef<HTMLButtonElement>(null);
@@ -205,7 +206,10 @@ export function SidebarSection({
                     />
                   )}
                 />
-                <MenuPopup align="end" aria-label={t`More actions for ${sectionTitle}`}>
+                <MenuPopup
+                  align="end"
+                  aria-label={t`More actions for ${sectionTitle}`}
+                >
                   {filter && (
                     <MenuSubmenu>
                       <MenuSubmenuTrigger>
@@ -543,6 +547,7 @@ export function SidebarSection({
             ref={dragHandle?.ref}
             {...dragHandle?.listeners}
             aria-label={sectionTitle}
+            lang={titleLang}
             aria-controls={id}
             onClick={(event) => {
               event.preventDefault();

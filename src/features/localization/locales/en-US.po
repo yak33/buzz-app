@@ -2662,6 +2662,7 @@ msgid "AI setup"
 msgstr "AI setup"
 
 #: src/app/shell/PageSearch.tsx
+#: src/app/shell/PrimarySidebar.tsx
 #: src/bundled/channels/ChannelMembersDialog.tsx
 #: src/bundled/channels/SidebarSection.tsx
 #: src/bundled/inbox/InboxFilters.tsx
@@ -4767,6 +4768,10 @@ msgstr "Choose a community to continue with your Bestie."
 msgid "Choose a community to manage this agent's watches."
 msgstr "Choose a community to manage this agent's watches."
 
+#: src/app/shell/PrimarySidebar.tsx
+msgid "Choose a community to see channels."
+msgstr "Choose a community to see channels."
+
 #: src/bundled/channels/ChannelsPage.tsx
 msgid "Choose a community to see its channels, or join one. Your profile and settings work without a community."
 msgstr "Choose a community to see its channels, or join one. Your profile and settings work without a community."
@@ -5993,6 +5998,7 @@ msgstr "Connecting to your DM with {0}."
 msgid "Connecting your microphone…"
 msgstr "Connecting your microphone…"
 
+#: src/app/shell/PrimarySidebar.tsx
 #: src/bundled/bestie/index.tsx
 #: src/bundled/bestie/PinnedBestie.tsx
 #: src/features/agents/AgentConnectionSetup.tsx
@@ -6917,6 +6923,7 @@ msgid "Couldn’t load all joined conversations."
 msgstr "Couldn’t load all joined conversations."
 
 #: src/app/shell/ChannelDirectoryResults.tsx
+#: src/app/shell/PrimarySidebar.tsx
 msgid "Couldn’t load channels."
 msgstr "Couldn’t load channels."
 
@@ -12180,6 +12187,10 @@ msgstr "Narrow your search to see more members."
 #: src/app/shell/NavigationControls.tsx
 msgid "Navigation history"
 msgstr "Navigation history"
+
+#: src/app/shell/PrimarySidebar.tsx
+msgid "Navigation scope"
+msgstr "Navigation scope"
 
 #: src/bundled/claude-code/auth.tsx
 msgid "needs an Anthropic API key"
@@ -18085,6 +18096,7 @@ msgstr "Sibling"
 msgid "Side pane"
 msgstr "Side pane"
 
+#: src/app/shell/PrimarySidebar.tsx
 #: src/features/channel-navigation/SidebarBoundary.tsx
 msgid "Sidebar"
 msgstr "Sidebar"
@@ -18302,6 +18314,7 @@ msgid "Software updates"
 msgstr "Software updates"
 
 #: src/app/shell/NewMenu.tsx
+#: src/app/shell/PrimarySidebar.tsx
 #: src/features/channel-navigation/SoloInventory.tsx
 msgid "Solo"
 msgstr "Solo"
@@ -18950,6 +18963,7 @@ msgid "Target kind"
 msgstr "Target kind"
 
 #: src/app/shell/NewMenu.tsx
+#: src/app/shell/PrimarySidebar.tsx
 msgid "Team"
 msgstr "Team"
 
@@ -20680,6 +20694,7 @@ msgstr "Try a URL"
 #: src/app/IdentitySettings.tsx
 #: src/app/ManagedPlugins.tsx
 #: src/app/PluginImport.tsx
+#: src/app/shell/PrimarySidebar.tsx
 #: src/bundled/agents/AgentBrowse.tsx
 #: src/bundled/bestie/BestieChooser.tsx
 #: src/bundled/bestie/index.tsx

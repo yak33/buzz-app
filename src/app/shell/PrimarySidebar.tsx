@@ -1,3 +1,6 @@
+import { msg } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react/macro";
+import type { MessageDescriptor } from "@lingui/core";
 import { soloNavigationFor } from "../../features/channel-navigation/solo-navigation";
 import {
   useEffect,
@@ -55,9 +58,9 @@ const noSubscription = () => () => {};
 
 type Filter = "all" | "solo" | "team";
 const filters = [
-  { value: "all", label: "All", panelId: "sidebar-all" },
-  { value: "solo", label: "Solo", panelId: "sidebar-solo" },
-  { value: "team", label: "Team", panelId: "sidebar-team" },
+  { value: "all", label: msg`All`, panelId: "sidebar-all" },
+  { value: "solo", label: msg`Solo`, panelId: "sidebar-solo" },
+  { value: "team", label: msg`Team`, panelId: "sidebar-team" },
 ] as const;
 
 type Props = {
@@ -100,6 +103,7 @@ function ScopedSidebar({
   scope: string;
   connection: ReturnType<typeof useRelayConnection>;
 }) {
+  const { i18n, t } = useLingui();
   const attempt = useSyncExternalStore(
     props.navigator.subscribe,
     () => props.navigator.snapshot().attempt.id,
@@ -142,14 +146,14 @@ function ScopedSidebar({
   );
   const soloNavigation = soloNavigationFor(connection.session);
   // Select the title, not the snapshot: Solo regions are rebuilt on every message.
-  const soloTitle = useSyncExternalStore(
+  const soloSourceTitle = useSyncExternalStore(
     soloNavigation?.subscribe ?? noSubscription,
     () =>
       soloNavigation
         ?.snapshot()
-        .regions.find((region) => region.source && !region.hidden)?.title ??
-      "Solo",
+        .regions.find((region) => region.source && !region.hidden)?.title,
   );
+  const soloTitle = soloSourceTitle ?? "Solo";
   const target = props.target;
   const local =
     "scope" in target &&
@@ -217,6 +221,17 @@ function ScopedSidebar({
   }, [scope, view]);
   const filter = restriction ? "solo" : view.filter;
   const setFilter = (filter: Filter) => setView({ filter, location });
+  const orderedFilters =
+    soloTitle === "Solo" ? filters : [filters[0], filters[2], filters[1]];
+  const filterItems = orderedFilters.map(({ label, ...item }) => {
+    const customSoloTitle =
+      item.value === "solo" && soloSourceTitle !== undefined;
+    return {
+      ...item,
+      label: customSoloTitle ? soloTitle : i18n._(label),
+      lang: customSoloTitle ? "" : i18n.locale,
+    };
+  });
   // Without the tabs there is no tab to label the panel.
   const panelId = restriction ? undefined : `sidebar-${filter}`;
   const header = (
@@ -230,19 +245,12 @@ function ScopedSidebar({
             />
           ) : (
             <Tabs
-              label="Navigation scope"
+              label={t`Navigation scope`}
+              lang={i18n.locale}
               variant="segmented"
               size="sm"
               value={filter}
-              items={
-                soloTitle === "Solo"
-                  ? filters
-                  : [
-                      filters[0],
-                      filters[2],
-                      { ...filters[1], label: soloTitle },
-                    ]
-              }
+              items={filterItems}
               onValueChange={setFilter}
             />
           )}
@@ -287,7 +295,8 @@ function ScopedSidebar({
           }) => (
             <ResizableSidebar scope={scope} className="shell-sidebar">
               <SidebarFrame
-                label="Sidebar"
+                label={t`Sidebar`}
+                labelLang={i18n.locale}
                 header={header}
                 panelId={panelId}
                 {...frame}
@@ -370,7 +379,8 @@ function ScopedSidebar({
                       <InventoryGroup
                         sidebar={sidebar}
                         sectionKey="scope:team"
-                        title="Team"
+                        title={msg`Team`}
+                        titleLang={i18n.locale}
                         ownsCurrent={destination === "team" && !preserveSidebar}
                         location={sidebarLocation}
                       >
@@ -390,7 +400,8 @@ function ScopedSidebar({
       ) : (
         <div className="shell-sidebar-default">
           <SidebarFrame
-            label="Sidebar"
+            label={t`Sidebar`}
+            labelLang={i18n.locale}
             header={header}
             panelId={panelId}
             launchPending={
@@ -414,12 +425,12 @@ function ScopedSidebar({
                 />
               ) : (
                 <div className={styles.connectionStatus}>
-                  <p>
+                  <p lang={i18n.locale}>
                     {connection.status === "connecting" || connection.retrying
-                      ? "Connecting…"
+                      ? t`Connecting…`
                       : connection.status === "error"
-                        ? "Couldn’t load channels."
-                        : "Choose a community to see channels."}
+                        ? t`Couldn’t load channels.`
+                        : t`Choose a community to see channels.`}
                   </p>
                   {connection.status === "error" && !connection.retrying && (
                     <>
@@ -434,7 +445,9 @@ function ScopedSidebar({
                         memberships={props.memberships}
                         asksAgain
                       />
-                      <Button onClick={props.relay.tryAgain}>Try again</Button>
+                      <Button lang={i18n.locale} onClick={props.relay.tryAgain}>
+                        {t`Try again`}
+                      </Button>
                     </>
                   )}
                 </div>
@@ -459,13 +472,15 @@ function InventoryGroup({
   sidebar,
   sectionKey,
   title,
+  titleLang,
   ownsCurrent,
   location,
   children,
 }: {
   sidebar: Parameters<typeof SoloRegions>[0]["sidebar"];
   sectionKey: string;
-  title: string;
+  title: MessageDescriptor;
+  titleLang: string;
   ownsCurrent: boolean;
   location: string | undefined;
   children: ReactNode;
@@ -495,6 +510,7 @@ function InventoryGroup({
       onToggle={(next) => sidebar.toggle(sectionKey, next)}
       hideMoreActions
       persistentChevron
+      titleLang={titleLang}
     >
       {children}
     </SidebarSection>
@@ -518,6 +534,7 @@ function LiveSignIn({
   memberships: readonly Membership[] | undefined;
   tryAgain: () => void;
 }) {
+  const { i18n, t } = useLingui();
   const live = useSyncExternalStore(
     session.live.subscribe,
     session.live.snapshot,
@@ -535,7 +552,11 @@ function LiveSignIn({
         memberships={memberships}
         asksAgain={asksAgain}
       />
-      {asksAgain && <Button onClick={tryAgain}>Try again</Button>}
+      {asksAgain && (
+        <Button lang={i18n.locale} onClick={tryAgain}>
+          {t`Try again`}
+        </Button>
+      )}
     </>
   );
 }
