@@ -428,6 +428,7 @@ export function SearchResults({
     return {
       key: `date:${label}`,
       label: i18n._(datePresetTitles[label]),
+      lang: i18n.locale,
       detail: operand.slice(operand.indexOf(":") + 1),
       icon: CalendarIcon,
       run: () => completeDate(operand),
@@ -1438,6 +1439,7 @@ export function SearchResults({
     const channelName = names.get(currentChannel.id) ?? currentChannel.name;
     scopeAction.push({
       key: `scope:${currentChannel.id}`,
+      lang: i18n.locale,
       label:
         currentChannel.channelType === "dm"
           ? t`Search conversation with ${channelName}`
@@ -1478,6 +1480,7 @@ export function SearchResults({
         ...messages,
         {
           key: "more-messages",
+          lang: i18n.locale,
           label: search.loadingMore
             ? t`Loading more messages…`
             : t`Show more messages`,

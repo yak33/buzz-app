@@ -204,7 +204,21 @@ it("marks localized group and chip labels with the caller's language", () => {
           label: "移除作者筛选 Alice",
         },
       ]}
-      groups={[{ label: "人员", destinations: [], empty: "没有匹配的人员。" }]}
+      groups={[
+        {
+          label: "人员",
+          destinations: [
+            { key: "alice", label: "Alice", icon: ChatCircleIcon, run },
+            {
+              key: "today",
+              label: "今天",
+              lang: "zh-CN",
+              icon: ChatCircleIcon,
+              run,
+            },
+          ],
+        },
+      ]}
     />,
   );
 
@@ -214,5 +228,12 @@ it("marks localized group and chip labels with the caller's language", () => {
   );
   expect(
     screen.getByRole("button", { name: "移除作者筛选 Alice" }),
+  ).toHaveAttribute("lang", "zh-CN");
+  expect(screen.getByText("from:@Alice")).toHaveAttribute("lang", "");
+  expect(
+    screen.getByRole("option", { name: "Alice" }).closest("[lang]"),
+  ).toHaveAttribute("lang", "");
+  expect(
+    screen.getByRole("option", { name: "今天" }).closest("[lang]"),
   ).toHaveAttribute("lang", "zh-CN");
 });

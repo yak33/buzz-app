@@ -23,6 +23,8 @@ export type SearchDestination = {
   rank?: number;
   key: string;
   label: string;
+  /** Language of a host-authored row; raw result content keeps its own language. */
+  lang?: string | undefined;
   detail?: string;
   /** Quiet metadata at the row's end, such as a count. */
   trailing?: ReactNode;
@@ -446,7 +448,8 @@ export function SearchChoices({
                   title={chip.title}
                   onClick={() => onRemoveChip?.(chip)}
                 >
-                  <span aria-hidden="true">×</span> {chip.text}
+                  <span aria-hidden="true">×</span>{" "}
+                  <span lang={labelLang ? "" : undefined}>{chip.text}</span>
                 </button>
               ))}
             </span>
@@ -600,6 +603,7 @@ export function SearchChoices({
                             content,
                             key,
                             label,
+                            lang,
                             detail,
                             detailIcon: DetailIcon,
                             detailIconLabel,
@@ -613,6 +617,7 @@ export function SearchChoices({
                               // biome-ignore lint/a11y/useSemanticElements: Interactive search grid, not a data table.
                               <div
                                 key={key}
+                                lang={lang ?? (labelLang ? "" : undefined)}
                                 {...highlight.rowProps(key)}
                                 role="row"
                                 aria-label={[label, detail]
@@ -671,6 +676,7 @@ export function SearchChoices({
                               // biome-ignore lint/a11y/noStaticElementInteractions: Keyboard handling applies only to the grid row.
                               <div
                                 key={key}
+                                lang={lang ?? (labelLang ? "" : undefined)}
                                 {...(hasControls
                                   ? highlight.rowProps(key)
                                   : {})}
