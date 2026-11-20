@@ -1579,45 +1579,70 @@ it("loads directory pages on scroll and ignores a late previous search", async (
 
 it("keeps loaded pages when clearing search or returning to New message, scoped to the session", async () => {
   const t = setup();
-  t.directMessages.people.mockImplementation(async (query, page) => ({
-    people: query ? people.slice(2, 3) : people.slice(page - 1, page),
-    hasMore: !query && page < 3,
-  }));
+  let release = () => {};
+  const thirdPage = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  t.directMessages.people.mockImplementation(async (query, page) => {
+    if (!query && page === 3) await thirdPage;
+    return {
+      people: query ? people.slice(2, 3) : people.slice(page - 1, page),
+      hasMore: !query && page < 3,
+    };
+  });
   const view = t.mount();
-  await screen.findByRole("option", { name: "Person 1" });
-  fireEvent.scroll(screen.getByRole("listbox"));
-  await screen.findByRole("option", { name: "Person 2, Agent" });
-  const loaded = screen.getAllByRole("option").map((row) => row.textContent);
-  await t.user.type(recipient(), "Person 3");
-  await screen.findByRole("option", { name: "Person 3" });
-  await t.user.clear(recipient());
-  await waitFor(() =>
-    expect(screen.getAllByRole("option").map((row) => row.textContent)).toEqual(
-      loaded,
-    ),
-  );
-  const requests = t.directMessages.people.mock.calls.length;
-  view.unmount();
-  const reopened = t.mount();
-  await waitFor(() => expect(recipient()).toBeEnabled());
-  await waitFor(() =>
-    expect(screen.getAllByRole("option").map((row) => row.textContent)).toEqual(
-      loaded,
-    ),
-  );
-  await screen.findByRole("option", { name: "Person 3" });
-  expect(t.directMessages.people).toHaveBeenCalledTimes(requests + 1);
-  expect(t.directMessages.people).toHaveBeenLastCalledWith(
-    "",
-    3,
-    expect.any(AbortSignal),
-  );
-  reopened.unmount();
-  const other = setup();
-  other.directMessages.people.mockResolvedValue({ people: [], hasMore: false });
-  other.mount();
-  expect(screen.queryAllByRole("option")).toHaveLength(0);
-  await screen.findByText("No matching people.");
+  try {
+    await screen.findByRole("option", { name: "Person 1" });
+    fireEvent.scroll(screen.getByRole("listbox"));
+    await screen.findByRole("option", { name: "Person 2, Agent" });
+    await waitFor(() =>
+      expect(t.directMessages.people).toHaveBeenCalledWith(
+        "",
+        3,
+        expect.any(AbortSignal),
+      ),
+    );
+    const loaded = screen.getAllByRole("option").map((row) => row.textContent);
+    await t.user.type(recipient(), "Person 3");
+    await screen.findByRole("option", { name: "Person 3" });
+    await t.user.clear(recipient());
+    await waitFor(() =>
+      expect(
+        screen.getAllByRole("option").map((row) => row.textContent),
+      ).toEqual(loaded),
+    );
+    const requests = t.directMessages.people.mock.calls.length;
+    view.unmount();
+    const reopened = t.mount();
+    await waitFor(() => expect(recipient()).toBeEnabled());
+    await waitFor(() =>
+      expect(
+        screen.getAllByRole("option").map((row) => row.textContent),
+      ).toEqual(loaded),
+    );
+    await waitFor(() =>
+      expect(t.directMessages.people).toHaveBeenCalledTimes(requests + 1),
+    );
+    release();
+    await screen.findByRole("option", { name: "Person 3" });
+    expect(t.directMessages.people).toHaveBeenCalledTimes(requests + 1);
+    expect(t.directMessages.people).toHaveBeenLastCalledWith(
+      "",
+      3,
+      expect.any(AbortSignal),
+    );
+    reopened.unmount();
+    const other = setup();
+    other.directMessages.people.mockResolvedValue({
+      people: [],
+      hasMore: false,
+    });
+    other.mount();
+    expect(screen.queryAllByRole("option")).toHaveLength(0);
+    await screen.findByText("No matching people.");
+  } finally {
+    release();
+  }
 });
 
 it("keeps searching past pages of excluded agents and never announces a false empty result", async () => {
